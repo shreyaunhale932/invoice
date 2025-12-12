@@ -148,7 +148,7 @@
              <ul>
                     <li class="menu-title"><span>Inventory</span></li>
                     <li class="submenu">
-                        <a href="#"><i class="fe fe-package"></i> <span> Products / Services</span> <span
+                        <a href="#"><i class="fe fe-package"></i> <span> Products</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
                             <li><a class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}"
