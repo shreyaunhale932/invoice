@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\MetalRate;
+use App\Models\Category;
 
 class HomeController extends Controller
  {
-   
+
     public function inbox()
  {
         return view( 'Applications/inbox' );
@@ -180,9 +182,18 @@ class HomeController extends Controller
 
     public function category()
  {
-        return view( 'Inventory/Products/category' );
+    $categories = Category::all();
+        return view( 'Inventory/Products/category',compact('categories') );
     }
-
+      public function subcategory()
+ {
+        return view( 'Inventory/Products/subcategory' );
+    }
+  public function metalrates()
+ {
+    $metalRates = MetalRate::all();
+        return view( 'Inventory/Products/metalrates',compact('metalRates') );
+    }
     public function editproducts()
  {
         return view( 'Inventory/Products/edit-products' );
@@ -335,24 +346,24 @@ class HomeController extends Controller
     public function saaslogin()
     {
            return view('pages/Authentication/saas-login' );
-   
+
        }
        public function saasregister()
        {
               return view('pages/Authentication/saas-register' );
-      
+
           }
-   
-    
+
+
 
     public function planslist()
     {
            return view( 'SuperAdmin/plans-list' );
-   
+
        }
        public function invoicesubscription()
        {
               return view( 'SuperAdmin/invoice-subscription' );
-      
+
           }
 }

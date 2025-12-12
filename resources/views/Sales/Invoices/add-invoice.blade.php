@@ -973,7 +973,7 @@
                 <select class="form-select" name="columns[${newKey}][type]">
                     <option value="text">Text</option>
                     <option value="number">Number</option>
-                   
+
                 </select>
             </td>
             <td class="text-center">

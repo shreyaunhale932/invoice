@@ -245,8 +245,8 @@
         </div>
     </div>
     <!--/Add Asset -->
-     <!-- Add Package Modal -->
-     <div class="modal custom-modal fade p-20" id="add_package" role="dialog">
+    <!-- Add Package Modal -->
+    <div class="modal custom-modal fade p-20" id="add_package" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0">
@@ -442,7 +442,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -658,303 +659,309 @@
     <!-- /Filter -->
 @endif
 @if (Route::is(['packages']))
-<!-- Add New Package Modal -->
-<div class="modal custom-modal fade p-20" id="add_newpackage" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add New</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <form action="#">
-                <div class="modal-body">
-                    <h5 class="form-title">Plan Image</h5>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="profile-picture">
-                                <div class="upload-profile">
-                                    <div class="profile-img company-profile-img">
-                                        <img id="company-img" class="img-fluid me-0" src="{{URL::asset('/public/assets/img/companies/company-add-img.svg')}}" alt="profile-img">
-                                    </div>
-                                    <div class="add-profile">
-                                        <h5>Upload a New Photo</h5>
-                                        <span>Profile-pic.jpg</span>
-                                    </div>
-                                </div>
-                                <div class="img-upload">
-                                    <label class="btn btn-upload">
-                                        Upload <input type="file">
-                                    </label>
-                                    <a class="btn btn-remove">Remove</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <h5 class="form-title mb-3">Plan Info</h5>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-
-                            <div class="input-block mb-3">
-                                <label>Plan Name</label>
-                                <input type="text" class="form-control" placeholder="Enter Plan Name" value="">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="input-block mb-3">
-                                <label>Plan Type</label>
-                                <select class="select">
-                                    <option>Monthly</option>
-                                    <option>Yearly</option>
-                                    <option>Lifetime</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="input-block mb-3">
-                                <label>Plan Position</label>
-                                <select class="select">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="input-block mb-3">
-                                <label>Plan Currency</label>
-                                <select class="select">
-                                    <option>USD</option>
-                                    <option>$</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="input-block mb-3">
-                                <label class="d-flex justify-content-between">
-                                    <span>Price</span>
-                                    <span class="text-primary"><i class="fa-solid fa-circle-exclamation me-2"></i>Set 0 for free</span>
-                                </label>
-                                <input type="text" class="form-control" placeholder="Enter Package Price">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Discount Type</label>
-                                <select class="select">
-                                    <option>Fixed</option>
-                                    <option>Percentage</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="input-block mb-3">
-                                <label>Discount</label>
-                                <input type="text" class="form-control" placeholder="Enter Discount">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3">
-                            <div class="input-block mb-3">
-                                <label>Limitations Invoices</label>
-                                <input type="number" class="form-control" placeholder="0">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3">
-                            <div class="input-block mb-3">
-                                <label>Max Customers</label>
-                                <input type="number" class="form-control" placeholder="0">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3">
-                            <div class="input-block mb-3">
-                                <label>Product</label>
-                                <input type="number" class="form-control" placeholder="0">
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-3">
-                            <div class="input-block mb-3">
-                                <label>Supplier</label>
-                                <input type="number" class="form-control" placeholder="0">
-                            </div>
-                        </div>
+    <!-- Add New Package Modal -->
+    <div class="modal custom-modal fade p-20" id="add_newpackage" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add New</h4>
                     </div>
-                    <h6>Plan Modules</h6>
-                    <div class="input-block mb-3">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <form action="#">
+                    <div class="modal-body">
+                        <h5 class="form-title">Plan Image</h5>
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Select All
-                                    </label>
+                            <div class="col-md-12">
+                                <div class="profile-picture">
+                                    <div class="upload-profile">
+                                        <div class="profile-img company-profile-img">
+                                            <img id="company-img" class="img-fluid me-0"
+                                                src="{{ URL::asset('/public/assets/img/companies/company-add-img.svg') }}"
+                                                alt="profile-img">
+                                        </div>
+                                        <div class="add-profile">
+                                            <h5>Upload a New Photo</h5>
+                                            <span>Profile-pic.jpg</span>
+                                        </div>
+                                    </div>
+                                    <div class="img-upload">
+                                        <label class="btn btn-upload">
+                                            Upload <input type="file">
+                                        </label>
+                                        <a class="btn btn-remove">Remove</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Invoices
-                                    </label>
+                            <div class="col-md-12">
+                                <h5 class="form-title mb-3">Plan Info</h5>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+
+                                <div class="input-block mb-3">
+                                    <label>Plan Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Plan Name"
+                                        value="">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Payments
-                                    </label>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="input-block mb-3">
+                                    <label>Plan Type</label>
+                                    <select class="select">
+                                        <option>Monthly</option>
+                                        <option>Yearly</option>
+                                        <option>Lifetime</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Payment Summary
-                                    </label>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="input-block mb-3">
+                                    <label>Plan Position</label>
+                                    <select class="select">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked>Vendors
-                                    </label>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="input-block mb-3">
+                                    <label>Plan Currency</label>
+                                    <select class="select">
+                                        <option>USD</option>
+                                        <option>$</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Estimates
+                            <div class="col-sm-12 col-md-6">
+                                <div class="input-block mb-3">
+                                    <label class="d-flex justify-content-between">
+                                        <span>Price</span>
+                                        <span class="text-primary"><i
+                                                class="fa-solid fa-circle-exclamation me-2"></i>Set 0 for free</span>
                                     </label>
+                                    <input type="text" class="form-control" placeholder="Enter Package Price">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Quotations
-                                    </label>
+                            <div class="col-sm-12 col-md-3">
+                                <div class="input-block mb-3">
+                                    <label>Discount Type</label>
+                                    <select class="select">
+                                        <option>Fixed</option>
+                                        <option>Percentage</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Memberships
-                                    </label>
+                            <div class="col-sm-12 col-md-3">
+                                <div class="input-block mb-3">
+                                    <label>Discount</label>
+                                    <input type="text" class="form-control" placeholder="Enter Discount">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked>Customers
-                                    </label>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="input-block mb-3">
+                                    <label>Limitations Invoices</label>
+                                    <input type="number" class="form-control" placeholder="0">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Recurring Invoices
-                                    </label>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="input-block mb-3">
+                                    <label>Max Customers</label>
+                                    <input type="number" class="form-control" placeholder="0">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Delivery Challans
-                                    </label>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="input-block mb-3">
+                                    <label>Product</label>
+                                    <input type="number" class="form-control" placeholder="0">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Products
-                                    </label>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="input-block mb-3">
+                                    <label>Supplier</label>
+                                    <input type="number" class="form-control" placeholder="0">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked>Vendors
-                                    </label>
+                        </div>
+                        <h6>Plan Modules</h6>
+                        <div class="input-block mb-3">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Select All
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Invoices
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Payments
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Payment Summary
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked>Vendors
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Estimates
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Quotations
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Memberships
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked>Customers
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Recurring Invoices
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Delivery Challans
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Products
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked>Vendors
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Expenses
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Reports
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked> Inventory
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="checkboxes">
+                                        <label>
+                                            <input type="checkbox" name="checkbox" checked>Signature
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Expenses
-                                    </label>
+
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <h6 class="mb-0">Access Trial</h6>
+                            <div class="status-toggle">
+                                <input id="access-trail-2" class="check" type="checkbox" checked="">
+                                <label for="access-trail-2" class="checktoggle checkbox-bg">checkbox</label>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-sm-12 col-md-8">
+                                <div class="input-block mb-3">
+                                    <label>Trial Days</label>
+                                    <input type="number" class="form-control" placeholder="0">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Reports
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked> Inventory
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="checkboxes">
-                                    <label>
-                                        <input type="checkbox" name="checkbox" checked>Signature
-                                    </label>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <h6 class="mb-0">Is Recommended</h6>
+                                    <div class="status-toggle">
+                                        <input id="recommended" class="check" type="checkbox">
+                                        <label for="recommended" class="checktoggle checkbox-bg">checkbox</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                    </div>
-                    <div class="d-flex align-items-center mb-3">
-                        <h6 class="mb-0">Access Trial</h6>
-                        <div class="status-toggle">
-                            <input id="access-trail-2" class="check" type="checkbox" checked="">
-                            <label for="access-trail-2" class="checktoggle checkbox-bg">checkbox</label>
-                        </div>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-sm-12 col-md-8">
-                            <div class="input-block mb-3">
-                                <label>Trial Days</label>
-                                <input type="number" class="form-control" placeholder="0">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="d-flex align-items-center mb-3">
-                                <h6 class="mb-0">Is Recommended</h6>
-                                <div class="status-toggle">
-                                    <input id="recommended" class="check" type="checkbox">
-                                    <label for="recommended" class="checktoggle checkbox-bg">checkbox</label>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label>Description</label>
+                                    <textarea rows="3" cols="5" class="form-control" placeholder="Enter Description"></textarea>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="input-block mb-3">
-                                <label>Description</label>
-                                <textarea rows="3" cols="5" class="form-control" placeholder="Enter Description"></textarea>
+                        <div class="d-flex align-items-center mb-3">
+                            <h6 class="mb-0">Status</h6>
+                            <div class="status-toggle">
+                                <input id="status" class="check" type="checkbox">
+                                <label for="status" class="checktoggle checkbox-bg">checkbox</label>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center mb-3">
-                        <h6 class="mb-0">Status</h6>
-                        <div class="status-toggle">
-                            <input id="status" class="check" type="checkbox">
-                            <label for="status" class="checktoggle checkbox-bg">checkbox</label>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-back cancel-btn me-2">Cancel</button>
+                        <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save
+                            Changes</button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
-                    <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save Changes</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- /Add New Package Modal -->
+    <!-- /Add New Package Modal -->
 @endif
 @if (Route::is(['domain-request']))
     <!-- Add Asset -->
@@ -987,7 +994,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -1171,8 +1179,7 @@
                         <div class="card-header-new" id="headingOne">
                             <h6 class="filter-title">
                                 <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true"
-                                    aria-controls="collapseOne">
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     Customer
                                     <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
                                 </a>
@@ -1188,7 +1195,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -1519,8 +1528,8 @@
         </div>
     </div>
     <!-- /Add Asset -->
-     <!-- Add Stock in Modal -->
-     <div class="modal custom-modal fade" id="stock_in" role="dialog">
+    <!-- Add Stock in Modal -->
+    <div class="modal custom-modal fade" id="stock_in" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
@@ -1612,7 +1621,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -1724,7 +1735,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -1870,64 +1883,65 @@
     </div>
     <!--/Add Asset -->
     <!-- Add Ledger Modal -->
-	<div class="modal custom-modal fade" id="add_ledger" role="dialog">
-				<div class="modal-dialog modal-dialog-centered modal-md">
-					<div class="modal-content">
-						<div class="modal-header border-0 pb-0">
-							<div class="form-header modal-header-title text-start mb-0">
-								<h4 class="mb-0">Add Ledger</h4>
-							</div>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <div class="modal custom-modal fade" id="add_ledger" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Ledger</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-							</button>
-						</div>
-						<div class="modal-body">
-							<div class="row">
-								<div class="col-lg-12 col-md-12">
-									<div class="input-block mb-3">
-										<label>Amount</label>
-										<input type="text" class="form-control" placeholder="Enter Amount">
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12">
-									<div class="input-block mb-3">
-										<label>Date</label>
-										<div class="cal-icon cal-icon-info">
-											<input type="text" class="datetimepicker form-control" placeholder="Select Date">
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12">
-									<div class="input-block mb-3">
-										<label>Reference</label>
-										<input type="text" class="form-control" placeholder="Enter Reference Number">
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12">
-									<div class="input-block d-inline-flex align-center mb-0">
-										<label class="me-5 mb-0">Mode</label>
-										<div>
-											<label class="custom_radio me-3 mb-0">
-												<input type="radio" name="payment" checked>
-												<span class="checkmark"></span> Credit
-											</label>
-											<label class="custom_radio mb-0">
-												<input type="radio" name="payment">
-												<span class="checkmark"></span> Debit
-											</label>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
-							<a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Submit</a>
-						</div>
-					</div>
-				</div>
-	</div>
-	<!-- /Add Ledger Modal -->
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Amount</label>
+                                <input type="text" class="form-control" placeholder="Enter Amount">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Date</label>
+                                <div class="cal-icon cal-icon-info">
+                                    <input type="text" class="datetimepicker form-control"
+                                        placeholder="Select Date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Reference</label>
+                                <input type="text" class="form-control" placeholder="Enter Reference Number">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block d-inline-flex align-center mb-0">
+                                <label class="me-5 mb-0">Mode</label>
+                                <div>
+                                    <label class="custom_radio me-3 mb-0">
+                                        <input type="radio" name="payment" checked>
+                                        <span class="checkmark"></span> Credit
+                                    </label>
+                                    <label class="custom_radio mb-0">
+                                        <input type="radio" name="payment">
+                                        <span class="checkmark"></span> Debit
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Ledger Modal -->
 @endif
 @if (Route::is(['vendors']))
     <!-- Add Asset -->
@@ -1961,7 +1975,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -2025,8 +2041,8 @@
         </div>
     </div>
     <!--/Add Asset -->
-     <!-- Add Vendor Modal -->
-     <div class="modal custom-modal fade" id="add_vendor" role="dialog">
+    <!-- Add Vendor Modal -->
+    <div class="modal custom-modal fade" id="add_vendor" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
@@ -2111,7 +2127,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -2196,7 +2214,8 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                    alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
                                             <input type="checkbox" name="product-code">
@@ -2406,7 +2425,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -2493,7 +2514,259 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Addfdgfg Category</h4>
+                        <h4 class="mb-0">Add Category</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <form action="{{ route('category') }}" method = "POST" id="addcategoryform">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <div class="form-group-item border-0 pb-0 mb-0">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="category_name"
+                                                        placeholder="Enter Title">
+                                                </div>
+                                            </div>
+                                            {{-- <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Slug</label>
+                                                    <input type="text" class="form-control"
+                                                        placeholder="Enter Slug">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Parent Category</label>
+                                                    <select class="select">
+                                                        <option>None</option>
+                                                        <option>Coupons</option>
+                                                        <option>News</option>
+                                                        <option>Plugins</option>
+                                                        <option>Themes</option>
+                                                        <option>Tutorial</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-0 pb-0">
+                                                    <label>Image</label>
+                                                    <div class="input-block service-upload mb-0">
+                                                        <span><img
+                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                alt="upload"></span>
+                                                        <h6 class="drop-browse align-center">Drop your files here
+                                                            or<span class="text-primary ms-1">browse</span></h6>
+                                                        <p class="text-muted">Maximum size: 50MB</p>
+                                                        <input type="file" multiple="" id="image_sign">
+                                                        <div id="frames"></div>
+                                                    </div>
+                                                </div>
+                                            </div> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-back cancel-btn me-2">Cancel</button>
+                        <button type="submit" data-bs-dismiss="modal"
+                            class="btn btn-primary paid-continue-btn">Add Category</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Category Modal -->
+
+    <!-- Add Category Modal -->
+    <div class="modal custom-modal fade" id="edit_category" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Edit Category</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <form id="editCategoryForm" method="POST">
+    @csrf
+    @method('PUT')
+
+    {{-- <input type="hidden" name="id" id="edit_id"> --}}
+
+    <div class="modal-body">
+        <div class="input-block mb-3">
+            <label>Name <span class="text-danger">*</span></label>
+            <input type="text" id="edit_category_name" name="category_name"
+                   class="form-control" placeholder="Enter Title">
+        </div>
+    </div>
+ <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
+                    <button type="submit" class="btn btn-primary paid-continue-btn">Update</button>
+                </div>
+</form>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal custom-modal fade" id="delete_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+
+            <div class="modal-body text-center">
+                <h4>Are you sure you want to delete this Category?</h4>
+
+                <form id="deleteCategoryForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+    <!-- /Add Vendor Modal -->
+@endif
+@if (Route::is(['subcategory']))
+    <!-- Add Asset -->
+    <div class="toggle-sidebar">
+        <div class="sidebar-layout-filter">
+            <div class="sidebar-header">
+                <h5>Filter</h5>
+                <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+            </div>
+            <div class="sidebar-body">
+                <form action="#" autocomplete="off">
+                    <!-- Product -->
+                    <div class="accordion" id="accordionMain1">
+                        <div class="card-header-new" id="headingOne">
+                            <h6 class="filter-title">
+                                <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    Category Name
+                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                </a>
+                            </h6>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample1">
+                            <div class="card-body-chat">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="checkBoxes1">
+                                            <div class="form-custom">
+                                                <input type="text" class="form-control" id="member_search1"
+                                                    placeholder="Search Product">
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
+                                            </div>
+                                            <div class="selectBox-cont">
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Advertising
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Food
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Furniture
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Repairs
+                                                </label>
+                                                <!-- View All -->
+                                                <div class="view-content">
+                                                    <div class="viewall-One">
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Laptop
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Shoes
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Accessories
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Phone
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Bags
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Speaker
+                                                        </label>
+                                                    </div>
+                                                    <div class="view-all">
+                                                        <a href="javascript:void(0);"
+                                                            class="viewall-button-One"><span class="me-2">View
+                                                                All</span><span><i
+                                                                    class="fa fa-circle-chevron-down"></i></span></a>
+                                                    </div>
+                                                </div>
+                                                <!-- /View All -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Product -->
+
+                    <div class="filter-buttons">
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
+                            Apply
+                        </button>
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- /Add Asset -->
+
+    <!-- Add Category Modal -->
+    <div class="modal custom-modal fade" id="add_subcategory" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Sub Category</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -2537,7 +2810,8 @@
                                                 <div class="input-block mb-0 pb-0">
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
-                                                        <span><img src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg')}}"
+                                                        <span><img
+                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -2557,7 +2831,7 @@
                         <button type="button" data-bs-dismiss="modal"
                             class="btn btn-back cancel-btn me-2">Cancel</button>
                         <button type="submit" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-continue-btn">Add Category</button>
+                            class="btn btn-primary paid-continue-btn">Add subCategory</button>
                     </div>
                 </form>
             </div>
@@ -2615,7 +2889,8 @@
                                                 <div class="input-block mb-0 pb-0">
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
-                                                        <span><img src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg')}}"
+                                                        <span><img
+                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -2641,6 +2916,327 @@
             </div>
         </div>
     </div>
+    <!-- /Add Vendor Modal -->
+@endif
+@if (Route::is(['metal-rates']))
+    <!-- Add Asset -->
+    <div class="toggle-sidebar">
+        <div class="sidebar-layout-filter">
+            <div class="sidebar-header">
+                <h5>Filter</h5>
+                <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+            </div>
+            <div class="sidebar-body">
+                <form action="#" autocomplete="off">
+                    <!-- Product -->
+                    <div class="accordion" id="accordionMain1">
+                        <div class="card-header-new" id="headingOne">
+                            <h6 class="filter-title">
+                                <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    Category Name
+                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                </a>
+                            </h6>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample1">
+                            <div class="card-body-chat">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="checkBoxes1">
+                                            <div class="form-custom">
+                                                <input type="text" class="form-control" id="member_search1"
+                                                    placeholder="Search Product">
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
+                                            </div>
+                                            <div class="selectBox-cont">
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Advertising
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Food
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Furniture
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Repairs
+                                                </label>
+                                                <!-- View All -->
+                                                <div class="view-content">
+                                                    <div class="viewall-One">
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Laptop
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Shoes
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Accessories
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Phone
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Bags
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Speaker
+                                                        </label>
+                                                    </div>
+                                                    <div class="view-all">
+                                                        <a href="javascript:void(0);"
+                                                            class="viewall-button-One"><span class="me-2">View
+                                                                All</span><span><i
+                                                                    class="fa fa-circle-chevron-down"></i></span></a>
+                                                    </div>
+                                                </div>
+                                                <!-- /View All -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Product -->
+
+                    <div class="filter-buttons">
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
+                            Apply
+                        </button>
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- /Add Asset -->
+
+    <!-- Add Category Modal -->
+    <div class="modal custom-modal fade" id="add_metalrates" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Metal Rates</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <form id="metalRateForm" action="{{ route('metal-rates') }}" method="POST">
+                    @csrf
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <div class="form-group-item border-0 pb-0 mb-0">
+                                        <div class="row">
+
+                                            <!-- Metal Type -->
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Metal Type <span class="text-danger">*</span></label>
+                                                    <select class="form-control select" name="metal_type" required>
+                                                        <option value="">Select Metal</option>
+                                                        <option value="Gold">Gold</option>
+                                                        <option value="Silver">Silver</option>
+                                                        <option value="Platinum">Platinum</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Price Per Gram -->
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Price Per Gram <span class="text-danger">*</span></label>
+                                                    <input type="number" step="0.01" class="form-control"
+                                                        name="price_per_gram" placeholder="Enter price per gram"
+                                                        required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Gram -->
+                                            {{-- <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Gram</label>
+                                                    <input type="number" step="0.001" class="form-control"
+                                                        name="gram" placeholder="Enter gram value" required>
+                                                </div>
+                                            </div> --}}
+
+                                            <!-- Karat -->
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Karat</label>
+                                                    <select class="form-control select" name="karat">
+                                                        <option value="">Select Karat</option>
+                                                        <option value="14k">14k</option>
+                                                        <option value="18k">18k</option>
+                                                        <option value="20k">20k</option>
+                                                        <option value="22k">22k</option>
+                                                        <option value="24k">24k</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-back cancel-btn me-2">Cancel</button>
+                        <button type="submit" class="btn btn-primary paid-continue-btn">Add Rates</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- /Add Category Modal -->
+
+    <!-- Add Category Modal -->
+  <div class="modal custom-modal fade" id="edit_metalrate" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header border-0 pb-0">
+                <div class="form-header modal-header-title text-start mb-0">
+                    <h4 class="mb-0">Edit Metal Rate</h4>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="editMetalRateForm" method="POST">
+    @csrf
+    @method('PUT')
+
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <input type="hidden" id="edit_id" name="id">
+
+                            <div class="card-body">
+                                <div class="form-group-item border-0 pb-0 mb-0">
+
+                                    <div class="row">
+
+                                        <!-- Metal Type -->
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Metal Type <span class="text-danger">*</span></label>
+                                                <select class="form-control select" id="edit_metal_type" name="metal_type" required>
+                                                    <option value="Gold">Gold</option>
+                                                    <option value="Silver">Silver</option>
+                                                    <option value="Platinum">Platinum</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Price Per Gram -->
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Price Per Gram <span class="text-danger">*</span></label>
+                                                <input type="number" step="0.01" class="form-control"
+                                                       id="edit_price_per_gram" name="price_per_gram"
+                                                       placeholder="Enter price per gram" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Gram -->
+                                        {{-- <div class="col-lg-12 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Gram <span class="text-danger">*</span></label>
+                                                <input type="number" step="0.001" class="form-control"
+                                                       id="edit_gram" name="gram"
+                                                       placeholder="Enter gram" required>
+                                            </div>
+                                        </div> --}}
+
+                                        <!-- Karat -->
+                                        <div class="col-lg-12 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Karat</label>
+                                                <select class="form-control select" id="edit_karat" name="karat">
+                                                    <option value="">Select Karat</option>
+                                                        <option value="14k">14k</option>
+                                                        <option value="18k">18k</option>
+                                                        <option value="20k">20k</option>
+                                                        <option value="22k">22k</option>
+                                                        <option value="24k">24k</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
+                    <button type="submit" class="btn btn-primary paid-continue-btn">Update</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal custom-modal fade" id="delete_modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+
+            <div class="modal-body text-center">
+                <h4>Are you sure you want to delete this Metal Rate?</h4>
+
+                <form id="deleteMetalRateForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
     <!-- /Add Vendor Modal -->
 @endif
 @if (Route::is(['units']))
@@ -2675,7 +3271,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -2748,7 +3346,8 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                    alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
                                             <input type="checkbox" name="category">
@@ -3055,7 +3654,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -3124,7 +3725,8 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                    alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
                                             <input type="checkbox" name="category">
@@ -3330,7 +3932,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -3399,7 +4003,8 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                    alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
                                             <input type="checkbox" name="category">
@@ -3601,7 +4206,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -3708,7 +4315,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -3808,7 +4416,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -4019,7 +4627,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -4126,7 +4736,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -4226,7 +4837,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -4268,7 +4879,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -4375,7 +4988,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -4475,7 +5089,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -4533,8 +5147,8 @@
         </div>
     </div>
     <!-- /Add Tax & Discount Modal -->
-      <!-- Add Bank Details Modal -->
-      <div class="modal custom-modal fade" id="bank_details" role="dialog">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
@@ -4615,7 +5229,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -4718,7 +5334,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -4818,7 +5435,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -4876,58 +5493,58 @@
         </div>
     </div>
     <!-- /Add Tax & Discount Modal -->
- <!-- Add Bank Details Modal -->
- <div class="modal custom-modal fade" id="bank_details" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Bank Details</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Bank Details</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <form action="#">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-3">
-                                <label>Bank Named <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Bank Name">
+                    </button>
+                </div>
+                <form action="#">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-3">
+                                    <label>Bank Named <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter Bank Name">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-3">
-                                <label>Account Number <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" placeholder="Enter Account Number">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-3">
+                                    <label>Account Number <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" placeholder="Enter Account Number">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-3">
-                                <label>Branch Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Branch Name">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-3">
+                                    <label>Branch Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter Branch Name">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-0">
-                                <label>IFSC Code <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-0">
+                                    <label>IFSC Code <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-bs-dismiss="modal"
-                        class="btn btn-primary paid-cancel-btn me-2">Back</button>
-                    <button type="submit" data-bs-dismiss="modal"
-                        class="btn btn-primary paid-continue-btn">Save</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-primary paid-cancel-btn me-2">Back</button>
+                        <button type="submit" data-bs-dismiss="modal"
+                            class="btn btn-primary paid-continue-btn">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- /Add Bank Details Modal -->
+    <!-- /Add Bank Details Modal -->
 @endif
 @if (Route::is(['add-invoice']))
     <!-- Add Tax & Discount Modal -->
@@ -5067,7 +5684,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -5364,8 +5983,8 @@
         </div>
     </div>
     <!-- /Add Tax & Discount Modal -->
-     <!-- Add Bank Details Modal -->
-     <div class="modal custom-modal fade" id="bank_details" role="dialog">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
@@ -5446,7 +6065,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Vendor">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -5679,55 +6300,55 @@
         </div>
     </div>
     <!-- /Add Tax & Discount Modal -->
- <!-- Add Bank Details Modal -->
- <div class="modal custom-modal fade" id="bank_details" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Bank Details4</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Bank Details4</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Bank Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Bank Name">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Bank Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Bank Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Account Number <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter Account Number">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Account Number <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter Account Number">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Branch Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Branch Name">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Branch Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Branch Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-0">
-                            <label>IFSC Code <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-0">
+                                <label>IFSC Code <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-bs-dismiss="modal"
-                    class="btn btn-primary paid-cancel-btn me-2">Back</a>
-                <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save</a>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal"
+                        class="btn btn-primary paid-cancel-btn me-2">Back</a>
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /Add Bank Details Modal -->
+    <!-- /Add Bank Details Modal -->
 @endif
 @if (Route::is(['add-purchases']))
     <!-- Add Tax & Discount Modal -->
@@ -5778,55 +6399,55 @@
         </div>
     </div>
     <!-- /Add Tax & Discount Modal -->
- <!-- Add Bank Details Modal -->
- <div class="modal custom-modal fade" id="bank_details" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Bank Detailsx</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Bank Detailsx</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Bank Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Bank Name">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Bank Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Bank Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Account Number <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter Account Number">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Account Number <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter Account Number">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Branch Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Branch Name">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Branch Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Branch Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-0">
-                            <label>IFSC Code <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-0">
+                                <label>IFSC Code <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-bs-dismiss="modal"
-                    class="btn btn-primary paid-cancel-btn me-2">Back</a>
-                <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save</a>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal"
+                        class="btn btn-primary paid-cancel-btn me-2">Back</a>
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /Add Bank Details Modal -->
+    <!-- /Add Bank Details Modal -->
 @endif
 @if (Route::is(['quotations']))
     <!-- Add Asset -->
@@ -5860,7 +6481,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -6023,7 +6646,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -6124,54 +6748,54 @@
         </div>
     </div>
     <!-- /Add Tax & Discount Modal -->
-  <!-- Add Bank Details Modal -->
-  <div class="modal custom-modal fade" id="bank_details" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Bank Detailsf</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Bank Detailsf</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Bank Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Bank Name">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Bank Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Bank Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Account Number <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter Account Number">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Account Number <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter Account Number">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Branch Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Branch Name">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Branch Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Branch Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-0">
-                            <label>IFSC Code <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-0">
+                                <label>IFSC Code <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="reset" class="btn btn-primary cancel me-2">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-primary cancel me-2">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /Add Bank Details Modal -->
+    <!-- /Add Bank Details Modal -->
 @endif
 @if (Route::is(['all-blogs']))
     <!-- Add Asset -->
@@ -6205,7 +6829,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -6312,7 +6938,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -6412,7 +7039,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -6477,7 +7104,8 @@
                                                 <div class="input-block">
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
-                                                        <span><img src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg')}}"
+                                                        <span><img
+                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -6506,8 +7134,8 @@
     <!-- /Add Blog -->
 @endif
 @if (Route::is(['bank-account']))
-      <!-- Add Bank Details Modal -->
-      <div class="modal custom-modal fade" id="bank_details" role="dialog">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
@@ -6519,48 +7147,52 @@
                     </button>
                 </div>
                 <form action="{{ route('admin.bank') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
+                    @csrf
+                    <div class="modal-body">
 
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-3">
-                                <label>Bank Name fsf<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Bank Name" name="bankname" required>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-3">
+                                    <label>Bank Name fsf<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter Bank Name"
+                                        name="bankname" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-3">
+                                    <label>Account Number <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" placeholder="Enter Account Number"
+                                        name="accno" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-3">
+                                    <label>Account Holder Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control"
+                                        placeholder="Enter Account Holder Name" name="holdername" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-3">
+                                    <label>Branch Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="Enter Branch Name"
+                                        name="branch" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="input-block mb-0">
+                                    <label>IFSC Code <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" placeholder="Enter IFSC COde"
+                                        name="ifsc" required>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-3">
-                                <label>Account Number <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" placeholder="Enter Account Number" name="accno" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-3">
-                                <label>Account Holder Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control"
-                                    placeholder="Enter Account Holder Name" name="holdername" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-3">
-                                <label>Branch Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Enter Branch Name" name="branch" required>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="input-block mb-0">
-                                <label>IFSC Code <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" placeholder="Enter IFSC COde" name="ifsc" required>
-                            </div>
-                        </div>
+
                     </div>
-
-                </div>
-                <div class="modal-footer">
-                    <a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
-                    <button  type="submit" class="btn btn-primary paid-continue-btn">Save</button>
-                </div>
+                    <div class="modal-footer">
+                        <a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary paid-continue-btn">Save</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -6696,7 +7328,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -6803,7 +7437,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -6903,7 +7538,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -6945,7 +7580,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -7052,7 +7689,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -7265,7 +7903,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -7372,7 +8012,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -7471,7 +8112,7 @@
                     <!-- /Category -->
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -7513,7 +8154,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -7620,7 +8263,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -7824,7 +8468,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -8051,7 +8697,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -8189,7 +8837,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -8301,103 +8949,176 @@
     <!-- /Add Vendor Modal -->
 @endif
 @if (Route::is(['customers-ledger']))
-<!-- Add Asset -->
-<div class="toggle-sidebar">
-    <div class="sidebar-layout-filter">
-        <div class="sidebar-header">
-            <h5>Filter</h5>
-            <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
-        </div>
-        <div class="sidebar-body">
-            <form action="#" autocomplete="off">
-                <!-- Customer -->
-                <div class="accordion" id="accordionMain1">
-                    <div class="card-header-new" id="headingOne">
-                        <h6 class="filter-title">
-                        <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Name
-                            <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                        </a>
-                        </h6>
-                    </div>
+    <!-- Add Asset -->
+    <div class="toggle-sidebar">
+        <div class="sidebar-layout-filter">
+            <div class="sidebar-header">
+                <h5>Filter</h5>
+                <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+            </div>
+            <div class="sidebar-body">
+                <form action="#" autocomplete="off">
+                    <!-- Customer -->
+                    <div class="accordion" id="accordionMain1">
+                        <div class="card-header-new" id="headingOne">
+                            <h6 class="filter-title">
+                                <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    Name
+                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                </a>
+                            </h6>
+                        </div>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"  data-bs-parent="#accordionExample1">
-                        <div class="card-body-chat">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="checkBoxes1">
-                                        <div class="form-custom">
-                                            <input type="text" class="form-control" id="member_search1" placeholder="Search here">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
-                                        </div>
-                                        <div class="selectBox-cont">
-                                            <label class="custom_check w-100">
-                                                <input type="checkbox" name="username">
-                                                <span class="checkmark"></span> John Smith
-                                            </label>
-                                            <label class="custom_check w-100">
-                                                <input type="checkbox" name="username">
-                                                <span class="checkmark"></span> Johnny charles
-                                            </label>
-                                            <label class="custom_check w-100">
-                                                <input type="checkbox" name="username">
-                                                <span class="checkmark"></span>  Pricilla Maureen
-                                            </label>
-                                            <label class="custom_check w-100">
-                                                <input type="checkbox" name="username">
-                                                <span class="checkmark"></span> Randall Hollis
-                                            </label>
-                                            <!-- View All -->
-                                            <div class="view-content">
-                                                <div class="viewall-One">
-                                                    <label class="custom_check w-100">
-                                                        <input type="checkbox" name="username">
-                                                        <span class="checkmark"></span> Robert George
-                                                    </label>
-                                                    <label class="custom_check w-100">
-                                                        <input type="checkbox" name="username">
-                                                        <span class="checkmark"></span> Sharonda Letha
-                                                    </label>
-                                                </div>
-                                                <div class="view-all">
-                                                    <a href="javascript:void(0);" class="viewall-button-One"><span class="me-2">View All</span><span><i class="fa fa-circle-chevron-down"></i></span></a>
-                                                </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample1">
+                            <div class="card-body-chat">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="checkBoxes1">
+                                            <div class="form-custom">
+                                                <input type="text" class="form-control" id="member_search1"
+                                                    placeholder="Search here">
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
-                                            <!-- /View All -->
+                                            <div class="selectBox-cont">
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> John Smith
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Johnny charles
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Pricilla Maureen
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Randall Hollis
+                                                </label>
+                                                <!-- View All -->
+                                                <div class="view-content">
+                                                    <div class="viewall-One">
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Robert George
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Sharonda Letha
+                                                        </label>
+                                                    </div>
+                                                    <div class="view-all">
+                                                        <a href="javascript:void(0);"
+                                                            class="viewall-button-One"><span class="me-2">View
+                                                                All</span><span><i
+                                                                    class="fa fa-circle-chevron-down"></i></span></a>
+                                                    </div>
+                                                </div>
+                                                <!-- /View All -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- /Customer -->
+                    <!-- /Customer -->
 
 
-                <!-- By Status -->
-                <div class="accordion accordion-last" id="accordionMain3">
-                    <div class="card-header-new" id="headingThree">
-                        <h6 class="filter-title">
-                            <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree" aria-expanded="true"
-                                aria-controls="collapseThree">
-                                Mode
-                                <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                            </a>
-                        </h6>
+                    <!-- By Status -->
+                    <div class="accordion accordion-last" id="accordionMain3">
+                        <div class="card-header-new" id="headingThree">
+                            <h6 class="filter-title">
+                                <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="true"
+                                    aria-controls="collapseThree">
+                                    Mode
+                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                </a>
+                            </h6>
+                        </div>
+
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                            data-bs-parent="#accordionExample3">
+                            <div class="card-body-chat">
+                                <div id="checkBoxes2">
+                                    <div class="selectBox-cont">
+                                        <label class="custom_check w-100">
+                                            <input type="checkbox" name="payment-mode">
+                                            <span class="checkmark"></span> Credit
+                                        </label>
+                                        <label class="custom_check w-100">
+                                            <input type="checkbox" name="payment-mode">
+                                            <span class="checkmark"></span> Debit
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- /By Status -->
 
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                        data-bs-parent="#accordionExample3">
-                        <div class="card-body-chat">
-                            <div id="checkBoxes2">
-                                <div class="selectBox-cont">
-                                    <label class="custom_check w-100">
-                                        <input type="checkbox" name="payment-mode">
+                    <div class="filter-buttons">
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
+                            Apply
+                        </button>
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--/Add Asset -->
+
+    <!-- Add Ledger Modal -->
+    <div class="modal custom-modal fade" id="add_ledger" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Ledger</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Amount</label>
+                                <input type="text" class="form-control" placeholder="Enter Amount">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Date</label>
+                                <div class="cal-icon cal-icon-info">
+                                    <input type="text" class="datetimepicker form-control"
+                                        placeholder="Select Date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block d-inline-flex align-center mb-0">
+                                <label class="me-5 mb-0">Mode</label>
+                                <div>
+                                    <label class="custom_radio me-3 mb-0">
+                                        <input type="radio" name="payment" checked>
                                         <span class="checkmark"></span> Credit
                                     </label>
-                                    <label class="custom_check w-100">
-                                        <input type="checkbox" name="payment-mode">
+                                    <label class="custom_radio mb-0">
+                                        <input type="radio" name="payment">
                                         <span class="checkmark"></span> Debit
                                     </label>
                                 </div>
@@ -8405,75 +9126,14 @@
                         </div>
                     </div>
                 </div>
-                <!-- /By Status -->
-
-                <div class="filter-buttons">
-                    <button type="submit" class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        Apply
-                    </button>
-                    <button type="submit" class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
-                        Reset
-                    </button>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Submit</a>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!--/Add Asset -->
-
-<!-- Add Ledger Modal -->
-<div class="modal custom-modal fade" id="add_ledger" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Ledger</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Amount</label>
-                            <input type="text" class="form-control" placeholder="Enter Amount">
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Date</label>
-                            <div class="cal-icon cal-icon-info">
-                                <input type="text" class="datetimepicker form-control" placeholder="Select Date">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block d-inline-flex align-center mb-0">
-                            <label class="me-5 mb-0">Mode</label>
-                            <div>
-                                <label class="custom_radio me-3 mb-0">
-                                    <input type="radio" name="payment" checked>
-                                    <span class="checkmark"></span> Credit
-                                </label>
-                                <label class="custom_radio mb-0">
-                                    <input type="radio" name="payment">
-                                    <span class="checkmark"></span> Debit
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
-                <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Submit</a>
             </div>
         </div>
     </div>
-</div>
-<!-- /Add Ledger Modal -->
+    <!-- /Add Ledger Modal -->
 @endif
 @if (Route::is(['debit-notes']))
     <!-- Add Asset -->
@@ -8507,7 +9167,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -8734,7 +9396,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -8819,7 +9483,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -9008,7 +9672,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -9282,55 +9948,55 @@
         </div>
     </div>
     <!-- /Add Tax & Discount Modal -->
-   <!-- Add Bank Details Modal -->
-   <div class="modal custom-modal fade" id="bank_details" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Bank Details</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <!-- Add Bank Details Modal -->
+    <div class="modal custom-modal fade" id="bank_details" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Bank Details</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Bank Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Bank Name">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Bank Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Bank Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Account Number <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter Account Number">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Account Number <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter Account Number">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Branch Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Enter Branch Name">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Branch Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Branch Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-0">
-                            <label>IFSC Code <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-0">
+                                <label>IFSC Code <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" placeholder="Enter IFSC COde">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-bs-dismiss="modal"
-                    class="btn btn-primary paid-cancel-btn me-2">Back</a>
-                <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save</a>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal"
+                        class="btn btn-primary paid-cancel-btn me-2">Back</a>
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /Add Bank Details Modal -->
+    <!-- /Add Bank Details Modal -->
 @endif
 @if (Route::is(['edit-purchases-order']))
     <!-- Add Tax & Discount Modal -->
@@ -9413,7 +10079,9 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Vendor">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
                                                 <label class="custom_check w-100">
@@ -9678,7 +10346,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -9880,7 +10549,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10122,7 +10792,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10396,7 +11067,8 @@
                                                 <div class="input-block">
                                                     <label>Attachment</label>
                                                     <div class="input-block service-upload mb-0">
-                                                        <span><img src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg')}}"
+                                                        <span><img
+                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -10457,7 +11129,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10565,7 +11238,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -10664,7 +11338,7 @@
                     <!-- /Category -->
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -10712,8 +11386,7 @@
                                     <div class="check-mark-status d-flex justify-content-between">
                                         <h6 class="label-text">Status</h6>
                                         <div class="status-toggle">
-                                            <input id="rating_1" class="check" type="checkbox"
-                                                checked="">
+                                            <input id="rating_1" class="check" type="checkbox" checked="">
                                             <label for="rating_1" class="checktoggle checkbox-bg">checkbox</label>
                                         </div>
                                     </div>
@@ -10765,7 +11438,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10873,7 +11547,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -10973,7 +11648,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -11036,7 +11711,8 @@
                                             <div class="input-block">
                                                 <label>Image</label>
                                                 <div class="input-block service-upload mb-0">
-                                                    <span><img src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg')}}"
+                                                    <span><img
+                                                            src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                             alt="upload"></span>
                                                     <h6 class="drop-browse align-center">Drop your files here or<span
                                                             class="text-primary ms-1">browse</span></h6>
@@ -11095,7 +11771,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11191,7 +11868,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11264,7 +11942,8 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                    alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
                                             <input type="checkbox" name="category">
@@ -11466,7 +12145,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11537,7 +12217,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search"
                                                     placeholder="Search Invoice">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11787,7 +12468,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -12191,7 +12873,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -12610,7 +13293,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -12718,7 +13402,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -12818,7 +13503,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -13147,7 +13832,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13245,7 +13931,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13437,7 +14124,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13523,7 +14211,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -13565,7 +14253,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13651,7 +14340,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -13701,7 +14390,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13809,7 +14499,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -13909,7 +14600,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -13951,7 +14642,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14029,7 +14721,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -14106,7 +14798,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14387,7 +15080,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14617,7 +15311,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14775,237 +15470,237 @@
         </div>
     </div>
     <!--/Add Asset -->
-   <!-- Add Package Modal -->
-   <div class="modal custom-modal fade p-20" id="add_package" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Package</h4>
+    <!-- Add Package Modal -->
+    <div class="modal custom-modal fade p-20" id="add_package" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Package</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <h6>Plan Type</h6>
-                <ul class="nav nav-tabs row" id="myTab" role="tablist">
-                    <li class="nav-item col-md-4 text-center" role="presentation">
-                        <h6 class="nav-link active" id="month-tab" data-bs-toggle="tab"
-                            data-bs-target="#month" role="tab" aria-controls="month"
-                            aria-selected="true">Monthly</h6>
-                    </li>
-                    <li class="nav-item col-md-4 text-center" role="presentation">
-                        <h6 class="nav-link" id="year-tab" data-bs-toggle="tab" data-bs-target="#year"
-                            role="tab" aria-controls="year" aria-selected="false">Yearly</h6>
-                    </li>
-                    <li class="nav-item col-md-4 text-center" role="presentation">
-                        <h6 class="nav-link" id="lifetime-tab" data-bs-toggle="tab"
-                            data-bs-target="#lifetime" role="tab" aria-controls="lifetime"
-                            aria-selected="false">Lifetime</h6>
-                    </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="month" role="tabpanel"
-                        aria-labelledby="month-tab">
-                        <div class="form-check">
-                            <label class="form-check-label" for="monthly1">
-                                <input class="form-check-input" type="radio" name="monthly"
-                                    id="monthly1">
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Basic</span>
-                                    <span class="">$49.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
+                <div class="modal-body">
+                    <h6>Plan Type</h6>
+                    <ul class="nav nav-tabs row" id="myTab" role="tablist">
+                        <li class="nav-item col-md-4 text-center" role="presentation">
+                            <h6 class="nav-link active" id="month-tab" data-bs-toggle="tab"
+                                data-bs-target="#month" role="tab" aria-controls="month"
+                                aria-selected="true">Monthly</h6>
+                        </li>
+                        <li class="nav-item col-md-4 text-center" role="presentation">
+                            <h6 class="nav-link" id="year-tab" data-bs-toggle="tab" data-bs-target="#year"
+                                role="tab" aria-controls="year" aria-selected="false">Yearly</h6>
+                        </li>
+                        <li class="nav-item col-md-4 text-center" role="presentation">
+                            <h6 class="nav-link" id="lifetime-tab" data-bs-toggle="tab"
+                                data-bs-target="#lifetime" role="tab" aria-controls="lifetime"
+                                aria-selected="false">Lifetime</h6>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="month" role="tabpanel"
+                            aria-labelledby="month-tab">
+                            <div class="form-check">
+                                <label class="form-check-label" for="monthly1">
+                                    <input class="form-check-input" type="radio" name="monthly"
+                                        id="monthly1">
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Basic</span>
+                                        <span class="">$49.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="monthly2">
+                                    <input class="form-check-input" type="radio" name="monthly"
+                                        id="monthly2">
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Enterprise</span>
+                                        <span class="">$99.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="monthly3">
+                                    <input class="form-check-input" type="radio" name="monthly"
+                                        id="monthly3" checked>
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Free Trail</span>
+                                        <span class="">$0.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="monthly2">
-                                <input class="form-check-input" type="radio" name="monthly"
-                                    id="monthly2">
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Enterprise</span>
-                                    <span class="">$99.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
+                        <div class="tab-pane fade" id="year" role="tabpanel"
+                            aria-labelledby="year-tab">
+                            <div class="form-check">
+                                <label class="form-check-label" for="yearly1">
+                                    <input class="form-check-input" type="radio" name="yearly"
+                                        id="yearly1">
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Basic</span>
+                                        <span class="">$49.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="yearly2">
+                                    <input class="form-check-input" type="radio" name="yearly"
+                                        id="yearly2">
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Enterprise</span>
+                                        <span class="">$99.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="yearly3">
+                                    <input class="form-check-input" type="radio" name="yearly"
+                                        id="yearly3" checked>
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Free Trail</span>
+                                        <span class="">$0.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="monthly3">
-                                <input class="form-check-input" type="radio" name="monthly"
-                                    id="monthly3" checked>
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Free Trail</span>
-                                    <span class="">$0.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="year" role="tabpanel"
-                        aria-labelledby="year-tab">
-                        <div class="form-check">
-                            <label class="form-check-label" for="yearly1">
-                                <input class="form-check-input" type="radio" name="yearly"
-                                    id="yearly1">
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Basic</span>
-                                    <span class="">$49.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="yearly2">
-                                <input class="form-check-input" type="radio" name="yearly"
-                                    id="yearly2">
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Enterprise</span>
-                                    <span class="">$99.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="yearly3">
-                                <input class="form-check-input" type="radio" name="yearly"
-                                    id="yearly3" checked>
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Free Trail</span>
-                                    <span class="">$0.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="lifetime" role="tabpanel"
-                        aria-labelledby="lifetime-tab">
-                        <div class="form-check">
-                            <label class="form-check-label" for="lifetime1">
-                                <input class="form-check-input" type="radio" name="lifetime"
-                                    id="lifetime1">
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Basic</span>
-                                    <span class="">$49.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="lifetime2">
-                                <input class="form-check-input" type="radio" name="lifetime"
-                                    id="lifetime2">
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Enterprise</span>
-                                    <span class="">$99.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label" for="lifetime3">
-                                <input class="form-check-input" type="radio" name="lifetime"
-                                    id="lifetime3" checked>
-                                <span class="d-flex justify-content-between text-dark">
-                                    <span class="">Free Trail</span>
-                                    <span class="">$0.00</span>
-                                </span>
-                                <span class="d-flex justify-content-between text-dull">
-                                    <span class="">Lorem Ipsum is simply dummy text</span>
-                                    <span class="">/month</span>
-                                </span>
-                            </label>
+                        <div class="tab-pane fade" id="lifetime" role="tabpanel"
+                            aria-labelledby="lifetime-tab">
+                            <div class="form-check">
+                                <label class="form-check-label" for="lifetime1">
+                                    <input class="form-check-input" type="radio" name="lifetime"
+                                        id="lifetime1">
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Basic</span>
+                                        <span class="">$49.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="lifetime2">
+                                    <input class="form-check-input" type="radio" name="lifetime"
+                                        id="lifetime2">
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Enterprise</span>
+                                        <span class="">$99.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label" for="lifetime3">
+                                    <input class="form-check-input" type="radio" name="lifetime"
+                                        id="lifetime3" checked>
+                                    <span class="d-flex justify-content-between text-dark">
+                                        <span class="">Free Trail</span>
+                                        <span class="">$0.00</span>
+                                    </span>
+                                    <span class="d-flex justify-content-between text-dull">
+                                        <span class="">Lorem Ipsum is simply dummy text</span>
+                                        <span class="">/month</span>
+                                    </span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
-                <a href="#" data-bs-dismiss="modal"
-                    class="btn btn-primary paid-continue-btn">Assign</a>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</a>
+                    <a href="#" data-bs-dismiss="modal"
+                        class="btn btn-primary paid-continue-btn">Assign</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /Add Package Modal -->
+    <!-- /Add Package Modal -->
 @endif
 @if (Route::is(['tax-rates']))
- <!-- Add Tax & Discount Modal -->
- <div class="modal custom-modal fade" id="add_discount" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Tax</h4>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <!-- Add Tax & Discount Modal -->
+    <div class="modal custom-modal fade" id="add_discount" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Tax</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Tax Name</label>
-                            <input type="number" class="form-control" placeholder="Enter Tax Name">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Tax Name</label>
+                                <input type="number" class="form-control" placeholder="Enter Tax Name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Tax Rates</label>
-                            <input type="text" class="form-control" placeholder="Enter Tax Rates">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Tax Rates</label>
+                                <input type="text" class="form-control" placeholder="Enter Tax Rates">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="input-block mb-3">
-                            <label>Type</label>
-                            <select class="select">
-                                <option>Select Type</option>
-                                <option>Percentage</option>
-                                <option>Fixed</option>
-                            </select>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="input-block mb-3">
+                                <label>Type</label>
+                                <select class="select">
+                                    <option>Select Type</option>
+                                    <option>Percentage</option>
+                                    <option>Fixed</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="payment-toggle">
-                        <h5 class="form-title">Status</h5>
-                        <div class="status-toggle">
-                            <input id="rating_7" class="check" type="checkbox" checked="">
-                            <label for="rating_7" class="checktoggle checkbox-bg">checkbox</label>
+                        <div class="payment-toggle">
+                            <h5 class="form-title">Status</h5>
+                            <div class="status-toggle">
+                                <input id="rating_7" class="check" type="checkbox" checked="">
+                                <label for="rating_7" class="checktoggle checkbox-bg">checkbox</label>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer add-tax-btns">
-                <a href="#" data-bs-dismiss="modal" class="btn add-btn-cancel-btn">Cancel</a>
-                <a href="#" data-bs-dismiss="modal" class="btn btn-primary add-tax-save-btn">Save</a>
+                <div class="modal-footer add-tax-btns">
+                    <a href="#" data-bs-dismiss="modal" class="btn add-btn-cancel-btn">Cancel</a>
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary add-tax-save-btn">Save</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /Add Tax & Discount Modal -->
+    <!-- /Add Tax & Discount Modal -->
 @endif
 @if (Route::is(['tax-sales']))
     <!-- Add Asset -->
@@ -15039,7 +15734,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -15197,8 +15893,8 @@
         </div>
     </div>
     <!--/Add Asset -->
-     <!-- Add Package Modal -->
-     <div class="modal custom-modal fade p-20" id="add_package" role="dialog">
+    <!-- Add Package Modal -->
+    <div class="modal custom-modal fade p-20" id="add_package" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0">
@@ -15406,7 +16102,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -15514,7 +16211,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -15614,7 +16312,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg')}}" class="me-2"
+                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -15623,8 +16321,8 @@
         </div>
     </div>
     <!--/Add Asset -->
-      <!-- Add Testmonials Modal -->
-      <div class="modal custom-modal modal-lg fade" id="add_testimonial" role="dialog">
+    <!-- Add Testmonials Modal -->
+    <div class="modal custom-modal modal-lg fade" id="add_testimonial" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
@@ -15647,7 +16345,7 @@
                                                 <div class="upload-profile">
                                                     <div class="profile-img">
                                                         <img id="blah" class="avatar"
-                                                            src="{{ URL::asset('/public/assets/img/profiles/avatar-10.jpg')}}"
+                                                            src="{{ URL::asset('/public/assets/img/profiles/avatar-10.jpg') }}"
                                                             alt="profile-img">
                                                     </div>
                                                     <div class="add-profile">
@@ -15764,7 +16462,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -15872,7 +16571,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -16112,7 +16812,8 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}"
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -16216,7 +16917,8 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
                                         <label class="custom_check w-100">
@@ -16273,31 +16975,36 @@
                                             <div class="col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>First Name</label>
-                                                    <input type="text" class="form-control" name="first_name" placeholder="Enter First Name">
+                                                    <input type="text" class="form-control"
+                                                        name="first_name" placeholder="Enter First Name">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Last Name</label>
-                                                    <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
+                                                    <input type="text" class="form-control" name="last_name"
+                                                        placeholder="Enter Last Name">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>User Name</label>
-                                                    <input type="text" class="form-control" name="username" placeholder="Enter User Name">
+                                                    <input type="text" class="form-control" name="username"
+                                                        placeholder="Enter User Name">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Email</label>
-                                                    <input type="email" class="form-control" name="email" placeholder="Enter Email Address">
+                                                    <input type="email" class="form-control" name="email"
+                                                        placeholder="Enter Email Address">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Phone Number</label>
-                                                    <input type="text" class="form-control" name="phone" placeholder="Enter Phone Number">
+                                                    <input type="text" class="form-control" name="phone"
+                                                        placeholder="Enter Phone Number">
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-12">
@@ -16314,7 +17021,8 @@
                                                 <div class="pass-group">
                                                     <div class="input-block">
                                                         <label>Password</label>
-                                                        <input type="password" class="form-control" name="password" placeholder="Enter Password">
+                                                        <input type="password" class="form-control"
+                                                            name="password" placeholder="Enter Password">
                                                     </div>
                                                 </div>
                                             </div>
@@ -16322,7 +17030,9 @@
                                                 <div class="pass-group">
                                                     <div class="input-block">
                                                         <label>Confirm Password</label>
-                                                        <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
+                                                        <input type="password" class="form-control"
+                                                            name="password_confirmation"
+                                                            placeholder="Confirm Password">
                                                     </div>
                                                 </div>
                                             </div>
@@ -16344,7 +17054,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-back cancel-btn me-2">Cancel</button>
                         <button type="submit" class="btn btn-primary paid-continue-btn">Add User</button>
                     </div>
                 </form>
@@ -16354,5 +17065,3 @@
     </div>
     <!-- /Add User -->
 @endif
-
-

@@ -8,7 +8,7 @@
             <!-- Page Header -->
             @component('components.page-header')
                 @slot('title')
-                    Category
+                    Metal Rates
                 @endslot
             @endcomponent
             <!-- /Page Header -->
@@ -33,27 +33,44 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>Category Name</th>
-                                           <th class="no-sort">Action</th>
+                                            <th>Metal Name</th>
+                                            <th>Price Per Gram</th>
+                                            {{-- <th>Gram</th> --}}
+                                            <th>Karat</th>
+                                            <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
 
-                                        @foreach ($categories as $category)
+                                    <tbody>
+                                        @foreach ($metalRates as $rate)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                 <td>{{ $category->category_name }}</td>
-                                                </td>
-                                               <td class="d-flex align-items-center">
-                                                      <a href="javascript:void(0);"
-                                                        class="btn-action-icon me-2 editCategoryBtn" data-bs-toggle="modal"
-                                                        data-bs-target="#edit_category" data-id="{{ $category->category_id }}"
-                                                        data-name="{{ $category->category_name }}">
+
+                                                <td>{{ $rate->metal_type }}</td>
+
+                                                <td>{{ $rate->price_per_gram }}</td>
+
+                                                {{-- <td>{{ $rate->gram }}</td> --}}
+
+                                                <td>{{ $rate->karat ?? '-' }}</td>
+
+                                                <td class="d-flex align-items-center">
+                                                    <!-- Edit -->
+                                                    <a href="javascript:void(0);"
+                                                        class="btn-action-icon me-2 editMetalRateBtn" data-bs-toggle="modal"
+                                                        data-bs-target="#edit_metalrate" data-id="{{ $rate->id }}"
+                                                        data-metal="{{ $rate->metal_type }}"
+                                                        data-price="{{ $rate->price_per_gram }}"
+                                                        data-gram="{{ $rate->gram }}" data-karat="{{ $rate->karat }}">
                                                         <i class="fe fe-edit"></i>
                                                     </a>
-                                                      <a class="btn-action-icon" href="javascript:void(0);"
+
+
+
+                                                    <!-- Delete -->
+                                                    <a class="btn-action-icon" href="javascript:void(0);"
                                                         data-bs-toggle="modal" data-bs-target="#delete_modal"
-                                                        data-id="{{ $category->category_id }}">
+                                                        data-id="{{ $rate->id }}">
                                                         <i class="fe fe-trash-2"></i>
                                                     </a>
                                                 </td>
@@ -61,6 +78,7 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -70,30 +88,33 @@
 
         </div>
     </div>
-    <!-- /Page Wrapper -->
     <script>
-        $(document).on("click", ".editCategoryBtn", function() {
+        $(document).on("click", ".editMetalRateBtn", function() {
 
             let id = $(this).data("id");
 
-            $("#edit_category_name").val($(this).data("name")).trigger("change");
+            $("#edit_metal_type").val($(this).data("metal")).trigger("change");
 ;
+            $("#edit_price_per_gram").val($(this).data("price"));
+               $("#edit_karat").val($(this).data("karat")).trigger("change");
 
             // FIX: Set form action using Laravel route()
-            let url = "{{ route('category.update', ':id') }}";
+            let url = "{{ route('metal-rates.update', ':id') }}";
             url = url.replace(':id', id);
 
-            $("#editCategoryForm").attr("action", url);
+            $("#editMetalRateForm").attr("action", url);
         });
     </script>
     <script>
     $(document).on("click", "[data-bs-target='#delete_modal']", function () {
         let id = $(this).data("id");
 
-        let url = "{{ route('category.destroy', ':id') }}";
+        let url = "{{ route('metal-rates.destroy', ':id') }}";
         url = url.replace(':id', id);
 
-        $("#deleteCategoryForm").attr("action", url);
+        $("#deleteMetalRateForm").attr("action", url);
     });
 </script>
+
+    <!-- /Page Wrapper -->
 @endsection

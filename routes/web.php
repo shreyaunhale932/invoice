@@ -10,6 +10,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MetalRateController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Str;
 use App\Models\Invoice;
 
@@ -32,7 +34,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Route::middleware([CheckUserRole::class . ':superadmin'])->group(function () {
 //     Route::get('/superadmin/superdashboard', [AdminController::class, 'superdashboard'])->name('superadmin.superdashboard');
- 
+
 // });
 // Super Admin can add Admins
 Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function () {
@@ -69,12 +71,12 @@ Route::middleware(['auth.check', 'checkUserRole:admin'])->group(function () {
 
     Route::get('/generate-uuid-for-old-invoices', function () {
         $invoices = Invoice::whereNull('uuid')->get();
-    
+
         foreach ($invoices as $invoice) {
             $invoice->uuid = Str::uuid();
             $invoice->save();
         }
-    
+
         return "UUID Generated Successfully for Old Records";
     });
     Route::get('/setup-columns', function () {
@@ -87,7 +89,7 @@ Route::middleware(['auth.check', 'checkUserRole:admin'])->group(function () {
             ['name' => 'GST', 'type' => 'number'],
             ['name' => 'Amount', 'type' => 'number'],
         ];
-    
+
         foreach ($columns as $index => $col) {
             \App\Models\InvoiceColumn::create([
                 'name' => $col['name'],
@@ -97,19 +99,19 @@ Route::middleware(['auth.check', 'checkUserRole:admin'])->group(function () {
                 'position' => $index,
             ]);
         }
-    
+
         return 'Default columns inserted!';
     });
-    
+
 });
 
 
 
-Route::get('Dashboard/index', [CustomAuthController::class, 'dashboard']); 
+Route::get('Dashboard/index', [CustomAuthController::class, 'dashboard']);
 Route::get('Pages/Authentication/login', [CustomAuthController::class, 'index'])->name('login');
-Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
+Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
 Route::get('Pages/Authentication/register', [CustomAuthController::class, 'registration'])->name('register-user');
-Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
+Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
 Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
 
 // PageController
@@ -302,6 +304,23 @@ Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
 
 // Route::get('/add-products', [HomeController::class, 'addproducts'])->name('add-products');
 Route::get('/category', [HomeController::class, 'category'])->name('category');
+Route::post('/category', [CategoryController::class, 'addcategory'])->name('category');
+Route::put('/category{id}', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('/category/{id}', [CategoryController::class, 'destroy'])
+     ->name('category.destroy');
+
+
+
+Route::get('/subcategory', [HomeController::class, 'subcategory'])->name('subcategory');
+
+Route::get('/metal-rates', [HomeController::class, 'metalrates'])->name('metal-rates');
+Route::post('/metal-rates', [MetalRateController::class, 'addmetalrates'])->name('metal-rates');
+Route::put('/metal-rates/{id}', [MetalRateController::class, 'update'])->name('metal-rates.update');
+Route::delete('/metal-rates/{id}', [MetalRateController::class, 'destroy'])
+     ->name('metal-rates.destroy');
+
+
+
 Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');
 Route::get('/product-list', [HomeController::class, 'productlist'])->name('product-list');
 Route::get('/units', [HomeController::class, 'units'])->name('units');

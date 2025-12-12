@@ -4,6 +4,7 @@
 <!-- Bootstrap Core JS -->
 <script src="{{ URL::asset('/public/assets/js/bootstrap.bundle.min.js') }}"></script>
 
+
 <!-- Feather Icon JS -->
 <script src="{{ URL::asset('/public/assets/js/feather.min.js') }}"></script>
 <script src="{{ URL::asset('/public/assets/js/jspdf.min.js') }}"></script>
