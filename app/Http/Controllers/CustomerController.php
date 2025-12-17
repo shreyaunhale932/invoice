@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\PurityModel;
+use App\Models\MetalRate;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
@@ -59,6 +63,29 @@ class CustomerController extends Controller
     }
     public function addproducts()
     {
-        return view('Inventory/Products/add-products');
-    }
+         $adminId = Auth::id();
+
+    $categories = Category::where('admin_id', $adminId)
+        ->orderBy('category_id', 'DESC')
+        ->get();
+
+    $subcategories = Subcategory::where('admin_id', $adminId)
+        ->orderBy('subcategory_id', 'DESC')
+        ->get();
+
+    $purities = PurityModel::where('admin_id', $adminId)
+        ->orderBy('id', 'DESC')
+        ->get();
+
+    $metalRates = MetalRate::where('admin_id', $adminId)
+        ->orderBy('id', 'DESC')
+        ->get();
+
+    return view('Inventory/Products/add-products', compact(
+        'categories',
+        'subcategories',
+        'purities',
+        'metalRates'
+    ));
+   }
 }

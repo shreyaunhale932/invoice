@@ -2531,45 +2531,11 @@
                                             <div class="col-lg-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="category_name"
-                                                        placeholder="Enter Title">
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Slug</label>
                                                     <input type="text" class="form-control"
-                                                        placeholder="Enter Slug">
+                                                        name="category_name" placeholder="Enter Title" required>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Parent Category</label>
-                                                    <select class="select">
-                                                        <option>None</option>
-                                                        <option>Coupons</option>
-                                                        <option>News</option>
-                                                        <option>Plugins</option>
-                                                        <option>Themes</option>
-                                                        <option>Tutorial</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-0 pb-0">
-                                                    <label>Image</label>
-                                                    <div class="input-block service-upload mb-0">
-                                                        <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
-                                                                alt="upload"></span>
-                                                        <h6 class="drop-browse align-center">Drop your files here
-                                                            or<span class="text-primary ms-1">browse</span></h6>
-                                                        <p class="text-muted">Maximum size: 50MB</p>
-                                                        <input type="file" multiple="" id="image_sign">
-                                                        <div id="frames"></div>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
+
                                         </div>
                                     </div>
                                 </div>
@@ -2601,48 +2567,50 @@
                     </button>
                 </div>
                 <form id="editCategoryForm" method="POST">
-    @csrf
-    @method('PUT')
+                    @csrf
+                    @method('PUT')
 
-    {{-- <input type="hidden" name="id" id="edit_id"> --}}
+                    {{-- <input type="hidden" name="id" id="edit_id"> --}}
 
-    <div class="modal-body">
-        <div class="input-block mb-3">
-            <label>Name <span class="text-danger">*</span></label>
-            <input type="text" id="edit_category_name" name="category_name"
-                   class="form-control" placeholder="Enter Title">
-        </div>
-    </div>
- <div class="modal-footer">
-                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
-                    <button type="submit" class="btn btn-primary paid-continue-btn">Update</button>
-                </div>
-</form>
+                    <div class="modal-body">
+                        <div class="input-block mb-3">
+                            <label>Name <span class="text-danger">*</span></label>
+                            <input type="text" id="edit_category_name" name="category_name"
+                                class="form-control" placeholder="Enter Title" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
+                        <button type="submit" class="btn btn-primary paid-continue-btn">Update</button>
+                    </div>
+                </form>
 
             </div>
         </div>
     </div>
     <div class="modal custom-modal fade" id="delete_modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
 
-            <div class="modal-body text-center">
-                <h4>Are you sure you want to delete this Category?</h4>
+                <div class="modal-body text-center">
+                    <h4>Are you sure you want to delete this Category?</h4>
 
-                <form id="deleteCategoryForm" method="POST">
-                    @csrf
-                    @method('DELETE')
+                    <form id="deleteCategoryForm" method="POST">
+                        @csrf
+                        @method('DELETE')
 
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
+                        <div class="mt-4">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
-
         </div>
     </div>
-</div>
     <!-- /Add Vendor Modal -->
 @endif
 @if (Route::is(['subcategory']))
@@ -2772,147 +2740,147 @@
 
                     </button>
                 </div>
-                <form action="#">
+                <form action="{{ route('subcategory') }}" method="POST">
+                    @csrf
+
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="card-body">
-                                    <div class="form-group-item border-0 pb-0 mb-0">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter Title">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Slug</label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter Slug">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Parent Category</label>
-                                                    <select class="select">
-                                                        <option>None</option>
-                                                        <option>Coupons</option>
-                                                        <option>News</option>
-                                                        <option>Plugins</option>
-                                                        <option>Themes</option>
-                                                        <option>Tutorial</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-0 pb-0">
-                                                    <label>Image</label>
-                                                    <div class="input-block service-upload mb-0">
-                                                        <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
-                                                                alt="upload"></span>
-                                                        <h6 class="drop-browse align-center">Drop your files here
-                                                            or<span class="text-primary ms-1">browse</span></h6>
-                                                        <p class="text-muted">Maximum size: 50MB</p>
-                                                        <input type="file" multiple="" id="image_sign">
-                                                        <div id="frames"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                            <!-- Subcategory Name -->
+                            <div class="col-lg-12">
+                                <div class="input-block mb-3">
+                                    <label>Subcategory Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="subcategory_name" class="form-control"
+                                        placeholder="Enter Subcategory Name" required>
                                 </div>
                             </div>
+
+                            <!-- Parent Category -->
+                            <div class="col-lg-12">
+                                <div class="input-block mb-3">
+                                    <label>Parent Category <span class="text-danger">*</span></label>
+                                    @php
+                                        $categories = \App\Models\Category::all();
+                                    @endphp
+
+
+                                    <select name="category_id" class="form-control select" required>
+                                        <option value="">Select Category</option>
+
+
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->category_id }}">
+                                                {{ $category->category_name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" data-bs-dismiss="modal"
                             class="btn btn-back cancel-btn me-2">Cancel</button>
-                        <button type="submit" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-continue-btn">Add subCategory</button>
+
+                        <button type="submit" class="btn btn-primary">
+                            Add Subcategory
+                        </button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
     <!-- /Add Category Modal -->
 
     <!-- Add Category Modal -->
-    <div class="modal custom-modal fade" id="edit_category" role="dialog">
+    <div class="modal custom-modal fade" id="edit_subcategory" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Edit Category</h4>
+                        <h4 class="mb-0">Edit SubCategory</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
                     </button>
                 </div>
-                <form action="#">
+                <form id="editSubcategoryForm" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <input type="hidden" id="edit_subcategory_id" name="subcategory_id">
+
+
+                    <!-- Hidden Subcategory ID -->
+                    <input type="hidden" name="subcategory_id" id="edit_subcategory_id">
+
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="card-body">
-                                    <div class="form-group-item border-0 pb-0 mb-0">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Name <span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" value="Advertising"
-                                                        placeholder="Enter Title">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Slug</label>
-                                                    <input type="text" class="form-control" value="advertising"
-                                                        placeholder="Enter Slug">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Parent Category</label>
-                                                    <select class="select">
-                                                        <option>None</option>
-                                                        <option>Coupons</option>
-                                                        <option>News</option>
-                                                        <option>Plugins</option>
-                                                        <option>Themes</option>
-                                                        <option>Tutorial</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-sm-12">
-                                                <div class="input-block mb-0 pb-0">
-                                                    <label>Image</label>
-                                                    <div class="input-block service-upload mb-0">
-                                                        <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
-                                                                alt="upload"></span>
-                                                        <h6 class="drop-browse align-center">Drop your files here
-                                                            or<span class="text-primary ms-1">browse</span></h6>
-                                                        <p class="text-muted">Maximum size: 50MB</p>
-                                                        <input type="file" multiple="" id="image_sign2">
-                                                        <div id="frames2"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                            <!-- Subcategory Name -->
+                            <div class="col-lg-12">
+                                <div class="input-block mb-3">
+                                    <label>Subcategory Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="subcategory_name"
+                                        id="edit_subcategory_name" placeholder="Enter Subcategory Name" required>
                                 </div>
                             </div>
+
+                            <!-- Parent Category -->
+                            <div class="col-lg-12">
+                                <div class="input-block mb-3">
+                                    <label>Parent Category <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="category_id" id="edit_category_id"
+                                        required>
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $cat)
+                                            <option value="{{ $cat->category_id }}">
+                                                {{ $cat->category_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
-                        <button type="submit" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-continue-btn">Update</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-primary me-2">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Update
+                        </button>
                     </div>
                 </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal custom-modal fade" id="delete_modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+
+                <div class="modal-body text-center">
+                    <h4>Are you sure you want to delete this Metal Rate?</h4>
+
+                    <form id="deletesubCategoryForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <div class="mt-4">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -3091,7 +3059,7 @@
                                             <div class="col-lg-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Karat</label>
-                                                    <select class="form-control select" name="karat">
+                                                    <select class="form-control select" name="karat" required>
                                                         <option value="">Select Karat</option>
                                                         <option value="14k">14k</option>
                                                         <option value="18k">18k</option>
@@ -3122,57 +3090,58 @@
     <!-- /Add Category Modal -->
 
     <!-- Add Category Modal -->
-  <div class="modal custom-modal fade" id="edit_metalrate" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
+    <div class="modal custom-modal fade" id="edit_metalrate" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
 
-            <div class="modal-header border-0 pb-0">
-                <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Edit Metal Rate</h4>
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Edit Metal Rate</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
 
-            <form id="editMetalRateForm" method="POST">
-    @csrf
-    @method('PUT')
+                <form id="editMetalRateForm" method="POST">
+                    @csrf
+                    @method('PUT')
 
 
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
 
-                            <input type="hidden" id="edit_id" name="id">
+                                <input type="hidden" id="edit_id" name="id">
 
-                            <div class="card-body">
-                                <div class="form-group-item border-0 pb-0 mb-0">
+                                <div class="card-body">
+                                    <div class="form-group-item border-0 pb-0 mb-0">
 
-                                    <div class="row">
+                                        <div class="row">
 
-                                        <!-- Metal Type -->
-                                        <div class="col-lg-12 col-sm-12">
-                                            <div class="input-block mb-3">
-                                                <label>Metal Type <span class="text-danger">*</span></label>
-                                                <select class="form-control select" id="edit_metal_type" name="metal_type" required>
-                                                    <option value="Gold">Gold</option>
-                                                    <option value="Silver">Silver</option>
-                                                    <option value="Platinum">Platinum</option>
-                                                </select>
+                                            <!-- Metal Type -->
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Metal Type <span class="text-danger">*</span></label>
+                                                    <select class="form-control select" id="edit_metal_type"
+                                                        name="metal_type" required>
+                                                        <option value="Gold">Gold</option>
+                                                        <option value="Silver">Silver</option>
+                                                        <option value="Platinum">Platinum</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <!-- Price Per Gram -->
-                                        <div class="col-lg-12 col-sm-12">
-                                            <div class="input-block mb-3">
-                                                <label>Price Per Gram <span class="text-danger">*</span></label>
-                                                <input type="number" step="0.01" class="form-control"
-                                                       id="edit_price_per_gram" name="price_per_gram"
-                                                       placeholder="Enter price per gram" required>
+                                            <!-- Price Per Gram -->
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Price Per Gram <span class="text-danger">*</span></label>
+                                                    <input type="number" step="0.01" class="form-control"
+                                                        id="edit_price_per_gram" name="price_per_gram"
+                                                        placeholder="Enter price per gram" required>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <!-- Gram -->
-                                        {{-- <div class="col-lg-12 col-sm-12">
+                                            <!-- Gram -->
+                                            {{-- <div class="col-lg-12 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Gram <span class="text-danger">*</span></label>
                                                 <input type="number" step="0.001" class="form-control"
@@ -3181,61 +3150,326 @@
                                             </div>
                                         </div> --}}
 
-                                        <!-- Karat -->
-                                        <div class="col-lg-12 col-sm-12">
-                                            <div class="input-block mb-3">
-                                                <label>Karat</label>
-                                                <select class="form-control select" id="edit_karat" name="karat">
-                                                    <option value="">Select Karat</option>
+                                            <!-- Karat -->
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Karat</label>
+                                                    <select class="form-control select" id="edit_karat"
+                                                        name="karat" required>
+                                                        <option value="">Select Karat</option>
                                                         <option value="14k">14k</option>
                                                         <option value="18k">18k</option>
                                                         <option value="20k">20k</option>
                                                         <option value="22k">22k</option>
                                                         <option value="24k">24k</option>
-                                                </select>
+                                                    </select>
+                                                </div>
                                             </div>
+
                                         </div>
 
                                     </div>
+                                </div>
 
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
+                        <button type="submit" class="btn btn-primary paid-continue-btn">Update</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal -->
+    <div class="modal custom-modal fade" id="delete_modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+
+                <div class="modal-body text-center">
+                    <h4>Are you sure you want to delete this Metal Rate?</h4>
+
+                    <form id="deleteMetalRateForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <div class="mt-4">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- /Add Vendor Modal -->
+@endif
+@if (Route::is(['purity']))
+    <!-- Add Asset -->
+    <div class="toggle-sidebar">
+        <div class="sidebar-layout-filter">
+            <div class="sidebar-header">
+                <h5>Filter</h5>
+                <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+            </div>
+            <div class="sidebar-body">
+                <form action="#" autocomplete="off">
+                    <!-- Product -->
+                    <div class="accordion" id="accordionMain1">
+                        <div class="card-header-new" id="headingOne">
+                            <h6 class="filter-title">
+                                <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    Category Name
+                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                </a>
+                            </h6>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample1">
+                            <div class="card-body-chat">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="checkBoxes1">
+                                            <div class="form-custom">
+                                                <input type="text" class="form-control" id="member_search1"
+                                                    placeholder="Search Product">
+                                                <span><img
+                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        alt="img"></span>
+                                            </div>
+                                            <div class="selectBox-cont">
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Advertising
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Food
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Furniture
+                                                </label>
+                                                <label class="custom_check w-100">
+                                                    <input type="checkbox" name="username">
+                                                    <span class="checkmark"></span> Repairs
+                                                </label>
+                                                <!-- View All -->
+                                                <div class="view-content">
+                                                    <div class="viewall-One">
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Laptop
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Shoes
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Accessories
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Phone
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Bags
+                                                        </label>
+                                                        <label class="custom_check w-100">
+                                                            <input type="checkbox" name="username">
+                                                            <span class="checkmark"></span> Speaker
+                                                        </label>
+                                                    </div>
+                                                    <div class="view-all">
+                                                        <a href="javascript:void(0);"
+                                                            class="viewall-button-One"><span class="me-2">View
+                                                                All</span><span><i
+                                                                    class="fa fa-circle-chevron-down"></i></span></a>
+                                                    </div>
+                                                </div>
+                                                <!-- /View All -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Product -->
+
+                    <div class="filter-buttons">
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
+                            Apply
+                        </button>
+                        <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- /Add Asset -->
+
+    <!-- Add Category Modal -->
+    <div class="modal custom-modal fade" id="add_purity" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Purity</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                    </button>
+                </div>
+                <form id="purityForm" action="{{ route('purity.store') }}" method="POST">
+                    @csrf
+
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <!-- Purity Type -->
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label>Purity Type <span class="text-danger">*</span></label>
+                                    <select class="form-control select" name="purity_type" required>
+                                        <option value="">Select Type</option>
+                                        <option value="karat">Karat</option>
+                                        <option value="percent">Percent</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Purity Value -->
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label>Purity Value <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.001" class="form-control"
+                                        name="purity_value" placeholder="Enter purity value (e.g. 22 or 99.9)"
+                                        required>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
-                    <button type="submit" class="btn btn-primary paid-continue-btn">Update</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
-<!-- Delete Modal -->
-<div class="modal custom-modal fade" id="delete_modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
-
-            <div class="modal-body text-center">
-                <h4>Are you sure you want to delete this Metal Rate?</h4>
-
-                <form id="deleteMetalRateForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-back cancel-btn me-2">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Purity</button>
                     </div>
                 </form>
-            </div>
 
+
+            </div>
         </div>
     </div>
-</div>
+    <!-- /Add Category Modal -->
+
+    <!-- Add Category Modal -->
+    <div class="modal custom-modal fade" id="edit_purity" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Edit Purity</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Form -->
+                <form id="editPurityForm" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <!-- Hidden ID -->
+                            <input type="hidden" id="edit_id" name="id">
+
+                            <!-- Purity Type -->
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label>Purity Type <span class="text-danger">*</span></label>
+                                    <select class="form-control select" id="edit_purity_type" name="purity_type"
+                                        required>
+                                        <option value="">Select Type</option>
+                                        <option value="karat">Karat</option>
+                                        <option value="percent">Percent</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Purity Value -->
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label>Purity Value <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.001" class="form-control"
+                                        id="edit_purity_value" name="purity_value"
+                                        placeholder="Enter purity value (e.g. 22 or 99.9)" required>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Update Purity
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal custom-modal fade" id="delete_modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+
+                <div class="modal-body text-center">
+                    <h4>Are you sure you want to delete this Purity?</h4>
+
+                    <form id="deletePurityForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <div class="mt-4">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- /Add Vendor Modal -->
 @endif
@@ -3846,55 +4080,73 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Add Stock in</h4>
+                        <h4 class="mb-0">Add Stock dfgin</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
                     </button>
                 </div>
-                <form action="#">
+                <form method="POST" action="{{ route('inventory.stock.in') }}">
+                    @csrf
+
+                    <!-- Hidden Product -->
+                    <input type="hidden" name="product_id" id="stockInProduct">
+
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-lg-12 col-md-12">
+
+                            <!-- Product Name (readonly) -->
+                            <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>Name</label>
-                                    <input type="text" class="bg-white-smoke form-control"
-                                        placeholder="SEO Service">
+                                    <label>Product Name</label>
+                                    <input type="text" id="stockInProductName"
+                                        class="bg-white-smoke form-control" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12">
+
+                            <!-- Gross Weight -->
+                            <div class="col-lg-6">
                                 <div class="input-block mb-3">
-                                    <label>Quantity</label>
-                                    <input type="number" class="form-control" placeholder="0">
+                                    <label>Gross Weight *</label>
+                                    <input type="number" step="0.001" name="quantity" class="form-control"
+                                        placeholder="0.000" required>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="input-block mb-0">
-                                    <label>Units</label>
-                                    <select class="select">
-                                        <option>Pieces</option>
-                                        <option>Inches</option>
-                                        <option>Kilograms</option>
-                                        <option>Inches</option>
-                                        <option>Box</option>
+
+                            <!-- Unit -->
+                            <div class="col-lg-6">
+                                <div class="input-block mb-3">
+                                    <label>Unit *</label>
+                                    <select name="unit" class="form-control" required>
+                                        <option value="GM">GM</option>
+                                        <option value="MG">MG</option>
+                                        <option value="KG">KG</option>
                                     </select>
                                 </div>
                             </div>
+
+                            <!-- Notes -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-0">
                                     <label>Notes</label>
-                                    <textarea rows="3" cols="3" class="form-control" placeholder="Enter Notes"></textarea>
+                                    <textarea name="remarks" rows="3" class="form-control"
+                                        placeholder="Purchase / Manufacturing / Adjustment"></textarea>
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" data-bs-dismiss="modal"
-                            class="btn btn-back cancel-btn me-2">Cancel</button>
-                        <button type="submit" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-continue-btn">Add Quantity</button>
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary paid-continue-btn">
+                            Add Stock
+                        </button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

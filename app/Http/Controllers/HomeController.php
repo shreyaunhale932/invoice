@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MetalRate;
 use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
  {
@@ -182,16 +185,29 @@ class HomeController extends Controller
 
     public function category()
  {
-    $categories = Category::all();
+    // $categories = Category::all();
+      $categories = Category::where('admin_id', Auth::id())
+        ->orderBy('category_id', 'DESC')
+        ->get();
+
         return view( 'Inventory/Products/category',compact('categories') );
     }
-      public function subcategory()
- {
-        return view( 'Inventory/Products/subcategory' );
-    }
+ public function subcategory()
+{
+    $categories = Category::where('admin_id', Auth::id())
+        ->with('subcategories')
+        ->orderBy('category_id', 'DESC')
+        ->get();
+
+    return view('Inventory/Products/subcategory', compact('categories'));
+}
   public function metalrates()
  {
-    $metalRates = MetalRate::all();
+    // $metalRates = MetalRate::all();
+     $metalRates = MetalRate::where('admin_id', Auth::id())
+        ->orderBy('id', 'DESC')
+        ->get();
+
         return view( 'Inventory/Products/metalrates',compact('metalRates') );
     }
     public function editproducts()
@@ -199,10 +215,16 @@ class HomeController extends Controller
         return view( 'Inventory/Products/edit-products' );
     }
 
-    public function productlist()
- {
-        return view( 'Inventory/Products/product-list' );
-    }
+  public function productlist()
+{
+    $products = Product::with('category')   // 👈 load category
+        ->where('admin_id', Auth::id())
+        ->orderBy('category_id', 'DESC')
+        ->get();
+
+    return view('Inventory/Products/product-list', compact('products'));
+}
+
 
     public function units()
  {

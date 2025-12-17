@@ -158,6 +158,8 @@
                                     href="{{ url('subcategory') }}">Subcategory</a></li>
                               <li><a class="{{ Request::is('metalrates') ? 'active' : '' }}"
                                     href="{{ url('metal-rates') }}">Metal Rates</a></li>
+                                    <li><a class="{{ Request::is('purity') ? 'active' : '' }}"
+                                    href="{{ url('purity') }}">Purity</a></li>
 
 
                             {{-- <li><a class="{{ Request::is('units') ? 'active' : '' }}"

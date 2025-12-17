@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <div class="page-header">
                         <div class="content-page-header">
-                            <h5>Edit Products / Services</h5>
+                            <h5>Edit Products</h5>
                         </div>
                     </div>
                     <div class="row">

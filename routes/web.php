@@ -12,6 +12,10 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MetalRateController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\PurityController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InventoryController;
 use Illuminate\Support\Str;
 use App\Models\Invoice;
 
@@ -68,6 +72,24 @@ Route::middleware(['auth.check', 'checkUserRole:admin'])->group(function () {
     Route::put('/edit-invoice/{uuid}', [InvoiceController::class, 'edit_invoice'])->name('invoices.update');
     Route::PUT('/invoice-columns/update', [InvoiceController::class, 'updatecolumns'])->name('invoice-columns.update');
       Route::get('invoice-columns-index', [InvoiceController::class, 'invoice_columns_index'])->name('invoice-columns.index');
+
+    Route::get('/purity',[\App\Http\Controllers\PurityController::class, 'index'])->name('purity');
+    Route::post('/purity/store', [PurityController::class, 'store'])->name('purity.store');
+    Route::get('purity/{id}/edit', [PurityController::class, 'edit'])->name('purity.edit');
+Route::put('purity/{id}', [PurityController::class, 'update'])->name('purity.update');
+Route::delete('purity/{id}', [PurityController::class, 'destroy'])->name('purity.destroy');
+
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+Route::put('products/{id}', [ProductController::class, 'update'])->name('products.update');
+// routes/web.php
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])
+    ->name('products.destroy');
+
+Route::post('/check-product-code', [ProductController::class, 'checkProductCode'])
+     ->name('check.product.code');
+
+
 
     Route::get('/generate-uuid-for-old-invoices', function () {
         $invoices = Invoice::whereNull('uuid')->get();
@@ -309,9 +331,13 @@ Route::put('/category{id}', [CategoryController::class, 'update'])->name('catego
 Route::delete('/category/{id}', [CategoryController::class, 'destroy'])
      ->name('category.destroy');
 
-
-
 Route::get('/subcategory', [HomeController::class, 'subcategory'])->name('subcategory');
+Route::post('/subcategory', [SubCategoryController::class, 'addsubcategory'])->name('subcategory');
+Route::put('/subcategory{id}', [SubCategoryController::class, 'update'])->name('subcategory.update');
+Route::delete('/subcategory/{id}', [SubCategoryController::class, 'destroy'])
+     ->name('subcategory.destroy');
+
+
 
 Route::get('/metal-rates', [HomeController::class, 'metalrates'])->name('metal-rates');
 Route::post('/metal-rates', [MetalRateController::class, 'addmetalrates'])->name('metal-rates');
@@ -319,13 +345,18 @@ Route::put('/metal-rates/{id}', [MetalRateController::class, 'update'])->name('m
 Route::delete('/metal-rates/{id}', [MetalRateController::class, 'destroy'])
      ->name('metal-rates.destroy');
 
+    //  Route::get('inventory', [InventoryController::class, 'index']);
+Route::post('inventory/stock-in', [InventoryController::class, 'stockIn'])->name('inventory.stock.in');
+Route::post('inventory/stock-out', [InventoryController::class, 'stockOut'])->name('inventory.stock.out');
+Route::get('inventory-history/{id}', [InventoryController::class, 'history'])->name('inventory.history');
+
 
 
 Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');
 Route::get('/product-list', [HomeController::class, 'productlist'])->name('product-list');
 Route::get('/units', [HomeController::class, 'units'])->name('units');
 Route::get('/inventory-history', [HomeController::class, 'inventoryhistory'])->name('inventory-history');
-Route::get('/inventory', [HomeController::class, 'inventory'])->name('inventory');
+Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory');
 Route::get('/membership-addons', [HomeController::class, 'membershipaddons'])->name('membership-addons');
 Route::get('/membership-plans', [HomeController::class, 'membershipplans'])->name('membership-plans');
 Route::get('/subscribers', [HomeController::class, 'subscribers'])->name('subscribers');

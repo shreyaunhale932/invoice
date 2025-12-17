@@ -235,6 +235,13 @@
                             Metal Rates</a>
                     </li>
                     @endif
+                      @if (Route::is(['purity']))
+                    <li>
+                        <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal"
+                            data-bs-target="#add_purity"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add
+                           New Purity</a>
+                    </li>
+                    @endif
                     @if (Route::is(['units']))
                     <li>
                         <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal"
