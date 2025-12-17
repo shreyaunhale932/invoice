@@ -12,7 +12,10 @@ class InventoryTransaction extends Model
         'gross_weight',
         'unit',
         'remarks',
-        'admin_id'
+        'admin_id',
+        'quantity',
+        'final_fn_weight',
+        'net_weight'
     ];
 
     public function product()

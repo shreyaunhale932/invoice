@@ -34,6 +34,8 @@ class Product extends Model
         'gold_price',
         'mrp_price',
         'sale_price',
+        'final_fn_weight',
+        'quantity',
     ];
 
     // One product has many diamonds

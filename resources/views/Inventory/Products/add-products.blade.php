@@ -128,108 +128,100 @@
 
                             <div class="row">
 
-                                <!-- Metal Rate -->
-                                <div class="col-lg-4">
-                                    <label>Metal Rate</label>
-                                    <select name="metal_rate_id" id="metal_rate" class="form-control select" required>
-                                        <option value="">Select Metal Rate</option>
-                                        @foreach ($metalRates as $rate)
-                                            <option value="{{ $rate->id }}" data-price="{{ $rate->price_per_gram }}"
-                                                {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
-                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm -
-                                                {{ $rate->karat }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+    <!-- Metal Rate -->
+    <div class="col-lg-3 col-md-6">
+        <label>Metal Rate</label>
+        <select name="metal_rate_id" id="metal_rate" class="form-control select" required>
+            <option value="">Select Metal Rate</option>
+            @foreach ($metalRates as $rate)
+                <option value="{{ $rate->id }}" data-price="{{ $rate->price_per_gram }}"
+                    {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
+                    {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm - {{ $rate->karat }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <!-- Gold Color -->
+    <div class="col-lg-3 col-md-6">
+        <label>Gold Color</label>
+        <select class="form-control" name="gold_color">
+            <option value="">Select Gold Color</option>
+            <option value="Rose Gold" {{ old('gold_color', $product->gold_color ?? '') == 'Rose Gold' ? 'selected' : '' }}>Rose Gold</option>
+            <option value="Yellow Gold" {{ old('gold_color', $product->gold_color ?? '') == 'Yellow Gold' ? 'selected' : '' }}>Yellow Gold</option>
+            <option value="White Gold" {{ old('gold_color', $product->gold_color ?? '') == 'White Gold' ? 'selected' : '' }}>White Gold</option>
+        </select>
+    </div>
+
+    <!-- Quantity -->
+    <div class="col-lg-3 col-md-6">
+        <label>Quantity</label>
+        <input type="number" min="1" class="form-control"
+            name="quantity"
+            value="{{ old('quantity', $product->quantity ?? 1) }}">
+    </div>
+
+    <!-- HSN Code -->
+    <div class="col-lg-3 col-md-6">
+        <label>HSN Code</label>
+        <input type="text" class="form-control"
+            name="hsn_code"
+            value="{{ old('hsn_code', $product->hsn_code ?? '') }}">
+    </div>
+
+</div>
+
+<!-- ================= WEIGHT ROW ================= -->
+
+<div class="row mt-3">
+
+    <!-- Gross Weight (GS WT) -->
+    <div class="col-lg-4 col-md-4">
+        <label>Gross Weight (GS WT)</label>
+        <div class="input-group">
+            <input type="number" step="0.001" class="form-control"
+                name="gross_weight"
+                value="{{ old('gross_weight', $product->gross_weight ?? '') }}">
+
+            <select class="form-control"
+                name="gross_weight_unit"
+                style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                <option value="GM" {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>GM</option>
+                <option value="MG" {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>MG</option>
+                <option value="KG" {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>KG</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Net Weight -->
+    <div class="col-lg-4 col-md-4">
+        <label>Net Weight</label>
+        <div class="input-group">
+            <input type="number" step="0.001" class="form-control"
+                name="net_weight"
+                value="{{ old('net_weight', $product->net_weight ?? '') }}">
+
+            <select class="form-control"
+                name="net_weight_unit"
+                style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                <option value="GM" {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>GM</option>
+                <option value="MG" {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>MG</option>
+                <option value="KG" {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>KG</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Final Fine Weight -->
+    <div class="col-lg-4 col-md-4">
+        <label>Final Fine Weight</label>
+        <input type="number" step="0.001" class="form-control"
+            name="final_fn_weight"
+            value="{{ old('final_fn_weight', $product->final_fn_weight ?? '') }}">
+    </div>
+
+</div>
 
 
-                                </div>
-
-                                <!-- Gross Weight -->
-                                <div class="col-lg-4">
-                                    <label>Gross Weight</label>
-                                    <div class="input-group">
-                                        <input type="number" step="0.001" class="form-control" name="gross_weight"
-                                            value="{{ old('gross_weight', $product->gross_weight ?? '') }}">
-
-                                        <select class="form-control" name="gross_weight_unit"
-                                            style="max-width: 90px;pointer-events: none; background-color: #e9ecef;">
-                                            <option value="GM"
-                                                {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
-                                                GM
-                                            </option>
-                                            <option value="MG"
-                                                {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>
-                                                MG
-                                            </option>
-                                            <option value="KG"
-                                                {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>
-                                                KG
-                                            </option>
-                                        </select>
-
-                                    </div>
-                                </div>
-
-                                <!-- Net Weight -->
-                                <div class="col-lg-4">
-                                    <label>Net Weight</label>
-                                    <div class="input-group">
-                                        <input type="number" step="0.001" class="form-control" name="net_weight"
-                                            value="{{ old('net_weight', $product->net_weight ?? '') }}">
-
-                                        <select class="form-control" name="net_weight_unit"
-                                            style="max-width: 90px;pointer-events: none; background-color: #e9ecef;">
-                                            <option value="GM"
-                                                {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
-                                                GM
-                                            </option>
-                                            <option value="MG"
-                                                {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>
-                                                MG
-                                            </option>
-                                            <option value="KG"
-                                                {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>
-                                                KG
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                </div>
-
-                                <!-- HSN Code -->
-                                <div class="col-lg-4 mt-3">
-                                    <label>HSN Code</label>
-                                    <input type="text" class="form-control" name="hsn_code"
-                                        value="{{ old('hsn_code', $product->hsn_code ?? '') }}">
-
-                                </div>
-
-                                <!-- Gold Color -->
-                                <div class="col-lg-4 mt-3">
-                                    <label>Gold Color</label>
-                                    <select class="form-control" name="gold_color">
-                                        <option value="">Select Gold Color</option>
-
-                                        <option value="Rose Gold"
-                                            {{ old('gold_color', $product->gold_color ?? '') == 'Rose Gold' ? 'selected' : '' }}>
-                                            Rose Gold
-                                        </option>
-
-                                        <option value="Yellow Gold"
-                                            {{ old('gold_color', $product->gold_color ?? '') == 'Yellow Gold' ? 'selected' : '' }}>
-                                            Yellow Gold
-                                        </option>
-
-                                        <option value="White Gold"
-                                            {{ old('gold_color', $product->gold_color ?? '') == 'White Gold' ? 'selected' : '' }}>
-                                            White Gold
-                                        </option>
-                                    </select>
-
-                                </div>
-
-                            </div>
 
                         </div>
 
