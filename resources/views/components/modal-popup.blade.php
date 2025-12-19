@@ -3478,58 +3478,140 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Remove Stock</h4>
+                        <h4 class="mb-0">Remove dfsStock</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
                     </button>
                 </div>
-                <form action="#">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12">
-                                <div class="input-block mb-3">
-                                    <label>Name</label>
-                                    <input type="text" class="bg-white-smoke form-control"
-                                        placeholder="SEO Service">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="input-block mb-3">
-                                    <label>Quantity</label>
-                                    <input type="number" class="form-control" placeholder="0">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="input-block mb-0">
-                                    <label>Units</label>
-                                    <select class="select">
-                                        <option>Pieces</option>
-                                        <option>Inches</option>
-                                        <option>Kilograms</option>
-                                        <option>Inches</option>
-                                        <option>Box</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="input-block mb-0">
-                                    <label>Notes</label>
-                                    <textarea rows="3" cols="3" class="form-control" placeholder="Enter Notes"></textarea>
-                                </div>
-                            </div>
-                        </div>
+              <form method="POST" action="{{ route('inventory.stock.out') }}">
+    @csrf
+
+    <!-- Hidden Product -->
+    <input type="hidden" name="product_id" id="stockOutProduct">
+
+    <div class="modal-body">
+        <div class="row">
+
+            <!-- Product Name -->
+            <div class="col-lg-12">
+                <div class="input-block mb-3">
+                    <label>Product Name</label>
+                    <input type="text"
+                           id="stockOutProductName"
+                           class="bg-white-smoke form-control"
+                           readonly>
+                </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="col-lg-4">
+                <div class="input-block mb-3">
+                    <label>Quantity *</label>
+                    <input type="number"
+                           name="quantity"
+                           class="form-control"
+                           min="1"
+                           placeholder="Qty"
+                           required>
+                </div>
+            </div>
+
+            <!-- Gross Weight -->
+            <div class="col-lg-4">
+                <div class="input-block mb-3">
+                    <label>Gross Weight *</label>
+                    <div class="input-group">
+                        <input type="number"
+                               step="0.001"
+                               name="gross_weight"
+                               class="form-control"
+                               placeholder="0.000"
+                               required>
+
+                        <select name="gross_weight_unit"
+                                class="form-control"
+                                style="max-width:90px">
+                            <option value="GM">GM</option>
+                            <option value="MG">MG</option>
+                            <option value="KG">KG</option>
+                        </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" data-bs-dismiss="modal"
-                            class="btn btn-back cancel-btn me-2">Cancel</button>
-                        <button type="submit" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-continue-btn">Remove Quantity</button>
+                </div>
+            </div>
+
+            <!-- Net Weight -->
+            <div class="col-lg-4">
+                <div class="input-block mb-3">
+                    <label>Net Weight *</label>
+                    <div class="input-group">
+                        <input type="number"
+                               step="0.001"
+                               name="net_weight"
+                               class="form-control"
+                               placeholder="0.000"
+                               required>
+
+                        <select name="net_weight_unit"
+                                class="form-control"
+                                style="max-width:90px">
+                            <option value="GM">GM</option>
+                            <option value="MG">MG</option>
+                            <option value="KG">KG</option>
+                        </select>
                     </div>
-                </form>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="col-lg-12">
+                <div class="input-block mb-0">
+                    <label>Reason / Notes</label>
+                    <textarea name="remarks"
+                              rows="3"
+                              class="form-control"
+                              placeholder="Sale / Transfer / Adjustment"></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button"
+                data-bs-dismiss="modal"
+                class="btn btn-back cancel-btn me-2">
+            Cancel
+        </button>
+        <button type="submit"
+                class="btn btn-danger paid-continue-btn">
+            Stock Out
+        </button>
+    </div>
+</form>
+
             </div>
         </div>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.stockOutBtn').forEach(btn => {
+        btn.addEventListener('click', function () {
+
+            const productId   = this.dataset.productId;
+            const productName = this.dataset.productName;
+
+            document.getElementById('stockOutProduct').value = productId;
+            document.getElementById('stockOutProductName').value = productName;
+
+        });
+    });
+
+});
+</script>
+
+
     <!-- /Remove Stock Modal -->
 
     <!-- Delete Stock Modal -->

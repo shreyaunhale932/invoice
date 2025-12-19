@@ -4,6 +4,15 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <script src="{{ url('/public/assets/js/calculation.js') }}"></script>
+            <style>
+                .readonly-field {
+                    pointer-events: none;
+                    background-color: #e9ecef;
+                    cursor: not-allowed;
+                }
+            </style>
+
+
             <div class="card mb-0">
                 <div class="card-body">
 
@@ -50,8 +59,10 @@
                                 <!-- Product Code -->
                                 <div class="col-lg-4">
                                     <label>Product Code (SKU)</label>
-                                    <input type="text" class="form-control" name="product_code" id="product_code"
-                                        value="{{ old('product_code', $product->product_code ?? '') }}">
+                                    <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
+                                        name="product_code" value="{{ old('product_code', $product->product_code ?? '') }}"
+                                        {{ isset($product) ? 'readonly' : '' }}>
+
 
                                     <small id="productCodeMsg"></small>
                                     @error('product_code')
@@ -70,7 +81,7 @@
                                 <!-- Category -->
                                 <div class="col-lg-4 mt-3">
                                     <label>Category *</label>
-                                    <select name="category_id" class="form-control">
+                                    <select name="category_id" id="category_id" class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->category_id }}"
@@ -79,28 +90,23 @@
                                             </option>
                                         @endforeach
                                     </select>
-
-
                                 </div>
+
 
                                 <!-- Subcategory -->
                                 <div class="col-lg-4 mt-3">
-                                    <label>Subcategory</label>
-                                    {{-- @dd($subcategories, $product->subcategory_id) --}}
-
-                                    <select name="subcategory_id" class="form-control" required>
+                                    <label>Subcategory *</label>
+                                    <select name="subcategory_id" id="subcategory_id" class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
                                         <option value="">Select Subcategory</option>
-
                                         @foreach ($subcategories as $subcategory)
                                             <option value="{{ $subcategory->subcategory_id }}"
                                                 {{ old('subcategory_id', $product->subcategory_id ?? '') == $subcategory->subcategory_id ? 'selected' : '' }}>
                                                 {{ $subcategory->subcategory_name }}
                                             </option>
-                                        @endforeach
+                                        @endforeach>
                                     </select>
-
-
                                 </div>
+
 
                                 <!-- Purity -->
                                 <div class="col-lg-4 mt-3">
@@ -128,98 +134,110 @@
 
                             <div class="row">
 
-    <!-- Metal Rate -->
-    <div class="col-lg-3 col-md-6">
-        <label>Metal Rate</label>
-        <select name="metal_rate_id" id="metal_rate" class="form-control select" required>
-            <option value="">Select Metal Rate</option>
-            @foreach ($metalRates as $rate)
-                <option value="{{ $rate->id }}" data-price="{{ $rate->price_per_gram }}"
-                    {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
-                    {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm - {{ $rate->karat }}
-                </option>
-            @endforeach
-        </select>
-    </div>
+                                <!-- Metal Rate -->
+                                <div class="col-lg-3 col-md-6">
+                                    <label>Metal Rate</label>
+                                    <select name="metal_rate_id" id="metal_rate" class="form-control select" required>
+                                        <option value="">Select Metal Rate</option>
+                                        @foreach ($metalRates as $rate)
+                                            <option value="{{ $rate->id }}" data-price="{{ $rate->price_per_gram }}"
+                                                {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
+                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm -
+                                                {{ $rate->karat }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-    <!-- Gold Color -->
-    <div class="col-lg-3 col-md-6">
-        <label>Gold Color</label>
-        <select class="form-control" name="gold_color">
-            <option value="">Select Gold Color</option>
-            <option value="Rose Gold" {{ old('gold_color', $product->gold_color ?? '') == 'Rose Gold' ? 'selected' : '' }}>Rose Gold</option>
-            <option value="Yellow Gold" {{ old('gold_color', $product->gold_color ?? '') == 'Yellow Gold' ? 'selected' : '' }}>Yellow Gold</option>
-            <option value="White Gold" {{ old('gold_color', $product->gold_color ?? '') == 'White Gold' ? 'selected' : '' }}>White Gold</option>
-        </select>
-    </div>
+                                <!-- Gold Color -->
+                                <div class="col-lg-3 col-md-6">
+                                    <label>Gold Color</label>
+                                    <select class="form-control" name="gold_color">
+                                        <option value="">Select Gold Color</option>
+                                        <option value="Rose Gold"
+                                            {{ old('gold_color', $product->gold_color ?? '') == 'Rose Gold' ? 'selected' : '' }}>
+                                            Rose Gold</option>
+                                        <option value="Yellow Gold"
+                                            {{ old('gold_color', $product->gold_color ?? '') == 'Yellow Gold' ? 'selected' : '' }}>
+                                            Yellow Gold</option>
+                                        <option value="White Gold"
+                                            {{ old('gold_color', $product->gold_color ?? '') == 'White Gold' ? 'selected' : '' }}>
+                                            White Gold</option>
+                                    </select>
+                                </div>
 
-    <!-- Quantity -->
-    <div class="col-lg-3 col-md-6">
-        <label>Quantity</label>
-        <input type="number" min="1" class="form-control"
-            name="quantity"
-            value="{{ old('quantity', $product->quantity ?? 1) }}">
-    </div>
+                                <!-- Quantity -->
+                                <div class="col-lg-3 col-md-6">
+                                    <label>Quantity</label>
+                                    <input type="number" min="1" class="form-control" name="quantity"
+                                        value="{{ old('quantity', $product->quantity ?? 1) }}">
+                                </div>
 
-    <!-- HSN Code -->
-    <div class="col-lg-3 col-md-6">
-        <label>HSN Code</label>
-        <input type="text" class="form-control"
-            name="hsn_code"
-            value="{{ old('hsn_code', $product->hsn_code ?? '') }}">
-    </div>
+                                <!-- HSN Code -->
+                                <div class="col-lg-3 col-md-6">
+                                    <label>HSN Code</label>
+                                    <input type="text" class="form-control" name="hsn_code"
+                                        value="{{ old('hsn_code', $product->hsn_code ?? '') }}" required>
+                                </div>
 
-</div>
+                            </div>
 
-<!-- ================= WEIGHT ROW ================= -->
+                            <!-- ================= WEIGHT ROW ================= -->
 
-<div class="row mt-3">
+                            <div class="row mt-3">
 
-    <!-- Gross Weight (GS WT) -->
-    <div class="col-lg-4 col-md-4">
-        <label>Gross Weight (GS WT)</label>
-        <div class="input-group">
-            <input type="number" step="0.001" class="form-control"
-                name="gross_weight"
-                value="{{ old('gross_weight', $product->gross_weight ?? '') }}">
+                                <!-- Gross Weight (GS WT) -->
+                                <div class="col-lg-4 col-md-4">
+                                    <label>Gross Weight (GS WT)</label>
+                                    <div class="input-group">
+                                        <input type="number" step="0.001" class="form-control" name="gross_weight"
+                                            value="{{ old('gross_weight', $product->gross_weight ?? '') }}" required>
 
-            <select class="form-control"
-                name="gross_weight_unit"
-                style="max-width: 90px; pointer-events:none; background:#e9ecef;">
-                <option value="GM" {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>GM</option>
-                <option value="MG" {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>MG</option>
-                <option value="KG" {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>KG</option>
-            </select>
-        </div>
-    </div>
+                                        <select class="form-control" name="gross_weight_unit"
+                                            style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                                            <option value="GM"
+                                                {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
+                                                GM</option>
+                                            <option value="MG"
+                                                {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>
+                                                MG</option>
+                                            <option value="KG"
+                                                {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>
+                                                KG</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-    <!-- Net Weight -->
-    <div class="col-lg-4 col-md-4">
-        <label>Net Weight</label>
-        <div class="input-group">
-            <input type="number" step="0.001" class="form-control"
-                name="net_weight"
-                value="{{ old('net_weight', $product->net_weight ?? '') }}">
+                                <!-- Net Weight -->
+                                <div class="col-lg-4 col-md-4">
+                                    <label>Net Weight</label>
+                                    <div class="input-group">
+                                        <input type="number" step="0.001" class="form-control" name="net_weight"
+                                            value="{{ old('net_weight', $product->net_weight ?? '') }}" required>
 
-            <select class="form-control"
-                name="net_weight_unit"
-                style="max-width: 90px; pointer-events:none; background:#e9ecef;">
-                <option value="GM" {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>GM</option>
-                <option value="MG" {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>MG</option>
-                <option value="KG" {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>KG</option>
-            </select>
-        </div>
-    </div>
+                                        <select class="form-control" name="net_weight_unit"
+                                            style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                                            <option value="GM"
+                                                {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
+                                                GM</option>
+                                            <option value="MG"
+                                                {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>
+                                                MG</option>
+                                            <option value="KG"
+                                                {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>
+                                                KG</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-    <!-- Final Fine Weight -->
-    <div class="col-lg-4 col-md-4">
-        <label>Final Fine Weight</label>
-        <input type="number" step="0.001" class="form-control"
-            name="final_fn_weight"
-            value="{{ old('final_fn_weight', $product->final_fn_weight ?? '') }}">
-    </div>
+                                <!-- Final Fine Weight -->
+                                <div class="col-lg-4 col-md-4">
+                                    <label>Size</label>
+                                    <input type="text" step="" class="form-control" name="size"
+                                        value="{{ old('size', $product->size ?? '') }}">
+                                </div>
 
-</div>
+                            </div>
 
 
 
@@ -271,19 +289,22 @@
                                                 <div class="col-lg-3 mt-3">
                                                     <label>Diamond Weight (carat)</label>
                                                     <input type="text" name="diamond[diamond_weight][]"
-                                                        class="form-control" value="{{ $diamond->diamond_weight }}">
+                                                        class="form-control" value="{{ $diamond->diamond_weight }}"
+                                                        required>
                                                 </div>
 
                                                 <div class="col-lg-3 mt-3">
                                                     <label>Price Per Carat</label>
                                                     <input type="text" name="diamond[price_per_carat][]"
-                                                        class="form-control" value="{{ $diamond->price_per_carat }}">
+                                                        class="form-control" value="{{ $diamond->price_per_carat }}"
+                                                        required>
                                                 </div>
 
                                                 <div class="col-lg-3 mt-3">
                                                     <label>Final Price</label>
                                                     <input type="text" name="diamond[diamond_final_price][]"
-                                                        class="form-control" value="{{ $diamond->diamond_final_price }}">
+                                                        class="form-control" value="{{ $diamond->diamond_final_price }}"
+                                                        required>
                                                 </div>
                                             </div>
                                         </div>
@@ -313,25 +334,26 @@
                                                 <div class="col-lg-3">
                                                     <label>Stone Name</label>
                                                     <input type="text" name="stone[stone_name][]" class="form-control"
-                                                        value="{{ $stone->stone_name }}">
+                                                        value="{{ $stone->stone_name }}" required>
                                                 </div>
 
                                                 <div class="col-lg-3">
                                                     <label>Stone Weight</label>
                                                     <input type="text" name="stone[stone_weight][]"
-                                                        class="form-control" value="{{ $stone->stone_weight }}">
+                                                        class="form-control" value="{{ $stone->stone_weight }}" required>
                                                 </div>
 
                                                 <div class="col-lg-3">
                                                     <label>Stone Price</label>
                                                     <input type="text" name="stone[stone_price][]"
-                                                        class="form-control" value="{{ $stone->stone_price }}">
+                                                        class="form-control" value="{{ $stone->stone_price }}" required>
                                                 </div>
 
                                                 <div class="col-lg-3">
                                                     <label>Final Price</label>
                                                     <input type="text" name="stone[stone_final_price][]"
-                                                        class="form-control" value="{{ $stone->stone_final_price }}">
+                                                        class="form-control" value="{{ $stone->stone_final_price }}"
+                                                        required>
                                                 </div>
                                             </div>
                                         </div>
@@ -450,7 +472,7 @@
                                 <div class="col-lg-4 col-md-6 mb-3">
                                     <label>Gold Price</label>
                                     <input type="text" class="form-control" name="gold_price"
-                                        value="{{ old('gold_price', $product->gold_price ?? '') }}">
+                                        value="{{ old('gold_price', $product->gold_price ?? '') }}" required>
 
                                 </div>
 
@@ -585,6 +607,42 @@
                     }
                 }
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $('#category_id').on('change', function() {
+                let categoryId = $(this).val();
+
+                $('#subcategory_id').html('<option value="">Loading...</option>');
+
+                if (categoryId) {
+                    $.ajax({
+                        url: '{{ url('get-subcategories') }}/' + categoryId,
+
+                        type: 'GET',
+                        success: function(data) {
+                            $('#subcategory_id').html(
+                                '<option value="">Select Subcategory</option>');
+
+                            if (data.length > 0) {
+                                $.each(data, function(key, subcategory) {
+                                    $('#subcategory_id').append(
+                                        '<option value="' + subcategory
+                                        .subcategory_id + '">' +
+                                        subcategory.subcategory_name +
+                                        '</option>'
+                                    );
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    $('#subcategory_id').html('<option value="">Select Subcategory</option>');
+                }
+            });
+
         });
     </script>
 

@@ -336,6 +336,7 @@ Route::post('/subcategory', [SubCategoryController::class, 'addsubcategory'])->n
 Route::put('/subcategory{id}', [SubCategoryController::class, 'update'])->name('subcategory.update');
 Route::delete('/subcategory/{id}', [SubCategoryController::class, 'destroy'])
      ->name('subcategory.destroy');
+Route::get('/get-subcategories/{category_id}', [ProductController::class, 'getSubcategories']);
 
 
 

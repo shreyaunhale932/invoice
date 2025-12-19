@@ -36,6 +36,7 @@ class Product extends Model
         'sale_price',
         'final_fn_weight',
         'quantity',
+        'size',
     ];
 
     // One product has many diamonds

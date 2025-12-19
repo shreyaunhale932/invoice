@@ -4087,69 +4087,126 @@
                     </button>
                 </div>
                 <form method="POST" action="{{ route('inventory.stock.in') }}">
-                    @csrf
+    @csrf
 
-                    <!-- Hidden Product -->
-                    <input type="hidden" name="product_id" id="stockInProduct">
+    <!-- Hidden Product -->
+    <input type="hidden" name="product_id" id="stockInProduct">
 
-                    <div class="modal-body">
-                        <div class="row">
+    <div class="modal-body">
+        <div class="row">
 
-                            <!-- Product Name (readonly) -->
-                            <div class="col-lg-12">
-                                <div class="input-block mb-3">
-                                    <label>Product Name</label>
-                                    <input type="text" id="stockInProductName"
-                                        class="bg-white-smoke form-control" readonly>
-                                </div>
-                            </div>
+            <!-- Product Name -->
+            <div class="col-lg-12">
+                <div class="input-block mb-3">
+                    <label>Product Name</label>
+                    <input type="text" id="stockInProductName"
+                        class="bg-white-smoke form-control" readonly>
+                </div>
+            </div>
 
-                            <!-- Gross Weight -->
-                            <div class="col-lg-6">
-                                <div class="input-block mb-3">
-                                    <label>Gross Weight *</label>
-                                    <input type="number" step="0.001" name="quantity" class="form-control"
-                                        placeholder="0.000" required>
-                                </div>
-                            </div>
+            <!-- QTY + GROSS WT + NET WT (ONE ROW) -->
+            <div class="col-lg-4">
+                <div class="input-block mb-3">
+                    <label>Quantity *</label>
+                    <input type="number"
+                           name="quantity"
+                           class="form-control"
+                           min="1"
+                           placeholder="Qty"
+                           required>
+                </div>
+            </div>
 
-                            <!-- Unit -->
-                            <div class="col-lg-6">
-                                <div class="input-block mb-3">
-                                    <label>Unit *</label>
-                                    <select name="unit" class="form-control" required>
-                                        <option value="GM">GM</option>
-                                        <option value="MG">MG</option>
-                                        <option value="KG">KG</option>
-                                    </select>
-                                </div>
-                            </div>
+            <div class="col-lg-4">
+                <div class="input-block mb-3">
+                    <label>Gross Weight *</label>
+                    <div class="input-group">
+                        <input type="number"
+                               step="0.001"
+                               name="gross_weight"
+                               class="form-control"
+                               placeholder="0.000"
+                               required>
 
-                            <!-- Notes -->
-                            <div class="col-lg-12">
-                                <div class="input-block mb-0">
-                                    <label>Notes</label>
-                                    <textarea name="remarks" rows="3" class="form-control"
-                                        placeholder="Purchase / Manufacturing / Adjustment"></textarea>
-                                </div>
-                            </div>
-
-                        </div>
+                        <select name="gross_weight_unit"
+                                class="form-control"
+                                style="max-width: 90px;"
+                                required>
+                            <option value="GM">GM</option>
+                            <option value="MG">MG</option>
+                            <option value="KG">KG</option>
+                        </select>
                     </div>
+                </div>
+            </div>
 
-                    <div class="modal-footer">
-                        <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary paid-continue-btn">
-                            Add Stock
-                        </button>
+            <div class="col-lg-4">
+                <div class="input-block mb-3">
+                    <label>Net Weight *</label>
+                    <div class="input-group">
+                        <input type="number"
+                               step="0.001"
+                               name="net_weight"
+                               class="form-control"
+                               placeholder="0.000"
+                               required>
+
+                        <select name="net_weight_unit"
+                                class="form-control"
+                                style="max-width: 90px;"
+                                required>
+                            <option value="GM">GM</option>
+                            <option value="MG">MG</option>
+                            <option value="KG">KG</option>
+                        </select>
                     </div>
-                </form>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="col-lg-12">
+                <div class="input-block mb-0">
+                    <label>Notes</label>
+                    <textarea name="remarks"
+                              rows="3"
+                              class="form-control"
+                              placeholder="Purchase / Manufacturing / Adjustment"></textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" data-bs-dismiss="modal"
+            class="btn btn-back cancel-btn me-2">
+            Cancel
+        </button>
+        <button type="submit"
+            class="btn btn-primary paid-continue-btn">
+            Add Stock
+        </button>
+    </div>
+</form>
+
 
             </div>
         </div>
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.stockInBtn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const productId = this.getAttribute('data-product-id');
+            const productName = this.getAttribute('data-product-name');
+
+            document.getElementById('stockInProduct').value = productId;
+            document.getElementById('stockInProductName').value = productName;
+        });
+    });
+});
+</script>
+
     <!-- /Add Stock in Modal -->
 @endif
 @if (Route::is(['inventory-history']))

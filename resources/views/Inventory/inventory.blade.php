@@ -25,8 +25,9 @@
                                             <th>#</th>
                                             <th>Item</th>
                                             <th>Code</th>
-                                            <th>Gs Weight</th>
-                                            <th>Units</th>
+                                            <th>Qty</th>
+                                            <th>Gs Wt</th>
+                                            <th>Nt Wt</th>
                                             <th>Selling Price</th>
                                             <th>Purchase Price</th>
                                             <th class="no-sort">Action</th>
@@ -41,8 +42,19 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>{{ $product->product_code }}</td>
-                                                <td>{{ $availableGsWt }}</td>
-                                                <td>{{ $product->gross_weight_unit }}</td>
+                                                <td>
+                                                    {{ ($product->in_qty ?? 0) - ($product->out_qty ?? 0) }}
+                                                </td>
+
+                                                <td>
+                                                    {{ number_format(($product->in_gross ?? 0) - ($product->out_gross ?? 0), 3) }}
+                                                    GM
+                                                </td>
+
+                                                <td>
+                                                    {{ number_format(($product->in_net ?? 0) - ($product->out_net ?? 0), 3) }}
+                                                    GM
+                                                </td>
                                                 <td>{{ $product->sale_price }}</td>
                                                 <td>{{ $product->gold_price }}</td>
                                                 <td class="d-flex align-items-center">
@@ -52,15 +64,18 @@
                                                         <i class="far fa-eye me-1"></i> History
                                                     </a>
 
-                                                    <a href="#" class="btn btn-greys bg-success-light me-2"
+                                                    <a href="#" class="btn btn-greys bg-success-light me-2 stockInBtn"
                                                         data-bs-toggle="modal" data-bs-target="#stock_in"
-                                                        data-product="{{ $product->id }}">
+                                                        data-product-id="{{ $product->id }}"
+                                                        data-product-name="{{ $product->product_name }}">
                                                         <i class="fa fa-plus-circle me-1"></i> Stock In
                                                     </a>
 
-                                                    <a href="#" class="btn btn-greys bg-danger-light me-2"
+
+                                                    <a href="#" class="btn btn-greys bg-danger-light me-2 stockOutBtn"
                                                         data-bs-toggle="modal" data-bs-target="#stock_out"
-                                                        data-product="{{ $product->id }}">
+                                                        data-product-id="{{ $product->id }}"
+                                                         data-product-name="{{ $product->product_name }}">
                                                         <i class="fa fa-minus-circle me-1"></i> Stock Out
                                                     </a>
 

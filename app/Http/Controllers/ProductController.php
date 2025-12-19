@@ -48,6 +48,7 @@ class ProductController extends Controller
                 'sale_price' => $request->sale_price,
                 'quantity' =>  $request->quantity,
                 'final_fn_weight' =>  $request->final_fn_weight,
+                'size'     =>  $request->size,
             ]);
             if ($request->hasFile('image')) {
 
@@ -98,7 +99,6 @@ class ProductController extends Controller
                     ]);
                 }
             }
-            // ✅ INVENTORY TRANSACTION (STOCK IN)
             InventoryTransaction::create([
                 'admin_id'         => Auth::id(),
                 'product_id'       => $product->id,
@@ -107,7 +107,7 @@ class ProductController extends Controller
                 'net_weight'       => $request->net_weight,
                 'final_fn_weight'  => $request->final_fn_weight,
                 'quantity'         => $request->quantity,
-                'unit'             => 'GM', // or take from request if dynamic
+                'unit'             => 'GM',
                 'remarks'          => 'Initial stock added with product creation',
             ]);
         });
@@ -157,7 +157,6 @@ class ProductController extends Controller
     {
         DB::transaction(function () use ($request, $id) {
 
-            // 🔹 Update Product
             $product = Product::where('id', $id)
                 ->where('admin_id', Auth::id())
                 ->firstOrFail();
@@ -183,6 +182,7 @@ class ProductController extends Controller
                 'sale_price'        => $request->sale_price,
                 'quantity' =>  $request->quantity,
                 'final_fn_weight' =>  $request->final_fn_weight,
+                'size'     =>  $request->size,
             ]);
             if ($request->hasFile('image')) {
 
@@ -251,8 +251,7 @@ class ProductController extends Controller
             }
 
 
-            // ✅ INVENTORY TRANSACTION (UPDATE / ADJUSTMENT)
-            InventoryTransaction::create([
+           InventoryTransaction::create([
                 'admin_id'         => Auth::id(),
                 'product_id'       => $product->id,
                 'type'             => 'IN',
@@ -275,4 +274,11 @@ class ProductController extends Controller
         return redirect()->route('product-list')
             ->with('success', 'Product deleted successfully');
     }
+  public function getSubcategories($category_id)
+{
+    return Subcategory::where('category_id', $category_id)
+        ->select('subcategory_id', 'subcategory_name')
+        ->get();
+}
+
 }
