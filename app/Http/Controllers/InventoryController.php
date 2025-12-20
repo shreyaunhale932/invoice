@@ -121,5 +121,48 @@ public function history($id)
 
     return view('Inventory.inventory-history', compact('product', 'transactions'));
 }
+public function indexInventory(Request $request)
+{
+    $query = Product::with('category')
+        ->withSum([
+            'inventoryTransactions as in_qty' => fn ($q) => $q->where('type', 'IN')
+        ], 'quantity')
+        ->withSum([
+            'inventoryTransactions as out_qty' => fn ($q) => $q->where('type', 'OUT')
+        ], 'quantity')
+        ->withSum([
+            'inventoryTransactions as in_gross' => fn ($q) => $q->where('type', 'IN')
+        ], 'gross_weight')
+        ->withSum([
+            'inventoryTransactions as out_gross' => fn ($q) => $q->where('type', 'OUT')
+        ], 'gross_weight')
+        ->withSum([
+            'inventoryTransactions as in_net' => fn ($q) => $q->where('type', 'IN')
+        ], 'net_weight')
+        ->withSum([
+            'inventoryTransactions as out_net' => fn ($q) => $q->where('type', 'OUT')
+        ], 'net_weight');
+
+    // Product name search
+    if ($request->filled('product_name')) {
+        $query->where('product_name', 'LIKE', '%' . trim($request->product_name) . '%');
+    }
+
+    // Product code search
+    if ($request->filled('product_code')) {
+        $query->where('product_code', 'LIKE', '%' . trim($request->product_code) . '%');
+    }
+
+    // Category search
+    if ($request->filled('category_name')) {
+        $query->whereHas('category', function ($q) use ($request) {
+            $q->where('category_name', 'LIKE', '%' . trim($request->category_name) . '%');
+        });
+    }
+
+    $products = $query->get();
+
+    return view('Inventory.Inventory', compact('products'));
+}
 
 }

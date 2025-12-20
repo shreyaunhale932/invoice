@@ -340,7 +340,6 @@ Route::get('/get-subcategories/{category_id}', [ProductController::class, 'getSu
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 
-
 Route::get('/metal-rates', [HomeController::class, 'metalrates'])->name('metal-rates');
 Route::post('/metal-rates', [MetalRateController::class, 'addmetalrates'])->name('metal-rates');
 Route::put('/metal-rates/{id}', [MetalRateController::class, 'update'])->name('metal-rates.update');
@@ -351,6 +350,8 @@ Route::delete('/metal-rates/{id}', [MetalRateController::class, 'destroy'])
 Route::post('inventory/stock-in', [InventoryController::class, 'stockIn'])->name('inventory.stock.in');
 Route::post('inventory/stock-out', [InventoryController::class, 'stockOut'])->name('inventory.stock.out');
 Route::get('inventory-history/{id}', [InventoryController::class, 'history'])->name('inventory.history');
+
+Route::get('/inventories', [InventoryController::class, 'indexInventory'])->name('inventory.index');
 
 
 

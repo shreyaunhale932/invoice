@@ -76,7 +76,7 @@
                         <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Filter"><span class="me-2"><img
                                     src="{{ URL::asset('/public/assets/img/icons/filter-icon.svg') }}"
-                                    alt="filter"></span>Filterh
+                                    alt="filter"></span>Filter
                         </a>
                     </li>
                     @endif

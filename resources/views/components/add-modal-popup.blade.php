@@ -3186,7 +3186,7 @@
 
                     </button>
                 </div>
-         
+
 
                 <form id="purityForm" action="{{ route('purity.store') }}" method="POST">
                     @csrf
@@ -3715,7 +3715,7 @@
                 <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
             </div>
             <div class="sidebar-body">
-                 <form action="{{ route('products.index') }}" method="GET" autocomplete="off">
+                 <form action="{{ route('inventory.index') }}" method="GET" autocomplete="off">
 
                     <!-- Product -->
                     <div class="accordion" id="accordionMain1">
