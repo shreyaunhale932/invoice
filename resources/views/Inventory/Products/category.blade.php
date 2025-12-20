@@ -39,7 +39,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Category Name</th>
-                                           <th class="no-sort">Action</th>
+                                           {{-- <th class="no-sort">Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -49,7 +49,7 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                  <td>{{ $category->category_name }}</td>
                                                 </td>
-                                               <td class="d-flex align-items-center">
+                                               {{-- <td class="d-flex align-items-center">
                                                       <a href="javascript:void(0);"
                                                         class="btn-action-icon me-2 editCategoryBtn" data-bs-toggle="modal"
                                                         data-bs-target="#edit_category" data-id="{{ $category->category_id }}"
@@ -61,7 +61,7 @@
                                                         data-id="{{ $category->category_id }}">
                                                         <i class="fe fe-trash-2"></i>
                                                     </a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -17,6 +17,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
+                   @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
             <!-- Search Filter -->
             @component('components.search-filter')
             @endcomponent
@@ -37,7 +42,7 @@
                                             <th>#</th>
                                             <th>Purity</th>
                                             <th>Purity Type</th>
-                                            <th class="no-sort">Action</th>
+                                            {{-- <th class="no-sort">Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,7 +66,7 @@
                                                     {{ $purity->purity_type }}
                                                 </td>
 
-                                                <td class="d-flex align-items-center">
+                                                {{-- <td class="d-flex align-items-center">
 
                                                     <!-- Edit -->
                                                     <a href="javascript:void(0)" class="btn-action-icon me-2 editPurityBtn"
@@ -78,7 +83,7 @@
                                                         <i class="fe fe-trash-2"></i>
                                                     </a>
 
-                                                </td>
+                                                </td> --}}
 
                                             </tr>
                                         @endforeach

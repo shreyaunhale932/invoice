@@ -280,5 +280,35 @@ class ProductController extends Controller
         ->select('subcategory_id', 'subcategory_name')
         ->get();
 }
+public function index(Request $request)
+{
+
+    $query = Product::with('category');
+
+    // Product name search
+  if ($request->filled('product_name')) {
+    $query->where('product_name', $request->product_name);
+}
+
+
+    // Product code filter
+   if ($request->filled('product_code')) {
+    $query->where('product_code', 'LIKE', '%' . trim($request->product_code) . '%');
+}
+
+
+    // Category filter
+   if ($request->filled('category_name')) {
+    $query->whereHas('category', function ($q) use ($request) {
+        $q->where('category_name', 'LIKE', '%' . trim($request->category_name) . '%');
+    });
+}
+
+
+    $products = $query->get();
+
+    return view('Inventory/Products/product-list', compact('products'));
+}
+
 
 }

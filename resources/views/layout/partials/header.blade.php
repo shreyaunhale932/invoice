@@ -46,13 +46,33 @@
 
         <!-- Search -->
         <div class="top-nav-search">
-            <form>
-                <input type="text" class="form-control" placeholder="Search here">
-                <button class="btn" type="submit"><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
-                        alt="img"></button>
-            </form>
-        </div>
+    <form onsubmit="return false;">
+        <input type="text"
+               id="globalSearch"
+               class="form-control"
+               placeholder="Search here">
+        <button class="btn" type="button">
+            <img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}" alt="img">
+        </button>
+    </form>
+</div>
+
         <!-- /Search -->
+<script>
+$(document).ready(function () {
+    window.productsTable = $('#productsTable').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true
+    });
+});
+</script>
+<script>
+$('#globalSearch').on('keyup', function () {
+    productsTable.search(this.value).draw();
+});
+</script>
 
         <!-- Mobile Menu Toggle -->
         <a class="mobile_btn" id="mobile_btn">
