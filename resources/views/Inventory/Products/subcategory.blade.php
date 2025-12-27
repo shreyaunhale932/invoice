@@ -8,7 +8,7 @@
             <!-- Page Header -->
             @component('components.page-header')
                 @slot('title')
-                    Category
+                    Sub Category
                 @endslot
             @endcomponent
             <!-- /Page Header -->

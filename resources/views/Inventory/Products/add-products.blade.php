@@ -60,7 +60,7 @@
                                 <div class="col-lg-4">
                                     <label>Product Code (SKU)</label>
                                     <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
-                                        name="product_code" value="{{ old('product_code', $product->product_code ?? '') }}"
+                                        name="product_code" id="product_code" value="{{ old('product_code', $product->product_code ?? '') }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
 
 
@@ -74,8 +74,11 @@
                                 <!-- Barcode -->
                                 <div class="col-lg-4">
                                     <label>Barcode</label>
-                                    <input type="text" class="form-control" name="barcode"
+                                    <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="barcode"
                                         value="{{ old('barcode', $product->barcode ?? '') }}">
+                                         @error('barcode')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <!-- Category -->

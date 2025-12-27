@@ -24,6 +24,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         DB::transaction(function () use ($request) {
+            $request->validate([
+                'barcode' => 'nullable|unique:products,barcode'
+            ]);
 
             // Product
             $product = Product::create([
@@ -50,6 +53,27 @@ class ProductController extends Controller
                 'final_fn_weight' =>  $request->final_fn_weight,
                 'size'     =>  $request->size,
             ]);
+            if (empty($product->barcode)) {
+
+                $productCodePart = strtoupper(substr($product->product_code, 0, 3));
+                $purity          = $product->purity_id;
+                $productId       = str_pad($product->id, 4, '0', STR_PAD_LEFT);
+
+                do {
+                    $barcode = $productCodePart . '-' . $purity . '-' . $productId;
+                    $exists  = Product::where('barcode', $barcode)->exists();
+
+                    // edge case fallback
+                    $productId++;
+                } while ($exists);
+
+                $product->update([
+                    'barcode' => $barcode
+                ]);
+            }
+
+
+
             if ($request->hasFile('image')) {
 
                 $manager  = new ImageManager(new GdDriver());
@@ -251,7 +275,7 @@ class ProductController extends Controller
             }
 
 
-           InventoryTransaction::create([
+            InventoryTransaction::create([
                 'admin_id'         => Auth::id(),
                 'product_id'       => $product->id,
                 'type'             => 'IN',
@@ -274,41 +298,39 @@ class ProductController extends Controller
         return redirect()->route('product-list')
             ->with('success', 'Product deleted successfully');
     }
-  public function getSubcategories($category_id)
-{
-    return Subcategory::where('category_id', $category_id)
-        ->select('subcategory_id', 'subcategory_name')
-        ->get();
-}
-public function index(Request $request)
-{
+    public function getSubcategories($category_id)
+    {
+        return Subcategory::where('category_id', $category_id)
+            ->select('subcategory_id', 'subcategory_name')
+            ->get();
+    }
+    public function index(Request $request)
+    {
 
-    $query = Product::with('category');
+        $query = Product::with('category');
 
-    // Product name search
-  if ($request->filled('product_name')) {
-    $query->where('product_name', $request->product_name);
-}
-
-
-    // Product code filter
-   if ($request->filled('product_code')) {
-    $query->where('product_code', 'LIKE', '%' . trim($request->product_code) . '%');
-}
+        // Product name search
+        if ($request->filled('product_name')) {
+            $query->where('product_name', $request->product_name);
+        }
 
 
-    // Category filter
-   if ($request->filled('category_name')) {
-    $query->whereHas('category', function ($q) use ($request) {
-        $q->where('category_name', 'LIKE', '%' . trim($request->category_name) . '%');
-    });
-}
+        // Product code filter
+        if ($request->filled('product_code')) {
+            $query->where('product_code', 'LIKE', '%' . trim($request->product_code) . '%');
+        }
 
 
-    $products = $query->get();
+        // Category filter
+        if ($request->filled('category_name')) {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('category_name', 'LIKE', '%' . trim($request->category_name) . '%');
+            });
+        }
 
-    return view('Inventory/Products/product-list', compact('products'));
-}
 
+        $products = $query->get();
 
+        return view('Inventory/Products/product-list', compact('products'));
+    }
 }
