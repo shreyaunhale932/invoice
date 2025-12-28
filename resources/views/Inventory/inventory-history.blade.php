@@ -41,9 +41,29 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
 
-                                        <td>{{ $txn->product->product_name }}</td>
+                                        <td>
+                                            @if(isset($itemProduct))
+                                                {{ $itemProduct->product_name }}
+                                            @elseif($txn->itemProductData)
+                                                {{ $txn->itemProductData->product_name }}
+                                            @elseif($txn->product)
+                                                {{ $txn->product->product_name }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
 
-                                        <td>{{ $txn->product->product_code }}</td>
+                                        <td>
+                                            @if(isset($itemProduct))
+                                                {{ $itemProduct->product_code }}
+                                            @elseif($txn->itemProductData)
+                                                {{ $txn->itemProductData->product_code }}
+                                            @elseif($txn->product)
+                                                {{ $txn->product->pre_code ?? '' }}-{{ $txn->product->post_code ?? '' }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
 
                                         <td>
                                             @if ($txn->type === 'IN')
@@ -53,9 +73,9 @@
                                             @endif
                                         </td>
 
-                                        <td>{{ $txn->quantity }}</td>
-                                        <td>{{ $txn->gross_weight }}</td>
-                                        <td>{{ $txn->net_weight }}</td>
+                                        <td>{{ $txn->quantity ?? 0 }}</td>
+                                        <td>{{ number_format($txn->gross_weight ?? 0, 3) }}</td>
+                                        <td>{{ number_format($txn->net_weight ?? 0, 3) }}</td>
                                         {{-- <td>{{ $txn->final_fn_weight }}</td> --}}
 
                                         <td>{{ $txn->created_at->format('d-m-Y H:i') }}</td>

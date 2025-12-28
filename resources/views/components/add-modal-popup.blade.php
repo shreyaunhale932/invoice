@@ -3868,7 +3868,7 @@
     @csrf
 
     <!-- Hidden Product -->
-    <input type="hidden" name="product_id" id="stockInProduct">
+    <input type="hidden" name="item_product_data_id" id="stockInProduct">
 
     <div class="modal-body">
         <div class="row">

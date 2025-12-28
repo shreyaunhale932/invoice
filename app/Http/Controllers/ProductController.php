@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\DiamondDetail;
 use App\Models\StoneDetail;
+use App\Models\ItemProductData;
+use App\Models\ItemDiamondDetail;
+use App\Models\ItemProductStone;
 use Illuminate\Http\Request;
 use App\Models\MetalRate;
 use Intervention\Image\ImageManager;
@@ -23,16 +26,94 @@ class ProductController extends Controller
 {
     public function store(Request $request)
     {
+        // dd($request->all);
         DB::transaction(function () use ($request) {
             $request->validate([
-                'barcode' => 'nullable|unique:products,barcode'
+                'barcode'   => 'nullable|unique:products,barcode',
+                'pre_code'  => 'required|string',
+                'post_code' => 'required|string',
             ]);
+            
+            $preCode  = trim($request->pre_code);
+            $postCode = trim($request->post_code);
+            
+            /*
+            |--------------------------------------------------------------------------
+            | 1️⃣ Check if pre_code already exists in ItemProductData
+            |--------------------------------------------------------------------------
+            */
+            $itemProduct = ItemProductData::where('product_code', $preCode)->first();
+            
+            if ($itemProduct) {
+                return redirect()
+                    ->back()
+                    ->withErrors([
+                        'pre_code' => 'Invalid Pre Code. Item already exists.',
+                    ])
+                    ->withInput(); // ✅ keeps entered values
+            }
+            
+            /*
+            |--------------------------------------------------------------------------
+            | 2️⃣ Ensure post_code is unique for this pre_code
+            |--------------------------------------------------------------------------
+            */
+            $exists = Product::where('pre_code', $preCode)
+                ->where('post_code', $postCode)
+                ->exists();
+            
+            if ($exists) {
+                return redirect()
+                    ->back()
+                    ->withErrors([
+                        'post_code' => 'This Post Code already exists for the selected Pre Code.',
+                    ])
+                    ->withInput(); // ✅ keeps entered values
+            }
+            
+            
 
-            // Product
+            // Create or find item_product_data (shared data: product_name, pre_code, purity_id)
+            $itemProductData = ItemProductData::firstOrCreate(
+                [
+                    'product_code' => $request->pre_code,
+                    'product_name' => $request->product_name,
+                    'purity_id' => $request->purity_id,
+                ],
+                [
+                    'barcode' => $request->barcode,
+                    'category_id' => $request->category_id,
+                    'subcategory_id' => $request->subcategory_id,
+                    'metal_rate' => $request->metal_rate_id,
+                    'hsn_code' => $request->hsn_code,
+                    'gold_purity' => $request->gold_color,
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
+                    'diamond_weight' => $request->diamond_weight ?? 0,
+                    'stone_weight' => $request->stone_weight ?? 0,
+                    'wastage_percent' => $request->wastage_percent,
+                    'making_price' => $request->making_price,
+                    'gst_percent' => $request->gst_percent,
+                    'gst_amount' => $request->gst_amount,
+                    'gold_price' => $request->gold_price,
+                    'mrp_price' => $request->mrp_price,
+                ]
+            );
+
+            // Create Product linked to item_product_data
+            $oldProduct = Product::where('item_product_data_id', $itemProductData->id)->first();
+            if ($oldProduct) {
+                $postid = $oldProduct->post_code;
+                $postid ++;
+            }else {
+                $postid = $request->post_code;
+            }
             $product = Product::create([
                 'admin_id' => Auth::id(),
                 'product_name' => $request->product_name,
-                'product_code' => $request->product_code,
+                'item_product_data_id' => $itemProductData->id,
+                'pre_code' => $request->pre_code,
+                'post_code' => $request->post_code,
                 'barcode' => $request->barcode,
                 'category_id' => $request->category_id,
                 'subcategory_id' => $request->subcategory_id,
@@ -54,8 +135,7 @@ class ProductController extends Controller
                 'size'     =>  $request->size,
             ]);
             if (empty($product->barcode)) {
-
-                $productCodePart = strtoupper(substr($product->product_code, 0, 3));
+                $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
                 $purity          = $product->purity_id;
                 $productId       = str_pad($product->id, 4, '0', STR_PAD_LEFT);
 
@@ -90,13 +170,26 @@ class ProductController extends Controller
                 $product->save();
             }
             /* =======================
-           SAVE DIAMONDS
+           SAVE DIAMONDS (Product and Item)
         ======================== */
             if ($request->has('diamond.clarity')) {
                 foreach ($request->diamond['clarity'] as $index => $value) {
+                    // Create product diamond
                     DiamondDetail::create([
                         'admin_id' => Auth::id(),
                         'product_id' => $product->id,
+                        'clarity' => $request->diamond['clarity'][$index],
+                        'cut' => $request->diamond['cut'][$index],
+                        'color' => $request->diamond['color'][$index],
+                        'pieces' => $request->diamond['pieces'][$index],
+                        'diamond_weight' => $request->diamond['diamond_weight'][$index],
+                        'price_per_carat' => $request->diamond['price_per_carat'][$index],
+                        'diamond_final_price' => $request->diamond['diamond_final_price'][$index],
+                    ]);
+
+                    // Create item diamond
+                    ItemDiamondDetail::create([
+                        'item_product_data_id' => $itemProductData->id,
                         'clarity' => $request->diamond['clarity'][$index],
                         'cut' => $request->diamond['cut'][$index],
                         'color' => $request->diamond['color'][$index],
@@ -109,10 +202,11 @@ class ProductController extends Controller
             }
 
             /* =======================
-           SAVE STONES
+           SAVE STONES (Product and Item)
         ======================== */
             if ($request->has('stone.stone_name')) {
                 foreach ($request->stone['stone_name'] as $index => $value) {
+                    // Create product stone
                     StoneDetail::create([
                         'admin_id' => Auth::id(),
                         'product_id' => $product->id,
@@ -121,19 +215,32 @@ class ProductController extends Controller
                         'stone_price' => $request->stone['stone_price'][$index],
                         'stone_final_price' => $request->stone['stone_final_price'][$index],
                     ]);
+
+                    // Create item stone
+                    ItemProductStone::create([
+                        'item_product_data_id' => $itemProductData->id,
+                        'admin_id' => Auth::id(),
+                        'stone_name' => $request->stone['stone_name'][$index],
+                        'stone_weight' => $request->stone['stone_weight'][$index],
+                        'stone_price' => $request->stone['stone_price'][$index],
+                        'stone_final_price' => $request->stone['stone_final_price'][$index],
+                    ]);
                 }
             }
-            InventoryTransaction::create([
-                'admin_id'         => Auth::id(),
-                'product_id'       => $product->id,
-                'type'             => 'IN',
-                'gross_weight'     => $request->gross_weight,
-                'net_weight'       => $request->net_weight,
-                'final_fn_weight'  => $request->final_fn_weight,
-                'quantity'         => $request->quantity,
-                'unit'             => 'GM',
-                'remarks'          => 'Initial stock added with product creation',
-            ]);
+            // Create transaction using item_product_data_id
+            if ($product->item_product_data_id) {
+                InventoryTransaction::create([
+                    'admin_id'             => Auth::id(),
+                    'item_product_data_id' => $product->item_product_data_id,
+                    'type'                 => 'IN',
+                    'gross_weight'         => $request->gross_weight,
+                    'net_weight'           => $request->net_weight,
+                    'final_fn_weight'      => $request->final_fn_weight,
+                    'quantity'             => $request->quantity,
+                    'unit'                 => 'GM',
+                    'remarks'              => 'Initial stock added with product creation',
+                ]);
+            }
         });
 
         return redirect()->back()->with('success', 'Product added successfully');
@@ -275,17 +382,20 @@ class ProductController extends Controller
             }
 
 
-            InventoryTransaction::create([
-                'admin_id'         => Auth::id(),
-                'product_id'       => $product->id,
-                'type'             => 'IN',
-                'gross_weight'     => $request->gross_weight,
-                'net_weight'       => $request->net_weight,
-                'final_fn_weight'  => $request->final_fn_weight,
-                'quantity'         => $request->quantity,
-                'unit'             => 'GM',
-                'remarks'          => 'Product updated',
-            ]);
+            // Create transaction using item_product_data_id
+            if ($product->item_product_data_id) {
+                InventoryTransaction::create([
+                    'admin_id'             => Auth::id(),
+                    'item_product_data_id' => $product->item_product_data_id,
+                    'type'                 => 'IN',
+                    'gross_weight'         => $request->gross_weight,
+                    'net_weight'           => $request->net_weight,
+                    'final_fn_weight'      => $request->final_fn_weight,
+                    'quantity'             => $request->quantity,
+                    'unit'                 => 'GM',
+                    'remarks'              => 'Product updated',
+                ]);
+            }
         });
 
         return redirect()->back()->with('success', 'Product Updated successfully');

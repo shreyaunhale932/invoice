@@ -58,19 +58,34 @@
 
                                 <!-- Product Code -->
                                 <div class="col-lg-4">
-                                    <label>Product Code (SKU)</label>
+                                    <label>Pre Code</label>
                                     <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
-                                        name="product_code" id="product_code" value="{{ old('product_code', $product->product_code ?? '') }}"
+                                        name="pre_code" id="pre_code" value="{{ old('pre_code', $product->pre_code ?? '') }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
 
 
                                     <small id="productCodeMsg"></small>
-                                    @error('product_code')
+                                    @error('pre_code')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
 
                                 </div>
-
+                                <div class="col-lg-4">
+                                    <label>Post Code</label>
+                                    <input type="text"
+                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
+                                        name="post_code"
+                                        id="post_code"
+                                        value="{{ old('post_code', $product->post_code ?? 1) }}"
+                                        {{ isset($product) ? 'readonly' : '' }}>
+                                        
+                                    @error('post_code')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                
+                                
+                        
                                 <!-- Barcode -->
                                 <div class="col-lg-4">
                                     <label>Barcode</label>

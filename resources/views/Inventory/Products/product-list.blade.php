@@ -60,7 +60,7 @@
                                                                 href="{{ url('profile') }}">{{ $product['product_name'] }}</a>
                                                         </h2>
                                                     </td>
-                                                    <td>{{ $product['product_code'] }}</td>
+                                                    <td>{{ $product['pre_code'] . '-' . $product['post_code']}}</td>
                                                     <td>
                                                         {{ $product->category->category_name ?? '-' }}
                                                     </td>

@@ -14,8 +14,11 @@ class Product extends Model
 
     protected $fillable = [
         'admin_id',
+        'item_product_data_id',
         'product_name',
         'product_code',
+        'pre_code',
+        'post_code',
         'barcode',
         'category_id',
         'gold_color',
@@ -83,5 +86,9 @@ class Product extends Model
     return $this->hasMany(InventoryTransaction::class);
 }
 
+    public function itemProductData()
+    {
+        return $this->belongsTo(ItemProductData::class, 'item_product_data_id');
+    }
 
 }

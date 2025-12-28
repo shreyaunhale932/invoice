@@ -3478,7 +3478,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Remove dfsStock</h4>
+                        <h4 class="mb-0">Remove Stock</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -3487,14 +3487,27 @@
               <form method="POST" action="{{ route('inventory.stock.out') }}">
     @csrf
 
-    <!-- Hidden Product -->
+    <!-- Hidden Fields -->
     <input type="hidden" name="product_id" id="stockOutProduct">
+    <input type="hidden" name="item_product_data_id" id="stockOutItemProductDataId">
+    <input type="hidden" name="selected_product_id" id="selectedProductId">
 
     <div class="modal-body">
         <div class="row">
 
-            <!-- Product Name -->
-            <div class="col-lg-12">
+            <!-- Product Selection (for Item Product Data) -->
+            <div class="col-lg-12" id="productSelectContainer" style="display: none;">
+                <div class="input-block mb-3">
+                    <label>Select Product *</label>
+                    <select name="selected_product_id" id="productSelect" class="form-control select" required>
+                        <option value="">-- Select Product --</option>
+                    </select>
+                    <small class="text-muted" id="productInfo"></small>
+                </div>
+            </div>
+
+            <!-- Product Name (for regular products) -->
+            <div class="col-lg-12" id="productNameContainer">
                 <div class="input-block mb-3">
                     <label>Product Name</label>
                     <input type="text"
@@ -3504,7 +3517,7 @@
                 </div>
             </div>
 
-            <!-- Quantity -->
+            {{-- <!-- Quantity -->
             <div class="col-lg-4">
                 <div class="input-block mb-3">
                     <label>Quantity *</label>
@@ -3572,7 +3585,7 @@
                               class="form-control"
                               placeholder="Sale / Transfer / Adjustment"></textarea>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>
@@ -3598,15 +3611,81 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.stockOutBtn').forEach(btn => {
         btn.addEventListener('click', function () {
-
-            const productId   = this.dataset.productId;
+            const productId = this.dataset.productId;
             const productName = this.dataset.productName;
+            const itemProductDataId = this.dataset.itemProductDataId;
 
-            document.getElementById('stockOutProduct').value = productId;
-            document.getElementById('stockOutProductName').value = productName;
+            // Reset form
+            document.getElementById('stockOutProduct').value = productId || '';
+            document.getElementById('stockOutItemProductDataId').value = itemProductDataId || '';
+            document.getElementById('selectedProductId').value = '';
+            document.getElementById('productSelect').value = '';
+            document.getElementById('productInfo').textContent = '';
 
+            // If item_product_data_id exists, show product select and load products
+            if (itemProductDataId) {
+                document.getElementById('productSelectContainer').style.display = 'block';
+                document.getElementById('productNameContainer').style.display = 'none';
+                document.getElementById('productSelect').required = true;
+                
+                // Load products for this item
+                loadProductsForItem(itemProductDataId);
+            } else {
+                // Regular product
+                document.getElementById('productSelectContainer').style.display = 'none';
+                document.getElementById('productNameContainer').style.display = 'block';
+                document.getElementById('stockOutProductName').value = productName;
+                document.getElementById('productSelect').required = false;
+            }
         });
     });
+
+    // Load products when product is selected
+    document.getElementById('productSelect')?.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.value) {
+            const productData = JSON.parse(selectedOption.dataset.product || '{}');
+            document.getElementById('selectedProductId').value = selectedOption.value;
+            
+            // Show product info
+            let info = `Qty: ${productData.quantity || 0} | `;
+            info += `Gross Wt: ${productData.gross_weight || 0} GM | `;
+            info += `Net Wt: ${productData.net_weight || 0} GM`;
+            if (productData.barcode) {
+                info += ` | Barcode: ${productData.barcode}`;
+            }
+            document.getElementById('productInfo').textContent = info;
+        } else {
+            document.getElementById('selectedProductId').value = '';
+            document.getElementById('productInfo').textContent = '';
+        }
+    });
+
+    function loadProductsForItem(itemId) {
+        fetch(`/invoice/inventory/item-products/${itemId}`)
+            .then(response => response.json())
+            .then(products => {
+                const select = document.getElementById('productSelect');
+                select.innerHTML = '<option value="">-- Select Product --</option>';
+                
+                if (products.length === 0) {
+                    select.innerHTML = '<option value="">No products available</option>';
+                    return;
+                }
+                
+                products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = `${product.code} - ${product.name}`;
+                    option.dataset.product = JSON.stringify(product);
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading products:', error);
+                document.getElementById('productSelect').innerHTML = '<option value="">Error loading products</option>';
+            });
+    }
 
 });
 </script>

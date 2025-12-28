@@ -74,8 +74,9 @@
 
                                                     <a href="#" class="btn btn-greys bg-danger-light me-2 stockOutBtn"
                                                         data-bs-toggle="modal" data-bs-target="#stock_out"
-                                                        data-product-id="{{ $product->id }}"
-                                                         data-product-name="{{ $product->product_name }}">
+                                                        data-product-id=""
+                                                        data-item-product-data-id="{{ $product->id }}"
+                                                        data-product-name="{{ $product->product_name }}">
                                                         <i class="fa fa-minus-circle me-1"></i> Stock Out
                                                     </a>
 

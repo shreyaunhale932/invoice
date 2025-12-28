@@ -349,6 +349,7 @@ Route::delete('/metal-rates/{id}', [MetalRateController::class, 'destroy'])
     //  Route::get('inventory', [InventoryController::class, 'index']);
 Route::post('inventory/stock-in', [InventoryController::class, 'stockIn'])->name('inventory.stock.in');
 Route::post('inventory/stock-out', [InventoryController::class, 'stockOut'])->name('inventory.stock.out');
+Route::get('inventory/item-products/{itemId}', [InventoryController::class, 'getProductsForItem'])->name('inventory.item.products');
 Route::get('inventory-history/{id}', [InventoryController::class, 'history'])->name('inventory.history');
 
 Route::get('/inventories', [InventoryController::class, 'indexInventory'])->name('inventory.index');
