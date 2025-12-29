@@ -26,6 +26,7 @@ class ItemProductData extends Model
         'making_price',
         'gst_percent',
         'gst_amount',
+        'sale_price',
         'gold_price',
         'mrp_price',
     ];

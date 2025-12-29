@@ -38,7 +38,7 @@ class InventoryController extends Controller
         ->get()
         ->map(function ($item) {
             // Add sale_price - use mrp_price as sale_price for ItemProductData
-            $item->sale_price = $item->mrp_price ?? 0;
+            $item->sale_price = $item->sale_price ?? 0;
             return $item;
         });
 
@@ -48,7 +48,7 @@ class InventoryController extends Controller
 public function stockIn(Request $request)
 {
     // Validate that at least one ID is provided
-    
+
     $request->validate([
         'product_id'           => 'nullable|exists:products,id',
         'item_product_data_id' => 'nullable|exists:item_product_data,id',
@@ -82,24 +82,25 @@ public function stockIn(Request $request)
         // Handle regular product
         if ($request->product_id) {
             $product = Product::lockForUpdate()->findOrFail($request->product_id);
-            
+
             // Get item_product_data_id from product
             if ($product->item_product_data_id) {
                 $itemProduct = ItemProductData::with(['diamonds', 'stones'])->lockForUpdate()->findOrFail($product->item_product_data_id);
-                
+
                 // Generate unique post_code for this product instance
                 $preCode = $request->pre_code ?? substr($itemProduct->product_code, 0, strpos($itemProduct->product_code, '-') ?: strlen($itemProduct->product_code));
                 $lastProduct = Product::where('item_product_data_id', $itemProduct->id)
                     ->where('pre_code', $preCode)
                     ->orderBy('id', 'desc')
                     ->first();
-                
+
                 $postCode = $request->post_code ?? ($lastProduct ? (intval($lastProduct->post_code) + 1) : 1);
-                
+
                 // Ensure post_code is unique for this pre_code
                 while (Product::where('item_product_data_id', $itemProduct->id)
                     ->where('pre_code', $preCode)
                     ->where('post_code', $postCode)
+                    ->withTrashed()
                     ->exists()) {
                     $postCode++;
                 }
@@ -125,6 +126,7 @@ public function stockIn(Request $request)
                     'gold_price' => $itemProduct->gold_price,
                     'gst_percent' => $itemProduct->gst_percent,
                     'gst_amount' => $itemProduct->gst_amount,
+                    'sale_price' => $itemProduct->sale_price,
                     'mrp_price' => $itemProduct->mrp_price,
                     'quantity' => $request->quantity,
                     'final_fn_weight' => $request->final_fn_weight ?? 0,
@@ -159,6 +161,7 @@ public function stockIn(Request $request)
 
                 // Create inventory transaction using item_product_data_id
                 $transactionData['item_product_data_id'] = $itemProduct->id;
+                $transactionData['product_id'] = $newProduct->id;
                 InventoryTransaction::create($transactionData);
 
                 // Update product quantity
@@ -174,20 +177,21 @@ public function stockIn(Request $request)
         // Handle item product data - Create new product entry from item_product_data
         elseif ($request->item_product_data_id) {
             $itemProduct = ItemProductData::with(['diamonds', 'stones'])->lockForUpdate()->findOrFail($request->item_product_data_id);
-            
+
             // Generate unique post_code for this product instance
             $preCode = $request->pre_code ?? substr($itemProduct->product_code, 0, strpos($itemProduct->product_code, '-') ?: strlen($itemProduct->product_code));
             $lastProduct = Product::where('item_product_data_id', $itemProduct->id)
                 ->where('pre_code', $preCode)
                 ->orderBy('id', 'desc')
                 ->first();
-            
+
             $postCode = $request->post_code ?? ($lastProduct ? (intval($lastProduct->post_code) + 1) : 1);
-            
+
             // Ensure post_code is unique for this pre_code
             while (Product::where('item_product_data_id', $itemProduct->id)
                 ->where('pre_code', $preCode)
                 ->where('post_code', $postCode)
+                ->withTrashed()
                 ->exists()) {
                 $postCode++;
             }
@@ -213,6 +217,7 @@ public function stockIn(Request $request)
                 'gold_price' => $itemProduct->gold_price,
                 'gst_percent' => $itemProduct->gst_percent,
                 'gst_amount' => $itemProduct->gst_amount,
+                'sale_price' => $itemProduct->sale_price,
                 'mrp_price' => $itemProduct->mrp_price,
                 'quantity' => $request->quantity,
                 'final_fn_weight' => $request->final_fn_weight ?? 0,
@@ -264,6 +269,7 @@ public function stockIn(Request $request)
 
             // Create inventory transaction using item_product_data_id
             $transactionData['item_product_data_id'] = $itemProduct->id;
+            $transactionData['product_id'] = $newProduct->id;
             InventoryTransaction::create($transactionData);
 
             // Update product quantity
@@ -296,7 +302,7 @@ public function stockOut(Request $request)
         'item_diamond_id'      => 'nullable|exists:item_diamond_details,diamond_id',
         'item_stone_id'        => 'nullable|exists:item_product_stones,stone_id',
     ]);
-    
+
     // Ensure at least one ID is provided
     if (!$request->product_id && !$request->item_product_data_id && !$request->item_diamond_id && !$request->item_stone_id) {
         return back()->withErrors(['error' => 'Please select a product, item product, item diamond, or item stone.']);
@@ -345,16 +351,16 @@ public function stockOut(Request $request)
             if (!$request->selected_product_id) {
                 throw new \Exception('Please select a product to stock out');
             }
-            
+
             $selectedProduct = Product::lockForUpdate()->findOrFail($request->selected_product_id);
             // dd($selectedProduct);
             $itemProduct = ItemProductData::lockForUpdate()->findOrFail($selectedProduct->item_product_data_id);
-            
+
             // Verify product belongs to this item_product_data
             if ($selectedProduct->item_product_data_id != $itemProduct->id) {
                 throw new \Exception('Selected product does not belong to this item');
             }
-            
+
             // Verify sufficient stock
             // if (
             //     ($selectedProduct->quantity ?? 0) < $request->quantity ||
@@ -363,7 +369,7 @@ public function stockOut(Request $request)
             // ) {
             //     throw new \Exception('Insufficient stock in selected product');
             // }
-            
+
             // Create transaction using item_product_data_id
             $transactionData = [
                 'type'         => 'OUT',
@@ -376,7 +382,7 @@ public function stockOut(Request $request)
             ];
             $transactionData['item_product_data_id'] = $itemProduct->id;
             InventoryTransaction::create($transactionData);
-            
+
             // Soft delete the product
             $itemProduct->gross_weight = max(0, ($itemProduct->gross_weight ?? 0) - $selectedProduct->gross_weight);
             $itemProduct->net_weight = max(0, ($itemProduct->net_weight ?? 0) - $selectedProduct->net_weight );
@@ -384,9 +390,9 @@ public function stockOut(Request $request)
             $itemProduct->save();
 
             $selectedProduct->delete();
-            
+
             // Update item_product_data totals
-           
+
         }
         // Handle item diamond
         elseif ($request->item_diamond_id) {
@@ -405,7 +411,7 @@ public function stockOut(Request $request)
 
 public function getProductsForItem($itemId)
 {
-    
+
     $itemProduct = ItemProductData::findOrFail($itemId);
     $products = Product::where('item_product_data_id', $itemId)
         ->whereNull('deleted_at') // Only non-deleted products
@@ -422,37 +428,37 @@ public function getProductsForItem($itemId)
                 'barcode' => $product->barcode,
             ];
         });
-    
+
     return response()->json($products);
 }
 public function history($id)
 {
     // Try to find as ItemProductData first
     $itemProduct = ItemProductData::find($id);
-    
+
     if ($itemProduct) {
         // Get all transactions for this item_product_data
         $transactions = InventoryTransaction::with(['product', 'itemProductData', 'itemDiamond', 'itemStone'])
             ->where('item_product_data_id', $id)
             ->orderBy('created_at', 'desc')
             ->get();
-        
+
         return view('Inventory.inventory-history', compact('itemProduct', 'transactions'));
     }
-    
+
     // Fallback to Product - get its item_product_data_id and show those transactions
     $product = Product::findOrFail($id);
-    
+
     if ($product->item_product_data_id) {
         $itemProduct = ItemProductData::find($product->item_product_data_id);
         $transactions = InventoryTransaction::with(['product', 'itemProductData'])
             ->where('item_product_data_id', $product->item_product_data_id)
             ->orderBy('created_at', 'desc')
             ->get();
-        
+
         return view('Inventory.inventory-history', compact('itemProduct', 'transactions'));
     }
-    
+
     // Product without item_product_data_id (legacy)
     $transactions = collect();
     return view('Inventory.inventory-history', compact('product', 'transactions'));
