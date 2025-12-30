@@ -17,7 +17,7 @@
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@dreamstechnologies">
+    {{-- <meta name="twitter:site" content="@dreamstechnologies">
     <meta name="twitter:title" content="Finance & Accounting Admin Website Templates | Kanakku">
     <meta name="twitter:description"
         content="Kanakku is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
@@ -33,7 +33,7 @@
     <meta property="og:image:secure_url" content="/public/assets/img/kanakku.jpg">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="600">
+    <meta property="og:image:height" content="600"> --}}
     <title>Sirsonite Solutions Pvt Ltd</title>
 
     <!-- Favicon -->

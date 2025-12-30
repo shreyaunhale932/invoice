@@ -4,6 +4,7 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <script src="{{ url('/public/assets/js/calculation.js') }}"></script>
+            <script src="{{ url('/public/assets/js/functions.js') }}"></script>
             <style>
                 .readonly-field {
                     pointer-events: none;
@@ -60,7 +61,8 @@
                                 <div class="col-lg-4">
                                     <label>Pre Code</label>
                                     <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
-                                        name="pre_code" id="pre_code" value="{{ old('pre_code', $product->pre_code ?? '') }}"
+                                        name="pre_code" id="pre_code"
+                                        value="{{ old('pre_code', $product->pre_code ?? '') }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
 
 
@@ -73,25 +75,24 @@
                                 <div class="col-lg-4">
                                     <label>Post Code</label>
                                     <input type="text"
-                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
-                                        name="post_code"
-                                        id="post_code"
-                                        value="{{ old('post_code', $product->post_code ?? 1) }}"
+                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="post_code"
+                                        id="post_code" value="{{ old('post_code', $product->post_code ?? 1) }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
-                                        
+
                                     @error('post_code')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                
-                                
-                        
+
+
+
                                 <!-- Barcode -->
                                 <div class="col-lg-4">
                                     <label>Barcode</label>
-                                    <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="barcode"
+                                    <input type="text"
+                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="barcode"
                                         value="{{ old('barcode', $product->barcode ?? '') }}">
-                                         @error('barcode')
+                                    @error('barcode')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -99,22 +100,26 @@
                                 <!-- Category -->
                                 <div class="col-lg-4 mt-3">
                                     <label>Category *</label>
-                                    <select name="category_id" id="category_id" class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
+                                    <select name="category_id" id="category_id"
+                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->category_id }}"
+                                                data-metal="{{ strtolower($category->category_name) }}"
                                                 {{ old('category_id', $product->category_id ?? '') == $category->category_id ? 'selected' : '' }}>
                                                 {{ $category->category_name }}
                                             </option>
                                         @endforeach
                                     </select>
+
                                 </div>
 
 
                                 <!-- Subcategory -->
                                 <div class="col-lg-4 mt-3">
                                     <label>Subcategory *</label>
-                                    <select name="subcategory_id" id="subcategory_id" class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
+                                    <select name="subcategory_id" id="subcategory_id"
+                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
                                         <option value="">Select Subcategory</option>
                                         @foreach ($subcategories as $subcategory)
                                             <option value="{{ $subcategory->subcategory_id }}"
@@ -155,16 +160,32 @@
                                 <!-- Metal Rate -->
                                 <div class="col-lg-3 col-md-6">
                                     <label>Metal Rate</label>
-                                    <select name="metal_rate_id" id="metal_rate" class="form-control select" required>
+                                    {{-- <select name="metal_rate_id" id="metal_rate" class="form-control select" required>
                                         <option value="">Select Metal Rate</option>
                                         @foreach ($metalRates as $rate)
-                                            <option value="{{ $rate->id }}" data-price="{{ $rate->price_per_gram }}"
+                                            <option value="{{ $rate->id }}" data-price="{{ $rate->price_per_gram }}"  data-metal="{{ strtolower($rate->metal_type) }}"
                                                 {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
                                                 {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm -
                                                 {{ $rate->karat }}
                                             </option>
                                         @endforeach
+                                    </select> --}}
+                                    <select name="metal_rate_id" id="metal_rate" class="form-control" required>
+                                        {{-- {{ $product->metal_rate }} --}}
+                                        <option value="">Select Metal Rate</option>
+
+                                        @foreach ($metalRates as $rate)
+                                            {{-- {{  $rate->id }} --}}
+                                            <option value="{{ $rate->id }}"
+                                                data-metal="{{ strtolower($rate->metal_type) }}"
+                                                data-price="{{ $rate->price_per_gram }}"
+                                                {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
+                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm
+                                            </option>
+                                        @endforeach
                                     </select>
+
+
                                 </div>
 
                                 <!-- Gold Color -->
@@ -261,6 +282,69 @@
 
                         </div>
 
+
+
+                        <!-- PRICING -->
+                        <div class="form-group-item mt-4">
+                            <h5 class="form-title">Pricing</h5>
+
+                            <div class="row">
+
+                                <!-- Row 1 -->
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>Wastage %</label>
+                                    <input type="text" class="form-control" name="wastage_percent"
+                                        value="{{ old('wastage_percent', $product->wastage_percent ?? '') }}">
+
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>Making Price</label>
+                                    <input type="text" class="form-control" name="making_price"
+                                        value="{{ old('making_price', $product->making_price ?? '') }}">
+
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>Gold Price</label>
+                                    <input type="text" class="form-control" name="gold_price"
+                                        value="{{ old('gold_price', $product->gold_price ?? '') }}" required>
+
+                                </div>
+
+                                <!-- Row 2 -->
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>Sale Price</label>
+                                    <input type="text" class="form-control" name="sale_price"
+                                        value="{{ old('sale_price', $product->sale_price ?? '') }}">
+
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>GST %</label>
+                                    <input type="text" class="form-control" name="gst_percent"
+                                        value="{{ old('gst_percent', $product->gst_percent ?? '') }}">
+
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>GST Amount</label>
+                                    <input type="text" class="form-control" name="gst_amount"
+                                        value="{{ old('gst_amount', $product->gst_amount ?? '') }}">
+
+                                </div>
+
+                                <!-- Row 3 -->
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>MRP Price</label>
+                                    <input type="text" class="form-control" name="mrp_price"
+                                        value="{{ old('mrp_price', $product->mrp_price ?? '') }}">
+
+                                </div>
+
+                            </div>
+
+                        </div>
                         <!-- DIAMOND & STONES -->
                         <div class="form-group-item mt-4">
                             <h5 class="form-title">Diamonds & Stones</h5>
@@ -465,69 +549,6 @@
                             <div id="stoneList" class="mt-3"></div>
 
                         </div>
-
-                        <!-- PRICING -->
-                        <div class="form-group-item mt-4">
-                            <h5 class="form-title">Pricing</h5>
-
-                            <div class="row">
-
-                                <!-- Row 1 -->
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <label>Wastage %</label>
-                                    <input type="text" class="form-control" name="wastage_percent"
-                                        value="{{ old('wastage_percent', $product->wastage_percent ?? '') }}">
-
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <label>Making Price</label>
-                                    <input type="text" class="form-control" name="making_price"
-                                        value="{{ old('making_price', $product->making_price ?? '') }}">
-
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <label>Gold Price</label>
-                                    <input type="text" class="form-control" name="gold_price"
-                                        value="{{ old('gold_price', $product->gold_price ?? '') }}" required>
-
-                                </div>
-
-                                <!-- Row 2 -->
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <label>Sale Price</label>
-                                    <input type="text" class="form-control" name="sale_price"
-                                        value="{{ old('sale_price', $product->sale_price ?? '') }}">
-
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <label>GST %</label>
-                                    <input type="text" class="form-control" name="gst_percent"
-                                        value="{{ old('gst_percent', $product->gst_percent ?? '') }}">
-
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <label>GST Amount</label>
-                                    <input type="text" class="form-control" name="gst_amount"
-                                        value="{{ old('gst_amount', $product->gst_amount ?? '') }}">
-
-                                </div>
-
-                                <!-- Row 3 -->
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <label>MRP Price</label>
-                                    <input type="text" class="form-control" name="mrp_price"
-                                        value="{{ old('mrp_price', $product->mrp_price ?? '') }}">
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
                         <!-- PRODUCT IMAGES -->
                         <div class="form-group-item mt-4">
                             <h5 class="form-title">Product Image</h5>
@@ -594,7 +615,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         $('#product_code').on('keyup blur', function() {
             let productCode = $(this).val();
 
@@ -626,7 +647,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
     <script>
         $(document).ready(function() {
 
@@ -661,6 +682,47 @@
                 }
             });
 
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            function filterMetalRates(reset = true) {
+                let selectedMetal = $('#category_id option:selected').data('metal');
+
+                $('#metal_rate option').each(function() {
+                    let metal = $(this).data('metal');
+
+                    if (!metal) {
+                        $(this).show();
+                        return;
+                    }
+
+                    if (metal === selectedMetal) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                // Only reset on category change (NOT on page load edit)
+                if (reset) {
+                    $('#metal_rate').val('');
+                }
+            }
+
+            // When category changes → reset metal rate
+            $('#category_id').on('change', function() {
+                filterMetalRates(true);
+            });
+
+            // On PAGE LOAD (edit) → do NOT reset
+            filterMetalRates(false);
+
+            // Force select correct value (important for select plugins)
+            $('#metal_rate')
+                .val('{{ old('metal_rate_id', $product->metal_rate ?? '') }}')
+                .trigger('change');
         });
     </script>
 

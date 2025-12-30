@@ -496,7 +496,7 @@ public function itemHistory($type, $id)
 }
 public function indexInventory(Request $request)
 {
-    $query = Product::with('category')
+    $query = ItemProductData::with('category')
         ->withSum([
             'inventoryTransactions as in_qty' => fn ($q) => $q->where('type', 'IN')
         ], 'quantity')
