@@ -180,7 +180,7 @@
                                                 data-metal="{{ strtolower($rate->metal_type) }}"
                                                 data-price="{{ $rate->price_per_gram }}"
                                                 {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
-                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm
+                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm -  {{ $rate->karat }}{{ $rate->purity_type === 'karat' ? 'K' : '%' }}
                                             </option>
                                         @endforeach
                                     </select>

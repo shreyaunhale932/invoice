@@ -9,7 +9,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
 <!-- Intl-Tel-Input CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"> -->
 
 <div class="page-wrapper">
     <div class="content container-fluid">
@@ -17,21 +17,23 @@
             <div class="card-body">
                 <div class="page-header">
                     <div class="content-page-header">
-                        <h5>Add Invoice1</h5>
+                        <h5>Add Invoice</h5>
                     </div>
                 </div>
+
                 <form action="{{ route('invoices.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group-item border-0 mb-0">
-                                <div class="row align-item-center">
+                                <div class="row align-items-center">
                                     <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="input-block mb-3">
                                             <label>Invoice Number</label>
                                             <input type="text" class="form-control" placeholder="Enter Invoice Number">
                                         </div>
                                     </div>
+
                                     <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="input-block mb-3">
                                             <label>Customer Name</label>
@@ -89,20 +91,35 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div id="custom-fields-container">
+
+                                    <div id="custom-fields-container" class="input-block mb-3">
                                         @foreach ($customFields as $field)
                                         <label>{{ $field->field_label }}</label>
-                                        <input type="text" name="custom_fields_existing[{{ $field->id }}]" />
+                                        <input class="form-control" type="text" name="custom_fields_existing[{{ $field->id }}]" />
                                         @endforeach
 
 
                                     </div>
-                                    <div id="custom-fields-container">
-                                        <div class="custom-field">
-                                            <input type="text" name="custom_fields_new[0][label]" placeholder="Field Label" />
-                                            <input type="text" name="custom_fields_new[0][value]" placeholder="Field Value" />
+                                    <div id="custom-fields-container" class="input-block mb-3">
+                                        <div class="row custom-field">
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <input
+                                                    type="text"
+                                                    name="custom_fields_new[0][label]"
+                                                    placeholder="Field Label"
+                                                    class="form-control" />
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <input
+                                                    type="text"
+                                                    name="custom_fields_new[0][value]"
+                                                    placeholder="Field Value"
+                                                    class="form-control" />
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <button class="btn btn-outline-primary" type="button" id="add-custom-field">Add Custom Field</button>
                             </div>
@@ -158,7 +175,7 @@
                                                     <div class="input-block mb-3">
                                                         <label>Select Bank</label>
 
-                                                        <select class="select form-control">
+                                                        <select class="select">
                                                             <option value="">Select Bank</option>
                                                             @foreach($banks as $bank)
                                                             <option value="{{ $bank->bankname }}">
@@ -457,7 +474,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css">
+
 
 
 
@@ -1073,7 +1091,7 @@
     }
 </script> -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 <script>
@@ -1269,6 +1287,18 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 <script>
+    $(document).ready(function() {
+
+        $('.select').select2({
+            theme: 'bootstrap-5',
+            width: '100%'
+        });
+
+
+    });
+</script>
+
+<script>
     const addContactBtn = document.getElementById('addContactBtn');
     const contactSection = document.getElementById('contactSection');
     const closeContactBtn = document.getElementById('closeContactBtn');
@@ -1370,19 +1400,39 @@
         });
     });
 </script>
-
 <script>
     let fieldIndex = 1;
-    document.getElementById('add-custom-field').addEventListener('click', function() {
+
+    document.getElementById('add-custom-field').addEventListener('click', function () {
+
         const container = document.getElementById('custom-fields-container');
-        const div = document.createElement('div');
-        div.classList.add('custom-field');
-        div.innerHTML = `
-                                            <input type="text" name="custom_fields_new[${fieldIndex}][label]" placeholder="Field Label" />
-                                            <input type="text" name="custom_fields_new[${fieldIndex}][value]" placeholder="Field Value" />
-                                        `;
-        container.appendChild(div);
+
+        const row = document.createElement('div');
+        row.className = 'row custom-field mb-2';
+
+        row.innerHTML = `
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <input
+                    type="text"
+                    name="custom_fields_new[${fieldIndex}][label]"
+                    placeholder="Field Label"
+                    class="form-control"
+                />
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <input
+                    type="text"
+                    name="custom_fields_new[${fieldIndex}][value]"
+                    placeholder="Field Value"
+                    class="form-control"
+                />
+            </div>
+        `;
+
+        container.appendChild(row);
         fieldIndex++;
     });
 </script>
+
 @endsection

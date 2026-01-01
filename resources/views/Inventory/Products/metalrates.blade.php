@@ -41,7 +41,7 @@
                                             <th>Metal Name</th>
                                             <th>Price Per Gram</th>
                                             {{-- <th>Gram</th> --}}
-                                            <th>Karat</th>
+                                            <th>Purity</th>
                                             <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>
@@ -57,7 +57,15 @@
 
                                                 {{-- <td>{{ $rate->gram }}</td> --}}
 
-                                                <td>{{ $rate->karat ?? '-' }}</td>
+                                                <td>
+                                                    {{ $rate->karat ?? '-' }}
+                                                    @if ($rate->purity_type === 'percent')
+                                                        %
+                                                    @elseif($rate->purity_type === 'karat')
+                                                        K
+                                                    @endif
+                                                </td>
+
 
                                                 <td class="d-flex align-items-center">
                                                     <!-- Edit -->
@@ -66,7 +74,8 @@
                                                         data-bs-target="#edit_metalrate" data-id="{{ $rate->id }}"
                                                         data-metal="{{ $rate->metal_type }}"
                                                         data-price="{{ $rate->price_per_gram }}"
-                                                        data-gram="{{ $rate->gram }}" data-karat="{{ $rate->karat }}">
+                                                        data-gram="{{ $rate->gram }}" data-karat="{{ $rate->karat }}"
+                                                        data-purity="{{ $rate->purity_type }}">
                                                         <i class="fe fe-edit"></i>
                                                     </a>
 
@@ -97,10 +106,12 @@
         $(document).on("click", ".editMetalRateBtn", function() {
 
             let id = $(this).data("id");
+            // console.log($(this).data("purity"));
 
             $("#edit_metal_type").val($(this).data("metal")).trigger("change");;
             $("#edit_price_per_gram").val($(this).data("price"));
-            $("#edit_karat").val($(this).data("karat")).trigger("change");
+            $("#edit_metal_purity_type").val($(this).data("purity")).trigger("change");
+            $("#edit_karat").val($(this).data("karat"));
 
             // FIX: Set form action using Laravel route()
             let url = "{{ route('metal-rates.update', ':id') }}";

@@ -2902,9 +2902,28 @@
                                                         name="gram" placeholder="Enter gram value" required>
                                                 </div>
                                             </div> --}}
-
-                                            <!-- Karat -->
                                             <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Purity Type <span class="text-danger">*</span></label>
+                                                    <select class="form-control select" name="purity_type" required>
+                                                        <option value="">Select Type</option>
+                                                        <option value="karat">Karat</option>
+                                                        <option value="percent">Percent</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Purity Value -->
+                                            <div class="col-lg-12 col-sm-12">
+                                                <div class="input-block mb-3">
+                                                    <label>Purity Value <span class="text-danger">*</span></label>
+                                                    <input type="number" step="0.001" class="form-control"
+                                                        name="karat" placeholder="Enter purity value (e.g. 22 or 99.9)"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <!-- Karat -->
+                                            {{-- <div class="col-lg-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Karat</label>
                                                     <select class="form-control select" name="karat" required>
@@ -2916,7 +2935,7 @@
                                                         <option value="24k">24k</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                         </div>
                                     </div>
@@ -2997,9 +3016,29 @@
                                                        placeholder="Enter gram" required>
                                             </div>
                                         </div> --}}
+                                <div class="col-lg-12 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label>Purity Type <span class="text-danger">*</span></label>
+                                    <select class="form-control select" id="edit_metal_purity_type" name="purity_type"
+                                        required>
+                                        <option value="">Select Type</option>
+                                        <option value="karat">Karat</option>
+                                        <option value="percent">Percent</option>
+                                    </select>
+                                </div>
+                            </div>
 
+                            <!-- Purity Value -->
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label>Purity Value <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.001" class="form-control"
+                                        id="edit_karat" name="karat"
+                                        placeholder="Enter purity value (e.g. 22 or 99.9)" required>
+                                </div>
+                            </div>
                                             <!-- Karat -->
-                                            <div class="col-lg-12 col-sm-12">
+                                            {{-- <div class="col-lg-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Karat</label>
                                                     <select class="form-control select" id="edit_karat"
@@ -3012,7 +3051,7 @@
                                                         <option value="24k">24k</option>
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                         </div>
 

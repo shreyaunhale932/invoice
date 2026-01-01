@@ -535,7 +535,7 @@ public function indexInventory(Request $request)
 
     $products = $query->get();
 
-    return view('Inventory.Inventory', compact('products'));
+    return view('Inventory.inventory', compact('products'));
 }
 
 }
