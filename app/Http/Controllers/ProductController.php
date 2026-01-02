@@ -98,6 +98,7 @@ class ProductController extends Controller
                     'gold_price' => $request->gold_price,
                     'mrp_price' => $request->mrp_price,
                     'sale_price' => $request->sale_price,
+                    'final_price'=> $request->final_price,
                 ]
             );
 
@@ -134,6 +135,7 @@ class ProductController extends Controller
                 'quantity' =>  $request->quantity,
                 'final_fn_weight' =>  $request->final_fn_weight,
                 'size'     =>  $request->size,
+                'final_price'=> $request->final_price,
             ]);
             if (empty($product->barcode)) {
                 $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
@@ -348,6 +350,7 @@ class ProductController extends Controller
                     'gold_price'       => $request->gold_price,
                     'mrp_price'        => $request->mrp_price,
                     'sale_price' => $request->sale_price,
+                    'final_price'=> $request->final_price,
                 ]);
             }
 
@@ -379,6 +382,7 @@ class ProductController extends Controller
                 'quantity'         => $request->quantity,
                 'final_fn_weight'  => $request->final_fn_weight,
                 'size'             => $request->size,
+                'final_price'=> $request->final_price,
             ]);
 
             /*

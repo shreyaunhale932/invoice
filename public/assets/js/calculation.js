@@ -1,25 +1,24 @@
 function calculatePrice() {
 
     let grossWeight = parseFloat($('input[name="gross_weight"]').val()) || 0;
-    let metalRate = parseFloat($('#metal_rate option:selected').data('price')) || 0;
+    let metalRate   = parseFloat($('#metal_rate option:selected').data('price')) || 0;
     let wastagePerc = parseFloat($('input[name="wastage_percent"]').val()) || 0;
     let makingPrice = parseFloat($('input[name="making_price"]').val()) || 0;
-    let gstPerc = parseFloat($('input[name="gst_percent"]').val()) || 0;
+    let gstPerc     = parseFloat($('input[name="gst_percent"]').val()) || 0;
 
+    /* ===== DIAMOND GRAM ===== */
     let totalDiamondGram = 0;
     document.querySelectorAll('input[name="diamond[diamond_weight][]"]').forEach(el => {
-        let carat = parseFloat(el.value) || 0;
-        totalDiamondGram += (carat * 0.2); // 1 carat = 0.2 gram
+        totalDiamondGram += (parseFloat(el.value) || 0) * 0.2;
     });
 
-
+    /* ===== STONE GRAM ===== */
     let totalStoneGram = 0;
     document.querySelectorAll('input[name="stone[stone_weight][]"]').forEach(el => {
-         let carat = parseFloat(el.value) || 0;
-        totalStoneGram += (carat * 0.2); // 1 carat = 0.2 gram
+        totalStoneGram += (parseFloat(el.value) || 0) * 0.2;
     });
 
-
+    /* ===== NET WEIGHT ===== */
     let netWeight = grossWeight - totalDiamondGram - totalStoneGram;
     if (netWeight < 0) netWeight = 0;
 
@@ -28,17 +27,32 @@ function calculatePrice() {
 
     $('input[name="net_weight"]').val(finalNetWeight.toFixed(3));
 
-
+    /* ===== GOLD PRICE ===== */
     let goldPrice = metalRate * finalNetWeight;
 
     let gstAmount = ((goldPrice + makingPrice) * gstPerc) / 100;
+    let goldFinalPrice = goldPrice + makingPrice + gstAmount;
 
+    /* ===== TOTAL DIAMOND PRICE ===== */
+    let totalDiamondPrice = 0;
+    document.querySelectorAll('input[name="diamond[diamond_final_price][]"]').forEach(el => {
+        totalDiamondPrice += parseFloat(el.value) || 0;
+    });
 
-    let finalPrice = goldPrice + makingPrice + gstAmount;
+    /* ===== TOTAL STONE PRICE ===== */
+    let totalStonePrice = 0;
+    document.querySelectorAll('input[name="stone[stone_final_price][]"]').forEach(el => {
+        totalStonePrice += parseFloat(el.value) || 0;
+    });
 
-    $('input[name="gold_price"]').val(finalPrice.toFixed(2));
+    /* ===== FINAL TOTAL ===== */
+    let finalTotalAmount = goldFinalPrice + totalDiamondPrice + totalStonePrice;
+// alert(finalTotalAmount);
+    $('input[name="gold_price"]').val(goldFinalPrice.toFixed(2));
     $('input[name="gst_amount"]').val(gstAmount.toFixed(2));
+    $('input[name="final_price"]').val(finalTotalAmount.toFixed(2));
 }
+
 
 
 

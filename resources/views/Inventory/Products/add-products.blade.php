@@ -341,6 +341,12 @@
                                         value="{{ old('mrp_price', $product->mrp_price ?? '') }}">
 
                                 </div>
+                                 <div class="col-lg-4 col-md-6 mb-3">
+                                    <label>Final Price</label>
+                                    <input type="text" class="form-control" name="final_price"
+                                        value="{{ old('final_price', $product->final_price ?? '') }}">
+
+                                </div>
 
                             </div>
 

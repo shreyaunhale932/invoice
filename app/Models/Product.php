@@ -40,6 +40,7 @@ class Product extends Model
         'final_fn_weight',
         'quantity',
         'size',
+        'final_price',
     ];
 
     // One product has many diamonds
