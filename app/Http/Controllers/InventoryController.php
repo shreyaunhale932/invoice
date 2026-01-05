@@ -58,6 +58,7 @@ public function stockIn(Request $request)
         'gross_weight'         => 'required|numeric|min:0',
         'net_weight'           => 'required|numeric|min:0',
         'gross_weight_unit'    => 'required',
+        'size'                 =>  'nullable',
     ], [
         // 'product_id.required' => 'Please select a product or item.',
         'item_product_data_id.required' => 'Please select a product or item.',
@@ -74,6 +75,7 @@ public function stockIn(Request $request)
             'quantity'     => $request->quantity,
             'gross_weight' => $request->gross_weight,
             'net_weight'   => $request->net_weight,
+            'size'         => $request->size,
             'unit'         => $request->gross_weight_unit,
             'remarks'      => $request->remarks ?? 'Stock In',
             'admin_id'     => Auth::id(),
@@ -129,6 +131,7 @@ public function stockIn(Request $request)
                     'sale_price' => $itemProduct->sale_price,
                     'mrp_price' => $itemProduct->mrp_price,
                     'quantity' => $request->quantity,
+                    'size' => $request->size,
                     'final_fn_weight' => $request->final_fn_weight ?? 0,
                 ]);
 
@@ -220,6 +223,7 @@ public function stockIn(Request $request)
                 'sale_price' => $itemProduct->sale_price,
                 'mrp_price' => $itemProduct->mrp_price,
                 'quantity' => $request->quantity,
+                'size' => $request->size,
                 'final_fn_weight' => $request->final_fn_weight ?? 0,
             ]);
             if (empty($product->barcode)) {
@@ -314,6 +318,7 @@ public function stockOut(Request $request)
             'quantity'     => $request->quantity,
             'gross_weight' => $request->gross_weight,
             'net_weight'   => $request->net_weight,
+            'size'         => $request->size,
             'unit'         => $request->gross_weight_unit ?? 'GM',
             'remarks'      => $request->remarks ?? 'Stock Out',
             'admin_id'     => Auth::id(),
@@ -376,6 +381,7 @@ public function stockOut(Request $request)
                 'quantity'     => $selectedProduct->quantity,
                 'gross_weight' => $selectedProduct->gross_weight,
                 'net_weight'   => $selectedProduct->net_weight,
+                'size'          => $selectedProduct->size,
                 'unit'         => $selectedProduct->gross_weight_unit ?? 'GM',
                 'remarks'      => $selectedProduct->remarks ?? 'Stock Out',
                 'admin_id'     => Auth::id(),

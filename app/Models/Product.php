@@ -92,4 +92,9 @@ class Product extends Model
         return $this->belongsTo(ItemProductData::class, 'item_product_data_id');
     }
 
+public function metalRate()
+{
+    return $this->belongsTo(MetalRate::class, 'metal_rate');
+}
+
 }

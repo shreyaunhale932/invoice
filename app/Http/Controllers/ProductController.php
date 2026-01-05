@@ -433,7 +433,7 @@ class ProductController extends Controller
         | Diamonds (Delete + Reinsert Product + Item)
         |--------------------------------------------------------------------------
         */
-            DiamondDetail::where('product_id', $product->id)->delete();
+            DiamondDetail::where('product_id', $product->id)->forceDelete();
             ItemDiamondDetail::where('item_product_data_id', $itemProductData->id)->delete();
 
             if ($request->has('diamond.clarity')) {
@@ -469,7 +469,7 @@ class ProductController extends Controller
         | Stones (Delete + Reinsert Product + Item)
         |--------------------------------------------------------------------------
         */
-            StoneDetail::where('product_id', $product->id)->delete();
+            StoneDetail::where('product_id', $product->id)->forceDelete();
             ItemProductStone::where('item_product_data_id', $itemProductData->id)->delete();
 
             if ($request->has('stone.stone_name')) {

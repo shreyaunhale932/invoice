@@ -3627,7 +3627,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('productSelectContainer').style.display = 'block';
                 document.getElementById('productNameContainer').style.display = 'none';
                 document.getElementById('productSelect').required = true;
-                
+
                 // Load products for this item
                 loadProductsForItem(itemProductDataId);
             } else {
@@ -3646,7 +3646,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (selectedOption.value) {
             const productData = JSON.parse(selectedOption.dataset.product || '{}');
             document.getElementById('selectedProductId').value = selectedOption.value;
-            
+
             // Show product info
             let info = `Qty: ${productData.quantity || 0} | `;
             info += `Gross Wt: ${productData.gross_weight || 0} GM | `;
@@ -3661,18 +3661,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function loadProductsForItem(itemId) {
-        fetch(`/invoice/inventory/item-products/${itemId}`)
+   function loadProductsForItem(itemId) {
+
+        let url = "{{ route('inventory.item.products', ':itemId') }}";
+        url = url.replace(':itemId', itemId);
+
+        fetch(url)
             .then(response => response.json())
             .then(products => {
                 const select = document.getElementById('productSelect');
                 select.innerHTML = '<option value="">-- Select Product --</option>';
-                
+
                 if (products.length === 0) {
                     select.innerHTML = '<option value="">No products available</option>';
                     return;
                 }
-                
+
                 products.forEach(product => {
                     const option = document.createElement('option');
                     option.value = product.id;
@@ -3683,7 +3687,8 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Error loading products:', error);
-                document.getElementById('productSelect').innerHTML = '<option value="">Error loading products</option>';
+                document.getElementById('productSelect').innerHTML =
+                    '<option value="">Error loading products</option>';
             });
     }
 

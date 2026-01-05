@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\CustomFieldDefinition;
 use App\Models\CustomFieldValue;
 use App\Models\InvoiceColumn;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Subcategory;
 
 
 
@@ -24,7 +27,7 @@ class InvoiceController extends Controller
     // {
     //     $customers = Customer::where('admin_id', Auth::id())->get();
     //     $banks = bankdetails::where('user_id', Auth::id())->get();
-    //     $business = BusinessDetail::where('user_id', Auth::id())->first(); 
+    //     $business = BusinessDetail::where('user_id', Auth::id())->first();
 
     //     // Fetch products along with HSN Code
     //     $products = InvoiceItem::whereHas('invoice', function ($query) {
@@ -52,7 +55,7 @@ class InvoiceController extends Controller
         $business = BusinessDetail::where('user_id', Auth::id())->first();
 
         // Fetch products along with HSN Code from the HSN master table
-        $products = InvoiceItem::whereHas('invoice', function ($query) {
+        $products1 = InvoiceItem::whereHas('invoice', function ($query) {
             $query->where('admin_id',  Auth::id());
         })
 
@@ -112,8 +115,15 @@ class InvoiceController extends Controller
         $customFields = CustomFieldDefinition::where('admin_id', $adminId)
             ->where('model_type', 'App\Models\Invoice') // or use constant if you prefer
             ->get();
+      $products = Product::with(['category', 'subcategory', 'metalRate', 'diamonds', 'stones'])->get();
 
-        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'banks', 'business', 'notes', 'terms', 'customFields', 'allColumns', 'visibleColumns'));
+
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+
+
+
+        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'allColumns', 'visibleColumns'));
     }
     public function updatecolumns(Request $request)
     {

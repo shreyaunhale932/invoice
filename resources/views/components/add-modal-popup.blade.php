@@ -3979,7 +3979,10 @@
                     </div>
                 </div>
             </div>
-
+  <div class="col-lg-4 col-md-4">
+                                    <label>Size</label>
+                                    <input type="text" step="" class="form-control" name="size">
+                                </div>
             <!-- Notes -->
             <div class="col-lg-12">
                 <div class="input-block mb-0">
