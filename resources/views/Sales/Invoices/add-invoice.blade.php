@@ -4,7 +4,7 @@
     <!-- Page Wrapper -->
     <!-- Select2 CSS -->
 
-<script src="{{ url('/public/assets/js/sellcalculation.js') }}"></script>
+    <script src="{{ url('/public/assets/js/sellcalculation.js') }}"></script>
     <!-- Summernote CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
@@ -31,7 +31,7 @@
                                             <div class="input-block mb-3">
                                                 <label>Invoice Number</label>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Enter Invoice Number">
+                                                    placeholder="Enter Invoice Number" name="invoice_no">
                                             </div>
                                         </div>
 
@@ -161,7 +161,10 @@
                                                     data-metal_rate="{{ optional($product->metalRate)->price_per_gram }}"
                                                     data-gold_price="{{ $product->gold_price }}"
                                                     data-pre_code="{{ $product->pre_code }}"
-                                                    data-post_code="{{ $product->post_code }}">
+                                                    data-post_code="{{ $product->post_code }}"
+                                                    data-final_price="{{ $product->final_price }}" {{-- ✅ ADD THESE --}}
+                                                    data-diamonds='@json($product->diamonds)'
+                                                    data-stones='@json($product->stones)'>
 
                                                     {{ $product->pre_code }}-{{ $product->post_code }}-
                                                     {{ $product->product_name }}
@@ -194,43 +197,94 @@
                                             <th>Making Amount</th>
                                             <th>GST %</th>
                                             <th>GST Amount</th>
-                                            <th>Total Amount</th>
+                                            <th>Gold Price</th>
+                                            <th>Final price</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         <tr>
-                                            <td><input type="text" name="category[]" class="form-control"></td>
-                                            <td><input type="text" name="subcategory[]" class="form-control"></td>
-                                            <td><input type="text" name="product_name[]" class="form-control"></td>
-                                            <td><input type="text" name="pre_code[]" class="form-control"></td>
-                                            <td><input type="text" name="post_code[]" class="form-control"></td>
-                                            <td><input type="text" name="barcode[]" class="form-control"></td>
-                                            <td><input type="text" name="hsn_code[]" class="form-control"></td>
+                                            <td><input type="text" name="category[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <td><input type="text" name="subcategory[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <td><input type="text" name="product_name[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <td><input type="text" name="pre_code[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <td><input type="text" name="post_code[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <td><input type="text" name="barcode[]"
+                                                    class="form-control"style="pointer-events: none; background-color: #e9ecef;">
+                                            </td>
+                                            <td><input type="text" name="hsn_code[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.01" name="metal_rate[]"
                                                     class="form-control"></td>
                                             <td><input type="number" name="quantity[]" class="form-control"
-                                                    value="1"></td>
+                                                    value="1"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.001" name="gross_weight[]"
-                                                    class="form-control"></td>
+                                                    class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.001" name="net_weight[]"
-                                                    class="form-control"></td>
-                                            <td><input type="text" name="size[]" class="form-control"></td>
+                                                    class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <td><input type="text" name="size[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.01" name="wastage_percent[]"
-                                                    class="form-control"></td>
+                                                    class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.01" name="making_price[]"
                                                     class="form-control"></td>
                                             <td><input type="number" step="0.01" name="gst_percent[]"
-                                                    class="form-control"></td>
+                                                    class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.01" name="gst_amount[]"
-                                                    class="form-control"></td>
+                                                    class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td>
                                                 <input type="number" step="0.01" name="total_amount[]"
-                                                    class="form-control" readonly>
+                                                    class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                            </td>
+                                            <td>
+                                                <input type="number" step="0.01" name="final_price[]"
+                                                    class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;">
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <h5 class="mt-4">Diamonds</h5>
+                                <table class="table table-bordered" id="diamondTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Clarity</th>
+                                            <th>Cut</th>
+                                            <th>Color</th>
+                                            <th>Pieces</th>
+                                            <th>Diamond Weight (carat)</th>
+                                            <th>Price Per Carat</th>
+                                            <th>Final Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                                <h5 class="mt-4">Stones</h5>
+                                <table class="table table-bordered" id="stoneTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Stone Name</th>
+                                            <th>Weight</th>
+                                            <th>Rate</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
 
 
                                 <button type="button" id="addItemBtn" class="btn btn-success mt-2">
@@ -613,621 +667,7 @@
         const productOptions = @json($products);
     </script>
 
-    <script>
-        let invoiceColumns = [];
-        let invoiceTable;
-        $(document).ready(function() {
 
-            fetchColumns(); // initial load
-            // initInvoiceTable();
-            function fetchColumns() {
-                $.ajax({
-                    url: '{{ route('invoice-columns.index') }}',
-                    type: 'GET',
-                    success: function(response) {
-                        invoiceColumns = response.columns;
-                        initInvoiceTable();
-                    }
-                });
-            }
-
-            function initInvoiceTable() {
-                // alert('called init');
-                if ($.fn.DataTable.isDataTable('#invoiceTable')) {
-                    $('#invoiceTable').DataTable().destroy();
-                    $('#invoiceTable').empty();
-                }
-
-                const columnDefs = invoiceColumns.map(col => ({
-                    title: col.name,
-                    data: null,
-                    orderable: false,
-                    render: function(data, type, row, meta) {
-                        return row[meta.col];
-                    }
-                }));
-
-                // Add action column
-                columnDefs.push({
-                    title: 'Action',
-                    data: null,
-                    orderable: false,
-                    render: function(data, type, row, meta) {
-                        return row[meta.col];
-                    }
-                });
-
-                invoiceTable = $('#invoiceTable').DataTable({
-                    paging: false,
-                    searching: false,
-                    ordering: false,
-                    info: false,
-                    data: [],
-                    columns: columnDefs
-                });
-
-
-
-                console.log("Invoice column count:", invoiceTable.columns().count());
-            }
-
-            /// this adds rows to invoice table
-            $('#addItemBtn').on('click', function() {
-                const rowIndex = invoiceTable.rows().count();
-
-                let newRow = [];
-
-                invoiceColumns.forEach((col) => {
-                    let cellContent = '';
-                    switch (col.key) {
-                        case "item":
-                            cellContent = `
-                <select class="form-control item-select" name="products[${rowIndex}][name]"></select>
-                <input type="hidden" name="products[${rowIndex}][name]" class="productNameInput">`;
-                            break;
-
-                        case "hsn":
-                            cellContent =
-                                `<input type="text" class="form-control hsn" name="products[${rowIndex}][hsn]">`;
-                            break;
-
-                        case "quantity":
-                            cellContent =
-                                `<input type="number" class="form-control qty" name="products[${rowIndex}][quantity]" value="1">`;
-                            break;
-
-                        case "rate":
-                            cellContent =
-                                `<input type="number" class="form-control rate" name="products[${rowIndex}][price]">`;
-                            break;
-
-                            // case "discount":
-                            //     cellContent = `<input type="number" class="form-control discount" name="products[${rowIndex}][discount]">`;
-                            //     break;
-                        case "discount":
-                            cellContent = `
-                        <div class="d-flex gap-1">
-                            <input type="number" class="form-control discount" name="products[${rowIndex}][discount]" placeholder="0">
-                            <select class="form-control discount-type" name="products[${rowIndex}][discount_type]">
-                                <option value="percent">%</option>
-                                <option value="fixed">₹</option>
-                            </select>
-                        </div>
-                    `;
-                            break;
-
-                        case "gst":
-                            cellContent =
-                                `<input type="number" class="form-control gst" name="products[${rowIndex}][gst]">`;
-                            break;
-
-                        case "amount":
-                            cellContent =
-                                `<span class="amount">₹0.00</span><input type="hidden" name="products[${rowIndex}][amount]" class="amountInput" value="0">`;
-                            break;
-
-                        case "cgst":
-                            cellContent =
-                                `<span class="cgst">₹0.00</span><input type="hidden" name="products[${rowIndex}][cgst]" class="cgstInput" value="0">`;
-                            break;
-
-                        case "sgst":
-                            cellContent =
-                                `<span class="sgst">₹0.00</span><input type="hidden" name="products[${rowIndex}][sgst]" class="sgstInput" value="0">`;
-                            break;
-
-                        case "igst":
-                            cellContent =
-                                `<span class="igst">₹0.00</span><input type="hidden" name="products[${rowIndex}][igst]" class="igstInput" value="0">`;
-                            break;
-
-                        case "total":
-                            cellContent =
-                                `<span class="total">₹0.00</span><input type="hidden" name="products[${rowIndex}][total]" class="totalInput" value="0">`;
-                            break;
-
-                        default:
-                            cellContent = col.type === 'number' ?
-                                `<input type="number" class="form-control" name="products[${rowIndex}][${col.key}]">` :
-                                `<input type="text" class="form-control" name="products[${rowIndex}][${col.key}]">`;
-                            break;
-                    }
-
-                    newRow.push(cellContent); // Append cell to the row
-                });
-
-
-                newRow.push(
-                    `<a href="#" class="btn-action-icon removeRow"><i class="fe fe-trash-2"></i></a>`
-                ); // Action column
-                // console.log("Table body HTML after add:", $('#invoiceTable tbody').html());
-
-                /// console.log("New row:", newRow);
-                // console.log("Expected columns:", invoiceColumns.length + 1);
-                // console.log("Row cells:", newRow.length);
-
-                invoiceTable.row.add(newRow).draw(false); // Properly add the row
-
-
-                // Clone and assign options
-                const $newSelect = $(".item-select").last();
-                const options = $("#productMaster option").clone();
-                $newSelect.empty().append(options);
-                // console.log($newSelect.html());
-                $newSelect.select2({
-                    placeholder: "Select or type a product",
-                    width: '100%',
-                    allowClear: true,
-                    tags: true
-                });
-
-                applyTotalDiscount();
-            });
-
-            $("#discountType").change(function() {
-                const type = $(this).val();
-                if (type === "fixed" || type === "percent") {
-                    $("#distributionType").show();
-                } else {
-                    $("#distributionType").hide();
-                    $("#discountValue").val("");
-                }
-                applyTotalDiscount(); // optional to trigger recalculation
-            });
-
-            $("#discountValue, #distributionType").on("input change", applyTotalDiscount);
-
-            function applyTotalDiscount() {
-                const type = $("#discountType").val();
-                const value = parseFloat($("#discountValue").val()) || 0;
-                const distribution = $("#distributionType").val();
-
-                const rows = $("#invoiceTable tbody tr");
-                const rowCount = rows.length;
-
-                if (type === "none" || value === 0 || rowCount === 0) return;
-
-                let totalTaxable = 0;
-                rows.each(function() {
-                    const qty = parseFloat($(this).find(".qty").val()) || 1;
-                    const rate = parseFloat($(this).find(".rate").val()) || 0;
-                    totalTaxable += qty * rate;
-                });
-
-                rows.each(function() {
-                    const $row = $(this);
-                    const qty = parseFloat($row.find(".qty").val()) || 1;
-                    const rate = parseFloat($row.find(".rate").val()) || 0;
-                    const baseAmount = qty * rate;
-
-                    let rowDiscount = 0;
-                    // alert(type);
-                    // alert(distribution);
-                    if (type === "fixed") {
-                        if (distribution === "equal") {
-                            rowDiscount = value / rowCount;
-                            // rowDiscount = (baseAmount / totalTaxable) * value;
-                        } else if (distribution === "weighted") {
-                            // rowDiscount = value / rowCount;
-                            rowDiscount = (baseAmount / totalTaxable) * value;
-                        }
-                    } else if (type === "percent") {
-                        rowDiscount = (baseAmount * value) / 100;
-                    }
-
-
-
-
-                    // const discountPercent = (rowDiscount / baseAmount) * 100;
-                    $row.find(".discount").val(rowDiscount.toFixed(2));
-
-                    updateRowAmount($row);
-                });
-
-                calculateTotal();
-            }
-
-
-            // When a product is selected
-            $(document).on("change", ".item-select", function() {
-                const row = $(this).closest("tr");
-                const selectedVal = $(this).val();
-                const selectedOption = $(this).find(`option[value="${selectedVal}"]`);
-                // alert(selectedOption);
-                const rate = parseFloat(selectedOption.data("rate")) || 0;
-                const hsn = selectedOption.data("hsn_code_id") || "";
-                // alert(hsn);
-                row.find(".rate").val(rate);
-                row.find(".hsn").val(hsn);
-                row.find(".productNameInput").val(selectedVal);
-
-
-
-                updateRowAmount(row);
-                calculateTotal();
-            });
-
-
-
-            // Trigger when any of these fields change: qty, rate, gst, discount value
-            $(document).on("input", ".qty, .rate, .gst, .discount", function() {
-                console.log("Triggered on:", $(this).attr("class"));
-                const row = $(this).closest("tr");
-                updateRowAmount(row);
-                applyTotalDiscount();
-                calculateTotal();
-                applyTotalReductions();
-            });
-
-            // Trigger when the discount type dropdown (% or ₹) is changed
-            $(document).on("change", ".discount-type", function() {
-                const row = $(this).closest("tr");
-                updateRowAmount(row);
-                applyTotalDiscount();
-                calculateTotal();
-                applyTotalReductions();
-            });
-
-
-            let selectedGstType = null; // 'cgst_sgst' or 'igst'
-
-            $("#applyGstConfig").on("click", function() {
-                selectedGstType = $("#gstTypeSelect").val();
-
-                $("#gstConfigModal").modal("hide");
-
-                // Recalculate tax based on selected GST type
-                $("#invoiceTable tbody tr").each(function() {
-                    updateRowAmount($(this));
-                });
-                calculateTotal();
-            });
-
-            function updateRowAmount(row) {
-                // alert("update row")
-                const qty = parseFloat(row.find(".qty").val()) || 1;
-                const rate = parseFloat(row.find(".rate").val()) || 0;
-                // const discount = parseFloat(row.find(".discount").val()) || 0;
-                const gst = parseFloat(row.find(".gst").val()) || 0;
-                // alert(gst);
-                const discount = parseFloat(row.find(".discount").val()) || 0;
-                const discountType = row.find(".discount-type").val(); // add this select to your HTML
-
-                let discountAmt = 0;
-                if (discountType === 'percent') {
-                    discountAmt = (qty * rate * discount) / 100;
-                } else {
-                    discountAmt = discount;
-                }
-
-                const total = qty * rate;
-                // const discountAmt = (total * discount) / 100;
-                const taxable = total - discountAmt;
-                const gstAmt = (taxable * gst) / 100;
-
-                const businessState = $("#businessState").val().toLowerCase();
-                const customerState = $("#customerState").val().toLowerCase();
-                let cgst = 0,
-                    sgst = 0,
-                    igst = 0;
-
-                // if (businessState === customerState) {
-                //     cgst = gstAmt / 2;
-                //     sgst = gstAmt / 2;
-                // } else {
-                //     igst = gstAmt;
-                // }
-                // alert(selectedGstType);
-                if (selectedGstType === 'cgst_sgst') {
-                    cgst = gstAmt / 2;
-                    sgst = gstAmt / 2;
-                    igst = 0;
-                } else if (selectedGstType === 'igst') {
-                    igst = gstAmt;
-                    cgst = 0;
-                    sgst = 0;
-                } else {
-                    // Default fallback to business vs customer state logic
-                    if (businessState === customerState) {
-                        cgst = gstAmt / 2;
-                        sgst = gstAmt / 2;
-                    } else {
-                        igst = gstAmt;
-                    }
-                }
-
-                // alert(cgst);
-                const final = taxable + gstAmt;
-
-                row.find(".amount").text(`₹${taxable.toFixed(2)}`);
-                row.find(".cgst").text(`₹${cgst.toFixed(2)}`);
-                row.find(".sgst").text(`₹${sgst.toFixed(2)}`);
-                row.find(".igst").text(`₹${igst.toFixed(2)}`);
-                row.find(".total").text(`₹${final.toFixed(2)}`);
-
-                row.find(".amountInput").val(taxable.toFixed(2));
-                row.find(".cgstInput").val(cgst.toFixed(2));
-                row.find(".sgstInput").val(sgst.toFixed(2));
-                row.find(".igstInput").val(igst.toFixed(2));
-                row.find(".totalInput").val(final.toFixed(2));
-            }
-
-            function calculateTotal() {
-                let taxable = 0,
-                    gst = 0,
-                    cgst = 0,
-                    sgst = 0,
-                    igst = 0;
-
-                $("#invoiceTable tbody tr").each(function() {
-                    const qty = parseFloat($(this).find(".qty").val()) || 1;
-                    const rate = parseFloat($(this).find(".rate").val()) || 0;
-                    const discount = parseFloat($(this).find(".discount").val()) || 0;
-                    const gstRate = parseFloat($(this).find(".gst").val()) || 0;
-
-                    const total = qty * rate;
-                    const discountAmt = (total * discount) / 100;
-                    const taxableAmt = total - discountAmt;
-                    const gstAmt = (taxableAmt * gstRate) / 100;
-
-                    const businessState = $("#businessState").val().toLowerCase();
-                    const customerState = $("#customerState").val().toLowerCase();
-
-                    taxable += taxableAmt;
-                    gst += gstAmt;
-
-
-                    if (selectedGstType === 'cgst_sgst') {
-                        cgst += gstAmt / 2;
-                        sgst += gstAmt / 2;
-                    } else if (selectedGstType === 'igst') {
-                        igst += gstAmt;
-                    } else {
-                        if (businessState === customerState) {
-                            cgst += gstAmt / 2;
-                            sgst += gstAmt / 2;
-                        } else {
-                            igst += gstAmt;
-                        }
-                    }
-
-
-                });
-
-                const grandTotal = taxable + gst;
-
-                $("#taxableAmount").text(`₹${taxable.toFixed(2)}`);
-                $("#cgstAmount").text(`₹${cgst.toFixed(2)}`);
-                $("#sgstAmount").text(`₹${sgst.toFixed(2)}`);
-                $("#igstAmount").text(`₹${igst.toFixed(2)}`);
-                // $("#totalInvoiceAmount").text(`₹${grandTotal.toFixed(2)}`);
-                $("#totalInvoiceAmount")
-                    .text(`₹${grandTotal.toFixed(2)}`)
-                    .attr("data-original", grandTotal.toFixed(2));
-
-            }
-
-            // Remove row
-            $(document).on("click", ".removeRow", function(e) {
-                e.preventDefault();
-                invoiceTable.row($(this).closest("tr")).remove().draw(false); // use invoiceTable
-                calculateTotal();
-            });
-
-
-            // Customer state change
-            $("#customerDropdown").change(function() {
-                const state = $(this).find(":selected").data("state") || "";
-                $("#customerState").val(state);
-                $("#invoiceTable tbody tr").each(function() {
-                    updateRowAmount($(this));
-                });
-                calculateTotal();
-                applyTotalDiscount();
-
-            });
-
-            let discountIndex = 0;
-
-            $('#addTotalDiscountBtn').on('click', function() {
-                const discountField = `
-        <div class="reduction-field mb-2 d-flex align-items-center gap-2">
-            <label>Reduction</label>
-            <select name="reductions[${discountIndex}][type]" class="form-control reduction-type" style="width:auto;">
-                <option value="percent">%</option>
-                <option value="fixed">₹</option>
-            </select>
-            <input type="number" name="reductions[${discountIndex}][value]" class="form-control reduction-value" style="width:120px;" placeholder="0">
-            <button type="button" class="btn btn-sm btn-danger remove-reduction">×</button>
-        </div>
-       `;
-                $('#totalDiscountContainer1').append(discountField);
-                discountIndex++;
-                applyTotalReductions(); // Optional: apply immediately
-            });
-
-            $(document).on('click', '.remove-reduction', function() {
-                $(this).closest('.reduction-field').remove();
-                applyTotalReductions();
-            });
-
-            $(document).on('input change', '.reduction-type, .reduction-value', function() {
-                applyTotalReductions();
-            });
-
-
-
-
-
-            function applyTotalReductions() {
-                const original = parseFloat($('#totalInvoiceAmount').attr('data-original')) || 0;
-                let totalReduction = 0;
-
-                $('.reduction-field').each(function() {
-                    const type = $(this).find('.reduction-type').val();
-                    const value = parseFloat($(this).find('.reduction-value').val()) || 0;
-
-                    if (type === 'percent') {
-                        totalReduction += (original * value) / 100;
-                    } else {
-                        totalReduction += value;
-                    }
-                });
-
-                const finalAmount = original - totalReduction;
-                $('#totalInvoiceAmount').text(`₹${finalAmount.toFixed(2)}`);
-                $('#finalInvoiceAmount').val(finalAmount.toFixed(2)); // if you need to submit this value in a form
-            }
-
-            // Apply Round-Off
-            //  if ($("#roundOffToggle").prop("checked")) {
-            //         roundOff = Math.round(final) - final;
-            //         totalAmount = Math.round(final);
-            //     } else {
-            //         roundOff = 0;
-            //         totalAmount = final;
-            //     }
-
-
-
-
-
-            let columnCount = 1000; // Starting index for new columns
-
-
-            ///this add new column in modal of edit column
-            $('#add-column-btn').on('click', function() {
-                const newKey = `custom_${columnCount++}`;
-                $('#columns-edit-table tbody').append(`
-        <tr data-id="${newKey}" data-is-custom="1">
-            <td>
-                <input type="text" class="form-control" name="columns[${newKey}][name]" value="New Column">
-                <input type="hidden" name="columns[${newKey}][key]" value="${newKey}">
-            </td>
-            <td>
-                <select class="form-select" name="columns[${newKey}][type]">
-                    <option value="text">Text</option>
-                    <option value="number">Number</option>
-
-                </select>
-            </td>
-            <td class="text-center">
-                <input type="checkbox" name="columns[${newKey}][is_visible]" checked>
-            </td>
-            <td class="text-center">
-                <button type="button" class="btn btn-danger btn-sm remove-column">Delete</button>
-            </td>
-        </tr>
-    `);
-            });
-
-            $('#columns-edit-table').on('click', '.remove-column', function() {
-                $(this).closest('tr').remove();
-            });
-            $('#updateColumnsBtn').on('click', function(e) {
-                // alert('called');
-                e.preventDefault();
-
-                $.ajax({
-                    url: '{{ route('invoice-columns.update') }}',
-                    type: 'POST', // this POST with _method spoofing
-                    data: $('#edit-columns-form').serialize() +
-                        '&_method=PUT', // append _method manually
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        alert('Columns updated');
-
-                        // Update global column config
-                        invoiceColumns = response.columns;
-
-
-                        // Now re-initialize the table with new column definitions
-                        initInvoiceTable();
-
-                    },
-                    error: function(xhr) {
-                        alert('Failed to update columns.');
-                        console.error(xhr.responseText);
-                    }
-                });;
-            });
-
-
-        });
-    </script>
-    <script>
-        $('#columns-edit-table').on('change', '.column-type-select', function() {
-
-            const selectedType = $(this).val();
-            const row = $(this).closest('tr');
-            const formulaField = row.find('.formula-field-td');
-
-            if (selectedType === 'formula') {
-                formulaField.show();
-            } else {
-                formulaField.hide();
-                formulaField.find('input.formula-input').val('');
-            }
-        });
-    </script>
-    <!-- <script>
-        let notesArray = [];
-        let termsArray = [];
-
-        $('#note_select').on('change', function() {
-            var content = $(this).val();
-            if (content && !notesArray.includes(content)) {
-                notesArray.push(content);
-                updateNotes();
-            }
-        });
-
-        $('#term_select').on('change', function() {
-            var content = $(this).val();
-            if (content && !termsArray.includes(content)) {
-                termsArray.push(content);
-                updateTerms();
-            }
-        });
-
-        function updateNotes() {
-            let data = '';
-            notesArray.forEach((note, index) => {
-                data += (index + 1) + ". " + note + "\n";
-            });
-            $('#notes').val(data);
-        }
-
-        function updateTerms() {
-            let data = '';
-            termsArray.forEach((term, index) => {
-                data += (index + 1) + ". " + term + "\n";
-            });
-            $('#terms').val(data);
-        }
-    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> -->
 
@@ -1580,7 +1020,8 @@
                 let option = $(this).find(':selected');
                 if (!option.val()) return;
 
-                let row = $('table tbody tr').first();
+                // Existing product fill (keep this)
+                let row = $('#entryTable tbody tr').first();
 
                 // BASIC DATA
                 row.find('input[name="pre_code[]"]').val(option.data('pre_code'));
@@ -1588,7 +1029,7 @@
                 row.find('input[name="product_name[]"]').val(option.data('name'));
                 row.find('input[name="barcode[]"]').val(option.data('barcode'));
                 row.find('input[name="hsn_code[]"]').val(option.data('hsn'));
-                row.find('input[name="metal_rate[]"]').val(option.data('rate'));
+                row.find('input[name="metal_rate[]"]').val(option.data('metal_rate'));
                 row.find('input[name="gross_weight[]"]').val(option.data('gross_weight'));
                 row.find('input[name="net_weight[]"]').val(option.data('net_weight'));
                 row.find('input[name="size[]"]').val(option.data('size'));
@@ -1600,24 +1041,210 @@
                 row.find('input[name="gst_percent[]"]').val(option.data('gst_percent'));
                 row.find('input[name="metal_rate[]"]').val(option.data('metal_rate'));
                 row.find('input[name="total_amount[]"]').val(option.data('gold_price'));
-                // CATEGORY
-                // row.find('select[name="category[]"]')
-                //     .val(option.data('category-id'))
-                //     .trigger('change');
+                row.find('input[name="final_price[]"]').val(option.data('final_price'));
 
-                // // SUBCATEGORY
-                // row.find('select[name="subcategory[]"]')
-                //     .val(option.data('subcategory-id'))
-                //     .trigger('change');
+                // ✅ NEW PART
+                let diamonds = option.data('diamonds') || [];
+                let stones = option.data('stones') || [];
 
-                console.log({
-                    category: option.data('category-name'),
-                    subcategory: option.data('subcategory-name'),
-                    metal_rate: option.data('metal_rate')
-                });
+                renderDiamonds(diamonds);
+                renderStones(stones);
             });
 
+            function renderDiamonds(diamonds) {
+                const tbody = $('#diamondTable tbody');
+                tbody.empty();
+
+                if (!Array.isArray(diamonds) || diamonds.length === 0) {
+                    tbody.append(`<tr><td colspan="7" class="text-center">No Diamonds</td></tr>`);
+                    return;
+                }
+
+                diamonds.forEach((d, index) => {
+                    tbody.append(`
+            <tr data-index="${index}">
+                <td>
+                    <input type="text"
+                           class="form-control clarity"
+                           name="diamonds[${index}][clarity]"
+                           value="${d.clarity ?? ''}" style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+
+                <td>
+                    <input type="text"
+                           class="form-control cut"
+                           name="diamonds[${index}][cut]"
+                           value="${d.cut ?? ''}" style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+
+                <td>
+                    <input type="text"
+                           class="form-control color"
+                           name="diamonds[${index}][color]"
+                           value="${d.color ?? ''}" style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+
+                <td>
+                    <input type="number"
+                           class="form-control pieces"
+                           name="diamonds[${index}][pieces]"
+                           value="${d.pieces ?? 0}" style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+
+                <td>
+                    <input type="number" step="0.001"
+                           class="form-control diamond-weight"
+                           name="diamonds[${index}][diamond_weight]"
+                           value="${d.diamond_weight ?? 0}" style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+
+                <td>
+                    <input type="number" step="0.01"
+                           class="form-control price-per-carat"
+                           name="diamonds[${index}][price_per_carat]"
+                           value="${d.price_per_carat ?? 0}">
+                </td>
+
+                <td>
+                    <input type="number" step="0.01"
+                           class="form-control diamond-total"
+                           name="diamonds[${index}][diamond_final_price]"
+                           value="${d.diamond_final_price ?? 0}"
+                           style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+            </tr>
+        `);
+                });
+            }
+
+
+            function renderStones(stones) {
+                const tbody = $('#stoneTable tbody');
+                tbody.empty();
+
+                if (!Array.isArray(stones) || stones.length === 0) {
+                    tbody.append(`<tr><td colspan="4" class="text-center">No Stones</td></tr>`);
+                    return;
+                }
+
+                stones.forEach((s, index) => {
+                    tbody.append(`
+            <tr data-index="${index}">
+                <td>
+                    <input type="text"
+                           class="form-control stone-name"
+                           name="stones[${index}][stone_name]"
+                           value="${s.stone_name ?? ''}" style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+
+                <td>
+                    <input type="number" step="0.001"
+                           class="form-control stone-weight"
+                           name="stones[${index}][stone_weight]"
+                           value="${s.stone_weight ?? 0}" style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+
+                <td>
+                    <input type="number" step="0.01"
+                           class="form-control stone-price"
+                           name="stones[${index}][stone_price]"
+                           value="${s.stone_price ?? 0}" >
+                </td>
+
+                <td>
+                    <input type="number" step="0.01"
+                           class="form-control stone-total"
+                           name="stones[${index}][stone_final_price]"
+                           value="${s.stone_final_price ?? 0}"
+                           style="pointer-events: none; background-color: #e9ecef;">
+                </td>
+            </tr>
+        `);
+                });
+            }
+
+
         });
+    </script>
+    <script>
+        document.getElementById('addItemBtn').addEventListener('click', function(e) {
+            e.preventDefault(); //VERY IMPORTANT
+
+            console.log('Add Item clicked');
+
+            let entryRow = document.querySelector('#entryTable tbody tr');
+
+            let payload = {
+                _token: '{{ csrf_token() }}',
+
+                invoice_no: document.querySelector('input[name="invoice_no"]').value,
+                customer_id: document.querySelector('#customerDropdown').value,
+                invoice_date: document.querySelector('input[name="invoice_date"]').value,
+                due_date: document.querySelector('input[name="due_date"]').value,
+
+                product_name: entryRow.querySelector('input[name="product_name[]"]').value,
+                pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
+                post_code: entryRow.querySelector('input[name="post_code[]"]').value,
+                barcode: entryRow.querySelector('input[name="barcode[]"]').value,
+                net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+                metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
+                making_price: entryRow.querySelector('input[name="making_price[]"]').value,
+                gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
+                total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
+                final_price: entryRow.querySelector('input[name="final_price[]"]').value,
+                diamonds: collectDiamonds(),
+                stones: collectStones(),
+            };
+
+            fetch('{{ route('sell.invoice.addItem') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                    alert('Item stored successfully');
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error saving item');
+                });
+        });
+    </script>
+    <script>
+        function collectDiamonds() {
+            let diamonds = [];
+            document.querySelectorAll('#diamondTable tbody tr').forEach(row => {
+                diamonds.push({
+                    clarity: row.querySelector('.clarity')?.value,
+                    cut: row.querySelector('.cut')?.value,
+                    color: row.querySelector('.color')?.value,
+                    pieces: row.querySelector('.pieces')?.value,
+                    diamond_weight: row.querySelector('.diamond-weight')?.value,
+                    price_per_carat: row.querySelector('.price-per-carat')?.value,
+                    diamond_final_price: row.querySelector('.diamond-total')?.value,
+                });
+            });
+            return diamonds;
+        }
+    </script>
+    <script>
+        function collectStones() {
+            let stones = [];
+            document.querySelectorAll('#stoneTable tbody tr').forEach(row => {
+                stones.push({
+                    stone_name: row.querySelector('.stone-name')?.value,
+                    stone_weight: row.querySelector('.stone-weight')?.value,
+                    stone_price: row.querySelector('.stone-price')?.value,
+                    stone_final_price: row.querySelector('.stone-total')?.value,
+                });
+            });
+            return stones;
+        }
     </script>
     <script>
         document.getElementById('addItemBtn').addEventListener('click', function() {
@@ -1681,6 +1308,8 @@
                     input.value = '';
                 }
             });
+            document.querySelector('#diamondTable tbody').innerHTML = '';
+            document.querySelector('#stoneTable tbody').innerHTML = '';
 
         });
     </script>

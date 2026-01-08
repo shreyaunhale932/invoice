@@ -93,4 +93,14 @@ class SellInvoice extends Model
     {
         return $this->belongsTo(User::class, 'admin_id');
     }
+    public function stoneItems()
+{
+    return $this->hasMany(SellStoneItem::class, 'sell_invoice_id');
+}
+public function diamondItems()
+{
+    return $this->hasMany(SellDiamondItem::class, 'sell_invoice_id');
+}
+
+
 }

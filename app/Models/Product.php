@@ -96,5 +96,15 @@ public function metalRate()
 {
     return $this->belongsTo(MetalRate::class, 'metal_rate');
 }
+public function sellStoneItems()
+{
+    return $this->hasMany(SellStoneItem::class, 'product_id');
+}
+public function sellDiamondItems()
+{
+    return $this->hasMany(SellDiamondItem::class, 'product_id');
+}
+
+
 
 }

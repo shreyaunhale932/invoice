@@ -16,6 +16,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\PurityController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\SellInvoiceController;
 use Illuminate\Support\Str;
 use App\Models\Invoice;
 
@@ -353,6 +354,10 @@ Route::get('inventory/item-products/{itemId}', [InventoryController::class, 'get
 Route::get('inventory-history/{id}', [InventoryController::class, 'history'])->name('inventory.history');
 
 Route::get('/inventories', [InventoryController::class, 'indexInventory'])->name('inventory.index');
+
+Route::post('/sell-invoice/add-item',
+    [SellInvoiceController::class, 'addItem']
+)->name('sell.invoice.addItem');
 
 
 
