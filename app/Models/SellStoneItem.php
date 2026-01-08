@@ -9,8 +9,9 @@ class SellStoneItem extends Model
     protected $table = 'sell_stone_items';
 
     protected $fillable = [
+        'admin_id',
         'sell_invoice_id',
-        'product_id',
+        'sell_invoice_item_id',
         'stone_name',
         'stone_weight',
         'stone_price',
@@ -30,8 +31,9 @@ class SellStoneItem extends Model
     /**
      * Stone belongs to Product
      */
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
+  public function invoiceItem()
+{
+    return $this->belongsTo(SellInvoiceItem::class, 'sell_invoice_item_id');
+}
+
 }

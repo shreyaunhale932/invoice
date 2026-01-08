@@ -9,8 +9,9 @@ class SellDiamondItem extends Model
     protected $table = 'sell_diamond_items';
 
     protected $fillable = [
+        'admin_id',
         'sell_invoice_id',
-        'product_id',
+        'sell_invoice_item_id',
         'clarity',
         'cut',
         'color',
@@ -32,8 +33,9 @@ class SellDiamondItem extends Model
     /**
      * Diamond belongs to Product
      */
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
+   public function invoiceItem()
+{
+    return $this->belongsTo(SellInvoiceItem::class, 'sell_invoice_item_id');
+}
+
 }

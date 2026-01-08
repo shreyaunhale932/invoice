@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\SellInvoiceItem;
@@ -8,6 +9,8 @@ use App\Models\SellDiamondItem;
 use App\Models\SellStoneItem;
 use App\Models\SellInvoice;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class SellInvoiceController extends Controller
 {
@@ -16,6 +19,17 @@ class SellInvoiceController extends Controller
         DB::beginTransaction();
 
         try {
+            if (
+                session()->has('sell_invoice_id') &&
+                !SellInvoice::where('id', session('sell_invoice_id'))->exists()
+            ) {
+                session()->forget('sell_invoice_id');
+            }
+            $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)
+                ->format('Y-m-d');
+
+            $dueDate = Carbon::createFromFormat('d-m-Y', $request->due_date)
+                ->format('Y-m-d');
 
 
             if (!session()->has('sell_invoice_id')) {
@@ -23,8 +37,8 @@ class SellInvoiceController extends Controller
                     'admin_id' => Auth::id(),
                     'invoice_no'   => $request->invoice_no,
                     'user_id'  => $request->customer_id,
-                    'invoice_date' => $request->invoice_date,
-                    'invoice_due_date'     => $request->due_date,
+                    'invoice_date' => $invoiceDate,
+                    'invoice_due_date' => $dueDate,
                     'status' => 'draft',
                     'final_amount' => 0, // will update later
                 ]);
@@ -33,7 +47,7 @@ class SellInvoiceController extends Controller
             }
 
             $invoiceId = session('sell_invoice_id');
-
+            // dd("====>".$invoiceId);
 
             $gold = SellInvoiceItem::create([
                 'admin_id' => Auth::id(),

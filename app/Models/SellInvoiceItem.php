@@ -12,6 +12,7 @@ class SellInvoiceItem extends Model
     protected $table = 'sell_invoice_items';
 
     protected $fillable = [
+        'admin_id',
         'sell_invoice_id',
         'product_id',
 
