@@ -41,13 +41,14 @@ class InvoiceController extends Controller
     //     return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'banks', 'business'));
     // }
     public function invoices()
-    {
-        $invoices = Invoice::with('customer')
-            ->where('admin_id', Auth::id())
-            ->get();
+{
+    $invoices = SellInvoice::with('customer')   // relation must exist
+        ->where('admin_id', Auth::id())
+        ->orderBy('id', 'desc')
+        ->get();
 
-        return view('Sales/Invoices/invoices', compact('invoices'));
-    }
+    return view('Sales/Invoices/invoices', compact('invoices'));
+}
 
     public function create()
     {
