@@ -30,8 +30,8 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Invoice Number</label>
-                                                <input type="text" class="form-control" value="{{ $previewInvoiceNo }}" name="invoice_no"
-                                                    readonly>
+                                                <input type="text" class="form-control" value="{{ $previewInvoiceNo }}"
+                                                    name="invoice_no" readonly>
 
                                             </div>
                                         </div>
@@ -1189,24 +1189,24 @@
                 post_code: entryRow.querySelector('input[name="post_code[]"]').value,
                 barcode: entryRow.querySelector('input[name="barcode[]"]').value,
                 hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
-                
+
                 net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
                 gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
                 metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
-                
+
                 making_price: entryRow.querySelector('input[name="making_price[]"]').value,
                 wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
-                
+
                 gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
                 gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
-                
+
                 total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
                 final_price: entryRow.querySelector('input[name="final_price[]"]').value,
-                
+
                 category: entryRow.querySelector('input[name="category[]"]').value,
                 subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
                 size: entryRow.querySelector('input[name="size[]"]').value,
-                
+
                 diamonds: collectDiamonds(),
                 stones: collectStones(),
             };
@@ -1223,18 +1223,18 @@
                 .then(res => {
                     console.log(res);
                     let entryRow = document.querySelector('#entryTable tbody tr');
-            let inputs = entryRow.querySelectorAll('input');
+                    let inputs = entryRow.querySelectorAll('input');
 
-            // Validation (minimum)
-            if (!inputs[2].value) {
-                alert('Please select a product');
-                return;
-            }
+                    // Validation (minimum)
+                    if (!inputs[2].value) {
+                        alert('Please select a product');
+                        return;
+                    }
 
-            let tableBody = document.querySelector('#itemsTable tbody');
-            let tr = document.createElement('tr');
+                    let tableBody = document.querySelector('#itemsTable tbody');
+                    let tr = document.createElement('tr');
 
-            tr.innerHTML = `
+                    tr.innerHTML = `
         <td>
             ${inputs[2].value}
             <input type="hidden" name="product_name[]" value="${inputs[2].value}">
@@ -1273,16 +1273,16 @@
         </td>
     `;
 
-            tableBody.appendChild(tr);
+                    tableBody.appendChild(tr);
 
-            // CLEAR ENTRY ROW FOR NEXT ITEM
-            inputs.forEach(input => {
-                if (!input.hasAttribute('readonly')) {
-                    input.value = '';
-                }
-            });
-            document.querySelector('#diamondTable tbody').innerHTML = '';
-            document.querySelector('#stoneTable tbody').innerHTML = '';
+                    // CLEAR ENTRY ROW FOR NEXT ITEM
+                    inputs.forEach(input => {
+                        if (!input.hasAttribute('readonly')) {
+                            input.value = '';
+                        }
+                    });
+                    document.querySelector('#diamondTable tbody').innerHTML = '';
+                    document.querySelector('#stoneTable tbody').innerHTML = '';
                 })
                 .catch(err => {
                     console.error(err);
@@ -1400,28 +1400,32 @@
             $('#customerDropdown').on('change', function() {
                 var customerId = $(this).val();
                 if (!customerId) return;
-                
+
                 // Clear existing items
                 $('#itemsTable tbody').empty();
-                  const pendingInvoiceUrlTemplate = "{{ route('sell.invoice.getPending', ':customerId') }}";
+                const pendingInvoiceUrlTemplate = "{{ route('sell.invoice.getPending', ':customerId') }}";
                 $.ajax({
                     url: pendingInvoiceUrlTemplate.replace(':customerId', customerId),
                     type: 'GET',
                     success: function(response) {
                         if (response.success && response.invoice) {
                             var invoice = response.invoice;
-                            
+
                             // Update invoice basic details if needed
                             $('input[name="invoice_no"]').val(invoice.invoice_no);
                             // Format dates if they exist (assuming YYYY-MM-DD from backend)
-                           if (invoice.invoice_date) {
+                            if (invoice.invoice_date) {
                                 var date = new Date(invoice.invoice_date);
-                                var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
+                                var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + (
+                                        "0" + (date.getMonth() + 1)).slice(-2) + "-" + date
+                                    .getFullYear();
                                 $('input[name="invoice_date"]').val(formattedDate);
                             }
                             if (invoice.invoice_due_date) {
                                 var dueDate = new Date(invoice.invoice_due_date);
-                                var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) + "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" + dueDate.getFullYear();
+                                var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) +
+                                    "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" +
+                                    dueDate.getFullYear();
                                 $('input[name="due_date"]').val(formattedDueDate);
                             }
 
@@ -1476,9 +1480,9 @@
                             }
                         } else {
                             console.log('No pending invoice found, or no items.');
-                             // Optionally clear fields or leave correctly empty
-                             $('#itemsTable tbody').empty();
-                             // Reset invoice number to default or handle as new logic if needed
+                            // Optionally clear fields or leave correctly empty
+                            $('#itemsTable tbody').empty();
+                            // Reset invoice number to default or handle as new logic if needed
                         }
                     },
                     error: function(err) {

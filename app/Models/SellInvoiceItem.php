@@ -39,6 +39,7 @@ class SellInvoiceItem extends Model
 
         'user_id',
         'admin_id',
+        'final_price',
     ];
 
     protected $casts = [

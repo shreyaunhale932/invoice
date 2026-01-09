@@ -45,6 +45,7 @@ class SellInvoiceController extends Controller
         $invoiceId = $UserInvoice->id;
 
         $itemFinalPrice = (float) $request->final_price;
+        // dd($itemFinalPrice);
 
         // Create item
         // Create item
@@ -56,23 +57,23 @@ class SellInvoiceController extends Controller
             'post_code' => $request->post_code,
             'barcode' => $request->barcode,
             'hsn_code' => $request->hsn_code,
-            
+
             // Weights & Rates
             'gross_weight' => $request->gross_weight,
             'net_weight' => $request->net_weight,
             'metal_rate' => $request->metal_rate,
-            
+
             // Pricing
             'making_price' => $request->making_price,
             'wastage_percent' => $request->wastage_percent,
             'gst_percent' => $request->gst_percent,
             'gst_amount' => $request->gst_amount,
-            
+
             // Other
             'category' => $request->category,
             'subcategory' => $request->subcategory,
             'size' => $request->size,
-            
+
             // Final
             'total_amount' => $request->total_amount,
             'final_price' => $itemFinalPrice,
@@ -108,7 +109,7 @@ class SellInvoiceController extends Controller
         }
 
         // Recalculate invoice total AFTER everything is saved
-        $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('total_amount');      
+        $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
 
         SellInvoice::where('id', $invoiceId)->update([
             'final_amount' => $invoiceTotal
