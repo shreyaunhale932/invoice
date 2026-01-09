@@ -30,8 +30,9 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Invoice Number</label>
-                                                <input type="text" class="form-control"
-                                                    placeholder="Enter Invoice Number" name="invoice_no">
+                                                <input type="text" class="form-control" value="{{ $previewInvoiceNo }}" name="invoice_no"
+                                                    readonly>
+
                                             </div>
                                         </div>
 
@@ -143,7 +144,8 @@
                                             <option value="">Search by Product Code</option>
 
                                             @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" data-name="{{ $product->product_name }}"
+                                                <option value="{{ $product->id }}"
+                                                    data-name="{{ $product->product_name }}"
                                                     data-barcode="{{ $product->barcode }}" {{-- data-rate="{{ $product->metal_rate }}" --}}
                                                     data-hsn="{{ $product->hsn_code }}"
                                                     data-gross_weight="{{ $product->gross_weight }}"

@@ -94,13 +94,22 @@ class SellInvoice extends Model
         return $this->belongsTo(User::class, 'admin_id');
     }
     public function stoneItems()
-{
-    return $this->hasMany(SellStoneItem::class, 'sell_invoice_id');
-}
-public function diamondItems()
-{
-    return $this->hasMany(SellDiamondItem::class, 'sell_invoice_id');
-}
+    {
+        return $this->hasMany(SellStoneItem::class, 'sell_invoice_id');
+    }
+    public function diamondItems()
+    {
+        return $this->hasMany(SellDiamondItem::class, 'sell_invoice_id');
+    }
+    // App\Models\SellInvoice.php
+    protected static function booted()
+    {
+        static::creating(function ($invoice) {
 
+            $last = self::orderBy('id', 'desc')->first();
+            $number = $last ? intval(substr($last->invoice_no, 4)) + 1 : 1;
 
+            $invoice->invoice_no = 'INV-' . str_pad($number, 4, '0', STR_PAD_LEFT);
+        });
+    }
 }

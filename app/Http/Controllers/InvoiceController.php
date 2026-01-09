@@ -18,6 +18,7 @@ use App\Models\InvoiceColumn;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Models\SellInvoice;
 
 
 
@@ -115,15 +116,21 @@ class InvoiceController extends Controller
         $customFields = CustomFieldDefinition::where('admin_id', $adminId)
             ->where('model_type', 'App\Models\Invoice') // or use constant if you prefer
             ->get();
-      $products = Product::with(['category', 'subcategory', 'metalRate', 'diamonds', 'stones'])->get();
+        $products = Product::with(['category', 'subcategory', 'metalRate', 'diamonds', 'stones'])->get();
 
 
         $categories = Category::all();
         $subcategories = Subcategory::all();
 
+        $last = SellInvoice::orderBy('id', 'desc')->first();
 
+        $nextNumber = $last
+            ? intval(substr($last->invoice_no, 4)) + 1
+            : 1;
 
-        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'allColumns', 'visibleColumns'));
+        $previewInvoiceNo = 'INV-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+
+        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'allColumns', 'visibleColumns', 'previewInvoiceNo'));
     }
     public function updatecolumns(Request $request)
     {
