@@ -359,6 +359,10 @@ Route::post('/sell-invoice/add-item',
     [SellInvoiceController::class, 'addItem']
 )->name('sell.invoice.addItem');
 
+Route::get('/sell-invoice/get-pending/{customerId}', 
+    [SellInvoiceController::class, 'getPendingInvoice']
+)->name('sell.invoice.getPending');
+
 
 
 Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');

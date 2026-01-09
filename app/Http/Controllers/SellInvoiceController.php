@@ -47,17 +47,33 @@ class SellInvoiceController extends Controller
         $itemFinalPrice = (float) $request->final_price;
 
         // Create item
+        // Create item
         $item = SellInvoiceItem::create([
             'admin_id' => Auth::id(),
             'sell_invoice_id' => $invoiceId,
-            'product_name' => $request->product_name,
+            'item_name' => $request->product_name,
             'pre_code' => $request->pre_code,
             'post_code' => $request->post_code,
             'barcode' => $request->barcode,
+            'hsn_code' => $request->hsn_code,
+            
+            // Weights & Rates
+            'gross_weight' => $request->gross_weight,
             'net_weight' => $request->net_weight,
             'metal_rate' => $request->metal_rate,
+            
+            // Pricing
             'making_price' => $request->making_price,
+            'wastage_percent' => $request->wastage_percent,
+            'gst_percent' => $request->gst_percent,
             'gst_amount' => $request->gst_amount,
+            
+            // Other
+            'category' => $request->category,
+            'subcategory' => $request->subcategory,
+            'size' => $request->size,
+            
+            // Final
             'total_amount' => $request->total_amount,
             'final_price' => $itemFinalPrice,
         ]);
@@ -115,5 +131,25 @@ class SellInvoiceController extends Controller
         ], 500);
     }
 }
+
+    public function getPendingInvoice($customerId)
+    {
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones'])
+                    ->where('user_id', $customerId)
+                    ->where('status', 'pending')
+                    ->first();
+
+        if ($invoice) {
+            return response()->json([
+                'success' => true,
+                'invoice' => $invoice
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'No pending invoice found'
+        ]);
+    }
 
 }

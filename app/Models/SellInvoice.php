@@ -102,6 +102,11 @@ class SellInvoice extends Model
     {
         return $this->hasMany(SellDiamondItem::class, 'sell_invoice_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany(SellInvoiceItem::class, 'sell_invoice_id');
+    }
     // App\Models\SellInvoice.php
     protected static function booted()
     {

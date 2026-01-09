@@ -1188,12 +1188,25 @@
                 pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
                 post_code: entryRow.querySelector('input[name="post_code[]"]').value,
                 barcode: entryRow.querySelector('input[name="barcode[]"]').value,
+                hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
+                
                 net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+                gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
                 metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
+                
                 making_price: entryRow.querySelector('input[name="making_price[]"]').value,
+                wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
+                
                 gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
+                gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
+                
                 total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
                 final_price: entryRow.querySelector('input[name="final_price[]"]').value,
+                
+                category: entryRow.querySelector('input[name="category[]"]').value,
+                subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
+                size: entryRow.querySelector('input[name="size[]"]').value,
+                
                 diamonds: collectDiamonds(),
                 stones: collectStones(),
             };
@@ -1209,7 +1222,67 @@
                 .then(res => res.json())
                 .then(res => {
                     console.log(res);
-                    alert('Item stored successfully');
+                    let entryRow = document.querySelector('#entryTable tbody tr');
+            let inputs = entryRow.querySelectorAll('input');
+
+            // Validation (minimum)
+            if (!inputs[2].value) {
+                alert('Please select a product');
+                return;
+            }
+
+            let tableBody = document.querySelector('#itemsTable tbody');
+            let tr = document.createElement('tr');
+
+            tr.innerHTML = `
+        <td>
+            ${inputs[2].value}
+            <input type="hidden" name="product_name[]" value="${inputs[2].value}">
+        </td>
+        <td>
+            ${inputs[3].value}-${inputs[4].value}
+            <input type="hidden" name="pre_code[]" value="${inputs[3].value}">
+            <input type="hidden" name="post_code[]" value="${inputs[4].value}">
+        </td>
+        <td>
+            ${inputs[5].value}
+            <input type="hidden" name="barcode[]" value="${inputs[5].value}">
+        </td>
+        <td>
+            ${inputs[10].value}
+            <input type="hidden" name="net_weight[]" value="${inputs[10].value}">
+        </td>
+        <td>
+            ${inputs[7].value}
+            <input type="hidden" name="metal_rate[]" value="${inputs[7].value}">
+        </td>
+        <td>
+            ${inputs[13].value}
+            <input type="hidden" name="making_price[]" value="${inputs[13].value}">
+        </td>
+        <td>
+            ${inputs[15].value}
+            <input type="hidden" name="gst_amount[]" value="${inputs[15].value}">
+        </td>
+        <td>
+            ${inputs[16].value}
+            <input type="hidden" name="total_amount[]" value="${inputs[16].value}">
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm removeItem">X</button>
+        </td>
+    `;
+
+            tableBody.appendChild(tr);
+
+            // CLEAR ENTRY ROW FOR NEXT ITEM
+            inputs.forEach(input => {
+                if (!input.hasAttribute('readonly')) {
+                    input.value = '';
+                }
+            });
+            document.querySelector('#diamondTable tbody').innerHTML = '';
+            document.querySelector('#stoneTable tbody').innerHTML = '';
                 })
                 .catch(err => {
                     console.error(err);
@@ -1248,7 +1321,7 @@
             return stones;
         }
     </script>
-    <script>
+    {{-- <script>
         document.getElementById('addItemBtn').addEventListener('click', function() {
 
             let entryRow = document.querySelector('#entryTable tbody tr');
@@ -1314,12 +1387,105 @@
             document.querySelector('#stoneTable tbody').innerHTML = '';
 
         });
-    </script>
+    </script> --}}
     <script>
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('removeItem')) {
                 e.target.closest('tr').remove();
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#customerDropdown').on('change', function() {
+                var customerId = $(this).val();
+                if (!customerId) return;
+                
+                // Clear existing items
+                $('#itemsTable tbody').empty();
+                  const pendingInvoiceUrlTemplate = "{{ route('sell.invoice.getPending', ':customerId') }}";
+                $.ajax({
+                    url: pendingInvoiceUrlTemplate.replace(':customerId', customerId),
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success && response.invoice) {
+                            var invoice = response.invoice;
+                            
+                            // Update invoice basic details if needed
+                            $('input[name="invoice_no"]').val(invoice.invoice_no);
+                            // Format dates if they exist (assuming YYYY-MM-DD from backend)
+                           if (invoice.invoice_date) {
+                                var date = new Date(invoice.invoice_date);
+                                var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear();
+                                $('input[name="invoice_date"]').val(formattedDate);
+                            }
+                            if (invoice.invoice_due_date) {
+                                var dueDate = new Date(invoice.invoice_due_date);
+                                var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) + "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" + dueDate.getFullYear();
+                                $('input[name="due_date"]').val(formattedDueDate);
+                            }
+
+                            // Populate Items
+                            if (invoice.items && invoice.items.length > 0) {
+                                invoice.items.forEach(function(item) {
+                                    var tr = `
+                                        <tr>
+                                            <td>
+                                                ${item.item_name || ''}
+                                                <input type="hidden" name="product_name[]" value="${item.item_name || ''}">
+                                            </td>
+                                            <td>
+                                                ${item.pre_code || ''}-${item.post_code || ''}
+                                                <input type="hidden" name="pre_code[]" value="${item.pre_code || ''}">
+                                                <input type="hidden" name="post_code[]" value="${item.post_code || ''}">
+                                            </td>
+                                            <td>
+                                                ${item.barcode || ''}
+                                                <input type="hidden" name="barcode[]" value="${item.barcode || ''}">
+                                            </td>
+                                            <td>
+                                                ${item.net_weight || 0}
+                                                <input type="hidden" name="net_weight[]" value="${item.net_weight || 0}">
+                                                <input type="hidden" name="gross_weight[]" value="${item.gross_weight || 0}">
+                                            </td>
+                                            <td>
+                                                ${item.metal_rate || 0}
+                                                <input type="hidden" name="metal_rate[]" value="${item.metal_rate || 0}">
+                                            </td>
+                                            <td>
+                                                ${item.making_price || 0}
+                                                <input type="hidden" name="making_price[]" value="${item.making_price || 0}">
+                                                <input type="hidden" name="wastage_percent[]" value="${item.wastage_percent || 0}">
+                                            </td>
+                                            <td>
+                                                ${item.gst_amount || 0}
+                                                <input type="hidden" name="gst_amount[]" value="${item.gst_amount || 0}">
+                                                <input type="hidden" name="gst_percent[]" value="${item.gst_percent || 0}">
+                                            </td>
+                                            <td>
+                                                ${item.total_amount || 0}
+                                                <input type="hidden" name="total_amount[]" value="${item.total_amount || 0}">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm removeItem">X</button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                    $('#itemsTable tbody').append(tr);
+                                });
+                            }
+                        } else {
+                            console.log('No pending invoice found, or no items.');
+                             // Optionally clear fields or leave correctly empty
+                             $('#itemsTable tbody').empty();
+                             // Reset invoice number to default or handle as new logic if needed
+                        }
+                    },
+                    error: function(err) {
+                        console.error('Error fetching pending invoice:', err);
+                    }
+                });
+            });
         });
     </script>
 @endsection

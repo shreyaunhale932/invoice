@@ -17,6 +17,10 @@ class SellInvoiceItem extends Model
         'product_id',
 
         'item_name',
+        // 'product_name',
+        'pre_code',
+        'post_code',
+        'barcode',
         'purity',
 
         // Weights
@@ -72,5 +76,15 @@ class SellInvoiceItem extends Model
     public function admin()
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    public function diamonds()
+    {
+        return $this->hasMany(SellDiamondItem::class, 'sell_invoice_item_id');
+    }
+
+    public function stones()
+    {
+        return $this->hasMany(SellStoneItem::class, 'sell_invoice_item_id');
     }
 }
