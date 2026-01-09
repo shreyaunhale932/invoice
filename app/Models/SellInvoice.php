@@ -52,6 +52,7 @@ class SellInvoice extends Model
         'invoice_due_date',
         'per_invoice_no',
         'post_invoice_no',
+        'status',
     ];
 
     protected $casts = [

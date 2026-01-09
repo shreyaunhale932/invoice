@@ -20,19 +20,16 @@ class SellInvoiceController extends Controller
 
     try {
         // Clear invalid session
-        if (
-            session()->has('sell_invoice_id') &&
-            !SellInvoice::where('id', session('sell_invoice_id'))->exists()
-        ) {
-            session()->forget('sell_invoice_id');
-        }
+        $UserInvoice = SellInvoice::where('user_id', $request->customer_id)
+    ->whereIn('status', ['pending', 'draft'])
+    ->first();
 
         $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d');
         $dueDate     = Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d');
 
         // Create invoice only once
-        if (!session()->has('sell_invoice_id')) {
-            $invoice = SellInvoice::create([
+        if (!$UserInvoice) {
+            $UserInvoice = SellInvoice::create([
                 'admin_id' => Auth::id(),
                 'invoice_no' => $request->invoice_no,
                 'user_id' => $request->customer_id,
@@ -42,10 +39,10 @@ class SellInvoiceController extends Controller
                 'final_amount' => 0,
             ]);
 
-            session(['sell_invoice_id' => $invoice->id]);
+            // session(['sell_invoice_id' => $invoice->id]);
         }
 
-        $invoiceId = session('sell_invoice_id');
+        $invoiceId = $UserInvoice->id;
 
         $itemFinalPrice = (float) $request->final_price;
 
@@ -95,7 +92,7 @@ class SellInvoiceController extends Controller
         }
 
         // Recalculate invoice total AFTER everything is saved
-        $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('total_amount');
+        $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('total_amount');      
 
         SellInvoice::where('id', $invoiceId)->update([
             'final_amount' => $invoiceTotal
