@@ -207,6 +207,10 @@
 
                                     <tbody>
                                         <tr>
+                                            <td style="display:none">
+                                                <input type="hidden" name="product_id[]" id="entry_product_id">
+                                            </td>
+
                                             <td><input type="text" name="category[]" class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="text" name="subcategory[]" class="form-control"
@@ -1055,6 +1059,7 @@
 
                 // Existing product fill (keep this)
                 let row = $('#entryTable tbody tr').first();
+                row.find('#entry_product_id').val(option.val());
 
                 // BASIC DATA
                 row.find('input[name="pre_code[]"]').val(option.data('pre_code'));
@@ -1200,128 +1205,151 @@
         });
     </script>
     <script>
-        document.getElementById('addItemBtn').addEventListener('click', function(e) {
-            e.preventDefault(); //VERY IMPORTANT
+document.getElementById('addItemBtn').addEventListener('click', function (e) {
+    e.preventDefault();
 
-            console.log('Add Item clicked');
+    const entryRow = document.querySelector('#entryTable tbody tr');
 
-            let entryRow = document.querySelector('#entryTable tbody tr');
+    if (!entryRow) {
+        alert('Entry row not found');
+        return;
+    }
 
-            let payload = {
-                _token: '{{ csrf_token() }}',
+    const productId = entryRow.querySelector('#entry_product_id')?.value;
 
-                invoice_no: document.querySelector('input[name="invoice_no"]').value,
-                customer_id: document.querySelector('#customerDropdown').value,
-                invoice_date: document.querySelector('input[name="invoice_date"]').value,
-                due_date: document.querySelector('input[name="due_date"]').value,
+    if (!productId) {
+        alert('Please select a product');
+        return;
+    }
 
-                product_name: entryRow.querySelector('input[name="product_name[]"]').value,
-                pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
-                post_code: entryRow.querySelector('input[name="post_code[]"]').value,
-                barcode: entryRow.querySelector('input[name="barcode[]"]').value,
-                hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
+    const payload = {
+        _token: '{{ csrf_token() }}',
 
-                net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
-                gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
-                metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
+        product_id: productId,
+        invoice_no: document.querySelector('input[name="invoice_no"]').value,
+        customer_id: document.querySelector('#customerDropdown').value,
+        invoice_date: document.querySelector('input[name="invoice_date"]').value,
+        due_date: document.querySelector('input[name="due_date"]').value,
 
-                making_price: entryRow.querySelector('input[name="making_price[]"]').value,
-                wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
+        product_name: entryRow.querySelector('input[name="product_name[]"]').value,
+        pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
+        post_code: entryRow.querySelector('input[name="post_code[]"]').value,
+        barcode: entryRow.querySelector('input[name="barcode[]"]').value,
+        hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
 
-                gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
-                gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
+        net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+        gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
+        metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
 
-                total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
-                final_price: entryRow.querySelector('input[name="final_price[]"]').value,
+        making_price: entryRow.querySelector('input[name="making_price[]"]').value,
+        wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
 
-                category: entryRow.querySelector('input[name="category[]"]').value,
-                subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
-                size: entryRow.querySelector('input[name="size[]"]').value,
+        gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
+        gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
 
-                diamonds: collectDiamonds(),
-                stones: collectStones(),
-            };
+        total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
+        final_price: entryRow.querySelector('input[name="final_price[]"]').value,
 
-            fetch('{{ route('sell.invoice.addItem') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify(payload)
-                })
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                    let entryRow = document.querySelector('#entryTable tbody tr');
-                    let inputs = entryRow.querySelectorAll('input');
+        category: entryRow.querySelector('input[name="category[]"]').value,
+        subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
+        size: entryRow.querySelector('input[name="size[]"]').value,
 
-                    // Validation (minimum)
-                    if (!inputs[2].value) {
-                        alert('Please select a product');
-                        return;
-                    }
+        diamonds: collectDiamonds(),
+        stones: collectStones(),
+    };
 
-                    let tableBody = document.querySelector('#itemsTable tbody');
-                    let tr = document.createElement('tr');
+    fetch('{{ route('sell.invoice.addItem') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(res => {
 
-                    tr.innerHTML = `
-        <td>
-            ${inputs[2].value}
-            <input type="hidden" name="product_name[]" value="${inputs[2].value}">
-        </td>
-        <td>
-            ${inputs[3].value}-${inputs[4].value}
-            <input type="hidden" name="pre_code[]" value="${inputs[3].value}">
-            <input type="hidden" name="post_code[]" value="${inputs[4].value}">
-        </td>
-        <td>
-            ${inputs[5].value}
-            <input type="hidden" name="barcode[]" value="${inputs[5].value}">
-        </td>
-        <td>
-            ${inputs[10].value}
-            <input type="hidden" name="net_weight[]" value="${inputs[10].value}">
-        </td>
-        <td>
-            ${inputs[7].value}
-            <input type="hidden" name="metal_rate[]" value="${inputs[7].value}">
-        </td>
-        <td>
-            ${inputs[13].value}
-            <input type="hidden" name="making_price[]" value="${inputs[13].value}">
-        </td>
-        <td>
-            ${inputs[15].value}
-            <input type="hidden" name="gst_amount[]" value="${inputs[15].value}">
-        </td>
-        <td>
-            ${inputs[17].value}
-            <input type="hidden" name="total_amount[]" value="${inputs[16].value}">
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${res.item_id}">X</button>
-        </td>
-    `;
+        if (!res.success) {
+            alert(res.message || 'Failed to save item');
+            return;
+        }
 
-                    tableBody.appendChild(tr);
+        const tableBody = document.querySelector('#itemsTable tbody');
+        const tr = document.createElement('tr');
 
-                    // CLEAR ENTRY ROW FOR NEXT ITEM
-                    inputs.forEach(input => {
-                        if (!input.hasAttribute('readonly')) {
-                            input.value = '';
-                        }
-                    });
-                    calculateInvoiceTotals();
-                    document.querySelector('#diamondTable tbody').innerHTML = '';
-                    document.querySelector('#stoneTable tbody').innerHTML = '';
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Error saving item');
-                });
+        tr.innerHTML = `
+            <td>
+                ${payload.product_name}
+                <input type="hidden" name="product_id[]" value="${payload.product_id}">
+                <input type="hidden" name="product_name[]" value="${payload.product_name}">
+            </td>
+
+            <td>
+                ${payload.pre_code}-${payload.post_code}
+                <input type="hidden" name="pre_code[]" value="${payload.pre_code}">
+                <input type="hidden" name="post_code[]" value="${payload.post_code}">
+            </td>
+
+            <td>
+                ${payload.barcode}
+                <input type="hidden" name="barcode[]" value="${payload.barcode}">
+            </td>
+
+            <td>
+                ${payload.net_weight}
+                <input type="hidden" name="net_weight[]" value="${payload.net_weight}">
+            </td>
+
+            <td>
+                ${payload.metal_rate}
+                <input type="hidden" name="metal_rate[]" value="${payload.metal_rate}">
+            </td>
+
+            <td>
+                ${payload.making_price}
+                <input type="hidden" name="making_price[]" value="${payload.making_price}">
+            </td>
+
+            <td>
+                ${payload.gst_amount}
+                <input type="hidden" name="gst_amount[]" value="${payload.gst_amount}">
+            </td>
+
+            <td>
+                ${payload.final_price}
+                <input type="hidden" name="total_amount[]" value="${payload.final_price}">
+            </td>
+
+            <td>
+                <button type="button"
+                        class="btn btn-danger btn-sm removeItem"
+                        data-id="${res.item_id}">
+                    X
+                </button>
+            </td>
+        `;
+
+        tableBody.appendChild(tr);
+
+        /* CLEAR ENTRY ROW */
+        entryRow.querySelectorAll('input').forEach(input => {
+            if (!input.hasAttribute('readonly')) {
+                input.value = '';
+            }
         });
-    </script>
+
+        document.querySelector('#diamondTable tbody').innerHTML = '';
+        document.querySelector('#stoneTable tbody').innerHTML = '';
+
+        calculateInvoiceTotals();
+    })
+    .catch(error => {
+        console.error(error);
+        alert('Error saving item');
+    });
+});
+</script>
+
     <script>
         function collectDiamonds() {
             let diamonds = [];
