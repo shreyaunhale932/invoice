@@ -304,7 +304,7 @@
                                             <th>Metal Rate</th>
                                             <th>Making</th>
                                             <th>GST</th>
-                                            <th>Total</th>
+                                            <th>Final Amt</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -1295,11 +1295,11 @@
             <input type="hidden" name="gst_amount[]" value="${inputs[15].value}">
         </td>
         <td>
-            ${inputs[16].value}
+            ${inputs[17].value}
             <input type="hidden" name="total_amount[]" value="${inputs[16].value}">
         </td>
         <td>
-            <button type="button" class="btn btn-danger btn-sm removeItem">X</button>
+            <button type="button" class="btn btn-danger btn-sm removeItem">11X</button>
         </td>
     `;
 
@@ -1497,7 +1497,7 @@
                                                 <input type="hidden" name="gst_percent[]" value="${item.gst_percent || 0}">
                                             </td>
                                             <td>
-                                                ${item.total_amount || 0}
+                                                ${item.final_price || 0}
                                                 <input type="hidden" name="total_amount[]" value="${item.total_amount || 0}">
                                             </td>
                                             <td>
