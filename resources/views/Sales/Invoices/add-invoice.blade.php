@@ -458,66 +458,96 @@
 
                                         <div class="col-xl-6 col-lg-12">
                                             <div class="form-group-bank">
+
+                                                <!-- hidden states -->
                                                 <input type="hidden" id="businessState" value="{{ $business->state }}">
                                                 <input type="hidden" id="customerState" value="">
 
                                                 <div class="invoice-total-box">
                                                     <div class="invoice-total-inner">
-                                                        <p>Taxable Amount <span id="taxableAmount">₹0.00</span></p>
 
-                                                        <p>CGST <span id="cgstAmount">₹0.00</span></p>
-                                                        <p>SGST <span id="sgstAmount">₹0.00</span></p>
-                                                        <p>IGST <span id="igstAmount">₹0.00</span></p>
+                                                        <!-- Taxable Amount -->
+                                                        <p>
+                                                            Taxable Amount
+                                                            <span id="taxableAmount">₹0.00</span>
+                                                        </p>
 
-                                                        <div class="status-toggle justify-content-between">
-                                                            <div class="d-flex align-center">
-                                                                <p>Round Off</p>
-                                                                <input id="roundOffToggle" class="check"
-                                                                    type="checkbox">
-                                                                <label for="roundOffToggle"
-                                                                    class="checktoggle checkbox-bg">checkbox</label>
-                                                            </div>
-                                                            <span id="roundOffAmount">₹0.00</span>
+                                                        <!-- CGST -->
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <label>CGST %</label>
+                                                            <input type="number" id="cgstPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="cgstAmount">₹0.00</span>
                                                         </div>
+
+                                                        <!-- SGST -->
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <label>SGST %</label>
+                                                            <input type="number" id="sgstPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="sgstAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <!-- IGST -->
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <label>IGST %</label>
+                                                            <input type="number" id="igstPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="igstAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <!-- Discount -->
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <label>Discount %</label>
+                                                            <input type="number" id="discountPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="discountAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <hr>
+
+                                                        <!-- Payments -->
+                                                        <div class="d-flex justify-content-between">
+                                                            <label>Cash Received</label>
+                                                            <input type="number" id="cashReceived"
+                                                                class="form-control w-50" value="0">
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-between">
+                                                            <label>Bank Received</label>
+                                                            <input type="number" id="bankReceived"
+                                                                class="form-control w-50" value="0">
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-between">
+                                                            <label>Online Received</label>
+                                                            <input type="number" id="onlineReceived"
+                                                                class="form-control w-50" value="0">
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-between">
+                                                            <label>Card Received</label>
+                                                            <input type="number" id="cardReceived"
+                                                                class="form-control w-50" value="0">
+                                                        </div>
+
                                                     </div>
+
+                                                    <!-- Footer -->
                                                     <div class="invoice-total-footer">
-                                                        <h4>Total Amount <span id="totalInvoiceAmount">₹0.00</span></h4>
-                                                    </div>
-                                                </div>
-                                                <div class="mt-3">
-                                                    <label class="btn btn-link">Give Item wise Discount:</label>
-                                                    <select id="discountType" class="discount-type">
-                                                        <option value="none">None</option>
-                                                        <option value="fixed">Fixed</option>
-                                                        <option value="percent">Percent</option>
-                                                    </select>
-                                                    <input type="number" id="discountValue"
-                                                        placeholder="e.g. 100 or 10%">
-                                                    <select id="distributionType" style="display:none;">
-                                                        <option value="equal">Equal</option>
-                                                        <option value="weighted">Weighted</option>
-                                                    </select>
-                                                </div>
-                                                <button id="addTotalDiscountBtn" class="btn btn-link">Give Discount on
-                                                    Total</button>
-                                                <div id="totalDiscountContainer1" class="mt-2"></div>
-                                                <div class="input-block mb-3">
-                                                    <label>Signature Name</label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter Signature Name">
-                                                </div>
-                                                <!-- <pre>{{ json_encode($allColumns, JSON_PRETTY_PRINT) }}</pre> -->
-                                                <div class="input-block mb-0">
-                                                    <label>Signature Image</label>
-                                                    <div class="input-block mb-3 service-upload service-upload-info mb-0">
-                                                        <span><i class="fe fe-upload-cloud me-1"></i>Upload
-                                                            Signature</span>
-                                                        <input type="file" multiple="" id="image_sign">
-                                                        <div id="frames"></div>
+                                                        <h4>
+                                                            Total Amount
+                                                            <span id="totalInvoiceAmount">₹0.00</span>
+                                                        </h4>
+                                                        <h5 class="text-danger">
+                                                            Remaining Amount
+                                                            <span id="remainingAmount">₹0.00</span>
+                                                        </h5>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
 
