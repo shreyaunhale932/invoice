@@ -363,6 +363,10 @@ Route::get('/sell-invoice/get-pending/{customerId}',
     [SellInvoiceController::class, 'getPendingInvoice']
 )->name('sell.invoice.getPending');
 
+Route::post('/sell-invoice/remove-item', 
+    [SellInvoiceController::class, 'removeItem']
+)->name('sell.invoice.removeItem');
+
 
 
 Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');

@@ -153,4 +153,33 @@ class SellInvoiceController extends Controller
         ]);
     }
 
+    public function removeItem(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $itemId = $request->item_id;
+            $item = SellInvoiceItem::findOrFail($itemId);
+            
+            // Delete associated diamonds/stones if any (cascading usually handled by DB, but safe to do here if needed)
+            // SellDiamondItem::where('sell_invoice_item_id', $itemId)->delete();
+            // SellStoneItem::where('sell_invoice_item_id', $itemId)->delete();
+
+            $invoiceId = $item->sell_invoice_id;
+            $item->delete();
+
+            // Recalculate invoice total
+            $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
+            SellInvoice::where('id', $invoiceId)->update([
+                'final_amount' => $invoiceTotal
+            ]);
+
+            DB::commit();
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
 }

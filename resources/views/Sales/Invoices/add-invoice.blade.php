@@ -4,7 +4,8 @@
     <!-- Page Wrapper -->
     <!-- Select2 CSS -->
 
-    <script src="{{ url('/public/assets/js/sellcalculation.js') }}"></script>
+    <script src="{{  URL::asset('/public/assets/js/sellcalculation.js') }}"></script>
+    <!-- <script src="{{  URL::asset('/public/assets/js/sellcalculation.js') }}"></script> -->
     <!-- Summernote CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
@@ -1299,7 +1300,7 @@
             <input type="hidden" name="total_amount[]" value="${inputs[16].value}">
         </td>
         <td>
-            <button type="button" class="btn btn-danger btn-sm removeItem">11X</button>
+            <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${res.item_id}">X</button>
         </td>
     `;
 
@@ -1311,6 +1312,7 @@
                             input.value = '';
                         }
                     });
+                    calculateInvoiceTotals();
                     document.querySelector('#diamondTable tbody').innerHTML = '';
                     document.querySelector('#stoneTable tbody').innerHTML = '';
                 })
@@ -1421,7 +1423,39 @@
     <script>
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('removeItem')) {
-                e.target.closest('tr').remove();
+                const btn = e.target;
+                const row = btn.closest('tr');
+                const itemId = btn.getAttribute('data-id');
+
+                if (itemId) {
+                    if(!confirm('Are you sure you want to remove this item?')) return;
+                    
+                    fetch('{{ route('sell.invoice.removeItem') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ item_id: itemId })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.success) {
+                            row.remove();
+                            calculateInvoiceTotals();
+                        } else {
+                            alert('Failed to remove item: ' + (data.message || 'Unknown error'));
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Error removing item');
+                    });
+                } else {
+                    // Fallback for non-persisted items (shouldn't happen with current logic but safe to have)
+                    row.remove();
+                    calculateInvoiceTotals();
+                }
             }
         });
     </script>
@@ -1501,7 +1535,7 @@
                                                 <input type="hidden" name="total_amount[]" value="${item.total_amount || 0}">
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-danger btn-sm removeItem">X</button>
+                                                <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${item.id}">X</button>
                                             </td>
                                         </tr>
                                     `;
@@ -1521,5 +1555,112 @@
                 });
             });
         });
+        document.addEventListener('DOMContentLoaded', function () {
+    // 1. Initial Calculation on Load (if items exist)
+    calculateInvoiceTotals();
+
+    // 2. Event Listeners for invoice-level inputs
+    const summaryIds = [
+        'discountPercent',
+        'cgstPercent', 'sgstPercent', 'igstPercent',
+        'cashReceived', 'bankReceived', 'onlineReceived', 'cardReceived'
+    ];
+
+    summaryIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', calculateInvoiceTotals);
+        }
+    });
+
+    // 3. Observer for Items Table (Detects added/removed rows)
+    const itemsTableBody = document.querySelector('#itemsTable tbody');
+    if (itemsTableBody) {
+        const observer = new MutationObserver(function () {
+            calculateInvoiceTotals();
+        });
+        observer.observe(itemsTableBody, { childList: true, subtree: true });
+    }
+});
+
+/**
+ * Main Calculation Function
+ * Recalculates all invoice totals based on items and rules.
+ */
+function calculateInvoiceTotals() {
+    // alert('calculateInvoiceTotals');
+    // --- 1. Taxable Amount ---
+    // Rule: taxable = sum(all item total_amount[])
+    let taxableAmount = 0;
+    // We target the hidden inputs in the finalized items table
+    const itemTotalInputs = document.querySelectorAll('#itemsTable tbody input[name="total_amount[]"]');
+
+    itemTotalInputs.forEach(input => {
+        const val = parseFloat(input.value) || 0;
+        taxableAmount += val;
+    });
+
+    setBoxText('taxableAmount', taxableAmount);
+
+    // --- 2. Discount ---
+    // Rule: discountAmount = taxable * discountPercent / 100
+    const discountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
+    const discountAmount = (taxableAmount * discountPercent) / 100;
+
+    setBoxText('discountAmount', discountAmount);
+
+    // Rule: afterDiscount = taxable - discountAmount
+    const afterDiscount = taxableAmount - discountAmount;
+
+    // --- 3. GST (CGST, SGST, IGST) ---
+    // Rule: Apply GST on afterDiscount
+    // Inputs are percents, we calc amounts
+    const cgstPercent = parseFloat(document.getElementById('cgstPercent')?.value) || 0;
+    const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
+    const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
+
+    const cgstAmount = (afterDiscount * cgstPercent) / 100;
+    const sgstAmount = (afterDiscount * sgstPercent) / 100;
+    const igstAmount = (afterDiscount * igstPercent) / 100;
+
+    setBoxText('cgstAmount', cgstAmount);
+    setBoxText('sgstAmount', sgstAmount);
+    setBoxText('igstAmount', igstAmount);
+
+    // --- 4. Total Invoice Amount ---
+    // Rule: total = afterDiscount + cgst + sgst + igst
+    const totalInvoiceAmount = afterDiscount + cgstAmount + sgstAmount + igstAmount;
+
+    setBoxText('totalInvoiceAmount', totalInvoiceAmount);
+
+    // --- 5. Payments & Remaining ---
+    // Rule: paid = cash + bank + online + card
+    const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
+    const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
+    const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
+    const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
+
+    const totalPaid = cash + bank + online + card;
+
+    // Rule: remaining = total - paid
+    let remaining = totalInvoiceAmount - totalPaid;
+
+    // Rule: Prevent negative remaining amount (clamp to 0)
+    if (remaining < 0) remaining = 0;
+
+    setBoxText('remainingAmount', remaining);
+}
+
+/**
+ * Helper to update text content with Currency formatting
+ */
+function setBoxText(elementId, amount) {
+    const el = document.getElementById(elementId);
+    if (el) {
+        // Output format: ₹123.00
+        el.textContent = '₹' + parseFloat(amount).toFixed(2);
+    }
+}
+
     </script>
 @endsection
