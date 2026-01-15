@@ -230,6 +230,7 @@
                                             <td><input type="number" step="0.01" name="metal_rate[]"
                                                     class="form-control"></td>
                                             <td><input type="number" name="quantity[]" class="form-control"
+                                                    value="1"
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.001" name="gross_weight[]"
                                                     class="form-control"
@@ -1251,6 +1252,7 @@
             const payload = {
                 _token: '{{ csrf_token() }}',
                 item_id: editingItemId, // Null if adding
+                sell_invoice_id: globalInvoiceId, // Pass current invoice ID if exists
                 // If editing, we need to send the invoice_id too? The controller finds it from item,
                 // but for ADD we need it.
                 // For ADD, the controller currently looks for existing pending invoice.

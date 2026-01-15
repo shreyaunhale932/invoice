@@ -20,9 +20,119 @@ class SellInvoiceController extends Controller
 
         try {
             // Clear invalid session
-            $UserInvoice = SellInvoice::where('user_id', $request->customer_id)
-                ->whereIn('status', ['pending', 'draft'])
-                ->first();
+            if ($request->from == 'edit') {
+                $UserInvoice = SellInvoice::find($request->sell_invoice_id);
+                $invoiceId = $UserInvoice->id;
+                $invoiceId = $UserInvoice->id;
+
+                $itemFinalPrice = (float) $request->final_price;
+                $item = SellInvoiceItem::create([
+                'admin_id' => Auth::id(),
+                'sell_invoice_id' => $invoiceId,
+                'product_id'   => $request->product_id,
+                'item_name' => $request->product_name,
+                'pre_code' => $request->pre_code,
+                'post_code' => $request->post_code,
+                'barcode' => $request->barcode,
+                'hsn_code' => $request->hsn_code,
+
+                // Weights & Rates
+                'gross_weight' => $request->gross_weight,
+                'net_weight' => $request->net_weight,
+                'metal_rate' => $request->metal_rate,
+
+                // Pricing
+                'making_price' => $request->making_price,
+                'wastage_percent' => $request->wastage_percent,
+                'gst_percent' => $request->gst_percent,
+                'gst_amount' => $request->gst_amount,
+
+                // Other
+                'category' => $request->category,
+                'subcategory' => $request->subcategory,
+                'size' => $request->size,
+                'quantity' => $request->quantity ?? 1,
+
+                // Final
+                'total_amount' => $request->total_amount,
+                'final_price' => $itemFinalPrice,
+            ]);
+
+            // Diamonds
+            if ($request->filled('diamonds') && is_array($request->diamonds)) {
+               foreach ($request->diamonds as $d) {
+
+        // Skip completely empty rows
+         if (
+            empty($d['clarity']) &&
+            empty($d['cut']) &&
+            empty($d['color']) &&
+            empty($d['pieces']) &&
+            empty($d['diamond_weight']) &&
+            empty($d['price_per_carat']) &&
+            empty($d['diamond_final_price'])
+        ) {
+            continue;
+        }
+
+        SellDiamondItem::create([
+            'admin_id' => Auth::id(),
+            'sell_invoice_id' => $invoiceId,
+            'sell_invoice_item_id' => $item->id,
+            'clarity' => $d['clarity'] ?? null,
+            'cut' => $d['cut'] ?? null,
+            'color' => $d['color'] ?? null,
+            'pieces' => $d['pieces'] ?? 0,
+            'diamond_weight' => $d['diamond_weight'] ?? 0,
+            'price_per_carat' => $d['price_per_carat'] ?? 0,
+            'diamond_final_price' => $d['diamond_final_price'] ?? 0,
+        ]);
+    }
+}
+
+
+            // Stones
+           if ($request->filled('stones') && is_array($request->stones)) {
+    foreach ($request->stones as $s) {
+
+        // Skip empty rows
+        if (
+            empty($s['stone_name']) &&
+            empty($s['stone_weight']) &&
+            empty($s['stone_price']) &&
+            empty($s['stone_final_price'])
+        ) {
+            continue;
+        }
+
+        SellStoneItem::create([
+            'admin_id' => Auth::id(),
+            'sell_invoice_id' => $invoiceId,
+            'sell_invoice_item_id' => $item->id,
+            'stone_name' => $s['stone_name'] ?? null,
+            'stone_weight' => $s['stone_weight'] ?? 0,
+            'stone_price' => $s['stone_price'] ?? 0,
+            'stone_final_price' => $s['stone_final_price'] ?? 0,
+        ]);
+    }
+}
+$invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
+
+            SellInvoice::where('id', $invoiceId)->update([
+                'final_amount' => $invoiceTotal
+            ]);
+             DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'invoice_id' => $invoiceId,
+                'item_id' => $item->id
+            ]);
+            } else {
+                $UserInvoice = SellInvoice::where('user_id', $request->customer_id)
+                    ->whereIn('status', ['pending', 'draft'])
+                    ->first();
+            
 
             $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d');
             $dueDate     = Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d');
@@ -74,7 +184,7 @@ class SellInvoiceController extends Controller
                 'category' => $request->category,
                 'subcategory' => $request->subcategory,
                 'size' => $request->size,
-                'quantity' => $request->quantity,
+                'quantity' => $request->quantity ?? 1,
 
                 // Final
                 'total_amount' => $request->total_amount,
@@ -155,6 +265,7 @@ class SellInvoiceController extends Controller
                 'invoice_id' => $invoiceId,
                 'item_id' => $item->id
             ]);
+        }
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -245,7 +356,7 @@ class SellInvoiceController extends Controller
                 'category' => $request->category,
                 'subcategory' => $request->subcategory,
                 'size' => $request->size,
-                'quantity' => $request->quantity,
+                'quantity' => $request->quantity ?? 1,
 
                 // Final
                 'total_amount' => $request->total_amount,
@@ -467,6 +578,7 @@ class SellInvoiceController extends Controller
             }
 
             $invoice->update([
+                
                 'invoice_no' => $request->invoice_no, // Allow updating invoice number
                 'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
@@ -506,7 +618,7 @@ class SellInvoiceController extends Controller
     }
     public function edit($id)
     {
-        $invoice = SellInvoice::findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product'])->findOrFail($id);
         $adminId = Auth::id(); // Use Auth::id() for consistency
 
         // Fetch necessary data for the view, mirroring InvoiceController@create

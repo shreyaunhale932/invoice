@@ -22,7 +22,7 @@
                         </div>
                     </div>
 
-                    <form action="{{ route('invoices.update', $invoice_id) }}" method="POST"> <!-- Though AJAX handles it mostly -->
+                    <form action="{{ route('sell.invoice.update') }}" method="POST"> <!-- AJAX handles it -->
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -318,7 +318,24 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody>
+                                        @foreach ($invoice->items as $item)
+                                            <tr>
+                                                <td>{{ $item->product->name }}</td>
+                                                <td>{{ $item->product->code }}</td>
+                                                <td>{{ $item->product->barcode }}</td>
+                                                <td>{{ $item->net_weight }}</td>
+                                                <td>{{ $item->metal_rate }}</td>
+                                                <td>{{ $item->making }}</td>
+                                                <td>{{ $item->gst }}</td>
+                                                <td>{{ $item->final_amount }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="removeItem({{ $item->id }})">Remove</button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
 
 
@@ -520,13 +537,13 @@
                                                         <div class="d-flex justify-content-between">
                                                             <label>Cash Received</label>
                                                             <input type="number" id="cashReceived"
-                                                                class="form-control w-50" value="0">
+                                                                class="form-control w-50" value="{{ $invoice->cash_received ?? 0 }}">
                                                         </div>
 
                                                         <div class="d-flex justify-content-between">
                                                             <label>Bank Received</label>
                                                             <input type="number" id="bankReceived"
-                                                                class="form-control w-50" value="0">
+                                                                class="form-control w-50" value="{{ $invoice->bank_received ?? 0 }}">
                                                         </div>
 
                                                         <div class="d-flex justify-content-between">
@@ -1254,10 +1271,11 @@
             const payload = {
                 _token: '{{ csrf_token() }}',
                 item_id: editingItemId, // Null if adding
+                sell_invoice_id: globalInvoiceId, // Pass current invoice ID
                 // If editing, we need to send the invoice_id too? The controller finds it from item, 
                 // but for ADD we need it.
                 // For ADD, the controller currently looks for existing pending invoice.
-                
+                from: 'edit',
                 product_id: productId,
                 invoice_no: document.querySelector('input[name="invoice_no"]').value,
                 customer_id: customerId,
@@ -1286,6 +1304,7 @@
                 category: entryRow.querySelector('input[name="category[]"]').value,
                 subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
                 size: entryRow.querySelector('input[name="size[]"]').value,
+                quantity: entryRow.querySelector('input[name="quantity[]"]').value || 1,
 
                 diamonds: collectDiamonds(),
                 stones: collectStones(),
@@ -1314,7 +1333,7 @@
                 resetEntryForm();
                 
                 // Refresh Items
-                fetchPendingInvoice(customerId);
+               window.location.reload();
             })
             .catch(error => {
                 console.error(error);
@@ -1402,101 +1421,31 @@
         // FETCH INVOICE DATA (Edit Mode)
         // ---------------------------------------------------------
         $(document).ready(function() {
-            var invoiceId = "{{ $invoice_id }}";
-            var customerId = "{{ $customer_id }}";
+            // Initialize global state from Laravel data
+            globalInvoiceId = "{{ $invoice->id }}";
+            globalInvoiceItems = @json($invoice->items);
 
             // Pre-select Customer
+            var customerId = "{{ $invoice->user_id }}";
             if(customerId) {
                 $('#customerDropdown').val(customerId).trigger('change');
             }
 
-            // Fetch Invoice Data immediately
-            if (invoiceId) {
-                fetchInvoiceDetails(invoiceId);
+            // Render existing items and calculate totals
+            if (globalInvoiceItems && globalInvoiceItems.length > 0) {
+                renderItemsTable(globalInvoiceItems);
+                calculateInvoiceTotals();
             }
 
-            // We do NOT want to fetch pending invoice on customer change in Edit View
-            // So we override or remove that listener if it conflicts.
-            // But if user changes customer, maybe we SHOULD warn them? 
-            // For now, let's just detach the pending fetch logic if it exists or ensure it doesn't overwrite.
+            // Ensure button text is correct
+            const saveBtn = document.querySelector('button[type="submit"]');
+            if(saveBtn) saveBtn.textContent = "Update Invoice";
         });
 
         $('#customerDropdown').on('change', function() {
-              // In Edit Mode, changing customer might be allowed but we shouldn't auto-load "Pending".
-              // We want to KEEP the current invoice items but associate with new customer?
-              // Or does changing customer mean "Start Over"?
-              // For now, let's disable auto-fetching pending in this specific file.
+              // In Edit Mode, we don't automatically load "Pending" invoices
+              // to avoid overwriting the current invoice data with another pending one.
         });
-
-        // New function to fetch specific invoice (for Edit / Paid invoices)
-        function fetchInvoiceDetails(invoiceId) {
-             $('#itemsTable tbody').empty();
-             // We need a route for getting specific invoice details. 
-             // We can reuse getPending but by ID.
-             // Let's assume we use 'sell.invoice.getPending' but maybe add a query param or new route?
-             // Or simpler: Just use a new small route or modify getPending in controller to accept ID?
-             // Actually, let's just make a new simple JS fetch since we don't have a route yet.
-             // Wait, I can't add route easily without modifying web.php again.
-             // Let's modify 'sell.invoice.getPending' in Controller to optionally accept invoice_id?
-             // Route definition: Route::get('/sell-invoice/get-pending/{customerId}', ...)
-             
-             // BETTER: Create a new route `sell.invoice.get/{id}`. 
-             // Since I can't modify web.php in the same step easily without context switching, 
-             // I will use a POST to 'finalize' (No that saves).
-             // I WILL ADD A NEW ROUTE IN WEB.PHP for getting invoice by ID in next step 
-             // OR modify the existing 'getPending' to be more flexible?
-             // Existing: /sell-invoice/get-pending/{customerId}
-             
-             // Let's assume I will add `sell.invoice.get` route.
-             $.ajax({
-                url: '/sell-invoice/get/' + invoiceId, 
-                type: 'GET',
-                success: function(response) {
-                    if(response.success && response.invoice) {
-                        loadInvoiceData(response.invoice);
-                    }
-                }
-             });
-        }
-        
-        function loadInvoiceData(invoice) {
-                        globalInvoiceItems = invoice.items || [];
-                        globalInvoiceId = invoice.id;
-
-                        // Invoice Details
-                        $('input[name="invoice_no"]').val(invoice.invoice_no);
-                        if (invoice.invoice_date) {
-                            var date = new Date(invoice.invoice_date);
-                            var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + (
-                                    "0" + (date.getMonth() + 1)).slice(-2) + "-" + date
-                                .getFullYear();
-                            $('input[name="invoice_date"]').val(formattedDate);
-                        }
-                        if (invoice.invoice_due_date) {
-                            var dueDate = new Date(invoice.invoice_due_date);
-                            var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) +
-                                "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" +
-                                dueDate.getFullYear();
-                            $('input[name="due_date"]').val(formattedDueDate);
-                        }
-                        
-                        // Set Totals / Payments
-                        $('#discountPercent').val(invoice.discount_percent);
-                        $('#cgstPercent').val(invoice.cgst_percent);
-                        $('#sgstPercent').val(invoice.sgst_percent);
-                        // Payments
-                        $('#cashReceived').val(invoice.cash_received);
-                        $('#bankReceived').val(invoice.bank_received);
-                        $('#onlineReceived').val(invoice.online_received);
-                        // ... set others ...
-
-                        renderItemsTable(globalInvoiceItems);
-                        calculateInvoiceTotals();
-                        
-                        // Update Button State to 'Update'
-                        const saveBtn = document.querySelector('button[type="submit"]');
-                        if(saveBtn) saveBtn.textContent = "Update Invoice";
-        }
 
         function fetchPendingInvoice(customerId) {
             $('#itemsTable tbody').empty();
@@ -1556,9 +1505,10 @@
             const payload = {
                 _token: '{{ csrf_token() }}',
                 sell_invoice_id: globalInvoiceId,
+                invoice_no: document.querySelector('input[name="invoice_no"]').value || '',
                 customer_id: document.querySelector('#customerDropdown').value,
-                invoice_date: document.querySelector('input[name="invoice_date"]').value || date('Y-m-d'),
-                due_date: document.querySelector('input[name="due_date"]').value || date('Y-m-d'),
+                invoice_date: document.querySelector('input[name="invoice_date"]').value || '',
+                due_date: document.querySelector('input[name="due_date"]').value || '',
 
                 discount_percent: document.getElementById('discountPercent').value || 0,
                 cgst_percent: document.getElementById('cgstPercent').value || 0,
@@ -1571,7 +1521,7 @@
                 card_received: document.getElementById('cardReceived').value || 0,
             };
 
-            fetch('{{ route('sell.invoice.finalize') }}', {
+            fetch('{{ route('sell.invoice.update') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1680,7 +1630,7 @@
                 .then(data => {
                     if (data.success) {
                         const customerId = document.querySelector('#customerDropdown').value;
-                        fetchPendingInvoice(customerId);
+                        window.location.reload();
                     } else {
                         alert('Failed to remove item');
                     }
