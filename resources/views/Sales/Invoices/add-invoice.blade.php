@@ -508,7 +508,10 @@
                                                                 class="form-control w-25" value="0">
                                                             <span id="discountAmount">₹0.00</span>
                                                         </div>
-
+                                                        <h4>
+                                                            Total Amount
+                                                            <span id="totalInvoiceAmount">₹0.00</span>
+                                                        </h4>
                                                         <hr>
 
                                                         <!-- Payments -->
@@ -540,10 +543,7 @@
 
                                                     <!-- Footer -->
                                                     <div class="invoice-total-footer">
-                                                        <h4>
-                                                            Total Amount
-                                                            <span id="totalInvoiceAmount">₹0.00</span>
-                                                        </h4>
+
                                                         <h5 class="text-danger">
                                                             Remaining Amount
                                                             <span id="remainingAmount">₹0.00</span>
@@ -1264,20 +1264,37 @@
                 post_code: entryRow.querySelector('input[name="post_code[]"]').value,
                 barcode: entryRow.querySelector('input[name="barcode[]"]').value,
                 hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
+                product_name: entryRow.querySelector('input[name="product_name[]"]').value,
+                pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
+                post_code: entryRow.querySelector('input[name="post_code[]"]').value,
+                barcode: entryRow.querySelector('input[name="barcode[]"]').value,
+                hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
 
+                net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+                gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
+                metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
                 net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
                 gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
                 metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
 
                 making_price: entryRow.querySelector('input[name="making_price[]"]').value,
                 wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
+                making_price: entryRow.querySelector('input[name="making_price[]"]').value,
+                wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
 
+                gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
+                gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
                 gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
                 gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
 
                 total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
                 final_price: entryRow.querySelector('input[name="final_price[]"]').value,
+                total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
+                final_price: entryRow.querySelector('input[name="final_price[]"]').value,
 
+                category: entryRow.querySelector('input[name="category[]"]').value,
+                subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
+                size: entryRow.querySelector('input[name="size[]"]').value,
                 category: entryRow.querySelector('input[name="category[]"]').value,
                 subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
                 size: entryRow.querySelector('input[name="size[]"]').value,
