@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "doctrine/dbal": "^4.4",
         "intervention/image": "^3.11",
         "intervention/image-laravel": "^1.5",
         "laravel/framework": "^11.35.1",

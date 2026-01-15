@@ -15,6 +15,8 @@ class SellInvoiceItem extends Model
         'admin_id',
         'sell_invoice_id',
         'product_id',
+        'category',
+        'subcategory',
 
         'item_name',
         // 'product_name',
@@ -22,6 +24,7 @@ class SellInvoiceItem extends Model
         'post_code',
         'barcode',
         'purity',
+        'quantity',
 
         // Weights
         'gross_weight',
@@ -34,6 +37,8 @@ class SellInvoiceItem extends Model
         'diamond_amount',
         'stone_amount',
         'making_charges',
+        'making_price',
+        'wastage_percent',
         'other_charges',
         'total_amount',
 

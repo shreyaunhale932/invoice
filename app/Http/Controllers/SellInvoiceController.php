@@ -45,7 +45,7 @@ class SellInvoiceController extends Controller
             $invoiceId = $UserInvoice->id;
 
             $itemFinalPrice = (float) $request->final_price;
-            // dd($request->product_id);
+            // dd($request->quantity);
 
             // Create item
             // Create item
@@ -74,6 +74,7 @@ class SellInvoiceController extends Controller
                 'category' => $request->category,
                 'subcategory' => $request->subcategory,
                 'size' => $request->size,
+                'quantity' => $request->quantity,
 
                 // Final
                 'total_amount' => $request->total_amount,
@@ -81,33 +82,64 @@ class SellInvoiceController extends Controller
             ]);
 
             // Diamonds
-            foreach ($request->diamonds ?? [] as $d) {
-                SellDiamondItem::create([
-                    'admin_id' => Auth::id(),
-                    'sell_invoice_id' => $invoiceId,
-                    'sell_invoice_item_id' => $item->id,
-                    'clarity' => $d['clarity'],
-                    'cut' => $d['cut'],
-                    'color' => $d['color'],
-                    'pieces' => $d['pieces'],
-                    'diamond_weight' => $d['diamond_weight'],
-                    'price_per_carat' => $d['price_per_carat'],
-                    'diamond_final_price' => $d['diamond_final_price'],
-                ]);
-            }
+            if ($request->filled('diamonds') && is_array($request->diamonds)) {
+    foreach ($request->diamonds as $d) {
+
+        // Skip completely empty rows
+        if (
+            empty($d['clarity']) &&
+            empty($d['cut']) &&
+            empty($d['color']) &&
+            empty($d['pieces']) &&
+            empty($d['diamond_weight']) &&
+            empty($d['price_per_carat']) &&
+            empty($d['diamond_final_price'])
+        ) {
+            continue;
+        }
+
+        SellDiamondItem::create([
+            'admin_id' => Auth::id(),
+            'sell_invoice_id' => $invoiceId,
+            'sell_invoice_item_id' => $item->id,
+            'clarity' => $d['clarity'] ?? null,
+            'cut' => $d['cut'] ?? null,
+            'color' => $d['color'] ?? null,
+            'pieces' => $d['pieces'] ?? 0,
+            'diamond_weight' => $d['diamond_weight'] ?? 0,
+            'price_per_carat' => $d['price_per_carat'] ?? 0,
+            'diamond_final_price' => $d['diamond_final_price'] ?? 0,
+        ]);
+    }
+}
+
 
             // Stones
-            foreach ($request->stones ?? [] as $s) {
-                SellStoneItem::create([
-                    'admin_id' => Auth::id(),
-                    'sell_invoice_id' => $invoiceId,
-                    'sell_invoice_item_id' => $item->id,
-                    'stone_name' => $s['stone_name'],
-                    'stone_weight' => $s['stone_weight'],
-                    'stone_price' => $s['stone_price'],
-                    'stone_final_price' => $s['stone_final_price'],
-                ]);
-            }
+           if ($request->filled('stones') && is_array($request->stones)) {
+    foreach ($request->stones as $s) {
+
+        // Skip empty rows
+        if (
+            empty($s['stone_name']) &&
+            empty($s['stone_weight']) &&
+            empty($s['stone_price']) &&
+            empty($s['stone_final_price'])
+        ) {
+            continue;
+        }
+
+        SellStoneItem::create([
+            'admin_id' => Auth::id(),
+            'sell_invoice_id' => $invoiceId,
+            'sell_invoice_item_id' => $item->id,
+            'stone_name' => $s['stone_name'] ?? null,
+            'stone_weight' => $s['stone_weight'] ?? 0,
+            'stone_price' => $s['stone_price'] ?? 0,
+            'stone_final_price' => $s['stone_final_price'] ?? 0,
+        ]);
+    }
+}
+
 
             // Recalculate invoice total AFTER everything is saved
             $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
@@ -213,6 +245,7 @@ class SellInvoiceController extends Controller
                 'category' => $request->category,
                 'subcategory' => $request->subcategory,
                 'size' => $request->size,
+                'quantity' => $request->quantity,
 
                 // Final
                 'total_amount' => $request->total_amount,
@@ -306,7 +339,7 @@ class SellInvoiceController extends Controller
             $bank = $request->input('bank_received', 0);
             $online = $request->input('online_received', 0);
             $card = $request->input('card_received', 0); // Assuming you might have card field
-            
+
             $totalReceived = $cash + $bank + $online + $card;
             $amountLeft = $grandTotal - $totalReceived;
             $amountLeft = max(0, $amountLeft);
@@ -328,7 +361,7 @@ class SellInvoiceController extends Controller
                 'sgst_percent' => $sgstPercent,
                 'sgst_amount' => $sgstAmount,
                 // If you have IGST columns in DB, add them here. Assuming standard structure:
-                // 'igst_percent' => $igstPercent, 
+                // 'igst_percent' => $igstPercent,
                 // 'igst_amount' => $igstAmount,
 
                 'final_amount' => $grandTotal, // IMPORTANT: Overwriting Item Sum with Grand Total (incl tax/discount)
@@ -338,7 +371,7 @@ class SellInvoiceController extends Controller
                 'cash_received' => $cash,
                 'bank_received' => $bank,
                 'online_received' => $online,
-                // 'card_received' => $card, 
+                // 'card_received' => $card,
 
                 'total_received' => $totalReceived,
                 'amount_left' => $amountLeft,
@@ -346,7 +379,7 @@ class SellInvoiceController extends Controller
                 'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
             ]);
-            
+
             // TODO: Add Notes/Terms saving if linked tables exist
 
             DB::commit();
@@ -368,11 +401,11 @@ class SellInvoiceController extends Controller
         DB::beginTransaction();
         try {
             $invoice = SellInvoice::findOrFail($id);
-            
+
             // Delete items (Cascading should ideally handle this, but manual is safer)
             SellInvoiceItem::where('sell_invoice_id', $id)->delete();
             // Diamonds/Stones linked to items should be deleted via cascade or loop if not set up in DB
-            
+
             $invoice->delete();
 
             DB::commit();
@@ -394,10 +427,10 @@ class SellInvoiceController extends Controller
             $invoice = SellInvoice::findOrFail($invoiceId);
 
             // Calculate totals
-            $finalAmount = $invoice->final_amount; // Keep existing item total? Or recalculate? 
+            $finalAmount = $invoice->final_amount; // Keep existing item total? Or recalculate?
             // Better to assume final_amount is the sum of items which is already updated by addItem/removeItem.
             // But we need to apply Discount/Tax/Payments again.
-            
+
             // Discount
             $discountPercent = $request->input('discount_percent', 0);
             $discountAmount = ($finalAmount * $discountPercent) / 100;
@@ -419,8 +452,8 @@ class SellInvoiceController extends Controller
             $cash = $request->input('cash_received', 0);
             $bank = $request->input('bank_received', 0);
             $online = $request->input('online_received', 0);
-            $card = $request->input('card_received', 0); 
-            
+            $card = $request->input('card_received', 0);
+
             $totalReceived = $cash + $bank + $online + $card;
             $amountLeft = $grandTotal - $totalReceived;
             $amountLeft = max(0, $amountLeft);
@@ -446,7 +479,7 @@ class SellInvoiceController extends Controller
                 'sgst_percent' => $sgstPercent,
                 'sgst_amount' => $sgstAmount,
 
-                'final_amount' => $grandTotal, 
+                'final_amount' => $grandTotal,
 
                 'cash_received' => $cash,
                 'bank_received' => $bank,
@@ -463,7 +496,7 @@ class SellInvoiceController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Invoice updated successfully',
-                'redirect_url' => route('invoices') 
+                'redirect_url' => route('invoices')
             ]);
 
         } catch (\Exception $e) {
@@ -483,7 +516,7 @@ class SellInvoiceController extends Controller
         $banks = \App\Models\bankdetails::where('user_id', $adminId)->get();
         $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
         $products = \App\Models\Product::all();
-        
+
         $notes = DB::table('invoice_notes_terms')
             ->where('admin_id', $adminId)
             ->where('type', 'note')
@@ -492,11 +525,11 @@ class SellInvoiceController extends Controller
             ->where('admin_id', $adminId)
             ->where('type', 'term')
             ->get();
-            
-        // Custom Fields dummy data or fetch if real logic exists
-        $customFields = []; 
 
-        
+        // Custom Fields dummy data or fetch if real logic exists
+        $customFields = [];
+
+
         // Fetch Column Settings
         $columns = \App\Models\InvoiceColumn::orderBy('id')->where('user_id', $adminId)->get();
 
@@ -538,12 +571,12 @@ class SellInvoiceController extends Controller
 
         return view('Sales.Invoices.edit-invoice', compact(
             'invoice',
-            'invoice_id', 
-            'customers', 
-            'products', 
-            'banks', 
-            'business', 
-            'notes', 
+            'invoice_id',
+            'customers',
+            'products',
+            'banks',
+            'business',
+            'notes',
             'terms',
             'customFields',
             'previewInvoiceNo',

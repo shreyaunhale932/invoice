@@ -152,6 +152,7 @@
                                                     data-gross_weight="{{ $product->gross_weight }}"
                                                     data-net_weight="{{ $product->net_weight }}"
                                                     data-size="{{ $product->size }}"
+                                                    data-quantity="{{ $product->quantity }}"
                                                     data-wastage_percent="{{ $product->wastage_percent }}"
                                                     data-making_price="{{ $product->making_price }}" {{-- CATEGORY --}}
                                                     data-category-id="{{ $product->category_id }}"
@@ -229,7 +230,6 @@
                                             <td><input type="number" step="0.01" name="metal_rate[]"
                                                     class="form-control"></td>
                                             <td><input type="number" name="quantity[]" class="form-control"
-                                                    value="1"
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.001" name="gross_weight[]"
                                                     class="form-control"
@@ -1080,6 +1080,8 @@
                 row.find('input[name="metal_rate[]"]').val(option.data('metal_rate'));
                 row.find('input[name="total_amount[]"]').val(option.data('gold_price'));
                 row.find('input[name="final_price[]"]').val(option.data('final_price'));
+                row.find('input[name="quantity[]"]').val(option.data('quantity'));
+                console.log('Quantity:', option.data('quantity'));
 
                 // ✅ NEW PART
                 let diamonds = option.data('diamonds') || [];
@@ -1209,7 +1211,7 @@
         let editingItemId = null;
         let globalInvoiceId = null;
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             // Hijack Save buttons
             document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1217,7 +1219,7 @@
             });
             // Also handle "Save" button if it exists separately
             document.querySelectorAll('.cancel.me-2').forEach(btn => {
-                if(btn.textContent.trim() === 'Save') {
+                if (btn.textContent.trim() === 'Save') {
                     btn.addEventListener('click', function(e) {
                         e.preventDefault();
                         finalizeInvoice();
@@ -1229,7 +1231,7 @@
         // ---------------------------------------------------------
         // ADD / UPDATE ITEM
         // ---------------------------------------------------------
-        document.getElementById('addItemBtn').addEventListener('click', function (e) {
+        document.getElementById('addItemBtn').addEventListener('click', function(e) {
             e.preventDefault();
 
             const entryRow = document.querySelector('#entryTable tbody tr');
@@ -1249,10 +1251,10 @@
             const payload = {
                 _token: '{{ csrf_token() }}',
                 item_id: editingItemId, // Null if adding
-                // If editing, we need to send the invoice_id too? The controller finds it from item, 
+                // If editing, we need to send the invoice_id too? The controller finds it from item,
                 // but for ADD we need it.
                 // For ADD, the controller currently looks for existing pending invoice.
-                
+
                 product_id: productId,
                 invoice_no: document.querySelector('input[name="invoice_no"]').value,
                 customer_id: customerId,
@@ -1298,40 +1300,41 @@
                 category: entryRow.querySelector('input[name="category[]"]').value,
                 subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
                 size: entryRow.querySelector('input[name="size[]"]').value,
+                quantity: entryRow.querySelector('input[name="quantity[]"]').value,
 
                 diamonds: collectDiamonds(),
                 stones: collectStones(),
             };
 
-            const url = editingItemId 
-                ? '{{ route('sell.invoice.updateItem') }}' 
-                : '{{ route('sell.invoice.addItem') }}';
+            const url = editingItemId ?
+                '{{ route('sell.invoice.updateItem') }}' :
+                '{{ route('sell.invoice.addItem') }}';
 
             fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    alert(res.message || 'Failed to save item');
-                    return;
-                }
-                
-                // Clear Form & Reset State
-                resetEntryForm();
-                
-                // Refresh Items
-                fetchPendingInvoice(customerId);
-            })
-            .catch(error => {
-                console.error(error);
-                alert('Error saving item');
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (!res.success) {
+                        alert(res.message || 'Failed to save item');
+                        return;
+                    }
+
+                    // Clear Form & Reset State
+                    resetEntryForm();
+
+                    // Refresh Items
+                    fetchPendingInvoice(customerId);
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error saving item');
+                });
         });
 
         // ---------------------------------------------------------
@@ -1353,28 +1356,39 @@
             // Populate Entry Row
             const row = $('#entryTable tbody tr').first();
             row.find('#entry_product_id').val(item.product_id);
-            
+
             // Category / Subcategory - Try direct item field first, then Product Relation
-            row.find('input[name="category[]"]').val(cat.category_name || p.category_id || p.category || '');
-            row.find('input[name="subcategory[]"]').val(sub.subcategory_name || p.subcategory_id || p.subcategory || '');
-            
+      row.find('input[name="category[]"]').val(
+        item.category_name ||
+        item.category ||
+        item.product?.category?.category_name ||
+        ''
+    );
+
+    // ✅ SUBCATEGORY NAME
+    row.find('input[name="subcategory[]"]').val(
+        item.subcategory_name ||
+        item.subcategory ||
+        item.product?.subcategory?.subcategory_name ||
+        ''
+    );
             row.find('input[name="product_name[]"]').val(item.item_name || p.product_name || '');
-            
+
             row.find('input[name="pre_code[]"]').val(item.pre_code || p.pre_code || '');
             row.find('input[name="post_code[]"]').val(item.post_code || p.post_code || '');
             row.find('input[name="barcode[]"]').val(item.barcode || p.barcode || '');
             row.find('input[name="hsn_code[]"]').val(item.hsn_code || p.hsn_code || '');
-            
+
             row.find('input[name="metal_rate[]"]').val(item.metal_rate || 0);
             row.find('input[name="quantity[]"]').val(item.quantity || p.quantity || 1); // Quantity
             row.find('input[name="gross_weight[]"]').val(item.gross_weight || 0);
-            
+
             row.find('input[name="net_weight[]"]').val(item.net_weight || 0);
             row.find('input[name="size[]"]').val(item.size || p.size || ''); // Size
-            
+
             row.find('input[name="wastage_percent[]"]').val(item.wastage_percent || 0);
             row.find('input[name="making_price[]"]').val(item.making_charges || p.making_price || 0); // Making
-            
+
             row.find('input[name="gst_percent[]"]').val(item.gst_percent || p.gst_percent || 0);
             row.find('input[name="gst_amount[]"]').val(item.gst_amount || 0);
             row.find('input[name="total_amount[]"]').val(item.total_amount || 0);
@@ -1384,8 +1398,8 @@
             renderDiamonds(item.diamonds || []);
             // Populate Stones
             renderStones(item.stones || []);
-            
-            // Re-trigger calculation to visually confirm? 
+
+            // Re-trigger calculation to visually confirm?
             // calculateRow(row[0]); // Optional, might overwrite values
         }
 
@@ -1399,7 +1413,7 @@
             entryRow.querySelectorAll('input').forEach(input => {
                 if (!input.hasAttribute('readonly') && input.type !== 'hidden') {
                     // Don't clear readonlies or hiddens blindly, but for entry row we want to clear most things
-                    // Actually, most fields are readonly except weights/rates. 
+                    // Actually, most fields are readonly except weights/rates.
                     // Best way: Trigger the "Select Product" reset or just clear values.
                 }
                 // Determine which to clear. Currently clearing everything relevant.
@@ -1420,108 +1434,108 @@
 
             if (preloadedInvoiceId && preloadedCustomerId) {
                 // Set Customer
-                $('#customerDropdown').val(preloadedCustomerId).trigger('change'); 
+                $('#customerDropdown').val(preloadedCustomerId).trigger('change');
                 // The change event below will fire, BUT standard logic fetches "Pending".
                 // If we want to edit a "Completed" invoice, getPending might fail or return a different draft.
                 // WE SHOULD CHANGE fetchPendingInvoice to accept optional InvoiceID or create a fetchInvoiceById.
-                
+
                 // Let's modify fetch logic to allow fetching by ID if provided, otherwise pending.
                 // OR just rely on 'getPending' if we assume we are editing *that* user's invoice.
-                // But USER might have multiple invoices? 
+                // But USER might have multiple invoices?
                 // The current controller logic 'getPendingInvoice' gets status='pending'.
                 // If we are editing a PAID invoice, getPending returns nothing.
-                
+
                 // FIX: If we are specifically editing, we should fetch THAT invoice.
                 fetchInvoiceDetails(preloadedInvoiceId);
             }
 
             $('#customerDropdown').on('change', function() {
                 var customerId = $(this).val();
-                 // If we just set it programmatically for Edit, we might want to skip the "Pending" fetch 
-                 // which might overwrite our specific invoice fetch.
-                 // But since we are triggering change above, this runs.
-                 // Verification needed: Does the user want to merge pending?
-                 // For now, if we are in "Edit Mode" (URL has ID), we prefer that ID.
-                 if (!preloadedInvoiceId) {
-                     if (customerId) fetchPendingInvoice(customerId);
-                 }
+                // If we just set it programmatically for Edit, we might want to skip the "Pending" fetch
+                // which might overwrite our specific invoice fetch.
+                // But since we are triggering change above, this runs.
+                // Verification needed: Does the user want to merge pending?
+                // For now, if we are in "Edit Mode" (URL has ID), we prefer that ID.
+                if (!preloadedInvoiceId) {
+                    if (customerId) fetchPendingInvoice(customerId);
+                }
             });
         });
 
         // New function to fetch specific invoice (for Edit / Paid invoices)
         function fetchInvoiceDetails(invoiceId) {
-             $('#itemsTable tbody').empty();
-             // We need a route for getting specific invoice details. 
-             // We can reuse getPending but by ID.
-             // Let's assume we use 'sell.invoice.getPending' but maybe add a query param or new route?
-             // Or simpler: Just use a new small route or modify getPending in controller to accept ID?
-             // Actually, let's just make a new simple JS fetch since we don't have a route yet.
-             // Wait, I can't add route easily without modifying web.php again.
-             // Let's modify 'sell.invoice.getPending' in Controller to optionally accept invoice_id?
-             // Route definition: Route::get('/sell-invoice/get-pending/{customerId}', ...)
-             
-             // BETTER: Create a new route `sell.invoice.get/{id}`. 
-             // Since I can't modify web.php in the same step easily without context switching, 
-             // I will use a POST to 'finalize' (No that saves).
-             // I WILL ADD A NEW ROUTE IN WEB.PHP for getting invoice by ID in next step 
-             // OR modify the existing 'getPending' to be more flexible?
-             // Existing: /sell-invoice/get-pending/{customerId}
-             
-             // Let's assume I will add `sell.invoice.get` route.
-             $.ajax({
-                url: '/sell-invoice/get/' + invoiceId, 
+            $('#itemsTable tbody').empty();
+            // We need a route for getting specific invoice details.
+            // We can reuse getPending but by ID.
+            // Let's assume we use 'sell.invoice.getPending' but maybe add a query param or new route?
+            // Or simpler: Just use a new small route or modify getPending in controller to accept ID?
+            // Actually, let's just make a new simple JS fetch since we don't have a route yet.
+            // Wait, I can't add route easily without modifying web.php again.
+            // Let's modify 'sell.invoice.getPending' in Controller to optionally accept invoice_id?
+            // Route definition: Route::get('/sell-invoice/get-pending/{customerId}', ...)
+
+            // BETTER: Create a new route `sell.invoice.get/{id}`.
+            // Since I can't modify web.php in the same step easily without context switching,
+            // I will use a POST to 'finalize' (No that saves).
+            // I WILL ADD A NEW ROUTE IN WEB.PHP for getting invoice by ID in next step
+            // OR modify the existing 'getPending' to be more flexible?
+            // Existing: /sell-invoice/get-pending/{customerId}
+
+            // Let's assume I will add `sell.invoice.get` route.
+            $.ajax({
+                url: '/sell-invoice/get/' + invoiceId,
                 type: 'GET',
                 success: function(response) {
-                    if(response.success && response.invoice) {
+                    if (response.success && response.invoice) {
                         loadInvoiceData(response.invoice);
                     }
                 }
-             });
+            });
         }
-        
+
         function loadInvoiceData(invoice) {
-                        globalInvoiceItems = invoice.items || [];
-                        globalInvoiceId = invoice.id;
+            globalInvoiceItems = invoice.items || [];
+            globalInvoiceId = invoice.id;
 
-                        // Invoice Details
-                        $('input[name="invoice_no"]').val(invoice.invoice_no);
-                        if (invoice.invoice_date) {
-                            var date = new Date(invoice.invoice_date);
-                            var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + (
-                                    "0" + (date.getMonth() + 1)).slice(-2) + "-" + date
-                                .getFullYear();
-                            $('input[name="invoice_date"]').val(formattedDate);
-                        }
-                        if (invoice.invoice_due_date) {
-                            var dueDate = new Date(invoice.invoice_due_date);
-                            var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) +
-                                "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" +
-                                dueDate.getFullYear();
-                            $('input[name="due_date"]').val(formattedDueDate);
-                        }
-                        
-                        // Set Totals / Payments
-                        $('#discountPercent').val(invoice.discount_percent);
-                        $('#cgstPercent').val(invoice.cgst_percent);
-                        $('#sgstPercent').val(invoice.sgst_percent);
-                        // Payments
-                        $('#cashReceived').val(invoice.cash_received);
-                        $('#bankReceived').val(invoice.bank_received);
-                        $('#onlineReceived').val(invoice.online_received);
-                        // ... set others ...
+            // Invoice Details
+            $('input[name="invoice_no"]').val(invoice.invoice_no);
+            if (invoice.invoice_date) {
+                var date = new Date(invoice.invoice_date);
+                var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + (
+                        "0" + (date.getMonth() + 1)).slice(-2) + "-" + date
+                    .getFullYear();
+                $('input[name="invoice_date"]').val(formattedDate);
+            }
+            if (invoice.invoice_due_date) {
+                var dueDate = new Date(invoice.invoice_due_date);
+                var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) +
+                    "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" +
+                    dueDate.getFullYear();
+                $('input[name="due_date"]').val(formattedDueDate);
+            }
 
-                        renderItemsTable(globalInvoiceItems);
-                        calculateInvoiceTotals();
-                        
-                        // Update Button State to 'Update'
-                        const saveBtn = document.querySelector('button[type="submit"]');
-                        if(saveBtn) saveBtn.textContent = "Update Invoice";
+            // Set Totals / Payments
+            $('#discountPercent').val(invoice.discount_percent);
+            $('#cgstPercent').val(invoice.cgst_percent);
+            $('#sgstPercent').val(invoice.sgst_percent);
+            // Payments
+            $('#cashReceived').val(invoice.cash_received);
+            $('#bankReceived').val(invoice.bank_received);
+            $('#onlineReceived').val(invoice.online_received);
+            // ... set others ...
+
+            renderItemsTable(globalInvoiceItems);
+            calculateInvoiceTotals();
+
+            // Update Button State to 'Update'
+            const saveBtn = document.querySelector('button[type="submit"]');
+            if (saveBtn) saveBtn.textContent = "Update Invoice";
         }
 
         function fetchPendingInvoice(customerId) {
             $('#itemsTable tbody').empty();
             const url = "{{ route('sell.invoice.getPending', ':customerId') }}".replace(':customerId', customerId);
-            
+
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -1544,7 +1558,7 @@
                 const tr = `
                     <tr>
                         <td>${item.item_name || ''}
-                            <input type="hidden" name="total_amount[]" value="${item.final_price || 0}"> 
+                            <input type="hidden" name="total_amount[]" value="${item.final_price || 0}">
                             <!-- Hidden input for calculateInvoiceTotals to read -->
                         </td>
                         <td>${item.pre_code || ''}-${item.post_code || ''}</td>
@@ -1563,7 +1577,7 @@
                 tbody.append(tr);
             });
         }
-        
+
         // ---------------------------------------------------------
         // FINALIZE INVOICE
         // ---------------------------------------------------------
@@ -1592,26 +1606,26 @@
             };
 
             fetch('{{ route('sell.invoice.finalize') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (res.success) {
-                    alert('Invoice Saved Successfully!');
-                    window.location.href = res.redirect_url;
-                } else {
-                    alert('Error: ' + res.message);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('An error occurred while finalizing.');
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        alert('Invoice Saved Successfully!');
+                        window.location.href = res.redirect_url;
+                    } else {
+                        alert('Error: ' + res.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('An error occurred while finalizing.');
+                });
         }
 
         // ---------------------------------------------------------
@@ -1645,7 +1659,7 @@
             });
             return stones;
         }
-        
+
         function renderDiamonds(diamonds) {
             const tbody = $('#diamondTable tbody');
             tbody.empty();
@@ -1666,22 +1680,23 @@
         </tr>`);
             });
         }
+
         function renderStones(stones) {
-             const tbody = $('#stoneTable tbody');
-             tbody.empty();
-             if (!Array.isArray(stones) || stones.length === 0) {
-                 tbody.append(`<tr><td colspan="4" class="text-center">No Stones</td></tr>`);
-                 return;
-             }
-             stones.forEach((s, index) => {
-                 tbody.append(`
+            const tbody = $('#stoneTable tbody');
+            tbody.empty();
+            if (!Array.isArray(stones) || stones.length === 0) {
+                tbody.append(`<tr><td colspan="4" class="text-center">No Stones</td></tr>`);
+                return;
+            }
+            stones.forEach((s, index) => {
+                tbody.append(`
          <tr data-index="${index}">
              <td><input type="text" class="form-control stone-name" name="stones[${index}][stone_name]" value="${s.stone_name ?? ''}" ></td>
              <td><input type="number" step="0.001" class="form-control stone-weight" name="stones[${index}][stone_weight]" value="${s.stone_weight ?? 0}" ></td>
              <td><input type="number" step="0.01" class="form-control stone-price" name="stones[${index}][stone_price]" value="${s.stone_price ?? 0}" ></td>
              <td><input type="number" step="0.01" class="form-control stone-total" name="stones[${index}][stone_final_price]" value="${s.stone_final_price ?? 0}" style="pointer-events: none; background-color: #e9ecef;"></td>
          </tr>`);
-             });
+            });
         }
 
         // REMOVE ITEM
@@ -1692,25 +1707,29 @@
                 if (!confirm('Are you sure you want to remove this item?')) return;
 
                 fetch('{{ route('sell.invoice.removeItem') }}', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    body: JSON.stringify({ item_id: itemId })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        const customerId = document.querySelector('#customerDropdown').value;
-                        fetchPendingInvoice(customerId);
-                    } else {
-                        alert('Failed to remove item');
-                    }
-                });
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            item_id: itemId
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            const customerId = document.querySelector('#customerDropdown').value;
+                            fetchPendingInvoice(customerId);
+                        } else {
+                            alert('Failed to remove item');
+                        }
+                    });
             }
         });
-        
+
         // --- CALCULATION LOGIC (Keep existing calculateInvoiceTotals) ---
         // Just ensuring it reads the updated DOM properly
-        
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

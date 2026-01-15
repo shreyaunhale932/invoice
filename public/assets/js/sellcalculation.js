@@ -15,21 +15,25 @@ function calculateRow(row) {
     let wastagePercent = parseFloat(row.querySelector('input[name="wastage_percent[]"]').value) || 0;
     let makingPrice = parseFloat(row.querySelector('input[name="making_price[]"]').value) || 0;
     let gstPercent = parseFloat(row.querySelector('input[name="gst_percent[]"]').value) || 0;
-
+    // alert('netWeight=' + netWeight);
+    // alert('wastagePercent=' + wastagePercent);
+    // alert('makingPrice=' + makingPrice);
     // Gold Amount
-    let goldAmount = metalRate * netWeight * qty;
-
+    let goldAmount = metalRate * netWeight;
+    // alert('goldAmount='+goldAmount);
     // Wastage Amount
     let wastageAmount = (goldAmount * wastagePercent) / 100;
 
     // Subtotal
     let subTotal = goldAmount + makingPrice;
+    // alert('subTotal='+subTotal);
 
     // GST Amount
     let gstAmount = (subTotal * gstPercent) / 100;
 
     // Total Amount
     let totalAmount = subTotal + gstAmount;
+    // alert('totalAmount=' + totalAmount);
 
     // Update inputs
     row.querySelector('input[name="gst_amount[]"]').value = gstAmount.toFixed(2);
@@ -83,6 +87,8 @@ function updateGoldFinalPrice() {
     const goldPrice = parseFloat($('input[name="total_amount[]"]').val()) || 0;
 
     const finalPrice = goldPrice + diamondTotal + stoneTotal;
+
+    // alert('finalPrice=' + finalPrice);
 
     $('input[name="final_price[]"]').val(finalPrice.toFixed(2));
 }
