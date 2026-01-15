@@ -508,7 +508,10 @@
                                                                 class="form-control w-25" value="0">
                                                             <span id="discountAmount">₹0.00</span>
                                                         </div>
-
+                                                        <h4>
+                                                            Total Amount
+                                                            <span id="totalInvoiceAmount">₹0.00</span>
+                                                        </h4>
                                                         <hr>
 
                                                         <!-- Payments -->
@@ -540,10 +543,7 @@
 
                                                     <!-- Footer -->
                                                     <div class="invoice-total-footer">
-                                                        <h4>
-                                                            Total Amount
-                                                            <span id="totalInvoiceAmount">₹0.00</span>
-                                                        </h4>
+
                                                         <h5 class="text-danger">
                                                             Remaining Amount
                                                             <span id="remainingAmount">₹0.00</span>
@@ -1205,79 +1205,79 @@
         });
     </script>
     <script>
-document.getElementById('addItemBtn').addEventListener('click', function (e) {
-    e.preventDefault();
+        document.getElementById('addItemBtn').addEventListener('click', function(e) {
+            e.preventDefault();
 
-    const entryRow = document.querySelector('#entryTable tbody tr');
+            const entryRow = document.querySelector('#entryTable tbody tr');
 
-    if (!entryRow) {
-        alert('Entry row not found');
-        return;
-    }
+            if (!entryRow) {
+                alert('Entry row not found');
+                return;
+            }
 
-    const productId = entryRow.querySelector('#entry_product_id')?.value;
+            const productId = entryRow.querySelector('#entry_product_id')?.value;
 
-    if (!productId) {
-        alert('Please select a product');
-        return;
-    }
+            if (!productId) {
+                alert('Please select a product');
+                return;
+            }
 
-    const payload = {
-        _token: '{{ csrf_token() }}',
+            const payload = {
+                _token: '{{ csrf_token() }}',
 
-        product_id: productId,
-        invoice_no: document.querySelector('input[name="invoice_no"]').value,
-        customer_id: document.querySelector('#customerDropdown').value,
-        invoice_date: document.querySelector('input[name="invoice_date"]').value,
-        due_date: document.querySelector('input[name="due_date"]').value,
+                product_id: productId,
+                invoice_no: document.querySelector('input[name="invoice_no"]').value,
+                customer_id: document.querySelector('#customerDropdown').value,
+                invoice_date: document.querySelector('input[name="invoice_date"]').value,
+                due_date: document.querySelector('input[name="due_date"]').value,
 
-        product_name: entryRow.querySelector('input[name="product_name[]"]').value,
-        pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
-        post_code: entryRow.querySelector('input[name="post_code[]"]').value,
-        barcode: entryRow.querySelector('input[name="barcode[]"]').value,
-        hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
+                product_name: entryRow.querySelector('input[name="product_name[]"]').value,
+                pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
+                post_code: entryRow.querySelector('input[name="post_code[]"]').value,
+                barcode: entryRow.querySelector('input[name="barcode[]"]').value,
+                hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
 
-        net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
-        gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
-        metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
+                net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+                gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
+                metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
 
-        making_price: entryRow.querySelector('input[name="making_price[]"]').value,
-        wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
+                making_price: entryRow.querySelector('input[name="making_price[]"]').value,
+                wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
 
-        gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
-        gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
+                gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
+                gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
 
-        total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
-        final_price: entryRow.querySelector('input[name="final_price[]"]').value,
+                total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
+                final_price: entryRow.querySelector('input[name="final_price[]"]').value,
 
-        category: entryRow.querySelector('input[name="category[]"]').value,
-        subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
-        size: entryRow.querySelector('input[name="size[]"]').value,
+                category: entryRow.querySelector('input[name="category[]"]').value,
+                subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
+                size: entryRow.querySelector('input[name="size[]"]').value,
 
-        diamonds: collectDiamonds(),
-        stones: collectStones(),
-    };
+                diamonds: collectDiamonds(),
+                stones: collectStones(),
+            };
 
-    fetch('{{ route('sell.invoice.addItem') }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(res => {
+            fetch('{{ route('sell.invoice.addItem') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(res => {
 
-        if (!res.success) {
-            alert(res.message || 'Failed to save item');
-            return;
-        }
+                    if (!res.success) {
+                        alert(res.message || 'Failed to save item');
+                        return;
+                    }
 
-        const tableBody = document.querySelector('#itemsTable tbody');
-        const tr = document.createElement('tr');
+                    const tableBody = document.querySelector('#itemsTable tbody');
+                    const tr = document.createElement('tr');
 
-        tr.innerHTML = `
+                    tr.innerHTML = `
             <td>
                 ${payload.product_name}
                 <input type="hidden" name="product_id[]" value="${payload.product_id}">
@@ -1329,26 +1329,26 @@ document.getElementById('addItemBtn').addEventListener('click', function (e) {
             </td>
         `;
 
-        tableBody.appendChild(tr);
+                    tableBody.appendChild(tr);
 
-        /* CLEAR ENTRY ROW */
-        entryRow.querySelectorAll('input').forEach(input => {
-            if (!input.hasAttribute('readonly')) {
-                input.value = '';
-            }
+                    /* CLEAR ENTRY ROW */
+                    entryRow.querySelectorAll('input').forEach(input => {
+                        if (!input.hasAttribute('readonly')) {
+                            input.value = '';
+                        }
+                    });
+
+                    document.querySelector('#diamondTable tbody').innerHTML = '';
+                    document.querySelector('#stoneTable tbody').innerHTML = '';
+
+                    calculateInvoiceTotals();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error saving item');
+                });
         });
-
-        document.querySelector('#diamondTable tbody').innerHTML = '';
-        document.querySelector('#stoneTable tbody').innerHTML = '';
-
-        calculateInvoiceTotals();
-    })
-    .catch(error => {
-        console.error(error);
-        alert('Error saving item');
-    });
-});
-</script>
+    </script>
 
     <script>
         function collectDiamonds() {
