@@ -359,13 +359,41 @@ Route::post('/sell-invoice/add-item',
     [SellInvoiceController::class, 'addItem']
 )->name('sell.invoice.addItem');
 
+Route::get('/sell-invoice/edit/{id}', function ($id) {
+    // Determine if we need a controller method or just return the view
+    // Since add_invoice view is powered by JS and customer-dropdown, 
+    // we might need to pass the ID to the view so JS can auto-load it.
+    // Let's use SellInvoiceController method to be clean.
+    return app(SellInvoiceController::class)->edit($id); 
+})->name('sell.invoice.edit');
+
 Route::get('/sell-invoice/get-pending/{customerId}', 
     [SellInvoiceController::class, 'getPendingInvoice']
 )->name('sell.invoice.getPending');
 
+Route::get('/sell-invoice/get/{id}', 
+    [SellInvoiceController::class, 'getInvoiceById']
+)->name('sell.invoice.getById');
+
 Route::post('/sell-invoice/remove-item', 
     [SellInvoiceController::class, 'removeItem']
 )->name('sell.invoice.removeItem');
+
+Route::post('/sell-invoice/update-item', 
+    [SellInvoiceController::class, 'updateItem']
+)->name('sell.invoice.updateItem');
+
+Route::post('/sell-invoice/finalize', 
+    [SellInvoiceController::class, 'finalize']
+)->name('sell.invoice.finalize');
+
+Route::post('/sell-invoice/update', 
+    [SellInvoiceController::class, 'update']
+)->name('sell.invoice.update');
+
+Route::delete('/sell-invoice/delete/{id}', 
+    [SellInvoiceController::class, 'destroy']
+)->name('sell.invoice.destroy');
 
 
 

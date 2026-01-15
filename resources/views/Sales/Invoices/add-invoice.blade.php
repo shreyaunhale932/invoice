@@ -1205,152 +1205,401 @@
         });
     </script>
     <script>
-document.getElementById('addItemBtn').addEventListener('click', function (e) {
-    e.preventDefault();
+        let globalInvoiceItems = [];
+        let editingItemId = null;
+        let globalInvoiceId = null;
 
-    const entryRow = document.querySelector('#entryTable tbody tr');
-
-    if (!entryRow) {
-        alert('Entry row not found');
-        return;
-    }
-
-    const productId = entryRow.querySelector('#entry_product_id')?.value;
-
-    if (!productId) {
-        alert('Please select a product');
-        return;
-    }
-
-    const payload = {
-        _token: '{{ csrf_token() }}',
-
-        product_id: productId,
-        invoice_no: document.querySelector('input[name="invoice_no"]').value,
-        customer_id: document.querySelector('#customerDropdown').value,
-        invoice_date: document.querySelector('input[name="invoice_date"]').value,
-        due_date: document.querySelector('input[name="due_date"]').value,
-
-        product_name: entryRow.querySelector('input[name="product_name[]"]').value,
-        pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
-        post_code: entryRow.querySelector('input[name="post_code[]"]').value,
-        barcode: entryRow.querySelector('input[name="barcode[]"]').value,
-        hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
-
-        net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
-        gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
-        metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
-
-        making_price: entryRow.querySelector('input[name="making_price[]"]').value,
-        wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
-
-        gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
-        gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
-
-        total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
-        final_price: entryRow.querySelector('input[name="final_price[]"]').value,
-
-        category: entryRow.querySelector('input[name="category[]"]').value,
-        subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
-        size: entryRow.querySelector('input[name="size[]"]').value,
-
-        diamonds: collectDiamonds(),
-        stones: collectStones(),
-    };
-
-    fetch('{{ route('sell.invoice.addItem') }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(res => {
-
-        if (!res.success) {
-            alert(res.message || 'Failed to save item');
-            return;
-        }
-
-        const tableBody = document.querySelector('#itemsTable tbody');
-        const tr = document.createElement('tr');
-
-        tr.innerHTML = `
-            <td>
-                ${payload.product_name}
-                <input type="hidden" name="product_id[]" value="${payload.product_id}">
-                <input type="hidden" name="product_name[]" value="${payload.product_name}">
-            </td>
-
-            <td>
-                ${payload.pre_code}-${payload.post_code}
-                <input type="hidden" name="pre_code[]" value="${payload.pre_code}">
-                <input type="hidden" name="post_code[]" value="${payload.post_code}">
-            </td>
-
-            <td>
-                ${payload.barcode}
-                <input type="hidden" name="barcode[]" value="${payload.barcode}">
-            </td>
-
-            <td>
-                ${payload.net_weight}
-                <input type="hidden" name="net_weight[]" value="${payload.net_weight}">
-            </td>
-
-            <td>
-                ${payload.metal_rate}
-                <input type="hidden" name="metal_rate[]" value="${payload.metal_rate}">
-            </td>
-
-            <td>
-                ${payload.making_price}
-                <input type="hidden" name="making_price[]" value="${payload.making_price}">
-            </td>
-
-            <td>
-                ${payload.gst_amount}
-                <input type="hidden" name="gst_amount[]" value="${payload.gst_amount}">
-            </td>
-
-            <td>
-                ${payload.final_price}
-                <input type="hidden" name="total_amount[]" value="${payload.final_price}">
-            </td>
-
-            <td>
-                <button type="button"
-                        class="btn btn-danger btn-sm removeItem"
-                        data-id="${res.item_id}">
-                    X
-                </button>
-            </td>
-        `;
-
-        tableBody.appendChild(tr);
-
-        /* CLEAR ENTRY ROW */
-        entryRow.querySelectorAll('input').forEach(input => {
-            if (!input.hasAttribute('readonly')) {
-                input.value = '';
-            }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Hijack Save buttons
+            document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                finalizeInvoice();
+            });
+            // Also handle "Save" button if it exists separately
+            document.querySelectorAll('.cancel.me-2').forEach(btn => {
+                if(btn.textContent.trim() === 'Save') {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        finalizeInvoice();
+                    });
+                }
+            });
         });
 
-        document.querySelector('#diamondTable tbody').innerHTML = '';
-        document.querySelector('#stoneTable tbody').innerHTML = '';
+        // ---------------------------------------------------------
+        // ADD / UPDATE ITEM
+        // ---------------------------------------------------------
+        document.getElementById('addItemBtn').addEventListener('click', function (e) {
+            e.preventDefault();
 
-        calculateInvoiceTotals();
-    })
-    .catch(error => {
-        console.error(error);
-        alert('Error saving item');
-    });
-});
-</script>
+            const entryRow = document.querySelector('#entryTable tbody tr');
+            const productId = entryRow.querySelector('#entry_product_id')?.value;
+            const customerId = document.querySelector('#customerDropdown').value;
 
-    <script>
+            if (!productId) {
+                alert('Please select a product');
+                return;
+            }
+            if (!customerId) {
+                alert('Please select a customer first');
+                return;
+            }
+
+
+            const payload = {
+                _token: '{{ csrf_token() }}',
+                item_id: editingItemId, // Null if adding
+                // If editing, we need to send the invoice_id too? The controller finds it from item, 
+                // but for ADD we need it.
+                // For ADD, the controller currently looks for existing pending invoice.
+                
+                product_id: productId,
+                invoice_no: document.querySelector('input[name="invoice_no"]').value,
+                customer_id: customerId,
+                invoice_date: document.querySelector('input[name="invoice_date"]').value,
+                due_date: document.querySelector('input[name="due_date"]').value,
+
+                product_name: entryRow.querySelector('input[name="product_name[]"]').value,
+                pre_code: entryRow.querySelector('input[name="pre_code[]"]').value,
+                post_code: entryRow.querySelector('input[name="post_code[]"]').value,
+                barcode: entryRow.querySelector('input[name="barcode[]"]').value,
+                hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
+
+                net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+                gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
+                metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
+
+                making_price: entryRow.querySelector('input[name="making_price[]"]').value,
+                wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
+
+                gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
+                gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
+
+                total_amount: entryRow.querySelector('input[name="total_amount[]"]').value,
+                final_price: entryRow.querySelector('input[name="final_price[]"]').value,
+
+                category: entryRow.querySelector('input[name="category[]"]').value,
+                subcategory: entryRow.querySelector('input[name="subcategory[]"]').value,
+                size: entryRow.querySelector('input[name="size[]"]').value,
+
+                diamonds: collectDiamonds(),
+                stones: collectStones(),
+            };
+
+            const url = editingItemId 
+                ? '{{ route('sell.invoice.updateItem') }}' 
+                : '{{ route('sell.invoice.addItem') }}';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (!res.success) {
+                    alert(res.message || 'Failed to save item');
+                    return;
+                }
+                
+                // Clear Form & Reset State
+                resetEntryForm();
+                
+                // Refresh Items
+                fetchPendingInvoice(customerId);
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Error saving item');
+            });
+        });
+
+        // ---------------------------------------------------------
+        // EDIT ITEM (Populate Form)
+        // ---------------------------------------------------------
+        function editItem(id) {
+            const item = globalInvoiceItems.find(i => i.id == id);
+            if (!item) return;
+
+            editingItemId = id;
+            document.getElementById('addItemBtn').textContent = 'Update Item';
+            document.getElementById('addItemBtn').classList.remove('btn-success');
+            document.getElementById('addItemBtn').classList.add('btn-warning');
+
+            const p = item.product || {};
+            const cat = p.category || {};
+            const sub = p.subcategory || {};
+
+            // Populate Entry Row
+            const row = $('#entryTable tbody tr').first();
+            row.find('#entry_product_id').val(item.product_id);
+            
+            // Category / Subcategory - Try direct item field first, then Product Relation
+            row.find('input[name="category[]"]').val(cat.category_name || p.category_id || p.category || '');
+            row.find('input[name="subcategory[]"]').val(sub.subcategory_name || p.subcategory_id || p.subcategory || '');
+            
+            row.find('input[name="product_name[]"]').val(item.item_name || p.product_name || '');
+            
+            row.find('input[name="pre_code[]"]').val(item.pre_code || p.pre_code || '');
+            row.find('input[name="post_code[]"]').val(item.post_code || p.post_code || '');
+            row.find('input[name="barcode[]"]').val(item.barcode || p.barcode || '');
+            row.find('input[name="hsn_code[]"]').val(item.hsn_code || p.hsn_code || '');
+            
+            row.find('input[name="metal_rate[]"]').val(item.metal_rate || 0);
+            row.find('input[name="quantity[]"]').val(item.quantity || p.quantity || 1); // Quantity
+            row.find('input[name="gross_weight[]"]').val(item.gross_weight || 0);
+            
+            row.find('input[name="net_weight[]"]').val(item.net_weight || 0);
+            row.find('input[name="size[]"]').val(item.size || p.size || ''); // Size
+            
+            row.find('input[name="wastage_percent[]"]').val(item.wastage_percent || 0);
+            row.find('input[name="making_price[]"]').val(item.making_charges || p.making_price || 0); // Making
+            
+            row.find('input[name="gst_percent[]"]').val(item.gst_percent || p.gst_percent || 0);
+            row.find('input[name="gst_amount[]"]').val(item.gst_amount || 0);
+            row.find('input[name="total_amount[]"]').val(item.total_amount || 0);
+            row.find('input[name="final_price[]"]').val(item.final_price || 0);
+
+            // Populate Diamonds
+            renderDiamonds(item.diamonds || []);
+            // Populate Stones
+            renderStones(item.stones || []);
+            
+            // Re-trigger calculation to visually confirm? 
+            // calculateRow(row[0]); // Optional, might overwrite values
+        }
+
+        function resetEntryForm() {
+            editingItemId = null;
+            document.getElementById('addItemBtn').textContent = '+ Add Item';
+            document.getElementById('addItemBtn').classList.remove('btn-warning');
+            document.getElementById('addItemBtn').classList.add('btn-success');
+
+            const entryRow = document.querySelector('#entryTable tbody tr');
+            entryRow.querySelectorAll('input').forEach(input => {
+                if (!input.hasAttribute('readonly') && input.type !== 'hidden') {
+                    // Don't clear readonlies or hiddens blindly, but for entry row we want to clear most things
+                    // Actually, most fields are readonly except weights/rates. 
+                    // Best way: Trigger the "Select Product" reset or just clear values.
+                }
+                // Determine which to clear. Currently clearing everything relevant.
+                input.value = '';
+            });
+            // Clear tables
+            document.querySelector('#diamondTable tbody').innerHTML = '';
+            document.querySelector('#stoneTable tbody').innerHTML = '';
+        }
+
+        // ---------------------------------------------------------
+        // FETCH PENDING (or Specific Invoice)
+        // ---------------------------------------------------------
+        $(document).ready(function() {
+            // Check if we are in Edit Mode (Server passed invoice_id)
+            var preloadedInvoiceId = "{{ $invoice_id ?? '' }}";
+            var preloadedCustomerId = "{{ $customer_id ?? '' }}";
+
+            if (preloadedInvoiceId && preloadedCustomerId) {
+                // Set Customer
+                $('#customerDropdown').val(preloadedCustomerId).trigger('change'); 
+                // The change event below will fire, BUT standard logic fetches "Pending".
+                // If we want to edit a "Completed" invoice, getPending might fail or return a different draft.
+                // WE SHOULD CHANGE fetchPendingInvoice to accept optional InvoiceID or create a fetchInvoiceById.
+                
+                // Let's modify fetch logic to allow fetching by ID if provided, otherwise pending.
+                // OR just rely on 'getPending' if we assume we are editing *that* user's invoice.
+                // But USER might have multiple invoices? 
+                // The current controller logic 'getPendingInvoice' gets status='pending'.
+                // If we are editing a PAID invoice, getPending returns nothing.
+                
+                // FIX: If we are specifically editing, we should fetch THAT invoice.
+                fetchInvoiceDetails(preloadedInvoiceId);
+            }
+
+            $('#customerDropdown').on('change', function() {
+                var customerId = $(this).val();
+                 // If we just set it programmatically for Edit, we might want to skip the "Pending" fetch 
+                 // which might overwrite our specific invoice fetch.
+                 // But since we are triggering change above, this runs.
+                 // Verification needed: Does the user want to merge pending?
+                 // For now, if we are in "Edit Mode" (URL has ID), we prefer that ID.
+                 if (!preloadedInvoiceId) {
+                     if (customerId) fetchPendingInvoice(customerId);
+                 }
+            });
+        });
+
+        // New function to fetch specific invoice (for Edit / Paid invoices)
+        function fetchInvoiceDetails(invoiceId) {
+             $('#itemsTable tbody').empty();
+             // We need a route for getting specific invoice details. 
+             // We can reuse getPending but by ID.
+             // Let's assume we use 'sell.invoice.getPending' but maybe add a query param or new route?
+             // Or simpler: Just use a new small route or modify getPending in controller to accept ID?
+             // Actually, let's just make a new simple JS fetch since we don't have a route yet.
+             // Wait, I can't add route easily without modifying web.php again.
+             // Let's modify 'sell.invoice.getPending' in Controller to optionally accept invoice_id?
+             // Route definition: Route::get('/sell-invoice/get-pending/{customerId}', ...)
+             
+             // BETTER: Create a new route `sell.invoice.get/{id}`. 
+             // Since I can't modify web.php in the same step easily without context switching, 
+             // I will use a POST to 'finalize' (No that saves).
+             // I WILL ADD A NEW ROUTE IN WEB.PHP for getting invoice by ID in next step 
+             // OR modify the existing 'getPending' to be more flexible?
+             // Existing: /sell-invoice/get-pending/{customerId}
+             
+             // Let's assume I will add `sell.invoice.get` route.
+             $.ajax({
+                url: '/sell-invoice/get/' + invoiceId, 
+                type: 'GET',
+                success: function(response) {
+                    if(response.success && response.invoice) {
+                        loadInvoiceData(response.invoice);
+                    }
+                }
+             });
+        }
+        
+        function loadInvoiceData(invoice) {
+                        globalInvoiceItems = invoice.items || [];
+                        globalInvoiceId = invoice.id;
+
+                        // Invoice Details
+                        $('input[name="invoice_no"]').val(invoice.invoice_no);
+                        if (invoice.invoice_date) {
+                            var date = new Date(invoice.invoice_date);
+                            var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + (
+                                    "0" + (date.getMonth() + 1)).slice(-2) + "-" + date
+                                .getFullYear();
+                            $('input[name="invoice_date"]').val(formattedDate);
+                        }
+                        if (invoice.invoice_due_date) {
+                            var dueDate = new Date(invoice.invoice_due_date);
+                            var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) +
+                                "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" +
+                                dueDate.getFullYear();
+                            $('input[name="due_date"]').val(formattedDueDate);
+                        }
+                        
+                        // Set Totals / Payments
+                        $('#discountPercent').val(invoice.discount_percent);
+                        $('#cgstPercent').val(invoice.cgst_percent);
+                        $('#sgstPercent').val(invoice.sgst_percent);
+                        // Payments
+                        $('#cashReceived').val(invoice.cash_received);
+                        $('#bankReceived').val(invoice.bank_received);
+                        $('#onlineReceived').val(invoice.online_received);
+                        // ... set others ...
+
+                        renderItemsTable(globalInvoiceItems);
+                        calculateInvoiceTotals();
+                        
+                        // Update Button State to 'Update'
+                        const saveBtn = document.querySelector('button[type="submit"]');
+                        if(saveBtn) saveBtn.textContent = "Update Invoice";
+        }
+
+        function fetchPendingInvoice(customerId) {
+            $('#itemsTable tbody').empty();
+            const url = "{{ route('sell.invoice.getPending', ':customerId') }}".replace(':customerId', customerId);
+            
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    if (response.success && response.invoice) {
+                        loadInvoiceData(response.invoice);
+                    } else {
+                        globalInvoiceItems = [];
+                        globalInvoiceId = null;
+                        renderItemsTable([]);
+                    }
+                }
+            });
+        }
+
+        function renderItemsTable(items) {
+            const tbody = $('#itemsTable tbody');
+            tbody.empty();
+            items.forEach(function(item) {
+                const tr = `
+                    <tr>
+                        <td>${item.item_name || ''}
+                            <input type="hidden" name="total_amount[]" value="${item.final_price || 0}"> 
+                            <!-- Hidden input for calculateInvoiceTotals to read -->
+                        </td>
+                        <td>${item.pre_code || ''}-${item.post_code || ''}</td>
+                        <td>${item.barcode || ''}</td>
+                        <td>${item.net_weight || 0}</td>
+                        <td>${item.metal_rate || 0}</td>
+                        <td>${item.making_price || 0}</td>
+                        <td>${item.gst_amount || 0}</td>
+                        <td>${item.final_price || 0}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="editItem(${item.id})">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${item.id}">X</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(tr);
+            });
+        }
+        
+        // ---------------------------------------------------------
+        // FINALIZE INVOICE
+        // ---------------------------------------------------------
+        function finalizeInvoice() {
+            if (!globalInvoiceId) {
+                alert('No active invoice to save.');
+                return;
+            }
+            // Collect Invoice Level Data
+            const payload = {
+                _token: '{{ csrf_token() }}',
+                sell_invoice_id: globalInvoiceId,
+                customer_id: document.querySelector('#customerDropdown').value,
+                invoice_date: document.querySelector('input[name="invoice_date"]').value || date('Y-m-d'),
+                due_date: document.querySelector('input[name="due_date"]').value || date('Y-m-d'),
+
+                discount_percent: document.getElementById('discountPercent').value || 0,
+                cgst_percent: document.getElementById('cgstPercent').value || 0,
+                sgst_percent: document.getElementById('sgstPercent').value || 0,
+                igst_percent: document.getElementById('igstPercent').value || 0,
+
+                cash_received: document.getElementById('cashReceived').value || 0,
+                bank_received: document.getElementById('bankReceived').value || 0,
+                online_received: document.getElementById('onlineReceived').value || 0,
+                card_received: document.getElementById('cardReceived').value || 0,
+            };
+
+            fetch('{{ route('sell.invoice.finalize') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    alert('Invoice Saved Successfully!');
+                    window.location.href = res.redirect_url;
+                } else {
+                    alert('Error: ' + res.message);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('An error occurred while finalizing.');
+            });
+        }
+
+        // ---------------------------------------------------------
+        // HELPERS (Existing Logic + Updates)
+        // ---------------------------------------------------------
         function collectDiamonds() {
             let diamonds = [];
             document.querySelectorAll('#diamondTable tbody tr').forEach(row => {
@@ -1366,8 +1615,7 @@ document.getElementById('addItemBtn').addEventListener('click', function (e) {
             });
             return diamonds;
         }
-    </script>
-    <script>
+
         function collectStones() {
             let stones = [];
             document.querySelectorAll('#stoneTable tbody tr').forEach(row => {
@@ -1380,211 +1628,74 @@ document.getElementById('addItemBtn').addEventListener('click', function (e) {
             });
             return stones;
         }
-    </script>
-    {{-- <script>
-        document.getElementById('addItemBtn').addEventListener('click', function() {
-
-            let entryRow = document.querySelector('#entryTable tbody tr');
-            let inputs = entryRow.querySelectorAll('input');
-
-            // Validation (minimum)
-            if (!inputs[2].value) {
-                alert('Please select a product');
+        
+        function renderDiamonds(diamonds) {
+            const tbody = $('#diamondTable tbody');
+            tbody.empty();
+            if (!Array.isArray(diamonds) || diamonds.length === 0) {
+                tbody.append(`<tr><td colspan="7" class="text-center">No Diamonds</td></tr>`);
                 return;
             }
-
-            let tableBody = document.querySelector('#itemsTable tbody');
-            let tr = document.createElement('tr');
-
-            tr.innerHTML = `
-        <td>
-            ${inputs[2].value}
-            <input type="hidden" name="product_name[]" value="${inputs[2].value}">
-        </td>
-        <td>
-            ${inputs[3].value}-${inputs[4].value}
-            <input type="hidden" name="pre_code[]" value="${inputs[3].value}">
-            <input type="hidden" name="post_code[]" value="${inputs[4].value}">
-        </td>
-        <td>
-            ${inputs[5].value}
-            <input type="hidden" name="barcode[]" value="${inputs[5].value}">
-        </td>
-        <td>
-            ${inputs[10].value}
-            <input type="hidden" name="net_weight[]" value="${inputs[10].value}">
-        </td>
-        <td>
-            ${inputs[7].value}
-            <input type="hidden" name="metal_rate[]" value="${inputs[7].value}">
-        </td>
-        <td>
-            ${inputs[13].value}
-            <input type="hidden" name="making_price[]" value="${inputs[13].value}">
-        </td>
-        <td>
-            ${inputs[15].value}
-            <input type="hidden" name="gst_amount[]" value="${inputs[15].value}">
-        </td>
-        <td>
-            ${inputs[16].value}
-            <input type="hidden" name="total_amount[]" value="${inputs[16].value}">
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger btn-sm removeItem">X</button>
-        </td>
-    `;
-
-            tableBody.appendChild(tr);
-
-            // CLEAR ENTRY ROW FOR NEXT ITEM
-            inputs.forEach(input => {
-                if (!input.hasAttribute('readonly')) {
-                    input.value = '';
-                }
+            diamonds.forEach((d, index) => {
+                tbody.append(`
+        <tr data-index="${index}">
+            <td><input type="text" class="form-control clarity" name="diamonds[${index}][clarity]" value="${d.clarity ?? ''}" ></td>
+            <td><input type="text" class="form-control cut" name="diamonds[${index}][cut]" value="${d.cut ?? ''}" ></td>
+            <td><input type="text" class="form-control color" name="diamonds[${index}][color]" value="${d.color ?? ''}" ></td>
+            <td><input type="number" class="form-control pieces" name="diamonds[${index}][pieces]" value="${d.pieces ?? 0}" ></td>
+            <td><input type="number" step="0.001" class="form-control diamond-weight" name="diamonds[${index}][diamond_weight]" value="${d.diamond_weight ?? 0}" ></td>
+            <td><input type="number" step="0.01" class="form-control price-per-carat" name="diamonds[${index}][price_per_carat]" value="${d.price_per_carat ?? 0}"></td>
+            <td><input type="number" step="0.01" class="form-control diamond-total" name="diamonds[${index}][diamond_final_price]" value="${d.diamond_final_price ?? 0}" style="pointer-events: none; background-color: #e9ecef;"></td>
+        </tr>`);
             });
-            document.querySelector('#diamondTable tbody').innerHTML = '';
-            document.querySelector('#stoneTable tbody').innerHTML = '';
+        }
+        function renderStones(stones) {
+             const tbody = $('#stoneTable tbody');
+             tbody.empty();
+             if (!Array.isArray(stones) || stones.length === 0) {
+                 tbody.append(`<tr><td colspan="4" class="text-center">No Stones</td></tr>`);
+                 return;
+             }
+             stones.forEach((s, index) => {
+                 tbody.append(`
+         <tr data-index="${index}">
+             <td><input type="text" class="form-control stone-name" name="stones[${index}][stone_name]" value="${s.stone_name ?? ''}" ></td>
+             <td><input type="number" step="0.001" class="form-control stone-weight" name="stones[${index}][stone_weight]" value="${s.stone_weight ?? 0}" ></td>
+             <td><input type="number" step="0.01" class="form-control stone-price" name="stones[${index}][stone_price]" value="${s.stone_price ?? 0}" ></td>
+             <td><input type="number" step="0.01" class="form-control stone-total" name="stones[${index}][stone_final_price]" value="${s.stone_final_price ?? 0}" style="pointer-events: none; background-color: #e9ecef;"></td>
+         </tr>`);
+             });
+        }
 
-        });
-    </script> --}}
-    <script>
+        // REMOVE ITEM
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('removeItem')) {
                 const btn = e.target;
-                const row = btn.closest('tr');
                 const itemId = btn.getAttribute('data-id');
+                if (!confirm('Are you sure you want to remove this item?')) return;
 
-                if (itemId) {
-                    if (!confirm('Are you sure you want to remove this item?')) return;
-
-                    fetch('{{ route('sell.invoice.removeItem') }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                item_id: itemId
-                            })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.success) {
-                                row.remove();
-                                calculateInvoiceTotals();
-                            } else {
-                                alert('Failed to remove item: ' + (data.message || 'Unknown error'));
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            alert('Error removing item');
-                        });
-                } else {
-                    // Fallback for non-persisted items (shouldn't happen with current logic but safe to have)
-                    row.remove();
-                    calculateInvoiceTotals();
-                }
-            }
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#customerDropdown').on('change', function() {
-                var customerId = $(this).val();
-                if (!customerId) return;
-
-                // Clear existing items
-                $('#itemsTable tbody').empty();
-                const pendingInvoiceUrlTemplate = "{{ route('sell.invoice.getPending', ':customerId') }}";
-                $.ajax({
-                    url: pendingInvoiceUrlTemplate.replace(':customerId', customerId),
-                    type: 'GET',
-                    success: function(response) {
-                        if (response.success && response.invoice) {
-                            var invoice = response.invoice;
-
-                            // Update invoice basic details if needed
-                            $('input[name="invoice_no"]').val(invoice.invoice_no);
-                            // Format dates if they exist (assuming YYYY-MM-DD from backend)
-                            if (invoice.invoice_date) {
-                                var date = new Date(invoice.invoice_date);
-                                var formattedDate = ("0" + date.getDate()).slice(-2) + "-" + (
-                                        "0" + (date.getMonth() + 1)).slice(-2) + "-" + date
-                                    .getFullYear();
-                                $('input[name="invoice_date"]').val(formattedDate);
-                            }
-                            if (invoice.invoice_due_date) {
-                                var dueDate = new Date(invoice.invoice_due_date);
-                                var formattedDueDate = ("0" + dueDate.getDate()).slice(-2) +
-                                    "-" + ("0" + (dueDate.getMonth() + 1)).slice(-2) + "-" +
-                                    dueDate.getFullYear();
-                                $('input[name="due_date"]').val(formattedDueDate);
-                            }
-
-                            // Populate Items
-                            if (invoice.items && invoice.items.length > 0) {
-                                invoice.items.forEach(function(item) {
-                                    var tr = `
-                                        <tr>
-                                            <td>
-                                                ${item.item_name || ''}
-                                                <input type="hidden" name="product_name[]" value="${item.item_name || ''}">
-                                            </td>
-                                            <td>
-                                                ${item.pre_code || ''}-${item.post_code || ''}
-                                                <input type="hidden" name="pre_code[]" value="${item.pre_code || ''}">
-                                                <input type="hidden" name="post_code[]" value="${item.post_code || ''}">
-                                            </td>
-                                            <td>
-                                                ${item.barcode || ''}
-                                                <input type="hidden" name="barcode[]" value="${item.barcode || ''}">
-                                            </td>
-                                            <td>
-                                                ${item.net_weight || 0}
-                                                <input type="hidden" name="net_weight[]" value="${item.net_weight || 0}">
-                                                <input type="hidden" name="gross_weight[]" value="${item.gross_weight || 0}">
-                                            </td>
-                                            <td>
-                                                ${item.metal_rate || 0}
-                                                <input type="hidden" name="metal_rate[]" value="${item.metal_rate || 0}">
-                                            </td>
-                                            <td>
-                                                ${item.making_price || 0}
-                                                <input type="hidden" name="making_price[]" value="${item.making_price || 0}">
-                                                <input type="hidden" name="wastage_percent[]" value="${item.wastage_percent || 0}">
-                                            </td>
-                                            <td>
-                                                ${item.gst_amount || 0}
-                                                <input type="hidden" name="gst_amount[]" value="${item.gst_amount || 0}">
-                                                <input type="hidden" name="gst_percent[]" value="${item.gst_percent || 0}">
-                                            </td>
-                                            <td>
-                                                ${item.final_price || 0}
-                                                <input type="hidden" name="total_amount[]" value="${item.final_price || 0}">
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${item.id}">X</button>
-                                            </td>
-                                        </tr>
-                                    `;
-                                    $('#itemsTable tbody').append(tr);
-                                });
-                            }
-                        } else {
-                            console.log('No pending invoice found, or no items.');
-                            // Optionally clear fields or leave correctly empty
-                            $('#itemsTable tbody').empty();
-                            // Reset invoice number to default or handle as new logic if needed
-                        }
-                    },
-                    error: function(err) {
-                        console.error('Error fetching pending invoice:', err);
+                fetch('{{ route('sell.invoice.removeItem') }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    body: JSON.stringify({ item_id: itemId })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        const customerId = document.querySelector('#customerDropdown').value;
+                        fetchPendingInvoice(customerId);
+                    } else {
+                        alert('Failed to remove item');
                     }
                 });
-            });
+            }
         });
+        
+        // --- CALCULATION LOGIC (Keep existing calculateInvoiceTotals) ---
+        // Just ensuring it reads the updated DOM properly
+        
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 1. Initial Calculation on Load (if items exist)
             calculateInvoiceTotals();

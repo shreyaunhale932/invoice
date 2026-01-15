@@ -98,14 +98,20 @@
                                                             <i class="fas fa-ellipsis-v"></i>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="">
+                                                            <a class="dropdown-item" href="{{ route('sell.invoice.edit', $invoice->id) }}">
                                                                 <i class="far fa-edit me-2"></i>Edit
                                                             </a>
                                                             <a class="dropdown-item" href="">
                                                                 <i class="far fa-eye me-2"></i>View
                                                             </a>
-                                                            <a class="dropdown-item text-danger" href="#"
-                                                                data-bs-toggle="modal" data-bs-target="#delete_modal">
+                                                            <a class="dropdown-item text-danger" href="#" 
+                                                               onclick="if(confirm('Are you sure?')) { 
+                                                                    event.preventDefault(); 
+                                                                    fetch('{{ route('sell.invoice.destroy', $invoice->id) }}', {
+                                                                        method: 'DELETE',
+                                                                        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+                                                                    }).then(res => {window.location.reload()});
+                                                               }">
                                                                 <i class="far fa-trash-alt me-2"></i>Delete
                                                             </a>
                                                         </div>
