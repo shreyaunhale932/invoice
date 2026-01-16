@@ -50,7 +50,7 @@
                                                             @foreach ($customers as $customer)
                                                                 <option value="{{ $customer->id }}"
                                                                     data-state="{{ $customer->state }}"
-                                                                    {{ (isset($invoice) && $invoice->user_id == $customer->id) ? 'selected' : '' }}>
+                                                                    {{ isset($invoice) && $invoice->user_id == $customer->id ? 'selected' : '' }}>
                                                                     {{ $customer->name }}</option>
                                                             @endforeach
                                                         </select>
@@ -150,13 +150,23 @@
                                             <option value="">Search by Product Code</option>
 
                                             @foreach ($products as $product)
+                                                @php
+                                                    $gstAmount = $product->gst_amount ?? 0;
+                                                    $goldPrice = $product->gold_price ?? 0;
+                                                    $finalPrice = $product->final_price ?? 0;
+
+                                                    $goldWithoutGst = max(0, $goldPrice - $gstAmount);
+                                                    $finalWithoutGst = max(0, $finalPrice - $gstAmount);
+                                                @endphp
+
                                                 <option value="{{ $product->id }}"
                                                     data-name="{{ $product->product_name }}"
-                                                    data-barcode="{{ $product->barcode }}" {{-- data-rate="{{ $product->metal_rate }}" --}}
+                                                    data-barcode="{{ $product->barcode }}"
                                                     data-hsn="{{ $product->hsn_code }}"
                                                     data-gross_weight="{{ $product->gross_weight }}"
                                                     data-net_weight="{{ $product->net_weight }}"
                                                     data-size="{{ $product->size }}"
+                                                    data-quantity="{{ $product->quantity }}"
                                                     data-wastage_percent="{{ $product->wastage_percent }}"
                                                     data-making_price="{{ $product->making_price }}" {{-- CATEGORY --}}
                                                     data-category-id="{{ $product->category_id }}"
@@ -165,17 +175,16 @@
                                                     data-subcategory-id="{{ $product->subcategory_id }}"
                                                     data-subcategory-name="{{ optional($product->subcategory)->subcategory_name }}"
                                                     data-gst_percent="{{ $product->gst_percent }}"
-                                                    data-gst_amount="{{ $product->gst_amount }}"
+                                                    data-gst_amount="{{ $gstAmount }}"
                                                     data-metal_rate="{{ optional($product->metalRate)->price_per_gram }}"
-                                                    data-gold_price="{{ $product->gold_price }}"
+                                                    {{-- ✅ GST REMOVED VALUES --}}
+                                                    data-gold_price="{{ number_format($goldWithoutGst, 2, '.', '') }}"
+                                                    data-final_price="{{ number_format($finalWithoutGst, 2, '.', '') }}"
                                                     data-pre_code="{{ $product->pre_code }}"
                                                     data-post_code="{{ $product->post_code }}"
-                                                    data-final_price="{{ $product->final_price }}" {{-- ✅ ADD THESE --}}
                                                     data-diamonds='@json($product->diamonds)'
                                                     data-stones='@json($product->stones)'>
-
-                                                    {{ $product->pre_code }}-{{ $product->post_code }}-
-                                                    {{ $product->product_name }}
+                                                    {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->product_name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -194,8 +203,8 @@
                                             <th>Product Name</th>
                                             <th>Pre Code</th>
                                             <th>Post Code</th>
-                                            <th>Barcode</th>
-                                            <th>HSN Code</th>
+                                            {{-- <th>Barcode</th> --}}
+                                            {{-- <th>HSN Code</th> --}}
                                             <th>Metal Rate</th>
                                             <th>Qty</th>
                                             <th>GS Wt</th>
@@ -203,8 +212,8 @@
                                             <th>Size</th>
                                             <th>Wastage %</th>
                                             <th>Making Amount</th>
-                                            <th>GST %</th>
-                                            <th>GST Amount</th>
+                                            {{-- <th>GST %</th> --}}
+                                            {{-- <th>GST Amount</th> --}}
                                             <th>Gold Price</th>
                                             <th>Final price</th>
                                         </tr>
@@ -226,11 +235,11 @@
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="text" name="post_code[]" class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="text" name="barcode[]"
-                                                    class="form-control"style="pointer-events: none; background-color: #e9ecef;">
-                                            </td>
-                                            <td><input type="text" name="hsn_code[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <input type="hidden" name="barcode[]"
+                                                class="form-control"style="pointer-events: none; background-color: #e9ecef;">
+
+                                            <input type="hidden" name="hsn_code[]" class="form-control"
+                                                style="pointer-events: none; background-color: #e9ecef;">
                                             <td><input type="number" step="0.01" name="metal_rate[]"
                                                     class="form-control"></td>
                                             <td><input type="number" name="quantity[]" class="form-control"
@@ -249,12 +258,12 @@
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.01" name="making_price[]"
                                                     class="form-control"></td>
-                                            <td><input type="number" step="0.01" name="gst_percent[]"
+                                           <input type="hidden" step="0.01" name="gst_percent[]"
                                                     class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="number" step="0.01" name="gst_amount[]"
+                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                            <input type="hidden" step="0.01" name="gst_amount[]"
                                                     class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                    style="pointer-events: none; background-color: #e9ecef;">
                                             <td>
                                                 <input type="number" step="0.01" name="total_amount[]"
                                                     class="form-control"
@@ -503,7 +512,8 @@
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>CGST %</label>
                                                             <input type="number" id="cgstPercent"
-                                                                class="form-control w-25" value="{{ $invoice->cgst_percent ?? 0 }}">
+                                                                class="form-control w-25"
+                                                                value="{{ $invoice->cgst_percent ?? 0 }}">
                                                             <span id="cgstAmount">₹0.00</span>
                                                         </div>
 
@@ -511,7 +521,8 @@
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>SGST %</label>
                                                             <input type="number" id="sgstPercent"
-                                                                class="form-control w-25" value="{{ $invoice->sgst_percent ?? 0 }}">
+                                                                class="form-control w-25"
+                                                                value="{{ $invoice->sgst_percent ?? 0 }}">
                                                             <span id="sgstAmount">₹0.00</span>
                                                         </div>
 
@@ -519,7 +530,8 @@
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>IGST %</label>
                                                             <input type="number" id="igstPercent"
-                                                                class="form-control w-25" value="{{ $invoice->igst_percent ?? 0 }}">
+                                                                class="form-control w-25"
+                                                                value="{{ $invoice->igst_percent ?? 0 }}">
                                                             <span id="igstAmount">₹0.00</span>
                                                         </div>
 
@@ -527,45 +539,50 @@
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>Discount %</label>
                                                             <input type="number" id="discountPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="{{ $invoice->discount_percent ?? 0 }}">
                                                             <span id="discountAmount">₹0.00</span>
                                                         </div>
 
                                                         <hr>
+                                                         <h4>
+                                                            Total Amount
+                                                            <span id="totalInvoiceAmount">₹0.00</span>
+                                                        </h4>
 
                                                         <!-- Payments -->
                                                         <div class="d-flex justify-content-between">
                                                             <label>Cash Received</label>
                                                             <input type="number" id="cashReceived"
-                                                                class="form-control w-50" value="{{ $invoice->cash_received ?? 0 }}">
+                                                                class="form-control w-50"
+                                                                value="{{ $invoice->cash_received ?? 0 }}">
                                                         </div>
 
                                                         <div class="d-flex justify-content-between">
                                                             <label>Bank Received</label>
                                                             <input type="number" id="bankReceived"
-                                                                class="form-control w-50" value="{{ $invoice->bank_received ?? 0 }}">
+                                                                class="form-control w-50"
+                                                                value="{{ $invoice->bank_received ?? 0 }}">
                                                         </div>
 
                                                         <div class="d-flex justify-content-between">
                                                             <label>Online Received</label>
                                                             <input type="number" id="onlineReceived"
-                                                                class="form-control w-50" value="{{ $invoice->online_received ?? 0 }}">
+                                                                class="form-control w-50"
+                                                                value="{{ $invoice->online_received ?? 0 }}">
                                                         </div>
 
                                                         <div class="d-flex justify-content-between">
                                                             <label>Card Received</label>
                                                             <input type="number" id="cardReceived"
-                                                                class="form-control w-50" value="{{ $invoice->card_received ?? 0 }}">
+                                                                class="form-control w-50"
+                                                                value="{{ $invoice->card_received ?? 0 }}">
                                                         </div>
 
                                                     </div>
 
                                                     <!-- Footer -->
                                                     <div class="invoice-total-footer">
-                                                        <h4>
-                                                            Total Amount
-                                                            <span id="totalInvoiceAmount">₹0.00</span>
-                                                        </h4>
+
                                                         <h5 class="text-danger">
                                                             Remaining Amount
                                                             <span id="remainingAmount">₹0.00</span>
@@ -1231,7 +1248,7 @@
         let editingItemId = null;
         let globalInvoiceId = null;
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             // Hijack Save buttons
             document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1239,7 +1256,7 @@
             });
             // Also handle "Save" button if it exists separately
             document.querySelectorAll('.cancel.me-2').forEach(btn => {
-                if(btn.textContent.trim() === 'Save') {
+                if (btn.textContent.trim() === 'Save') {
                     btn.addEventListener('click', function(e) {
                         e.preventDefault();
                         finalizeInvoice();
@@ -1251,12 +1268,32 @@
         // ---------------------------------------------------------
         // ADD / UPDATE ITEM
         // ---------------------------------------------------------
-        document.getElementById('addItemBtn').addEventListener('click', function (e) {
+         function showError(message) {
+            alert(message);
+            return false;
+        }
+
+        function isEmpty(val) {
+            return val === null || val === undefined || val === '' || val == 0;
+        }
+        document.getElementById('addItemBtn').addEventListener('click', function(e) {
             e.preventDefault();
 
-            const entryRow = document.querySelector('#entryTable tbody tr');
-            const productId = entryRow.querySelector('#entry_product_id')?.value;
+             const entryRow = document.querySelector('#entryTable tbody tr');
+
+            const invoiceNo = document.querySelector('input[name="invoice_no"]').value;
+            const invoiceDate = document.querySelector('input[name="invoice_date"]').value;
+            const dueDate = document.querySelector('input[name="due_date"]').value;
             const customerId = document.querySelector('#customerDropdown').value;
+            const productId = entryRow.querySelector('#entry_product_id').value;
+
+            const category = entryRow.querySelector('input[name="category[]"]').value;
+            const subcategory = entryRow.querySelector('input[name="subcategory[]"]').value;
+            const metalRate = entryRow.querySelector('input[name="metal_rate[]"]').value;
+            const grossWt = entryRow.querySelector('input[name="gross_weight[]"]').value;
+            const netWt = entryRow.querySelector('input[name="net_weight[]"]').value;
+            const goldPrice = entryRow.querySelector('input[name="total_amount[]"]').value;
+            const finalPrice = entryRow.querySelector('input[name="final_price[]"]').value;
 
             if (!productId) {
                 alert('Please select a product');
@@ -1266,13 +1303,65 @@
                 alert('Please select a customer first');
                 return;
             }
+             if (isEmpty(invoiceNo)) {
+                return showError('Invoice number is required');
+            }
+
+            if (isEmpty(customerId)) {
+                return showError('Please select a customer');
+            }
+
+            if (isEmpty(invoiceDate)) {
+                return showError('Invoice date is required');
+            }
+
+            if (isEmpty(dueDate)) {
+                return showError('Due date is required');
+            }
+
+            if (isEmpty(productId)) {
+                return showError('Please select a product');
+            }
+
+            if (isEmpty(category)) {
+                return showError('Category is required');
+            }
+
+            if (isEmpty(subcategory)) {
+                return showError('Sub-category is required');
+            }
+
+            if (isEmpty(metalRate) || metalRate <= 0) {
+                return showError('Metal rate must be greater than 0');
+            }
+
+            if (isEmpty(grossWt) || grossWt <= 0) {
+                return showError('Gross weight must be greater than 0');
+            }
+
+            if (isEmpty(netWt) || netWt <= 0) {
+                return showError('Net weight must be greater than 0');
+            }
+
+            if (parseFloat(netWt) > parseFloat(grossWt)) {
+                return showError('Net weight cannot be greater than Gross weight');
+            }
+
+            if (isEmpty(goldPrice) || goldPrice <= 0) {
+                return showError('Gold price must be calculated');
+            }
+
+            if (isEmpty(finalPrice) || finalPrice <= 0) {
+                return showError('Final price must be calculated');
+            }
+
 
 
             const payload = {
                 _token: '{{ csrf_token() }}',
                 item_id: editingItemId, // Null if adding
                 sell_invoice_id: globalInvoiceId, // Pass current invoice ID
-                // If editing, we need to send the invoice_id too? The controller finds it from item, 
+                // If editing, we need to send the invoice_id too? The controller finds it from item,
                 // but for ADD we need it.
                 // For ADD, the controller currently looks for existing pending invoice.
                 from: 'edit',
@@ -1310,35 +1399,35 @@
                 stones: collectStones(),
             };
 
-            const url = editingItemId 
-                ? '{{ route('sell.invoice.updateItem') }}' 
-                : '{{ route('sell.invoice.addItem') }}';
+            const url = editingItemId ?
+                '{{ route('sell.invoice.updateItem') }}' :
+                '{{ route('sell.invoice.addItem') }}';
 
             fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (!res.success) {
-                    alert(res.message || 'Failed to save item');
-                    return;
-                }
-                
-                // Clear Form & Reset State
-                resetEntryForm();
-                
-                // Refresh Items
-               window.location.reload();
-            })
-            .catch(error => {
-                console.error(error);
-                alert('Error saving item');
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (!res.success) {
+                        alert(res.message || 'Failed to save item');
+                        return;
+                    }
+
+                    // Clear Form & Reset State
+                    resetEntryForm();
+
+                    // Refresh Items
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('Error saving item');
+                });
         });
 
         // ---------------------------------------------------------
@@ -1360,28 +1449,28 @@
             // Populate Entry Row
             const row = $('#entryTable tbody tr').first();
             row.find('#entry_product_id').val(item.product_id);
-            
+
             // Category / Subcategory - Try direct item field first, then Product Relation
             row.find('input[name="category[]"]').val(cat.category_name || p.category_id || p.category || '');
             row.find('input[name="subcategory[]"]').val(sub.subcategory_name || p.subcategory_id || p.subcategory || '');
-            
+
             row.find('input[name="product_name[]"]').val(item.item_name || p.product_name || '');
-            
+
             row.find('input[name="pre_code[]"]').val(item.pre_code || p.pre_code || '');
             row.find('input[name="post_code[]"]').val(item.post_code || p.post_code || '');
             row.find('input[name="barcode[]"]').val(item.barcode || p.barcode || '');
             row.find('input[name="hsn_code[]"]').val(item.hsn_code || p.hsn_code || '');
-            
+
             row.find('input[name="metal_rate[]"]').val(item.metal_rate || 0);
             row.find('input[name="quantity[]"]').val(item.quantity || p.quantity || 1); // Quantity
             row.find('input[name="gross_weight[]"]').val(item.gross_weight || 0);
-            
+
             row.find('input[name="net_weight[]"]').val(item.net_weight || 0);
             row.find('input[name="size[]"]').val(item.size || p.size || ''); // Size
-            
+
             row.find('input[name="wastage_percent[]"]').val(item.wastage_percent || 0);
             row.find('input[name="making_price[]"]').val(item.making_charges || p.making_price || 0); // Making
-            
+
             row.find('input[name="gst_percent[]"]').val(item.gst_percent || p.gst_percent || 0);
             row.find('input[name="gst_amount[]"]').val(item.gst_amount || 0);
             row.find('input[name="total_amount[]"]').val(item.total_amount || 0);
@@ -1391,8 +1480,8 @@
             renderDiamonds(item.diamonds || []);
             // Populate Stones
             renderStones(item.stones || []);
-            
-            // Re-trigger calculation to visually confirm? 
+
+            // Re-trigger calculation to visually confirm?
             // calculateRow(row[0]); // Optional, might overwrite values
         }
 
@@ -1406,7 +1495,7 @@
             entryRow.querySelectorAll('input').forEach(input => {
                 if (!input.hasAttribute('readonly') && input.type !== 'hidden') {
                     // Don't clear readonlies or hiddens blindly, but for entry row we want to clear most things
-                    // Actually, most fields are readonly except weights/rates. 
+                    // Actually, most fields are readonly except weights/rates.
                     // Best way: Trigger the "Select Product" reset or just clear values.
                 }
                 // Determine which to clear. Currently clearing everything relevant.
@@ -1427,7 +1516,7 @@
 
             // Pre-select Customer
             var customerId = "{{ $invoice->user_id }}";
-            if(customerId) {
+            if (customerId) {
                 $('#customerDropdown').val(customerId).trigger('change');
             }
 
@@ -1439,18 +1528,18 @@
 
             // Ensure button text is correct
             const saveBtn = document.querySelector('button[type="submit"]');
-            if(saveBtn) saveBtn.textContent = "Update Invoice";
+            if (saveBtn) saveBtn.textContent = "Update Invoice";
         });
 
         $('#customerDropdown').on('change', function() {
-              // In Edit Mode, we don't automatically load "Pending" invoices
-              // to avoid overwriting the current invoice data with another pending one.
+            // In Edit Mode, we don't automatically load "Pending" invoices
+            // to avoid overwriting the current invoice data with another pending one.
         });
 
         function fetchPendingInvoice(customerId) {
             $('#itemsTable tbody').empty();
             const url = "{{ route('sell.invoice.getPending', ':customerId') }}".replace(':customerId', customerId);
-            
+
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -1473,7 +1562,7 @@
                 const tr = `
                     <tr>
                         <td>${item.item_name || ''}
-                            <input type="hidden" name="total_amount[]" value="${item.final_price || 0}"> 
+                            <input type="hidden" name="total_amount[]" value="${item.final_price || 0}">
                             <!-- Hidden input for calculateInvoiceTotals to read -->
                         </td>
                         <td>${item.pre_code || ''}-${item.post_code || ''}</td>
@@ -1492,7 +1581,7 @@
                 tbody.append(tr);
             });
         }
-        
+
         // ---------------------------------------------------------
         // FINALIZE INVOICE
         // ---------------------------------------------------------
@@ -1522,26 +1611,26 @@
             };
 
             fetch('{{ route('sell.invoice.update') }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (res.success) {
-                    alert('Invoice Saved Successfully!');
-                    window.location.href = res.redirect_url;
-                } else {
-                    alert('Error: ' + res.message);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('An error occurred while finalizing.');
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        alert('Invoice Saved Successfully!');
+                        window.location.href = res.redirect_url;
+                    } else {
+                        alert('Error: ' + res.message);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('An error occurred while finalizing.');
+                });
         }
 
         // ---------------------------------------------------------
@@ -1575,7 +1664,7 @@
             });
             return stones;
         }
-        
+
         function renderDiamonds(diamonds) {
             const tbody = $('#diamondTable tbody');
             tbody.empty();
@@ -1596,22 +1685,23 @@
         </tr>`);
             });
         }
+
         function renderStones(stones) {
-             const tbody = $('#stoneTable tbody');
-             tbody.empty();
-             if (!Array.isArray(stones) || stones.length === 0) {
-                 tbody.append(`<tr><td colspan="4" class="text-center">No Stones</td></tr>`);
-                 return;
-             }
-             stones.forEach((s, index) => {
-                 tbody.append(`
+            const tbody = $('#stoneTable tbody');
+            tbody.empty();
+            if (!Array.isArray(stones) || stones.length === 0) {
+                tbody.append(`<tr><td colspan="4" class="text-center">No Stones</td></tr>`);
+                return;
+            }
+            stones.forEach((s, index) => {
+                tbody.append(`
          <tr data-index="${index}">
              <td><input type="text" class="form-control stone-name" name="stones[${index}][stone_name]" value="${s.stone_name ?? ''}" ></td>
              <td><input type="number" step="0.001" class="form-control stone-weight" name="stones[${index}][stone_weight]" value="${s.stone_weight ?? 0}" ></td>
              <td><input type="number" step="0.01" class="form-control stone-price" name="stones[${index}][stone_price]" value="${s.stone_price ?? 0}" ></td>
              <td><input type="number" step="0.01" class="form-control stone-total" name="stones[${index}][stone_final_price]" value="${s.stone_final_price ?? 0}" style="pointer-events: none; background-color: #e9ecef;"></td>
          </tr>`);
-             });
+            });
         }
 
         // REMOVE ITEM
@@ -1622,25 +1712,29 @@
                 if (!confirm('Are you sure you want to remove this item?')) return;
 
                 fetch('{{ route('sell.invoice.removeItem') }}', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                    body: JSON.stringify({ item_id: itemId })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        const customerId = document.querySelector('#customerDropdown').value;
-                        window.location.reload();
-                    } else {
-                        alert('Failed to remove item');
-                    }
-                });
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            item_id: itemId
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            const customerId = document.querySelector('#customerDropdown').value;
+                            window.location.reload();
+                        } else {
+                            alert('Failed to remove item');
+                        }
+                    });
             }
         });
-        
+
         // --- CALCULATION LOGIC (Keep existing calculateInvoiceTotals) ---
         // Just ensuring it reads the updated DOM properly
-        
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

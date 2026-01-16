@@ -32,7 +32,8 @@ function calculateRow(row) {
     let gstAmount = (subTotal * gstPercent) / 100;
 
     // Total Amount
-    let totalAmount = subTotal + gstAmount;
+    // let totalAmount = subTotal + gstAmount;
+     let totalAmount = subTotal;
     // alert('totalAmount=' + totalAmount);
 
     // Update inputs

@@ -145,9 +145,18 @@
                                             <option value="">Search by Product Code</option>
 
                                             @foreach ($products as $product)
+                                                @php
+                                                    $gstAmount = $product->gst_amount ?? 0;
+                                                    $goldPrice = $product->gold_price ?? 0;
+                                                    $finalPrice = $product->final_price ?? 0;
+
+                                                    $goldWithoutGst = max(0, $goldPrice - $gstAmount);
+                                                    $finalWithoutGst = max(0, $finalPrice - $gstAmount);
+                                                @endphp
+
                                                 <option value="{{ $product->id }}"
                                                     data-name="{{ $product->product_name }}"
-                                                    data-barcode="{{ $product->barcode }}" {{-- data-rate="{{ $product->metal_rate }}" --}}
+                                                    data-barcode="{{ $product->barcode }}"
                                                     data-hsn="{{ $product->hsn_code }}"
                                                     data-gross_weight="{{ $product->gross_weight }}"
                                                     data-net_weight="{{ $product->net_weight }}"
@@ -161,17 +170,16 @@
                                                     data-subcategory-id="{{ $product->subcategory_id }}"
                                                     data-subcategory-name="{{ optional($product->subcategory)->subcategory_name }}"
                                                     data-gst_percent="{{ $product->gst_percent }}"
-                                                    data-gst_amount="{{ $product->gst_amount }}"
+                                                    data-gst_amount="{{ $gstAmount }}"
                                                     data-metal_rate="{{ optional($product->metalRate)->price_per_gram }}"
-                                                    data-gold_price="{{ $product->gold_price }}"
+                                                    {{-- ✅ GST REMOVED VALUES --}}
+                                                    data-gold_price="{{ number_format($goldWithoutGst, 2, '.', '') }}"
+                                                    data-final_price="{{ number_format($finalWithoutGst, 2, '.', '') }}"
                                                     data-pre_code="{{ $product->pre_code }}"
                                                     data-post_code="{{ $product->post_code }}"
-                                                    data-final_price="{{ $product->final_price }}" {{-- ✅ ADD THESE --}}
                                                     data-diamonds='@json($product->diamonds)'
                                                     data-stones='@json($product->stones)'>
-
-                                                    {{ $product->pre_code }}-{{ $product->post_code }}-
-                                                    {{ $product->product_name }}
+                                                    {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->product_name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -190,8 +198,9 @@
                                             <th>Product Name</th>
                                             <th>Pre Code</th>
                                             <th>Post Code</th>
-                                            <th>Barcode</th>
-                                            <th>HSN Code</th>
+                                            {{-- <th>Prod Code</th> --}}
+                                            {{-- <th>Barcode</th --}}
+                                            {{-- <th>HSN Code</th> --}}
                                             <th>Metal Rate</th>
                                             <th>Qty</th>
                                             <th>GS Wt</th>
@@ -199,8 +208,8 @@
                                             <th>Size</th>
                                             <th>Wastage %</th>
                                             <th>Making Amount</th>
-                                            <th>GST %</th>
-                                            <th>GST Amount</th>
+                                            {{-- <th>GST %</th> --}}
+                                            {{-- <th>GST Amount</th> --}}
                                             <th>Gold Price</th>
                                             <th>Final price</th>
                                         </tr>
@@ -222,11 +231,11 @@
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="text" name="post_code[]" class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="text" name="barcode[]"
-                                                    class="form-control"style="pointer-events: none; background-color: #e9ecef;">
-                                            </td>
-                                            <td><input type="text" name="hsn_code[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <input type="hidden" name="barcode[]"
+                                                class="form-control"style="pointer-events: none; background-color: #e9ecef;">
+
+                                            <input type="hidden" name="hsn_code[]" class="form-control"
+                                                style="pointer-events: none; background-color: #e9ecef;">
                                             <td><input type="number" step="0.01" name="metal_rate[]"
                                                     class="form-control"></td>
                                             <td><input type="number" name="quantity[]" class="form-control"
@@ -245,12 +254,12 @@
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.01" name="making_price[]"
                                                     class="form-control"></td>
-                                            <td><input type="number" step="0.01" name="gst_percent[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="number" step="0.01" name="gst_amount[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
+                                            <input type="hidden" step="0.01" name="gst_percent[]"
+                                                class="form-control"
+                                                style="pointer-events: none; background-color: #e9ecef;">
+                                            <input type="hidden" step="0.01" name="gst_amount[]"
+                                                class="form-control"
+                                                style="pointer-events: none; background-color: #e9ecef;">
                                             <td>
                                                 <input type="number" step="0.01" name="total_amount[]"
                                                     class="form-control"
@@ -336,130 +345,7 @@
                             <button class="btn btn-outline-primary" id="addInfoBtn">+ Add Additional Info</button> --}}
                                 <div class="form-group-item border-0 p-0">
                                     <div class="row">
-                                        <div class="col-xl-6 col-lg-12">
-                                            <div class="form-group-bank">
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-8">
-                                                        <div class="input-block mb-3">
-                                                            <label>Select Bank</label>
 
-                                                            <select class="select">
-                                                                <option value="">Select Bank</option>
-                                                                @foreach ($banks as $bank)
-                                                                    <option value="{{ $bank->bankname }}">
-                                                                        {{ $bank->bankname }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-groups">
-                                                            <a class="btn btn-primary" href="#"
-                                                                data-bs-toggle="modal" data-bs-target="#bank_details">Add
-                                                                Bank</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Terms and conditions section-->
-                                                <div class="input-block mb-3">
-                                                    <div id="termsDiv" style="display: none;">
-                                                        <h4>Terms & Conditions</h4>
-
-                                                        <!-- Terms List -->
-                                                        <div id="termsList"></div>
-
-                                                        <!-- Add Term Button -->
-                                                        <button id="addTermBtn">Add Term</button>
-                                                        <!-- Close Div Button -->
-                                                        <button id="closeTermsBtn">Close</button>
-                                                    </div>
-                                                </div>
-                                                <!-- Attachments section-->
-
-                                                <div id="attachmentSection" style="display: none;margin-top: 10px">
-                                                    <h4>Attachments</h4>
-                                                    <p class="helper-text">
-                                                        Attachments will not appear as separate documents; instead, they
-                                                        will be available as clickable links within the proforma invoice.
-                                                    </p>
-                                                    <p class="helper-text">The maximum file size is 10 MB.</p>
-
-                                                    <!-- Wrapper div to hold file inputs -->
-                                                    <div id="fileInputs">
-                                                        <div class="file-input-row">
-                                                            <input type="file" name="attachments[]">
-                                                            <button type="button" id="addMoreBtn">+</button>
-                                                            <span class="error-msg"
-                                                                style="color:red;font-size:12px;"></span>
-
-                                                        </div>
-
-
-                                                        <br>
-
-                                                    </div>
-
-                                                    <br><br>
-                                                    <button id="closeBtn">Close</button>
-                                                </div>
-
-                                                <!-- Contact Details Section -->
-                                                <div id="contactSection" style="display: none;">
-                                                    <h4>Your Contact Details</h4>
-                                                    <p>For any enquiry, reach out via:</p>
-
-                                                    <div class="input-group">
-                                                        <label for="contactEmail">Email (optional)</label>
-                                                        <input type="email" name="email" id="contactEmail"
-                                                            placeholder="your@email.com">
-                                                        <span id="emailError" class="error-msg"></span>
-                                                    </div>
-
-                                                    <div class="input-group">
-                                                        <label for="contactPhone">Phone Number</label>
-                                                        <input type="tel" name="phone" id="contactPhone">
-                                                        <span id="phoneError" class="error-msg"></span>
-                                                    </div>
-
-
-                                                    <button id="closeContactBtn" type="button">Close</button>
-                                                </div>
-                                                <br><br>
-                                                <!-- Notes section-->
-
-                                                <!-- Summernote Editor -->
-                                                <div class="input-block mb-3">
-
-                                                    <div id="noteEditor" style="display: none;">
-                                                        <h4>Additional Notes</h4>
-                                                        <textarea id="summernote" name="notes"></textarea>
-                                                        <button id="closeNoteBtn">Close</button>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Add Info Section -->
-                                                <div id="infoSection" class="info-section" style="display: none;">
-                                                    <h4>Additional Info</h4>
-                                                    <div id="fieldsContainer">
-                                                        <!-- Key-Value Field Template -->
-                                                        <div class="key-value-row">
-                                                            <input type="text" name="info_key[]"
-                                                                placeholder="Field Name">
-                                                            <input type="text" name="info_value[]"
-                                                                placeholder="Value">
-                                                            <button class="removeFieldBtn">Remove</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Buttons -->
-                                                    <button id="addMoreInfo">Add More Fields</button>
-                                                    <button id="closeSectionBtn">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
 
 
                                         <div class="col-xl-6 col-lg-12">
@@ -1232,12 +1118,34 @@
         // ---------------------------------------------------------
         // ADD / UPDATE ITEM
         // ---------------------------------------------------------
+
+        function showError(message) {
+            alert(message);
+            return false;
+        }
+
+        function isEmpty(val) {
+            return val === null || val === undefined || val === '' || val == 0;
+        }
+
         document.getElementById('addItemBtn').addEventListener('click', function(e) {
             e.preventDefault();
 
             const entryRow = document.querySelector('#entryTable tbody tr');
-            const productId = entryRow.querySelector('#entry_product_id')?.value;
+
+            const invoiceNo = document.querySelector('input[name="invoice_no"]').value;
+            const invoiceDate = document.querySelector('input[name="invoice_date"]').value;
+            const dueDate = document.querySelector('input[name="due_date"]').value;
             const customerId = document.querySelector('#customerDropdown').value;
+            const productId = entryRow.querySelector('#entry_product_id').value;
+
+            const category = entryRow.querySelector('input[name="category[]"]').value;
+            const subcategory = entryRow.querySelector('input[name="subcategory[]"]').value;
+            const metalRate = entryRow.querySelector('input[name="metal_rate[]"]').value;
+            const grossWt = entryRow.querySelector('input[name="gross_weight[]"]').value;
+            const netWt = entryRow.querySelector('input[name="net_weight[]"]').value;
+            const goldPrice = entryRow.querySelector('input[name="total_amount[]"]').value;
+            const finalPrice = entryRow.querySelector('input[name="final_price[]"]').value;
 
             if (!productId) {
                 alert('Please select a product');
@@ -1246,6 +1154,58 @@
             if (!customerId) {
                 alert('Please select a customer first');
                 return;
+            }
+
+            if (isEmpty(invoiceNo)) {
+                return showError('Invoice number is required');
+            }
+
+            if (isEmpty(customerId)) {
+                return showError('Please select a customer');
+            }
+
+            if (isEmpty(invoiceDate)) {
+                return showError('Invoice date is required');
+            }
+
+            if (isEmpty(dueDate)) {
+                return showError('Due date is required');
+            }
+
+            if (isEmpty(productId)) {
+                return showError('Please select a product');
+            }
+
+            if (isEmpty(category)) {
+                return showError('Category is required');
+            }
+
+            if (isEmpty(subcategory)) {
+                return showError('Sub-category is required');
+            }
+
+            if (isEmpty(metalRate) || metalRate <= 0) {
+                return showError('Metal rate must be greater than 0');
+            }
+
+            if (isEmpty(grossWt) || grossWt <= 0) {
+                return showError('Gross weight must be greater than 0');
+            }
+
+            if (isEmpty(netWt) || netWt <= 0) {
+                return showError('Net weight must be greater than 0');
+            }
+
+            if (parseFloat(netWt) > parseFloat(grossWt)) {
+                return showError('Net weight cannot be greater than Gross weight');
+            }
+
+            if (isEmpty(goldPrice) || goldPrice <= 0) {
+                return showError('Gold price must be calculated');
+            }
+
+            if (isEmpty(finalPrice) || finalPrice <= 0) {
+                return showError('Final price must be calculated');
             }
 
 
@@ -1360,20 +1320,20 @@
             row.find('#entry_product_id').val(item.product_id);
 
             // Category / Subcategory - Try direct item field first, then Product Relation
-      row.find('input[name="category[]"]').val(
-        item.category_name ||
-        item.category ||
-        item.product?.category?.category_name ||
-        ''
-    );
+            row.find('input[name="category[]"]').val(
+                item.category_name ||
+                item.category ||
+                item.product?.category?.category_name ||
+                ''
+            );
 
-    // ✅ SUBCATEGORY NAME
-    row.find('input[name="subcategory[]"]').val(
-        item.subcategory_name ||
-        item.subcategory ||
-        item.product?.subcategory?.subcategory_name ||
-        ''
-    );
+            // ✅ SUBCATEGORY NAME
+            row.find('input[name="subcategory[]"]').val(
+                item.subcategory_name ||
+                item.subcategory ||
+                item.product?.subcategory?.subcategory_name ||
+                ''
+            );
             row.find('input[name="product_name[]"]').val(item.item_name || p.product_name || '');
 
             row.find('input[name="pre_code[]"]').val(item.pre_code || p.pre_code || '');
