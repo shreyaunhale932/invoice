@@ -71,6 +71,7 @@
             'signature-preview-invoice',
             'student-billing',
             'train-ticket-booking',
+            'sell.invoice.view',
         ]))
         <link rel="stylesheet" href="{{ url('/public/assets/css/feather.css') }}">
     @endif

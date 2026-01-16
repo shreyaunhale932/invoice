@@ -101,7 +101,7 @@
                                                             <a class="dropdown-item" href="{{ route('sell.invoice.edit', $invoice->id) }}">
                                                                 <i class="far fa-edit me-2"></i>Edit
                                                             </a>
-                                                            <a class="dropdown-item" href="">
+                                                            <a class="dropdown-item" href="{{ route('sell.invoice.view', $invoice->id) }}">
                                                                 <i class="far fa-eye me-2"></i>View
                                                             </a>
                                                             <a class="dropdown-item text-danger" href="#" 

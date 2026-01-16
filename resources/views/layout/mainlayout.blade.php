@@ -53,7 +53,7 @@
         'invoice-four-a',
         'invoice-three',
         'invoice-two',
-        'invoice-one-a',
+        'invoice-one-a', 'sell.invoice.view',
         'error-404',
     ]))
 
@@ -76,7 +76,7 @@
         'invoice-four-a',
         'invoice-three',
         'invoice-two',
-        'invoice-one-a',
+        'invoice-one-a', 'sell.invoice.view',
     ]))
 
     <body class="no-stickybar">
@@ -95,7 +95,7 @@
         'cashreceipt-3',
         'cashreceipt-4',
         'invoice-four-a',
-        'invoice-one-a',
+        'invoice-one-a', 'sell.invoice.view',
         'invoice-three',
         'invoice-two',
         'forgot-password',
@@ -109,6 +109,9 @@
     <div class="main-wrapper invoice-four">
 @endif
 @if (Route::is(['invoice-one-a']))
+    <div class="main-wrapper invoice-one">
+@endif
+@if (Route::is(['sell.invoice.view']))
     <div class="main-wrapper invoice-one">
 @endif
 @if (Route::is(['invoice-three']))
@@ -136,7 +139,7 @@
         'forgot-password',
         'lock-screen',
         'error-404',
-        'invoice-one-a',
+        'invoice-one-a', 'sell.invoice.view',
         'invoice-two',
         'invoice-three',
         'invoice-four-a',
@@ -164,7 +167,7 @@
         'forgot-password',
         'lock-screen',
         'error-404',
-        'invoice-one-a',
+        'invoice-one-a', 'sell.invoice.view',
         'invoice-two',
         'invoice-three',
         'invoice-four-a',
@@ -210,7 +213,7 @@
         'forgot-password',
         'lock-screen',
         'error-404',
-        'invoice-one-a',
+        'invoice-one-a', 'sell.invoice.view',
         'invoice-two',
         'invoice-three',
         'invoice-four-a',

@@ -1,265 +1,227 @@
 <?php $page = 'invoice-three'; ?>
 @extends('layout.mainlayout')
+
 @section('content')
-    <div class="container">
-        <div class="invoice-wrapper download_section">
-            <div class="inv-content">
-                <div class="invoice-header">
-                    <div class="inv-header-left">
-                        <div class="invoice-title tax-invoice">INVOICE</div>
-                        <div class="company-details">
-                            <span class="company-name invoice-title">Dreamguys</span>
-                            <div class="gst-details">
-                                GST IN : <span>22AABCU9603R1ZX</span>
-                            </div>
-                            <div class="gst-details">
-                                Address : <span>5 Hodges Mews, High Wycombe HP12 3JL, United Kingdom</span>
-                            </div>
-                            <div class="gst-details mb-0">
-                                Mobile : <span>+ 91 98765 43210</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inv-header-right">
-                        <a href="#">
-                            <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
-                            <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
-                        </a>
+<div class="container">
+    <div class="invoice-wrapper download_section">
+        <div class="inv-content">
 
-                    </div>
-                </div>
-                <div class="invoice-address">
-                    <div class="invoice-address-details">
-                        <div class="invoice-to">
-                            <span>Billing Address:</span>
-                            <div class="inv-to-address">
-                                Walter Roberson<br>
-                                299 Star Trek Drive, Panama City, <br>
-                                Florida, 32405, USA.<br>
-                                walter@example.com <br>
-                                +45 5421 4523
-                            </div>
-                        </div>
-                        <div class="invoice-to">
-                            <span>Shipping Address:</span>
-                            <div class="inv-to-address">
-                                Lowell H. Dominguez<br> 84 Spilman Street, London<br>
-                                United King<br>
-                                domlowell@example.com<br>
-                                +45 5421 2154
-                            </div>
-                        </div>
-                    </div>
-                    <div class="invoice-details-content">
-                        <div class="invoice-status-details">
-                            <div>
-                                <span>Invoice No:</span>
-                                <span>#10077005</span>
-                            </div>
-                        </div>
-                        <div class="invoice-status-details">
-                            <div>
-                                <span>Invoice Date:</span>
-                                <span>07/12/2023</span>
-                            </div>
-                        </div>
-                        <div class="invoice-status-details">
-                            <div>
-                                <span>Payment Status:</span>
-                                <span>NOT PAID</span>
-                            </div>
-                        </div>
-                        <div class="invoice-status-details">
-                            <div>
-                                <span>Due Date :</span>
-                                <span>07/31/2023</span>
-                            </div>
+            {{-- ================= HEADER ================= --}}
+            <div class="invoice-header">
+                <div class="inv-header-left">
+                    <div class="invoice-title tax-invoice">INVOICE</div>
+
+                    <div class="company-details">
+                        <span class="company-name invoice-title">
+                            {{ $business->business_name ?? '' }}
+                        </span>
+
+                        <div class="gst-details">
+                            GST IN : <span>{{ $business->gst_no ?? '' }}</span>
                         </div>
 
-                    </div>
+                        <div class="gst-details">
+                            Address :
+                            <span>{{ $business->address ?? '' }}</span>
+                        </div>
 
-                </div>
-                <div class="invoice-table">
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr class="ecommercetable">
-                                    <th class="table_width_1">#</th>
-                                    <th class="table_width_2">Item</th>
-                                    <th class="text-start">Quantity</th>
-                                    <th class="text-start">Unit Price</th>
-                                    <th class="text-start">Discount</th>
-                                    <th class="text-end">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td class="text-start">Accounting Software Maintainence</td>
-                                    <td class="text-start">3</td>
-                                    <td class="text-start unit-price-data">$500 <span>after disc. $450.00</span></td>
-                                    <td class="text-start">10%</td>
-                                    <td class="text-end">$1350</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td class="text-start">Man Power Support</td>
-                                    <td class="text-start">1</td>
-                                    <td class="text-start unit-price-data">$100</td>
-                                    <td class="text-start">0%</td>
-                                    <td class="text-end">$100</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td class="text-start">Transportation Fee</td>
-                                    <td class="text-start">2</td>
-                                    <td class="text-start unit-price-data">$200 <span>after disc. $190.00</span></td>
-                                    <td class="text-start">5%</td>
-                                    <td class="text-end">$380</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td class="text-start">Spars Replacement Charges</td>
-                                    <td class="text-start">5</td>
-                                    <td class="text-start unit-price-data">$500</td>
-                                    <td class="text-start">2%</td>
-                                    <td class="text-end">$2500</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td class="text-start">Materials Handling</td>
-                                    <td class="text-start">2</td>
-                                    <td class="text-start unit-price-data">$200 <span>after disc. $190.00</span></td>
-                                    <td class="text-start">5%</td>
-                                    <td class="text-end">$380</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="invoice-table-footer">
-                    <div class="table-footer-left notes">
-                    </div>
-                    <div class="text-end table-footer-right">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="table-footer-right-title">Taxable Amount</td>
-                                    <td>$18,218.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="invoice-table-footer">
-                    <div class="table-footer-left notes">
-                        <span></span>
-                    </div>
-                    <div class="text-end table-footer-right">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="table-footer-right-title">IGST 18.0%</td>
-                                    <td>$3,279.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="invoice-table-footer">
-                    <div class="table-footer-left notes">
-                        <span></span>
-                    </div>
-                    <div class="text-end table-footer-right">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="table-footer-right-title">Extra Discount (Promo - 5%)</td>
-                                    <td>-$235.25</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="invoice-table-footer">
-                    <div class="table-footer-left notes">
-                        <span></span>
-                    </div>
-                    <div class="text-end table-footer-right">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="table-footer-right-title">Round Off</td>
-                                    <td>-$.65</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="invoice-table-footer mt-4">
-                    <div class="table-footer-left">
-                        <span class="total-item">Total amount (in words):</span>
-                        <span>Five thousand three hundred and sixteen dollars only.</span>
-                    </div>
-                    <div class="text-end table-footer-right">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="invoice-title">Amount Payable</td>
-                                    <td class="invoice-title">$5,316.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="gst-details mb-0">
+                            Mobile :
+                            <span>{{ $business->mobile ?? '' }}</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bank-details">
-                    <div class="account-info">
-                        <div>
-                            <span class="bank-title">Bank Details</span>
-                            <div class="account-details">
-                                Bank : <span>YES Bank</span>
-                            </div>
-                            <div class="account-details">
-                                Account # :<span> 6677889944551 </span>
-                            </div>
-                            <div class="account-details">
-                                IFSC : <span>YESBBIN4567</span>
-                            </div>
-                            <div class="account-details">
-                                BRANCH : <span>Florida</span>
-                            </div>
-                        </div>
-                        <div class="qr-code">
-                            <img src="{{ URL::asset('/public/assets/img/qr-code.svg') }}" alt="qr">
-                            <p class="scan-details">
-                                Scan to View Receipt
-                            </p>
-                        </div>
-                    </div>
-                    <div class="company-sign">
-                        <span>For Dreamguys</span>
-                        <img src="{{ URL::asset('/public/assets/img/signature.png') }}" alt="signature-img">
-                    </div>
-                </div>
-                <div class="invoice-notes">
-                    <p> <strong>NOTES: All accounts are to be paid within 7 days from receipt of invoice. To be paid by
-                            cheque or credit card or direct payment online. If account is not paid within 7 days the credits
-                            details supplied as confirmation of work undertaken will be charged the agreed quoted fee noted
-                            above.</strong> </p>
-                </div>
-                <div class="thanks-msg text-start">
-                    Thanks for your Business
+                <div class="inv-header-right">
+                    <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo2.png') }}">
+                    <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}">
                 </div>
             </div>
-        </div>
-        <div class="file-link">
-            <button class="download_btn download-link">
-                <i class="feather-download-cloud me-1"></i> <span>Download</span>
-            </button>
-            <a href="javascript:window.print()" class="print-link">
-                <i class="feather-printer"></i> <span class="">Print</span>
-            </a>
+
+            {{-- ================= ADDRESS ================= --}}
+            <div class="invoice-address">
+                <div class="invoice-address-details">
+                    <div class="invoice-to">
+                        <span>Billing Address:</span>
+                        <div class="inv-to-address">
+                            {{ $invoice->customer->name }}<br>
+                            {{ $invoice->customer->address ?? '' }}<br>
+                            {{ $invoice->customer->email ?? '' }}<br>
+                            {{ $invoice->customer->phone ?? '' }}
+                        </div>
+                    </div>
+
+                    <div class="invoice-to">
+                        <span>Shipping Address:</span>
+                        <div class="inv-to-address">
+                            {{ $invoice->customer->shipping_address ?? $invoice->customer->address ?? '' }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invoice-details-content">
+                    <div class="invoice-status-details">
+                        <span>Invoice No:</span>
+                        <span>#{{ $invoice->invoice_no }}</span>
+                    </div>
+
+                    <div class="invoice-status-details">
+                        <span>Invoice Date:</span>
+                        <span>{{ date('d/m/Y', strtotime($invoice->invoice_date)) }}</span>
+                    </div>
+
+                    <div class="invoice-status-details">
+                        <span>Payment Status:</span>
+                        <span>
+                            {{ $invoice->amount_left > 0 ? 'PARTIALLY PAID' : 'PAID' }}
+                        </span>
+                    </div>
+
+                    <div class="invoice-status-details">
+                        <span>Due Date :</span>
+                        <span>{{ date('d/m/Y', strtotime($invoice->invoice_due_date)) }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ================= ITEMS ================= --}}
+            <div class="invoice-table">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr class="ecommercetable">
+                                <th>#</th>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Rate</th>
+                                <th>Description</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($invoice->items as $i => $item)
+                            <tr>
+                                <td>{{ $i+1 }}</td>
+                                <td>{{ $item->product->name ?? 'Custom Item' }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>₹{{ number_format($item->rate,2) }}</td>
+                                <td>
+                                    Size: {{ $item->size }}<br>
+                                    @foreach($item->diamonds as $d)
+                                        💎 {{ $d->weight }}ct {{ $d->clarity }} {{ $d->color }}
+                                        – ₹{{ number_format($d->amount,2) }}<br>
+                                    @endforeach
+                                    @foreach($item->stones as $s)
+                                        🔹 {{ $s->stone->name ?? '' }} {{ $s->weight }}ct
+                                        – ₹{{ number_format($s->amount,2) }}<br>
+                                    @endforeach
+                                </td>
+                                <td class="text-end">
+                                    ₹{{ number_format($item->final_price,2) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- ================= TOTAL + PAYMENT ================= --}}
+            <div class="invoice-table-footer mt-4">
+                <div class="text-end table-footer-right">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Taxable Amount</td>
+                                <td>₹{{ number_format($invoice->total_amount_non_tax,2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>CGST ({{ $invoice->cgst_percent }}%)</td>
+                                <td>₹{{ number_format($invoice->cgst_amount,2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>SGST ({{ $invoice->sgst_percent }}%)</td>
+                                <td>₹{{ number_format($invoice->sgst_amount,2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Discount</td>
+                                <td>- ₹{{ number_format($invoice->discount_amount,2) }}</td>
+                            </tr>
+
+                            <tr class="invoice-title">
+                                <td>Amount Payable</td>
+                                <td>₹{{ number_format($invoice->final_amount,2) }}</td>
+                            </tr>
+
+                            {{-- PAYMENT DETAILS UNDER TOTAL --}}
+                            <tr>
+                                <td colspan="2"><strong>Payment Details</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>Cash Paid</td>
+                                <td>₹{{ number_format($invoice->cash_received,2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Online Paid</td>
+                                <td>₹{{ number_format($invoice->online_received,2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bank Paid</td>
+                                <td>₹{{ number_format($invoice->bank_received,2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Total Received</strong></td>
+                                <td><strong>₹{{ number_format($invoice->total_received,2) }}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Balance Amount</strong></td>
+                                <td>
+                                    <strong class="{{ $invoice->amount_left > 0 ? 'text-danger' : 'text-success' }}">
+                                        ₹{{ number_format($invoice->amount_left,2) }}
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- ================= BANK ================= --}}
+            <div class="bank-details">
+                <div class="account-info">
+                    <div>
+                        <span class="bank-title">Bank Details</span>
+                        <div class="account-details">Bank : <span>{{ $bank->bank_name ?? '' }}</span></div>
+                        <div class="account-details">Account # : <span>{{ $bank->account_no ?? '' }}</span></div>
+                        <div class="account-details">IFSC : <span>{{ $bank->ifsc_code ?? '' }}</span></div>
+                        <div class="account-details">Branch : <span>{{ $bank->branch ?? '' }}</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="thanks-msg text-start">
+                Thanks for your Business
+            </div>
+
         </div>
     </div>
+
+    <div class="file-link">
+        <button class="download_btn download-link">
+            <i class="feather-download-cloud me-1"></i> Download
+        </button>
+        <a href="javascript:window.print()" class="print-link">
+            <i class="feather-printer"></i> Print
+        </a>
+    </div>
+</div>
 @endsection

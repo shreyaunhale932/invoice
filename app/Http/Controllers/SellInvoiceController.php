@@ -697,4 +697,17 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
             'visibleColumns'
         ) + ['customer_id' => $invoice->user_id]);
     }
+
+    public function show($id)
+    {
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'customer'])->findOrFail($id);
+        $adminId = $invoice->admin_id;
+        $customer = \App\Models\Customer::where('id', $invoice->user_id)->first();
+
+        $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
+        $bank = \App\Models\bankdetails::where('user_id', $adminId)->first();
+
+        return view('Sales.Invoices.invoice-one-a', compact('invoice', 'business', 'bank', 'customer'));
+    }
+    
 }

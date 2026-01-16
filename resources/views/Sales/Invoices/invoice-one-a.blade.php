@@ -1,6 +1,273 @@
 <?php $page = 'invoice-one-a'; ?>
 @extends('layout.mainlayout')
 @section('content')
+@php
+    use App\Helpers\NumberHelper;
+@endphp
+<style>
+/* =========================
+   PRINT FIX – ADD ONLY
+   ========================= */
+   .container,
+    .container-fluid {
+        max-width: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .invoice-wrapper{
+        max-width: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+@media print {
+     .company-details {
+    background: var(--color-gradient, linear-gradient(320deg, #DBECFF 0%, #DDCEFF 100%)) !important;
+    border-radius: 14px 77px 14px 14px !important;
+}
+  
+}
+/* =====================================================
+   PRINT CSS – ULTRA COMPACT (ALL INVOICES)
+   ===================================================== */
+@media print {
+
+    /* -----------------------------
+       PAGE RESET
+       ----------------------------- */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        font-size: 9.5px !important;
+        line-height: 1.2 !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    /* Hide everything except invoice */
+    body * {
+        visibility: hidden !important;
+    }
+
+    .download_section,
+    .download_section * {
+        visibility: visible !important;
+    }
+
+    /* -----------------------------
+       CONTAINER / WRAPPER
+       ----------------------------- */
+    .container,
+    .container-fluid,
+    .invoice-one,
+    .invoice-wrapper {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .download_section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 210mm !important;
+        min-height: 297mm;
+        padding: 6mm !important;
+        background: #fff !important;
+    }
+
+    /* -----------------------------
+       HEADINGS
+       ----------------------------- */
+       .add-details{
+        font-size: 9.5px !important;
+       }
+       .invoice-table-footer{
+        padding: 0px !important;
+       }
+    h4 {
+        font-size: 15px !important;
+        margin: 0 0 3px !important;
+    }
+
+    h5 {
+        font-size: 11px !important;
+        margin: 0 0 4px !important;
+    }
+
+    h6 {
+        font-size: 9.5px !important;
+        margin: 0 0 2px !important;
+    }
+    span{
+        font-size: 9.5px !important;
+    }
+
+    p {
+        margin: 0 0 3px !important;
+        font-size: 9px !important;
+    }
+
+    /* -----------------------------
+       HEADER COMPRESSION
+       ----------------------------- */
+    .invoice-header {
+        margin-bottom: 6px !important;
+        padding-bottom: 4px !important;
+    }
+
+    .invoice-one .inv-content .invoice-header .inv-header-left {
+        width: 60% !important;
+    }
+
+    .company-details {
+        padding: 6px !important;
+        border-radius: 10px 55px 10px 10px !important;
+    }
+
+    .gst-details {
+        padding: 8px 12px !important;
+        margin: 0 !important;
+        color: #fff !important;
+    }
+
+    /* LOGO – MUCH SMALLER */
+    .invoice-one .inv-header-right a img {
+        max-width: 140px !important;
+        margin-bottom: 4px !important;
+    }
+
+    /* -----------------------------
+       CUSTOMER INFO
+       ----------------------------- */
+    .patient-infos {
+        margin-bottom: 6px !important;
+    }
+
+    .patient-detailed {
+        padding: 4px !important;
+    }
+
+    .bill-add {
+        font-size: 9px !important;
+        margin-bottom: 1px !important;
+    }
+
+    .customer-name,
+    .payment-status {
+        font-size: 9px !important;
+    }
+
+    /* -----------------------------
+       TABLE COMPRESSION
+       ----------------------------- */
+    table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    th {
+        font-size: 10px !important;
+        padding: 3px !important;
+    }
+
+    td {
+        font-size: 10px !important;
+        padding: 3px !important;
+        word-break: break-word;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+
+    /* -----------------------------
+       TOTALS / PAYMENT BLOCKS
+       ----------------------------- */
+    .invoice-table-footer {
+        margin-top: 4px !important;
+        padding-top: 4px !important;
+        page-break-inside: avoid;
+    }
+
+    .invoice-table-footer table td {
+        font-size: 10px !important;
+        padding: 2px 3px !important;
+    }
+
+    .totalamount-footer td {
+        font-size: 10px !important;
+    }
+
+    /* -----------------------------
+       QR + TERMS
+       ----------------------------- */
+    .qr img {
+        max-width: 70px !important;
+    }
+
+    .scan-details {
+        font-size: 8.5px !important;
+        margin-top: 2px !important;
+    }
+
+    .terms-condition ol {
+        padding-left: 12px !important;
+        margin: 0 !important;
+    }
+
+    .terms-condition li {
+        font-size: 8.5px !important;
+        line-height: 1.2 !important;
+    }
+
+    /* -----------------------------
+       FINAL MESSAGE
+       ----------------------------- */
+    .thanks-msg {
+        font-size: 9px !important;
+        margin-top: 6px !important;
+        text-align: center;
+    }
+
+    /* -----------------------------
+       HIDE ACTION BUTTONS
+       ----------------------------- */
+    .file-link {
+        display: none !important;
+    }
+
+    /* -----------------------------
+       PRESERVE COLORS
+       ----------------------------- */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+        .invoice-table-footer .notes img {
+        max-width: 70px !important;
+    }
+
+    /* -----------------------------
+       PAGE SETUP
+       ----------------------------- */
+    @page {
+        size: A4;
+        margin: 0;
+    }
+}
+
+</style>
+
+
     <div class="container">
         <div class="invoice-wrapper download_section">
             <div class="inv-content">
@@ -22,9 +289,9 @@
                             <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
 
                         </a>
-                        <h6>Invoice No : <span> #005</span></h6>
-                        <h6>Invoice Date :<span> 07-10-2023</span></h6>
-                        <p> <span>Due Date : 07-12-2023</span></p>
+                        <h6>Invoice No : <span> #{{ $invoice->invoice_no}}</span></h6>
+                        <h6>Invoice Date :<span> {{ date('d-m-Y', strtotime($invoice->invoice_date)) }}</span></h6>
+                        <p> <span>Due Date :{{ date('d-m-Y', strtotime($invoice->invoice_due_date )) }}</span></p>
 
                     </div>
 
@@ -39,11 +306,11 @@
                                     Customer Details :
                                 </div>
                                 <div class="customer-name">
-                                    John Williams
-                                    <p><span>GSTIN : ACWR000054321</span> </p>
+                                   {{ $customer->name }}
+                                    <p><span>GSTIN : {{ $customer->gstin }}</span> </p>
                                 </div>
                                 <div class="payment-status">
-                                    Payment Status <p><span> PAID </span> </p>
+                                    Payment Status <p><span> {{ $invoice->payment_status }}</span> </p>
                                 </div>
 
                             </div>
@@ -54,7 +321,7 @@
                                     Billing Address :
                                 </div>
                                 <div class="add-details">
-                                    Walter Roberson <br> 299 Star Trek Drive, Panama City,<br> Florida, 32405,<br> USA
+                                    {{ $customer->address1 }}
                                 </div>
 
 
@@ -66,7 +333,11 @@
                                     Shipping Address :
                                 </div>
                                 <div class="add-details">
-                                    Walter Roberson <br> 299 Star Trek Drive, Panama City,<br> Florida, 32405,<br> USA
+                                    @if($invoice->shipping_address)
+                                    {{ $invoice->shipping_address }}
+                                    @else
+                                    {{ $customer->address1 }}
+                                    @endif
                                 </div>
 
                             </div>
@@ -76,107 +347,229 @@
                 <div class="invoice-table">
                     <div class="table-responsive">
                         <table>
-                            <thead>
-                                <tr class="ecommercetable">
-                                    <th class="table_width_1">#</th>
-                                    <th class="table_width_2">Item</th>
-                                    <th class="text-start">Quantity</th>
-                                    <th class="text-start">Unit Price</th>
-                                    <th class="text-start">Discount</th>
-                                    <th class="text-end">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td class="text-start">Accounting Software Maintainence</td>
-                                    <td class="text-start">3</td>
-                                    <td class="text-start unit-price-data">$500 <span>after disc. $450.00</span></td>
-                                    <td class="text-start">10%</td>
-                                    <td class="text-end">$1350</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td class="text-start">Man Power Support</td>
-                                    <td class="text-start">1</td>
-                                    <td class="text-start unit-price-data">$100</td>
-                                    <td class="text-start">0%</td>
-                                    <td class="text-end">$100</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td class="text-start">Transportation Fee</td>
-                                    <td class="text-start">2</td>
-                                    <td class="text-start unit-price-data">$200 <span>after disc. $190.00</span></td>
-                                    <td class="text-start">5%</td>
-                                    <td class="text-end">$380</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td class="text-start">Spars Replacement Charges</td>
-                                    <td class="text-start">5</td>
-                                    <td class="text-start unit-price-data">$500</td>
-                                    <td class="text-start">2%</td>
-                                    <td class="text-end">$2500</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td class="text-start">Materials Handling</td>
-                                    <td class="text-start">2</td>
-                                    <td class="text-start unit-price-data">$200 <span>after disc. $190.00</span></td>
-                                    <td class="text-start">5%</td>
-                                    <td class="text-end">$380</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="invoice-table-footer">
-                    <div class="table-footer-left notes">
-                        <div class="logo3">
-                            <img src="{{ URL::asset('/public/assets/img/paid.svg') }}">
-                        </div>
-                    </div>
-                    <div class="text-end table-footer-right">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td><span>Taxable Amount</span></td>
-                                    <td>$4705.00</td>
-                                </tr>
-                                <tr>
-                                    <td><span>IGST 18.0%</span></td>
-                                    <td>$846.90</td>
-                                </tr>
-                                <tr>
-                                    <td><span>Extra Discount (Promo - 5%)</span></td>
-                                    <td>$235.25</td>
-                                </tr>
-                                <tr>
-                                    <td><span>Round Off</span></td>
-                                    <td>-$.65</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <thead>
+        <tr class="ecommercetable">
+            <th>#</th>
+            <th class="text-start">Category</th>
+            <th class="text-start">Item</th>
+            <th class="text-start">Qty</th>
+            <th class="text-start">Metal Rate</th>
+            <th class="text-start">Gross Wt</th>
+            <th class="text-start">Net Wt</th>
+            <th class="text-start">Making</th>
+            <th class="text-start">Other Charges</th>
+            <th class="text-end">Amount</th>
+        </tr>
+    </thead>
 
-                </div>
-                <div class="invoice-table-footer totalamount-footer">
-                    <div class="table-footer-left">
+    <tbody>
+        @foreach ($invoice->items as $item)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+
+                <td>{{ $item->category }}</td>
+
+                <td>
+                    {{ $item->item_name }}
+                    @if($item->purity)
+                        <small>({{ $item->purity }})</small>
+                    @endif
+                </td>
+
+                <td>{{ $item->quantity }}</td>
+
+                <td>{{ number_format($item->metal_rate, 2) }}</td>
+
+                <td>{{ number_format($item->gross_weight, 3) }}</td>
+
+                <td>{{ number_format($item->net_weight, 3) }}</td>
+
+                <td>{{ number_format($item->making_charges, 2) }}</td>
+
+                <td>{{ number_format($item->other_charges, 2) }}</td>
+
+                <td class="text-end">
+                    {{ number_format($item->total_amount, 2) }}
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
                     </div>
-                    <div class="table-footer-right">
-                        <table class="totalamt-table">
-                            <tbody>
-                                <tr>
-                                    <td>Total Amount</td>
-                                    <td>$5316.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
+                @php
+    /* ===============================
+     | BASIC AMOUNTS
+     =============================== */
+    $taxableAmount = $invoice->total_amount_non_tax ?? 0;
+
+    $cgstPercent = $invoice->cgst_percent ?? 0;
+    $sgstPercent = $invoice->sgst_percent ?? 0;
+
+    $cgstAmount = $invoice->cgst_amount ?? 0;
+    $sgstAmount = $invoice->sgst_amount ?? 0;
+    $igstAmount = $invoice->igst_amount ?? 0;
+
+    $discountPercent = $invoice->discount_percent ?? 0;
+    $discountAmount  = $invoice->discount_amount ?? 0;
+
+    /* ===============================
+     | TOTAL CALCULATION
+     =============================== */
+    $grossTotal = $taxableAmount
+                + $cgstAmount
+                + $sgstAmount
+                + $igstAmount
+                - $discountAmount;
+
+    $finalAmount = round($grossTotal);
+    $roundOff = $finalAmount - $grossTotal;
+
+    /* ===============================
+     | PAYMENT DETAILS
+     =============================== */
+    $cash   = $invoice->cash_received ?? 0;
+    $online = $invoice->online_received ?? 0;
+    $bank   = $invoice->bank_received ?? 0;
+
+    $totalReceived = $cash + $online + $bank;
+    $balanceAmount = $finalAmount - $totalReceived;
+
+    /* ===============================
+     | INVOICE STATUS
+     =============================== */
+    if ($balanceAmount <= 0) {
+        $status = 'paid';
+    } elseif ($totalReceived > 0) {
+        $status = 'partial';
+    } else {
+        $status = 'pending';
+    }
+@endphp
+
+{{-- ===============================
+ | TAX / GST / DISCOUNT
+ =============================== --}}
+<div class="invoice-table-footer">
+    <div class="table-footer-left notes">
+        @if($status === 'paid')
+            <img src="{{ asset('/public/assets/img/paid.svg') }}" alt="Paid">
+        @elseif($status === 'partial')
+            <span class="badge bg-warning">Partially Paid</span>
+        @else
+            <span class="badge bg-danger">Unpaid</span>
+        @endif
+    </div>
+
+    <div class="table-footer-right text-end">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Taxable Amount</td>
+                    <td>₹{{ number_format($taxableAmount, 2) }}</td>
+                </tr>
+
+                @if($igstAmount > 0)
+                    <tr>
+                        <td>IGST {{ $cgstPercent + $sgstPercent }}%</td>
+                        <td>₹{{ number_format($igstAmount, 2) }}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <td>CGST {{ $cgstPercent }}%</td>
+                        <td>₹{{ number_format($cgstAmount, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>SGST {{ $sgstPercent }}%</td>
+                        <td>₹{{ number_format($sgstAmount, 2) }}</td>
+                    </tr>
+                @endif
+
+                @if($discountAmount > 0)
+                    <tr>
+                        <td>Discount ({{ $discountPercent }}%)</td>
+                        <td>-₹{{ number_format($discountAmount, 2) }}</td>
+                    </tr>
+                @endif
+
+                <tr>
+                    <td>Round Off</td>
+                    <td>{{ $roundOff >= 0 ? '+' : '' }}₹{{ number_format($roundOff, 2) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{-- ===============================
+ | TOTAL AMOUNT
+ =============================== --}}
+<div class="invoice-table-footer totalamount-footer">
+    <div class="table-footer-right">
+        <table class="totalamt-table">
+            <tbody>
+                <tr>
+                    <td><strong>Total Amount</strong></td>
+                    <td><strong>₹{{ number_format($finalAmount, 2) }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{-- ===============================
+ | AMOUNT RECEIVED
+ =============================== --}}
+<div class="invoice-table-footer payment-footer">
+    <div class="table-footer-right">
+        <table class="totalamt-table">
+            <tbody>
+
+                @if($cash > 0)
+                <tr>
+                    <td>Cash Received</td>
+                    <td>₹{{ number_format($cash, 2) }}</td>
+                </tr>
+                @endif
+
+                @if($online > 0)
+                <tr>
+                    <td>Online Received</td>
+                    <td>₹{{ number_format($online, 2) }}</td>
+                </tr>
+                @endif
+
+                @if($bank > 0)
+                <tr>
+                    <td>Bank Received</td>
+                    <td>₹{{ number_format($bank, 2) }}</td>
+                </tr>
+                @endif
+
+                <tr>
+                    <td><strong>Total Received</strong></td>
+                    <td><strong>₹{{ number_format($totalReceived, 2) }}</strong></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <strong>
+                            {{ $balanceAmount > 0 ? 'Balance Due' : 'Change Return' }}
+                        </strong>
+                    </td>
+                    <td>
+                        <strong>₹{{ number_format(abs($balanceAmount), 2) }}</strong>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
                 <div class="total-amountdetails">
-                    <p>Total amount ( in words): <span> Five thousand three hundred and sixteen dollars only.</span></p>
+                    <p>Total amount ( in words): <span> {{ NumberHelper::convertToWords(abs($finalAmount)) }}.</span></p>
                 </div>
                 <div class="bank-details">
                     <div class="row">
@@ -222,10 +615,25 @@
             <button class="download_btn download-link">
                 <i class="feather-download-cloud me-1"></i> <span>Download</span>
             </button>
-            <a href="javascript:window.print()" class="print-link">
-                <i class="feather-printer"></i> <span class="">Print</span>
-            </a>
+            <a href="javascript:void(0)" onclick="printInvoiceSection()" class="print-link">
+    <i class="feather-printer"></i> <span>Print</span>
+</a>
+
         </div>
 
     </div>
+    <script>
+    function printInvoiceSection() {
+        // const printContents = document.querySelector('.print-section').innerHTML;
+        // const originalContents = document.body.innerHTML;
+
+        // document.body.innerHTML = printContents;
+
+        window.print();
+
+        // document.body.innerHTML = originalContents;
+        // window.location.reload(); // ensure JS & layout restored properly
+    }
+</script>
+
 @endsection

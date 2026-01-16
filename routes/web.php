@@ -395,6 +395,10 @@ Route::delete('/sell-invoice/delete/{id}',
     [SellInvoiceController::class, 'destroy']
 )->name('sell.invoice.destroy');
 
+Route::get('/sell-invoice/view/{id}', 
+    [SellInvoiceController::class, 'show']
+)->name('sell.invoice.view');
+
 
 
 Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');
