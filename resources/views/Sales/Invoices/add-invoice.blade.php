@@ -318,7 +318,9 @@
                                             <th>Net Wt</th>
                                             <th>Metal Rate</th>
                                             <th>Making</th>
-                                            <th>GST</th>
+                                            {{-- <th>GST</th> --}}
+                                            <th>Diamond Amt</th> <!-- NEW -->
+                                            <th>Stone Amt</th>
                                             <th>Final Amt</th>
                                             <th>Action</th>
                                         </tr>
@@ -1513,32 +1515,66 @@
             });
         }
 
-        function renderItemsTable(items) {
-            const tbody = $('#itemsTable tbody');
-            tbody.empty();
-            items.forEach(function(item) {
-                const tr = `
-                    <tr>
-                        <td>${item.item_name || ''}
-                            <input type="hidden" name="total_amount[]" value="${item.final_price || 0}">
-                            <!-- Hidden input for calculateInvoiceTotals to read -->
-                        </td>
-                        <td>${item.pre_code || ''}-${item.post_code || ''}</td>
-                        <td>${item.barcode || ''}</td>
-                        <td>${item.net_weight || 0}</td>
-                        <td>${item.metal_rate || 0}</td>
-                        <td>${item.making_price || 0}</td>
-                        <td>${item.gst_amount || 0}</td>
-                        <td>${item.final_price || 0}</td>
-                        <td>
-                            <button type="button" class="btn btn-warning btn-sm" onclick="editItem(${item.id})">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${item.id}">X</button>
-                        </td>
-                    </tr>
-                `;
-                tbody.append(tr);
+       function renderItemsTable(items) {
+    const tbody = $('#itemsTable tbody');
+    tbody.empty();
+
+    items.forEach(function(item) {
+
+        // 🔹 Calculate Diamond Total
+        let diamondTotal = 0;
+        if (Array.isArray(item.diamonds)) {
+            item.diamonds.forEach(d => {
+                diamondTotal += parseFloat(d.diamond_final_price || 0);
             });
         }
+
+        // 🔹 Calculate Stone Total
+        let stoneTotal = 0;
+        if (Array.isArray(item.stones)) {
+            item.stones.forEach(s => {
+                stoneTotal += parseFloat(s.stone_final_price || 0);
+            });
+        }
+
+        const tr = `
+            <tr>
+                <td>
+                    ${item.item_name || ''}
+                    <!-- Used for invoice-level calculation -->
+                    <input type="hidden" name="total_amount[]" value="${item.final_price || 0}">
+                </td>
+
+                <td>${item.pre_code || ''}-${item.post_code || ''}</td>
+                <td>${item.barcode || ''}</td>
+                <td>${item.net_weight || 0}</td>
+                <td>${item.metal_rate || 0}</td>
+                <td>${item.making_price || 0}</td>
+
+                <!-- NEW -->
+                <td>₹${diamondTotal.toFixed(2)}</td>
+                <td>₹${stoneTotal.toFixed(2)}</td>
+
+                <td>₹${parseFloat(item.final_price || 0).toFixed(2)}</td>
+
+                <td>
+                    <button type="button"
+                            class="btn btn-warning btn-sm"
+                            onclick="editItem(${item.id})">
+                        Edit
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-danger btn-sm removeItem"
+                            data-id="${item.id}">
+                        X
+                    </button>
+                </td>
+            </tr>
+        `;
+        tbody.append(tr);
+    });
+}
 
         // ---------------------------------------------------------
         // FINALIZE INVOICE
