@@ -489,11 +489,13 @@ class SellInvoiceController extends Controller
                 'igst_amount'  => $igstAmount,
 
                 'taxable_amount' => $taxableAmount,
+                
                 'final_amount'   => $grandTotal,
 
                 'cash_received'   => $cash,
                 'bank_received'   => $bank,
                 'online_received' => $online,
+                'card_received'   => $card,
 
                 'total_received' => $totalReceived,
                 'amount_left'    => $amountLeft,
@@ -541,83 +543,107 @@ class SellInvoiceController extends Controller
         DB::beginTransaction();
         try {
             $invoiceId = $request->sell_invoice_id;
-            if (!$invoiceId) {
-                return response()->json(['success' => false, 'message' => 'Invoice ID is missing'], 400);
+            if (! $invoiceId) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invoice ID is missing'
+                ], 400);
             }
-
+    
             $invoice = SellInvoice::findOrFail($invoiceId);
-
-            // Calculate totals
-            $finalAmount = $invoice->final_amount; // Keep existing item total? Or recalculate?
-            // Better to assume final_amount is the sum of items which is already updated by addItem/removeItem.
-            // But we need to apply Discount/Tax/Payments again.
-
-            // Discount
-            $discountPercent = $request->input('discount_percent', 0);
-            $discountAmount = ($finalAmount * $discountPercent) / 100;
-            $amountAfterDiscount = $finalAmount - $discountAmount;
-            $taxableAmount = $request->taxable_amount;
-            // GST
-            $cgstPercent = $request->input('cgst_percent', 0);
-            $sgstPercent = $request->input('sgst_percent', 0);
-            $igstPercent = $request->input('igst_percent', 0);
-
-            $cgstAmount = ($amountAfterDiscount * $cgstPercent) / 100;
-            $sgstAmount = ($amountAfterDiscount * $sgstPercent) / 100;
-            $igstAmount = ($amountAfterDiscount * $igstPercent) / 100;
-
-            $totalTax = $cgstAmount + $sgstAmount + $igstAmount;
-            $grandTotal = $amountAfterDiscount + $totalTax;
-
-            // Payments
-            $cash = $request->input('cash_received', 0);
-            $bank = $request->input('bank_received', 0);
-            $online = $request->input('online_received', 0);
-            $card = $request->input('card_received', 0);
-
-            $totalReceived = $cash + $bank + $online + $card;
-            $amountLeft = $grandTotal - $totalReceived;
-            $amountLeft = max(0, $amountLeft);
-
-            // Determine Status
+    
+            /**
+             * IMPORTANT:
+             * final_amount in DB already contains GRAND TOTAL.
+             * We must NOT reuse it for recalculation.
+             * Use taxable_amount or item total instead.
+             */
+            $itemsTotal = round($request->taxable_amount ?? 0, 2);
+    
+            /* --------------------
+             | Discount
+             -------------------- */
+            $discountPercent = round($request->input('discount_percent', 0), 2);
+            $discountAmount  = round(($itemsTotal * $discountPercent) / 100, 2);
+            $amountAfterDiscount = round($itemsTotal - $discountAmount, 2);
+    
+            /* --------------------
+             | GST
+             -------------------- */
+            $cgstPercent = round($request->input('cgst_percent', 0), 2);
+            $sgstPercent = round($request->input('sgst_percent', 0), 2);
+            $igstPercent = round($request->input('igst_percent', 0), 2);
+    
+            $cgstAmount = round(($amountAfterDiscount * $cgstPercent) / 100, 2);
+            $sgstAmount = round(($amountAfterDiscount * $sgstPercent) / 100, 2);
+            $igstAmount = round(($amountAfterDiscount * $igstPercent) / 100, 2);
+    
+            $totalTax  = round($cgstAmount + $sgstAmount + $igstAmount, 2);
+            $grandTotal = round($amountAfterDiscount + $totalTax, 2);
+    
+            /* --------------------
+             | Payments
+             -------------------- */
+            $cash   = round($request->input('cash_received', 0), 2);
+            $bank   = round($request->input('bank_received', 0), 2);
+            $online = round($request->input('online_received', 0), 2);
+            $card   = round($request->input('card_received', 0), 2);
+    
+            $totalReceived = round($cash + $bank + $online + $card, 2);
+    
+            $balanceDiff = round($grandTotal - $totalReceived, 2);
+    
+            // Rounding tolerance (same as finalize)
+            if (abs($balanceDiff) < 0.05) {
+                $amountLeft = 0.00;
+            } else {
+                $amountLeft = max(0, $balanceDiff);
+            }
+    
+            /* --------------------
+             | Status
+             -------------------- */
             $status = 'pending';
             if ($amountLeft <= 0) {
                 $status = 'paid';
             } elseif ($totalReceived > 0) {
                 $status = 'partial';
             }
-
+    
+            /* --------------------
+             | Update Invoice
+             -------------------- */
             $invoice->update([
-
-                'invoice_no' => $request->invoice_no, // Allow updating invoice number
-                'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                'invoice_no'       => $request->invoice_no,
+                'invoice_date'     => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
-                'user_id' => $request->customer_id,
-
+                'user_id'          => $request->customer_id,
+    
                 'discount_percent' => $discountPercent,
-                'discount_amount' => $discountAmount,
+                'discount_amount'  => $discountAmount,
+    
                 'cgst_percent' => $cgstPercent,
-                'cgst_amount' => $cgstAmount,
+                'cgst_amount'  => $cgstAmount,
                 'sgst_percent' => $sgstPercent,
-                'sgst_amount' => $sgstAmount,
+                'sgst_amount'  => $sgstAmount,
                 'igst_percent' => $igstPercent,
-                'igst_amount' => $igstAmount,
-                'taxable_amount' => $taxableAmount,
-
-                'final_amount' => $grandTotal,
-
-                'cash_received' => $cash,
-                'bank_received' => $bank,
+                'igst_amount'  => $igstAmount,
+    
+                'taxable_amount' => $itemsTotal,
+                'final_amount'   => $grandTotal,
+    
+                'cash_received'   => $cash,
+                'bank_received'   => $bank,
                 'online_received' => $online,
-                // 'card_received' => $card,
-
+                'card_received'   => $card,
+    
                 'total_received' => $totalReceived,
-                'amount_left' => $amountLeft,
-                'status' => $status,
+                'amount_left'    => $amountLeft,
+                'status'         => $status,
             ]);
-
+    
             DB::commit();
-
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Invoice updated successfully',
@@ -625,9 +651,12 @@ class SellInvoiceController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
-    }
+    }    
     public function edit($id)
     {
         $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product'])->findOrFail($id);

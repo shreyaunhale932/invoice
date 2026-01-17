@@ -194,8 +194,9 @@ class InvoiceTemplateController extends Controller
             ['section_key' => 'invoice_footer', 'field_key' => 'cash_received_label', 'label' => 'Cash Received', 'field_type' => 'label', 'display_order' => 8],
             ['section_key' => 'invoice_footer', 'field_key' => 'online_received_label', 'label' => 'Online Received', 'field_type' => 'label', 'display_order' => 9],
             ['section_key' => 'invoice_footer', 'field_key' => 'bank_received_label', 'label' => 'Bank Received', 'field_type' => 'label', 'display_order' => 10],
-            ['section_key' => 'invoice_footer', 'field_key' => 'total_received_label', 'label' => 'Total Received', 'field_type' => 'label', 'display_order' => 11],
-            ['section_key' => 'invoice_footer', 'field_key' => 'balance_due_label', 'label' => 'Balance Due', 'field_type' => 'label', 'display_order' => 12],
+            ['section_key' => 'invoice_footer', 'field_key' => 'card_received_label', 'label' => 'Card Received', 'field_type' => 'label', 'display_order' => 11],
+            ['section_key' => 'invoice_footer', 'field_key' => 'total_received_label', 'label' => 'Total Received', 'field_type' => 'label', 'display_order' => 12],
+            ['section_key' => 'invoice_footer', 'field_key' => 'balance_due_label', 'label' => 'Balance Due', 'field_type' => 'label', 'display_order' => 13],
 
             // Visual Elements
             ['section_key' => 'visual_elements', 'field_key' => 'logo_light', 'label' => 'Logo (Light Mode)', 'field_type' => 'image', 'display_order' => 1, 'default_value' => '/public/assets/img/logo2.png'],

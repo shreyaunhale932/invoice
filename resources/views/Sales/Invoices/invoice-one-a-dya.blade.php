@@ -601,7 +601,7 @@
                 /* ===============================
                  | BASIC AMOUNTS
                  =============================== */
-                $taxableAmount = $invoice->total_amount_non_tax ?? 0;
+                $taxableAmount = $invoice->taxable_amount ?? 0;
                 
                 $cgstPercent = $invoice->cgst_percent ?? 0;
                 $sgstPercent = $invoice->sgst_percent ?? 0;
@@ -631,8 +631,9 @@
                 $cash   = $invoice->cash_received ?? 0;
                 $online = $invoice->online_received ?? 0;
                 $bank   = $invoice->bank_received ?? 0;
+                $card   = $invoice->card_received ?? 0;
                 
-                $totalReceived = $cash + $online + $bank;
+                $totalReceived = $cash + $online + $bank + $card;
                 $balanceAmount = $finalAmount - $totalReceived;
                 
                 /* ===============================
@@ -783,6 +784,7 @@
  $cashReceivedLabel = $templateSettings['invoice_footer.cash_received_label']->label ?? 'Cash Received';
  $onlineReceivedLabel = $templateSettings['invoice_footer.online_received_label']->label ?? 'Online Received';
  $bankReceivedLabel = $templateSettings['invoice_footer.bank_received_label']->label ?? 'Bank Received';
+ $cardReceivedLabel = $templateSettings['invoice_footer.card_received_label']->label ?? 'Card Received';
  $totalReceivedLabel = $templateSettings['invoice_footer.total_received_label']->label ?? 'Total Received';
  $balanceDueLabel = $templateSettings['invoice_footer.balance_due_label']->label ?? 'Balance Due';
  
@@ -792,6 +794,7 @@
  $cashVisible          = $templateSettings['invoice_footer.cash_received_label']->is_visible ?? true;
  $onlineVisible        = $templateSettings['invoice_footer.online_received_label']->is_visible ?? true;
  $bankVisible          = $templateSettings['invoice_footer.bank_received_label']->is_visible ?? true;
+ $cardVisible          = $templateSettings['invoice_footer.card_received_label']->is_visible ?? true;
  $totalReceivedVisible = $templateSettings['invoice_footer.total_received_label']->is_visible ?? true;
  $balanceDueVisible    = $templateSettings['invoice_footer.balance_due_label']->is_visible ?? true;
  @endphp
@@ -800,6 +803,7 @@
      ($cashVisible && $cash > 0) ||
      ($onlineVisible && $online > 0) ||
      ($bankVisible && $bank > 0) ||
+     ($cardVisible && $card > 0) ||
      $totalReceivedVisible ||
      $balanceDueVisible
  )
@@ -826,6 +830,13 @@
                  <tr>
                      <td>{{ $bankReceivedLabel }}</td>
                      <td>₹{{ number_format($bank, 2) }}</td>
+                 </tr>
+                 @endif
+ 
+                 @if($cardVisible && $card > 0)
+                 <tr>
+                     <td>{{ $cardReceivedLabel }}</td>
+                     <td>₹{{ number_format($card, 2) }}</td>
                  </tr>
                  @endif
  

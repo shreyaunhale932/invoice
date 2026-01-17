@@ -48,6 +48,7 @@ class SellInvoice extends Model
         'online_received',
         'bank_received',
         'total_received',
+        'card_received',
         'amount_left',
 
         // Invoice numbers
