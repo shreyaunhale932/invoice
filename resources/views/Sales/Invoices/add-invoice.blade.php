@@ -1761,18 +1761,16 @@
 
             const totalPaid = cash + bank + online + card;
 
-            // Rule: remaining = total - paid
+
             let remaining = totalInvoiceAmount - totalPaid;
 
-            // Rule: Prevent negative remaining amount (clamp to 0)
+
             if (remaining < 0) remaining = 0;
 
             setBoxText('remainingAmount', remaining);
         }
 
-        /**
-         * Helper to update text content with Currency formatting
-         */
+        
         function setBoxText(elementId, amount) {
             const el = document.getElementById(elementId);
             if (el) {

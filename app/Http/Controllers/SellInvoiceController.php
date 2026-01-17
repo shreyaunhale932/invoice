@@ -418,45 +418,57 @@ class SellInvoiceController extends Controller
     {
         DB::beginTransaction();
         try {
-            $invoiceId = $request->sell_invoice_id; // Using correct key from JS
+            $invoiceId = $request->sell_invoice_id;
             if (!$invoiceId) {
                 return response()->json(['success' => false, 'message' => 'Invoice ID is missing'], 400);
             }
 
             $invoice = SellInvoice::findOrFail($invoiceId);
 
-            // Calculate totals (could also verify against items, but trusting frontend/model alignment for now)
-            $finalAmount = $invoice->final_amount; // Current item sum
-// dd($request)
-;            // Discount
-             $taxableAmount = $request->taxable_amount;
-            $discountPercent = $request->input('discount_percent', 0);
-            $discountAmount = ($finalAmount * $discountPercent) / 100;
-            $amountAfterDiscount = $finalAmount - $discountAmount;
+            // Base Amount
+            $finalAmount = round($invoice->final_amount, 2);
 
-            // GST
-            $cgstPercent = $request->input('cgst_percent', 0);
-            $sgstPercent = $request->input('sgst_percent', 0);
-            $igstPercent = $request->input('igst_percent', 0);
+            // Discount
+            $taxableAmount    = round($request->taxable_amount, 2);
+            $discountPercent  = round($request->input('discount_percent', 0), 2);
+            $discountAmount   = round(($finalAmount * $discountPercent) / 100, 2);
+            $amountAfterDiscount = round($finalAmount - $discountAmount, 2);
 
-            $cgstAmount = ($amountAfterDiscount * $cgstPercent) / 100;
-            $sgstAmount = ($amountAfterDiscount * $sgstPercent) / 100;
-            $igstAmount = ($amountAfterDiscount * $igstPercent) / 100;
+            // GST %
+            $cgstPercent = round($request->input('cgst_percent', 0), 2);
+            $sgstPercent = round($request->input('sgst_percent', 0), 2);
+            $igstPercent = round($request->input('igst_percent', 0), 2);
 
-            $totalTax = $cgstAmount + $sgstAmount + $igstAmount;
-            $grandTotal = $amountAfterDiscount + $totalTax;
+            // GST Amounts
+            $cgstAmount = round(($amountAfterDiscount * $cgstPercent) / 100, 2);
+            $sgstAmount = round(($amountAfterDiscount * $sgstPercent) / 100, 2);
+            $igstAmount = round(($amountAfterDiscount * $igstPercent) / 100, 2);
+
+            $totalTax  = round($cgstAmount + $sgstAmount + $igstAmount, 2);
+            $grandTotal = round($amountAfterDiscount + $totalTax, 2);
 
             // Payments
-            $cash = $request->input('cash_received', 0);
-            $bank = $request->input('bank_received', 0);
-            $online = $request->input('online_received', 0);
-            $card = $request->input('card_received', 0); // Assuming you might have card field
+            $cash   = round($request->input('cash_received', 0), 2);
+            $bank   = round($request->input('bank_received', 0), 2);
+            $online = round($request->input('online_received', 0), 2);
+            $card   = round($request->input('card_received', 0), 2);
 
-            $totalReceived = $cash + $bank + $online + $card;
-            $amountLeft = $grandTotal - $totalReceived;
-            $amountLeft = max(0, $amountLeft);
-// dd('=='.$amountLeft);
-            // Determine Status
+            $totalReceived = round($cash + $bank + $online + $card, 2);
+            // $amountLeft = round(max(0, $grandTotal - $totalReceived), 2);
+            $totalReceived = round($cash + $bank + $online + $card, 2);
+
+            // Difference before rounding
+            $balanceDiff = $grandTotal - $totalReceived;
+
+            // Tolerance check (important)
+            if (abs($balanceDiff) < 0.05) {
+                $amountLeft = 0.00;
+            } else {
+                $amountLeft = round($balanceDiff, 2);
+            }
+
+            // dd('=='.$amountLeft);
+            // Status
             $status = 'pending';
             if ($amountLeft <= 0) {
                 $status = 'paid';
@@ -467,47 +479,43 @@ class SellInvoiceController extends Controller
             // Update Invoice
             $invoice->update([
                 'discount_percent' => $discountPercent,
-                'discount_amount' => $discountAmount,
-                'cgst_percent' => $cgstPercent,
-                'cgst_amount' => $cgstAmount,
-                'sgst_percent' => $sgstPercent,
-                'sgst_amount' => $sgstAmount,
-                'igst_percent' => $igstPercent,
-                'igst_amount' => $igstAmount,
-                // If you have IGST columns in DB, add them here. Assuming standard structure:
-                // 'igst_percent' => $igstPercent,
-                // 'igst_amount' => $igstAmount,
-                'taxable_amount' => $taxableAmount,
-                'final_amount' => $grandTotal, // IMPORTANT: Overwriting Item Sum with Grand Total (incl tax/discount)
-                // Note: You might want to keep 'total_item_amount' separate if your DB specific 'final_amount' means something else.
-                // Based on standard logs, usually final_amount is the 'To Pay' amount.
+                'discount_amount'  => $discountAmount,
 
-                'cash_received' => $cash,
-                'bank_received' => $bank,
+                'cgst_percent' => $cgstPercent,
+                'cgst_amount'  => $cgstAmount,
+                'sgst_percent' => $sgstPercent,
+                'sgst_amount'  => $sgstAmount,
+                'igst_percent' => $igstPercent,
+                'igst_amount'  => $igstAmount,
+
+                'taxable_amount' => $taxableAmount,
+                'final_amount'   => $grandTotal,
+
+                'cash_received'   => $cash,
+                'bank_received'   => $bank,
                 'online_received' => $online,
-                // 'card_received' => $card,
 
                 'total_received' => $totalReceived,
-                'amount_left' => $amountLeft,
-                'status' => $status,
-                'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                'amount_left'    => $amountLeft,
+                'status'         => $status,
+
+                'invoice_date'     => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
             ]);
-
-            // TODO: Add Notes/Terms saving if linked tables exist
 
             DB::commit();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Invoice finalized successfully',
-                'redirect_url' => route('invoices') // Or invoice details
+                'redirect_url' => route('invoices')
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
 
     public function destroy($id)
     {
@@ -708,15 +716,15 @@ class SellInvoiceController extends Controller
         $bank = \App\Models\bankdetails::where('user_id', $adminId)->first();
 
         // Get template settings
-        $templateSettings = \App\Models\InvoiceTemplateSetting::where(function($query) use ($adminId) {
+        $templateSettings = \App\Models\InvoiceTemplateSetting::where(function ($query) use ($adminId) {
             $query->where('admin_id', $adminId)
-                  ->orWhereNull('admin_id');
+                ->orWhereNull('admin_id');
         })
-        ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
-        ->get()
-        ->keyBy(function($item) {
-            return $item->section_key . '.' . $item->field_key;
-        });
+            ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->section_key . '.' . $item->field_key;
+            });
 
         // Get custom blocks
         $customBlocks = \App\Models\InvoiceTemplateCustomBlock::where('admin_id', $adminId)
