@@ -27,245 +27,245 @@ class SellInvoiceController extends Controller
 
                 $itemFinalPrice = (float) $request->final_price;
                 $item = SellInvoiceItem::create([
-                'admin_id' => Auth::id(),
-                'sell_invoice_id' => $invoiceId,
-                'product_id'   => $request->product_id,
-                'item_name' => $request->product_name,
-                'pre_code' => $request->pre_code,
-                'post_code' => $request->post_code,
-                'barcode' => $request->barcode,
-                'hsn_code' => $request->hsn_code,
+                    'admin_id' => Auth::id(),
+                    'sell_invoice_id' => $invoiceId,
+                    'product_id'   => $request->product_id,
+                    'item_name' => $request->product_name,
+                    'pre_code' => $request->pre_code,
+                    'post_code' => $request->post_code,
+                    'barcode' => $request->barcode,
+                    'hsn_code' => $request->hsn_code,
 
-                // Weights & Rates
-                'gross_weight' => $request->gross_weight,
-                'net_weight' => $request->net_weight,
-                'metal_rate' => $request->metal_rate,
+                    // Weights & Rates
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
+                    'metal_rate' => $request->metal_rate,
 
-                // Pricing
-                'making_price' => $request->making_price,
-                'wastage_percent' => $request->wastage_percent,
-                'gst_percent' => $request->gst_percent,
-                'gst_amount' => $request->gst_amount,
+                    // Pricing
+                    'making_price' => $request->making_price,
+                    'wastage_percent' => $request->wastage_percent,
+                    'gst_percent' => $request->gst_percent,
+                    'gst_amount' => $request->gst_amount,
 
-                // Other
-                'category' => $request->category,
-                'subcategory' => $request->subcategory,
-                'size' => $request->size,
-                'quantity' => $request->quantity ?? 1,
+                    // Other
+                    'category' => $request->category,
+                    'subcategory' => $request->subcategory,
+                    'size' => $request->size,
+                    'quantity' => $request->quantity ?? 1,
 
-                // Final
-                'total_amount' => $request->total_amount,
-                'final_price' => $itemFinalPrice,
-            ]);
+                    // Final
+                    'total_amount' => $request->total_amount,
+                    'final_price' => $itemFinalPrice,
+                ]);
 
-            // Diamonds
-            if ($request->filled('diamonds') && is_array($request->diamonds)) {
-               foreach ($request->diamonds as $d) {
+                // Diamonds
+                if ($request->filled('diamonds') && is_array($request->diamonds)) {
+                    foreach ($request->diamonds as $d) {
 
-        // Skip completely empty rows
-         if (
-            empty($d['clarity']) &&
-            empty($d['cut']) &&
-            empty($d['color']) &&
-            empty($d['pieces']) &&
-            empty($d['diamond_weight']) &&
-            empty($d['price_per_carat']) &&
-            empty($d['diamond_final_price'])
-        ) {
-            continue;
-        }
+                        // Skip completely empty rows
+                        if (
+                            empty($d['clarity']) &&
+                            empty($d['cut']) &&
+                            empty($d['color']) &&
+                            empty($d['pieces']) &&
+                            empty($d['diamond_weight']) &&
+                            empty($d['price_per_carat']) &&
+                            empty($d['diamond_final_price'])
+                        ) {
+                            continue;
+                        }
 
-        SellDiamondItem::create([
-            'admin_id' => Auth::id(),
-            'sell_invoice_id' => $invoiceId,
-            'sell_invoice_item_id' => $item->id,
-            'clarity' => $d['clarity'] ?? null,
-            'cut' => $d['cut'] ?? null,
-            'color' => $d['color'] ?? null,
-            'pieces' => $d['pieces'] ?? 0,
-            'diamond_weight' => $d['diamond_weight'] ?? 0,
-            'price_per_carat' => $d['price_per_carat'] ?? 0,
-            'diamond_final_price' => $d['diamond_final_price'] ?? 0,
-        ]);
-    }
-}
+                        SellDiamondItem::create([
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                            'clarity' => $d['clarity'] ?? null,
+                            'cut' => $d['cut'] ?? null,
+                            'color' => $d['color'] ?? null,
+                            'pieces' => $d['pieces'] ?? 0,
+                            'diamond_weight' => $d['diamond_weight'] ?? 0,
+                            'price_per_carat' => $d['price_per_carat'] ?? 0,
+                            'diamond_final_price' => $d['diamond_final_price'] ?? 0,
+                        ]);
+                    }
+                }
 
 
-            // Stones
-           if ($request->filled('stones') && is_array($request->stones)) {
-    foreach ($request->stones as $s) {
+                // Stones
+                if ($request->filled('stones') && is_array($request->stones)) {
+                    foreach ($request->stones as $s) {
 
-        // Skip empty rows
-        if (
-            empty($s['stone_name']) &&
-            empty($s['stone_weight']) &&
-            empty($s['stone_price']) &&
-            empty($s['stone_final_price'])
-        ) {
-            continue;
-        }
+                        // Skip empty rows
+                        if (
+                            empty($s['stone_name']) &&
+                            empty($s['stone_weight']) &&
+                            empty($s['stone_price']) &&
+                            empty($s['stone_final_price'])
+                        ) {
+                            continue;
+                        }
 
-        SellStoneItem::create([
-            'admin_id' => Auth::id(),
-            'sell_invoice_id' => $invoiceId,
-            'sell_invoice_item_id' => $item->id,
-            'stone_name' => $s['stone_name'] ?? null,
-            'stone_weight' => $s['stone_weight'] ?? 0,
-            'stone_price' => $s['stone_price'] ?? 0,
-            'stone_final_price' => $s['stone_final_price'] ?? 0,
-        ]);
-    }
-}
-$invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
+                        SellStoneItem::create([
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                            'stone_name' => $s['stone_name'] ?? null,
+                            'stone_weight' => $s['stone_weight'] ?? 0,
+                            'stone_price' => $s['stone_price'] ?? 0,
+                            'stone_final_price' => $s['stone_final_price'] ?? 0,
+                        ]);
+                    }
+                }
+                $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
 
-            SellInvoice::where('id', $invoiceId)->update([
-                'final_amount' => $invoiceTotal
-            ]);
-             DB::commit();
+                SellInvoice::where('id', $invoiceId)->update([
+                    'final_amount' => $invoiceTotal
+                ]);
+                DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'invoice_id' => $invoiceId,
-                'item_id' => $item->id
-            ]);
+                return response()->json([
+                    'success' => true,
+                    'invoice_id' => $invoiceId,
+                    'item_id' => $item->id
+                ]);
             } else {
                 $UserInvoice = SellInvoice::where('user_id', $request->customer_id)
                     ->whereIn('status', ['pending', 'draft'])
                     ->first();
-            
 
-            $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d');
-            $dueDate     = Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d');
 
-            // Create invoice only once
-            if (!$UserInvoice) {
-                $UserInvoice = SellInvoice::create([
+                $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d');
+                $dueDate     = Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d');
+
+                // Create invoice only once
+                if (!$UserInvoice) {
+                    $UserInvoice = SellInvoice::create([
+                        'admin_id' => Auth::id(),
+                        'invoice_no' => $request->invoice_no,
+                        'user_id' => $request->customer_id,
+                        'invoice_date' => $invoiceDate,
+                        'invoice_due_date' => $dueDate,
+                        'status' => 'pending',
+                        'final_amount' => 0,
+                    ]);
+
+                    // session(['sell_invoice_id' => $invoice->id]);
+                }
+
+                $invoiceId = $UserInvoice->id;
+
+                $itemFinalPrice = (float) $request->final_price;
+                // dd($request->quantity);
+
+                // Create item
+                // Create item
+                $item = SellInvoiceItem::create([
                     'admin_id' => Auth::id(),
-                    'invoice_no' => $request->invoice_no,
-                    'user_id' => $request->customer_id,
-                    'invoice_date' => $invoiceDate,
-                    'invoice_due_date' => $dueDate,
-                    'status' => 'pending',
-                    'final_amount' => 0,
+                    'sell_invoice_id' => $invoiceId,
+                    'product_id'   => $request->product_id,
+                    'item_name' => $request->product_name,
+                    'pre_code' => $request->pre_code,
+                    'post_code' => $request->post_code,
+                    'barcode' => $request->barcode,
+                    'hsn_code' => $request->hsn_code,
+
+                    // Weights & Rates
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
+                    'metal_rate' => $request->metal_rate,
+
+                    // Pricing
+                    'making_price' => $request->making_price,
+                    'wastage_percent' => $request->wastage_percent,
+                    'gst_percent' => $request->gst_percent,
+                    'gst_amount' => $request->gst_amount,
+
+                    // Other
+                    'category' => $request->category,
+                    'subcategory' => $request->subcategory,
+                    'size' => $request->size,
+                    'quantity' => $request->quantity ?? 1,
+
+                    // Final
+                    'total_amount' => $request->total_amount,
+                    'final_price' => $itemFinalPrice,
                 ]);
 
-                // session(['sell_invoice_id' => $invoice->id]);
+                // Diamonds
+                if ($request->filled('diamonds') && is_array($request->diamonds)) {
+                    foreach ($request->diamonds as $d) {
+
+                        // Skip completely empty rows
+                        if (
+                            empty($d['clarity']) &&
+                            empty($d['cut']) &&
+                            empty($d['color']) &&
+                            empty($d['pieces']) &&
+                            empty($d['diamond_weight']) &&
+                            empty($d['price_per_carat']) &&
+                            empty($d['diamond_final_price'])
+                        ) {
+                            continue;
+                        }
+
+                        SellDiamondItem::create([
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                            'clarity' => $d['clarity'] ?? null,
+                            'cut' => $d['cut'] ?? null,
+                            'color' => $d['color'] ?? null,
+                            'pieces' => $d['pieces'] ?? 0,
+                            'diamond_weight' => $d['diamond_weight'] ?? 0,
+                            'price_per_carat' => $d['price_per_carat'] ?? 0,
+                            'diamond_final_price' => $d['diamond_final_price'] ?? 0,
+                        ]);
+                    }
+                }
+
+
+                // Stones
+                if ($request->filled('stones') && is_array($request->stones)) {
+                    foreach ($request->stones as $s) {
+
+                        // Skip empty rows
+                        if (
+                            empty($s['stone_name']) &&
+                            empty($s['stone_weight']) &&
+                            empty($s['stone_price']) &&
+                            empty($s['stone_final_price'])
+                        ) {
+                            continue;
+                        }
+
+                        SellStoneItem::create([
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                            'stone_name' => $s['stone_name'] ?? null,
+                            'stone_weight' => $s['stone_weight'] ?? 0,
+                            'stone_price' => $s['stone_price'] ?? 0,
+                            'stone_final_price' => $s['stone_final_price'] ?? 0,
+                        ]);
+                    }
+                }
+
+
+                // Recalculate invoice total AFTER everything is saved
+                $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
+
+                SellInvoice::where('id', $invoiceId)->update([
+                    'final_amount' => $invoiceTotal
+                ]);
+
+                DB::commit();
+
+                return response()->json([
+                    'success' => true,
+                    'invoice_id' => $invoiceId,
+                    'item_id' => $item->id
+                ]);
             }
-
-            $invoiceId = $UserInvoice->id;
-
-            $itemFinalPrice = (float) $request->final_price;
-            // dd($request->quantity);
-
-            // Create item
-            // Create item
-            $item = SellInvoiceItem::create([
-                'admin_id' => Auth::id(),
-                'sell_invoice_id' => $invoiceId,
-                'product_id'   => $request->product_id,
-                'item_name' => $request->product_name,
-                'pre_code' => $request->pre_code,
-                'post_code' => $request->post_code,
-                'barcode' => $request->barcode,
-                'hsn_code' => $request->hsn_code,
-
-                // Weights & Rates
-                'gross_weight' => $request->gross_weight,
-                'net_weight' => $request->net_weight,
-                'metal_rate' => $request->metal_rate,
-
-                // Pricing
-                'making_price' => $request->making_price,
-                'wastage_percent' => $request->wastage_percent,
-                'gst_percent' => $request->gst_percent,
-                'gst_amount' => $request->gst_amount,
-
-                // Other
-                'category' => $request->category,
-                'subcategory' => $request->subcategory,
-                'size' => $request->size,
-                'quantity' => $request->quantity ?? 1,
-
-                // Final
-                'total_amount' => $request->total_amount,
-                'final_price' => $itemFinalPrice,
-            ]);
-
-            // Diamonds
-            if ($request->filled('diamonds') && is_array($request->diamonds)) {
-    foreach ($request->diamonds as $d) {
-
-        // Skip completely empty rows
-        if (
-            empty($d['clarity']) &&
-            empty($d['cut']) &&
-            empty($d['color']) &&
-            empty($d['pieces']) &&
-            empty($d['diamond_weight']) &&
-            empty($d['price_per_carat']) &&
-            empty($d['diamond_final_price'])
-        ) {
-            continue;
-        }
-
-        SellDiamondItem::create([
-            'admin_id' => Auth::id(),
-            'sell_invoice_id' => $invoiceId,
-            'sell_invoice_item_id' => $item->id,
-            'clarity' => $d['clarity'] ?? null,
-            'cut' => $d['cut'] ?? null,
-            'color' => $d['color'] ?? null,
-            'pieces' => $d['pieces'] ?? 0,
-            'diamond_weight' => $d['diamond_weight'] ?? 0,
-            'price_per_carat' => $d['price_per_carat'] ?? 0,
-            'diamond_final_price' => $d['diamond_final_price'] ?? 0,
-        ]);
-    }
-}
-
-
-            // Stones
-           if ($request->filled('stones') && is_array($request->stones)) {
-    foreach ($request->stones as $s) {
-
-        // Skip empty rows
-        if (
-            empty($s['stone_name']) &&
-            empty($s['stone_weight']) &&
-            empty($s['stone_price']) &&
-            empty($s['stone_final_price'])
-        ) {
-            continue;
-        }
-
-        SellStoneItem::create([
-            'admin_id' => Auth::id(),
-            'sell_invoice_id' => $invoiceId,
-            'sell_invoice_item_id' => $item->id,
-            'stone_name' => $s['stone_name'] ?? null,
-            'stone_weight' => $s['stone_weight'] ?? 0,
-            'stone_price' => $s['stone_price'] ?? 0,
-            'stone_final_price' => $s['stone_final_price'] ?? 0,
-        ]);
-    }
-}
-
-
-            // Recalculate invoice total AFTER everything is saved
-            $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
-
-            SellInvoice::where('id', $invoiceId)->update([
-                'final_amount' => $invoiceTotal
-            ]);
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'invoice_id' => $invoiceId,
-                'item_id' => $item->id
-            ]);
-        }
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -427,8 +427,9 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
 
             // Calculate totals (could also verify against items, but trusting frontend/model alignment for now)
             $finalAmount = $invoice->final_amount; // Current item sum
-
-            // Discount
+// dd($request)
+;            // Discount
+             $taxableAmount = $request->taxable_amount;
             $discountPercent = $request->input('discount_percent', 0);
             $discountAmount = ($finalAmount * $discountPercent) / 100;
             $amountAfterDiscount = $finalAmount - $discountAmount;
@@ -454,7 +455,7 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
             $totalReceived = $cash + $bank + $online + $card;
             $amountLeft = $grandTotal - $totalReceived;
             $amountLeft = max(0, $amountLeft);
-
+// dd('=='.$amountLeft);
             // Determine Status
             $status = 'pending';
             if ($amountLeft <= 0) {
@@ -471,10 +472,12 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
                 'cgst_amount' => $cgstAmount,
                 'sgst_percent' => $sgstPercent,
                 'sgst_amount' => $sgstAmount,
+                'igst_percent' => $igstPercent,
+                'igst_amount' => $igstAmount,
                 // If you have IGST columns in DB, add them here. Assuming standard structure:
                 // 'igst_percent' => $igstPercent,
                 // 'igst_amount' => $igstAmount,
-
+                'taxable_amount' => $taxableAmount,
                 'final_amount' => $grandTotal, // IMPORTANT: Overwriting Item Sum with Grand Total (incl tax/discount)
                 // Note: You might want to keep 'total_item_amount' separate if your DB specific 'final_amount' means something else.
                 // Based on standard logs, usually final_amount is the 'To Pay' amount.
@@ -500,7 +503,6 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
                 'message' => 'Invoice finalized successfully',
                 'redirect_url' => route('invoices') // Or invoice details
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
@@ -546,7 +548,7 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
             $discountPercent = $request->input('discount_percent', 0);
             $discountAmount = ($finalAmount * $discountPercent) / 100;
             $amountAfterDiscount = $finalAmount - $discountAmount;
-
+            $taxableAmount = $request->taxable_amount;
             // GST
             $cgstPercent = $request->input('cgst_percent', 0);
             $sgstPercent = $request->input('sgst_percent', 0);
@@ -578,7 +580,7 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
             }
 
             $invoice->update([
-                
+
                 'invoice_no' => $request->invoice_no, // Allow updating invoice number
                 'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
@@ -590,6 +592,9 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
                 'cgst_amount' => $cgstAmount,
                 'sgst_percent' => $sgstPercent,
                 'sgst_amount' => $sgstAmount,
+                'igst_percent' => $igstPercent,
+                'igst_amount' => $igstAmount,
+                'taxable_amount' => $taxableAmount,
 
                 'final_amount' => $grandTotal,
 
@@ -610,7 +615,6 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
                 'message' => 'Invoice updated successfully',
                 'redirect_url' => route('invoices')
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
@@ -621,10 +625,8 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
         $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product'])->findOrFail($id);
         $adminId = Auth::id(); // Use Auth::id() for consistency
 
-        // Fetch necessary data for the view, mirroring InvoiceController@create
         $customers = \App\Models\Customer::where('admin_id', $adminId)->get();
-        // Fallback for banks/business if models are in different namespace or not imported
-        // Assuming App\Models namespace based on context
+
         $banks = \App\Models\bankdetails::where('user_id', $adminId)->get();
         $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
         $products = \App\Models\Product::all();
@@ -637,12 +639,10 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
             ->where('admin_id', $adminId)
             ->where('type', 'term')
             ->get();
-
-        // Custom Fields dummy data or fetch if real logic exists
         $customFields = [];
 
 
-        // Fetch Column Settings
+
         $columns = \App\Models\InvoiceColumn::orderBy('id')->where('user_id', $adminId)->get();
 
         $allColumns = \App\Models\InvoiceColumn::where('user_id', $adminId)
@@ -709,5 +709,4 @@ $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('fina
 
         return view('Sales.Invoices.invoice-one-a', compact('invoice', 'business', 'bank', 'customer'));
     }
-    
 }

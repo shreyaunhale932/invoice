@@ -20,6 +20,8 @@ class SellInvoice extends Model
         'cgst_amount',
         'sgst_percent',
         'sgst_amount',
+        'igst_percent',
+        'igst_amount',
 
         // Metal totals
         'gold_total_amount',
@@ -30,6 +32,8 @@ class SellInvoice extends Model
         'making_charge',
         'other_charge',
         'other_tax_amount',
+        'taxable_amount',
+        'remaininng_amount',
 
         // Totals
         'total_amount_non_tax',
@@ -74,6 +78,8 @@ class SellInvoice extends Model
 
         'discount_percent'     => 'float',
         'discount_amount'      => 'float',
+        'taxable_amount' => 'float',
+        'remaining_amount' => 'float',
 
         'cash_received'        => 'float',
         'online_received'      => 'float',
@@ -118,7 +124,7 @@ class SellInvoice extends Model
             $invoice->invoice_no = 'INV-' . str_pad($number, 4, '0', STR_PAD_LEFT);
         });
     }
-     public function customer()
+    public function customer()
     {
         return $this->belongsTo(Customer::class, 'user_id');
     }

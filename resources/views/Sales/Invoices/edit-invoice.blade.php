@@ -258,12 +258,12 @@
                                                     style="pointer-events: none; background-color: #e9ecef;"></td>
                                             <td><input type="number" step="0.01" name="making_price[]"
                                                     class="form-control"></td>
-                                           <input type="hidden" step="0.01" name="gst_percent[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                            <input type="hidden" step="0.01" name="gst_percent[]"
+                                                class="form-control"
+                                                style="pointer-events: none; background-color: #e9ecef;">
                                             <input type="hidden" step="0.01" name="gst_amount[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                class="form-control"
+                                                style="pointer-events: none; background-color: #e9ecef;">
                                             <td>
                                                 <input type="number" step="0.01" name="total_amount[]"
                                                     class="form-control"
@@ -322,7 +322,9 @@
                                             <th>Net Wt</th>
                                             <th>Metal Rate</th>
                                             <th>Making</th>
-                                            <th>GST</th>
+                                            {{-- <th>GST</th> --}}
+                                            <th>Diamond Amt</th> <!-- NEW -->
+                                            <th>Stone Amt</th>
                                             <th>Final Amt</th>
                                             <th>Action</th>
                                         </tr>
@@ -336,7 +338,7 @@
                                                 <td>{{ $item->net_weight }}</td>
                                                 <td>{{ $item->metal_rate }}</td>
                                                 <td>{{ $item->making }}</td>
-                                                <td>{{ $item->gst }}</td>
+                                                {{-- <td>{{ $item->gst }}</td> --}}
                                                 <td>{{ $item->final_amount }}</td>
                                                 <td>
                                                     <button type="button" class="btn btn-danger"
@@ -366,7 +368,7 @@
                             <button class="btn btn-outline-primary" id="addInfoBtn">+ Add Additional Info</button> --}}
                                 <div class="form-group-item border-0 p-0">
                                     <div class="row">
-                                       
+
 
 
                                         <div class="col-xl-6 col-lg-12">
@@ -383,6 +385,8 @@
                                                         <p>
                                                             Taxable Amount
                                                             <span id="taxableAmount">₹0.00</span>
+                                                            <input type="hidden" id="taxableAmountInput" value="0">
+
                                                         </p>
 
                                                         <!-- CGST -->
@@ -416,16 +420,35 @@
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>Discount %</label>
                                                             <input type="number" id="discountPercent"
-                                                                class="form-control w-25" value="{{ $invoice->discount_percent ?? 0 }}">
+                                                                class="form-control w-25"
+                                                                value="{{ $invoice->discount_percent ?? 0 }}">
                                                             <span id="discountAmount">₹0.00</span>
                                                         </div>
 
                                                         <hr>
-                                                         <h4>
+                                                        <h4>
                                                             Total Amount
                                                             <span id="totalInvoiceAmount">₹0.00</span>
                                                         </h4>
 
+
+
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-12">
+                                            <div class="form-group-bank">
+
+                                                <!-- hidden states -->
+                                                <input type="hidden" id="businessState" value="{{ $business->state }}">
+                                                <input type="hidden" id="customerState" value="">
+
+                                                <div class="invoice-total-box">
+                                                    <div class="invoice-total-inner">
                                                         <!-- Payments -->
                                                         <div class="d-flex justify-content-between">
                                                             <label>Cash Received</label>
@@ -456,6 +479,7 @@
                                                         </div>
 
                                                     </div>
+                                                    <hr>
 
                                                     <!-- Footer -->
                                                     <div class="invoice-total-footer">
@@ -463,6 +487,7 @@
                                                         <h5 class="text-danger">
                                                             Remaining Amount
                                                             <span id="remainingAmount">₹0.00</span>
+                                                            <input type="hidden" id="remainingamountInput" value="0">
                                                         </h5>
                                                     </div>
                                                 </div>
@@ -1145,7 +1170,7 @@
         // ---------------------------------------------------------
         // ADD / UPDATE ITEM
         // ---------------------------------------------------------
-         function showError(message) {
+        function showError(message) {
             alert(message);
             return false;
         }
@@ -1156,7 +1181,7 @@
         document.getElementById('addItemBtn').addEventListener('click', function(e) {
             e.preventDefault();
 
-             const entryRow = document.querySelector('#entryTable tbody tr');
+            const entryRow = document.querySelector('#entryTable tbody tr');
 
             const invoiceNo = document.querySelector('input[name="invoice_no"]').value;
             const invoiceDate = document.querySelector('input[name="invoice_date"]').value;
@@ -1180,7 +1205,7 @@
                 alert('Please select a customer first');
                 return;
             }
-             if (isEmpty(invoiceNo)) {
+            if (isEmpty(invoiceNo)) {
                 return showError('Invoice number is required');
             }
 
@@ -1436,6 +1461,21 @@
             const tbody = $('#itemsTable tbody');
             tbody.empty();
             items.forEach(function(item) {
+                // 🔹 Calculate Diamond Total
+                let diamondTotal = 0;
+                if (Array.isArray(item.diamonds)) {
+                    item.diamonds.forEach(d => {
+                        diamondTotal += parseFloat(d.diamond_final_price || 0);
+                    });
+                }
+
+                // 🔹 Calculate Stone Total
+                let stoneTotal = 0;
+                if (Array.isArray(item.stones)) {
+                    item.stones.forEach(s => {
+                        stoneTotal += parseFloat(s.stone_final_price || 0);
+                    });
+                }
                 const tr = `
                     <tr>
                         <td>${item.item_name || ''}
@@ -1447,8 +1487,9 @@
                         <td>${item.net_weight || 0}</td>
                         <td>${item.metal_rate || 0}</td>
                         <td>${item.making_price || 0}</td>
-                        <td>${item.gst_amount || 0}</td>
-                        <td>${item.final_price || 0}</td>
+                        <td>₹${diamondTotal.toFixed(2)}</td>
+                <td>₹${stoneTotal.toFixed(2)}</td>
+                         <td>₹${parseFloat(item.final_price || 0).toFixed(2)}</td>
                         <td>
                             <button type="button" class="btn btn-warning btn-sm" onclick="editItem(${item.id})">Edit</button>
                             <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${item.id}">X</button>
@@ -1475,6 +1516,8 @@
                 customer_id: document.querySelector('#customerDropdown').value,
                 invoice_date: document.querySelector('input[name="invoice_date"]').value || '',
                 due_date: document.querySelector('input[name="due_date"]').value || '',
+                taxable_amount: document.getElementById('taxableAmountInput').value,
+                // remaining_amount: document.getElementById('remainingamountInput').value,
 
                 discount_percent: document.getElementById('discountPercent').value || 0,
                 cgst_percent: document.getElementById('cgstPercent').value || 0,
@@ -1663,6 +1706,9 @@
             });
 
             setBoxText('taxableAmount', taxableAmount);
+            document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
+            // document.getElementById('remainingamountInput').value = remainingAmount.toFixed(2);
+
 
             // --- 2. Discount ---
             // Rule: discountAmount = taxable * discountPercent / 100

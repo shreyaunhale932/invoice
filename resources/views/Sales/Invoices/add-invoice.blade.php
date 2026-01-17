@@ -364,6 +364,8 @@
                                                         <p>
                                                             Taxable Amount
                                                             <span id="taxableAmount">₹0.00</span>
+                                                            <input type="hidden" id="taxableAmountInput" value="0">
+
                                                         </p>
 
                                                         <!-- CGST -->
@@ -397,11 +399,28 @@
                                                                 class="form-control w-25" value="0">
                                                             <span id="discountAmount">₹0.00</span>
                                                         </div>
+                                                        <hr>
                                                         <h4>
                                                             Total Amount
                                                             <span id="totalInvoiceAmount">₹0.00</span>
                                                         </h4>
-                                                        <hr>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-12">
+                                            <div class="form-group-bank">
+
+                                                <!-- hidden states -->
+                                                <input type="hidden" id="businessState" value="{{ $business->state }}">
+                                                <input type="hidden" id="customerState" value="">
+
+                                                <div class="invoice-total-box">
+                                                    <div class="invoice-total-inner">
+
 
                                                         <!-- Payments -->
                                                         <div class="d-flex justify-content-between">
@@ -429,6 +448,7 @@
                                                         </div>
 
                                                     </div>
+                                                    <hr>
 
                                                     <!-- Footer -->
                                                     <div class="invoice-total-footer">
@@ -436,6 +456,9 @@
                                                         <h5 class="text-danger">
                                                             Remaining Amount
                                                             <span id="remainingAmount">₹0.00</span>
+                                                            <input type="hidden" id="remainingamountInput"
+                                                                value="0">
+
                                                         </h5>
                                                     </div>
                                                 </div>
@@ -457,96 +480,7 @@
         </div>
     </div>
     <!-- Edit Columns Modal ---->
-    <!-- Edit Columns Modal ---->
-    <div class="modal fade" id="editColumnsModal" tabindex="-1" aria-labelledby="editColumnsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <form id="edit-columns-form">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editColumnsLabel">Edit Columns</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
 
-                    <div class="modal-body">
-                        <table class="table table-bordered" id="columns-edit-table">
-                            <thead>
-                                <tr>
-                                    <th>Column Name</th>
-                                    <th>Type</th>
-                                    <th>Visible</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($visibleColumns as $column)
-                                    <tr data-id="{{ $column['key'] }}" data-is-custom="{{ $column['is_custom'] }}">
-
-                                        <td>
-
-                                            <input type="hidden" name="columns[{{ $column['key'] }}][key]"
-                                                value="{{ $column['key'] }}">
-                                            <input type="hidden" name="columns[{{ $column['key'] }}][type]"
-                                                value="{{ $column['type'] }}">
-                                            <input type="text" name="columns[{{ $column['key'] }}][name]"
-                                                value="{{ $column['name'] }}">
-
-                                        </td>
-
-                                        <td>
-                                            @if ($column['is_custom'])
-                                                <select class="form-select column-type-select"
-                                                    name="columns[{{ $column['key'] }}][type]">
-                                                    <option value="text"
-                                                        {{ $column['type'] == 'text' ? 'selected' : '' }}>Text</option>
-                                                    <option value="number"
-                                                        {{ $column['type'] == 'number' ? 'selected' : '' }}>Number</option>
-                                                    <!-- <option value="formula" {{ $column['type'] == 'formula' ? 'selected' : '' }}>Formula</option> -->
-                                                </select>
-                                            @else
-                                                <input type="hidden" name="columns[{{ $column['key'] }}][type]"
-                                                    value="{{ $column['type'] }}">
-                                                <span class="text-muted">{{ ucfirst($column['type']) }}</span>
-                                            @endif
-                                        </td>
-                                        <td class="formula-field-td"
-                                            style="{{ $column['type'] === 'formula' ? '' : 'display:none;' }}">
-                                            <input type="text" class="form-control formula-input"
-                                                name="columns[{{ $column['key'] }}][formula]"
-                                                placeholder="e.g., qty * rate - discount"
-                                                value="{{ $column['formula'] ?? '' }}">
-                                        </td>
-                                        <td class="text-center">
-
-                                            <input type="checkbox" name="columns[{{ $column['key'] }}][is_visible]"
-                                                {{ $column['is_visible'] ? 'checked' : '' }}>
-
-                                        </td>
-
-
-                                        <td class="text-center">
-                                            @if ($column['is_custom'])
-                                                <button type="button"
-                                                    class="btn btn-danger btn-sm remove-column">Delete</button>
-                                            @else
-                                                <span class="badge bg-secondary">System</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                        <button type="button" class="btn btn-success btn-sm mt-2" id="add-column-btn">+ Add
-                            Column</button>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button id="updateColumnsBtn" type="button" class="btn btn-primary">Save Changes</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 
 
     <!-- GST Configuration Modal -->
@@ -1482,6 +1416,7 @@
             $('#discountPercent').val(invoice.discount_percent);
             $('#cgstPercent').val(invoice.cgst_percent);
             $('#sgstPercent').val(invoice.sgst_percent);
+             $('#igstPercent').val(invoice.igst_percent);
             // Payments
             $('#cashReceived').val(invoice.cash_received);
             $('#bankReceived').val(invoice.bank_received);
@@ -1515,29 +1450,29 @@
             });
         }
 
-       function renderItemsTable(items) {
-    const tbody = $('#itemsTable tbody');
-    tbody.empty();
+        function renderItemsTable(items) {
+            const tbody = $('#itemsTable tbody');
+            tbody.empty();
 
-    items.forEach(function(item) {
+            items.forEach(function(item) {
 
-        // 🔹 Calculate Diamond Total
-        let diamondTotal = 0;
-        if (Array.isArray(item.diamonds)) {
-            item.diamonds.forEach(d => {
-                diamondTotal += parseFloat(d.diamond_final_price || 0);
-            });
-        }
+                // 🔹 Calculate Diamond Total
+                let diamondTotal = 0;
+                if (Array.isArray(item.diamonds)) {
+                    item.diamonds.forEach(d => {
+                        diamondTotal += parseFloat(d.diamond_final_price || 0);
+                    });
+                }
 
-        // 🔹 Calculate Stone Total
-        let stoneTotal = 0;
-        if (Array.isArray(item.stones)) {
-            item.stones.forEach(s => {
-                stoneTotal += parseFloat(s.stone_final_price || 0);
-            });
-        }
+                // 🔹 Calculate Stone Total
+                let stoneTotal = 0;
+                if (Array.isArray(item.stones)) {
+                    item.stones.forEach(s => {
+                        stoneTotal += parseFloat(s.stone_final_price || 0);
+                    });
+                }
 
-        const tr = `
+                const tr = `
             <tr>
                 <td>
                     ${item.item_name || ''}
@@ -1572,9 +1507,9 @@
                 </td>
             </tr>
         `;
-        tbody.append(tr);
-    });
-}
+                tbody.append(tr);
+            });
+        }
 
         // ---------------------------------------------------------
         // FINALIZE INVOICE
@@ -1591,6 +1526,9 @@
                 customer_id: document.querySelector('#customerDropdown').value,
                 invoice_date: document.querySelector('input[name="invoice_date"]').value || date('Y-m-d'),
                 due_date: document.querySelector('input[name="due_date"]').value || date('Y-m-d'),
+                taxable_amount: document.getElementById('taxableAmountInput').value,
+                // remaining_amount: document.getElementById('remainingamountInput').value,
+
 
                 discount_percent: document.getElementById('discountPercent').value || 0,
                 cgst_percent: document.getElementById('cgstPercent').value || 0,
@@ -1779,6 +1717,9 @@
             });
 
             setBoxText('taxableAmount', taxableAmount);
+            document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
+            // document.getElementById('remainingamountInput').value = remainingAmount.toFixed(2);
+
 
             // --- 2. Discount ---
             // Rule: discountAmount = taxable * discountPercent / 100
