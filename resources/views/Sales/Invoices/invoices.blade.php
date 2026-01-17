@@ -13,6 +13,16 @@
             @endcomponent
             <!-- /Page Header -->
 
+            <!-- Template Editor Link -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <a href="{{ route('invoice.template.index') }}" class="btn btn-outline-primary">
+                        <i class="fe fe-settings me-2"></i>Edit Invoice Template
+                    </a>
+                </div>
+            </div>
+            <!-- /Template Editor Link -->
+
             <!-- Search Filter -->
             @component('components.search-filter')
             @endcomponent

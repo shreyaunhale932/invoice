@@ -399,7 +399,30 @@ Route::get('/sell-invoice/view/{id}',
     [SellInvoiceController::class, 'show']
 )->name('sell.invoice.view');
 
+// Invoice Template Routes
+Route::get('/invoice-template/editor', 
+    [App\Http\Controllers\InvoiceTemplateController::class, 'index']
+)->name('invoice.template.index');
 
+Route::post('/invoice-template/update', 
+    [App\Http\Controllers\InvoiceTemplateController::class, 'update']
+)->name('invoice.template.update');
+
+Route::post('/invoice-template/reset', 
+    [App\Http\Controllers\InvoiceTemplateController::class, 'reset']
+)->name('invoice.template.reset');
+
+Route::post('/invoice-template/blocks/store', 
+    [App\Http\Controllers\InvoiceTemplateController::class, 'storeBlock']
+)->name('invoice.template.block.store');
+
+Route::post('/invoice-template/blocks/{id}/update', 
+    [App\Http\Controllers\InvoiceTemplateController::class, 'updateBlock']
+)->name('invoice.template.block.update');
+
+Route::delete('/invoice-template/blocks/{id}/delete', 
+    [App\Http\Controllers\InvoiceTemplateController::class, 'deleteBlock']
+)->name('invoice.template.block.delete');
 
 Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');
 Route::get('/product-list', [HomeController::class, 'productlist'])->name('product-list');

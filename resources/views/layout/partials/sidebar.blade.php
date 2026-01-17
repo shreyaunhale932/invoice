@@ -200,8 +200,8 @@
                                     href="{{ url('invoice-details-admin') }}">Invoice Details (Admin)</a></li>
                             <li><a class="{{ Request::is('invoice-details') ? 'active' : '' }}"
                                     href="{{ url('invoice-details') }}">Invoice Details (Customer)</a></li>
-                            <li><a class="{{ Request::is('invoice-template') ? 'active' : '' }}"
-                                    href="{{ url('invoice-template') }}">Invoice Templates</a></li>
+                            <li><a class="{{ Route::is('invoice.template.index') ? 'active' : '' }}"
+                                    href="{{ route('invoice.template.index') }}">Invoice Templates</a></li>
                         </ul>
                     </li>
                     <!-- <li>
