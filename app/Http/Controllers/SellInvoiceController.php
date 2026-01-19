@@ -92,7 +92,7 @@ class SellInvoiceController extends Controller
                         ]);
                     }
                 }
-                $invoice->update([
+                $item->update([
                     'diamond_amount' => $diamondCharges,
                 ]);
 
@@ -122,11 +122,14 @@ class SellInvoiceController extends Controller
                         ]);
                     }
                 }
+                $item->update([
+                    'stone_amount' => $stoneCharges,
+                ]);
                 $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
 
                 SellInvoice::where('id', $invoiceId)->update([
                     'final_amount' => $invoiceTotal,
-                    'stone_amount' => $stoneCharges,
+                    
                 ]);
                 DB::commit();
 
@@ -230,7 +233,7 @@ class SellInvoiceController extends Controller
                         ]);
                     }
                 }
-                $invoice->update([
+                $item->update([
                     'diamond_amount' => $diamondAmount,
                 ]);
 
@@ -260,7 +263,7 @@ class SellInvoiceController extends Controller
                         ]);
                     }
                 }
-                $invoice->update([
+                $item->update([
                     'stone_amount' => $stoneAmount,
                 ]);
 
