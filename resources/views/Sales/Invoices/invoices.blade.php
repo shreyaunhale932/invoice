@@ -78,10 +78,7 @@
 
                                                 <td>
                                                     <h2 class="table-avatar">
-                                                        <a href="{{ url('profile') }}" class="avatar avatar-sm me-2">
-                                                            <img class="avatar-img rounded-circle"
-                                                                src="{{ asset('public/assets/img/profiles/default.jpg') }}">
-                                                        </a>
+
                                                         <a href="#">
                                                             {{ $invoice->customer->name ?? 'N/A' }}
                                                             <span>{{ $invoice->customer->phone ?? 'N/A' }}</span>
@@ -96,11 +93,14 @@
                                                 <td>{{ $invoice->invoice_due_date }}</td>
 
                                                 <td>
-                                                    <span
-                                                        class="badge bg-{{ $invoice->status == 'Paid' ? 'success' : 'warning' }}">
+                                                    <span class="badge
+                                                    @if ($invoice->status === 'paid') bg-success
+                                                    @elseif($invoice->status === 'pending') bg-warning
+                                                    @else bg-danger @endif">
                                                         {{ ucfirst($invoice->status) }}
                                                     </span>
                                                 </td>
+
 
                                                 <td class="text-end">
                                                     <div class="dropdown dropdown-action">
@@ -108,15 +108,18 @@
                                                             <i class="fas fa-ellipsis-v"></i>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="{{ route('sell.invoice.edit', $invoice->id) }}">
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('sell.invoice.edit', $invoice->id) }}">
                                                                 <i class="far fa-edit me-2"></i>Edit
                                                             </a>
-                                                            <a class="dropdown-item" href="{{ route('sell.invoice.view', $invoice->id) }}" target="_blank">
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('sell.invoice.view', $invoice->id) }}"
+                                                                target="_blank">
                                                                 <i class="far fa-eye me-2"></i>View
                                                             </a>
-                                                            <a class="dropdown-item text-danger" href="#" 
-                                                               onclick="if(confirm('Are you sure?')) { 
-                                                                    event.preventDefault(); 
+                                                            <a class="dropdown-item text-danger" href="#"
+                                                                onclick="if(confirm('Are you sure?')) {
+                                                                    event.preventDefault();
                                                                     fetch('{{ route('sell.invoice.destroy', $invoice->id) }}', {
                                                                         method: 'DELETE',
                                                                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
