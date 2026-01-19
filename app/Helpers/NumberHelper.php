@@ -10,15 +10,16 @@ class NumberHelper
             return '';
         }
 
-        $amount = round($amount, 2)/100;
+        // Force integer (no decimals)
+        $number = (int) round(abs($amount));
 
-        $number = floor($amount);
-        $decimal = round(($amount - $number) * 100);
+        if ($number === 0) {
+            return 'Zero Rupees Only';
+        }
 
         $words = [
-            0 => '',
-            1 => 'One', 2 => 'Two', 3 => 'Three', 4 => 'Four', 5 => 'Five',
-            6 => 'Six', 7 => 'Seven', 8 => 'Eight', 9 => 'Nine',
+            0 => '', 1 => 'One', 2 => 'Two', 3 => 'Three', 4 => 'Four',
+            5 => 'Five', 6 => 'Six', 7 => 'Seven', 8 => 'Eight', 9 => 'Nine',
             10 => 'Ten', 11 => 'Eleven', 12 => 'Twelve', 13 => 'Thirteen',
             14 => 'Fourteen', 15 => 'Fifteen', 16 => 'Sixteen',
             17 => 'Seventeen', 18 => 'Eighteen', 19 => 'Nineteen',
@@ -32,36 +33,48 @@ class NumberHelper
         $result = '';
         $i = 0;
 
-        while ($number > 0) {
-            $divider = ($i == 1) ? 10 : 100;
-            $part = $number % $divider;
-            $number = intdiv($number, $divider);
+        // First group: 3 digits
+        $part = $number % 1000;
+        $number = intdiv($number, 1000);
+
+        if ($part > 0) {
+            $result = self::twoDigitWords($part, $words) . ' ' . $units[$i];
+        }
+
+        $i++;
+
+        // Remaining groups: 2 digits
+        while ($number > 0 && $i < count($units)) {
+            $part = $number % 100;
+            $number = intdiv($number, 100);
 
             if ($part > 0) {
-                $text = '';
-
-                if ($part < 21) {
-                    $text = $words[$part];
-                } else {
-                    $text = $words[intdiv($part, 10) * 10] . ' ' . $words[$part % 10];
-                }
-
-                $result = $text . ' ' . $units[$i] . ' ' . $result;
+                $result = self::twoDigitWords($part, $words) . ' ' . $units[$i] . ' ' . $result;
             }
 
             $i++;
         }
 
-        $rupees = trim($result) ?: 'Zero';
+        return trim($result) . ' Rupees Only';
+    }
 
-        if ($decimal > 0) {
-            $paise = $decimal < 21
-                ? $words[$decimal]
-                : $words[intdiv($decimal, 10) * 10] . ' ' . $words[$decimal % 10];
+    private static function twoDigitWords($num, $words)
+    {
+        $text = '';
 
-            return "{$rupees} Rupees And {$paise} Paise";
+        if ($num >= 100) {
+            $text .= $words[intdiv($num, 100)] . ' Hundred ';
+            $num %= 100;
         }
 
-        return "{$rupees} Rupees Only";
+        if ($num > 0) {
+            if ($num < 21) {
+                $text .= $words[$num];
+            } else {
+                $text .= $words[intdiv($num, 10) * 10] . ' ' . $words[$num % 10];
+            }
+        }
+
+        return trim($text);
     }
 }
