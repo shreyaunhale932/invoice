@@ -188,7 +188,18 @@
     tr {
         page-break-inside: avoid;
     }
-
+    .invoice-one .invoice-table table tr td {
+        height: 30px !important;
+    }
+    .invoice-one .invoice-table {
+    margin: 0 !important;
+    padding: 0 0 0px !important;
+}
+.invoice-one .inv-content {
+    border: 1px solid #BDBDBD;
+    margin: 0 !important;
+    padding: 10px !important;
+}
     /* -----------------------------
        TOTALS / PAYMENT BLOCKS
        ----------------------------- */
@@ -509,6 +520,8 @@
                     'gst_percent'   => $templateSettings['item_table.column_gst_percent']->label ?? 'GST %',
                     'gst_amount'    => $templateSettings['item_table.column_gst_amount']->label ?? 'GST Amount',
                     'other_charges' => $templateSettings['item_table.column_other_charges']->label ?? 'Other Charges',
+                    'diamond_amount' => $templateSettings['item_table.column_diamond_amount']->label ?? 'Diamond Amount',
+                    'stone_amount' => $templateSettings['item_table.column_stone_amount']->label ?? 'Stone Amount',
                     'amount'        => $templateSettings['item_table.column_amount']->label ?? 'Amount',
                 ];
                 
@@ -533,6 +546,8 @@
                     'gst_percent'   => $templateSettings['item_table.column_gst_percent']->is_visible ?? false,
                     'gst_amount'    => $templateSettings['item_table.column_gst_amount']->is_visible ?? false,
                     'other_charges' => $templateSettings['item_table.column_other_charges']->is_visible ?? true,
+                    'diamond_amount' => $templateSettings['item_table.column_diamond_amount']->is_visible ?? true,
+                    'stone_amount' => $templateSettings['item_table.column_stone_amount']->is_visible ?? true,
                     'amount'        => $templateSettings['item_table.column_amount']->is_visible ?? true,
                 ];
                 @endphp
@@ -562,6 +577,8 @@
                                     @if($columnVisibility['gst_percent'])<th>{{ $columnLabels['gst_percent'] }}</th>@endif
                                     @if($columnVisibility['gst_amount'])<th>{{ $columnLabels['gst_amount'] }}</th>@endif
                                     @if($columnVisibility['other_charges'])<th>{{ $columnLabels['other_charges'] }}</th>@endif
+                                    @if($columnVisibility['diamond_amount'])<th>{{ $columnLabels['diamond_amount'] }}</th>@endif
+                                    @if($columnVisibility['stone_amount'])<th>{{ $columnLabels['stone_amount'] }}</th>@endif
                                     @if($columnVisibility['amount'])<th class="text-end">{{ $columnLabels['amount'] }}</th>@endif
                                 </tr>
                             </thead>
@@ -589,6 +606,8 @@
                                     @if($columnVisibility['gst_percent'])<td>{{ $item->gst_percent }}%</td>@endif
                                     @if($columnVisibility['gst_amount'])<td>{{ number_format($item->gst_amount ?? 0,2) }}</td>@endif
                                     @if($columnVisibility['other_charges'])<td>{{ number_format($item->other_charges ?? 0,2) }}</td>@endif
+                                    @if($columnVisibility['diamond_amount'])<td>{{ number_format($item->diamond_amount ?? 0,2) }}</td>@endif
+                                    @if($columnVisibility['stone_amount'])<td>{{ number_format($item->stone_amount ?? 0,2) }}</td>@endif
                                     @if($columnVisibility['amount'])<td class="text-end">{{ number_format($item->final_price ?? 0,2) }}</td>@endif
                                 </tr>
                                 @endforeach
@@ -868,7 +887,7 @@
  
 
                 <div class="total-amountdetails">
-                    <p>Total amount ( in words): <span> {{ NumberHelper::convertToWords(abs($finalAmount)) }}.</span></p>
+                    <p>Total amount ( in words): <span> {{ NumberHelper::convertToWords((int) round(abs($finalAmount))) }}.</span></p>
                 </div>
                 @php
 /* ===============================

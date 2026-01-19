@@ -41,6 +41,7 @@ class Product extends Model
         'quantity',
         'size',
         'final_price',
+        'availability',
     ];
 
     // One product has many diamonds

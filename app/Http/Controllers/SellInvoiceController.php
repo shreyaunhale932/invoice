@@ -8,6 +8,8 @@ use App\Models\SellInvoiceItem;
 use App\Models\SellDiamondItem;
 use App\Models\SellStoneItem;
 use App\Models\SellInvoice;
+use App\Models\InventoryTransaction;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -59,6 +61,7 @@ class SellInvoiceController extends Controller
                 ]);
 
                 // Diamonds
+                $diamondCharges = 0;
                 if ($request->filled('diamonds') && is_array($request->diamonds)) {
                     foreach ($request->diamonds as $d) {
 
@@ -74,7 +77,7 @@ class SellInvoiceController extends Controller
                         ) {
                             continue;
                         }
-
+                        $diamondCharges += $d['diamond_final_price'];
                         SellDiamondItem::create([
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
@@ -89,8 +92,11 @@ class SellInvoiceController extends Controller
                         ]);
                     }
                 }
+                $invoice->update([
+                    'diamond_amount' => $diamondCharges,
+                ]);
 
-
+                $stoneCharges = 0;
                 // Stones
                 if ($request->filled('stones') && is_array($request->stones)) {
                     foreach ($request->stones as $s) {
@@ -104,7 +110,7 @@ class SellInvoiceController extends Controller
                         ) {
                             continue;
                         }
-
+                        $stoneCharges += $s['stone_final_price'];
                         SellStoneItem::create([
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
@@ -119,7 +125,8 @@ class SellInvoiceController extends Controller
                 $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
 
                 SellInvoice::where('id', $invoiceId)->update([
-                    'final_amount' => $invoiceTotal
+                    'final_amount' => $invoiceTotal,
+                    'stone_amount' => $stoneCharges,
                 ]);
                 DB::commit();
 
@@ -192,6 +199,7 @@ class SellInvoiceController extends Controller
                 ]);
 
                 // Diamonds
+                $diamondAmount = 0;
                 if ($request->filled('diamonds') && is_array($request->diamonds)) {
                     foreach ($request->diamonds as $d) {
 
@@ -207,7 +215,7 @@ class SellInvoiceController extends Controller
                         ) {
                             continue;
                         }
-
+                        $diamondAmount += $d['diamond_final_price'];
                         SellDiamondItem::create([
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
@@ -222,9 +230,12 @@ class SellInvoiceController extends Controller
                         ]);
                     }
                 }
-
+                $invoice->update([
+                    'diamond_amount' => $diamondAmount,
+                ]);
 
                 // Stones
+                $stoneAmount = 0;
                 if ($request->filled('stones') && is_array($request->stones)) {
                     foreach ($request->stones as $s) {
 
@@ -249,7 +260,9 @@ class SellInvoiceController extends Controller
                         ]);
                     }
                 }
-
+                $invoice->update([
+                    'stone_amount' => $stoneAmount,
+                ]);
 
                 // Recalculate invoice total AFTER everything is saved
                 $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
@@ -303,11 +316,22 @@ class SellInvoiceController extends Controller
             $itemId = $request->item_id;
             $item = SellInvoiceItem::findOrFail($itemId);
 
-            // Delete associated diamonds/stones if any (cascading usually handled by DB, but safe to do here if needed)
-            // SellDiamondItem::where('sell_invoice_item_id', $itemId)->delete();
-            // SellStoneItem::where('sell_invoice_item_id', $itemId)->delete();
-
             $invoiceId = $item->sell_invoice_id;
+
+            // Stock In reversal logic
+            if ($item->product_id) {
+                $product = Product::find($item->product_id);
+                if ($product) {
+                    // Update availability back to available
+                    $product->update(['availability' => 'available']);
+
+                    // Delete the OUT inventory transaction associated with this item
+                    InventoryTransaction::where('sell_invoice_item_id', $item->id)
+                        ->where('type', 'OUT')
+                        ->delete();
+                }
+            }
+
             $item->delete();
 
             // Recalculate invoice total
@@ -365,7 +389,9 @@ class SellInvoiceController extends Controller
 
             // Re-create Diamonds (Delete old, add new)
             SellDiamondItem::where('sell_invoice_item_id', $item->id)->delete();
+            $diamondAmount = 0;
             foreach ($request->diamonds ?? [] as $d) {
+                $diamondAmount += $d['diamond_final_price'];
                 SellDiamondItem::create([
                     'admin_id' => Auth::id(),
                     'sell_invoice_id' => $item->sell_invoice_id,
@@ -379,10 +405,15 @@ class SellInvoiceController extends Controller
                     'diamond_final_price' => $d['diamond_final_price'],
                 ]);
             }
+            $item->update([
+                'diamond_amount' => $diamondAmount,
+            ]);
 
             // Re-create Stones
             SellStoneItem::where('sell_invoice_item_id', $item->id)->delete();
+            $stoneAmount = 0;
             foreach ($request->stones ?? [] as $s) {
+                $stoneAmount += $s['stone_final_price'];
                 SellStoneItem::create([
                     'admin_id' => Auth::id(),
                     'sell_invoice_id' => $item->sell_invoice_id,
@@ -393,6 +424,9 @@ class SellInvoiceController extends Controller
                     'stone_final_price' => $s['stone_final_price'],
                 ]);
             }
+            $item->update([
+                'stone_amount' => $stoneAmount,
+            ]);
 
             // Recalculate invoice total
             $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $item->sell_invoice_id)->sum('final_price');
@@ -505,6 +539,33 @@ class SellInvoiceController extends Controller
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
             ]);
 
+            // Stock Out Logic
+            foreach ($invoice->items as $item) {
+                if ($item->product_id) {
+                    $product = Product::find($item->product_id);
+                    if ($product && $product->availability !== 'sold') {
+                        // Mark as sold
+                        $product->update(['availability' => 'sold']);
+
+                        // Create Inventory Transaction (OUT)
+                        InventoryTransaction::create([
+                            'type' => 'OUT',
+                            'product_id' => $product->id,
+                            'item_product_data_id' => $product->item_product_data_id,
+                            'quantity' => $item->quantity ?? 1,
+                            'gross_weight' => $item->gross_weight,
+                            'net_weight' => $item->net_weight,
+                            'size' => $item->size,
+                            'unit' => 'GM', // Default unit
+                            'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoice->id,
+                            'sell_invoice_item_id' => $item->id,
+                        ]);
+                    }
+                }
+            }
+
             DB::commit();
 
             return response()->json([
@@ -526,8 +587,19 @@ class SellInvoiceController extends Controller
             $invoice = SellInvoice::findOrFail($id);
 
             // Delete items (Cascading should ideally handle this, but manual is safer)
-            SellInvoiceItem::where('sell_invoice_id', $id)->delete();
-            // Diamonds/Stones linked to items should be deleted via cascade or loop if not set up in DB
+            $items = SellInvoiceItem::where('sell_invoice_id', $id)->get();
+            foreach ($items as $item) {
+                if ($item->product_id) {
+                    $product = Product::find($item->product_id);
+                    if ($product) {
+                        $product->update(['availability' => 'available']);
+                        InventoryTransaction::where('sell_invoice_item_id', $item->id)
+                            ->where('type', 'OUT')
+                            ->delete();
+                    }
+                }
+                $item->delete();
+            }
 
             $invoice->delete();
 
@@ -641,6 +713,33 @@ class SellInvoiceController extends Controller
                 'amount_left'    => $amountLeft,
                 'status'         => $status,
             ]);
+
+            // Stock Out Logic
+            foreach ($invoice->items as $item) {
+                if ($item->product_id) {
+                    $product = Product::find($item->product_id);
+                    if ($product && $product->availability !== 'sold') {
+                        // Mark as sold
+                        $product->update(['availability' => 'sold']);
+
+                        // Create Inventory Transaction (OUT)
+                        InventoryTransaction::create([
+                            'type' => 'OUT',
+                            'product_id' => $product->id,
+                            'item_product_data_id' => $product->item_product_data_id,
+                            'quantity' => $item->quantity ?? 1,
+                            'gross_weight' => $item->gross_weight,
+                            'net_weight' => $item->net_weight,
+                            'size' => $item->size,
+                            'unit' => 'GM', // Default unit
+                            'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoice->id,
+                            'sell_invoice_item_id' => $item->id,
+                        ]);
+                    }
+                }
+            }
     
             DB::commit();
     
@@ -666,7 +765,7 @@ class SellInvoiceController extends Controller
 
         $banks = \App\Models\bankdetails::where('user_id', $adminId)->get();
         $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
-        $products = \App\Models\Product::all();
+        $products = \App\Models\Product::where('availability', 'available')->get();
 
         $notes = DB::table('invoice_notes_terms')
             ->where('admin_id', $adminId)

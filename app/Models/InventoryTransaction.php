@@ -19,7 +19,9 @@ class InventoryTransaction extends Model
         'quantity',
         'final_fn_weight',
         'net_weight',
-        'size'
+        'size',
+        'sell_invoice_id',
+        'sell_invoice_item_id'
     ];
 
     public function product()

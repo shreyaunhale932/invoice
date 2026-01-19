@@ -45,6 +45,7 @@
 
                                                 <th>Selling Price</th>
                                                 <th>Purchase Price</th>
+                                                <th>Availability</th>
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
@@ -68,6 +69,13 @@
 
                                                     <td>{{ $product['sale_price'] }}</td>
                                                     <td>{{ $product['gold_price'] }}</td>
+                                                    <td>
+                                                        @if(($product->availability ?? 'available') == 'available')
+                                                            <span class="badge bg-success">Available</span>
+                                                        @else
+                                                            <span class="badge bg-danger">Sold</span>
+                                                        @endif
+                                                    </td>
                                                     <td class="d-flex align-items-center">
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#" class=" btn-action-icon "

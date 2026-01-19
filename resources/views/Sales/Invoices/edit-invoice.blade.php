@@ -195,122 +195,124 @@
 
 
 
-                                <table class="table table-bordered" id="entryTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Sub Category</th>
-                                            <th>Product Name</th>
-                                            <th>Pre Code</th>
-                                            <th>Post Code</th>
-                                            {{-- <th>Barcode</th> --}}
-                                            {{-- <th>HSN Code</th> --}}
-                                            <th>Metal Rate</th>
-                                            <th>Qty</th>
-                                            <th>GS Wt</th>
-                                            <th>Net Wt</th>
-                                            <th>Size</th>
-                                            <th>Wastage %</th>
-                                            <th>Making Amount</th>
-                                            {{-- <th>GST %</th> --}}
-                                            {{-- <th>GST Amount</th> --}}
-                                            <th>Gold Price</th>
-                                            <th>Final price</th>
-                                        </tr>
-                                    </thead>
+                                <div id="productInfoSection" style="display: none;">
+                                    <table class="table table-bordered" id="entryTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Category</th>
+                                                <th>Sub Category</th>
+                                                <th>Product Name</th>
+                                                <th>Pre Code</th>
+                                                <th>Post Code</th>
+                                                {{-- <th>Barcode</th> --}}
+                                                {{-- <th>HSN Code</th> --}}
+                                                <th>Metal Rate</th>
+                                                <th>Qty</th>
+                                                <th>GS Wt</th>
+                                                <th>Net Wt</th>
+                                                <th>Size</th>
+                                                <th>Wastage %</th>
+                                                <th>Making Amount</th>
+                                                {{-- <th>GST %</th> --}}
+                                                {{-- <th>GST Amount</th> --}}
+                                                <th>Gold Price</th>
+                                                <th>Final price</th>
+                                            </tr>
+                                        </thead>
 
-                                    <tbody>
-                                        <tr>
-                                            <td style="display:none">
-                                                <input type="hidden" name="product_id[]" id="entry_product_id">
-                                            </td>
+                                        <tbody>
+                                            <tr>
+                                                <td style="display:none">
+                                                    <input type="hidden" name="product_id[]" id="entry_product_id">
+                                                </td>
 
-                                            <td><input type="text" name="category[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="text" name="subcategory[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="text" name="product_name[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="text" name="pre_code[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="text" name="post_code[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <input type="hidden" name="barcode[]"
-                                                class="form-control"style="pointer-events: none; background-color: #e9ecef;">
+                                                <td><input type="text" name="category[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="text" name="subcategory[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="text" name="product_name[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="text" name="pre_code[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="text" name="post_code[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <input type="hidden" name="barcode[]"
+                                                    class="form-control"style="pointer-events: none; background-color: #e9ecef;">
 
-                                            <input type="hidden" name="hsn_code[]" class="form-control"
-                                                style="pointer-events: none; background-color: #e9ecef;">
-                                            <td><input type="number" step="0.01" name="metal_rate[]"
-                                                    class="form-control"></td>
-                                            <td><input type="number" name="quantity[]" class="form-control"
-                                                    value="1"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="number" step="0.001" name="gross_weight[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="number" step="0.001" name="net_weight[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="text" name="size[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="number" step="0.01" name="wastage_percent[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;"></td>
-                                            <td><input type="number" step="0.01" name="making_price[]"
-                                                    class="form-control"></td>
-                                            <input type="hidden" step="0.01" name="gst_percent[]"
-                                                class="form-control"
-                                                style="pointer-events: none; background-color: #e9ecef;">
-                                            <input type="hidden" step="0.01" name="gst_amount[]"
-                                                class="form-control"
-                                                style="pointer-events: none; background-color: #e9ecef;">
-                                            <td>
-                                                <input type="number" step="0.01" name="total_amount[]"
+                                                <input type="hidden" name="hsn_code[]" class="form-control"
+                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                <td><input type="number" step="0.01" name="metal_rate[]"
+                                                        class="form-control"></td>
+                                                <td><input type="number" name="quantity[]" class="form-control"
+                                                        value="1"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="number" step="0.001" name="gross_weight[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="number" step="0.001" name="net_weight[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="text" name="size[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="number" step="0.01" name="wastage_percent[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td><input type="number" step="0.01" name="making_price[]"
+                                                        class="form-control"></td>
+                                                <input type="hidden" step="0.01" name="gst_percent[]"
                                                     class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;">
-                                            </td>
-                                            <td>
-                                                <input type="number" step="0.01" name="final_price[]"
+                                                <input type="hidden" step="0.01" name="gst_amount[]"
                                                     class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <h5 class="mt-4">Diamonds</h5>
-                                <table class="table table-bordered" id="diamondTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Clarity</th>
-                                            <th>Cut</th>
-                                            <th>Color</th>
-                                            <th>Pieces</th>
-                                            <th>Diamond Weight (carat)</th>
-                                            <th>Price Per Carat</th>
-                                            <th>Final Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                                                <td>
+                                                    <input type="number" step="0.01" name="total_amount[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <input type="number" step="0.01" name="final_price[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <h5 class="mt-4">Diamonds</h5>
+                                    <table class="table table-bordered" id="diamondTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Clarity</th>
+                                                <th>Cut</th>
+                                                <th>Color</th>
+                                                <th>Pieces</th>
+                                                <th>Diamond Weight (carat)</th>
+                                                <th>Price Per Carat</th>
+                                                <th>Final Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
 
-                                <h5 class="mt-4">Stones</h5>
-                                <table class="table table-bordered" id="stoneTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Stone Name</th>
-                                            <th>Weight</th>
-                                            <th>Rate</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                                    <h5 class="mt-4">Stones</h5>
+                                    <table class="table table-bordered" id="stoneTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Stone Name</th>
+                                                <th>Weight</th>
+                                                <th>Rate</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
 
 
 
-                                <button type="button" id="addItemBtn" class="btn btn-success mt-2">
-                                    + Add Item
-                                </button>
+                                    <button type="button" id="addItemBtn" class="btn btn-success mt-2">
+                                        + Add Item
+                                    </button>
+                                </div>
                                 <h5 class="mt-4">Added Items</h5>
 
                                 <table class="table table-bordered" id="itemsTable">
@@ -996,7 +998,12 @@
             $('#productSearch').on('change', function() {
 
                 let option = $(this).find(':selected');
-                if (!option.val()) return;
+                if (!option.val()) {
+                    $('#productInfoSection').hide();
+                    return;
+                }
+
+                $('#productInfoSection').show();
 
                 // Existing product fill (keep this)
                 let row = $('#entryTable tbody tr').first();
@@ -1339,6 +1346,8 @@
             const item = globalInvoiceItems.find(i => i.id == id);
             if (!item) return;
 
+            $('#productInfoSection').show();
+
             editingItemId = id;
             document.getElementById('addItemBtn').textContent = 'Update Item';
             document.getElementById('addItemBtn').classList.remove('btn-success');
@@ -1389,6 +1398,9 @@
 
         function resetEntryForm() {
             editingItemId = null;
+            $('#productInfoSection').hide();
+            $('#productSearch').val('').trigger('change.select2'); // Reset product search dropdown
+
             document.getElementById('addItemBtn').textContent = '+ Add Item';
             document.getElementById('addItemBtn').classList.remove('btn-warning');
             document.getElementById('addItemBtn').classList.add('btn-success');

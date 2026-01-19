@@ -348,6 +348,9 @@ public function stockOut(Request $request)
             $product->quantity -= $request->quantity;
             $product->gross_weight -= $request->gross_weight;
             $product->net_weight -= $request->net_weight;
+            if ($product->quantity <= 0) {
+                $product->availability = 'sold';
+            }
             $product->save();
         }
         // Handle item product data - requires product selection (stock out only on selected product)
@@ -395,6 +398,7 @@ public function stockOut(Request $request)
             // $itemProduct->quantity = max(0, ($itemProduct->quantity ?? 0) - $selectedProduct->quantity );
             $itemProduct->save();
 
+            $selectedProduct->update(['availability' => 'sold']);
             $selectedProduct->delete();
 
             // Update item_product_data totals
@@ -420,6 +424,7 @@ public function getProductsForItem($itemId)
 
     $itemProduct = ItemProductData::findOrFail($itemId);
     $products = Product::where('item_product_data_id', $itemId)
+        ->where('availability', 'available')
         ->whereNull('deleted_at') // Only non-deleted products
         ->select('id', 'pre_code', 'post_code', 'product_name', 'quantity', 'gross_weight', 'net_weight', 'barcode')
         ->get()

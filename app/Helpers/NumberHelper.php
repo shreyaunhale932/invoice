@@ -10,7 +10,7 @@ class NumberHelper
             return '';
         }
 
-        $amount = round($amount, 2);
+        $amount = round($amount, 2)/100;
 
         $number = floor($amount);
         $decimal = round(($amount - $number) * 100);

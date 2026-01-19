@@ -181,7 +181,9 @@ class InvoiceTemplateController extends Controller
             ['section_key' => 'item_table', 'field_key' => 'column_gst_percent', 'label' => 'GST %', 'field_type' => 'column', 'display_order' => 18],
             ['section_key' => 'item_table', 'field_key' => 'column_gst_amount', 'label' => 'GST Amount', 'field_type' => 'column', 'display_order' => 19],
             ['section_key' => 'item_table', 'field_key' => 'column_other_charges', 'label' => 'Other Charges', 'field_type' => 'column', 'display_order' => 20],
-            ['section_key' => 'item_table', 'field_key' => 'column_amount', 'label' => 'Amount', 'field_type' => 'column', 'display_order' => 21],
+            ['section_key' => 'item_table', 'field_key' => 'column_diamond_amount', 'label' => 'Diamond Amount', 'field_type' => 'column', 'display_order' => 21],
+            ['section_key' => 'item_table', 'field_key' => 'column_stone_amount', 'label' => 'Stone Amount', 'field_type' => 'column', 'display_order' => 22],
+            ['section_key' => 'item_table', 'field_key' => 'column_amount', 'label' => 'Amount', 'field_type' => 'column', 'display_order' => 23],
 
             // Footer Labels
             ['section_key' => 'invoice_footer', 'field_key' => 'taxable_amount_label', 'label' => 'Taxable Amount', 'field_type' => 'label', 'display_order' => 1],

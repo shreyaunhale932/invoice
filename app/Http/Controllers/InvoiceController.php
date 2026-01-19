@@ -117,7 +117,9 @@ class InvoiceController extends Controller
         $customFields = CustomFieldDefinition::where('admin_id', $adminId)
             ->where('model_type', 'App\Models\Invoice') // or use constant if you prefer
             ->get();
-        $products = Product::with(['category', 'subcategory', 'metalRate', 'diamonds', 'stones'])->get();
+        $products = Product::with(['category', 'subcategory', 'metalRate', 'diamonds', 'stones'])
+            ->where('availability', 'available')
+            ->get();
 
 
         $categories = Category::all();

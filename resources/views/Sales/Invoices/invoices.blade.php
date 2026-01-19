@@ -54,7 +54,7 @@
                                             <th>Invoice To</th>
                                             <th>Total</th>
                                             <th>Paid</th>
-                                            <th>Payment Mode</th>
+                                            <!-- <th>Payment Mode</th> -->
                                             <th>Balance</th>
                                             <th>Due Date</th>
                                             <th>Status</th>
@@ -90,9 +90,9 @@
                                                 </td>
 
                                                 <td>₹ {{ number_format($invoice->final_amount, 2) }}</td>
-                                                <td>₹ {{ number_format($invoice->paid_amount ?? 0, 2) }}</td>
-                                                <td>{{ $invoice->payment_mode ?? '-' }}</td>
-                                                <td>₹ {{ number_format($invoice->balance_amount ?? 0, 2) }}</td>
+                                                <td>₹ {{ number_format($invoice->total_received ?? 0, 2) }}</td>
+                                                <!-- <td>{{ $invoice->payment_mode ?? '-' }}</td> -->
+                                                <td>₹ {{ number_format($invoice->amount_left ?? 0, 2) }}</td>
                                                 <td>{{ $invoice->invoice_due_date }}</td>
 
                                                 <td>
@@ -111,7 +111,7 @@
                                                             <a class="dropdown-item" href="{{ route('sell.invoice.edit', $invoice->id) }}">
                                                                 <i class="far fa-edit me-2"></i>Edit
                                                             </a>
-                                                            <a class="dropdown-item" href="{{ route('sell.invoice.view', $invoice->id) }}">
+                                                            <a class="dropdown-item" href="{{ route('sell.invoice.view', $invoice->id) }}" target="_blank">
                                                                 <i class="far fa-eye me-2"></i>View
                                                             </a>
                                                             <a class="dropdown-item text-danger" href="#" 
