@@ -60,6 +60,30 @@ class SellInvoiceController extends Controller
                     'final_price' => $itemFinalPrice,
                 ]);
 
+// Mark product as SOLD immediately
+if ($request->product_id) {
+
+    $product = Product::find($request->product_id);
+    if ($product && $product->availability !== 'sold') {
+        $product->update(['availability' => 'sold']);
+
+        InventoryTransaction::create([
+            'type' => 'OUT',
+            'product_id' => $product->id,
+            'item_product_data_id' => $product->item_product_data_id,
+            'quantity' => $request->quantity ?? 1,
+            'gross_weight' => $request->gross_weight,
+            'net_weight' => $request->net_weight,
+            'size' => $request->size,
+            'unit' => 'GM',
+            'remarks' => 'Reserved via Invoice #' . $invoiceId,
+            'admin_id' => Auth::id(),
+            'sell_invoice_id' => $invoiceId,
+            'sell_invoice_item_id' => $item->id,
+        ]);
+    }
+}
+
                 // Diamonds
                 $diamondCharges = 0;
                 if ($request->filled('diamonds') && is_array($request->diamonds)) {
@@ -129,7 +153,7 @@ class SellInvoiceController extends Controller
 
                 SellInvoice::where('id', $invoiceId)->update([
                     'final_amount' => $invoiceTotal,
-                    
+
                 ]);
                 DB::commit();
 
@@ -200,6 +224,28 @@ class SellInvoiceController extends Controller
                     'total_amount' => $request->total_amount,
                     'final_price' => $itemFinalPrice,
                 ]);
+                if ($request->product_id) {
+
+    $product = Product::find($request->product_id);
+    if ($product && $product->availability !== 'sold') {
+        $product->update(['availability' => 'sold']);
+
+        InventoryTransaction::create([
+            'type' => 'OUT',
+            'product_id' => $product->id,
+            'item_product_data_id' => $product->item_product_data_id,
+            'quantity' => $request->quantity ?? 1,
+            'gross_weight' => $request->gross_weight,
+            'net_weight' => $request->net_weight,
+            'size' => $request->size,
+            'unit' => 'GM',
+            'remarks' => 'Reserved via Invoice #' . $invoiceId,
+            'admin_id' => Auth::id(),
+            'sell_invoice_id' => $invoiceId,
+            'sell_invoice_item_id' => $item->id,
+        ]);
+    }
+}
 
                 // Diamonds
                 $diamondAmount = 0;
@@ -526,7 +572,7 @@ class SellInvoiceController extends Controller
                 'igst_amount'  => $igstAmount,
 
                 'taxable_amount' => $taxableAmount,
-                
+
                 'final_amount'   => $grandTotal,
 
                 'cash_received'   => $cash,
@@ -624,9 +670,9 @@ class SellInvoiceController extends Controller
                     'message' => 'Invoice ID is missing'
                 ], 400);
             }
-    
+
             $invoice = SellInvoice::findOrFail($invoiceId);
-    
+
             /**
              * IMPORTANT:
              * final_amount in DB already contains GRAND TOTAL.
@@ -634,28 +680,28 @@ class SellInvoiceController extends Controller
              * Use taxable_amount or item total instead.
              */
             $itemsTotal = round($request->taxable_amount ?? 0, 2);
-    
+
             /* --------------------
              | Discount
              -------------------- */
             $discountPercent = round($request->input('discount_percent', 0), 2);
             $discountAmount  = round(($itemsTotal * $discountPercent) / 100, 2);
             $amountAfterDiscount = round($itemsTotal - $discountAmount, 2);
-    
+
             /* --------------------
              | GST
              -------------------- */
             $cgstPercent = round($request->input('cgst_percent', 0), 2);
             $sgstPercent = round($request->input('sgst_percent', 0), 2);
             $igstPercent = round($request->input('igst_percent', 0), 2);
-    
+
             $cgstAmount = round(($amountAfterDiscount * $cgstPercent) / 100, 2);
             $sgstAmount = round(($amountAfterDiscount * $sgstPercent) / 100, 2);
             $igstAmount = round(($amountAfterDiscount * $igstPercent) / 100, 2);
-    
+
             $totalTax  = round($cgstAmount + $sgstAmount + $igstAmount, 2);
             $grandTotal = round($amountAfterDiscount + $totalTax, 2);
-    
+
             /* --------------------
              | Payments
              -------------------- */
@@ -663,18 +709,18 @@ class SellInvoiceController extends Controller
             $bank   = round($request->input('bank_received', 0), 2);
             $online = round($request->input('online_received', 0), 2);
             $card   = round($request->input('card_received', 0), 2);
-    
+
             $totalReceived = round($cash + $bank + $online + $card, 2);
-    
+
             $balanceDiff = round($grandTotal - $totalReceived, 2);
-    
+
             // Rounding tolerance (same as finalize)
             if (abs($balanceDiff) < 0.05) {
                 $amountLeft = 0.00;
             } else {
                 $amountLeft = max(0, $balanceDiff);
             }
-    
+
             /* --------------------
              | Status
              -------------------- */
@@ -684,7 +730,7 @@ class SellInvoiceController extends Controller
             } elseif ($totalReceived > 0) {
                 $status = 'partial';
             }
-    
+
             /* --------------------
              | Update Invoice
              -------------------- */
@@ -693,25 +739,25 @@ class SellInvoiceController extends Controller
                 'invoice_date'     => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
                 'user_id'          => $request->customer_id,
-    
+
                 'discount_percent' => $discountPercent,
                 'discount_amount'  => $discountAmount,
-    
+
                 'cgst_percent' => $cgstPercent,
                 'cgst_amount'  => $cgstAmount,
                 'sgst_percent' => $sgstPercent,
                 'sgst_amount'  => $sgstAmount,
                 'igst_percent' => $igstPercent,
                 'igst_amount'  => $igstAmount,
-    
+
                 'taxable_amount' => $itemsTotal,
                 'final_amount'   => $grandTotal,
-    
+
                 'cash_received'   => $cash,
                 'bank_received'   => $bank,
                 'online_received' => $online,
                 'card_received'   => $card,
-    
+
                 'total_received' => $totalReceived,
                 'amount_left'    => $amountLeft,
                 'status'         => $status,
@@ -743,9 +789,9 @@ class SellInvoiceController extends Controller
                     }
                 }
             }
-    
+
             DB::commit();
-    
+
             return response()->json([
                 'success' => true,
                 'message' => 'Invoice updated successfully',
@@ -758,7 +804,7 @@ class SellInvoiceController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-    }    
+    }
     public function edit($id)
     {
         $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product'])->findOrFail($id);
