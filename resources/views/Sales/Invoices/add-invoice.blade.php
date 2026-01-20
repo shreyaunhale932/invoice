@@ -1393,14 +1393,18 @@
 
             // Let's assume I will add `sell.invoice.get` route.
             $.ajax({
-                url: '/sell-invoice/get/' + invoiceId,
+                url: "{{ route('sell.invoice.getById', ':id') }}".replace(':id', invoiceId),
                 type: 'GET',
                 success: function(response) {
                     if (response.success && response.invoice) {
                         loadInvoiceData(response.invoice);
                     }
+                },
+                error: function(xhr) {
+                    console.error('Error fetching invoice', xhr);
                 }
             });
+
         }
 
         function loadInvoiceData(invoice) {
@@ -1428,7 +1432,7 @@
             $('#discountPercent').val(invoice.discount_percent);
             $('#cgstPercent').val(invoice.cgst_percent);
             $('#sgstPercent').val(invoice.sgst_percent);
-             $('#igstPercent').val(invoice.igst_percent);
+            $('#igstPercent').val(invoice.igst_percent);
             // Payments
             $('#cashReceived').val(invoice.cash_received);
             $('#bankReceived').val(invoice.bank_received);
@@ -1782,7 +1786,7 @@
             setBoxText('remainingAmount', remaining);
         }
 
-        
+
         function setBoxText(elementId, amount) {
             const el = document.getElementById(elementId);
             if (el) {
