@@ -42,34 +42,53 @@ class ProductController extends Controller
             | Check if pre_code already exists in ItemProductData
             |--------------------------------------------------------------------------
             */
-            $itemProduct = ItemProductData::where('product_code', $preCode)->first();
+            $originalItem = ItemProductData::where('product_name', $request->product_name)
+                ->where('purity_id', $request->purity_id)
+                ->first();
 
-            if ($itemProduct) {
+            if ($originalItem && $originalItem->product_code !== $preCode) {
                 return redirect()
                     ->back()
                     ->withErrors([
-                        'pre_code' => 'Invalid Pre Code. Item already exists.',
+                        'pre_code' => 'This product already exists with Pre Code: ' . $originalItem->product_code,
                     ])
-                    ->withInput(); // ✅ keeps entered values
+                    ->withInput();
             }
-
+            $itemProduct = ItemProductData::where('product_code', $preCode)->first();
+            //  dd($itemProduct);
+            if ($itemProduct) {
+                //  echo 'Reequest product name=>'.$request->product_name.'   Item product name=>'.$itemProduct->product_name;
+                //  echo ''
+                // pre_code used for another product → ERROR
+                if (
+                    $itemProduct->product_name != $request->product_name ||
+                    $itemProduct->purity_id != $request->purity_id
+                ) {
+                    return redirect()
+                        ->back()
+                        ->withErrors([
+                            'pre_code' => 'Pre code already present for another product.',
+                        ])
+                        ->withInput();
+                }
+            }
             /*
             |--------------------------------------------------------------------------
             | Ensure post_code is unique for this pre_code
             |--------------------------------------------------------------------------
             */
-            $exists = Product::where('pre_code', $preCode)
-                ->where('post_code', $postCode)
-                ->exists();
+            // $exists = Product::where('pre_code', $preCode)
+            //     ->where('post_code', $postCode)
+            //     ->exists();
 
-            if ($exists) {
-                return redirect()
-                    ->back()
-                    ->withErrors([
-                        'post_code' => 'This Post Code already exists for the selected Pre Code.',
-                    ])
-                    ->withInput(); // keeps entered values
-            }
+            // if ($exists) {
+            //     return redirect()
+            //         ->back()
+            //         ->withErrors([
+            //             'post_code' => 'This Post Code already exists for the selected Pre Code.',
+            //         ])
+            //         ->withInput(); // keeps entered values
+            // }
 
 
 
@@ -98,24 +117,27 @@ class ProductController extends Controller
                     'gold_price' => $request->gold_price,
                     'mrp_price' => $request->mrp_price,
                     'sale_price' => $request->sale_price,
-                    'final_price'=> $request->final_price,
+                    'final_price' => $request->final_price,
                 ]
             );
 
             // Create Product linked to item_product_data
-            $oldProduct = Product::where('item_product_data_id', $itemProductData->id)->first();
+            $oldProduct = Product::where('item_product_data_id', $itemProductData->id)
+                ->orderByDesc('post_code')
+                ->first();
+
             if ($oldProduct) {
-                $postid = $oldProduct->post_code;
-                $postid++;
+                $postid = $oldProduct->post_code + 1;
             } else {
                 $postid = $request->post_code;
             }
+
             $product = Product::create([
                 'admin_id' => Auth::id(),
                 'product_name' => $request->product_name,
                 'item_product_data_id' => $itemProductData->id,
                 'pre_code' => $request->pre_code,
-                'post_code' => $request->post_code,
+                'post_code' => $postid,
                 'barcode' => $request->barcode,
                 'category_id' => $request->category_id,
                 'subcategory_id' => $request->subcategory_id,
@@ -135,7 +157,7 @@ class ProductController extends Controller
                 'quantity' =>  $request->quantity,
                 'final_fn_weight' =>  $request->final_fn_weight,
                 'size'     =>  $request->size,
-                'final_price'=> $request->final_price,
+                'final_price' => $request->final_price,
             ]);
             if (empty($product->barcode)) {
                 $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
@@ -245,6 +267,16 @@ class ProductController extends Controller
                     'remarks'              => 'Initial stock added with product creation',
                 ]);
             }
+
+            // Accounting Post
+            // try {
+            //     app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
+            // } catch (\Exception $e) {
+            //     // Log or handle error if needed, but don't break transaction if accounting is secondary
+            //     // Actually, user wants Trial Balance to always match, so maybe it SHOULD break transaction.
+            //     // But for safety against missing accounts:
+            //     \Log::error("Accounting Post failed for Stock In: " . $e->getMessage());
+            // }
         });
 
         return redirect()->back()->with('success', 'Product added successfully');
@@ -350,7 +382,7 @@ class ProductController extends Controller
                     'gold_price'       => $request->gold_price,
                     'mrp_price'        => $request->mrp_price,
                     'sale_price' => $request->sale_price,
-                    'final_price'=> $request->final_price,
+                    'final_price' => $request->final_price,
                 ]);
             }
 
@@ -382,7 +414,7 @@ class ProductController extends Controller
                 'quantity'         => $request->quantity,
                 'final_fn_weight'  => $request->final_fn_weight,
                 'size'             => $request->size,
-                'final_price'=> $request->final_price,
+                'final_price' => $request->final_price,
             ]);
 
             /*
@@ -565,37 +597,36 @@ class ProductController extends Controller
             ->select('subcategory_id', 'subcategory_name')
             ->get();
     }
-  public function index(Request $request)
-{
-    $query = Product::with('category');
+    public function index(Request $request)
+    {
+        $query = Product::with('category');
 
-    // Product name search
-    if ($request->filled('product_name')) {
-        $query->where('product_name', 'LIKE', '%' . trim($request->product_name) . '%');
+        // Product name search
+        if ($request->filled('product_name')) {
+            $query->where('product_name', 'LIKE', '%' . trim($request->product_name) . '%');
+        }
+
+        // Combined Pre + Post Code Search (BR, BR1, BR12 etc.)
+        if ($request->filled('product_code')) {
+            $search = strtoupper(trim($request->product_code));
+
+            $query->where(function ($q) use ($search) {
+                $q->whereRaw(
+                    "LOWER(CONCAT(pre_code, post_code)) LIKE ?",
+                    ['%' . strtolower($search) . '%']
+                );
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category_name')) {
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('category_name', 'LIKE', '%' . trim($request->category_name) . '%');
+            });
+        }
+
+        $products = $query->get();
+
+        return view('Inventory/Products/product-list', compact('products'));
     }
-
-    // Combined Pre + Post Code Search (BR, BR1, BR12 etc.)
-    if ($request->filled('product_code')) {
-        $search = strtoupper(trim($request->product_code));
-
-        $query->where(function ($q) use ($search) {
-            $q->whereRaw(
-                "LOWER(CONCAT(pre_code, post_code)) LIKE ?",
-                ['%' . strtolower($search) . '%']
-            );
-        });
-    }
-
-    // Category filter
-    if ($request->filled('category_name')) {
-        $query->whereHas('category', function ($q) use ($request) {
-            $q->where('category_name', 'LIKE', '%' . trim($request->category_name) . '%');
-        });
-    }
-
-    $products = $query->get();
-
-    return view('Inventory/Products/product-list', compact('products'));
-}
-
 }
