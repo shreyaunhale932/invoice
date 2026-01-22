@@ -25,6 +25,7 @@ class SellInvoiceItem extends Model
         'barcode',
         'purity',
         'quantity',
+        'size',
 
         // Weights
         'gross_weight',

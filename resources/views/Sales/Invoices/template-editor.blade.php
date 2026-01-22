@@ -14,7 +14,7 @@
 
                     <form id="templateForm" enctype="multipart/form-data">
                         @csrf
-                        
+
                         @foreach($settings as $sectionKey => $sectionSettings)
                             <div class="card mb-4">
                                 <div class="card-header">
@@ -42,56 +42,56 @@
                                                             <input type="hidden" name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][field_type]" value="{{ $setting->field_type }}">
                                                         </td>
                                                         <td>
-                                                            <input type="text" 
-                                                                   class="form-control" 
-                                                                   name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][label]" 
-                                                                   value="{{ $setting->label }}" 
+                                                            <input type="text"
+                                                                   class="form-control"
+                                                                   name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][label]"
+                                                                   value="{{ $setting->label }}"
                                                                    required>
                                                         </td>
                                                         <td>
                                                             @if($setting->field_type === 'image')
                                                                 @if($setting->value || $setting->default_value)
                                                                     <div class="mb-2">
-                                                                        <img src="{{ asset($setting->value ?? $setting->default_value) }}" 
-                                                                             alt="Preview" 
+                                                                        <img src="{{ asset($setting->value ?? $setting->default_value) }}"
+                                                                             alt="Preview"
                                                                              style="max-width: 100px; max-height: 50px; border: 1px solid #ddd; padding: 5px;">
                                                                     </div>
                                                                 @endif
-                                                                <input type="file" 
-                                                                       class="form-control image-upload-input" 
+                                                                <input type="file"
+                                                                       class="form-control image-upload-input"
                                                                        accept="image/*"
                                                                        data-setting-key="{{ $loop->parent->index }}_{{ $loop->index }}">
-                                                                <input type="hidden" 
-                                                                       name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][image_key]" 
+                                                                <input type="hidden"
+                                                                       name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][image_key]"
                                                                        value="{{ $loop->parent->index }}_{{ $loop->index }}"
                                                                        class="image-key-field">
                                                                 <small class="text-muted">Upload new image to replace</small>
                                                             @elseif($setting->field_type === 'text')
-                                                                <input type="text" 
-                                                                       class="form-control" 
-                                                                       name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][value]" 
-                                                                       value="{{ $setting->value ?? $setting->default_value ?? '' }}" 
+                                                                <input type="text"
+                                                                       class="form-control"
+                                                                       name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][value]"
+                                                                       value="{{ $setting->value ?? $setting->default_value ?? '' }}"
                                                                        placeholder="Enter text value">
                                                             @else
                                                                 <span class="text-muted">N/A</span>
                                                             @endif
                                                         </td>
                                                         <td class="text-center">
-                                                            <input type="checkbox" 
-                                                                   name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][is_visible]" 
+                                                            <input type="checkbox"
+                                                                   name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][is_visible]"
                                                                    value="1"
                                                                    {{ $setting->is_visible ? 'checked' : '' }}>
                                                         </td>
                                                         <td>
-                                                            <input type="number" 
-                                                                   class="form-control" 
-                                                                   name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][display_order]" 
-                                                                   value="{{ $setting->display_order }}" 
+                                                            <input type="number"
+                                                                   class="form-control"
+                                                                   name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][display_order]"
+                                                                   value="{{ $setting->display_order }}"
                                                                    min="0">
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                                
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -101,12 +101,12 @@
 
                         <!-- Custom Content Blocks Section -->
                         <div class="card mb-4 mt-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
+                            {{-- <div class="card-header d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Custom Content Blocks</h6>
                                 <button type="button" class="btn btn-sm btn-success" id="addCustomBlockBtn">
                                     <i class="fe fe-plus"></i> Add Custom Block
                                 </button>
-                            </div>
+                            </div> --}}
                             <div class="card-body">
                                 <div id="customBlocksContainer">
                                     @if(isset($customBlocks) && $customBlocks->count() > 0)
@@ -120,8 +120,8 @@
                                                             <button type="button" class="btn btn-sm btn-danger delete-block-btn" data-id="{{ $block->id }}">Delete</button>
                                                         </div>
                                                     </div>
-                                                    <p class="text-muted"><strong>Position:</strong> {{ ucfirst(str_replace('_', ' ', $block->position)) }} | 
-                                                        <strong>Type:</strong> {{ ucfirst($block->block_type) }} | 
+                                                    <p class="text-muted"><strong>Position:</strong> {{ ucfirst(str_replace('_', ' ', $block->position)) }} |
+                                                        <strong>Type:</strong> {{ ucfirst($block->block_type) }} |
                                                         <strong>Visible:</strong> {{ $block->is_visible ? 'Yes' : 'No' }}</p>
                                                     @if($block->image_path)
                                                         <img src="{{ asset($block->image_path) }}" alt="Block Image" style="max-width: 100px; max-height: 80px; border: 1px solid #ddd; padding: 5px; margin: 5px 0;">
@@ -135,7 +135,7 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <p class="text-muted">No custom blocks created yet. Click "Add Custom Block" to create one.</p>
+                                        {{-- <p class="text-muted">No custom blocks created yet. Click "Add Custom Block" to create one.</p> --}}
                                     @endif
                                 </div>
                             </div>
@@ -177,23 +177,23 @@
 
             $('#templateForm').on('submit', function(e) {
                 e.preventDefault();
-                
+
                 const formData = new FormData(this);
                 const settings = [];
                 const seen = {};
                 let imageIndex = 0;
-                
+
                 // Convert form data to array format
                 $('tr').each(function() {
                     const row = $(this);
                     const hiddenInputs = row.find('input[type="hidden"]');
-                    
+
                     if (hiddenInputs.length >= 3) {
                         const sectionKey = row.find('input[name*="[section_key]"]').val();
                         const fieldKey = row.find('input[name*="[field_key]"]').val();
                         const fieldType = row.find('input[name*="[field_type]"]').val();
                         const key = sectionKey + '_' + fieldKey;
-                        
+
                         if (!seen[key]) {
                             const setting = {
                                 section_key: sectionKey,
@@ -203,13 +203,13 @@
                                 is_visible: row.find('input[name*="[is_visible]"]').is(':checked') ? 1 : 0,
                                 display_order: parseInt(row.find('input[name*="[display_order]"]').val()) || 0
                             };
-                            
+
                             // Handle value for text fields
                             const valueInput = row.find('input[name*="[value]"]');
                             if (valueInput.length) {
                                 setting.value = valueInput.val();
                             }
-                            
+
                             // Handle image uploads
                             const imageInput = row.find('.image-upload-input');
                             if (imageInput.length && imageInput[0].files && imageInput[0].files[0]) {
@@ -217,13 +217,13 @@
                                 formData.append('images[' + imageKey + ']', imageInput[0].files[0]);
                                 setting.image_key = imageKey;
                             }
-                            
+
                             settings.push(setting);
                             seen[key] = true;
                         }
                     }
                 });
-                
+
                 // Add settings to formData
                 formData.append('settings', JSON.stringify(settings));
 
@@ -321,12 +321,12 @@
                         <form id="blockForm">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="block_id" value="${blockId || ''}">
-                            
+
                             <div class="mb-3">
                                 <label>Block Name</label>
                                 <input type="text" name="block_name" class="form-control" required>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>Block Type</label>
                                 <select name="block_type" class="form-control">
@@ -336,17 +336,17 @@
                                     <option value="mixed">Mixed (Info + Image)</option>
                                 </select>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>Content (HTML/Text)</label>
                                 <textarea name="content" class="form-control" rows="4" placeholder="Enter content or HTML"></textarea>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>Image</label>
                                 <input type="file" name="image" class="form-control" accept="image/*">
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>Position</label>
                                 <select name="position" class="form-control">
@@ -356,28 +356,28 @@
                                     <option value="custom">Custom Position</option>
                                 </select>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>Display Order</label>
                                 <input type="number" name="display_order" class="form-control" value="0">
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>
                                     <input type="checkbox" name="is_visible" value="1" checked> Visible
                                 </label>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>CSS Classes</label>
                                 <input type="text" name="css_class" class="form-control" placeholder="e.g., bg-light p-3">
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label>Custom CSS</label>
                                 <textarea name="custom_css" class="form-control" rows="3" placeholder="Custom CSS styles"></textarea>
                             </div>
-                            
+
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-secondary me-2" onclick="$('#blockModal').remove();">Cancel</button>
                                 <button type="submit" class="btn btn-success">${blockId ? 'Update' : 'Create'} Block</button>
@@ -387,12 +387,12 @@
                 </div>
             `;
             $('body').append(html);
-            
+
             $('#blockForm').on('submit', function(e) {
                 e.preventDefault();
                 const formData = new FormData(this);
                 const url = blockId ? `/invoice-template/blocks/${blockId}/update` : '/invoice-template/blocks/store';
-                
+
                 $.ajax({
                     url: url,
                     method: 'POST',

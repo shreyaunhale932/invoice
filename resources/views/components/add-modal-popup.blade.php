@@ -16908,7 +16908,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <!-- /Add Ticket Modal -->
 @endif
 
-//my code
+
 @if (Route::is(['createAdmin']))
     <!-- Add Asset -->
     <div class="toggle-sidebar">

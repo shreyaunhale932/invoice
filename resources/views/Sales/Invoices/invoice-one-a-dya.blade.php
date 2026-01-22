@@ -1,3 +1,4 @@
+
 <?php $page = 'invoice-one-a'; ?>
 @extends('layout.mainlayout')
 @section('content')
@@ -26,7 +27,7 @@
     background: var(--color-gradient, linear-gradient(320deg, #DBECFF 0%, #DDCEFF 100%)) !important;
     border-radius: 14px 77px 14px 14px !important;
 }
-  
+
 }
 /* =====================================================
    PRINT CSS – ULTRA COMPACT (ALL INVOICES)
@@ -288,47 +289,47 @@
                  | HEADER / COMPANY TEXT VALUES
                  ===================================================== */
                 $invoiceTitle = $templateSettings['invoice_header.title']->label ?? 'Invoice';
-                
+
                 $companyName = $templateSettings['text_elements.company_name']->value
                     ?? $templateSettings['text_elements.company_name']->default_value
                     ?? '';
-                
+
                 $companyAddress = $templateSettings['text_elements.company_address']->value
                     ?? $templateSettings['text_elements.company_address']->default_value
                     ?? '';
-                
+
                 /* =====================================================
                  | HEADER VISIBILITY FLAGS
                  ===================================================== */
                 $invoiceTitleVisible   = $templateSettings['invoice_header.title']->is_visible ?? true;
                 $companyNameVisible    = $templateSettings['text_elements.company_name']->is_visible ?? true;
                 $companyAddressVisible = $templateSettings['text_elements.company_address']->is_visible ?? true;
-                
+
                 $logoLightVisible = $templateSettings['visual_elements.logo_light']->is_visible ?? true;
                 $logoDarkVisible  = $templateSettings['visual_elements.logo_dark']->is_visible ?? true;
-                
+
                 $invoiceNoVisible   = $templateSettings['invoice_meta.invoice_no']->is_visible ?? true;
                 $invoiceDateVisible = $templateSettings['invoice_meta.invoice_date']->is_visible ?? true;
                 $dueDateVisible     = $templateSettings['invoice_meta.due_date']->is_visible ?? true;
-                
+
                 /* =====================================================
                  | LOGOS
                  ===================================================== */
                 $logoLight = $templateSettings['visual_elements.logo_light']->value
                     ?? $templateSettings['visual_elements.logo_light']->default_value
                     ?? '/public/assets/img/logo2.png';
-                
+
                 $logoDark = $templateSettings['visual_elements.logo_dark']->value
                     ?? $templateSettings['visual_elements.logo_dark']->default_value
                     ?? '/public/assets/img/logo2-white.png';
-                
+
                 /* =====================================================
                  | INVOICE META LABELS
                  ===================================================== */
                 $invoiceNoLabel   = $templateSettings['invoice_meta.invoice_no']->label ?? 'Invoice No';
                 $invoiceDateLabel = $templateSettings['invoice_meta.invoice_date']->label ?? 'Invoice Date';
                 $dueDateLabel     = $templateSettings['invoice_meta.due_date']->label ?? 'Due Date';
-                
+
                 /* =====================================================
                  | CUSTOMER INFO VALUES & VISIBILITY
                  ===================================================== */
@@ -338,7 +339,7 @@
                 $shippingVisible          = $templateSettings['customer_info.shipping_address_label']->is_visible ?? true;
                 $paymentStatusVisible     = $templateSettings['customer_info.payment_status_label']->is_visible ?? true;
                 $gstinVisible             = $templateSettings['customer_info.gstin_label']->is_visible ?? true;
-                
+
                 $sectionTitle         = $templateSettings['customer_info.section_title']->label ?? 'Customer Information';
                 $customerDetailsLabel = $templateSettings['customer_info.customer_details_label']->label ?? 'Customer Details';
                 $billingAddressLabel  = $templateSettings['customer_info.billing_address_label']->label ?? 'Billing Address';
@@ -346,43 +347,43 @@
                 $paymentStatusLabel   = $templateSettings['customer_info.payment_status_label']->label ?? 'Payment Status';
                 $gstinLabel           = $templateSettings['customer_info.gstin_label']->label ?? 'GSTIN';
                 @endphp
-                
-                
+
+
                 {{-- ================= HEADER ================= --}}
                 <div class="invoice-header">
-                
+
                     {{-- LEFT --}}
                     @if($invoiceTitleVisible || $companyNameVisible || $companyAddressVisible)
                     <div class="inv-header-left">
-                
+
                         @if($invoiceTitleVisible)
                             <h4>{{ $invoiceTitle }}</h4>
                         @endif
-                
+
                         @if($companyNameVisible || $companyAddressVisible)
                         <div class="company-details">
                             <div class="gst-details">
-                
+
                                 @if($companyNameVisible)
                                     <h6>{{ $companyName }}</h6>
                                 @endif
-                
+
                                 @if($companyAddressVisible)
                                     <span>{!! nl2br(e($companyAddress)) !!}</span>
                                 @endif
-                
+
                             </div>
                             <div class="address-bg"></div>
                         </div>
                         @endif
-                
+
                     </div>
                     @endif
-                
+
                     {{-- RIGHT --}}
                     @if($logoLightVisible || $logoDarkVisible || $invoiceNoVisible || $invoiceDateVisible || $dueDateVisible)
                     <div class="inv-header-right">
-                
+
                         @if($logoLightVisible || $logoDarkVisible)
                         <a href="javascript:void(0)">
                             @if($logoLightVisible)
@@ -393,21 +394,21 @@
                             @endif
                         </a>
                         @endif
-                
+
                         @if($invoiceNoVisible)
                         <h6>
                             {{ $invoiceNoLabel }} :
                             <span>#{{ $invoice->invoice_no }}</span>
                         </h6>
                         @endif
-                
+
                         @if($invoiceDateVisible)
                         <h6>
                             {{ $invoiceDateLabel }} :
                             <span>{{ date('d-m-Y', strtotime($invoice->invoice_date)) }}</span>
                         </h6>
                         @endif
-                
+
                         @if($dueDateVisible)
                         <p>
                             <span>
@@ -416,24 +417,24 @@
                             </span>
                         </p>
                         @endif
-                
+
                     </div>
                     @endif
                 </div>
-                
+
                 @if($invoiceTitleVisible || $companyNameVisible || $companyAddressVisible)
                 <span class="line"></span>
                 @endif
-                
-                
+
+
                 {{-- ================= CUSTOMER INFO ================= --}}
                 @if($customerInfoVisible)
-                
+
                 <h5>{{ $sectionTitle }}</h5>
-                
+
                 <div class="patient-infos">
                     <div class="row">
-                
+
                         {{-- CUSTOMER DETAILS --}}
                         @if($customerDetailsVisible)
                         <div class="col-sm-4">
@@ -441,29 +442,29 @@
                                 <div class="bill-add">
                                     {{ $customerDetailsLabel }} :
                                 </div>
-                
+
                                 <div class="customer-name">
                                     {{ $customer->name }}
-                
+
                                     @if($gstinVisible && !empty($customer->gstin))
                                         <p>
                                             <span>{{ $gstinLabel }} : {{ $customer->gstin }}</span>
                                         </p>
                                     @endif
                                 </div>
-                
+
                                 @if($paymentStatusVisible)
                                 <div class="payment-status">
                                     {{ $paymentStatusLabel }}
                                     <p>
-                                        <span>{{ $invoice->payment_status ?? 'Pending' }}</span>
+                                        <span>{{ $invoice->status ?? 'Pending' }}</span>
                                     </p>
                                 </div>
                                 @endif
                             </div>
                         </div>
                         @endif
-                
+
                         {{-- BILLING ADDRESS --}}
                         @if($billingVisible)
                         <div class="col-sm-4">
@@ -477,7 +478,7 @@
                             </div>
                         </div>
                         @endif
-                
+
                         {{-- SHIPPING ADDRESS --}}
                         @if($shippingVisible)
                         <div class="col-sm-4">
@@ -491,13 +492,13 @@
                             </div>
                         </div>
                         @endif
-                
+
                     </div>
                 </div>
-                
+
                 @endif
-                
-                
+
+
                 @php
                 $columnLabels = [
                     'sr_no'         => $templateSettings['item_table.column_sr_no']->label ?? '#',
@@ -524,7 +525,7 @@
                     'stone_amount' => $templateSettings['item_table.column_stone_amount']->label ?? 'Stone Amount',
                     'amount'        => $templateSettings['item_table.column_amount']->label ?? 'Amount',
                 ];
-                
+
                 $columnVisibility = [
                     'sr_no'         => $templateSettings['item_table.column_sr_no']->is_visible ?? true,
                     'category'      => $templateSettings['item_table.column_category']->is_visible ?? true,
@@ -551,7 +552,7 @@
                     'amount'        => $templateSettings['item_table.column_amount']->is_visible ?? true,
                 ];
                 @endphp
-                
+
                 <div class="invoice-table">
                     <div class="table-responsive">
                         <table>
@@ -582,7 +583,7 @@
                                     @if($columnVisibility['amount'])<th class="text-end">{{ $columnLabels['amount'] }}</th>@endif
                                 </tr>
                             </thead>
-                
+
                             <tbody>
                                 @foreach($invoice->items as $item)
                                 <tr>
@@ -621,17 +622,17 @@
                  | BASIC AMOUNTS
                  =============================== */
                 $taxableAmount = $invoice->taxable_amount ?? 0;
-                
+
                 $cgstPercent = $invoice->cgst_percent ?? 0;
                 $sgstPercent = $invoice->sgst_percent ?? 0;
-                
+
                 $cgstAmount = $invoice->cgst_amount ?? 0;
                 $sgstAmount = $invoice->sgst_amount ?? 0;
                 $igstAmount = $invoice->igst_amount ?? 0;
-                
+
                 $discountPercent = $invoice->discount_percent ?? 0;
                 $discountAmount  = $invoice->discount_amount ?? 0;
-                
+
                 /* ===============================
                  | TOTAL CALCULATION
                  =============================== */
@@ -640,10 +641,10 @@
                             + $sgstAmount
                             + $igstAmount
                             - $discountAmount;
-                
+
                 $finalAmount = round($grossTotal);
                 $roundOff = $finalAmount - $grossTotal;
-                
+
                 /* ===============================
                  | PAYMENT DETAILS
                  =============================== */
@@ -651,10 +652,10 @@
                 $online = $invoice->online_received ?? 0;
                 $bank   = $invoice->bank_received ?? 0;
                 $card   = $invoice->card_received ?? 0;
-                
+
                 $totalReceived = $cash + $online + $bank + $card;
                 $balanceAmount = $finalAmount - $totalReceived;
-                
+
                 /* ===============================
                  | INVOICE STATUS
                  =============================== */
@@ -665,7 +666,7 @@
                 } else {
                     $status = 'pending';
                 }
-                
+
                 /* ===============================
                  | VISIBILITY FLAGS
                  =============================== */
@@ -676,7 +677,7 @@
                 $discountVisible = $templateSettings['invoice_footer.discount_label']->is_visible ?? true;
                 $roundOffVisible = $templateSettings['invoice_footer.round_off_label']->is_visible ?? true;
                 $totalVisible    = $templateSettings['invoice_footer.total_amount_label']->is_visible ?? true;
-                
+
                 /* ===============================
                  | LABELS
                  =============================== */
@@ -687,18 +688,18 @@
                 $discountLabel = $templateSettings['invoice_footer.discount_label']->label ?? 'Discount';
                 $roundOffLabel = $templateSettings['invoice_footer.round_off_label']->label ?? 'Round Off';
                 $totalLabel    = $templateSettings['invoice_footer.total_amount_label']->label ?? 'Total Amount';
-                
+
                 /* ===============================
                  | PAID LOGO
                  =============================== */
                 $paidLogo = $templateSettings['visual_elements.paid_logo']->value
                     ?? $templateSettings['visual_elements.paid_logo']->default_value
                     ?? '/public/assets/img/paid.svg';
-                
+
                 $paidLogoVisible = $templateSettings['visual_elements.paid_logo']->is_visible ?? true;
                 @endphp
-                
-                
+
+
                 {{-- ===============================
                  | TAX / GST / DISCOUNT
                  =============================== --}}
@@ -720,18 +721,18 @@
                             <span class="badge bg-danger">Unpaid</span>
                         @endif
                     </div>
-                
+
                     <div class="table-footer-right text-end">
                         <table>
                             <tbody>
-                
+
                                 @if($taxableVisible)
                                 <tr>
                                     <td>{{ $taxableLabel }}</td>
                                     <td>₹{{ number_format($taxableAmount, 2) }}</td>
                                 </tr>
                                 @endif
-                
+
                                 @if($igstAmount > 0 && $igstVisible)
                                 <tr>
                                     <td>{{ $igstLabel }} {{ $cgstPercent + $sgstPercent }}%</td>
@@ -744,7 +745,7 @@
                                         <td>₹{{ number_format($cgstAmount, 2) }}</td>
                                     </tr>
                                     @endif
-                
+
                                     @if($sgstVisible)
                                     <tr>
                                         <td>{{ $sgstLabel }} {{ $sgstPercent }}%</td>
@@ -752,28 +753,28 @@
                                     </tr>
                                     @endif
                                 @endif
-                
+
                                 @if($discountVisible && $discountAmount > 0)
                                 <tr>
                                     <td>{{ $discountLabel }} ({{ $discountPercent }}%)</td>
                                     <td>-₹{{ number_format($discountAmount, 2) }}</td>
                                 </tr>
                                 @endif
-                
+
                                 @if($roundOffVisible)
                                 <tr>
                                     <td>{{ $roundOffLabel }}</td>
                                     <td>{{ $roundOff >= 0 ? '+' : '' }}₹{{ number_format($roundOff, 2) }}</td>
                                 </tr>
                                 @endif
-                
+
                             </tbody>
                         </table>
                     </div>
                 </div>
                 @endif
-                
-                
+
+
                 {{-- ===============================
                  | TOTAL AMOUNT
                  =============================== --}}
@@ -791,7 +792,7 @@
                     </div>
                 </div>
                 @endif
-                
+
 
 {{-- ===============================
  | AMOUNT RECEIVED
@@ -806,7 +807,7 @@
  $cardReceivedLabel = $templateSettings['invoice_footer.card_received_label']->label ?? 'Card Received';
  $totalReceivedLabel = $templateSettings['invoice_footer.total_received_label']->label ?? 'Total Received';
  $balanceDueLabel = $templateSettings['invoice_footer.balance_due_label']->label ?? 'Balance Due';
- 
+
  /* ===============================
   | VISIBILITY FLAGS
   =============================== */
@@ -817,7 +818,7 @@
  $totalReceivedVisible = $templateSettings['invoice_footer.total_received_label']->is_visible ?? true;
  $balanceDueVisible    = $templateSettings['invoice_footer.balance_due_label']->is_visible ?? true;
  @endphp
- 
+
  @if(
      ($cashVisible && $cash > 0) ||
      ($onlineVisible && $online > 0) ||
@@ -830,42 +831,42 @@
      <div class="table-footer-right">
          <table class="totalamt-table">
              <tbody>
- 
+
                  @if($cashVisible && $cash > 0)
                  <tr>
                      <td>{{ $cashReceivedLabel }}</td>
                      <td>₹{{ number_format($cash, 2) }}</td>
                  </tr>
                  @endif
- 
+
                  @if($onlineVisible && $online > 0)
                  <tr>
                      <td>{{ $onlineReceivedLabel }}</td>
                      <td>₹{{ number_format($online, 2) }}</td>
                  </tr>
                  @endif
- 
+
                  @if($bankVisible && $bank > 0)
                  <tr>
                      <td>{{ $bankReceivedLabel }}</td>
                      <td>₹{{ number_format($bank, 2) }}</td>
                  </tr>
                  @endif
- 
+
                  @if($cardVisible && $card > 0)
                  <tr>
                      <td>{{ $cardReceivedLabel }}</td>
                      <td>₹{{ number_format($card, 2) }}</td>
                  </tr>
                  @endif
- 
+
                  @if($totalReceivedVisible)
                  <tr>
                      <td><strong>{{ $totalReceivedLabel }}</strong></td>
                      <td><strong>₹{{ number_format($totalReceived, 2) }}</strong></td>
                  </tr>
                  @endif
- 
+
                  @if($balanceDueVisible)
                  <tr>
                      <td>
@@ -878,13 +879,13 @@
                      </td>
                  </tr>
                  @endif
- 
+
              </tbody>
          </table>
      </div>
  </div>
  @endif
- 
+
 
                 <div class="total-amountdetails">
                     <p>Total amount ( in words): <span> {{ NumberHelper::convertToWords((int) round(abs($finalAmount))) }}.</span></p>
@@ -981,10 +982,10 @@ $signatureLabel = $templateSettings['visual_elements.signature_image']->label
 </div>
 @endif
 
-                
+
 
                 @php
-                    $thanksMessage = isset($templateSettings['text_elements.thanks_message']) 
+                    $thanksMessage = isset($templateSettings['text_elements.thanks_message'])
                         ? ($templateSettings['text_elements.thanks_message']->value ?? $templateSettings['text_elements.thanks_message']->default_value ?? 'Thanks for your Business')
                         : 'Thanks for your Business';
                 @endphp
@@ -992,7 +993,7 @@ $signatureLabel = $templateSettings['visual_elements.signature_image']->label
                 @if(isset($customBlocks) && $customBlocks->count() > 0)
                     @foreach($customBlocks as $block)
                     @if($block->position === 'before_footer' || $block->position === 'custom')
-                        <div class="custom-block mt-3 {{ $block->css_class ?? '' }}" 
+                        <div class="custom-block mt-3 {{ $block->css_class ?? '' }}"
                              @if($block->custom_css) style="{{ $block->custom_css }}" @endif>
                             @if($block->block_type === 'image' && $block->image_path)
                                 <img src="{{ asset($block->image_path) }}" alt="{{ $block->block_name }}" class="img-fluid">
