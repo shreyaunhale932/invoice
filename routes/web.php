@@ -137,6 +137,14 @@ Route::post('/check-product-code', [ProductController::class, 'checkProductCode'
     Route::post('/accounting/post-invoice/{id}', [\App\Http\Controllers\AccountingController::class, 'postInvoice'])->name('accounting.post-invoice');
     Route::get('/reports/day-book', [DayBookController::class, 'index'])->name('day-book.index');
 
+    // Expense Routes
+    Route::get('/expenses', [\App\Http\Controllers\ExpenseController::class, 'index'])->name('expenses.index');
+    Route::get('/expenses/create', [\App\Http\Controllers\ExpenseController::class, 'create'])->name('expenses.create');
+    Route::post('/expenses/store', [\App\Http\Controllers\ExpenseController::class, 'store'])->name('expenses.store');
+    Route::put('/expenses/{expense}', [\App\Http\Controllers\ExpenseController::class, 'update'])->name('expenses.update');
+    Route::delete('/expenses/{expense}', [\App\Http\Controllers\ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+
 
 });
 
@@ -333,9 +341,8 @@ Route::get('/index-five', [HomeController::class, 'indexfive'])->name('index-fiv
 Route::get('/index-four', [HomeController::class, 'indexfour'])->name('index-four');
 Route::get('/index-three', [HomeController::class, 'indexthree'])->name('index-three');
 Route::get('/index-two', [HomeController::class, 'indextwo'])->name('index-two');
-// Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/expenses', [HomeController::class, 'expenses'])->name('expenses');
-Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
+    // Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
 
 // Route::get('/add-products', [HomeController::class, 'addproducts'])->name('add-products');
 Route::get('/category', [HomeController::class, 'category'])->name('category');

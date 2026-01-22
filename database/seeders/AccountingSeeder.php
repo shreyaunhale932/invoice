@@ -40,6 +40,10 @@ class AccountingSeeder extends Seeder
         Account::create(['name' => 'Stone Sales', 'account_group_id' => $income->id]);
 
         // 5. Expense Accounts
+        Account::create(['name' => 'Office Rent', 'account_group_id' => $expense->id]);
+        Account::create(['name' => 'Electricity Bill', 'account_group_id' => $expense->id]);
+        Account::create(['name' => 'Salary', 'account_group_id' => $expense->id]);
+        Account::create(['name' => 'Miscellaneous', 'account_group_id' => $expense->id]);
         Account::create(['name' => 'Bank / Card Charges', 'account_group_id' => $expense->id]);
         Account::create(['name' => 'Discount Allowed', 'account_group_id' => $expense->id]);
     }

@@ -86,6 +86,8 @@
                                     href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
                             <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
                                     href="{{ route('accounting.chart-of-accounts') }}">Ledger</a></li>
+                            <li><a class="{{ Request::is('expenses', 'expenses/create') ? 'active' : '' }}"
+                                    href="{{ url('expenses') }}">Expenses</a></li>
                             <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
                                     href="{{ route('day-book.index') }}">Day Book</a></li>
                         </ul>
@@ -242,6 +244,8 @@
                                     href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
                             <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
                                     href="{{ route('accounting.chart-of-accounts') }}">Ledger</a></li>
+                            <li><a class="{{ Request::is('expenses', 'expenses/create') ? 'active' : '' }}"
+                                    href="{{ url('expenses') }}">Expenses</a></li>
                             <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
                                     href="{{ route('day-book.index') }}">Day Book</a></li>
                         </ul>

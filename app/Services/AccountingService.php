@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Models\Account;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryLine;
+use App\Models\SellInvoice;
+use App\Models\Expense;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
 class AccountingService
@@ -375,6 +378,39 @@ class AccountingService
      * Recreate all journal entries from scratch.
      * WARNING: Deletes all existing journal entries and lines.
      */
+    public function postExpense($expense)
+    {
+        $lines = [
+            [
+                'account_id' => $expense->expense_account_id,
+                'debit' => $expense->amount,
+                'credit' => 0,
+                'memo' => "Expense: {$expense->description}"
+            ],
+            [
+                'account_id' => $expense->payment_account_id,
+                'debit' => 0,
+                'credit' => $expense->amount,
+                'memo' => "Payment for expense: {$expense->description}"
+            ]
+        ];
+
+        return $this->postJournalEntry(
+            $expense->expense_date,
+            "Expense: " . ($expense->description ?? $expense->expenseAccount->name),
+            $lines,
+            get_class($expense),
+            $expense->id
+        );
+    }
+
+    public function deleteExpenseEntry($expense)
+    {
+        JournalEntry::where('reference_type', get_class($expense))
+            ->where('reference_id', $expense->id)
+            ->delete();
+    }
+
     public function getTrialBalance($fromDate = null, $toDate = null)
     {
         $report = Account::with(['group'])->get()->map(function($account) use ($fromDate, $toDate) {
@@ -575,5 +611,42 @@ class AccountingService
             'lines' => $lines,
             'openingBalance' => $openingBalance
         ];
+    }
+
+    /**
+     * Recreate all journal entries from scratch.
+     * WARNING: Deletes all existing journal entries that have a reference!
+     */
+    public function syncAll()
+    {
+        return DB::transaction(function() {
+            // 1. Delete all journal entries that were created via sync/models
+            JournalEntry::whereNotNull('reference_type')->delete();
+
+            // 2. Sync Invoices
+            SellInvoice::with('items')->chunk(50, function($invoices) {
+                foreach ($invoices as $invoice) {
+                    $this->postSellInvoice($invoice);
+                }
+            });
+
+            // 3. Sync Expenses
+            Expense::with(['expenseAccount', 'paymentAccount'])->chunk(50, function($expenses) {
+                foreach ($expenses as $expense) {
+                    $this->postExpense($expense);
+                }
+            });
+
+            // 4. Sync Products (Stock In)
+            Product::chunk(50, function($products) {
+                foreach ($products as $product) {
+                    if ($product->final_price > 0) {
+                        $this->postStockIn($product, $product->final_price, $product->created_at);
+                    }
+                }
+            });
+
+            return true;
+        });
     }
 }
