@@ -642,7 +642,7 @@
                             + $igstAmount
                             - $discountAmount;
 
-                $finalAmount = round($grossTotal);
+                $finalAmount = $grossTotal;
                 $roundOff = $finalAmount - $grossTotal;
 
                 /* ===============================

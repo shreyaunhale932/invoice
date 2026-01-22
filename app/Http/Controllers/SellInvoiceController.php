@@ -297,7 +297,7 @@ if ($request->product_id) {
                         ) {
                             continue;
                         }
-
+                        $stoneAmount += $s['stone_final_price'];
                         SellStoneItem::create([
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
@@ -808,12 +808,12 @@ if ($request->product_id) {
                 \App\Models\JournalEntry::where('reference_type', get_class($invoice))
                     ->where('reference_id', $invoice->id)
                     ->delete();
-                
+
                 app(\App\Services\AccountingService::class)->postSellInvoice($invoice);
             } catch (\Exception $e) {
                 \Log::error("Accounting Post failed for Invoice Update #{$invoice->invoice_no}: " . $e->getMessage());
             }
-    
+
             DB::commit();
 
             return response()->json([

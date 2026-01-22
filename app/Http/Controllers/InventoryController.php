@@ -138,7 +138,9 @@ public function stockIn(Request $request)
                 ]);
 
                 // Copy diamonds from item_product_data to new product
+                $diaWeight = 0;
                 foreach ($itemProduct->diamonds as $itemDiamond) {
+                    $diaWeight += $itemDiamond->diamond_weight;
                     DiamondDetail::create([
                         'admin_id' => Auth::id(),
                         'product_id' => $newProduct->id,
@@ -153,7 +155,9 @@ public function stockIn(Request $request)
                 }
 
                 // Copy stones from item_product_data to new product
+                $stWeight = 0;
                 foreach ($itemProduct->stones as $itemStone) {
+                    $stWeight += $itemStone->stone_weight;
                     StoneDetail::create([
                         'admin_id' => Auth::id(),
                         'product_id' => $newProduct->id,
@@ -165,9 +169,9 @@ public function stockIn(Request $request)
                 }
 
                 // Create inventory transaction using item_product_data_id
-                $transactionData['item_product_data_id'] = $itemProduct->id;
-                $transactionData['product_id'] = $newProduct->id;
-                InventoryTransaction::create($transactionData);
+                // $transactionData['item_product_data_id'] = $itemProduct->id;
+                // $transactionData['product_id'] = $newProduct->id;
+                // InventoryTransaction::create($transactionData);
 
                 // Update product quantity
                 $newProduct->update([
@@ -176,10 +180,26 @@ public function stockIn(Request $request)
                 // Accounting Post
                 $metalRate = MetalRate::where('id', $newProduct->metal_rate)->first();
 
-                $finalPrice = $newProduct->net_weight * $metalRate->price_per_gram + $newProduct->wastage_amount + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
+            //   echo "-rggrosss-<".$newProduct->gross_weight.'<br>';
+            //    echo "--diam weight<".$diaWeight.'<br>';
+            //     echo "--stWeight <".$stWeight.'<br>';
+            //      echo "--waste per--". $newProduct->wastage_percent.'<br>';
+
+
+                $newnetweight = $newProduct->gross_weight - (($diaWeight + $stWeight) * 0.20);
+                $newnetweight = $newnetweight + (($newnetweight *  $newProduct->wastage_percent)/100);
+                echo '---new weight---'.$newnetweight;die;
+                $finalPrice = $newnetweight * $metalRate->price_per_gram + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
                 $newProduct->update([
                     'final_price' => $finalPrice,
+                    'net_weight' => $newnetweight,
                 ]);
+
+                $transactionData['item_product_data_id'] = $itemProduct->id;
+                $transactionData['product_id'] = $newProduct->id;
+                $transactionData['net_weight'] = $newnetweight;
+                InventoryTransaction::create($transactionData);
+
                 try {
                     app(\App\Services\AccountingService::class)->postStockIn($newProduct, $finalPrice);
                 } catch (\Exception $e) {
@@ -214,7 +234,7 @@ public function stockIn(Request $request)
             }
 
             // Create new product from item_product_data
-            
+
             $newProduct = Product::create([
                 'admin_id' => Auth::id(),
                 'product_name' => $itemProduct->product_name,
@@ -240,7 +260,7 @@ public function stockIn(Request $request)
                 'quantity' => $request->quantity,
                 'size' => $request->size,
                 'final_fn_weight' => $request->final_fn_weight ?? 0,
-                
+
             ]);
             if (empty($product->barcode)) {
                 $productCodePart = strtoupper(substr($newProduct->pre_code, 0, 3));
@@ -261,7 +281,9 @@ public function stockIn(Request $request)
             }
 
             // Copy diamonds from item_product_data to new product
+            $diaWeight = 0;
             foreach ($itemProduct->diamonds as $itemDiamond) {
+                   $diaWeight += $itemDiamond->diamond_weight;
                 DiamondDetail::create([
                     'admin_id' => Auth::id(),
                     'product_id' => $newProduct->id,
@@ -276,7 +298,9 @@ public function stockIn(Request $request)
             }
 
             // Copy stones from item_product_data to new product
+            $stWeight =0;
             foreach ($itemProduct->stones as $itemStone) {
+                 $stWeight += $itemStone->stone_weight;
                 StoneDetail::create([
                     'admin_id' => Auth::id(),
                     'product_id' => $newProduct->id,
@@ -287,14 +311,31 @@ public function stockIn(Request $request)
                 ]);
             }
             $metalRate = MetalRate::where('id', $newProduct->metal_rate)->first();
-            $finalPrice = $newProduct->net_weight * $metalRate->price_per_gram + $newProduct->wastage_amount + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
+            // $finalPrice = $newProduct->net_weight * $metalRate->price_per_gram + $newProduct->wastage_amount + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
             // Create inventory transaction using item_product_data_id
-            $transactionData['item_product_data_id'] = $itemProduct->id;
-            $transactionData['product_id'] = $newProduct->id;
-            InventoryTransaction::create($transactionData);
-            $newProduct->update([
-                'final_price' => $finalPrice,
-            ]);
+            // $transactionData['item_product_data_id'] = $itemProduct->id;
+            // $transactionData['product_id'] = $newProduct->id;
+            // InventoryTransaction::create($transactionData);
+            //   echo "-rggrosss-<".$newProduct->gross_weight.'<br>';
+            //    echo "--diam weight<".$diaWeight.'<br>';
+            //     echo "--stWeight <".$stWeight.'<br>';
+            //      echo "--waste per--". $newProduct->wastage_percent.'<br>';
+            //      die;
+             $newnetweight = $newProduct->gross_weight - (($diaWeight + $stWeight) * 0.20);
+                $newnetweight = $newnetweight + (($newnetweight *  $newProduct->wastage_percent)/100);
+                    // echo '---new weight---'.$newnetweight;die;
+                $finalPrice = $newnetweight * $metalRate->price_per_gram + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
+                $newProduct->update([
+                    'final_price' => $finalPrice,
+                    'net_weight' => $newnetweight,
+                ]);
+                   $transactionData['item_product_data_id'] = $itemProduct->id;
+                $transactionData['product_id'] = $newProduct->id;
+                $transactionData['net_weight'] = $newnetweight;
+                InventoryTransaction::create($transactionData);
+            // $newProduct->update([
+            //     'final_price' => $finalPrice,
+            // ]);
             // Accounting Post
             try {
                 app(\App\Services\AccountingService::class)->postStockIn($newProduct, $finalPrice);

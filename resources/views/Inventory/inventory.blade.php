@@ -52,7 +52,7 @@
                                                 </td>
 
                                                 <td>
-                                                    {{ number_format(($product->in_net ?? 0) - ($product->out_net ?? 0), 3) }}
+                                                    {{($product->in_net ?? 0) - ($product->out_net ?? 0) }}
                                                     GM
                                                 </td>
                                                 <td>{{ $product->sale_price }}</td>
