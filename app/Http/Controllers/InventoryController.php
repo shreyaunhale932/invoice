@@ -11,6 +11,7 @@ use App\Models\StoneDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\MetalRate;
 
 class InventoryController extends Controller
 {
@@ -133,6 +134,7 @@ public function stockIn(Request $request)
                     'quantity' => $request->quantity,
                     'size' => $request->size,
                     'final_fn_weight' => $request->final_fn_weight ?? 0,
+                    'final_price' => $itemProduct->final_price,
                 ]);
 
                 // Copy diamonds from item_product_data to new product
@@ -171,6 +173,18 @@ public function stockIn(Request $request)
                 $newProduct->update([
                     'quantity' => ($newProduct->quantity ?? 0) + $request->quantity,
                 ]);
+                // Accounting Post
+                $metalRate = MetalRate::where('id', $newProduct->metal_rate)->first();
+
+                $finalPrice = $newProduct->net_weight * $metalRate->price_per_gram + $newProduct->wastage_amount + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
+                $newProduct->update([
+                    'final_price' => $finalPrice,
+                ]);
+                try {
+                    app(\App\Services\AccountingService::class)->postStockIn($newProduct, $finalPrice);
+                } catch (\Exception $e) {
+                    \Log::error("Accounting Post failed for Stock In: " . $e->getMessage());
+                }
             } else {
                 // Product without item_product_data_id - this shouldn't happen in new system
                 // But handle it gracefully
@@ -200,6 +214,7 @@ public function stockIn(Request $request)
             }
 
             // Create new product from item_product_data
+            
             $newProduct = Product::create([
                 'admin_id' => Auth::id(),
                 'product_name' => $itemProduct->product_name,
@@ -225,6 +240,7 @@ public function stockIn(Request $request)
                 'quantity' => $request->quantity,
                 'size' => $request->size,
                 'final_fn_weight' => $request->final_fn_weight ?? 0,
+                
             ]);
             if (empty($product->barcode)) {
                 $productCodePart = strtoupper(substr($newProduct->pre_code, 0, 3));
@@ -270,11 +286,21 @@ public function stockIn(Request $request)
                     'stone_final_price' => $itemStone->stone_final_price,
                 ]);
             }
-
+            $metalRate = MetalRate::where('id', $newProduct->metal_rate)->first();
+            $finalPrice = $newProduct->net_weight * $metalRate->price_per_gram + $newProduct->wastage_amount + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
             // Create inventory transaction using item_product_data_id
             $transactionData['item_product_data_id'] = $itemProduct->id;
             $transactionData['product_id'] = $newProduct->id;
             InventoryTransaction::create($transactionData);
+            $newProduct->update([
+                'final_price' => $finalPrice,
+            ]);
+            // Accounting Post
+            try {
+                app(\App\Services\AccountingService::class)->postStockIn($newProduct, $finalPrice);
+            } catch (\Exception $e) {
+                \Log::error("Accounting Post failed for Stock In: " . $e->getMessage());
+            }
 
             // Update product quantity
             // $newProduct->update([
@@ -352,6 +378,10 @@ public function stockOut(Request $request)
                 $product->availability = 'sold';
             }
             $product->save();
+            // Accounting Post
+            \App\Models\JournalEntry::where('reference_type', get_class($product))
+                ->where('reference_id', $product->id)
+                ->delete();
         }
         // Handle item product data - requires product selection (stock out only on selected product)
         elseif ($request->item_product_data_id) {
@@ -400,6 +430,10 @@ public function stockOut(Request $request)
 
             $selectedProduct->update(['availability' => 'sold']);
             $selectedProduct->delete();
+            // Accounting Post
+            \App\Models\JournalEntry::where('reference_type', get_class($selectedProduct))
+                ->where('reference_id', $selectedProduct->id)
+                ->delete();
 
             // Update item_product_data totals
 

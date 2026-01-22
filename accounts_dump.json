@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Stock"
+    },
+    {
+        "id": 2,
+        "name": "Cash in Hand"
+    },
+    {
+        "id": 3,
+        "name": "Bank"
+    },
+    {
+        "id": 4,
+        "name": "UPI Clearing"
+    },
+    {
+        "id": 5,
+        "name": "Card Receivable"
+    },
+    {
+        "id": 6,
+        "name": "Capital"
+    },
+    {
+        "id": 7,
+        "name": "GST Output CGST"
+    },
+    {
+        "id": 8,
+        "name": "GST Output SGST"
+    },
+    {
+        "id": 9,
+        "name": "Jewellery Sales"
+    },
+    {
+        "id": 10,
+        "name": "Bank \/ Card Charges"
+    }
+]

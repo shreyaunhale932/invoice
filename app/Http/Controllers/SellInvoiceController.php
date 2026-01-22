@@ -614,6 +614,12 @@ if ($request->product_id) {
                     }
                 }
             }
+            // Accounting Post
+            try {
+                app(\App\Services\AccountingService::class)->postSellInvoice($invoice);
+            } catch (\Exception $e) {
+                \Log::error("Accounting Post failed for Invoice Finalize #{$invoice->invoice_no}: " . $e->getMessage());
+            }
 
             DB::commit();
 
@@ -649,6 +655,11 @@ if ($request->product_id) {
                 }
                 $item->delete();
             }
+
+            // ✅ Delete associated journal entry
+            \App\Models\JournalEntry::where('reference_type', get_class($invoice))
+                ->where('reference_id', $invoice->id)
+                ->delete();
 
             $invoice->delete();
 
@@ -789,7 +800,20 @@ if ($request->product_id) {
                     }
                 }
             }
-
+            // Accounting Post
+            try {
+                // For updates, we might need to reverse old entry or just update.
+                // But the user said "One invoice = one journal entry".
+                // I'll delete the old journal entry for this invoice if it exists.
+                \App\Models\JournalEntry::where('reference_type', get_class($invoice))
+                    ->where('reference_id', $invoice->id)
+                    ->delete();
+                
+                app(\App\Services\AccountingService::class)->postSellInvoice($invoice);
+            } catch (\Exception $e) {
+                \Log::error("Accounting Post failed for Invoice Update #{$invoice->invoice_no}: " . $e->getMessage());
+            }
+    
             DB::commit();
 
             return response()->json([

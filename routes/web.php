@@ -126,6 +126,15 @@ Route::post('/check-product-code', [ProductController::class, 'checkProductCode'
         return 'Default columns inserted!';
     });
 
+    // Accounting Routes
+    Route::get('/accounting/trial-balance', [\App\Http\Controllers\AccountingController::class, 'trialBalance'])->name('accounting.trial-balance');
+    Route::get('/accounting/profit-loss', [\App\Http\Controllers\AccountingController::class, 'profitAndLoss'])->name('accounting.profit-loss');
+    Route::get('/accounting/balance-sheet', [\App\Http\Controllers\AccountingController::class, 'balanceSheet'])->name('accounting.balance-sheet');
+    Route::get('/accounting/chart-of-accounts', [\App\Http\Controllers\AccountingController::class, 'chartOfAccounts'])->name('accounting.chart-of-accounts');
+    Route::get('/accounting/ledger/{id}', [\App\Http\Controllers\AccountingController::class, 'ledger'])->name('accounting.ledger');
+    Route::get('/accounting/sync-all', [\App\Http\Controllers\AccountingController::class, 'syncAll'])->name('accounting.sync-all');
+    Route::post('/accounting/post-invoice/{id}', [\App\Http\Controllers\AccountingController::class, 'postInvoice'])->name('accounting.post-invoice');
+
 });
 
 

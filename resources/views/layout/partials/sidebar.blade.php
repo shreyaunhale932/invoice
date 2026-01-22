@@ -72,6 +72,24 @@
                     </li>
                     <!-- /Membership) -->
 
+                    <!-- Accounting -->
+                    <li class="menu-title"><span>Accounting</span></li>
+                    <li class="submenu">
+                        <a href="#"><i class="fe fe-file-text"></i> <span> Reports</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
+                                    href="{{ route('accounting.trial-balance') }}">Trial Balance</a></li>
+                            <li><a class="{{ Request::is('accounting/profit-loss') ? 'active' : '' }}"
+                                    href="{{ route('accounting.profit-loss') }}">Profit & Loss</a></li>
+                            <li><a class="{{ Request::is('accounting/balance-sheet') ? 'active' : '' }}"
+                                    href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
+                            <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
+                                    href="{{ route('accounting.chart-of-accounts') }}">Ledger</a></li>
+                        </ul>
+                    </li>
+                    <!-- /Accounting -->
+
 
 
 
@@ -204,18 +222,28 @@
                                     href="{{ route('invoice.template.index') }}">Invoice Templates</a></li>
                         </ul>
                     </li>
-                    <!-- <li>
-                        <a class="{{ Request::is('recurring-invoices') ? 'active' : '' }}"
-                            href="{{ url('recurring-invoices') }}"><i class="fe fe-clipboard"></i> <span>Recurring
-                                Invoices</span></a>
-                    </li>
-                    <li>
-                        <a class="{{ Request::is('credit-notes', 'add-credit-notes', 'edit-credit-notes') ? 'active' : '' }}"
-                            href="{{ url('credit-notes') }}"><i class="fe fe-edit"></i> <span>Credit
-                                Notes</span></a>
-                    </li> -->
                 </ul>
                 <!-- /Sales -->
+
+                <!-- Accounting -->
+                <ul>
+                    <li class="menu-title"><span>Accounting</span></li>
+                    <li class="submenu">
+                        <a href="#"><i class="fe fe-file-text"></i> <span> Reports</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
+                                    href="{{ route('accounting.trial-balance') }}">Trial Balance</a></li>
+                            <li><a class="{{ Request::is('accounting/profit-loss') ? 'active' : '' }}"
+                                    href="{{ route('accounting.profit-loss') }}">Profit & Loss</a></li>
+                            <li><a class="{{ Request::is('accounting/balance-sheet') ? 'active' : '' }}"
+                                    href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
+                            <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
+                                    href="{{ route('accounting.chart-of-accounts') }}">Ledger</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /Accounting -->
 
 
                 <!-- Settings -->
