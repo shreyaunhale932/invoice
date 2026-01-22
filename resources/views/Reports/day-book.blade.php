@@ -144,6 +144,49 @@
                     </div>
                 </div>
 
+                <!-- Expense Activity -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header border-0 pb-0">
+                            <h5 class="card-title">Expense Activity</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-center table-hover datatable">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Expense ID</th>
+                                            <th>Category</th>
+                                            <th>Payment Method</th>
+                                            <th>Amount</th>
+                                            <th>Notes</th>
+                                            <th>Status</th>
+                                            <th>Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($expenseActivity as $expense)
+                                            <tr>
+                                                <td class="fw-bold text-primary">EXP-{{ str_pad($expense->id, 4, '0', STR_PAD_LEFT) }}</td>
+                                                <td>{{ $expense->expenseAccount->name }}</td>
+                                                <td>{{ $expense->paymentAccount->name }}</td>
+                                                <td class="fw-bold">{{ number_format($expense->amount, 2) }}</td>
+                                                <td>{{ Str::limit($expense->description, 30) }}</td>
+                                                <td><span class="badge bg-success-light">Paid</span></td>
+                                                <td>{{ $expense->created_at->format('h:i A') }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center text-muted">No expenses today</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Accounts Activity -->
                 <div class="col-lg-12">
                     <div class="card">

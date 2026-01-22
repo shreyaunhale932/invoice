@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\InventoryTransaction;
 use App\Models\SellInvoice;
 use App\Models\JournalEntry;
+use App\Models\Expense;
 use App\Services\AccountingService;
 use Carbon\Carbon;
 
@@ -32,7 +33,12 @@ class DayBookController extends Controller
             ->whereDate('invoice_date', $date)
             ->get();
 
-        // 3. Accounts Activity (Journal Entries)
+        // 3. Expense Activity
+        $expenseActivity = Expense::with(['expenseAccount', 'paymentAccount'])
+            ->whereDate('expense_date', $date)
+            ->get();
+
+        // 4. Accounts Activity (Journal Entries)
         $accountsActivity = JournalEntry::with(['lines.account'])
             ->whereDate('entry_date', $date)
             ->get();
@@ -44,6 +50,7 @@ class DayBookController extends Controller
             'date',
             'stockActivity',
             'salesActivity',
+            'expenseActivity',
             'accountsActivity',
             'plData'
         ));
