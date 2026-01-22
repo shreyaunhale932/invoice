@@ -17,6 +17,7 @@ use App\Http\Controllers\PurityController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\SellInvoiceController;
+use App\Http\Controllers\DayBookController;
 use Illuminate\Support\Str;
 use App\Models\Invoice;
 
@@ -134,6 +135,8 @@ Route::post('/check-product-code', [ProductController::class, 'checkProductCode'
     Route::get('/accounting/ledger/{id}', [\App\Http\Controllers\AccountingController::class, 'ledger'])->name('accounting.ledger');
     Route::get('/accounting/sync-all', [\App\Http\Controllers\AccountingController::class, 'syncAll'])->name('accounting.sync-all');
     Route::post('/accounting/post-invoice/{id}', [\App\Http\Controllers\AccountingController::class, 'postInvoice'])->name('accounting.post-invoice');
+    Route::get('/reports/day-book', [DayBookController::class, 'index'])->name('day-book.index');
+
 
 });
 
