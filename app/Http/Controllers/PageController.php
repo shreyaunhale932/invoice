@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\SellInvoice;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PageController extends Controller
 {
@@ -281,15 +285,32 @@ class PageController extends Controller
     }
     public function invoices_overdue()
     {
-        return view('Sales/Invoices/invoices-overdue');
+       $today = Carbon::today();
+
+    $invoices = SellInvoice::whereDate('invoice_due_date', '<', $today)
+        ->whereIn('status', ['pending', 'partial']) // adjust as per your column
+        ->orderBy('invoice_due_date', 'asc')
+        ->get();
+
+    return view('Sales.Invoices.invoices-overdue', compact('invoices'));
     }
     public function invoices_paid()
     {
-        return view('Sales/Invoices/invoices-paid');
+         $invoices = SellInvoice::with('customer')
+        ->where('admin_id', Auth::id())
+        ->where('status', 'paid')   // 🔥 Only paid invoices
+        ->orderBy('id', 'desc')
+        ->get();
+
+    return view('Sales/Invoices/invoices-paid', compact('invoices'));
     }
     public function invoices_recurring()
     {
-        return view('Sales/Invoices/invoices-recurring');
+       $invoices = SellInvoice::where('status', 'partial')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('Sales/Invoices/invoices-recurring', compact('invoices'));
     }
     public function invoices_refunded()
     {
@@ -622,16 +643,16 @@ class PageController extends Controller
     public function emailtemplate()
     {
            return view( 'Settings/email-template' );
-   
+
        }
        public function seosettings()
        {
               return view( 'Settings/seo-settings');
-      
+
           }
           public function saassettings()
           {
                  return view( 'Settings/saas-settings');
-         
+
              }
 }

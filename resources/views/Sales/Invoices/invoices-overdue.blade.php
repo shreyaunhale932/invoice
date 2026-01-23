@@ -43,12 +43,12 @@
                                                     <span class="checkmark"></span>
                                                 </label>Invoice ID
                                             </th>
-                                            <th>Category</th>
+                                            {{-- <th>Category</th> --}}
                                             <th>Created On</th>
                                             <th>Invoice To</th>
                                             <th>Total</th>
                                             <th>Paid</th>
-                                            <th>Payment Mode</th>
+                                            {{-- <th>Payment Mode</th> --}}
                                             <th>Balance</th>
                                             <th>Due Date</th>
                                             <th>Status</th>
@@ -56,67 +56,72 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $json = file_get_contents(public_path('../public/assets/json/invoices-overdue.json'));
-                                            $invoices = json_decode($json, true);
-                                        @endphp
-                                        @foreach ($invoices as $invoice)
+                                        @forelse ($invoices as $invoice)
                                             <tr>
                                                 <td>
                                                     <label class="custom_check">
-                                                        <input type="checkbox" name="invoice">
+                                                        <input type="checkbox">
                                                         <span class="checkmark"></span>
                                                     </label>
-                                                    <a href="{{ url('invoice-details') }}"
-                                                        class="invoice-link">{{ $invoice['InvoiceID'] }}</a>
+                                                    <a href="{{ route('sell.invoice.view', $invoice->id) }}"
+                                                        class="invoice-link">
+                                                        {{ $invoice->invoice_no }}
+                                                    </a>
                                                 </td>
-                                                <td>{{ $invoice['Category'] }}</td>
-                                                <td>{{ $invoice['CreatedOn'] }}</td>
+
+                                                {{-- <td>{{ $invoice->category ?? '-' }}</td> --}}
+
+                                                <td>{{ date('d-m-Y', strtotime($invoice->created_at)) }}</td>
+
                                                 <td>
                                                     <h2 class="table-avatar">
-                                                        <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
-                                                                class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('/public/assets/img/profiles/' . $invoice['Image']) }}"
-                                                                alt="User Image"></a>
-                                                        <a
-                                                            href="{{ url('profile') }}">{{ $invoice['InvoiceTo'] }}<span>{{ $invoice['Phone'] }}</span></a>
+
+                                                        <a href="#">
+                                                            {{ $invoice->customer->name ?? '-' }}
+                                                            <span>{{ $invoice->customer->phone ?? '' }}</span>
+                                                        </a>
                                                     </h2>
                                                 </td>
-                                                <td>{{ $invoice['Total'] }}</td>
-                                                <td>{{ $invoice['Paid'] }}</td>
-                                                <td>{{ $invoice['PaymentMode'] }}</td>
-                                                <td>{{ $invoice['Balance'] }}</td>
-                                                <td>{{ $invoice['DueDate'] }}</td>
-                                                <td><span class="{{ $invoice['Class'] }}">{{ $invoice['Status'] }}</span>
+
+                                                <td>₹ {{ number_format($invoice->final_amount, 2) }}</td>
+                                                <td>₹ {{ number_format($invoice->total_received ?? 0, 2) }}</td>
+                                                <!-- <td>{{ $invoice->payment_mode ?? '-' }}</td> -->
+                                                <td>₹ {{ number_format($invoice->amount_left ?? 0, 2) }}</td>
+                                                <td>{{ $invoice->invoice_due_date }}</td>
+
+                                                <td>
+                                                    <span class="badge bg-danger">
+                                                        Overdue
+                                                    </span>
                                                 </td>
+
                                                 <td class="text-end">
                                                     <div class="dropdown dropdown-action">
-                                                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
-                                                            aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end customer-dropdown">
-                                                            <a class="dropdown-item" href="{{ url('edit-invoice') }}"><i
-                                                                    class="far fa-edit me-2"></i>Edit</a>
-                                                            <a class="dropdown-item" href="{{ url('invoice-details') }}"><i
-                                                                    class="far fa-eye me-2"></i>View</a>
-                                                            <a class="dropdown-item" href="javascript:void(0);"
-                                                                data-bs-toggle="modal" data-bs-target="#delete_modal"><i
-                                                                    class="far fa-trash-alt me-2"></i>Delete</a>
-                                                            <a class="dropdown-item" href=""><i
-                                                                    class="fe fe-send me-2"></i>Send</a>
+                                                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </a>
+                                                       <div class="dropdown-menu dropdown-menu-end">
                                                             <a class="dropdown-item"
-                                                                href="{{ url('add-credit-notes') }}"><i
-                                                                    class="fe fe-download me-2"></i>Download</a>
-                                                            <a class="dropdown-item" href=""><i
-                                                                    class="fe fe-file-text me-2"></i>Convert to Sales
-                                                                Return</a>
-                                                            <a class="dropdown-item" href=""><i
-                                                                    class="fe fe-copy me-2"></i>Clone as Invoice</a>
+                                                                href="{{ route('sell.invoice.edit', $invoice->id) }}">
+                                                                <i class="far fa-edit me-2"></i>Edit
+                                                            </a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('sell.invoice.view', $invoice->id) }}">
+                                                                <i class="far fa-eye me-2"></i>View
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="11" class="text-center text-muted">
+                                                    No overdue invoices found
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
