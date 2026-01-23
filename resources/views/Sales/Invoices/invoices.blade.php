@@ -29,8 +29,9 @@
             <!-- /Search Filter -->
 
             <!-- Inovices card -->
-            @component('components.invoices-card')
-            @endcomponent
+         @component('components.invoices-card', ['cards' => $cards])
+@endcomponent
+
             <!-- /Inovices card -->
 
             <!-- All Invoice -->

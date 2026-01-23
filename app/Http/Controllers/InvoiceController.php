@@ -41,14 +41,63 @@ class InvoiceController extends Controller
     //     return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'banks', 'business'));
     // }
     public function invoices()
-{
-    $invoices = SellInvoice::with('customer')   // relation must exist
-        ->where('admin_id', Auth::id())
-        ->orderBy('id', 'desc')
-        ->get();
+    {
+        $invoices = SellInvoice::with('customer')   // relation must exist
+            ->where('admin_id', Auth::id())
+            ->orderBy('id', 'desc')
+            ->get();
 
-    return view('Sales/Invoices/invoices', compact('invoices'));
-}
+        // Dashboard cards data
+        $cards = [
+            [
+                'title' => 'Total Invoice',
+                'class' => 'bg-info-light',
+                'icon'  => 'receipt-item.svg',
+                'amount' => $invoices->sum('final_amount'),
+                'number_of_invoice' => $invoices->count(),
+            ],
+            [
+                'title' => 'Outstanding',
+                'class' => 'bg-primary-light',
+                'icon'  => 'transaction-minus.svg',
+                'amount' => $invoices->where('amount_left', '>', 0)->sum('amount_left'),
+                'number_of_invoice' => $invoices->where('amount_left', '>', 0)->count(),
+            ],
+            [
+                'title' => 'Total Overdue',
+                'class' => 'bg-warning-light',
+                'icon'  => 'archive-book.svg',
+                'amount' => $invoices
+                    ->whereIn('status', ['pending', 'partial'])
+                    ->sum('amount_left'),
+
+                'number_of_invoice' => $invoices->where('status', ['pending', 'partial'])->count(),
+            ],
+            [
+                'title' => 'Cancelled',
+                'class' => 'bg-primary-light',
+                'icon'  => 'clipboard-close.svg',
+                'amount' => $invoices->where('status', 'cancelled')->count(),
+                'number_of_invoice' => $invoices->where('status', 'cancelled')->count(),
+            ],
+            [
+                'title' => 'Draft',
+                'class' => 'bg-green-light',
+                'icon'  => 'message-edit.svg',
+                'amount' => $invoices->where('status', 'draft')->sum('grand_total'),
+                'number_of_invoice' => $invoices->where('status', 'draft')->count(),
+            ],
+            [
+                'title' => 'Recurring',
+                'class' => 'bg-danger-light',
+                'icon'  => '3d-rotate.svg',
+                'amount' => $invoices->where('status', 'partial')->sum('final_amount'),
+                'number_of_invoice' => $invoices->where('status', 'partial')->count(),
+            ],
+        ];
+
+        return view('Sales/Invoices/invoices', compact('invoices', 'cards'));
+    }
 
     public function create()
     {

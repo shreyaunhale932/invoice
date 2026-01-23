@@ -291,8 +291,61 @@ class PageController extends Controller
         ->whereIn('status', ['pending', 'partial']) // adjust as per your column
         ->orderBy('invoice_due_date', 'asc')
         ->get();
+           $invoicescard = SellInvoice::with('customer')   // relation must exist
+            ->where('admin_id', Auth::id())
+            ->orderBy('id', 'desc')
+            ->get();
 
-    return view('Sales.Invoices.invoices-overdue', compact('invoices'));
+        // Dashboard cards data
+        $cards = [
+            [
+                'title' => 'Total Invoice',
+                'class' => 'bg-info-light',
+                'icon'  => 'receipt-item.svg',
+                'amount' => $invoicescard->sum('final_amount'),
+                'number_of_invoice' => $invoicescard->count(),
+            ],
+            [
+                'title' => 'Outstanding',
+                'class' => 'bg-primary-light',
+                'icon'  => 'transaction-minus.svg',
+                'amount' => $invoicescard->where('amount_left', '>', 0)->sum('amount_left'),
+                'number_of_invoice' => $invoicescard->where('amount_left', '>', 0)->count(),
+            ],
+            [
+                'title' => 'Total Overdue',
+                'class' => 'bg-warning-light',
+                'icon'  => 'archive-book.svg',
+                'amount' => $invoicescard
+                    ->whereIn('status', ['pending', 'partial'])
+                    ->sum('amount_left'),
+
+                'number_of_invoice' => $invoicescard->where('status', ['pending', 'partial'])->count(),
+            ],
+            [
+                'title' => 'Cancelled',
+                'class' => 'bg-primary-light',
+                'icon'  => 'clipboard-close.svg',
+                'amount' => $invoicescard->where('status', 'cancelled')->count(),
+                'number_of_invoice' => $invoicescard->where('status', 'cancelled')->count(),
+            ],
+            [
+                'title' => 'Draft',
+                'class' => 'bg-green-light',
+                'icon'  => 'message-edit.svg',
+                'amount' => $invoicescard->where('status', 'draft')->sum('grand_total'),
+                'number_of_invoice' => $invoicescard->where('status', 'draft')->count(),
+            ],
+            [
+                'title' => 'Recurring',
+                'class' => 'bg-danger-light',
+                'icon'  => '3d-rotate.svg',
+                'amount' => $invoicescard->where('status', 'partial')->sum('final_amount'),
+                'number_of_invoice' => $invoicescard->where('status', 'partial')->count(),
+            ],
+        ];
+
+    return view('Sales.Invoices.invoices-overdue', compact('invoices','cards'));
     }
     public function invoices_paid()
     {
@@ -302,15 +355,122 @@ class PageController extends Controller
         ->orderBy('id', 'desc')
         ->get();
 
-    return view('Sales/Invoices/invoices-paid', compact('invoices'));
+           $invoicescard = SellInvoice::with('customer')   // relation must exist
+            ->where('admin_id', Auth::id())
+            ->orderBy('id', 'desc')
+            ->get();
+
+        // Dashboard cards data
+        $cards = [
+            [
+                'title' => 'Total Invoice',
+                'class' => 'bg-info-light',
+                'icon'  => 'receipt-item.svg',
+                'amount' => $invoicescard->sum('final_amount'),
+                'number_of_invoice' => $invoicescard->count(),
+            ],
+            [
+                'title' => 'Outstanding',
+                'class' => 'bg-primary-light',
+                'icon'  => 'transaction-minus.svg',
+                'amount' => $invoicescard->where('amount_left', '>', 0)->sum('amount_left'),
+                'number_of_invoice' => $invoicescard->where('amount_left', '>', 0)->count(),
+            ],
+            [
+                'title' => 'Total Overdue',
+                'class' => 'bg-warning-light',
+                'icon'  => 'archive-book.svg',
+                'amount' => $invoicescard
+                    ->whereIn('status', ['pending', 'partial'])
+                    ->sum('amount_left'),
+
+                'number_of_invoice' => $invoicescard->where('status', ['pending', 'partial'])->count(),
+            ],
+            [
+                'title' => 'Cancelled',
+                'class' => 'bg-primary-light',
+                'icon'  => 'clipboard-close.svg',
+                'amount' => $invoicescard->where('status', 'cancelled')->count(),
+                'number_of_invoice' => $invoicescard->where('status', 'cancelled')->count(),
+            ],
+            [
+                'title' => 'Draft',
+                'class' => 'bg-green-light',
+                'icon'  => 'message-edit.svg',
+                'amount' => $invoicescard->where('status', 'draft')->sum('grand_total'),
+                'number_of_invoice' => $invoicescard->where('status', 'draft')->count(),
+            ],
+            [
+                'title' => 'Recurring',
+                'class' => 'bg-danger-light',
+                'icon'  => '3d-rotate.svg',
+                'amount' => $invoicescard->where('status', 'partial')->sum('final_amount'),
+                'number_of_invoice' => $invoicescard->where('status', 'partial')->count(),
+            ],
+        ];
+
+    return view('Sales/Invoices/invoices-paid', compact('invoices','cards'));
     }
     public function invoices_recurring()
     {
        $invoices = SellInvoice::where('status', 'partial')
         ->orderBy('created_at', 'desc')
         ->get();
+           $invoicescard = SellInvoice::with('customer')   // relation must exist
+            ->where('admin_id', Auth::id())
+            ->orderBy('id', 'desc')
+            ->get();
 
-    return view('Sales/Invoices/invoices-recurring', compact('invoices'));
+        // Dashboard cards data
+        $cards = [
+            [
+                'title' => 'Total Invoice',
+                'class' => 'bg-info-light',
+                'icon'  => 'receipt-item.svg',
+                'amount' => $invoicescard->sum('final_amount'),
+                'number_of_invoice' => $invoicescard->count(),
+            ],
+            [
+                'title' => 'Outstanding',
+                'class' => 'bg-primary-light',
+                'icon'  => 'transaction-minus.svg',
+                'amount' => $invoicescard->where('amount_left', '>', 0)->sum('amount_left'),
+                'number_of_invoice' => $invoicescard->where('amount_left', '>', 0)->count(),
+            ],
+            [
+                'title' => 'Total Overdue',
+                'class' => 'bg-warning-light',
+                'icon'  => 'archive-book.svg',
+                'amount' => $invoicescard
+                    ->whereIn('status', ['pending', 'partial'])
+                    ->sum('amount_left'),
+
+                'number_of_invoice' => $invoicescard->where('status', ['pending', 'partial'])->count(),
+            ],
+            [
+                'title' => 'Cancelled',
+                'class' => 'bg-primary-light',
+                'icon'  => 'clipboard-close.svg',
+                'amount' => $invoicescard->where('status', 'cancelled')->count(),
+                'number_of_invoice' => $invoicescard->where('status', 'cancelled')->count(),
+            ],
+            [
+                'title' => 'Draft',
+                'class' => 'bg-green-light',
+                'icon'  => 'message-edit.svg',
+                'amount' => $invoicescard->where('status', 'draft')->sum('grand_total'),
+                'number_of_invoice' => $invoicescard->where('status', 'draft')->count(),
+            ],
+            [
+                'title' => 'Recurring',
+                'class' => 'bg-danger-light',
+                'icon'  => '3d-rotate.svg',
+                'amount' => $invoicescard->where('status', 'partial')->sum('final_amount'),
+                'number_of_invoice' => $invoicescard->where('status', 'partial')->count(),
+            ],
+        ];
+
+    return view('Sales/Invoices/invoices-recurring', compact('invoices','cards'));
     }
     public function invoices_refunded()
     {
