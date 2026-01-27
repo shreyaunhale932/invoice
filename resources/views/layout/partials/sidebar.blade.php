@@ -262,7 +262,7 @@
                                 class="menu-arrow"></span></a>
                         <ul>
                             <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
-                                    href="{{ url('stock-report') }}">Availble Stock</a></li>
+                                    href="{{ url('stock-report') }}">Available Stock</a></li>
                                     <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
                                     href="{{ url('sales-report') }}">Sold Stock</a></li>
 
