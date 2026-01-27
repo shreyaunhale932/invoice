@@ -58,41 +58,47 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $json = file_get_contents(public_path('../public/assets/json/index-invoices.json'));
-                        $invoices = json_decode($json, true);
-                    @endphp
                     @foreach ($invoices as $invoice)
                         <tr>
                             <td>
                                 <h2 class="table-avatar">
-                                    <a href="{{ $invoice['Customer']['profile_link'] }}"><img
-                                            class="avatar avatar-sm me-2 avatar-img rounded-circle"
-                                            src="{{ URL::asset('/public/assets/img/profiles/' . $invoice['Customer']['avatar']) }}"
-                                            alt="User Image">{{ $invoice['Customer']['name'] }}</a>
+                                    <a href="{{ url('invoice-details/' . $invoice->id) }}">
+                                        @if($invoice->customer && $invoice->customer->image)
+                                            <img class="avatar avatar-sm me-2 avatar-img rounded-circle"
+                                                src="{{ URL::asset('/public/assets/img/profiles/' . $invoice->customer->image) }}"
+                                                alt="User Image">
+                                        @else
+                                            <img class="avatar avatar-sm me-2 avatar-img rounded-circle"
+                                                src="{{ URL::asset('/public/assets/img/profiles/avatar-01.jpg') }}"
+                                                alt="User Image">
+                                        @endif
+                                        {{ $invoice->customer->name ?? 'Unknown' }}
+                                    </a>
                                 </h2>
                             </td>
-                            <td>{{ $invoice['Amount'] }}</td>
-                            <td>{{ $invoice['DueDate'] }}</td>
-                            <td><span class="{{ $invoice['Status']['class'] }}">{{ $invoice['Status']['text'] }}</span>
+                            <td>₹{{ number_format($invoice->final_amount, 2) }}</td>
+                            <td>{{ \Carbon\Carbon::parse($invoice->invoice_due_date)->format('d M Y') }}</td>
+                            <td>
+                                @php
+                                    $statusClass = 'badge bg-info-light text-info';
+                                    if($invoice->status == 'paid') $statusClass = 'badge bg-success-light';
+                                    elseif($invoice->status == 'partial') $statusClass = 'badge bg-warning-light text-warning';
+                                    elseif($invoice->status == 'pending') $statusClass = 'badge bg-info-light text-info';
+                                    elseif($invoice->status == 'overdue') $statusClass = 'badge bg-danger-light';
+                                @endphp
+                                <span class="{{ $statusClass }}">{{ ucfirst($invoice->status) }}</span>
                             </td>
                             <td class="text-end">
                                 <div class="dropdown dropdown-action">
                                     <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                                         aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="{{ url('edit-invoice') }}"><i
+                                        <a class="dropdown-item" href="{{ url('sell-invoice/edit/' . $invoice->id) }}"><i
                                                 class="far fa-edit me-2"></i>Edit</a>
-                                        <a class="dropdown-item" href="{{ url('invoice-details') }}"><i
+                                        <a class="dropdown-item" href="{{ url('sell-invoice/view/' . $invoice->id) }}"><i
                                                 class="far fa-eye me-2"></i>View</a>
                                         <a class="dropdown-item" href="javascript:void(0);"><i
                                                 class="far fa-trash-alt me-2"></i>Delete</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="far fa-check-circle me-2"></i>Mark as sent</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="far fa-paper-plane me-2"></i>Send Invoice</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i
-                                                class="far fa-copy me-2"></i>Clone Invoice</a>
                                     </div>
                                 </div>
                             </td>

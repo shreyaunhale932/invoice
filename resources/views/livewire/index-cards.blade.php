@@ -1,8 +1,4 @@
 <div class="row">
-    @php
-        $json = file_get_contents(public_path('../public/assets/json/index-cards.json'));
-        $cards = json_decode($json, true);
-    @endphp
     @foreach ($cards as $card)
         <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
@@ -14,7 +10,7 @@
                         <div class="dash-count">
                             <div class="dash-title">{{ $card['dash-title'] }}</div>
                             <div class="dash-counts">
-                                <p>{{ $card['dash-counts'] }}</p>
+                                <p>@if($card['dash-title'] == 'Amount Due') ₹ @endif {{ $card['dash-counts'] }}</p>
                             </div>
                         </div>
                     </div>

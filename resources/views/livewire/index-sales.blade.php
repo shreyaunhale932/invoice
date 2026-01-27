@@ -29,19 +29,19 @@
                     <div class="w-md-100 d-flex align-items-center mb-3 flex-wrap flex-md-nowrap">
                         <div>
                             <span>Total Sales</span>
-                            <p class="h3 text-primary me-5">$1000</p>
+                            <p class="h3 text-primary me-5">₹{{ number_format($totalSales, 2) }}</p>
                         </div>
                         <div>
                             <span>Receipts</span>
-                            <p class="h3 text-success me-5">$1000</p>
+                            <p class="h3 text-success me-5">₹{{ number_format($receipts, 2) }}</p>
                         </div>
                         <div>
                             <span>Expenses</span>
-                            <p class="h3 text-danger me-5">$300</p>
+                            <p class="h3 text-danger me-5">₹{{ number_format($expenses, 2) }}</p>
                         </div>
                         <div>
                             <span>Earnings</span>
-                            <p class="h3 text-dark me-5">$700</p>
+                            <p class="h3 text-dark me-5">₹{{ number_format($earnings, 2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -83,20 +83,20 @@
                             <div class="mt-4">
                                 <p class="mb-2 text-truncate"><i class="fas fa-circle text-primary me-1"></i> Invoiced
                                 </p>
-                                <h5>$2,132</h5>
+                                <h5>₹{{ number_format($totalSales, 2) }}</h5>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mt-4">
                                 <p class="mb-2 text-truncate"><i class="fas fa-circle text-success me-1"></i> Received
                                 </p>
-                                <h5>$1,763</h5>
+                                <h5>₹{{ number_format($receipts, 2) }}</h5>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="mt-4">
                                 <p class="mb-2 text-truncate"><i class="fas fa-circle text-danger me-1"></i> Pending</p>
-                                <h5>$973</h5>
+                                <h5>₹{{ number_format($totalSales - $receipts, 2) }}</h5>
                             </div>
                         </div>
                     </div>
