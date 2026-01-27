@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\SellInvoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 use Carbon\Carbon;
 
 class PageController extends Controller
@@ -177,7 +178,10 @@ class PageController extends Controller
     }
     public function sales_report()
     {
-        return view('Reports/Reports/sales-report');
+         $products = Product::with('category')   // 👈 load category
+        ->where('availability', 'sold')
+        ->get();
+        return view('Reports/Reports/sales-report',compact('products'));
     }
     public function sales_return_report()
     {
@@ -185,7 +189,11 @@ class PageController extends Controller
     }
     public function stock_report()
     {
-        return view('Reports/Reports/stock-report');
+        $products = Product::with('category')   // 👈 load category
+        ->where('availability', 'available')
+        ->get();
+
+    return view('Reports.Reports.stock-report', compact('products'));
     }
     public function purchase_return()
     {

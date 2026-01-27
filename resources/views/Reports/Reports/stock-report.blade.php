@@ -7,7 +7,7 @@
             <!-- Page Header -->
             @component('components.page-header')
                 @slot('title')
-                    Stock Report
+                    Availble Stock
                 @endslot
             @endcomponent
             <!-- /Page Header -->
@@ -27,42 +27,45 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Product</th>
+                                                <th>Product Name</th>
                                                 <th>SKU</th>
                                                 <th>Category</th>
-                                                <th>Opening Qty</th>
-                                                <th>Qty In</th>
-                                                <th>Qty Out</th>
-                                                <th>Closing Qty</th>
+                                                <th>Gross weight</th>
+                                                <th>Net weight</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php
-                                                $json = file_get_contents(public_path('../public/assets/json/stock-report.json'));
-                                                $stockreports = json_decode($json, true);
-                                            @endphp
-                                            @foreach ($stockreports as $stockreport)
+                                            @foreach ($products as $key => $product)
                                                 <tr>
-                                                    <td>{{ $stockreport['Id'] }}</td>
+                                                    <td>{{ $key + 1 }}</td>
+
                                                     <td>
                                                         <h2 class="table-avatar">
-                                                            <a href="{{ url('profile') }}"
-                                                                class="avatar avatar-md me-2 companies">
-                                                                <img class="avatar-img sales-rep"
-                                                                    src="{{ URL::asset('assets/img/' . $stockreport['Image']) }}"
-                                                                    alt="User Image"></a>
-                                                            <a href="{{ url('profile') }}">{{ $stockreport['Product'] }}</a>
+
+                                                            <a href="javascript:void(0)">
+                                                                {{ $product->product_name }}
+                                                            </a>
                                                         </h2>
                                                     </td>
-                                                    <td>{{ $stockreport['SKU'] }}</td>
-                                                    <td>{{ $stockreport['Category'] }}</td>
-                                                    <td>{{ $stockreport['OpeningQty'] }}</td>
-                                                    <td>{{ $stockreport['QtyIn'] }}</td>
-                                                    <td>{{ $stockreport['QtyOut'] }}</td>
-                                                    <td>{{ $stockreport['ClosingQty'] }}</td>
+
+                                                    <td>{{ $product->pre_code }}{{ $product->post_code }}</td>
+                                                    <td>
+                                                        {{ $product->category->category_name ?? '-' }}
+                                                    </td>
+
+                                                    <td>{{ $product->gross_weight }}</td>
+                                                    <td>{{ $product->net_weight }}</td>
+
+                                                    <td>
+                                                        <span class="badge bg-success">
+                                                            {{ ucfirst($product->availability) }}
+                                                        </span>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
+
                                     </table>
                                 </div>
                             </div>

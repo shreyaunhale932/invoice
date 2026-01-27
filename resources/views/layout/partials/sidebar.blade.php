@@ -253,6 +253,23 @@
                 </ul>
                 <!-- /Accounting -->
 
+                <!-- stock reports -->
+
+                  <ul>
+                    <li class="menu-title"><span>Reports</span></li>
+                    <li class="submenu">
+                        <a href="#"><i class="fe fe-file-text"></i> <span>  Item Reports</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
+                                    href="{{ url('stock-report') }}">Availble Stock</a></li>
+                                    <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
+                                    href="{{ url('sales-report') }}">Sold Stock</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+
 
                 <!-- Settings -->
                 <ul>

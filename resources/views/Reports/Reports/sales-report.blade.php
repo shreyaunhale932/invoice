@@ -1,14 +1,13 @@
-<?php $page = 'sales-report'; ?>
+<?php $page = 'stock-report'; ?>
 @extends('layout.mainlayout')
 @section('content')
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content container-fluid">
-
             <!-- Page Header -->
             @component('components.page-header')
                 @slot('title')
-                    Sales Report
+                    Sold Stock
                 @endslot
             @endcomponent
             <!-- /Page Header -->
@@ -20,7 +19,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class=" card-table">
+                    <div class="card-table">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <div class="companies-table">
@@ -28,42 +27,45 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Product</th>
+                                                <th>Product Name</th>
                                                 <th>SKU</th>
                                                 <th>Category</th>
-                                                <th>Sold Amount</th>
-                                                <th>Sold Qty</th>
-                                                <th>Instock Qty</th>
-                                                <th>Due Date</th>
+                                                <th>Gross weight</th>
+                                                <th>Net weight</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php
-                                                $json = file_get_contents(public_path('../public/assets/json/sales-report.json'));
-                                                $salesreports = json_decode($json, true);
-                                            @endphp
-                                            @foreach ($salesreports as $salesreport)
+                                            @foreach ($products as $key => $product)
                                                 <tr>
-                                                    <td>{{ $salesreport['Id'] }}</td>
+                                                    <td>{{ $key + 1 }}</td>
+
                                                     <td>
                                                         <h2 class="table-avatar">
-                                                            <a href="{{ url('profile') }}"
-                                                                class="avatar avatar-md me-2 companies">
-                                                                <img class="avatar-img sales-rep"
-                                                                    src="{{ URL::asset('assets/img/' . $salesreport['Image']) }}"
-                                                                    alt="User Image"></a>
-                                                            <a href="{{ url('profile') }}">{{ $salesreport['Product'] }}</a>
+
+                                                            <a href="javascript:void(0)">
+                                                                {{ $product->product_name }}
+                                                            </a>
                                                         </h2>
                                                     </td>
-                                                    <td>{{ $salesreport['SKU'] }}</td>
-                                                    <td>{{ $salesreport['Category'] }}</td>
-                                                    <td>{{ $salesreport['SoldAmount'] }}</td>
-                                                    <td>{{ $salesreport['SoldQty'] }}</td>
-                                                    <td>{{ $salesreport['InstockQty'] }}</td>
-                                                    <td>{{ $salesreport['DueDate'] }}</td>
+
+                                                    <td>{{ $product->pre_code }}{{ $product->post_code }}</td>
+                                                    <td>
+                                                        {{ $product->category->category_name ?? '-' }}
+                                                    </td>
+
+                                                    <td>{{ $product->gross_weight }}</td>
+                                                    <td>{{ $product->net_weight }}</td>
+
+                                                    <td>
+                                                        <span class="badge bg-success">
+                                                            {{ ucfirst($product->availability) }}
+                                                        </span>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
+
                                     </table>
                                 </div>
                             </div>
