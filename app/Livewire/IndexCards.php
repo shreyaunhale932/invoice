@@ -9,7 +9,7 @@ class IndexCards extends Component
     public function render()
     {
         $adminId = auth()->id();
-        
+
         $amountDue = \App\Models\SellInvoice::where('admin_id', $adminId)->sum('amount_left');
         $customersCount = \App\Models\Customer::where('admin_id', $adminId)->count();
         $invoicesCount = \App\Models\SellInvoice::where('admin_id', $adminId)->count();
@@ -18,7 +18,7 @@ class IndexCards extends Component
         $cards = [
             [
                 "dash-widget-icon" => "dash-widget-icon bg-1",
-                "icon-class" => "fas fa-dollar-sign",
+                "icon-class" => "fa-solid fa-indian-rupee-sign",
                 "dash-title" => "Amount Due",
                 "dash-counts" => number_format($amountDue, 2),
                 "progress-bar" => "progress-bar bg-5",
