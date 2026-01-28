@@ -58,7 +58,7 @@
                                                     <td>{{ $product->net_weight }}</td>
 
                                                     <td>
-                                                        <span class="badge bg-success">
+                                                        <span class="badge bg-danger">
                                                             {{ ucfirst($product->availability) }}
                                                         </span>
                                                     </td>

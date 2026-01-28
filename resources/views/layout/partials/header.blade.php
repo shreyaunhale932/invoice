@@ -919,6 +919,9 @@ $('#globalSearch').on('keyup', function () {
                                         <li>
                                             <a href="{{ url('payment-summary') }}"> <span>Payment Summary</span></a>
                                         </li>
+                                        <li>
+                                            <a href="{{ url('stock-summary') }}"> <span>Stock Summary</span></a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <!-- /Reports -->

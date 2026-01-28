@@ -8,6 +8,8 @@ use App\Models\SellInvoice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
+use App\Models\ItemProductData;
+use App\Models\InventoryTransaction;
 use Carbon\Carbon;
 
 class PageController extends Controller
@@ -194,6 +196,52 @@ class PageController extends Controller
         ->get();
 
     return view('Reports.Reports.stock-report', compact('products'));
+    }
+    public function stock_summary(Request $request) {
+        $from_date = $request->input('from_date', Carbon::now()->startOfMonth()->toDateString());
+        $to_date = $request->input('to_date', Carbon::now()->endOfMonth()->toDateString());
+
+        $products = ItemProductData::with('category')
+            ->get()
+            ->map(function ($product) use ($from_date, $to_date) {
+                // Opening Stock: (In - Out) before from_date
+                $opening_trans = InventoryTransaction::where('item_product_data_id', $product->id)
+                    ->where('created_at', '<', $from_date . ' 00:00:00')
+                    ->get();
+
+                $product->opening_qty = $opening_trans->where('type', 'IN')->sum('quantity') - $opening_trans->where('type', 'OUT')->sum('quantity');
+                $product->opening_gross = $opening_trans->where('type', 'IN')->sum('gross_weight') - $opening_trans->where('type', 'OUT')->sum('gross_weight');
+                $product->opening_net = $opening_trans->where('type', 'IN')->sum('net_weight') - $opening_trans->where('type', 'OUT')->sum('net_weight');
+
+                // Inward Stock: During period
+                $inward_trans = InventoryTransaction::where('item_product_data_id', $product->id)
+                    ->whereBetween('created_at', [$from_date . ' 00:00:00', $to_date . ' 23:59:59'])
+                    ->where('type', 'IN')
+                    ->get();
+
+                $product->inward_qty = $inward_trans->sum('quantity');
+                $product->inward_gross = $inward_trans->sum('gross_weight');
+                $product->inward_net = $inward_trans->sum('net_weight');
+
+                // Outward Stock: During period
+                $outward_trans = InventoryTransaction::where('item_product_data_id', $product->id)
+                    ->whereBetween('created_at', [$from_date . ' 00:00:00', $to_date . ' 23:59:59'])
+                    ->where('type', 'OUT')
+                    ->get();
+
+                $product->outward_qty = $outward_trans->sum('quantity');
+                $product->outward_gross = $outward_trans->sum('gross_weight');
+                $product->outward_net = $outward_trans->sum('net_weight');
+
+                // Closing Stock: Opening + In - Out
+                $product->closing_qty = $product->opening_qty + $product->inward_qty - $product->outward_qty;
+                $product->closing_gross = $product->opening_gross + $product->inward_gross - $product->outward_gross;
+                $product->closing_net = $product->opening_net + $product->inward_net - $product->outward_net;
+
+                return $product;
+            });
+
+        return view('Reports.Reports.stock-summary', compact('products', 'from_date', 'to_date'));
     }
     public function purchase_return()
     {

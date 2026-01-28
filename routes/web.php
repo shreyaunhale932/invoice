@@ -193,6 +193,7 @@ Route::get('/edit-delivery-challans', [PageController::class, 'edit_delivery_cha
 Route::get('/edit-quotations', [PageController::class, 'edit_quotations'])->name('edit-quotations');
 Route::get('/quotations', [PageController::class, 'quotations'])->name('quotations');
 Route::get('/payment-summary', [PageController::class, 'payment_summary'])->name('payment-summary');
+Route::get('/stock-summary', [PageController::class, 'stock_summary'])->name('stock-summary');
 Route::get('/expense-report', [PageController::class, 'expense_report'])->name('expense-report');
 Route::get('/income-report', [PageController::class, 'income_report'])->name('income-report');
 Route::get('/low-stock-report', [PageController::class, 'low_stock_report'])->name('low-stock-report');
@@ -380,66 +381,66 @@ Route::post('/sell-invoice/add-item',
 
 Route::get('/sell-invoice/edit/{id}', function ($id) {
     // Determine if we need a controller method or just return the view
-    // Since add_invoice view is powered by JS and customer-dropdown, 
+    // Since add_invoice view is powered by JS and customer-dropdown,
     // we might need to pass the ID to the view so JS can auto-load it.
     // Let's use SellInvoiceController method to be clean.
-    return app(SellInvoiceController::class)->edit($id); 
+    return app(SellInvoiceController::class)->edit($id);
 })->name('sell.invoice.edit');
 
-Route::get('/sell-invoice/get-pending/{customerId}', 
+Route::get('/sell-invoice/get-pending/{customerId}',
     [SellInvoiceController::class, 'getPendingInvoice']
 )->name('sell.invoice.getPending');
 
-Route::get('/sell-invoice/get/{id}', 
+Route::get('/sell-invoice/get/{id}',
     [SellInvoiceController::class, 'getInvoiceById']
 )->name('sell.invoice.getById');
 
-Route::post('/sell-invoice/remove-item', 
+Route::post('/sell-invoice/remove-item',
     [SellInvoiceController::class, 'removeItem']
 )->name('sell.invoice.removeItem');
 
-Route::post('/sell-invoice/update-item', 
+Route::post('/sell-invoice/update-item',
     [SellInvoiceController::class, 'updateItem']
 )->name('sell.invoice.updateItem');
 
-Route::post('/sell-invoice/finalize', 
+Route::post('/sell-invoice/finalize',
     [SellInvoiceController::class, 'finalize']
 )->name('sell.invoice.finalize');
 
-Route::post('/sell-invoice/update', 
+Route::post('/sell-invoice/update',
     [SellInvoiceController::class, 'update']
 )->name('sell.invoice.update');
 
-Route::delete('/sell-invoice/delete/{id}', 
+Route::delete('/sell-invoice/delete/{id}',
     [SellInvoiceController::class, 'destroy']
 )->name('sell.invoice.destroy');
 
-Route::get('/sell-invoice/view/{id}', 
+Route::get('/sell-invoice/view/{id}',
     [SellInvoiceController::class, 'show']
 )->name('sell.invoice.view');
 
 // Invoice Template Routes
-Route::get('/invoice-template/editor', 
+Route::get('/invoice-template/editor',
     [App\Http\Controllers\InvoiceTemplateController::class, 'index']
 )->name('invoice.template.index');
 
-Route::post('/invoice-template/update', 
+Route::post('/invoice-template/update',
     [App\Http\Controllers\InvoiceTemplateController::class, 'update']
 )->name('invoice.template.update');
 
-Route::post('/invoice-template/reset', 
+Route::post('/invoice-template/reset',
     [App\Http\Controllers\InvoiceTemplateController::class, 'reset']
 )->name('invoice.template.reset');
 
-Route::post('/invoice-template/blocks/store', 
+Route::post('/invoice-template/blocks/store',
     [App\Http\Controllers\InvoiceTemplateController::class, 'storeBlock']
 )->name('invoice.template.block.store');
 
-Route::post('/invoice-template/blocks/{id}/update', 
+Route::post('/invoice-template/blocks/{id}/update',
     [App\Http\Controllers\InvoiceTemplateController::class, 'updateBlock']
 )->name('invoice.template.block.update');
 
-Route::delete('/invoice-template/blocks/{id}/delete', 
+Route::delete('/invoice-template/blocks/{id}/delete',
     [App\Http\Controllers\InvoiceTemplateController::class, 'deleteBlock']
 )->name('invoice.template.block.delete');
 

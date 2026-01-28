@@ -261,10 +261,12 @@
                         <a href="#"><i class="fe fe-file-text"></i> <span>  Item Reports</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
-                            <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('stock-report') ? 'active' : '' }}"
                                     href="{{ url('stock-report') }}">Available Stock</a></li>
-                                    <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
+                                    <li><a class="{{ Request::is('sales-report') ? 'active' : '' }}"
                                     href="{{ url('sales-report') }}">Sold Stock</a></li>
+                                        <li><a class="{{ Request::is('stock-summary') ? 'active' : '' }}"
+                                    href="{{ url('stock-summary') }}">Stock Summary</a></li>
 
                         </ul>
                     </li>
