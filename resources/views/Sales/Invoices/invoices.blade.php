@@ -69,7 +69,7 @@
                                                 <td>{{ $loop->iteration }}</td>
 
                                                 <td>
-                                                    <a href="" class="invoice-link">
+                                                    <a href="{{ route('sell.invoice.view', $invoice->id) }}" class="invoice-link">
                                                         {{ $invoice->invoice_no }}
                                                     </a>
                                                 </td>

@@ -73,7 +73,7 @@
                     <!-- /Membership) -->
 
                     <!-- Accounting -->
-                    <li class="menu-title"><span>Accounting</span></li>
+                    {{-- <li class="menu-title"><span>Accounting</span></li>
                     <li class="submenu">
                         <a href="#"><i class="fe fe-file-text"></i> <span> Reports</span> <span
                                 class="menu-arrow"></span></a>
@@ -91,7 +91,7 @@
                             <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
                                     href="{{ route('day-book.index') }}">Day Book</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                     <!-- /Accounting -->
 
 
@@ -238,16 +238,11 @@
                         <ul>
                             <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
                                     href="{{ route('accounting.trial-balance') }}">Trial Balance</a></li>
-                            <li><a class="{{ Request::is('accounting/profit-loss') ? 'active' : '' }}"
-                                    href="{{ route('accounting.profit-loss') }}">Profit & Loss</a></li>
-                            <li><a class="{{ Request::is('accounting/balance-sheet') ? 'active' : '' }}"
-                                    href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
-                            <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
+                                      <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
                                     href="{{ route('accounting.chart-of-accounts') }}">Ledger</a></li>
-                            <li><a class="{{ Request::is('expenses', 'expenses/create') ? 'active' : '' }}"
-                                    href="{{ url('expenses') }}">Expenses</a></li>
-                            <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
+                                    <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
                                     href="{{ route('day-book.index') }}">Day Book</a></li>
+
                         </ul>
                     </li>
                 </ul>

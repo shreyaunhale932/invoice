@@ -46,7 +46,7 @@ class DayBookController extends Controller
         // 4. Profit & Loss for the day
         $plData = $this->accountingService->getProfitAndLoss($date, $date);
 
-        return view('reports.day-book', compact(
+        return view('Reports.day-book', compact(
             'date',
             'stockActivity',
             'salesActivity',

@@ -68,7 +68,7 @@
 
 
                                                     <td>{{ $product['sale_price'] }}</td>
-                                                    <td>{{ $product['gold_price'] }}</td>
+                                                    <td>{{ $product['final_price'] }}</td>
                                                     <td>
                                                         @if(($product->availability ?? 'available') == 'available')
                                                             <span class="badge bg-success">Available</span>
