@@ -268,6 +268,26 @@
                                         </select>
                                     </div>
                                 </div>
+                                   <div class="col-lg-4 col-md-4">
+                                    <label>Final Fn Weight</label>
+                                    <div class="input-group">
+                                        <input type="number" step="0.001" class="form-control" name="final_fn_weight"
+                                            value="{{ old('final_fn_weight', $product->final_fn_weight ?? '') }}" required>
+
+                                        <select class="form-control" name="final_fn_weight_unit"
+                                            style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                                            <option value="GM"
+                                                {{ old('final_fn_weight_unit', $product->final_fn_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
+                                                GM</option>
+                                            <option value="MG"
+                                                {{ old('final_fn_weight_unit', $product->final_fn_weight_unit ?? '') == 'MG' ? 'selected' : '' }}>
+                                                MG</option>
+                                            <option value="KG"
+                                                {{ old('final_fn_weight_unit', $product->final_fn_weight_unit ?? '') == 'KG' ? 'selected' : '' }}>
+                                                KG</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <!-- Final Fine Weight -->
                                 <div class="col-lg-4 col-md-4">

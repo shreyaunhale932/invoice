@@ -29,6 +29,8 @@ class ItemProductData extends Model
         'sale_price',
         'gold_price',
         'mrp_price',
+        'final_fn_weight',
+        'final_price',
     ];
 
     // Relationships

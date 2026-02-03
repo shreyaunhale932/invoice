@@ -25,7 +25,9 @@ function calculatePrice() {
     let wastageWeight = (netWeight * wastagePerc) / 100;
     let finalNetWeight = netWeight + wastageWeight;
 
-    $('input[name="net_weight"]').val(finalNetWeight.toFixed(3));
+    $('input[name="final_fn_weight"]').val(finalNetWeight.toFixed(3));
+
+    $('input[name="net_weight"]').val(netWeight.toFixed(3));
 
     /* ===== GOLD PRICE ===== */
     let goldPrice = metalRate * finalNetWeight;

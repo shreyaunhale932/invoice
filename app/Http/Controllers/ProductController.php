@@ -108,6 +108,7 @@ class ProductController extends Controller
                     'gold_purity' => $request->gold_color,
                     'gross_weight' => $request->gross_weight,
                     'net_weight' => $request->net_weight,
+                    'final_fn_weight' => $request->final_fn_weight,
                     'diamond_weight' => $request->diamond_weight ?? 0,
                     'stone_weight' => $request->stone_weight ?? 0,
                     'wastage_percent' => $request->wastage_percent,
@@ -373,6 +374,7 @@ class ProductController extends Controller
                     'gold_purity'      => $request->gold_color,
                     'gross_weight'     => $request->gross_weight,
                     'net_weight'       => $request->net_weight,
+                    'final_fn_weight' => $request->final_fn_weight,
                     'diamond_weight'   => $request->diamond_weight ?? 0,
                     'stone_weight'     => $request->stone_weight ?? 0,
                     'wastage_percent'  => $request->wastage_percent,
@@ -569,7 +571,7 @@ class ProductController extends Controller
                 ->delete();
             try {
                 app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
-                
+
             } catch (\Exception $e) {
                 \Log::error("Accounting Post failed for Stock In: " . $e->getMessage());
             }
