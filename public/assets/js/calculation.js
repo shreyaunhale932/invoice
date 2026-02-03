@@ -23,14 +23,14 @@ function calculatePrice() {
     if (netWeight < 0) netWeight = 0;
 
     let wastageWeight = (netWeight * wastagePerc) / 100;
-    let finalNetWeight = netWeight + wastageWeight;
+    let finalfineWeight = netWeight + wastageWeight;
 
-    $('input[name="final_fn_weight"]').val(finalNetWeight.toFixed(3));
+    $('input[name="final_fn_weight"]').val(finalfineWeight.toFixed(3));
 
     $('input[name="net_weight"]').val(netWeight.toFixed(3));
 
     /* ===== GOLD PRICE ===== */
-    let goldPrice = metalRate * finalNetWeight;
+    let goldPrice = metalRate * finalfineWeight;
 
     let gstAmount = ((goldPrice + makingPrice) * gstPerc) / 100;
     let goldFinalPrice = goldPrice + makingPrice + gstAmount;

@@ -41,6 +41,8 @@ class SellInvoiceController extends Controller
                     // Weights & Rates
                     'gross_weight' => $request->gross_weight,
                     'net_weight' => $request->net_weight,
+                    
+                    'final_fn_weight' => $request->final_fn_weight,
                     'metal_rate' => $request->metal_rate,
 
                     // Pricing
@@ -74,6 +76,7 @@ if ($request->product_id) {
             'quantity' => $request->quantity ?? 1,
             'gross_weight' => $request->gross_weight,
             'net_weight' => $request->net_weight,
+            'final_fn_weight' => $request->final_fn_weight,
             'size' => $request->size,
             'unit' => 'GM',
             'remarks' => 'Reserved via Invoice #' . $invoiceId,
@@ -206,6 +209,7 @@ if ($request->product_id) {
                     // Weights & Rates
                     'gross_weight' => $request->gross_weight,
                     'net_weight' => $request->net_weight,
+                     'final_fn_weight' => $request->final_fn_weight,
                     'metal_rate' => $request->metal_rate,
 
                     // Pricing
@@ -237,6 +241,7 @@ if ($request->product_id) {
             'quantity' => $request->quantity ?? 1,
             'gross_weight' => $request->gross_weight,
             'net_weight' => $request->net_weight,
+             'final_fn_weight' => $request->final_fn_weight,
             'size' => $request->size,
             'unit' => 'GM',
             'remarks' => 'Reserved via Invoice #' . $invoiceId,
@@ -417,6 +422,7 @@ if ($request->product_id) {
                 // Weights & Rates
                 'gross_weight' => $request->gross_weight,
                 'net_weight' => $request->net_weight,
+                 'final_fn_weight' => $request->final_fn_weight,
                 'metal_rate' => $request->metal_rate,
 
                 // Pricing
@@ -604,6 +610,7 @@ if ($request->product_id) {
                             'quantity' => $item->quantity ?? 1,
                             'gross_weight' => $item->gross_weight,
                             'net_weight' => $item->net_weight,
+                             'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
                             'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
@@ -790,6 +797,7 @@ if ($request->product_id) {
                             'quantity' => $item->quantity ?? 1,
                             'gross_weight' => $item->gross_weight,
                             'net_weight' => $item->net_weight,
+                             'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
                             'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,

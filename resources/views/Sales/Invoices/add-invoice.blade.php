@@ -160,6 +160,7 @@
                                                     data-hsn="{{ $product->hsn_code }}"
                                                     data-gross_weight="{{ $product->gross_weight }}"
                                                     data-net_weight="{{ $product->net_weight }}"
+                                                    data-final_fn_weight="{{ $product->final_fn_weight }}"
                                                     data-size="{{ $product->size }}"
                                                     data-quantity="{{ $product->quantity }}"
                                                     data-wastage_percent="{{ $product->wastage_percent }}"
@@ -206,6 +207,7 @@
                                                 <th>Qty</th>
                                                 <th>GS Wt</th>
                                                 <th>Net Wt</th>
+                                                <th>Fn Wt</th>
                                                 <th>Size</th>
                                                 <th>Wastage %</th>
                                                 <th>Making Amount</th>
@@ -246,6 +248,9 @@
                                                         class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;"></td>
                                                 <td><input type="number" step="0.001" name="net_weight[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                        <td><input type="number" step="0.001" name="final_fn_weight[]"
                                                         class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;"></td>
                                                 <td><input type="text" name="size[]" class="form-control"
@@ -318,6 +323,7 @@
                                             <th>Code</th>
                                             <th>Barcode</th>
                                             <th>Net Wt</th>
+                                             <th>Fn Wt</th>
                                             <th>Metal Rate</th>
                                             <th>Making</th>
                                             {{-- <th>GST</th> --}}
@@ -900,6 +906,7 @@
                 row.find('input[name="metal_rate[]"]').val(option.data('metal_rate'));
                 row.find('input[name="gross_weight[]"]').val(option.data('gross_weight'));
                 row.find('input[name="net_weight[]"]').val(option.data('net_weight'));
+                row.find('input[name="final_fn_weight[]"]').val(option.data('final_fn_weight'));
                 row.find('input[name="size[]"]').val(option.data('size'));
                 row.find('input[name="wastage_percent[]"]').val(option.data('wastage_percent'));
                 row.find('input[name="making_price[]"]').val(option.data('making_price'));
@@ -1087,6 +1094,7 @@
             const metalRate = entryRow.querySelector('input[name="metal_rate[]"]').value;
             const grossWt = entryRow.querySelector('input[name="gross_weight[]"]').value;
             const netWt = entryRow.querySelector('input[name="net_weight[]"]').value;
+            const fnWt = entryRow.querySelector('input[name="final_fn_weight[]"]').value;
             const goldPrice = entryRow.querySelector('input[name="total_amount[]"]').value;
             const finalPrice = entryRow.querySelector('input[name="final_price[]"]').value;
 
@@ -1138,6 +1146,9 @@
             if (isEmpty(netWt) || netWt <= 0) {
                 return showError('Net weight must be greater than 0');
             }
+             if (isEmpty(fnWt) || fnWt <= 0) {
+                return showError('fine weight must be greater than 0');
+            }
 
             if (parseFloat(netWt) > parseFloat(grossWt)) {
                 return showError('Net weight cannot be greater than Gross weight');
@@ -1178,9 +1189,11 @@
                 hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
 
                 net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+                 final_fn_weight: entryRow.querySelector('input[name="final_fn_weight[]"]').value,
                 gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
                 metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
                 net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
+                  final_fn_weight: entryRow.querySelector('input[name="final_fn_weight[]"]').value,
                 gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
                 metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
 
@@ -1291,6 +1304,7 @@
             row.find('input[name="gross_weight[]"]').val(item.gross_weight || 0);
 
             row.find('input[name="net_weight[]"]').val(item.net_weight || 0);
+             row.find('input[name="final_fn_weight[]"]').val(item.final_fn_weight || 0);
             row.find('input[name="size[]"]').val(item.size || p.size || ''); // Size
 
             row.find('input[name="wastage_percent[]"]').val(item.wastage_percent || 0);
@@ -1499,6 +1513,7 @@
                 <td>${item.pre_code || ''}-${item.post_code || ''}</td>
                 <td>${item.barcode || ''}</td>
                 <td>${item.net_weight || 0}</td>
+                <td>${item.final_fn_weight || 0}</td>
                 <td>${item.metal_rate || 0}</td>
                 <td>${item.making_price || 0}</td>
 

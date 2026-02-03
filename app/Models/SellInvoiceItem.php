@@ -30,7 +30,7 @@ class SellInvoiceItem extends Model
         // Weights
         'gross_weight',
         'net_weight',
-        'fine_weight',
+        'final_fn_weight',
 
         // Amounts
         'metal_rate',
@@ -51,7 +51,7 @@ class SellInvoiceItem extends Model
     protected $casts = [
         'gross_weight'    => 'float',
         'net_weight'      => 'float',
-        'fine_weight'     => 'float',
+        'final_fn_weight'     => 'float',
 
         'metal_rate'      => 'float',
         'gold_amount'     => 'float',
