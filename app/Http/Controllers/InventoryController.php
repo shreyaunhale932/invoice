@@ -187,12 +187,13 @@ public function stockIn(Request $request)
 
 
                 $newnetweight = $newProduct->gross_weight - (($diaWeight + $stWeight) * 0.20);
-                $newnetweight = $newnetweight + (($newnetweight *  $newProduct->wastage_percent)/100);
+                $newfineweight = $newnetweight + (($newnetweight *  $newProduct->wastage_percent)/100);
                 echo '---new weight---'.$newnetweight;die;
-                $finalPrice = $newnetweight * $metalRate->price_per_gram + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
+                $finalPrice = $newfineweight * $metalRate->price_per_gram + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
                 $newProduct->update([
                     'final_price' => $finalPrice,
                     'net_weight' => $newnetweight,
+                    'final_fn_weight' => $newfineweight,
                 ]);
 
                 $transactionData['item_product_data_id'] = $itemProduct->id;
@@ -322,12 +323,13 @@ public function stockIn(Request $request)
             //      echo "--waste per--". $newProduct->wastage_percent.'<br>';
             //      die;
              $newnetweight = $newProduct->gross_weight - (($diaWeight + $stWeight) * 0.20);
-                $newnetweight = $newnetweight + (($newnetweight *  $newProduct->wastage_percent)/100);
+                $newfineweight = $newnetweight + (($newnetweight *  $newProduct->wastage_percent)/100);
                     // echo '---new weight---'.$newnetweight;die;
-                $finalPrice = $newnetweight * $metalRate->price_per_gram + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
+                $finalPrice = $newfineweight * $metalRate->price_per_gram + $newProduct->making_amount + $newProduct->diamond_amount + $newProduct->stone_amount + $newProduct->gst_amount;
                 $newProduct->update([
                     'final_price' => $finalPrice,
                     'net_weight' => $newnetweight,
+                    'final_fn_weight' => $newfineweight,
                 ]);
                    $transactionData['item_product_data_id'] = $itemProduct->id;
                 $transactionData['product_id'] = $newProduct->id;
