@@ -32,6 +32,7 @@
                                                 <th>Category</th>
                                                 <th>Gross weight</th>
                                                 <th>Net weight</th>
+                                                <th>Final Fn weight</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
@@ -56,6 +57,7 @@
 
                                                     <td>{{ $product->gross_weight }}</td>
                                                     <td>{{ $product->net_weight }}</td>
+                                                    <td>{{ $product->final_fn_weight }}</td>
 
                                                     <td>
                                                         <span class="badge bg-danger">
