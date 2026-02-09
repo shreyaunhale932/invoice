@@ -242,6 +242,8 @@
                                     href="{{ route('accounting.chart-of-accounts') }}">Ledger</a></li>
                                     <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
                                     href="{{ route('day-book.index') }}">Day Book</a></li>
+                                     <li><a class="{{ Request::is('expenses', 'expenses/create') ? 'active' : '' }}"
+                                    href="{{ url('expenses') }}">Expenses</a></li>
 
                         </ul>
                     </li>

@@ -269,7 +269,7 @@
                                     </div>
                                 </div>
                                    <div class="col-lg-4 col-md-4">
-                                    <label>Final Fn Weight</label>
+                                    <label>Net Wt With Wastage</label>
                                     <div class="input-group">
                                         <input type="number" step="0.001" class="form-control" name="final_fn_weight"
                                             value="{{ old('final_fn_weight', $product->final_fn_weight ?? '') }}" required>

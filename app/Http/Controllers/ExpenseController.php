@@ -20,7 +20,7 @@ class ExpenseController extends Controller
     public function index()
     {
         $expenses = Expense::with(['expenseAccount', 'paymentAccount'])->latest()->get();
-        
+
         $expenseAccounts = Account::whereHas('group', function ($q) {
             $q->where('type', 'Expense');
         })->get();
@@ -29,7 +29,7 @@ class ExpenseController extends Controller
             $q->where('type', 'Asset');
         })->whereIn('name', ['Cash in Hand', 'Card Receivable', 'UPI Clearing', 'Bank'])->get();
 
-        return view('Finance.expenses', compact('expenses', 'expenseAccounts', 'paymentAccounts'));
+        return view('expenses.index', compact('expenses', 'expenseAccounts', 'paymentAccounts'));
     }
 
     public function create()
@@ -91,7 +91,7 @@ class ExpenseController extends Controller
     {
         // Delete Journal Entry
         $this->accountingService->deleteExpenseEntry($expense);
-        
+
         $expense->delete();
 
         return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');

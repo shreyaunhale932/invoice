@@ -62,7 +62,7 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <ul>
                                                                 <li>
-                                                                    <a href="javascript:void(0);" class="dropdown-item edit-expense" 
+                                                                    <a href="javascript:void(0);" class="dropdown-item edit-expense"
                                                                         data-id="{{ $expense->id }}"
                                                                         data-date="{{ $expense->expense_date }}"
                                                                         data-amount="{{ $expense->amount }}"

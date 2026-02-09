@@ -41,7 +41,7 @@ class SellInvoiceController extends Controller
                     // Weights & Rates
                     'gross_weight' => $request->gross_weight,
                     'net_weight' => $request->net_weight,
-                    
+
                     'final_fn_weight' => $request->final_fn_weight,
                     'metal_rate' => $request->metal_rate,
 
@@ -62,30 +62,30 @@ class SellInvoiceController extends Controller
                     'final_price' => $itemFinalPrice,
                 ]);
 
-// Mark product as SOLD immediately
-if ($request->product_id) {
+                // Mark product as SOLD immediately
+                if ($request->product_id) {
 
-    $product = Product::find($request->product_id);
-    if ($product && $product->availability !== 'sold') {
-        $product->update(['availability' => 'sold']);
+                    $product = Product::find($request->product_id);
+                    if ($product && $product->availability !== 'sold') {
+                        $product->update(['availability' => 'sold']);
 
-        InventoryTransaction::create([
-            'type' => 'OUT',
-            'product_id' => $product->id,
-            'item_product_data_id' => $product->item_product_data_id,
-            'quantity' => $request->quantity ?? 1,
-            'gross_weight' => $request->gross_weight,
-            'net_weight' => $request->net_weight,
-            'final_fn_weight' => $request->final_fn_weight,
-            'size' => $request->size,
-            'unit' => 'GM',
-            'remarks' => 'Reserved via Invoice #' . $invoiceId,
-            'admin_id' => Auth::id(),
-            'sell_invoice_id' => $invoiceId,
-            'sell_invoice_item_id' => $item->id,
-        ]);
-    }
-}
+                        InventoryTransaction::create([
+                            'type' => 'OUT',
+                            'product_id' => $product->id,
+                            'item_product_data_id' => $product->item_product_data_id,
+                            'quantity' => $request->quantity ?? 1,
+                            'gross_weight' => $request->gross_weight,
+                            'net_weight' => $request->net_weight,
+                            'final_fn_weight' => $request->final_fn_weight,
+                            'size' => $request->size,
+                            'unit' => 'GM',
+                            'remarks' => 'Reserved via Invoice #' . $invoiceId,
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                        ]);
+                    }
+                }
 
                 // Diamonds
                 $diamondCharges = 0;
@@ -209,7 +209,7 @@ if ($request->product_id) {
                     // Weights & Rates
                     'gross_weight' => $request->gross_weight,
                     'net_weight' => $request->net_weight,
-                     'final_fn_weight' => $request->final_fn_weight,
+                    'final_fn_weight' => $request->final_fn_weight,
                     'metal_rate' => $request->metal_rate,
 
                     // Pricing
@@ -230,27 +230,27 @@ if ($request->product_id) {
                 ]);
                 if ($request->product_id) {
 
-    $product = Product::find($request->product_id);
-    if ($product && $product->availability !== 'sold') {
-        $product->update(['availability' => 'sold']);
+                    $product = Product::find($request->product_id);
+                    if ($product && $product->availability !== 'sold') {
+                        $product->update(['availability' => 'sold']);
 
-        InventoryTransaction::create([
-            'type' => 'OUT',
-            'product_id' => $product->id,
-            'item_product_data_id' => $product->item_product_data_id,
-            'quantity' => $request->quantity ?? 1,
-            'gross_weight' => $request->gross_weight,
-            'net_weight' => $request->net_weight,
-             'final_fn_weight' => $request->final_fn_weight,
-            'size' => $request->size,
-            'unit' => 'GM',
-            'remarks' => 'Reserved via Invoice #' . $invoiceId,
-            'admin_id' => Auth::id(),
-            'sell_invoice_id' => $invoiceId,
-            'sell_invoice_item_id' => $item->id,
-        ]);
-    }
-}
+                        InventoryTransaction::create([
+                            'type' => 'OUT',
+                            'product_id' => $product->id,
+                            'item_product_data_id' => $product->item_product_data_id,
+                            'quantity' => $request->quantity ?? 1,
+                            'gross_weight' => $request->gross_weight,
+                            'net_weight' => $request->net_weight,
+                            'final_fn_weight' => $request->final_fn_weight,
+                            'size' => $request->size,
+                            'unit' => 'GM',
+                            'remarks' => 'Reserved via Invoice #' . $invoiceId,
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id' => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                        ]);
+                    }
+                }
 
                 // Diamonds
                 $diamondAmount = 0;
@@ -422,7 +422,7 @@ if ($request->product_id) {
                 // Weights & Rates
                 'gross_weight' => $request->gross_weight,
                 'net_weight' => $request->net_weight,
-                 'final_fn_weight' => $request->final_fn_weight,
+                'final_fn_weight' => $request->final_fn_weight,
                 'metal_rate' => $request->metal_rate,
 
                 // Pricing
@@ -446,6 +446,17 @@ if ($request->product_id) {
             SellDiamondItem::where('sell_invoice_item_id', $item->id)->delete();
             $diamondAmount = 0;
             foreach ($request->diamonds ?? [] as $d) {
+                if (
+                    empty($d['clarity']) &&
+                    empty($d['cut']) &&
+                    empty($d['color']) &&
+                    empty($d['pieces']) &&
+                    empty($d['diamond_weight']) &&
+                    empty($d['price_per_carat']) &&
+                    empty($d['diamond_final_price'])
+                ) {
+                    continue;
+                }
                 $diamondAmount += $d['diamond_final_price'];
                 SellDiamondItem::create([
                     'admin_id' => Auth::id(),
@@ -467,7 +478,16 @@ if ($request->product_id) {
             // Re-create Stones
             SellStoneItem::where('sell_invoice_item_id', $item->id)->delete();
             $stoneAmount = 0;
+
             foreach ($request->stones ?? [] as $s) {
+                if (
+                    empty($s['stone_name']) &&
+                    empty($s['stone_weight']) &&
+                    empty($s['stone_price']) &&
+                    empty($s['stone_final_price'])
+                ) {
+                    continue;
+                }
                 $stoneAmount += $s['stone_final_price'];
                 SellStoneItem::create([
                     'admin_id' => Auth::id(),
@@ -610,7 +630,7 @@ if ($request->product_id) {
                             'quantity' => $item->quantity ?? 1,
                             'gross_weight' => $item->gross_weight,
                             'net_weight' => $item->net_weight,
-                             'final_fn_weight' => $item->final_fn_weight,
+                            'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
                             'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
@@ -797,7 +817,7 @@ if ($request->product_id) {
                             'quantity' => $item->quantity ?? 1,
                             'gross_weight' => $item->gross_weight,
                             'net_weight' => $item->net_weight,
-                             'final_fn_weight' => $item->final_fn_weight,
+                            'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
                             'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
