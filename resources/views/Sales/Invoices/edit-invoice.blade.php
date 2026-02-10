@@ -538,7 +538,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            {{-- <tbody>
                                 @foreach ($visibleColumns as $column)
                                     <tr data-id="{{ $column['key'] }}" data-is-custom="{{ $column['is_custom'] }}">
 
@@ -594,7 +594,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody>
+                            </tbody> --}}
                         </table>
 
                         <button type="button" class="btn btn-success btn-sm mt-2" id="add-column-btn">+ Add
@@ -647,9 +647,6 @@
 
 
     <script>
-        // const invoiceColumns = @json($allColumns);
-        // console.log("invoiceColumns:", invoiceColumns);
-        // const productOptions = <?= json_encode($products) ?>;
 
         const productOptions = @json($products);
     </script>

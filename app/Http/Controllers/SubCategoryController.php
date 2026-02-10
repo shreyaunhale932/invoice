@@ -18,7 +18,7 @@ class SubCategoryController extends Controller
 
         // Save data to database
         $metalRate = Subcategory::create([
-            'admin_id' => Auth::id(),
+            'admin_id' => Auth::guard('admin')->id(),
             'category_id' => $request->category_id,
             'subcategory_name'  => $request->subcategory_name,
         ]);

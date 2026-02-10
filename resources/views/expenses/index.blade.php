@@ -12,12 +12,12 @@
                 @endslot
             @endcomponent
             <!-- /Page Header -->
-            @if(session()->has('success'))
+            @if (session()->has('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
-            @if(session()->has('error'))
+            @if (session()->has('error'))
                 <div class="alert alert-danger">
                     {{ session('error') }}
                 </div>
@@ -44,7 +44,8 @@
                                     <tbody>
                                         @foreach ($expenses as $expense)
                                             <tr>
-                                                <td>{{ \Carbon\Carbon::parse($expense->expense_date)->format('d M Y') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($expense->expense_date)->format('d M Y') }}
+                                                </td>
                                                 <td>
                                                     <a href="javascript:void(0);"
                                                         class="invoice-link">EXP-{{ str_pad($expense->id, 4, '0', STR_PAD_LEFT) }}</a>
@@ -62,7 +63,8 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <ul>
                                                                 <li>
-                                                                    <a href="javascript:void(0);" class="dropdown-item edit-expense"
+                                                                    <a href="javascript:void(0);"
+                                                                        class="dropdown-item edit-expense"
                                                                         data-id="{{ $expense->id }}"
                                                                         data-date="{{ $expense->expense_date }}"
                                                                         data-amount="{{ $expense->amount }}"
@@ -73,7 +75,10 @@
                                                                     </a>
                                                                 </li>
                                                                 <li>
-                                                                    <form action="{{ route('expenses.destroy', $expense->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this expense?')">
+                                                                    <form
+                                                                        action="{{ route('expenses.destroy', $expense->id) }}"
+                                                                        method="POST"
+                                                                        onsubmit="return confirm('Are you sure you want to delete this expense?')">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button type="submit" class="dropdown-item">
@@ -118,11 +123,13 @@
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label>Expense Date <span class="text-danger">*</span></label>
-                                    <input type="date" name="expense_date" class="form-control" value="{{ date('Y-m-d') }}" required>
+                                    <input type="date" name="expense_date" class="form-control"
+                                        value="{{ date('Y-m-d') }}" required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Amount <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="amount" class="form-control" placeholder="0.00" required>
+                                    <input type="number" step="0.01" name="amount" class="form-control"
+                                        placeholder="0.00" required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Expense Category <span class="text-danger">*</span></label>
@@ -144,7 +151,7 @@
                                 </div>
                                 <div class="form-group mb-0">
                                     <label>Description</label>
-                                    <textarea name="description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                                    <textarea name="description" class="form-control" rows="3" placeholder="Enter description">{{ old('description') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -173,20 +180,25 @@
                 <form id="edit_expense_form" method="POST">
                     @csrf
                     @method('PUT')
+
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group mb-3">
                                     <label>Expense Date <span class="text-danger">*</span></label>
-                                    <input type="date" name="expense_date" id="edit_expense_date" class="form-control" required>
+                                    <input type="date" name="expense_date" id="edit_expense_date"
+                                        class="form-control" required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Amount <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="amount" id="edit_amount" class="form-control" placeholder="0.00" required>
+                                    <input type="number" step="0.01" name="amount" id="edit_amount"
+                                        class="form-control" placeholder="0.00" required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Expense Category <span class="text-danger">*</span></label>
-                                    <select name="expense_account_id" id="edit_expense_account_id" class="form-control" required>
+                                    <select name="expense_account_id" id="edit_expense_account_id"
+                                        class="form-control select" required>
                                         <option value="">Select Category</option>
                                         @foreach ($expenseAccounts as $account)
                                             <option value="{{ $account->id }}">{{ $account->name }}</option>
@@ -195,7 +207,8 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Payment Method <span class="text-danger">*</span></label>
-                                    <select name="payment_account_id" id="edit_payment_account_id" class="form-control" required>
+                                    <select name="payment_account_id" id="edit_payment_account_id"
+                                        class="form-control select" required>
                                         <option value="">Select Payment Method</option>
                                         @foreach ($paymentAccounts as $account)
                                             <option value="{{ $account->id }}">{{ $account->name }}</option>
@@ -204,13 +217,15 @@
                                 </div>
                                 <div class="form-group mb-0">
                                     <label>Description</label>
-                                    <textarea name="description" id="edit_description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                                    <textarea name="description" id="edit_description" class="form-control" rows="3"
+                                        placeholder="Enter description"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
+                        <button type="button" data-bs-dismiss="modal"
+                            class="btn btn-back cancel-btn me-2">Cancel</button>
                         <button type="submit" class="btn btn-primary paid-continue-btn">Update Expense</button>
                     </div>
                 </form>
@@ -237,31 +252,28 @@
 
                     document.getElementById('edit_expense_date').value = date;
                     document.getElementById('edit_amount').value = amount;
-                    document.getElementById('edit_expense_account_id').value = category;
-                    document.getElementById('edit_payment_account_id').value = payment;
+
+                    // Update values and trigger change for Select2
+                    const categorySelect = document.getElementById('edit_expense_account_id');
+                    const paymentSelect = document.getElementById('edit_payment_account_id');
+
+                    categorySelect.value = category;
+                    paymentSelect.value = payment;
+
+                    // Trigger change event for Select2 if it's active
+                    if (typeof(jQuery) !== 'undefined' && jQuery.fn.select2) {
+                        jQuery(categorySelect).trigger('change');
+                        jQuery(paymentSelect).trigger('change');
+                    }
+
                     document.getElementById('edit_description').value = description;
 
                     editForm.action = EXPENSE_UPDATE_ROUTE.replace('__ID__', id);
-
-                    // Optional: store ID if needed later
-                    editForm.dataset.expenseId = id;
+                    console.log(EXPENSE_UPDATE_ROUTE.replace('__ID__', id));
 
                     editModal.show();
                 });
             });
-        });
-
-         document.addEventListener('DOMContentLoaded', function() {
-            const editButtons = document.querySelectorAll('.add_button');
-            const editModal = new bootstrap.Modal(document.getElementById('add_expenses'));
-            const editForm = document.getElementById('edit_expense_form');
-
-            // editButtons.forEach(button => {
-                editButtons.addEventListener('click', function() {
-
-                    editModal.show();
-                });
-            // });
         });
     </script>
 @endsection

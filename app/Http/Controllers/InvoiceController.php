@@ -26,13 +26,13 @@ class InvoiceController extends Controller
 {
     // public function create()
     // {
-    //     $customers = Customer::where('admin_id', Auth::id())->get();
-    //     $banks = bankdetails::where('user_id', Auth::id())->get();
-    //     $business = BusinessDetail::where('user_id', Auth::id())->first();
+    //     $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+    //     $banks = bankdetails::where('user_id', Auth::guard('admin')->id())->get();
+    //     $business = BusinessDetail::where('user_id', Auth::guard('admin')->id())->first();
 
     //     // Fetch products along with HSN Code
     //     $products = InvoiceItem::whereHas('invoice', function ($query) {
-    //             $query->where('admin_id',  Auth::id());
+    //             $query->where('admin_id',  Auth::guard('admin')->id());
     //         })
     //         ->select('product_name', 'rate', 'hsn_code_id') // Include HSN Code
     //         ->distinct()
@@ -43,7 +43,7 @@ class InvoiceController extends Controller
     public function invoices()
     {
         $invoices = SellInvoice::with('customer')   // relation must exist
-            ->where('admin_id', Auth::id())
+            ->where('admin_id', Auth::guard('admin')->id())
             ->orderBy('id', 'desc')
             ->get();
 
@@ -101,67 +101,67 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        $customers = Customer::where('admin_id', Auth::id())->get();
-        $banks = bankdetails::where('user_id', Auth::id())->get();
-        $business = BusinessDetail::where('user_id', Auth::id())->first();
+        $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+        $banks = bankdetails::where('user_id', Auth::guard('admin')->id())->get();
+        $business = BusinessDetail::where('user_id', Auth::guard('admin')->id())->first();
 
         // Fetch products along with HSN Code from the HSN master table
-        $products1 = InvoiceItem::whereHas('invoice', function ($query) {
-            $query->where('admin_id',  Auth::id());
-        })
+        // $products1 = InvoiceItem::whereHas('invoice', function ($query) {
+        //     $query->where('admin_id',  Auth::guard('admin')->id());
+        // })
 
-            ->leftJoin('hsn_codes', 'invoice_items.hsn_code_id', '=', 'hsn_codes.id') // Join with HSN table
-            ->select('invoice_items.product_name', 'invoice_items.rate', 'hsn_codes.hsn_code') // Fetch HSN Code
-            ->distinct()
-            ->get();
+        //     ->leftJoin('hsn_codes', 'invoice_items.hsn_code_id', '=', 'hsn_codes.id') // Join with HSN table
+        //     ->select('invoice_items.product_name', 'invoice_items.rate', 'hsn_codes.hsn_code') // Fetch HSN Code
+        //     ->distinct()
+        //     ->get();
         // dd($products);exit();
         $notes = DB::table('invoice_notes_terms')
-            ->where('admin_id', Auth::id())
+            ->where('admin_id', Auth::guard('admin')->id())
             ->where('type', 'note')
             ->get();
         $terms = DB::table('invoice_notes_terms')
-            ->where('admin_id', Auth::id())
+            ->where('admin_id', Auth::guard('admin')->id())
             ->where('type', 'term')
             ->get();
 
-        $adminId = Auth::id();
+        $adminId = Auth::guard('admin')->id();
 
-        $columns = InvoiceColumn::orderBy('id')->where('user_id', $adminId)->get();
+        // $columns = InvoiceColumn::orderBy('id')->where('user_id', $adminId)->get();
 
-        $allColumns = InvoiceColumn::where('user_id', $adminId)
-            ->where('is_visible', true)
-            ->get()
-            ->map(function ($col) {
-                return [
-                    'name' => $col->name,
-                    'key' => $col->key ?? Str::slug(strtolower($col->name), '_'),
-                    'type' => $col->type,
-                    'is_custom' => $col->is_custom,
-                    'is_visible' => $col->is_visible,
-                    'position' => $col->position,
-                ];
-            })
-            ->sortBy('position')
-            ->values()
-            ->all();
+        // $allColumns = InvoiceColumn::where('user_id', $adminId)
+        //     ->where('is_visible', true)
+        //     ->get()
+        //     ->map(function ($col) {
+        //         return [
+        //             'name' => $col->name,
+        //             'key' => $col->key ?? Str::slug(strtolower($col->name), '_'),
+        //             'type' => $col->type,
+        //             'is_custom' => $col->is_custom,
+        //             'is_visible' => $col->is_visible,
+        //             'position' => $col->position,
+        //         ];
+        //     })
+        //     ->sortBy('position')
+        //     ->values()
+        //     ->all();
 
 
-        $visibleColumns = InvoiceColumn::where('user_id', $adminId)
-            // ->where('is_visible', true)
-            ->orderBy('position')
-            ->get()->map(function ($col) {
-                return [
-                    'name' => $col->name,
-                    'key' => $col->key ?? Str::slug(strtolower($col->name), '_'),
-                    'type' => $col->type,
-                    'is_custom' => $col->is_custom,
-                    'is_visible' => $col->is_visible,
-                    'position' => $col->position,
-                ];
-            })
-            ->sortBy('position')
-            ->values()
-            ->all();
+        // $visibleColumns = InvoiceColumn::where('user_id', $adminId)
+        //     // ->where('is_visible', true)
+        //     ->orderBy('position')
+        //     ->get()->map(function ($col) {
+        //         return [
+        //             'name' => $col->name,
+        //             'key' => $col->key ?? Str::slug(strtolower($col->name), '_'),
+        //             'type' => $col->type,
+        //             'is_custom' => $col->is_custom,
+        //             'is_visible' => $col->is_visible,
+        //             'position' => $col->position,
+        //         ];
+        //     })
+        //     ->sortBy('position')
+        //     ->values()
+        //     ->all();
 
         $customFields = CustomFieldDefinition::where('admin_id', $adminId)
             ->where('model_type', 'App\Models\Invoice') // or use constant if you prefer
@@ -182,11 +182,11 @@ class InvoiceController extends Controller
 
         $previewInvoiceNo = 'INV-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
-        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'allColumns', 'visibleColumns', 'previewInvoiceNo'));
+        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'previewInvoiceNo'));
     }
     public function updatecolumns(Request $request)
     {
-        $userId = Auth::id();
+        $userId = Auth::guard('admin')->id();
         $columns = $request->input('columns', []);
 
         foreach ($columns as $key => $data) {
@@ -248,7 +248,7 @@ class InvoiceController extends Controller
         //         })
         // return response()->json([
         //     'status' => 'success',
-        //     'columns' => InvoiceColumn::where('user_id', Auth::id())
+        //     'columns' => InvoiceColumn::where('user_id', Auth::guard('admin')->id())
         //         ->where('is_visible', true)
         //         ->orderBy('position')
         //         ->get(['key', 'name', 'type'])
@@ -257,7 +257,7 @@ class InvoiceController extends Controller
 
     public function invoice_columns_index(Request $request)
     {
-        $adminId = Auth::id();
+        $adminId = Auth::guard('admin')->id();
         $allColumns = InvoiceColumn::where('user_id', $adminId)
             ->where('is_visible', true)
             ->get();
@@ -282,7 +282,7 @@ class InvoiceController extends Controller
 
 
     //     $invoice = Invoice::create([
-    //         'admin_id' => Auth::id(),
+    //         'admin_id' => Auth::guard('admin')->id(),
     //         'customer_id' => $request->customer_id,
     //         'invoice_number' => 'INV-' . time(),
     //         'invoice_date'    => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
@@ -310,7 +310,7 @@ class InvoiceController extends Controller
     //                 'quantity'   => $product['quantity'],
     //                 'rate'      => $product['price'],
     //                 'total'      => $product['quantity'] * $product['price'],
-    //                 'admin_id' => Auth::id(),
+    //                 'admin_id' => Auth::guard('admin')->id(),
     //                 'discount' => $product['discount'] ?? 0,
     //                 'tax' => $product['gst'] ?? 0,
     //                 'cgst' => $product['cgst'] ?? 0,
@@ -337,7 +337,7 @@ class InvoiceController extends Controller
     //         if ($label === '' || $value === '') continue;
 
     //         $definition = CustomFieldDefinition::firstOrCreate([
-    //             'admin_id' => Auth::id(),
+    //             'admin_id' => Auth::guard('admin')->id(),
     //             'model_type' => Invoice::class,
     //             'field_label' => $label
     //         ], [
@@ -368,7 +368,7 @@ class InvoiceController extends Controller
 
         // Create the invoice
         $invoice = Invoice::create([
-            'admin_id' => Auth::id(),
+            'admin_id' => Auth::guard('admin')->id(),
             'customer_id' => $request->customer_id,
             'invoice_number' => 'INV-' . time(),
             'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
@@ -391,7 +391,7 @@ class InvoiceController extends Controller
                     'quantity' => $product['quantity'],
                     'rate' => $product['price'],
                     'total' => $product['quantity'] * $product['price'],
-                    'admin_id' => Auth::id(),
+                    'admin_id' => Auth::guard('admin')->id(),
                     'discount' => $product['discount'] ?? 0,
                     'tax' => $product['gst'] ?? 0,
                     'cgst' => $product['cgst'] ?? 0,
@@ -422,7 +422,7 @@ class InvoiceController extends Controller
                 if ($label === '' || $value === '') continue;
 
                 $definition = CustomFieldDefinition::firstOrCreate([
-                    'admin_id' => Auth::id(),
+                    'admin_id' => Auth::guard('admin')->id(),
                     'model_type' => Invoice::class,
                     'field_label' => $label,
                 ], [
@@ -462,7 +462,7 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::with(['customer', 'items', 'bank', 'business', 'users'])
             ->where('uuid', $uuid)
-            ->where('admin_id', Auth::id())
+            ->where('admin_id', Auth::guard('admin')->id())
             ->firstOrFail();
 
         return view('Sales/Invoices/invoice-details', compact('invoice'));
@@ -471,14 +471,14 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::with(['customer', 'items', 'bank', 'business', 'users'])
             ->where('uuid', $uuid)
-            ->where('admin_id', Auth::id())
+            ->where('admin_id', Auth::guard('admin')->id())
             ->firstOrFail();
-        $business = BusinessDetail::where('user_id', Auth::id())->first();
-        $customers = Customer::where('admin_id', Auth::id())->get();
-        $banks = bankdetails::where('user_id', Auth::id())->get();
+        $business = BusinessDetail::where('user_id', Auth::guard('admin')->id())->first();
+        $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+        $banks = bankdetails::where('user_id', Auth::guard('admin')->id())->get();
         // Fetch products along with HSN Code from the HSN master table
         $products = InvoiceItem::whereHas('invoice', function ($query) {
-            $query->where('admin_id',  Auth::id());
+            $query->where('admin_id',  Auth::guard('admin')->id());
         })
 
 
@@ -489,11 +489,11 @@ class InvoiceController extends Controller
             ->distinct()
             ->get();
         $notes = DB::table('invoice_notes_terms')
-            ->where('admin_id', Auth::id())
+            ->where('admin_id', Auth::guard('admin')->id())
             ->where('type', 'note')
             ->get();
         $terms = DB::table('invoice_notes_terms')
-            ->where('admin_id', Auth::id())
+            ->where('admin_id', Auth::guard('admin')->id())
             ->where('type', 'term')
             ->get();
 

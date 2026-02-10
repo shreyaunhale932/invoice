@@ -880,40 +880,40 @@ class SellInvoiceController extends Controller
 
 
 
-        $columns = \App\Models\InvoiceColumn::orderBy('id')->where('user_id', $adminId)->get();
+        // $columns = \App\Models\InvoiceColumn::orderBy('id')->where('user_id', $adminId)->get();
 
-        $allColumns = \App\Models\InvoiceColumn::where('user_id', $adminId)
-            ->where('is_visible', true)
-            ->get()
-            ->map(function ($col) {
-                return [
-                    'name' => $col->name,
-                    'key' => $col->key ?? \Illuminate\Support\Str::slug(strtolower($col->name), '_'),
-                    'type' => $col->type,
-                    'is_custom' => $col->is_custom,
-                    'is_visible' => $col->is_visible,
-                    'position' => $col->position,
-                ];
-            })
-            ->sortBy('position')
-            ->values()
-            ->all();
+        // $allColumns = \App\Models\InvoiceColumn::where('user_id', $adminId)
+        //     ->where('is_visible', true)
+        //     ->get()
+        //     ->map(function ($col) {
+        //         return [
+        //             'name' => $col->name,
+        //             'key' => $col->key ?? \Illuminate\Support\Str::slug(strtolower($col->name), '_'),
+        //             'type' => $col->type,
+        //             'is_custom' => $col->is_custom,
+        //             'is_visible' => $col->is_visible,
+        //             'position' => $col->position,
+        //         ];
+        //     })
+        //     ->sortBy('position')
+        //     ->values()
+        //     ->all();
 
-        $visibleColumns = \App\Models\InvoiceColumn::where('user_id', $adminId)
-            ->orderBy('position')
-            ->get()->map(function ($col) {
-                return [
-                    'name' => $col->name,
-                    'key' => $col->key ?? \Illuminate\Support\Str::slug(strtolower($col->name), '_'),
-                    'type' => $col->type,
-                    'is_custom' => $col->is_custom,
-                    'is_visible' => $col->is_visible,
-                    'position' => $col->position,
-                ];
-            })
-            ->sortBy('position')
-            ->values()
-            ->all();
+        // $visibleColumns = \App\Models\InvoiceColumn::where('user_id', $adminId)
+        //     ->orderBy('position')
+        //     ->get()->map(function ($col) {
+        //         return [
+        //             'name' => $col->name,
+        //             'key' => $col->key ?? \Illuminate\Support\Str::slug(strtolower($col->name), '_'),
+        //             'type' => $col->type,
+        //             'is_custom' => $col->is_custom,
+        //             'is_visible' => $col->is_visible,
+        //             'position' => $col->position,
+        //         ];
+        //     })
+        //     ->sortBy('position')
+        //     ->values()
+        //     ->all();
 
         $previewInvoiceNo = $invoice->invoice_no;
         $invoice_id = $id;
@@ -928,10 +928,7 @@ class SellInvoiceController extends Controller
             'notes',
             'terms',
             'customFields',
-            'previewInvoiceNo',
-            'columns',
-            'allColumns',
-            'visibleColumns'
+            'previewInvoiceNo'
         ) + ['customer_id' => $invoice->user_id]);
     }
 

@@ -79,7 +79,7 @@ public function stockIn(Request $request)
             'size'         => $request->size,
             'unit'         => $request->gross_weight_unit,
             'remarks'      => $request->remarks ?? 'Stock In',
-            'admin_id'     => Auth::id(),
+            'admin_id'     => Auth::guard('admin')->id(),
         ];
 
         // Handle regular product
@@ -110,7 +110,7 @@ public function stockIn(Request $request)
 
                 // Create new product from item_product_data
                 $newProduct = Product::create([
-                    'admin_id' => Auth::id(),
+                    'admin_id' => Auth::guard('admin')->id(),
                     'product_name' => $itemProduct->product_name,
                     'item_product_data_id' => $itemProduct->id,
                     'pre_code' => $preCode,
@@ -142,7 +142,7 @@ public function stockIn(Request $request)
                 foreach ($itemProduct->diamonds as $itemDiamond) {
                     $diaWeight += $itemDiamond->diamond_weight;
                     DiamondDetail::create([
-                        'admin_id' => Auth::id(),
+                        'admin_id' => Auth::guard('admin')->id(),
                         'product_id' => $newProduct->id,
                         'clarity' => $itemDiamond->clarity,
                         'cut' => $itemDiamond->cut,
@@ -159,7 +159,7 @@ public function stockIn(Request $request)
                 foreach ($itemProduct->stones as $itemStone) {
                     $stWeight += $itemStone->stone_weight;
                     StoneDetail::create([
-                        'admin_id' => Auth::id(),
+                        'admin_id' => Auth::guard('admin')->id(),
                         'product_id' => $newProduct->id,
                         'stone_name' => $itemStone->stone_name,
                         'stone_weight' => $itemStone->stone_weight,
@@ -237,7 +237,7 @@ public function stockIn(Request $request)
             // Create new product from item_product_data
 
             $newProduct = Product::create([
-                'admin_id' => Auth::id(),
+                'admin_id' => Auth::guard('admin')->id(),
                 'product_name' => $itemProduct->product_name,
                 'item_product_data_id' => $itemProduct->id,
                 'pre_code' => $preCode,
@@ -286,7 +286,7 @@ public function stockIn(Request $request)
             foreach ($itemProduct->diamonds as $itemDiamond) {
                    $diaWeight += $itemDiamond->diamond_weight;
                 DiamondDetail::create([
-                    'admin_id' => Auth::id(),
+                    'admin_id' => Auth::guard('admin')->id(),
                     'product_id' => $newProduct->id,
                     'clarity' => $itemDiamond->clarity,
                     'cut' => $itemDiamond->cut,
@@ -303,7 +303,7 @@ public function stockIn(Request $request)
             foreach ($itemProduct->stones as $itemStone) {
                  $stWeight += $itemStone->stone_weight;
                 StoneDetail::create([
-                    'admin_id' => Auth::id(),
+                    'admin_id' => Auth::guard('admin')->id(),
                     'product_id' => $newProduct->id,
                     'stone_name' => $itemStone->stone_name,
                     'stone_weight' => $itemStone->stone_weight,
@@ -390,7 +390,7 @@ public function stockOut(Request $request)
             'size'         => $request->size,
             'unit'         => $request->gross_weight_unit ?? 'GM',
             'remarks'      => $request->remarks ?? 'Stock Out',
-            'admin_id'     => Auth::id(),
+            'admin_id'     => Auth::guard('admin')->id(),
         ];
 
         // Handle regular product
@@ -460,7 +460,7 @@ public function stockOut(Request $request)
                 'size'          => $selectedProduct->size,
                 'unit'         => $selectedProduct->gross_weight_unit ?? 'GM',
                 'remarks'      => $selectedProduct->remarks ?? 'Stock Out',
-                'admin_id'     => Auth::id(),
+                'admin_id'     => Auth::guard('admin')->id(),
             ];
             $transactionData['item_product_data_id'] = $itemProduct->id;
             InventoryTransaction::create($transactionData);

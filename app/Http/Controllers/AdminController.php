@@ -15,11 +15,9 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        // return view( 'Dashboard/index' );
-        $user = Auth::user();
+        $user = Auth::guard('admin')->user();
 
-        // Check if the logged-in admin is trying to access their own dashboard
-        if ($user->role === 'admin') {
+        if ($user) {
             return view('Dashboard/index', compact('user'));
         } else {
             return redirect('/')->with('status', 'Access Denied.');
@@ -33,19 +31,20 @@ class AdminController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'admin_id' => Auth::id(), // Assign logged-in admin's ID
+            'admin_id' => Auth::guard('admin')->id(), // Assign logged-in admin's ID
         ]);
 
         return redirect()->route('admin.customers')->with('status', 'Customer added successfully!');
     }
     public function settings()
     {
-        $users = Auth::user();
-    
+        $users = Auth::guard('admin')->user();
+        // dd($users);
+
         $user = BusinessDetail::where('user_id', $users->id)->first(); // Or firstOrFail()
-    
+
         // dd($businessDetail); // Remove or comment out after debugging
-    
+
         return view('Settings/settings', compact('user'));
     }
 
@@ -65,7 +64,7 @@ public function storeSetting(Request $request)
         'city' => 'nullable|string',
         'postalcode' => 'nullable|string|max:6',
         'contact_number' => 'nullable|string|max:20',
-        'email' => 'required|email|unique:business_details,email,' . Auth::id() . ',user_id',
+        'email' => 'required|email|unique:business_details,email,' . Auth::guard('admin')->id() . ',user_id',
     ]);
 
     // Handle image upload
@@ -89,7 +88,7 @@ public function storeSetting(Request $request)
     }
 
     // Get the authenticated user
-    $user = Auth::user();
+    $user = Auth::guard('admin')->user();
 
     // Update or create business details
     BusinessDetail::updateOrCreate(
@@ -113,13 +112,13 @@ public function storeSetting(Request $request)
 }
 public function invoice_settings()
 {
-  
+
     return view('Settings/invoice-settings');
 }
 public function bank_account()
 {
-    $users = Auth::user();
-    
+    $users = Auth::guard('admin')->user();
+
     $user = BankDetails::where('user_id', $users->id)->get();
     // dd($user);exit();
     return view('Settings/bank-account', compact('user'));
@@ -134,7 +133,7 @@ public function store(Request $request)
             'branch' => 'required|string|max:255',
             'ifsc' => 'required|string|max:20',
         ]);
-        $user = Auth::user();
+        $user = Auth::guard('admin')->user();
         // Store data in the database
         BankDetails::create([
             'user_id' => $user->id, // Assuming logged-in user

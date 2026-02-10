@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone');
-            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade'); // Link to the admin who added the client
+            $table->unsignedBigInteger('admin_id'); // Link to Admin (no cross-DB FK)
             $table->timestamps();
         });
     }

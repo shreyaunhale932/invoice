@@ -66,8 +66,11 @@ class ExpenseController extends Controller
         return redirect()->route('expenses.index')->with('success', 'Expense recorded successfully.');
     }
 
-    public function update(Request $request, Expense $expense)
+
+    public function update(Request $request, $expense)
     {
+
+        //  dd($expense);
         $request->validate([
             'expense_date' => 'required|date',
             'amount' => 'required|numeric|min:0.01',
@@ -76,15 +79,27 @@ class ExpenseController extends Controller
             'description' => 'nullable|string'
         ]);
 
-        // Delete Old Journal Entry
-        $this->accountingService->deleteExpenseEntry($expense);
+        $expense = Expense::findOrFail($expense);
 
-        $expense->update($request->all());
+        try {
+            \DB::beginTransaction();
 
-        // Record New Journal Entry
-        $this->accountingService->postExpense($expense);
+            // Delete Old Journal Entry
+            $this->accountingService->deleteExpenseEntry($expense);
 
-        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
+            $expense->update($request->all());
+
+            // Record New Journal Entry
+            $this->accountingService->postExpense($expense);
+
+            \DB::commit();
+
+            return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            \Log::error("Expense Update failed for ID {$expense->id}: " . $e->getMessage());
+            return redirect()->route('expenses.index')->with('error', 'Failed to update expense: ' . $e->getMessage());
+        }
     }
 
     public function destroy(Expense $expense)

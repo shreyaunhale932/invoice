@@ -60,25 +60,25 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>Email</label>
-                                        <input type="text" class="form-control" name="email" placeholder="Enter Email Address" value="{{ $user->email}}">
+                                        <input type="text" class="form-control" name="email" placeholder="Enter Email Address" value="{{ $user->email ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>Mobile Number</label>
-                                        <input type="text" class="form-control" placeholder="Enter Mobile Number" name="contact_number" value="{{ $user->contact_number}}">
+                                        <input type="text" class="form-control" placeholder="Enter Mobile Number" name="contact_number" value="{{ $user->contact_number ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>PAN</label>
-                                        <input type="text" class="form-control" placeholder="Enter PAN Number" name="pan" value="{{ $user->pan}}">
+                                        <input type="text" class="form-control" placeholder="Enter PAN Number" name="pan" value="{{ $user->pan  ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>GSTIN</label>
-                                        <input type="text" class="form-control" placeholder="Enter GSTIN" name="gstin" value="{{ $user->gstin}}">
+                                        <input type="text" class="form-control" placeholder="Enter GSTIN" name="gstin" value="{{ $user->gstin ?? ''}}">
                                     </div>
                                 </div>
 
@@ -90,31 +90,31 @@
                                 <div class="col-lg-12">
                                     <div class="input-block mb-3">
                                         <label>Address</label>
-                                        <input type="text" class="form-control" placeholder="Enter your Address" name="address" value="{{ $user->address}}">
+                                        <input type="text" class="form-control" placeholder="Enter your Address" name="address" value="{{ $user->address ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>Country</label>
-                                        <input type="text" class="form-control" placeholder="Enter your Country" name="country" value="{{ $user->country}}">
+                                        <input type="text" class="form-control" placeholder="Enter your Country" name="country" value="{{ $user->country ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>State</label>
-                                        <input type="text" class="form-control" placeholder="Enter your State" name="state" value="{{ $user->state}}">
+                                        <input type="text" class="form-control" placeholder="Enter your State" name="state" value="{{ $user->state ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>City</label>
-                                        <input type="text" class="form-control" placeholder="Enter your City" name="city" value="{{ $user->city}}">
+                                        <input type="text" class="form-control" placeholder="Enter your City" name="city" value="{{ $user->city ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="input-block mb-3">
                                         <label>Postal Code</label>
-                                        <input type="text" class="form-control" placeholder="Enter Your Postal Code" name="postalcode" value="{{ $user->postalcode}}">
+                                        <input type="text" class="form-control" placeholder="Enter Your Postal Code" name="postalcode" value="{{ $user->postalcode ?? ''}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">

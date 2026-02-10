@@ -14,7 +14,7 @@ class CustomerController extends Controller
 {
     public function customers()
     {
-        $customers = Customer::where('admin_id', Auth::id())->get();
+        $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
         return view('Customers/customers', compact('customers'));
     }
     public function addcustomer()
@@ -42,7 +42,7 @@ class CustomerController extends Controller
         ]);
       //  dd($request);exit();
         $customer = Customer::create([
-            'admin_id' => Auth::id(),
+            'admin_id' => Auth::guard('admin')->id(),
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -63,7 +63,7 @@ class CustomerController extends Controller
     }
     public function addproducts()
     {
-         $adminId = Auth::id();
+         $adminId = Auth::guard('admin')->id();
 
     $categories = Category::where('admin_id', $adminId)
         ->orderBy('category_id', 'DESC')

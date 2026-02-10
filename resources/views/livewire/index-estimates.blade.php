@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($estimates as $estimate)
+                    {{-- @foreach ($estimates as $estimate)
                         <tr>
                             <td>
                                 <h2 class="table-avatar">
@@ -96,8 +96,8 @@
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
-                </tbody>
+                    @endforeach --}}
+                </tbody> 
             </table>
         </div>
     </div>

@@ -134,7 +134,7 @@ class ProductController extends Controller
             }
 
             $product = Product::create([
-                'admin_id' => Auth::id(),
+                'admin_id' => Auth::guard('admin')->id(),
                 'product_name' => $request->product_name,
                 'item_product_data_id' => $itemProductData->id,
                 'pre_code' => $request->pre_code,
@@ -202,7 +202,7 @@ class ProductController extends Controller
                 foreach ($request->diamond['clarity'] as $index => $value) {
                     // Create product diamond
                     DiamondDetail::create([
-                        'admin_id' => Auth::id(),
+                        'admin_id' => Auth::guard('admin')->id(),
                         'product_id' => $product->id,
                         'clarity' => $request->diamond['clarity'][$index],
                         'cut' => $request->diamond['cut'][$index],
@@ -234,7 +234,7 @@ class ProductController extends Controller
                 foreach ($request->stone['stone_name'] as $index => $value) {
                     // Create product stone
                     StoneDetail::create([
-                        'admin_id' => Auth::id(),
+                        'admin_id' => Auth::guard('admin')->id(),
                         'product_id' => $product->id,
                         'stone_name' => $request->stone['stone_name'][$index],
                         'stone_weight' => $request->stone['stone_weight'][$index],
@@ -245,7 +245,7 @@ class ProductController extends Controller
                     // Create item stone
                     ItemProductStone::create([
                         'item_product_data_id' => $itemProductData->id,
-                        'admin_id' => Auth::id(),
+                        'admin_id' => Auth::guard('admin')->id(),
                         'stone_name' => $request->stone['stone_name'][$index],
                         'stone_weight' => $request->stone['stone_weight'][$index],
                         'stone_price' => $request->stone['stone_price'][$index],
@@ -256,7 +256,7 @@ class ProductController extends Controller
             // Create transaction using item_product_data_id
             if ($product->item_product_data_id) {
                 InventoryTransaction::create([
-                    'admin_id'             => Auth::id(),
+                    'admin_id'             => Auth::guard('admin')->id(),
                     'item_product_data_id' => $product->item_product_data_id,
                     'product_id'          => $product->id,
                     'type'                 => 'IN',
@@ -286,7 +286,7 @@ class ProductController extends Controller
     public function checkProductCode(Request $request)
     {
         $exists = Product::where('product_code', $request->product_code)
-            ->where('admin_id', Auth::id()) // important for multi-admin
+            ->where('admin_id', Auth::guard('admin')->id()) // important for multi-admin
             ->exists();
 
         return response()->json([
@@ -302,13 +302,13 @@ class ProductController extends Controller
             'stones'
         ])->findOrFail($id);
 
-        $categories = Category::where('admin_id', Auth::id())->get();
+        $categories = Category::where('admin_id', Auth::guard('admin')->id())->get();
 
-        $subcategories = Subcategory::where('admin_id', Auth::id())->get();
+        $subcategories = Subcategory::where('admin_id', Auth::guard('admin')->id())->get();
 
-        $purities = PurityModel::where('admin_id', Auth::id())->get();
+        $purities = PurityModel::where('admin_id', Auth::guard('admin')->id())->get();
 
-        $metalRates = MetalRate::where('admin_id', Auth::id())->get();
+        $metalRates = MetalRate::where('admin_id', Auth::guard('admin')->id())->get();
 
         return view(
             'Inventory.Products.add-products',
@@ -332,7 +332,7 @@ class ProductController extends Controller
             ]);
 
             $product = Product::where('id', $id)
-                ->where('admin_id', Auth::id())
+                ->where('admin_id', Auth::guard('admin')->id())
                 ->firstOrFail();
 
             $preCode  = trim($request->pre_code);
@@ -474,7 +474,7 @@ class ProductController extends Controller
                 foreach ($request->diamond['clarity'] as $index => $value) {
 
                     DiamondDetail::create([
-                        'admin_id'            => Auth::id(),
+                        'admin_id'            => Auth::guard('admin')->id(),
                         'product_id'          => $product->id,
                         'clarity'             => $value,
                         'cut'                 => $request->diamond['cut'][$index],
@@ -510,7 +510,7 @@ class ProductController extends Controller
                 foreach ($request->stone['stone_name'] as $index => $value) {
 
                     StoneDetail::create([
-                        'admin_id'          => Auth::id(),
+                        'admin_id'          => Auth::guard('admin')->id(),
                         'product_id'        => $product->id,
                         'stone_name'        => $value,
                         'stone_weight'      => $request->stone['stone_weight'][$index],
@@ -519,7 +519,7 @@ class ProductController extends Controller
                     ]);
 
                     ItemProductStone::create([
-                        'admin_id'              => Auth::id(),
+                        'admin_id'              => Auth::guard('admin')->id(),
                         'item_product_data_id'  => $itemProductData->id,
                         'stone_name'            => $value,
                         'stone_weight'          => $request->stone['stone_weight'][$index],
@@ -553,7 +553,7 @@ class ProductController extends Controller
 
                 // ✅ CREATE only if not exists (optional safety)
                 InventoryTransaction::create([
-                    'admin_id'             => Auth::id(),
+                    'admin_id'             => Auth::guard('admin')->id(),
                     'item_product_data_id' => $itemProductData->id,
                     'product_id'           => $product->id,
                     'type'                 => 'IN',
@@ -585,7 +585,7 @@ class ProductController extends Controller
         DB::transaction(function () use ($id) {
 
             $product = Product::where('id', $id)
-                ->where('admin_id', Auth::id())
+                ->where('admin_id', Auth::guard('admin')->id())
                 ->firstOrFail();
 
             // ✅ Delete inventory transactions

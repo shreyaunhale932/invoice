@@ -8,7 +8,7 @@ return new class extends Migration {
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade'); // Link to Admin
+            $table->unsignedBigInteger('admin_id'); // Link to Admin (no cross-DB FK)
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();

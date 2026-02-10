@@ -32,6 +32,7 @@ use App\Models\Invoice;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/', [HomeController::class, 'login'])->name('login');
 
 
@@ -50,7 +51,16 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
 });
 
 // Admin can add Clients
-Route::middleware(['auth.check', 'checkUserRole:admin'])->group(function () {
+Route::middleware(['auth:admin', 'tenant'])->group(function () {
+    // Expense Routes
+    Route::get('/expenses', [\App\Http\Controllers\ExpenseController::class, 'index'])->name('expenses.index');
+    Route::get('/expenses/create', [\App\Http\Controllers\ExpenseController::class, 'create'])->name('expenses.create');
+    Route::post('/expenses/store', [\App\Http\Controllers\ExpenseController::class, 'store'])->name('expenses.store');
+    Route::put('/expenses/{expense}', [\App\Http\Controllers\ExpenseController::class, 'update'])
+        ->name('expenses.update');
+
+    Route::delete('/expenses/{expense}', [\App\Http\Controllers\ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
     // Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     // Route::get('/admin/customers', [AdminController::class, 'myCustomers'])->name('admin.customers');
@@ -73,25 +83,140 @@ Route::middleware(['auth.check', 'checkUserRole:admin'])->group(function () {
     Route::get('/edit-invoice/{uuid}', [InvoiceController::class, 'edit_invoice'])->name('edit-invoice');
     Route::put('/edit-invoice/{uuid}', [InvoiceController::class, 'edit_invoice'])->name('invoices.update');
     Route::PUT('/invoice-columns/update', [InvoiceController::class, 'updatecolumns'])->name('invoice-columns.update');
-      Route::get('invoice-columns-index', [InvoiceController::class, 'invoice_columns_index'])->name('invoice-columns.index');
+    Route::get('invoice-columns-index', [InvoiceController::class, 'invoice_columns_index'])->name('invoice-columns.index');
 
-    Route::get('/purity',[\App\Http\Controllers\PurityController::class, 'index'])->name('purity');
+    Route::get('/purity', [\App\Http\Controllers\PurityController::class, 'index'])->name('purity');
     Route::post('/purity/store', [PurityController::class, 'store'])->name('purity.store');
     Route::get('purity/{id}/edit', [PurityController::class, 'edit'])->name('purity.edit');
-Route::put('purity/{id}', [PurityController::class, 'update'])->name('purity.update');
-Route::delete('purity/{id}', [PurityController::class, 'destroy'])->name('purity.destroy');
-
-Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
-Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
-Route::put('products/{id}', [ProductController::class, 'update'])->name('products.update');
-// routes/web.php
-Route::delete('/products/{id}', [ProductController::class, 'destroy'])
-    ->name('products.destroy');
-
-Route::post('/check-product-code', [ProductController::class, 'checkProductCode'])
-     ->name('check.product.code');
+    Route::put('purity/{id}', [PurityController::class, 'update'])->name('purity.update');
+    Route::delete('purity/{id}', [PurityController::class, 'destroy'])->name('purity.destroy');
 
 
+    Route::get('/metal-rates', [HomeController::class, 'metalrates'])->name('metal-rates');
+    Route::post('/metal-rates', [MetalRateController::class, 'addmetalrates'])->name('metal-rates');
+    Route::put('/metal-rates/{id}', [MetalRateController::class, 'update'])->name('metal-rates.update');
+    Route::delete('/metal-rates/{id}', [MetalRateController::class, 'destroy'])
+        ->name('metal-rates.destroy');
+
+    Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+    Route::get('products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('products/{id}', [ProductController::class, 'update'])->name('products.update');
+    // routes/web.php
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])
+        ->name('products.destroy');
+
+    Route::post('/check-product-code', [ProductController::class, 'checkProductCode'])
+        ->name('check.product.code');
+    Route::get('/category', [HomeController::class, 'category'])->name('category');
+    Route::post('/category', [CategoryController::class, 'addcategory'])->name('category');
+    Route::put('/category{id}', [CategoryController::class, 'update'])->name('category.update');
+    Route::delete('/category/{id}', [CategoryController::class, 'destroy'])
+        ->name('category.destroy');
+
+    Route::get('/subcategory', [HomeController::class, 'subcategory'])->name('subcategory');
+    Route::post('/subcategory', [SubCategoryController::class, 'addsubcategory'])->name('subcategory');
+    Route::put('/subcategory{id}', [SubCategoryController::class, 'update'])->name('subcategory.update');
+    Route::delete('/subcategory/{id}', [SubCategoryController::class, 'destroy'])
+        ->name('subcategory.destroy');
+
+
+    Route::get('/get-subcategories/{category_id}', [ProductController::class, 'getSubcategories']);
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+
+    Route::get('inventory-history/{id}', [InventoryController::class, 'history'])->name('inventory.history');
+
+    //  Route::get('inventory', [InventoryController::class, 'index']);
+    Route::post('inventory/stock-in', [InventoryController::class, 'stockIn'])->name('inventory.stock.in');
+    Route::post('inventory/stock-out', [InventoryController::class, 'stockOut'])->name('inventory.stock.out');
+    Route::get('inventory/item-products/{itemId}', [InventoryController::class, 'getProductsForItem'])->name('inventory.item.products');
+
+    Route::get('/inventories', [InventoryController::class, 'indexInventory'])->name('inventory.index');
+    // Route::get('/inventory-history', [HomeController::class, 'inventoryhistory'])->name('inventory-history');
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory');
+    Route::post(
+        '/sell-invoice/add-item',
+        [SellInvoiceController::class, 'addItem']
+    )->name('sell.invoice.addItem');
+
+    Route::get('/sell-invoice/edit/{id}', function ($id) {
+        // Determine if we need a controller method or just return the view
+        // Since add_invoice view is powered by JS and customer-dropdown,
+        // we might need to pass the ID to the view so JS can auto-load it.
+        // Let's use SellInvoiceController method to be clean.
+        return app(SellInvoiceController::class)->edit($id);
+    })->name('sell.invoice.edit');
+
+    Route::get(
+        '/sell-invoice/get-pending/{customerId}',
+        [SellInvoiceController::class, 'getPendingInvoice']
+    )->name('sell.invoice.getPending');
+
+    Route::get(
+        '/sell-invoice/get/{id}',
+        [SellInvoiceController::class, 'getInvoiceById']
+    )->name('sell.invoice.getById');
+
+    Route::post(
+        '/sell-invoice/remove-item',
+        [SellInvoiceController::class, 'removeItem']
+    )->name('sell.invoice.removeItem');
+
+    Route::post(
+        '/sell-invoice/update-item',
+        [SellInvoiceController::class, 'updateItem']
+    )->name('sell.invoice.updateItem');
+
+    Route::post(
+        '/sell-invoice/finalize',
+        [SellInvoiceController::class, 'finalize']
+    )->name('sell.invoice.finalize');
+
+    Route::post(
+        '/sell-invoice/update',
+        [SellInvoiceController::class, 'update']
+    )->name('sell.invoice.update');
+
+    Route::delete(
+        '/sell-invoice/delete/{id}',
+        [SellInvoiceController::class, 'destroy']
+    )->name('sell.invoice.destroy');
+
+    Route::get(
+        '/sell-invoice/view/{id}',
+        [SellInvoiceController::class, 'show']
+    )->name('sell.invoice.view');
+
+    // Invoice Template Routes
+    Route::get(
+        '/invoice-template/editor',
+        [App\Http\Controllers\InvoiceTemplateController::class, 'index']
+    )->name('invoice.template.index');
+
+    Route::post(
+        '/invoice-template/update',
+        [App\Http\Controllers\InvoiceTemplateController::class, 'update']
+    )->name('invoice.template.update');
+
+    Route::post(
+        '/invoice-template/reset',
+        [App\Http\Controllers\InvoiceTemplateController::class, 'reset']
+    )->name('invoice.template.reset');
+
+    Route::post(
+        '/invoice-template/blocks/store',
+        [App\Http\Controllers\InvoiceTemplateController::class, 'storeBlock']
+    )->name('invoice.template.block.store');
+
+    Route::post(
+        '/invoice-template/blocks/{id}/update',
+        [App\Http\Controllers\InvoiceTemplateController::class, 'updateBlock']
+    )->name('invoice.template.block.update');
+
+    Route::delete(
+        '/invoice-template/blocks/{id}/delete',
+        [App\Http\Controllers\InvoiceTemplateController::class, 'deleteBlock']
+    )->name('invoice.template.block.delete');
 
     Route::get('/generate-uuid-for-old-invoices', function () {
         $invoices = Invoice::whereNull('uuid')->get();
@@ -126,7 +251,8 @@ Route::post('/check-product-code', [ProductController::class, 'checkProductCode'
 
         return 'Default columns inserted!';
     });
-
+    Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');
+    Route::get('/product-list', [HomeController::class, 'productlist'])->name('product-list');
     // Accounting Routes
     Route::get('/accounting/trial-balance', [\App\Http\Controllers\AccountingController::class, 'trialBalance'])->name('accounting.trial-balance');
     Route::get('/accounting/profit-loss', [\App\Http\Controllers\AccountingController::class, 'profitAndLoss'])->name('accounting.profit-loss');
@@ -136,16 +262,11 @@ Route::post('/check-product-code', [ProductController::class, 'checkProductCode'
     Route::get('/accounting/sync-all', [\App\Http\Controllers\AccountingController::class, 'syncAll'])->name('accounting.sync-all');
     Route::post('/accounting/post-invoice/{id}', [\App\Http\Controllers\AccountingController::class, 'postInvoice'])->name('accounting.post-invoice');
     Route::get('/reports/day-book', [DayBookController::class, 'index'])->name('day-book.index');
+    Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
 
-    // Expense Routes
-    Route::get('/expenses', [\App\Http\Controllers\ExpenseController::class, 'index'])->name('expenses.index');
-    Route::get('/expenses/create', [\App\Http\Controllers\ExpenseController::class, 'create'])->name('expenses.create');
-    Route::post('/expenses/store', [\App\Http\Controllers\ExpenseController::class, 'store'])->name('expenses.store');
-    Route::put('/expenses/{expense}', [\App\Http\Controllers\ExpenseController::class, 'update'])->name('expenses.update');
-    Route::delete('/expenses/{expense}', [\App\Http\Controllers\ExpenseController::class, 'destroy'])->name('expenses.destroy');
-
-
-
+    Route::get('/stock-report', [PageController::class, 'stock_report'])->name('stock-report');
+    Route::get('/sales-report', [PageController::class, 'sales_report'])->name('sales-report');
+    Route::get('/stock-summary', [PageController::class, 'stock_summary'])->name('stock-summary');
 });
 
 
@@ -193,16 +314,16 @@ Route::get('/edit-delivery-challans', [PageController::class, 'edit_delivery_cha
 Route::get('/edit-quotations', [PageController::class, 'edit_quotations'])->name('edit-quotations');
 Route::get('/quotations', [PageController::class, 'quotations'])->name('quotations');
 Route::get('/payment-summary', [PageController::class, 'payment_summary'])->name('payment-summary');
-Route::get('/stock-summary', [PageController::class, 'stock_summary'])->name('stock-summary');
+
 Route::get('/expense-report', [PageController::class, 'expense_report'])->name('expense-report');
 Route::get('/income-report', [PageController::class, 'income_report'])->name('income-report');
 Route::get('/low-stock-report', [PageController::class, 'low_stock_report'])->name('low-stock-report');
 Route::get('/payment-report', [PageController::class, 'payment_report'])->name('payment-report');
 Route::get('/purchase-report', [PageController::class, 'purchase_report'])->name('purchase-report');
 Route::get('/quotation-report', [PageController::class, 'quotation_report'])->name('quotation-report');
-Route::get('/sales-report', [PageController::class, 'sales_report'])->name('sales-report');
+
 Route::get('/sales-return-report', [PageController::class, 'sales_return_report'])->name('sales-return-report');
-Route::get('/stock-report', [PageController::class, 'stock_report'])->name('stock-report');
+
 Route::get('/purchase-return', [PageController::class, 'purchase_return'])->name('purchase-return');
 Route::get('/profit-loss-list', [PageController::class, 'profit_loss_list'])->name('profit-loss-list');
 Route::get('/tax-purchase', [PageController::class, 'tax_purchase'])->name('tax-purchase');
@@ -342,113 +463,14 @@ Route::get('/index-five', [HomeController::class, 'indexfive'])->name('index-fiv
 Route::get('/index-four', [HomeController::class, 'indexfour'])->name('index-four');
 Route::get('/index-three', [HomeController::class, 'indexthree'])->name('index-three');
 Route::get('/index-two', [HomeController::class, 'indextwo'])->name('index-two');
-    // Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
+// Route::get('/', [HomeController::class, 'index'])->name('index');
+
 
 // Route::get('/add-products', [HomeController::class, 'addproducts'])->name('add-products');
-Route::get('/category', [HomeController::class, 'category'])->name('category');
-Route::post('/category', [CategoryController::class, 'addcategory'])->name('category');
-Route::put('/category{id}', [CategoryController::class, 'update'])->name('category.update');
-Route::delete('/category/{id}', [CategoryController::class, 'destroy'])
-     ->name('category.destroy');
-
-Route::get('/subcategory', [HomeController::class, 'subcategory'])->name('subcategory');
-Route::post('/subcategory', [SubCategoryController::class, 'addsubcategory'])->name('subcategory');
-Route::put('/subcategory{id}', [SubCategoryController::class, 'update'])->name('subcategory.update');
-Route::delete('/subcategory/{id}', [SubCategoryController::class, 'destroy'])
-     ->name('subcategory.destroy');
-Route::get('/get-subcategories/{category_id}', [ProductController::class, 'getSubcategories']);
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 
-Route::get('/metal-rates', [HomeController::class, 'metalrates'])->name('metal-rates');
-Route::post('/metal-rates', [MetalRateController::class, 'addmetalrates'])->name('metal-rates');
-Route::put('/metal-rates/{id}', [MetalRateController::class, 'update'])->name('metal-rates.update');
-Route::delete('/metal-rates/{id}', [MetalRateController::class, 'destroy'])
-     ->name('metal-rates.destroy');
-
-    //  Route::get('inventory', [InventoryController::class, 'index']);
-Route::post('inventory/stock-in', [InventoryController::class, 'stockIn'])->name('inventory.stock.in');
-Route::post('inventory/stock-out', [InventoryController::class, 'stockOut'])->name('inventory.stock.out');
-Route::get('inventory/item-products/{itemId}', [InventoryController::class, 'getProductsForItem'])->name('inventory.item.products');
-Route::get('inventory-history/{id}', [InventoryController::class, 'history'])->name('inventory.history');
-
-Route::get('/inventories', [InventoryController::class, 'indexInventory'])->name('inventory.index');
-
-Route::post('/sell-invoice/add-item',
-    [SellInvoiceController::class, 'addItem']
-)->name('sell.invoice.addItem');
-
-Route::get('/sell-invoice/edit/{id}', function ($id) {
-    // Determine if we need a controller method or just return the view
-    // Since add_invoice view is powered by JS and customer-dropdown,
-    // we might need to pass the ID to the view so JS can auto-load it.
-    // Let's use SellInvoiceController method to be clean.
-    return app(SellInvoiceController::class)->edit($id);
-})->name('sell.invoice.edit');
-
-Route::get('/sell-invoice/get-pending/{customerId}',
-    [SellInvoiceController::class, 'getPendingInvoice']
-)->name('sell.invoice.getPending');
-
-Route::get('/sell-invoice/get/{id}',
-    [SellInvoiceController::class, 'getInvoiceById']
-)->name('sell.invoice.getById');
-
-Route::post('/sell-invoice/remove-item',
-    [SellInvoiceController::class, 'removeItem']
-)->name('sell.invoice.removeItem');
-
-Route::post('/sell-invoice/update-item',
-    [SellInvoiceController::class, 'updateItem']
-)->name('sell.invoice.updateItem');
-
-Route::post('/sell-invoice/finalize',
-    [SellInvoiceController::class, 'finalize']
-)->name('sell.invoice.finalize');
-
-Route::post('/sell-invoice/update',
-    [SellInvoiceController::class, 'update']
-)->name('sell.invoice.update');
-
-Route::delete('/sell-invoice/delete/{id}',
-    [SellInvoiceController::class, 'destroy']
-)->name('sell.invoice.destroy');
-
-Route::get('/sell-invoice/view/{id}',
-    [SellInvoiceController::class, 'show']
-)->name('sell.invoice.view');
-
-// Invoice Template Routes
-Route::get('/invoice-template/editor',
-    [App\Http\Controllers\InvoiceTemplateController::class, 'index']
-)->name('invoice.template.index');
-
-Route::post('/invoice-template/update',
-    [App\Http\Controllers\InvoiceTemplateController::class, 'update']
-)->name('invoice.template.update');
-
-Route::post('/invoice-template/reset',
-    [App\Http\Controllers\InvoiceTemplateController::class, 'reset']
-)->name('invoice.template.reset');
-
-Route::post('/invoice-template/blocks/store',
-    [App\Http\Controllers\InvoiceTemplateController::class, 'storeBlock']
-)->name('invoice.template.block.store');
-
-Route::post('/invoice-template/blocks/{id}/update',
-    [App\Http\Controllers\InvoiceTemplateController::class, 'updateBlock']
-)->name('invoice.template.block.update');
-
-Route::delete('/invoice-template/blocks/{id}/delete',
-    [App\Http\Controllers\InvoiceTemplateController::class, 'deleteBlock']
-)->name('invoice.template.block.delete');
-
-Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');
-Route::get('/product-list', [HomeController::class, 'productlist'])->name('product-list');
 Route::get('/units', [HomeController::class, 'units'])->name('units');
-Route::get('/inventory-history', [HomeController::class, 'inventoryhistory'])->name('inventory-history');
-Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory');
+
 Route::get('/membership-addons', [HomeController::class, 'membershipaddons'])->name('membership-addons');
 Route::get('/membership-plans', [HomeController::class, 'membershipplans'])->name('membership-plans');
 Route::get('/subscribers', [HomeController::class, 'subscribers'])->name('subscribers');

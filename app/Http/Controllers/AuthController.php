@@ -38,31 +38,36 @@ class AuthController extends Controller
     //     return back()->with('status', 'Invalid login credentials.');
     // }
     public function authenticate(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => 'required|string',
-        'password' => 'required|string',
-    ]);
+    {
+        $credentials = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
-    if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
-        $request->session()->regenerate();
-        $user = Auth::user(); 
-        // Redirect based on role
-        $role = Auth::user()->role;
-        if ($role === 'superadmin') {
+        // 1. Try Superadmin login (web guard)
+        if (Auth::guard('web')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+            $request->session()->regenerate();
             return redirect('/superadmin/dashboard');
-        } elseif ($role === 'admin') {
-            // return redirect('admin/dashboard');
-            return redirect('/admin/dashboard/');
-        } elseif ($role === 'client') {
-            return redirect('/client/dashboard');
         }
 
-        return redirect('/');
-    }
+        // 2. Try Admin login (admin guard)
+        if (Auth::guard('admin')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+            $request->session()->regenerate();
+            $admin = Auth::guard('admin')->user();
+            
+            // Store tenant info in session
+            $request->session()->put('tenant_db', $admin->db_name);
+            
+            // Switch database
+            if ($admin->db_name) {
+                \App\Services\DatabaseSwitcher::switch($admin->db_name);
+            }
 
-    return back()->with('status', 'Invalid login credentials.');
-}
+            return redirect('/admin/dashboard/');
+        }
+
+        return back()->with('status', 'Invalid login credentials.');
+    }
 
 
 

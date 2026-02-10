@@ -93,7 +93,7 @@ class AccountingService
         $lines = [];
 
         // --- DEBITS (Payments & Receivables) ---
-        
+
         // 1. Cash Received
         if ($invoice->cash_received > 0) {
             $lines[] = [
@@ -158,10 +158,10 @@ class AccountingService
         // --- CREDITS (Income & Taxes) ---
 
         // 6. Granular Sales Income
-        // We calculate income per category from items. 
+        // We calculate income per category from items.
         // Note: final_price includes tax usually, but here Jewellery Sales was net.
         // Let's split the net amount (taxable_amount) proportionally or accurately.
-        
+
         $totalGoldAmount = 0;
         $totalDiamondAmount = 0;
         $totalStoneAmount = 0;
@@ -169,7 +169,7 @@ class AccountingService
 
         foreach ($invoice->items as $item) {
             $category = strtolower($item->category ?? '');
-            
+
             if (str_contains($category, 'gold')) {
                 if($item->diamond_amount > 0){
                     $totalDiamondAmount += $item->diamond_amount;
@@ -415,7 +415,7 @@ class AccountingService
     {
         $report = Account::with(['group'])->get()->map(function($account) use ($fromDate, $toDate) {
             $query = JournalEntryLine::where('account_id', $account->id);
-            
+
             if ($fromDate && $toDate) {
                 $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
@@ -544,7 +544,7 @@ class AccountingService
         // Calculate Net Profit for Balance Sheet (Retained Earnings)
         $incomeTotalQuery = Account::whereHas('group', function($q) { $q->where('type', 'Income'); })
             ->join('journal_entry_lines', 'accounts.id', '=', 'journal_entry_lines.account_id');
-        
+
         $expenseTotalQuery = Account::whereHas('group', function($q) { $q->where('type', 'Expense'); })
             ->join('journal_entry_lines', 'accounts.id', '=', 'journal_entry_lines.account_id');
 
@@ -578,7 +578,7 @@ class AccountingService
     public function getAccountLedger($accountId, $fromDate = null, $toDate = null)
     {
         $account = Account::with('group')->findOrFail($accountId);
-        
+
         $query = JournalEntryLine::with(['journalEntry'])
             ->where('account_id', $accountId);
 
@@ -598,7 +598,7 @@ class AccountingService
                 ->whereHas('journalEntry', function($q) use ($fromDate) {
                     $q->where('entry_date', '<', $fromDate);
                 });
-            
+
             if (in_array($account->group->type, ['Asset', 'Expense'])) {
                 $openingBalance = $preQuery->sum('debit') - $preQuery->sum('credit');
             } else {

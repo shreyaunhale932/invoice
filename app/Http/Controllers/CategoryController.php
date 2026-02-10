@@ -17,7 +17,7 @@ class CategoryController extends Controller
 
         // Save data to database
         $metalRate = Category::create([
-            'admin_id' => Auth::id(),
+            'admin_id' => Auth::guard('admin')->id(),
             'category_name'      => $request->category_name,
         ]);
 

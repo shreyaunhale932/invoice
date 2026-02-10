@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $connection = 'landlord';
+
     /**
      * The attributes that are mass assignable.
      *

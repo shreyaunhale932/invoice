@@ -104,7 +104,7 @@
                             href="{{ url('settings') }}"><i class="fe fe-settings"></i> <span>Settings</span></a>
                     </li>
                     <li>
-                        <a class="{{ Request::is('login') ? 'active' : '' }}" href="{{ url('login') }}"><i
+                        <a class="{{ Request::is('login') ? 'active' : '' }}" href="{{ route('logout') }}"><i
                                 class="fe fe-power"></i> <span>Logout</span></a>
                     </li>
 
@@ -114,9 +114,9 @@
         </div>
     </div>
     <!-- /Sidebar -->
-@endif
+{{-- @endif --}}
 
-@if (Auth::check() && Auth::user()->role === 'admin')
+@elseif (Auth::guard('admin')->check())
     <div class="sidebar sidebar-two" id="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
@@ -139,7 +139,7 @@
                                 class="menu-arrow"></span></a>
                         <ul>
                             <li><a class="{{ Request::is('/', 'index') ? 'active' : '' }}"
-                                    href="{{ url('/') }}">Admin Dashboard</a></li>
+                                    href="{{ route('admin.dashboard') }}">Admin Dashboard</a></li>
                         </ul>
                     </li>
 
@@ -278,7 +278,7 @@
                             href="{{ url('settings') }}"><i class="fe fe-settings"></i> <span>Settings</span></a>
                     </li>
                     <li>
-                        <a class="{{ Request::is('login') ? 'active' : '' }}" href="{{ url('login') }}"><i
+                        <a class="{{ Request::is('login') ? 'active' : '' }}" href="{{ route('logout') }}"><i
                                 class="fe fe-power"></i> <span>Logout</span></a>
                     </li>
                 </ul>

@@ -13,7 +13,7 @@ class IndexCards extends Component
         $amountDue = \App\Models\SellInvoice::where('admin_id', $adminId)->sum('amount_left');
         $customersCount = \App\Models\Customer::where('admin_id', $adminId)->count();
         $invoicesCount = \App\Models\SellInvoice::where('admin_id', $adminId)->count();
-        $estimatesCount = \App\Models\Invoice::where('admin_id', $adminId)->count();
+        // $estimatesCount = \App\Models\Invoice::where('admin_id', $adminId)->count();
 
         $cards = [
             [
@@ -56,7 +56,7 @@ class IndexCards extends Component
                 "dash-widget-icon" => "dash-widget-icon bg-4",
                 "icon-class" => "far fa-file",
                 "dash-title" => "Estimates",
-                "dash-counts" => number_format($estimatesCount),
+                "dash-counts" => number_format(0),
                 "progress-bar" => "progress-bar bg-8",
                 "progress-width" => "45%",
                 "progress-aria" => "45",

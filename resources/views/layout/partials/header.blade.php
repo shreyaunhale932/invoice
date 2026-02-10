@@ -258,12 +258,15 @@ $('#globalSearch').on('keyup', function () {
                     </span>
                     <span class="user-content">
                         <span class="user-details">Admin</span>
-                        <span class="user-name">@if (Auth::check())
-                            <p>Welcome, {{ Auth::user()->name }}</p>
+                        <span class="user-name">
+                            @if (Auth::guard('web')->check())
+                                <p>Welcome, {{ Auth::guard('web')->user()->name }}</p>
+                            @elseif (Auth::guard('admin')->check())
+                                <p>Welcome, {{ Auth::guard('admin')->user()->name }}</p>
                             @else
-                            <script>
-                                window.location.href = "{{ route('login') }}";
-                            </script>
+                                <script>
+                                    window.location.href = "{{ route('login') }}";
+                                </script>
                             @endif
                         </span>
                     </span>
@@ -283,7 +286,7 @@ $('#globalSearch').on('keyup', function () {
                         <div class="subscription-logout">
                             <ul>
                                 <li class="pb-0">
-                                    <a class="dropdown-item" href="{{ url('login') }}">Log Out</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">Log Out</a>
                                 </li>
                             </ul>
                         </div>
@@ -511,7 +514,7 @@ $('#globalSearch').on('keyup', function () {
                             <div class="subscription-logout">
                                 <ul>
                                     <li class="pb-0">
-                                        <a class="dropdown-item" href="{{ url('login') }}">Log Out</a>
+                                        <a class="dropdown-item" href="{{ route('logout') }}">Log Out</a>
                                     </li>
                                 </ul>
                             </div>
@@ -720,7 +723,7 @@ $('#globalSearch').on('keyup', function () {
                         <div class="subscription-logout">
                             <ul>
                                 <li class="pb-0">
-                                    <a class="dropdown-item" href="{{ url('login') }}">Log Out</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">Log Out</a>
                                 </li>
                             </ul>
                         </div>
@@ -1011,7 +1014,7 @@ $('#globalSearch').on('keyup', function () {
                                     <a href="#"><i class="fe fe-lock"></i> <span> Authentication </span> <span
                                             class="menu-arrow"></span></a>
                                     <ul>
-                                        <li><a href="{{ url('login') }}"> <span> Login </span></a></li>
+                                        <li><a href="{{ route('logout') }}"> <span> Login </span></a></li>
                                         <li><a href="{{ url('register') }}"><span> Register </span></a></li>
                                         <li><a href="{{ url('forgot-password') }}"> <span>Forgot Password </span></a>
                                         </li>
@@ -1029,7 +1032,7 @@ $('#globalSearch').on('keyup', function () {
                                             <a href="{{ url('settings') }}"><span>Settings</span></a>
                                         </li>
                                         <li>
-                                            <a href="{{ url('login') }}"><span>Logout</span></a>
+                                            <a href="{{ route('logout') }}"><span>Logout</span></a>
                                         </li>
                                     </ul>
                                 </li>
@@ -1339,7 +1342,7 @@ $('#globalSearch').on('keyup', function () {
                             <div class="subscription-logout">
                                 <ul>
                                     <li class="pb-0">
-                                        <a class="dropdown-item" href="{{ url('login') }}">Log Out</a>
+                                        <a class="dropdown-item" href="{{ route('logout') }}">Log Out</a>
                                     </li>
                                 </ul>
                             </div>

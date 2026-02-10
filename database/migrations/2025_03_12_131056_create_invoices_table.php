@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->text('notes')->nullable();
-            $table->text('terms')->nullable();
-        });
+        // Schema::table('invoices', function (Blueprint $table) {
+        //     $table->text('notes')->nullable();
+        //     $table->text('terms')->nullable();
+        // });
     }
     
     public function down()

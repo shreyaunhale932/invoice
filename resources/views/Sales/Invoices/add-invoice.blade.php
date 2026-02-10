@@ -528,9 +528,7 @@
 
 
     <script>
-        // const invoiceColumns = @json($allColumns);
-        // console.log("invoiceColumns:", invoiceColumns);
-        // const productOptions = <?= json_encode($products) ?>;
+
 
         const productOptions = @json($products);
     </script>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::table('invoice_items', function (Blueprint $table) {
-            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('hsn_code_id')->nullable()->constrained('hsn_codes')->onDelete('set null');
-            $table->enum('type', ['product', 'service'])->default('product');
-        });
+        // Schema::table('invoice_items', function (Blueprint $table) {
+        //     $table->unsignedBigInteger('admin_id'); // Link to Admin (no cross-DB FK)
+        //     $table->foreignId('hsn_code_id')->nullable()->constrained('hsn_codes')->onDelete('set null');
+        //     $table->enum('type', ['product', 'service'])->default('product');
+        // });
     }
 
     public function down()

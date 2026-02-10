@@ -21,7 +21,7 @@ class MetalRateController extends Controller
 
         // Save data to database
         $metalRate = MetalRate::create([
-            'admin_id' => Auth::id(),
+            'admin_id' => Auth::guard('admin')->id(),
             'metal_type'      => $request->metal_type,
             'price_per_gram'  => $request->price_per_gram,
             // 'gram'            => $request->gram,

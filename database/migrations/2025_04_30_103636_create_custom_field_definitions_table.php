@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('custom_field_definitions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('admin_id'); // Link to Admin (no cross-DB FK)
             $table->string('model_type'); // 'invoice' or 'invoice_item'
             $table->string('field_key');  // e.g. 'category', 'po_number'
             $table->string('field_label'); // For UI display
