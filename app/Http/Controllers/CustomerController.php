@@ -26,7 +26,7 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'nullable|email|unique:customers,email',
+            'email' => 'nullable|email',
             'phone' => 'nullable|string|max:20',
             'address1' => 'nullable|string',
             'address2' => 'nullable|string',
@@ -59,7 +59,7 @@ class CustomerController extends Controller
             'ifsc' => $request->ifsc,
         ]);
 
-        return redirect()->route('add-customer')->with('success', 'Customer added successfully!');
+        return redirect()->route('customers')->with('success', 'Customer added successfully!');
     }
     public function addproducts()
     {
@@ -88,4 +88,58 @@ class CustomerController extends Controller
         'metalRates'
     ));
    }
+    public function edit($id)
+    {
+        $customer = Customer::where('id', $id)->where('admin_id', Auth::guard('admin')->id())->firstOrFail();
+        return view('Customers/edit-customer', compact('customer'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $customer = Customer::where('id', $id)->where('admin_id', Auth::guard('admin')->id())->firstOrFail();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string|max:20',
+            'address1' => 'nullable|string',
+            'address2' => 'nullable|string',
+            'country' => 'nullable|string',
+            'state' => 'nullable|string',
+            'city' => 'nullable|string',
+            'pincode' => 'nullable|string|max:10',
+            'bank_name' => 'nullable|string|max:255',
+            'branch' => 'nullable|string|max:255',
+            'account_holder_name' => 'nullable|string|max:255',
+            'account_number' => 'nullable|string|max:50',
+            'ifsc' => 'nullable|string|max:20',
+        ]);
+
+        $customer->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address1' => $request->address1,
+            'address2' => $request->address2,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'pincode' => $request->pincode,
+            'bank_name' => $request->bank_name,
+            'branch' => $request->branch,
+            'account_holder_name' => $request->account_holder_name,
+            'account_number' => $request->account_number,
+            'ifsc' => $request->ifsc,
+        ]);
+
+        return redirect()->route('customers')->with('success', 'Customer updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $customer = Customer::where('id', $id)->where('admin_id', Auth::guard('admin')->id())->firstOrFail();
+        $customer->delete();
+
+        return redirect()->route('customers')->with('success', 'Customer deleted successfully!');
+    }
 }

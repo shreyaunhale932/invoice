@@ -203,6 +203,39 @@ $('#globalSearch').on('keyup', function () {
                     <i class="fe fe-maximize"></i>
                 </a>
             </li>
+            <!-- Firm Switcher -->
+            @if(Auth::guard('admin')->check())
+            <li class="nav-item dropdown has-arrow main-drop">
+                <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                    <span class="user-img bg-primary-light rounded-circle p-1 text-center" style="width: 30px; height: 30px; line-height: 22px; display: inline-block;">
+                        <i class="fas fa-building text-primary small"></i>
+                    </span>
+                    <span class="ms-2 d-none d-sm-inline-block">{{ Session::get('selected_firm_name', 'Select Firm') }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="border-radius: 12px; min-width: 200px;">
+                    <div class="dropdown-header">Switch Firm</div>
+                    @php $firms = \App\Models\Firm::all(); @endphp
+                    @foreach($firms as $firm)
+                        <form action="{{ route('firms.switch') }}" method="POST" id="switch-firm-{{ $firm->id }}">
+                            @csrf
+                            <input type="hidden" name="firm_id" value="{{ $firm->id }}">
+                            <a href="javascript:void(0);" class="dropdown-item @if(Session::get('selected_firm_id') == $firm->id) active @endif" onclick="document.getElementById('switch-firm-{{ $firm->id }}').submit();">
+                                <i class="fas fa-building me-2 small"></i> {{ $firm->name }}
+                            </a>
+                        </form>
+                    @endforeach
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ route('firms.index') }}">
+                        <i class="fas fa-cog me-2 small"></i> Manage Firms
+                    </a>
+                </div>
+            </li>
+            <style>
+                .active { background-color: #f8fbff; color: #3d5ee1 !important; }
+                .bg-primary-light { background-color: rgba(61, 94, 225, 0.1); }
+            </style>
+            @endif
+            <!-- /Firm Switcher -->
             <!-- User Menu -->
             <li class="nav-item dropdown">
                 <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">

@@ -146,6 +146,22 @@
                 </ul>
                 <!-- /Main -->
 
+                <!-- Firm Management -->
+                <ul>
+                    <li class="menu-title"><span>Firm Management</span></li>
+                    <li>
+                        <a class="{{ Request::is('firms*') ? 'active' : '' }}" href="{{ route('firms.index') }}">
+                            <i class="fe fe-briefcase"></i> <span>Manage Firms</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="{{ Request::is('firms/select') ? 'active' : '' }}" href="{{ route('firms.select') }}">
+                            <i class="fe fe-shuffle"></i> <span>Switch Firm</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /Firm Management -->
+
                 <!-- Customers -->
                 <ul>
                     <li class="menu-title"><span>Customers</span></li>

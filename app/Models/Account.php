@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToFirm;
 
 class Account extends Model
 {
+    use BelongsToFirm;
     protected $fillable = ['name', 'code', 'account_group_id', 'opening_balance', 'admin_id'];
 
     public function group()

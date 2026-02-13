@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToFirm;
 
 class Expense extends Model
 {
+    use BelongsToFirm;
     protected $fillable = [
         'expense_date',
         'amount',

@@ -3,11 +3,12 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToFirm;
 
 class Subcategory extends Model
 {
     //
-     use SoftDeletes;
+     use SoftDeletes, BelongsToFirm;
       protected $primaryKey = 'subcategory_id';
     protected $table = "subcategories";
     protected $fillable = ['admin_id','category_id','subcategory_name'];

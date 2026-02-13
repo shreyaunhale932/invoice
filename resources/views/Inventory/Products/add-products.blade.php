@@ -171,11 +171,12 @@
                                         @endforeach
                                     </select> --}}
                                     <select name="metal_rate_id" id="metal_rate" class="form-control" required>
-                                        {{-- {{ $product->metal_rate }} --}}
+
                                         <option value="">Select Metal Rate</option>
 
                                         @foreach ($metalRates as $rate)
-                                            {{-- {{  $rate->id }} --}}
+                                            {{-- {{  $rate->id }}
+                                             {{ $product->metal_rate }} --}}
                                             <option value="{{ $rate->id }}"
                                                 data-metal="{{ strtolower($rate->metal_type) }}"
                                                 data-price="{{ $rate->price_per_gram }}"

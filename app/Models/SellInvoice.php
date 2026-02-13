@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToFirm;
 
 class SellInvoice extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToFirm;
 
     protected $table = 'sell_invoices';
 

@@ -15,7 +15,9 @@
                     <!-- /Page Header -->
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="#">
+                            <form action="{{ route('customers.update', $customer->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
                                 <div class="form-group-item">
                                     <h5 class="form-title">Basic Details</h5>
                                     <div class="profile-picture">
@@ -41,21 +43,21 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Enter Name">
+                                                <input type="text" class="form-control" placeholder="Enter Name" name="name" value="{{ $customer->name }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Email <span class="text-danger">*</span></label>
                                                 <input type="email" class="form-control"
-                                                    placeholder="Enter Email Address">
+                                                    placeholder="Enter Email Address" name="email" value="{{ $customer->email }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Phone <span class="text-danger">*</span></label>
                                                 <input type="text" id="mobile_code" class="form-control"
-                                                    placeholder="Phone Number" name="name">
+                                                    placeholder="Phone Number" name="phone" value="{{ $customer->phone }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -93,38 +95,38 @@
                                             </div>
                                             <div class="input-block mb-3">
                                                 <label>Name</label>
-                                                <input type="text" class="form-control" placeholder="Enter Name">
+                                                <input type="text" class="form-control" placeholder="Enter Name" name="billing_name" value="{{ $customer->name }}">
                                             </div>
                                             <div class="input-block mb-3">
                                                 <label>Address Line 1</label>
-                                                <input type="text" class="form-control" placeholder="Enter Address 1">
+                                                <input type="text" class="form-control" placeholder="Enter Address 1" name="address1" value="{{ $customer->address1 }}">
                                             </div>
                                             <div class="input-block mb-3">
                                                 <label>Address Line 2</label>
-                                                <input type="text" class="form-control" placeholder="Enter Address 2">
+                                                <input type="text" class="form-control" placeholder="Enter Address 2" name="address2" value="{{ $customer->address2 }}">
                                             </div>
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-12">
                                                     <div class="input-block mb-3">
                                                         <label>Country</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Enter Country">
+                                                            placeholder="Enter Country" name="country" value="{{ $customer->country }}">
                                                     </div>
                                                     <div class="input-block mb-3">
                                                         <label>City</label>
-                                                        <input type="text" class="form-control" placeholder="Enter City">
+                                                        <input type="text" class="form-control" placeholder="Enter City" name="city" value="{{ $customer->city }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12">
                                                     <div class="input-block mb-3">
                                                         <label>State</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Enter State">
+                                                            placeholder="Enter State" name="state" value="{{ $customer->state }}">
                                                     </div>
                                                     <div class="input-block mb-3">
                                                         <label>Pincode</label>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Enter Pincode">
+                                                            placeholder="Enter Pincode" name="pincode" value="{{ $customer->pincode }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,41 +183,41 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Bank Name</label>
-                                                <input type="text" class="form-control" placeholder="Enter Bank Name">
+                                                <input type="text" class="form-control" placeholder="Enter Bank Name" name="bank_name" value="{{ $customer->bank_name }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Branch</label>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Enter Branch Name">
+                                                    placeholder="Enter Branch Name" name="branch" value="{{ $customer->branch }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-12 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Account Holder Name</label>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Enter Account Holder Name">
+                                                    placeholder="Enter Account Holder Name" name="account_holder_name" value="{{ $customer->account_holder_name }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-12 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Account Number</label>
                                                 <input type="text" class="form-control"
-                                                    placeholder="Enter Account Number">
+                                                    placeholder="Enter Account Number" name="account_number" value="{{ $customer->account_number }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-12 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>IFSC</label>
-                                                <input type="text" class="form-control" placeholder="Enter IFSC Code">
+                                                <input type="text" class="form-control" placeholder="Enter IFSC Code" name="ifsc" value="{{ $customer->ifsc }}">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="add-customer-btns text-end">
                                     <a href="{{ url('customers') }}" class="btn customer-btn-cancel">Cancel</a>
-                                    <a href="{{ url('customers') }}" class="btn customer-btn-save">Save Changes</a>
+                                    <button type="submit" class="btn customer-btn-save">Save Changes</button>
                                 </div>
                             </form>
                         </div>

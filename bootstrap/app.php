@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth.check' => Authenticate::class,
             'checkUserRole' => CheckUserRole::class, // ✅ Register custom middleware
             'tenant' => \App\Http\Middleware\TenantMiddleware::class, // ✅ Register Tenant Middleware
+            'firm' => \App\Http\Middleware\FirmMiddleware::class, // ✅ Register Firm Middleware
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

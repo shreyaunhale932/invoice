@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToFirm;
 
 class Category extends Model
 {
+    use BelongsToFirm;
     //
     protected $primaryKey = 'category_id';
     protected $table = "categories";

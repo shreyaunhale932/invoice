@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\BelongsToFirm;
+
 class Product extends Model
 {
     //
-  use SoftDeletes;
+    use SoftDeletes, BelongsToFirm;
 
     protected $dates = ['deleted_at'];
     protected $table = 'products';

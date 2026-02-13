@@ -56,6 +56,42 @@ class SuperAdminController extends Controller
     
         return redirect()->back()->with('success', 'Admin added and database initialized successfully.');
     }
+    public function updateAdmin(Request $request, $id)
+    {
+        $admin = \App\Models\Admin::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:admins,email,' . $id,
+            'phone' => 'required|string|max:15',
+            'status' => 'required|in:active,inactive',
+            'password' => 'nullable|min:6', // Password optional on update
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'status' => $request->status,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = \Illuminate\Support\Facades\Hash::make($request->password);
+        }
+
+        $admin->update($data);
+
+        return redirect()->back()->with('success', 'Admin updated successfully.');
+    }
+
+    public function destroyAdmin($id)
+    {
+        $admin = \App\Models\Admin::findOrFail($id);
+        $admin->delete();
+
+        return redirect()->back()->with('success', 'Admin deleted successfully.');
+    }
+
     public function settings()
     {
         return view('Settings/settings');

@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToFirm;
 
 class ItemProductData extends Model
 {
+    use BelongsToFirm;
     protected $table = 'item_product_data';
 
     protected $fillable = [

@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToFirm;
 
 class InventoryTransaction extends Model
 {
+    use BelongsToFirm;
     protected $fillable = [
         'product_id',
         'item_product_data_id',

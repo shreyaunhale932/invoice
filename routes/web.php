@@ -48,10 +48,19 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
     Route::get('/createAdmin', [SuperAdminController::class, 'createAdmin'])->name('createAdmin');
     Route::post('/admin/store', [SuperAdminController::class, 'storeAdmin'])->name('admin.store');
+    Route::put('/superadmin/admin/update/{id}', [SuperAdminController::class, 'updateAdmin'])->name('admin.update');
+    Route::delete('/superadmin/admin/delete/{id}', [SuperAdminController::class, 'destroyAdmin'])->name('admin.destroy');
 });
 
-// Admin can add Clients
+// Admin Routes with Firm Management
 Route::middleware(['auth:admin', 'tenant'])->group(function () {
+    Route::get('/firms/select', [\App\Http\Controllers\FirmController::class, 'select'])->name('firms.select');
+    Route::post('/firms/switch', [\App\Http\Controllers\FirmController::class, 'switch'])->name('firms.switch');
+    Route::resource('firms', \App\Http\Controllers\FirmController::class);
+});
+
+// Admin can add Clients (Now with Firm Isolation)
+Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     // Expense Routes
     Route::get('/expenses', [\App\Http\Controllers\ExpenseController::class, 'index'])->name('expenses.index');
     Route::get('/expenses/create', [\App\Http\Controllers\ExpenseController::class, 'create'])->name('expenses.create');
@@ -72,6 +81,9 @@ Route::middleware(['auth:admin', 'tenant'])->group(function () {
     Route::post('/admin/bank', [AdminController::class, 'store'])->name('admin.bank');
     Route::get('add-customer', [CustomerController::class, 'addcustomer'])->name('add-customer');
     Route::post('/customers/store', [CustomerController::class, 'store'])->name('customers.store');
+    Route::get('/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
     Route::get('/customers', [CustomerController::class, 'customers'])->name('customers');
     Route::get('/add-products', [CustomerController::class, 'addproducts'])->name('add-products');
     Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');

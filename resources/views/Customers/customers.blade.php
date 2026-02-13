@@ -16,7 +16,12 @@
             @component('components.search-filter')
             @endcomponent
             <!-- /Search Filter -->
-
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card-table">
@@ -36,13 +41,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
+
                                         @foreach ($customers as $customer)
                                             <tr>
                                                 <td>{{ $customer['id'] }}</td>
                                                 <td>
                                                     <h2 class="table-avatar">
-                                                        
+
                                                         <a href="{{ url('profile') }}">{{ $customer['name'] }}
                                                             <span>{{ $customer['email'] }}</span></a>
                                                     </h2>
@@ -51,8 +56,7 @@
                                                 <td>{{ $customer['Balance'] }}</td>
                                                 <td>{{ $customer['TotalInvoice'] }}</td>
                                                 <td>{{ $customer['created_at'] }}</td>
-                                                <td><span
-                                                        class="{{ $customer['Class'] }}">{{ $customer['Status'] }}</span>
+                                                <td><span class="{{ $customer['Class'] }}">{{ $customer['Status'] }}</span>
                                                 </td>
                                                 <td class="d-flex align-items-center">
                                                     <a href="{{ url('add-invoice') }}" class="btn btn-greys me-2"><i
@@ -67,13 +71,14 @@
                                                             <ul>
                                                                 <li>
                                                                     <a class="dropdown-item"
-                                                                        href="{{ url('edit-customer') }}"><i
+                                                                        href="{{ route('customers.edit', $customer->id) }}"><i
                                                                             class="far fa-edit me-2"></i>Edit</a>
                                                                 </li>
                                                                 <li>
                                                                     <a class="dropdown-item" href="javascript:void(0);"
                                                                         data-bs-toggle="modal"
-                                                                        data-bs-target="#delete_modal"><i
+                                                                        data-bs-target="#delete_modal"
+                                                                        onclick="setDeleteAction('{{ route('customers.destroy', $customer->id) }}')"><i
                                                                             class="far fa-trash-alt me-2"></i>Delete</a>
                                                                 </li>
                                                                 <li>
@@ -107,4 +112,38 @@
         </div>
     </div>
     <!-- /Page Wrapper -->
+    <!-- Delete Items Modal -->
+    <div class="modal custom-modal fade modal-delete" id="delete_modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <div class="delete-modal-icon">
+                            <span><i class="fe fe-check-circle"></i></span>
+                        </div>
+                        <h3>Are You Sure?</h3>
+                        <p>You want delete customer</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <div class="modal-footer justify-content-center p-0">
+                            <form id="delete_form" action="" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-primary paid-continue-btn me-2">Yes, Delete</button>
+                            </form>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn">No,
+                                Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Delete Items Modal -->
+
+    <script>
+        function setDeleteAction(action) {
+            document.getElementById('delete_form').action = action;
+        }
+    </script>
 @endsection

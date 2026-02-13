@@ -54,10 +54,10 @@ class AuthController extends Controller
         if (Auth::guard('admin')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
             $admin = Auth::guard('admin')->user();
-            
+
             // Store tenant info in session
             $request->session()->put('tenant_db', $admin->db_name);
-            
+
             // Switch database
             if ($admin->db_name) {
                 \App\Services\DatabaseSwitcher::switch($admin->db_name);
