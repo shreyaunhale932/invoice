@@ -16,7 +16,7 @@ class MetalRateController extends Controller
             'price_per_gram'  => 'required|numeric',
             // 'gram'            => 'required|numeric',
             'karat'           => 'nullable|string|max:10',
-             'purity_type'  => 'required|in:karat,percent',
+            'purity_type'  => 'required|in:karat,percent',
         ]);
 
         // Save data to database
@@ -31,27 +31,24 @@ class MetalRateController extends Controller
 
         return redirect()->back()->with('success', 'Metal rate added successfully!');
     }
-public function update(Request $request, $id)
-{
-    $metalRate = MetalRate::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $metalRate = MetalRate::findOrFail($id);
 
-    $metalRate->update([
-        'metal_type' => $request->metal_type,
-        'price_per_gram' => $request->price_per_gram,
-        'karat' => $request->karat,
-        'purity_type' => $request->purity_type,
-    ]);
+        $metalRate->update([
+            'metal_type' => $request->metal_type,
+            'price_per_gram' => $request->price_per_gram,
+            'karat' => $request->karat,
+            'purity_type' => $request->purity_type,
+        ]);
 
-    return redirect()->back()->with('success', 'Metal rate updated successfully!');
-}
-public function destroy($id)
-{
-    $rate = MetalRate::findOrFail($id);
-    $rate->delete();
+        return redirect()->back()->with('success', 'Metal rate updated successfully!');
+    }
+    public function destroy($id)
+    {
+        $rate = MetalRate::findOrFail($id);
+        $rate->delete();
 
-    return redirect()->back()->with('success', 'Metal rate deleted successfully.');
-}
-
-
-
+        return redirect()->back()->with('success', 'Metal rate deleted successfully.');
+    }
 }

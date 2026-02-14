@@ -340,7 +340,7 @@ class ProductController extends Controller
 
             /*
         |--------------------------------------------------------------------------
-        | 1️⃣ Validate Post Code uniqueness (excluding current product)
+        | Validate Post Code uniqueness (excluding current product)
         |--------------------------------------------------------------------------
         */
             $exists = Product::where('pre_code', $preCode)
@@ -356,7 +356,7 @@ class ProductController extends Controller
 
             /*
         |--------------------------------------------------------------------------
-        | 2️⃣ Update ItemProductData (shared data)
+        |Update ItemProductData (shared data)
         |--------------------------------------------------------------------------
         */
             $itemProductData = ItemProductData::where('id', $product->item_product_data_id)->first();
@@ -421,7 +421,7 @@ class ProductController extends Controller
 
             /*
         |--------------------------------------------------------------------------
-        | 4️⃣ Auto-generate barcode if empty
+        | Auto-generate barcode if empty
         |--------------------------------------------------------------------------
         */
             if (empty($product->barcode)) {
