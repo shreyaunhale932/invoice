@@ -286,6 +286,31 @@
                 </ul>
 
 
+
+                <!-- Packet Management -->
+                <ul>
+                    <li class="menu-title"><span>Packet Management</span></li>
+                    <li>
+                        <a class="{{ Request::is('packet-masters*') ? 'active' : '' }}" href="{{ route('packet-masters.index') }}">
+                            <i class="fe fe-package"></i> <span>Packets</span>
+                        </a>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fe fe-list"></i> <span> Masters</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{{ route('packet-attributes.index', 'stones') }}">Stones</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'clarities') }}">Clarities</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'colors') }}">Colors</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'cuts') }}">Cuts</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'shapes') }}">Shapes</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'mms') }}">MMs</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'chalnis') }}">Chalnis</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /Packet Management -->
+
                 <!-- Settings -->
                 <ul>
                     <li class="menu-title"><span>Settings</span></li>

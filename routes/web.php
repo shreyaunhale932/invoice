@@ -279,6 +279,16 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('/stock-report', [PageController::class, 'stock_report'])->name('stock-report');
     Route::get('/sales-report', [PageController::class, 'sales_report'])->name('sales-report');
     Route::get('/stock-summary', [PageController::class, 'stock_summary'])->name('stock-summary');
+
+    // Packet Master Routes
+    Route::resource('packet-masters', \App\Http\Controllers\PacketMasterController::class);
+
+    // Packet Attributes Routes (Dynamic)
+    Route::get('packet-attributes/{type}', [\App\Http\Controllers\PacketAttributeController::class, 'index'])->name('packet-attributes.index');
+    Route::post('packet-attributes/{type}', [\App\Http\Controllers\PacketAttributeController::class, 'store'])->name('packet-attributes.store');
+    Route::get('packet-attributes/{type}/{id}/edit', [\App\Http\Controllers\PacketAttributeController::class, 'edit'])->name('packet-attributes.edit');
+    Route::put('packet-attributes/{type}/{id}', [\App\Http\Controllers\PacketAttributeController::class, 'update'])->name('packet-attributes.update');
+    Route::delete('packet-attributes/{type}/{id}', [\App\Http\Controllers\PacketAttributeController::class, 'destroy'])->name('packet-attributes.destroy');
 });
 
 
