@@ -75,5 +75,9 @@ class AccountingSeeder extends Seeder
         Account::create(['name' => 'Miscellaneous', 'account_group_id' => $expense->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'Bank / Card Charges', 'account_group_id' => $expense->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'Discount Allowed', 'account_group_id' => $expense->id, 'firm_id' => $firmId]);
-    }
+  Account::create(['name' => 'Dia/St/Pkt Discount Allowed', 'account_group_id' => $expense->id, 'firm_id' => $firmId]);
+  Account::create(['name' => 'Making Discount Allowed', 'account_group_id' => $expense->id, 'firm_id' => $firmId]);
+
+
+        }
 }

@@ -684,11 +684,21 @@ class SellInvoiceController extends Controller
             // Base Amount
             $finalAmount = round($invoice->final_amount, 2);
 
+            // New Discount Fields
+            $totalMakingCharge         = round($request->input('total_making_charge', 0), 2);
+            $makingDiscountPercent    = round($request->input('making_discount_percent', 0), 2);
+            $makingDiscountAmount     = round($request->input('making_discount_amount', 0), 2);
+
+            $totalDiaStonePacket      = round($request->input('total_diamond_stone_packet', 0), 2);
+            $diamondDiscountPercent   = round($request->input('diamond_discount_percent', 0), 2);
+            $diamondDiscountAmount    = round($request->input('diamond_discount_amount', 0), 2);
+            $diamondTotalAmount       = round($request->input('diamond_total_amount', 0), 2);
+
             // Discount
             $taxableAmount    = round($request->taxable_amount, 2);
             $discountPercent  = round($request->input('discount_percent', 0), 2);
             $discountAmount   = round(($finalAmount * $discountPercent) / 100, 2);
-            $amountAfterDiscount = round($finalAmount - $discountAmount, 2);
+            $amountAfterDiscount = round($finalAmount - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount, 2);
 
             // GST %
             $cgstPercent = round($request->input('cgst_percent', 0), 2);
@@ -734,6 +744,14 @@ class SellInvoiceController extends Controller
 
             // Update Invoice
             $invoice->update([
+                'total_making_charge'      => $totalMakingCharge,
+                'making_discount_percent'  => $makingDiscountPercent,
+                'making_discount_amount'   => $makingDiscountAmount,
+                'total_diamond_stone_packet' => $totalDiaStonePacket,
+                'diamond_discount_percent' => $diamondDiscountPercent,
+                'diamond_discount_amount'  => $diamondDiscountAmount,
+                'diamond_total_amount'     => $diamondTotalAmount,
+
                 'discount_percent' => $discountPercent,
                 'discount_amount'  => $discountAmount,
 
@@ -866,12 +884,22 @@ class SellInvoiceController extends Controller
              */
             $itemsTotal = round($request->taxable_amount ?? 0, 2);
 
+            $totalMakingCharge         = round($request->input('total_making_charge', 0), 2);
+            $makingDiscountPercent    = round($request->input('making_discount_percent', 0), 2);
+            $makingDiscountAmount     = round($request->input('making_discount_amount', 0), 2);
+
+            $totalDiaStonePacket      = round($request->input('total_diamond_stone_packet', 0), 2);
+            $diamondDiscountPercent   = round($request->input('diamond_discount_percent', 0), 2);
+            $diamondDiscountAmount    = round($request->input('diamond_discount_amount', 0), 2);
+            $diamondTotalAmount       = round($request->input('diamond_total_amount', 0), 2);
+
+
             /* --------------------
              | Discount
              -------------------- */
             $discountPercent = round($request->input('discount_percent', 0), 2);
             $discountAmount  = round(($itemsTotal * $discountPercent) / 100, 2);
-            $amountAfterDiscount = round($itemsTotal - $discountAmount, 2);
+            $amountAfterDiscount = round($itemsTotal - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount, 2);
 
             /* --------------------
              | GST
@@ -924,6 +952,16 @@ class SellInvoiceController extends Controller
                 'invoice_date'     => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
                 'user_id'          => $request->customer_id,
+
+
+                'total_making_charge'      => $totalMakingCharge,
+                'making_discount_percent'  => $makingDiscountPercent,
+                'making_discount_amount'   => $makingDiscountAmount,
+                'total_diamond_stone_packet' => $totalDiaStonePacket,
+                'diamond_discount_percent' => $diamondDiscountPercent,
+                'diamond_discount_amount'  => $diamondDiscountAmount,
+                'diamond_total_amount'     => $diamondTotalAmount,
+
 
                 'discount_percent' => $discountPercent,
                 'discount_amount'  => $discountAmount,
@@ -1104,24 +1142,24 @@ class SellInvoiceController extends Controller
             ->where('is_visible', true)
             ->orderBy('display_order')
             ->get();
-             if (request()->has('pdf')) {
-        return view('Sales.Invoices.invoice-one-a-dya', compact('invoice'));
-    }
+        if (request()->has('pdf')) {
+            return view('Sales.Invoices.invoice-one-a-dya', compact('invoice'));
+        }
 
         return view('Sales.Invoices.invoice-one-a-dya', compact('invoice', 'business', 'bank', 'customer', 'templateSettings', 'customBlocks'));
     }
     public function sendInvoiceMail($id)
-{
-    // dd('hiiiii');
-    $invoice = SellInvoice::with('customer')->findOrFail($id);
+    {
+        // dd('hiiiii');
+        $invoice = SellInvoice::with('customer')->findOrFail($id);
 
-    if (!$invoice->customer || !$invoice->customer->email) {
-        return back()->with('error', 'Customer email not found.');
+        if (!$invoice->customer || !$invoice->customer->email) {
+            return back()->with('error', 'Customer email not found.');
+        }
+
+        Mail::to('shreyaunhale@sirsonite.com')
+            ->send(new InvoiceMail($invoice));
+
+        return back()->with('success', 'Invoice sent successfully on email.');
     }
-
-    Mail::to('shreyaunhale@sirsonite.com')
-        ->send(new InvoiceMail($invoice));
-
-    return back()->with('success', 'Invoice sent successfully on email.');
-}
 }

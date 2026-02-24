@@ -144,7 +144,6 @@ class AccountingService
                 'memo' => "Credit balance for Invoice #{$invoice->invoice_no}"
             ];
         }
-
         // 5.1 Discount Allowed (Debit)
         if ($invoice->discount_amount > 0) {
             $lines[] = [
@@ -152,6 +151,23 @@ class AccountingService
                 'debit' => $invoice->discount_amount,
                 'credit' => 0,
                 'memo' => "Discount on Invoice #{$invoice->invoice_no}"
+            ];
+        }
+
+        if ($invoice->diamond_discount_amount > 0) {
+            $lines[] = [
+                'account_id' => $this->getAccountId('Dia/St/Pkt Discount Allowed'),
+                'debit' => $invoice->diamond_discount_amount,
+                'credit' => 0,
+                'memo' => "Dia/St/Pkt Discount on Invoice #{$invoice->invoice_no}"
+            ];
+        }
+           if ($invoice->making_discount_amount > 0) {
+            $lines[] = [
+                'account_id' => $this->getAccountId('Making Discount Allowed'),
+                'debit' => $invoice->making_discount_amount,
+                'credit' => 0,
+                'memo' => "Making Discount on Invoice #{$invoice->invoice_no}"
             ];
         }
 
@@ -267,7 +283,6 @@ class AccountingService
                 'memo' => "General sales income for Invoice #{$invoice->invoice_no}"
             ];
         }
-
         // 7. GST Output
         if ($invoice->cgst_amount > 0) {
             $lines[] = [

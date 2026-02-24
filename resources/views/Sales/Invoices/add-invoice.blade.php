@@ -438,13 +438,62 @@
                                                     <div class="invoice-total-inner">
 
                                                         <!-- Taxable Amount -->
+                                                        {{-- <p>
+                                                            Taxable Amount
+                                                            <span id="taxableAmount">₹0.00</span>
+                                                            <input type="hidden" id="taxableAmountInput" value="0">
+                                                        </p> --}}
+
+                                                        <!-- Making Charge Section -->
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Making Charge</label>
+                                                            <span id="totalMakingAmount">₹0.00</span>
+                                                            <input type="hidden" id="totalMakingAmountInput"
+                                                                value="0">
+                                                        </div>
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Making Discount %</label>
+                                                            <input type="number" id="makingDiscountPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="makingDiscountAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <hr>
+
+                                                        <!-- Diamond/Stone/Packet Section -->
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Diamond/Stone/Pkt</label>
+                                                            <span id="totalDiamondStonePacketAmount">₹0.00</span>
+                                                            <input type="hidden" id="totalDiamondStonePacketAmountInput"
+                                                                value="0">
+                                                        </div>
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Diamond Discount %</label>
+                                                            <input type="number" id="diamondDiscountPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="diamondDiscountAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <hr>
+
                                                         <p>
                                                             Taxable Amount
                                                             <span id="taxableAmount">₹0.00</span>
                                                             <input type="hidden" id="taxableAmountInput" value="0">
-
                                                         </p>
-
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <label>Final Discount %</label>
+                                                            <input type="number" id="discountPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="discountAmount">₹0.00</span>
+                                                        </div>
+                                                        <hr>
                                                         <!-- CGST -->
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>CGST %</label>
@@ -469,22 +518,14 @@
                                                             <span id="igstAmount">₹0.00</span>
                                                         </div>
 
-                                                        <!-- Discount -->
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <label>Discount %</label>
-                                                            <input type="number" id="discountPercent"
-                                                                class="form-control w-25" value="0">
-                                                            <span id="discountAmount">₹0.00</span>
-                                                        </div>
+                                                        <!-- Final Discount -->
+
                                                         <hr>
                                                         <h4>
                                                             Total Amount
                                                             <span id="totalInvoiceAmount">₹0.00</span>
                                                         </h4>
-
-
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -1639,6 +1680,8 @@
             }
 
             // Set Totals / Payments
+            $('#makingDiscountPercent').val(invoice.making_discount_percent);
+            $('#diamondDiscountPercent').val(invoice.diamond_discount_percent);
             $('#discountPercent').val(invoice.discount_percent);
             $('#cgstPercent').val(invoice.cgst_percent);
             $('#sgstPercent').val(invoice.sgst_percent);
@@ -1647,7 +1690,7 @@
             $('#cashReceived').val(invoice.cash_received);
             $('#bankReceived').val(invoice.bank_received);
             $('#onlineReceived').val(invoice.online_received);
-            // ... set others ...
+            $('#cardReceived').val(invoice.card_received);
 
             renderItemsTable(globalInvoiceItems);
             calculateInvoiceTotals();
@@ -1770,6 +1813,19 @@
                 sgst_percent: document.getElementById('sgstPercent').value || 0,
                 igst_percent: document.getElementById('igstPercent').value || 0,
 
+                // New Discount Fields
+                total_making_charge: document.getElementById('totalMakingAmountInput').value || 0,
+                making_discount_percent: document.getElementById('makingDiscountPercent').value || 0,
+                making_discount_amount: document.getElementById('makingDiscountAmount').textContent.replace('₹', '') ||
+                    0,
+                total_diamond_stone_packet: document.getElementById('totalDiamondStonePacketAmountInput').value || 0,
+                diamond_discount_percent: document.getElementById('diamondDiscountPercent').value || 0,
+                diamond_discount_amount: document.getElementById('diamondDiscountAmount').textContent.replace('₹',
+                    '') || 0,
+                diamond_total_amount: (parseFloat(document.getElementById('totalDiamondStonePacketAmountInput').value ||
+                    0) - parseFloat(document.getElementById('diamondDiscountAmount').textContent.replace('₹',
+                    '') || 0)).toFixed(2),
+
                 cash_received: document.getElementById('cashReceived').value || 0,
                 bank_received: document.getElementById('bankReceived').value || 0,
                 online_received: document.getElementById('onlineReceived').value || 0,
@@ -1838,7 +1894,7 @@
                 packets.push({
                     packet_no: row.querySelector('[name*="[packet_no]"]')?.value,
                     pcs: row.querySelector('[name*="[pcs]"]')?.value,
-                     certificate_no: row.querySelector('[name*="[certificate_no]"]')?.value,
+                    certificate_no: row.querySelector('[name*="[certificate_no]"]')?.value,
                     stone: row.querySelector('[name*="[stone]"]')?.value,
                     clarity: row.querySelector('[name*="[clarity]"]')?.value,
                     color: row.querySelector('[name*="[color]"]')?.value,
@@ -1973,6 +2029,8 @@
 
             // 2. Event Listeners for invoice-level inputs
             const summaryIds = [
+                'makingDiscountPercent',
+                'diamondDiscountPercent',
                 'discountPercent',
                 'cgstPercent', 'sgstPercent', 'igstPercent',
                 'cashReceived', 'bankReceived', 'onlineReceived', 'cardReceived'
@@ -2002,72 +2060,109 @@
          * Main Calculation Function
          * Recalculates all invoice totals based on items and rules.
          */
-        function calculateInvoiceTotals() {
-            // alert('calculateInvoiceTotals');
-            // --- 1. Taxable Amount ---
-            // Rule: taxable = sum(all item total_amount[])
-            let taxableAmount = 0;
-            // We target the hidden inputs in the finalized items table
-            const itemTotalInputs = document.querySelectorAll('#itemsTable tbody input[name="total_amount[]"]');
+       function calculateInvoiceTotals() {
 
-            itemTotalInputs.forEach(input => {
-                const val = parseFloat(input.value) || 0;
-                taxableAmount += val;
+    let totalGold = 0;
+    let totalMaking = 0;
+    let totalDiaStonePkt = 0;
+
+    globalInvoiceItems.forEach(item => {
+
+        let goldenPrice = parseFloat(item.total_amount) || 0;
+
+        totalGold += goldenPrice;
+        totalMaking += parseFloat(item.making_final_amount) || 0;
+
+        if (Array.isArray(item.diamonds)) {
+            item.diamonds.forEach(d => {
+                totalDiaStonePkt += parseFloat(d.diamond_final_price || 0);
             });
-
-            setBoxText('taxableAmount', taxableAmount);
-            document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
-            // document.getElementById('remainingamountInput').value = remainingAmount.toFixed(2);
-
-
-            // --- 2. Discount ---
-            // Rule: discountAmount = taxable * discountPercent / 100
-            const discountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
-            const discountAmount = (taxableAmount * discountPercent) / 100;
-
-            setBoxText('discountAmount', discountAmount);
-
-            // Rule: afterDiscount = taxable - discountAmount
-            const afterDiscount = taxableAmount - discountAmount;
-
-            // --- 3. GST (CGST, SGST, IGST) ---
-            // Rule: Apply GST on afterDiscount
-            // Inputs are percents, we calc amounts
-            const cgstPercent = parseFloat(document.getElementById('cgstPercent')?.value) || 0;
-            const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
-            const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
-
-            const cgstAmount = (afterDiscount * cgstPercent) / 100;
-            const sgstAmount = (afterDiscount * sgstPercent) / 100;
-            const igstAmount = (afterDiscount * igstPercent) / 100;
-
-            setBoxText('cgstAmount', cgstAmount);
-            setBoxText('sgstAmount', sgstAmount);
-            setBoxText('igstAmount', igstAmount);
-
-            // --- 4. Total Invoice Amount ---
-            // Rule: total = afterDiscount + cgst + sgst + igst
-            const totalInvoiceAmount = afterDiscount + cgstAmount + sgstAmount + igstAmount;
-
-            setBoxText('totalInvoiceAmount', totalInvoiceAmount);
-
-            // --- 5. Payments & Remaining ---
-            // Rule: paid = cash + bank + online + card
-            const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
-            const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
-            const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
-            const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
-
-            const totalPaid = cash + bank + online + card;
-
-
-            let remaining = totalInvoiceAmount - totalPaid;
-
-
-            if (remaining < 0) remaining = 0;
-
-            setBoxText('remainingAmount', remaining);
         }
+
+        if (Array.isArray(item.stones)) {
+            item.stones.forEach(s => {
+                totalDiaStonePkt += parseFloat(s.stone_final_price || 0);
+            });
+        }
+
+        if (Array.isArray(item.packets)) {
+            item.packets.forEach(p => {
+                totalDiaStonePkt += parseFloat(p.amount || 0);
+            });
+        }
+    });
+
+    // -------------------------
+    // 1️⃣ Discounts (Only Calculate, Don't Affect Taxable)
+    // -------------------------
+    const makingDiscountPercent = parseFloat(document.getElementById('makingDiscountPercent')?.value) || 0;
+    const makingDiscountAmount = (totalMaking * makingDiscountPercent) / 100;
+
+    const diamondDiscountPercent = parseFloat(document.getElementById('diamondDiscountPercent')?.value) || 0;
+    const diamondDiscountAmount = (totalDiaStonePkt * diamondDiscountPercent) / 100;
+
+    setBoxText('totalMakingAmount', totalMaking);
+    document.getElementById('totalMakingAmountInput').value = totalMaking.toFixed(2);
+    setBoxText('makingDiscountAmount', makingDiscountAmount);
+
+    setBoxText('totalDiamondStonePacketAmount', totalDiaStonePkt);
+    document.getElementById('totalDiamondStonePacketAmountInput').value = totalDiaStonePkt.toFixed(2);
+    setBoxText('diamondDiscountAmount', diamondDiscountAmount);
+
+    // -------------------------
+    // 2️⃣ FIXED TAXABLE AMOUNT (NO DISCOUNT MINUS)
+    // -------------------------
+    const taxableAmount = totalGold  + totalDiaStonePkt;
+
+    setBoxText('taxableAmount', taxableAmount);
+    document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
+
+    // -------------------------
+    // 3️⃣ Final Discount (Same Logic As Before)
+    // -------------------------
+    const finalDiscountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
+    const finalDiscountAmount = (taxableAmount * finalDiscountPercent) / 100;
+    const amountAfterFinalDiscount = taxableAmount - finalDiscountAmount-diamondDiscountAmount-makingDiscountAmount;
+
+    setBoxText('discountAmount', finalDiscountAmount);
+
+    // -------------------------
+    // 4️⃣ GST (Same As Your Working Logic)
+    // -------------------------
+    const cgstPercent = parseFloat(document.getElementById('cgstPercent')?.value) || 0;
+    const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
+    const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
+
+    const cgstAmount = (amountAfterFinalDiscount * cgstPercent) / 100;
+    const sgstAmount = (amountAfterFinalDiscount * sgstPercent) / 100;
+    const igstAmount = (amountAfterFinalDiscount * igstPercent) / 100;
+
+    setBoxText('cgstAmount', cgstAmount);
+    setBoxText('sgstAmount', sgstAmount);
+    setBoxText('igstAmount', igstAmount);
+
+    // -------------------------
+    // 5️⃣ Final Invoice Amount (UNCHANGED FLOW)
+    // -------------------------
+    const totalInvoiceAmount = amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount;
+
+    setBoxText('totalInvoiceAmount', totalInvoiceAmount);
+
+    // -------------------------
+    // 6️⃣ Payment + Remaining
+    // -------------------------
+    const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
+    const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
+    const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
+    const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
+
+    const totalPaid = cash + bank + online + card;
+
+    let remaining = totalInvoiceAmount - totalPaid;
+    if (remaining < 0) remaining = 0;
+
+    setBoxText('remainingAmount', remaining);
+}
 
 
         function setBoxText(elementId, amount) {

@@ -52,6 +52,14 @@ class SellInvoice extends Model
         'card_received',
         'amount_left',
 
+        'total_making_charge',
+        'making_discount_percent',
+        'making_discount_amount',
+        'total_diamond_stone_packet',
+        'diamond_discount_percent',
+        'diamond_discount_amount',
+        'diamond_total_amount',
+
         // Invoice numbers
         'invoice_no',
         'invoice_date',
@@ -82,6 +90,14 @@ class SellInvoice extends Model
         'discount_amount'      => 'float',
         'taxable_amount' => 'float',
         'remaining_amount' => 'float',
+
+        'total_making_charge'    => 'float',
+        'making_discount_percent' => 'float',
+        'making_discount_amount'  => 'float',
+        'total_diamond_stone_packet' => 'float',
+        'diamond_discount_percent' => 'float',
+        'diamond_discount_amount'  => 'float',
+        'diamond_total_amount'     => 'float',
 
         'cash_received'        => 'float',
         'online_received'      => 'float',
