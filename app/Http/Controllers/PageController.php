@@ -442,20 +442,20 @@ class PageController extends Controller
 
                 'number_of_invoice' => $invoicescard->where('status', ['pending', 'partial'])->count(),
             ],
-            [
-                'title' => 'Cancelled',
-                'class' => 'bg-primary-light',
-                'icon'  => 'clipboard-close.svg',
-                'amount' => $invoicescard->where('status', 'cancelled')->count(),
-                'number_of_invoice' => $invoicescard->where('status', 'cancelled')->count(),
-            ],
-            [
-                'title' => 'Draft',
-                'class' => 'bg-green-light',
-                'icon'  => 'message-edit.svg',
-                'amount' => $invoicescard->where('status', 'draft')->sum('grand_total'),
-                'number_of_invoice' => $invoicescard->where('status', 'draft')->count(),
-            ],
+            // [
+            //     'title' => 'Cancelled',
+            //     'class' => 'bg-primary-light',
+            //     'icon'  => 'clipboard-close.svg',
+            //     'amount' => $invoicescard->where('status', 'cancelled')->count(),
+            //     'number_of_invoice' => $invoicescard->where('status', 'cancelled')->count(),
+            // ],
+            // [
+            //     'title' => 'Draft',
+            //     'class' => 'bg-green-light',
+            //     'icon'  => 'message-edit.svg',
+            //     'amount' => $invoicescard->where('status', 'draft')->sum('grand_total'),
+            //     'number_of_invoice' => $invoicescard->where('status', 'draft')->count(),
+            // ],
             [
                 'title' => 'Recurring',
                 'class' => 'bg-danger-light',

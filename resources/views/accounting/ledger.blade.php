@@ -41,8 +41,8 @@
                         <td class="text-end">-</td>
                         <td class="text-end">{{ number_format($openingBalance, 2) }}</td>
                     </tr>
-                    
-                    @php 
+
+                    @php
                         $runningBalance = $openingBalance;
                         $totalDebit = 0;
                         $totalCredit = 0;

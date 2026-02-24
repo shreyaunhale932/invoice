@@ -217,10 +217,12 @@ class HomeController extends Controller
 
   public function productlist()
 {
-    $products = Product::with('category')   // 👈 load category
-        ->where('admin_id', Auth::id())
-        ->orderBy('category_id', 'DESC')
-        ->get();
+   $products = Product::with('category')   // Load category
+    ->where('admin_id', Auth::id())
+    ->where('availability', 'available')   // 👈 Added condition
+    ->orderBy('category_id', 'DESC')
+    ->get();
+
 
     return view('Inventory/Products/product-list', compact('products'));
 }

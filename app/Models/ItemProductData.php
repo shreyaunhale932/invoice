@@ -33,6 +33,8 @@ class ItemProductData extends Model
         'mrp_price',
         'final_fn_weight',
         'final_price',
+        'making_type',
+        'making_final_amount',
     ];
 
     // Relationships

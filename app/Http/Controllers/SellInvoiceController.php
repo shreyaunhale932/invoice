@@ -12,6 +12,14 @@ use App\Models\InventoryTransaction;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\SellPacketItem;
+
+use Illuminate\Support\Facades\Storage;
+use App\Mail\InvoiceMail;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+
 
 
 class SellInvoiceController extends Controller
@@ -47,6 +55,8 @@ class SellInvoiceController extends Controller
 
                     // Pricing
                     'making_price' => $request->making_price,
+                    'making_type' => $request->making_type,
+                    'making_final_amount' => $request->making_final_amount,
                     'wastage_percent' => $request->wastage_percent,
                     'gst_percent' => $request->gst_percent,
                     'gst_amount' => $request->gst_amount,
@@ -152,6 +162,54 @@ class SellInvoiceController extends Controller
                 $item->update([
                     'stone_amount' => $stoneCharges,
                 ]);
+
+                // Packets (EDIT MODE)
+                $packetAmount = 0;
+
+                if (!empty($request->packets) && is_array($request->packets)) {
+
+                    foreach ($request->packets as $packet) {
+
+                        // Skip empty rows
+                        if (
+                            empty($packet['packet_no']) &&
+                            empty($packet['pcs']) &&
+                            empty($packet['weight']) &&
+                            empty($packet['amount'])
+                        ) {
+                            continue;
+                        }
+
+                        $packetAmount += $packet['amount'] ?? 0;
+
+                        SellPacketItem::create([
+                            'admin_id' => Auth::id(),
+                            'sell_invoice_id'      => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                            'packet_no' => $packet['packet_no'] ?? null,
+                            'pcs'       => $packet['pcs'] ?? 0,
+                            'stone'     => $packet['stone'] ?? null,
+                            'clarity'   => $packet['clarity'] ?? null,
+                            'color'     => $packet['color'] ?? null,
+                            'cut'       => $packet['cut'] ?? null,
+                            'shape'     => $packet['shape'] ?? null,
+                            'chalni'    => $packet['chalni'] ?? null,
+                            'mm'        => $packet['mm'] ?? null,
+                            'solitaire' => $packet['solitaire'] ?? 0,
+                            'rate'      => $packet['rate'] ?? 0,
+                            'amount'    => $packet['amount'] ?? 0,
+                            'weight'    => $packet['weight'] ?? 0,
+                            'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
+                            'uom'       => $packet['uom'] ?? null,
+                            'certificate_no' => $packet['certificate_no'] ?? null,
+                        ]);
+                    }
+                }
+
+                // Update packet total in item
+                $item->update([
+                    'packet_amount' => $packetAmount,
+                ]);
                 $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
 
                 SellInvoice::where('id', $invoiceId)->update([
@@ -214,6 +272,8 @@ class SellInvoiceController extends Controller
 
                     // Pricing
                     'making_price' => $request->making_price,
+                    'making_type' => $request->making_type,
+                    'making_final_amount' => $request->making_final_amount,
                     'wastage_percent' => $request->wastage_percent,
                     'gst_percent' => $request->gst_percent,
                     'gst_amount' => $request->gst_amount,
@@ -317,6 +377,48 @@ class SellInvoiceController extends Controller
                 $item->update([
                     'stone_amount' => $stoneAmount,
                 ]);
+                $packetAmount = 0;
+                // Packets
+                if (!empty($request->packets) && is_array($request->packets)) {
+
+                    foreach ($request->packets as $packet) {
+
+                        // Skip empty packet rows
+                        if (
+                            empty($packet['packet_no']) &&
+                            empty($packet['pcs']) &&
+                            empty($packet['weight']) &&
+                            empty($packet['amount'])
+                        ) {
+                            continue;
+                        }
+                        $packetAmount += $packet['amount'];
+                        SellPacketItem::create([
+                            'sell_invoice_id'      => $invoiceId,
+                            'sell_invoice_item_id' => $item->id,
+                            'packet_no' => $packet['packet_no'] ?? null,
+                            'pcs'       => $packet['pcs'] ?? 0,
+                            'stone'     => $packet['stone'] ?? null,
+                            'clarity'   => $packet['clarity'] ?? null,
+                            'color'     => $packet['color'] ?? null,
+                            'cut'       => $packet['cut'] ?? null,
+                            'shape'    => $packet['shape'] ?? null,
+                            'chalni'    => $packet['chalni'] ?? null,
+                            'mm'        => $packet['mm'] ?? null,
+                            'solitaire' => $packet['solitaire'] ?? 0,
+                            'rate'      => $packet['rate'] ?? 0,
+                            'amount'    => $packet['amount'] ?? 0,
+                            'weight'    => $packet['weight'] ?? 0,
+                            'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
+                            'uom'       => $packet['uom'] ?? null,
+                            'certificate_no' => $packet['certificate_no'] ?? null,
+                        ]);
+                    }
+                }
+                $item->update([
+                    'packet_amount' => $packetAmount,
+                ]);
+
 
                 // Recalculate invoice total AFTER everything is saved
                 $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
@@ -345,7 +447,7 @@ class SellInvoiceController extends Controller
 
     public function getPendingInvoice($customerId)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product'])
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets'])
             ->where('user_id', $customerId)
             ->where('status', 'pending')
             ->first();
@@ -427,6 +529,8 @@ class SellInvoiceController extends Controller
 
                 // Pricing
                 'making_price' => $request->making_price,
+                'making_type' => $request->making_type,
+                'making_final_amount' => $request->making_final_amount,
                 'wastage_percent' => $request->wastage_percent,
                 'gst_percent' => $request->gst_percent,
                 'gst_amount' => $request->gst_amount,
@@ -501,6 +605,49 @@ class SellInvoiceController extends Controller
             }
             $item->update([
                 'stone_amount' => $stoneAmount,
+            ]);
+
+
+            // Delete old packets
+            SellPacketItem::where('sell_invoice_item_id', $item->id)->forcedelete();
+            $packetAmount = 0;
+            // Re-create packets
+            if (!empty($request->packets)) {
+                foreach ($request->packets as $packet) {
+
+                    if (
+                        empty($packet['packet_no']) &&
+                        empty($packet['pcs']) &&
+                        empty($packet['weight']) &&
+                        empty($packet['amount'])
+                    ) {
+                        continue;
+                    }
+                    $packetAmount += $packet['amount'];
+                    SellPacketItem::create([
+                        'sell_invoice_id'      => $item->sell_invoice_id,
+                        'sell_invoice_item_id' => $item->id,
+                        'packet_no' => $packet['packet_no'] ?? null,
+                        'pcs'       => $packet['pcs'] ?? 0,
+                        'stone'     => $packet['stone'] ?? null,
+                        'clarity'   => $packet['clarity'] ?? null,
+                        'color'     => $packet['color'] ?? null,
+                        'cut'       => $packet['cut'] ?? null,
+                        'shape'    => $packet['shape'] ?? null,
+                        'chalni'    => $packet['chalni'] ?? null,
+                        'mm'        => $packet['mm'] ?? null,
+                        'solitaire' => $packet['solitaire'] ?? 0,
+                        'rate'      => $packet['rate'] ?? 0,
+                        'amount'    => $packet['amount'] ?? 0,
+                        'weight'    => $packet['weight'] ?? 0,
+                        'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
+                        'uom'       => $packet['uom'] ?? null,
+                        'certificate_no' => $packet['certificate_no'] ?? null,
+                    ]);
+                }
+            }
+            $item->update([
+                'packet_amount' => $packetAmount,
             ]);
 
             // Recalculate invoice total
@@ -859,7 +1006,7 @@ class SellInvoiceController extends Controller
     }
     public function edit($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product'])->findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets'])->findOrFail($id);
         $adminId = Auth::id(); // Use Auth::id() for consistency
 
         $customers = \App\Models\Customer::where('admin_id', $adminId)->get();
@@ -934,7 +1081,7 @@ class SellInvoiceController extends Controller
 
     public function show($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'customer'])->findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.packets',  'items.product', 'customer'])->findOrFail($id);
         $adminId = $invoice->admin_id;
         $customer = \App\Models\Customer::where('id', $invoice->user_id)->first();
 
@@ -957,7 +1104,24 @@ class SellInvoiceController extends Controller
             ->where('is_visible', true)
             ->orderBy('display_order')
             ->get();
+             if (request()->has('pdf')) {
+        return view('Sales.Invoices.invoice-one-a-dya', compact('invoice'));
+    }
 
         return view('Sales.Invoices.invoice-one-a-dya', compact('invoice', 'business', 'bank', 'customer', 'templateSettings', 'customBlocks'));
     }
+    public function sendInvoiceMail($id)
+{
+    // dd('hiiiii');
+    $invoice = SellInvoice::with('customer')->findOrFail($id);
+
+    if (!$invoice->customer || !$invoice->customer->email) {
+        return back()->with('error', 'Customer email not found.');
+    }
+
+    Mail::to('shreyaunhale@sirsonite.com')
+        ->send(new InvoiceMail($invoice));
+
+    return back()->with('success', 'Invoice sent successfully on email.');
+}
 }

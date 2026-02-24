@@ -133,6 +133,7 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
 
 
     Route::get('/get-subcategories/{category_id}', [ProductController::class, 'getSubcategories']);
+    Route::get('/products/searchPacket', [ProductController::class, 'searchPacket'])->name('products.searchPacket');
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 
@@ -198,6 +199,12 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
         '/sell-invoice/view/{id}',
         [SellInvoiceController::class, 'show']
     )->name('sell.invoice.view');
+
+    Route::get('/sell-invoice/send-mail/{id}',
+    [SellInvoiceController::class, 'sendInvoiceMail'])
+    ->name('sell.invoice.sendMail');
+    Route::get('/invoice/pdf/{id}', [SellInvoiceController::class, 'generatePDF'])
+        ->name('invoice.pdf');
 
     // Invoice Template Routes
     Route::get(
@@ -289,6 +296,10 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('packet-attributes/{type}/{id}/edit', [\App\Http\Controllers\PacketAttributeController::class, 'edit'])->name('packet-attributes.edit');
     Route::put('packet-attributes/{type}/{id}', [\App\Http\Controllers\PacketAttributeController::class, 'update'])->name('packet-attributes.update');
     Route::delete('packet-attributes/{type}/{id}', [\App\Http\Controllers\PacketAttributeController::class, 'destroy'])->name('packet-attributes.destroy');
+
+    Route::get('/invoice/{id}/whatsapp',[SellInvoiceController::class,'sendWhatsAppInvoice'])->name('invoice.whatsapp');
+Route::get('/invoice/{id}/email',[SellInvoiceController::class,'sendInvoiceEmail'])->name('invoice.email');
+Route::get('/invoice/{id}/sms',[SellInvoiceController::class,'sendInvoiceSMS'])->name('invoice.sms');
 });
 
 

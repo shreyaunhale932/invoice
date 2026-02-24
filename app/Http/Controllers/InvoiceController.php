@@ -73,20 +73,20 @@ class InvoiceController extends Controller
 
                 'number_of_invoice' => $invoices->where('status', ['pending', 'partial'])->count(),
             ],
-            [
-                'title' => 'Cancelled',
-                'class' => 'bg-primary-light',
-                'icon'  => 'clipboard-close.svg',
-                'amount' => $invoices->where('status', 'cancelled')->count(),
-                'number_of_invoice' => $invoices->where('status', 'cancelled')->count(),
-            ],
-            [
-                'title' => 'Draft',
-                'class' => 'bg-green-light',
-                'icon'  => 'message-edit.svg',
-                'amount' => $invoices->where('status', 'draft')->sum('grand_total'),
-                'number_of_invoice' => $invoices->where('status', 'draft')->count(),
-            ],
+            // [
+            //     'title' => 'Cancelled',
+            //     'class' => 'bg-primary-light',
+            //     'icon'  => 'clipboard-close.svg',
+            //     'amount' => $invoices->where('status', 'cancelled')->count(),
+            //     'number_of_invoice' => $invoices->where('status', 'cancelled')->count(),
+            // ],
+            // [
+            //     'title' => 'Draft',
+            //     'class' => 'bg-green-light',
+            //     'icon'  => 'message-edit.svg',
+            //     'amount' => $invoices->where('status', 'draft')->sum('grand_total'),
+            //     'number_of_invoice' => $invoices->where('status', 'draft')->count(),
+            // ],
             [
                 'title' => 'Recurring',
                 'class' => 'bg-danger-light',
@@ -166,7 +166,20 @@ class InvoiceController extends Controller
         $customFields = CustomFieldDefinition::where('admin_id', $adminId)
             ->where('model_type', 'App\Models\Invoice') // or use constant if you prefer
             ->get();
-        $products = Product::with(['category', 'subcategory', 'metalRate', 'diamonds', 'stones'])
+        $products = Product::with([
+            'category',
+            'subcategory',
+            'metalRate',
+            'diamonds',
+            'stones',
+            'packets.stone',
+            'packets.clarity',
+            'packets.color',
+            'packets.cut',
+            'packets.shape',
+            'packets.chalni',
+            'packets.mm',
+        ])
             ->where('availability', 'available')
             ->get();
 

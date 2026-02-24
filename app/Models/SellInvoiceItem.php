@@ -38,8 +38,11 @@ class SellInvoiceItem extends Model
         'gold_amount',
         'diamond_amount',
         'stone_amount',
+        'packet_amount',
         'making_charges',
         'making_price',
+        'making_type',
+        'making_final_amount',
         'wastage_percent',
         'other_charges',
         'total_amount',
@@ -58,6 +61,7 @@ class SellInvoiceItem extends Model
         'gold_amount'     => 'float',
         'diamond_amount'  => 'float',
         'stone_amount'    => 'float',
+        'packet_amount'    => 'float',
         'making_charges'  => 'float',
         'other_charges'   => 'float',
         'total_amount'    => 'float',
@@ -94,5 +98,9 @@ class SellInvoiceItem extends Model
     public function stones()
     {
         return $this->hasMany(SellStoneItem::class, 'sell_invoice_item_id');
+    }
+       public function packets()
+    {
+        return $this->hasMany(SellPacketItem::class, 'sell_invoice_item_id');
     }
 }

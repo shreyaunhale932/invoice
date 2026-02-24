@@ -110,6 +110,10 @@ class SellInvoice extends Model
     {
         return $this->hasMany(SellDiamondItem::class, 'sell_invoice_id');
     }
+      public function packetItems()
+    {
+        return $this->hasMany(SellPacketItem::class, 'sell_invoice_id');
+    }
 
     public function items()
     {

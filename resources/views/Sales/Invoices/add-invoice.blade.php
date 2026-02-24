@@ -152,6 +152,28 @@
 
                                                     $goldWithoutGst = max(0, $goldPrice - $gstAmount);
                                                     $finalWithoutGst = max(0, $finalPrice - $gstAmount);
+
+                                                    $packetsJson = $product->packets
+                                                        ->map(function ($p) {
+                                                            return [
+                                                                'packet_no' => $p->packet_no,
+                                                                'pcs' => $p->pcs,
+                                                                'certificate_no' => $p->certificate_no,
+                                                                'stone' => optional($p->stone)->name,
+                                                                'clarity' => optional($p->clarity)->name,
+                                                                'color' => optional($p->color)->name,
+                                                                'cut' => optional($p->cut)->name,
+                                                                'shape' => optional($p->shape)->name,
+                                                                'chalni' => optional($p->chalni)->name,
+                                                                'mm' => optional($p->mm)->name,
+                                                                'weight' => $p->weight,
+                                                                'wt_in_gram' => $p->wt_in_gram,
+                                                                'uom' => $p->uom,
+                                                                'rate' => $p->rate,
+                                                                'amount' => $p->amount,
+                                                            ];
+                                                        })
+                                                        ->values();
                                                 @endphp
 
                                                 <option value="{{ $product->id }}"
@@ -165,6 +187,8 @@
                                                     data-quantity="{{ $product->quantity }}"
                                                     data-wastage_percent="{{ $product->wastage_percent }}"
                                                     data-making_price="{{ $product->making_price }}" {{-- CATEGORY --}}
+                                                    data-making_type="{{ $product->making_type }}"
+                                                    data-making_final_amount="{{ $product->making_final_amount }}"
                                                     data-category-id="{{ $product->category_id }}"
                                                     data-category-name="{{ optional($product->category)->category_name }}"
                                                     {{-- SUBCATEGORY --}}
@@ -179,7 +203,8 @@
                                                     data-pre_code="{{ $product->pre_code }}"
                                                     data-post_code="{{ $product->post_code }}"
                                                     data-diamonds='@json($product->diamonds)'
-                                                    data-stones='@json($product->stones)'>
+                                                    data-stones='@json($product->stones)'
+                                                    data-packets='@json($packetsJson)'>
                                                     {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->product_name }}
                                                 </option>
                                             @endforeach
@@ -210,9 +235,9 @@
                                                 <th>Fn Wt</th>
                                                 <th>Size</th>
                                                 <th>Wastage %</th>
-                                                <th>Making Amount</th>
-                                                {{-- <th>GST %</th> --}}
-                                                {{-- <th>GST Amount</th> --}}
+                                                <th>Mkg</th>
+                                                <th>Mkg Type</th>
+                                                <th>Mkg Amt</th>
                                                 <th>Gold Price</th>
                                                 <th>Final price</th>
                                             </tr>
@@ -250,7 +275,7 @@
                                                 <td><input type="number" step="0.001" name="net_weight[]"
                                                         class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                        <td><input type="number" step="0.001" name="final_fn_weight[]"
+                                                <td><input type="number" step="0.001" name="final_fn_weight[]"
                                                         class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;"></td>
                                                 <td><input type="text" name="size[]" class="form-control"
@@ -259,6 +284,20 @@
                                                         class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;"></td>
                                                 <td><input type="number" step="0.01" name="making_price[]"
+                                                        class="form-control"></td>
+                                                <td>
+                                                    <select name="making_type[]" class="form-control">
+                                                        <option value="val">Value</option>
+                                                        <option value="per_gld_val">% of Gold Value</option>
+                                                        <option value="per_pcs">Per Pcs</option>
+                                                        <option value="per_gm_nw" selected>Rate/Gm of Nw</option>
+                                                        <option value="per_gm_gw">Rate/Gm of Gw</option>
+                                                        <option value="per_gm_fine_wt">Rate/Gm of Fine Wt</option>
+                                                    </select>
+                                                </td>
+                                                {{-- <td><input type="text" step="0.01" name="certificate_no[]"
+                                                        class="form-control"></td> --}}
+                                                <td><input type="number" step="0.01" name="making_final_amount[]"
                                                         class="form-control"></td>
                                                 <input type="hidden" step="0.01" name="gst_percent[]"
                                                     class="form-control"
@@ -279,34 +318,63 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <h5 class="mt-4">Diamonds</h5>
-                                    <table class="table table-bordered" id="diamondTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Clarity</th>
-                                                <th>Cut</th>
-                                                <th>Color</th>
-                                                <th>Pieces</th>
-                                                <th>Diamond Weight (carat)</th>
-                                                <th>Price Per Carat</th>
-                                                <th>Final Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
+                                    <div id="diamondSection">
+                                        <h5 class="mt-4">Diamonds</h5>
+                                        <table class="table table-bordered" id="diamondTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Clarity</th>
+                                                    <th>Cut</th>
+                                                    <th>Color</th>
+                                                    <th>Pieces</th>
+                                                    <th>Diamond Weight (carat)</th>
+                                                    <th>Price Per Carat</th>
+                                                    <th>Final Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div id="stoneSection">
+                                        <h5 class="mt-4">Stones</h5>
+                                        <table class="table table-bordered" id="stoneTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Stone Name</th>
+                                                    <th>Weight</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div id="packetSection">
+                                        <h5 class="mt-4">Packets</h5>
+                                        <table class="table table-bordered" id="packetTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Packet No</th>
+                                                    <th>Pieces</th>
+                                                    <th>Cert.No.</th>
+                                                    <th>Stone</th>
+                                                    <th>Clarity</th>
+                                                    <th>Color</th>
+                                                    <th>Cut</th>
+                                                    <th>Shape</th>
+                                                    <th>Chalni</th>
+                                                    <th>MM</th>
+                                                    <th>Wt(CT)</th>
+                                                    <th>Wt(GM)</th>
+                                                    <th>UOM</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
 
-                                    <h5 class="mt-4">Stones</h5>
-                                    <table class="table table-bordered" id="stoneTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Stone Name</th>
-                                                <th>Weight</th>
-                                                <th>Rate</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
 
 
 
@@ -323,12 +391,13 @@
                                             <th>Code</th>
                                             <th>Barcode</th>
                                             <th>Net Wt</th>
-                                             <th>Fn Wt</th>
+                                            <th>Fn Wt</th>
                                             <th>Metal Rate</th>
                                             <th>Making</th>
                                             {{-- <th>GST</th> --}}
                                             <th>Diamond Amt</th> <!-- NEW -->
                                             <th>Stone Amt</th>
+                                            <th>Pkt Amt</th>
                                             <th>Final Amt</th>
                                             <th>Action</th>
                                         </tr>
@@ -528,8 +597,6 @@
 
 
     <script>
-
-
         const productOptions = @json($products);
     </script>
 
@@ -908,6 +975,8 @@
                 row.find('input[name="size[]"]').val(option.data('size'));
                 row.find('input[name="wastage_percent[]"]').val(option.data('wastage_percent'));
                 row.find('input[name="making_price[]"]').val(option.data('making_price'));
+                row.find('select[name="making_type[]"]').val(option.data('making_type'));
+                row.find('input[name="making_final_amount[]"]').val(option.data('making_final_amount'));
                 row.find('input[name="category[]"]').val(option.data('category-name'));
                 row.find('input[name="subcategory[]"]').val(option.data('subcategory-name'));
                 row.find('input[name="gst_amount[]"]').val(option.data('gst_amount'));
@@ -921,9 +990,35 @@
                 // ✅ NEW PART
                 let diamonds = option.data('diamonds') || [];
                 let stones = option.data('stones') || [];
+                let packets = option.data('packets') || [];
+
+                // Show / Hide Diamond Section
+                if (Array.isArray(diamonds) && diamonds.length > 0) {
+                    $('#diamondSection').show();
+                    renderDiamonds(diamonds);
+                } else {
+                    $('#diamondSection').hide();
+                }
+
+                // Show / Hide Stone Section
+                if (Array.isArray(stones) && stones.length > 0) {
+                    $('#stoneSection').show();
+                    renderStones(stones);
+                } else {
+                    $('#stoneSection').hide();
+                }
+
+                // Show / Hide Packet Section
+                if (Array.isArray(packets) && packets.length > 0) {
+                    $('#packetSection').show();
+                    renderPackets(packets);
+                } else {
+                    $('#packetSection').hide();
+                }
 
                 renderDiamonds(diamonds);
                 renderStones(stones);
+                renderPackets(packets);
             });
 
             function renderDiamonds(diamonds) {
@@ -1039,6 +1134,117 @@
             }
 
 
+            function renderPackets(packets) {
+                // alert('hiii');
+                const tbody = $('#packetTable tbody');
+                tbody.empty();
+
+                if (!Array.isArray(packets) || packets.length === 0) {
+                    tbody.append(`<tr><td colspan="12" class="text-center">No Packets</td></tr>`);
+                    return;
+                }
+
+                packets.forEach((p, index) => {
+                    tbody.append(`
+        <tr>
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][packet_no]"
+                    value="${p.packet_no ?? ''}"
+                    style="pointer-events: none; background-color: #e9ecef;">
+            </td>
+
+            <td>
+                <input type="number" class="form-control"
+                    name="packets[${index}][pcs]"
+                    value="${p.pcs ?? 0}">
+            </td>
+             <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][certificate_no]"
+                    value="${p.certificate_no ?? 0}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][stone]"
+                    value="${p.stone ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][clarity]"
+                    value="${p.clarity ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][color]"
+                    value="${p.color ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][cut]"
+                    value="${p.cut ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][shape]"
+                    value="${p.shape ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][chalni]"
+                    value="${p.chalni ?? ''}">
+            </td>
+
+            <td>
+                <input type="text" class="form-control"
+                    name="packets[${index}][mm]"
+                    value="${p.mm ?? ''}">
+            </td>
+
+            <td>
+                <input type="number" step="0.001" class="form-control"
+                    name="packets[${index}][weight]"
+                    value="${p.weight ?? 0}">
+            </td>
+            <td>
+                <input type="number" step="0.001" class="form-control"
+                    name="packets[${index}][wt_in_gram]"
+                    value="${p.wt_in_gram ?? 0}">
+            </td>
+            <td>
+    <select class="form-control"
+        name="packets[${index}][uom]">
+        <option value="">Select UOM</option>
+        <option value="PCS" ${p.uom === 'PCS' ? 'selected' : ''}>PCS</option>
+        <option value="CT" ${p.uom === 'CT' ? 'selected' : ''}>CT</option>
+        <option value="WT" ${!p.uom || p.uom === 'WT' ? 'selected' : ''}>WT</option>
+    </select>
+</td>
+
+            <td>
+                <input type="number" step="0.01" class="form-control packet-rate"
+                    name="packets[${index}][rate]"
+                    value="${p.rate ?? 0}">
+            </td>
+
+            <td>
+                <input type="number" step="0.01" class="form-control packet-amount"
+                    name="packets[${index}][amount]"
+                    value="${p.amount ?? 0}"
+                    style="pointer-events: none; background-color: #e9ecef;">
+            </td>
+        </tr>
+        `);
+                });
+            }
+
+
         });
     </script>
     <script>
@@ -1144,7 +1350,7 @@
             if (isEmpty(netWt) || netWt <= 0) {
                 return showError('Net weight must be greater than 0');
             }
-             if (isEmpty(fnWt) || fnWt <= 0) {
+            if (isEmpty(fnWt) || fnWt <= 0) {
                 return showError('fine weight must be greater than 0');
             }
 
@@ -1187,11 +1393,11 @@
                 hsn_code: entryRow.querySelector('input[name="hsn_code[]"]').value,
 
                 net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
-                 final_fn_weight: entryRow.querySelector('input[name="final_fn_weight[]"]').value,
+                final_fn_weight: entryRow.querySelector('input[name="final_fn_weight[]"]').value,
                 gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
                 metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
                 net_weight: entryRow.querySelector('input[name="net_weight[]"]').value,
-                  final_fn_weight: entryRow.querySelector('input[name="final_fn_weight[]"]').value,
+                final_fn_weight: entryRow.querySelector('input[name="final_fn_weight[]"]').value,
                 gross_weight: entryRow.querySelector('input[name="gross_weight[]"]').value,
                 metal_rate: entryRow.querySelector('input[name="metal_rate[]"]').value,
 
@@ -1199,6 +1405,10 @@
                 wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
                 making_price: entryRow.querySelector('input[name="making_price[]"]').value,
                 wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
+
+                making_type: entryRow.querySelector('select[name="making_type[]"]').value,
+                making_final_amount: entryRow.querySelector('input[name="making_final_amount[]"]').value,
+
 
                 gst_amount: entryRow.querySelector('input[name="gst_amount[]"]').value,
                 gst_percent: entryRow.querySelector('input[name="gst_percent[]"]').value,
@@ -1220,6 +1430,7 @@
 
                 diamonds: collectDiamonds(),
                 stones: collectStones(),
+                packets: collectPackets(),
             };
 
             const url = editingItemId ?
@@ -1302,11 +1513,13 @@
             row.find('input[name="gross_weight[]"]').val(item.gross_weight || 0);
 
             row.find('input[name="net_weight[]"]').val(item.net_weight || 0);
-             row.find('input[name="final_fn_weight[]"]').val(item.final_fn_weight || 0);
+            row.find('input[name="final_fn_weight[]"]').val(item.final_fn_weight || 0);
             row.find('input[name="size[]"]').val(item.size || p.size || ''); // Size
 
             row.find('input[name="wastage_percent[]"]').val(item.wastage_percent || 0);
-            row.find('input[name="making_price[]"]').val(item.making_charges || p.making_price || 0); // Making
+            row.find('input[name="making_price[]"]').val(item.making_price || p.making_price || 0); // Making
+            row.find('select[name="making_type[]"]').val(item.making_type || p.making_type || 0);
+            row.find('input[name="making_final_amount[]"]').val(item.making_final_amount || p.making_final_amount || 0);
 
             row.find('input[name="gst_percent[]"]').val(item.gst_percent || p.gst_percent || 0);
             row.find('input[name="gst_amount[]"]').val(item.gst_amount || 0);
@@ -1317,6 +1530,7 @@
             renderDiamonds(item.diamonds || []);
             // Populate Stones
             renderStones(item.stones || []);
+            renderPackets(item.packets || []);
 
             // Re-trigger calculation to visually confirm?
             // calculateRow(row[0]); // Optional, might overwrite values
@@ -1387,23 +1601,7 @@
         // New function to fetch specific invoice (for Edit / Paid invoices)
         function fetchInvoiceDetails(invoiceId) {
             $('#itemsTable tbody').empty();
-            // We need a route for getting specific invoice details.
-            // We can reuse getPending but by ID.
-            // Let's assume we use 'sell.invoice.getPending' but maybe add a query param or new route?
-            // Or simpler: Just use a new small route or modify getPending in controller to accept ID?
-            // Actually, let's just make a new simple JS fetch since we don't have a route yet.
-            // Wait, I can't add route easily without modifying web.php again.
-            // Let's modify 'sell.invoice.getPending' in Controller to optionally accept invoice_id?
-            // Route definition: Route::get('/sell-invoice/get-pending/{customerId}', ...)
 
-            // BETTER: Create a new route `sell.invoice.get/{id}`.
-            // Since I can't modify web.php in the same step easily without context switching,
-            // I will use a POST to 'finalize' (No that saves).
-            // I WILL ADD A NEW ROUTE IN WEB.PHP for getting invoice by ID in next step
-            // OR modify the existing 'getPending' to be more flexible?
-            // Existing: /sell-invoice/get-pending/{customerId}
-
-            // Let's assume I will add `sell.invoice.get` route.
             $.ajax({
                 url: "{{ route('sell.invoice.getById', ':id') }}".replace(':id', invoiceId),
                 type: 'GET',
@@ -1500,6 +1698,13 @@
                     });
                 }
 
+                let packetTotal = 0;
+                if (Array.isArray(item.packets)) {
+                    item.packets.forEach(p => {
+                        packetTotal += parseFloat(p.amount || 0);
+                    });
+                }
+
                 const tr = `
             <tr>
                 <td>
@@ -1513,11 +1718,12 @@
                 <td>${item.net_weight || 0}</td>
                 <td>${item.final_fn_weight || 0}</td>
                 <td>${item.metal_rate || 0}</td>
-                <td>${item.making_price || 0}</td>
+                <td>${item.making_final_amount || 0}</td>
 
                 <!-- NEW -->
                 <td>₹${diamondTotal.toFixed(2)}</td>
                 <td>₹${stoneTotal.toFixed(2)}</td>
+                 <td>₹${packetTotal.toFixed(2)}</td>
 
                 <td>₹${parseFloat(item.final_price || 0).toFixed(2)}</td>
 
@@ -1625,6 +1831,33 @@
             return stones;
         }
 
+        function collectPackets() {
+            let packets = [];
+
+            document.querySelectorAll('#packetTable tbody tr').forEach(row => {
+                packets.push({
+                    packet_no: row.querySelector('[name*="[packet_no]"]')?.value,
+                    pcs: row.querySelector('[name*="[pcs]"]')?.value,
+                     certificate_no: row.querySelector('[name*="[certificate_no]"]')?.value,
+                    stone: row.querySelector('[name*="[stone]"]')?.value,
+                    clarity: row.querySelector('[name*="[clarity]"]')?.value,
+                    color: row.querySelector('[name*="[color]"]')?.value,
+                    cut: row.querySelector('[name*="[cut]"]')?.value,
+                    shape: row.querySelector('[name*="[shape]"]')?.value,
+                    chalni: row.querySelector('[name*="[chalni]"]')?.value,
+                    mm: row.querySelector('[name*="[mm]"]')?.value,
+                    weight: row.querySelector('[name*="[weight]"]')?.value,
+                    wt_in_gram: row.querySelector('[name*="[wt_in_gram]"]')?.value,
+                    uom: row.querySelector('[name*="[uom]"]')?.value,
+                    rate: row.querySelector('[name*="[rate]"]')?.value,
+                    amount: row.querySelector('[name*="[amount]"]')?.value,
+                });
+            });
+
+            return packets;
+        }
+
+
         function renderDiamonds(diamonds) {
             const tbody = $('#diamondTable tbody');
             tbody.empty();
@@ -1664,6 +1897,43 @@
             });
         }
 
+        function renderPackets(packets) {
+            const tbody = $('#packetTable tbody');
+            tbody.empty();
+
+            if (!Array.isArray(packets) || packets.length === 0) {
+                tbody.append(`<tr><td colspan="14" class="text-center">No Packets</td></tr>`);
+                return;
+            }
+
+            packets.forEach((p, index) => {
+                tbody.append(`
+            <tr data-index="${index}">
+                <td><input type="text" class="form-control" name="packets[${index}][packet_no]" value="${p.packet_no ?? ''}"></td>
+                <td><input type="number" class="form-control" name="packets[${index}][pcs]" value="${p.pcs ?? 0}"></td>
+                 <td><input type="text" class="form-control" name="packets[${index}][certificate_no]" value="${p.certificate_no ?? 0}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][stone]" value="${p.stone ?? ''}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][clarity]" value="${p.clarity ?? ''}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][color]" value="${p.color ?? ''}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][cut]" value="${p.cut ?? ''}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][shape]" value="${p.shape ?? ''}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][chalni]" value="${p.chalni ?? ''}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][mm]" value="${p.mm ?? ''}"></td>
+                <td><input type="number" step="0.001" class="form-control" name="packets[${index}][weight]" value="${p.weight ?? 0}"></td>
+                <td><input type="number" step="0.001" class="form-control" name="packets[${index}][wt_in_gram]" value="${p.wt_in_gram ?? 0}"></td>
+                <td>
+                    <select class="form-control" name="packets[${index}][uom]">
+                        <option value="PCS" ${p.uom === 'PCS' ? 'selected' : ''}>PCS</option>
+                        <option value="CT" ${p.uom === 'CT' ? 'selected' : ''}>CT</option>
+                        <option value="WT" ${p.uom === 'WT' ? 'selected' : ''}>WT</option>
+                    </select>
+                </td>
+                <td><input type="number" step="0.01" class="form-control packet-rate" name="packets[${index}][rate]" value="${p.rate ?? 0}"></td>
+                <td><input type="number" step="0.01" class="form-control packet-amount" name="packets[${index}][amount]" value="${p.amount ?? 0}"></td>
+            </tr>
+        `);
+            });
+        }
         // REMOVE ITEM
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('removeItem')) {

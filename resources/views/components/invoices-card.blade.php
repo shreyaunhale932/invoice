@@ -1,6 +1,6 @@
 <div class="row">
 @foreach ($cards as $invoice)
-    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 d-flex">
         <div class="card inovices-card w-100">
             <div class="card-body">
                 <div class="dash-widget-header">

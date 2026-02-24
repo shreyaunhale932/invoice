@@ -16,28 +16,28 @@ class InvoiceTemplateController extends Controller
     public function index()
     {
         $adminId = Auth::id();
-        
-        // Get all template settings for this admin
-        $settings = InvoiceTemplateSetting::where(function($query) use ($adminId) {
-            $query->where('admin_id', $adminId)
-                  ->orWhereNull('admin_id');
-        })
-        ->orderBy('section_key')
-        ->orderBy('display_order')
-        ->get()
-        ->groupBy('section_key');
 
-        // If no settings exist, initialize with defaults
-        if ($settings->isEmpty()) {
-            $this->initializeDefaultSettings($adminId);
-            $settings = InvoiceTemplateSetting::where(function($query) use ($adminId) {
-                $query->where('admin_id', $adminId)
-                      ->orWhereNull('admin_id');
-            })
+        // Get all template settings for this admin
+        $settings = InvoiceTemplateSetting::where(function ($query) use ($adminId) {
+            $query->where('admin_id', $adminId)
+                ->orWhereNull('admin_id');
+        })
             ->orderBy('section_key')
             ->orderBy('display_order')
             ->get()
             ->groupBy('section_key');
+
+        // If no settings exist, initialize with defaults
+        if ($settings->isEmpty()) {
+            $this->initializeDefaultSettings($adminId);
+            $settings = InvoiceTemplateSetting::where(function ($query) use ($adminId) {
+                $query->where('admin_id', $adminId)
+                    ->orWhereNull('admin_id');
+            })
+                ->orderBy('section_key')
+                ->orderBy('display_order')
+                ->get()
+                ->groupBy('section_key');
         }
 
         // Get custom blocks
@@ -54,8 +54,8 @@ class InvoiceTemplateController extends Controller
     public function update(Request $request)
     {
         $adminId = Auth::id();
-        
-            DB::beginTransaction();
+
+        DB::beginTransaction();
         try {
             // Parse settings JSON if it's a string
             $settingsJson = $request->input('settings');
@@ -64,7 +64,7 @@ class InvoiceTemplateController extends Controller
             } else {
                 $settings = $settingsJson ?? [];
             }
-            
+
             // Handle image uploads first
             $uploadedImages = [];
             if ($request->hasFile('images')) {
@@ -72,43 +72,43 @@ class InvoiceTemplateController extends Controller
                     if ($file && $file->isValid()) {
                         $filename = 'invoice_' . $adminId . '_' . time() . '_' . $key . '.' . $file->getClientOriginalExtension();
                         $path = public_path('assets/img/invoice-templates/');
-                        
+
                         if (!file_exists($path)) {
                             mkdir($path, 0777, true);
                         }
-                        
+
                         $file->move($path, $filename);
                         $uploadedImages[$key] = '/public/assets/img/invoice-templates/' . $filename;
                     }
                 }
             }
-            
+
             // Replace image keys with actual paths
             foreach ($settings as &$settingData) {
                 if (isset($settingData['image_key']) && isset($uploadedImages[$settingData['image_key']])) {
                     $settingData['value'] = $uploadedImages[$settingData['image_key']];
                 }
             }
-           
-            
+
+
             foreach ($settings as $settingData) {
                 $setting = InvoiceTemplateSetting::where('admin_id', $adminId)
                     ->where('section_key', $settingData['section_key'])
                     ->where('field_key', $settingData['field_key'])
                     ->first();
-                 
+
                 if ($setting) {
                     $updateData = [
                         'label' => $settingData['label'] ?? $setting->label,
                         'is_visible' => isset($settingData['is_visible']) ? (bool)$settingData['is_visible'] : $setting->is_visible,
                         'display_order' => $settingData['display_order'] ?? $setting->display_order,
                     ];
-                    
+
                     // Handle image/file uploads
                     if (isset($settingData['value'])) {
                         $updateData['value'] = $settingData['value'];
                     }
-                    
+
                     $setting->update($updateData);
                 } else {
                     // Create new setting for this admin
@@ -121,11 +121,11 @@ class InvoiceTemplateController extends Controller
                         'display_order' => $settingData['display_order'] ?? 0,
                         'field_type' => $settingData['field_type'] ?? 'label',
                     ];
-                    
+
                     if (isset($settingData['value'])) {
                         $createData['value'] = $settingData['value'];
                     }
-                    
+
                     InvoiceTemplateSetting::create($createData);
                 }
             }
@@ -183,7 +183,10 @@ class InvoiceTemplateController extends Controller
             ['section_key' => 'item_table', 'field_key' => 'column_other_charges', 'label' => 'Other Charges', 'field_type' => 'column', 'display_order' => 20],
             ['section_key' => 'item_table', 'field_key' => 'column_diamond_amount', 'label' => 'Diamond Amount', 'field_type' => 'column', 'display_order' => 21],
             ['section_key' => 'item_table', 'field_key' => 'column_stone_amount', 'label' => 'Stone Amount', 'field_type' => 'column', 'display_order' => 22],
-            ['section_key' => 'item_table', 'field_key' => 'column_amount', 'label' => 'Amount', 'field_type' => 'column', 'display_order' => 23],
+
+            ['section_key' => 'item_table', 'field_key' => 'column_packet_amount', 'label' => 'Packet Amount', 'field_type' => 'column', 'display_order' => 23],
+
+            ['section_key' => 'item_table', 'field_key' => 'column_amount', 'label' => 'Amount', 'field_type' => 'column', 'display_order' => 24],
 
             // Footer Labels
             ['section_key' => 'invoice_footer', 'field_key' => 'taxable_amount_label', 'label' => 'Taxable Amount', 'field_type' => 'label', 'display_order' => 1],
@@ -212,14 +215,14 @@ class InvoiceTemplateController extends Controller
             ['section_key' => 'text_elements', 'field_key' => 'terms_label', 'label' => 'Terms & Conditions Label', 'field_type' => 'text', 'display_order' => 2, 'default_value' => 'Terms & Conditions:'],
             ['section_key' => 'text_elements', 'field_key' => 'payment_info_label', 'label' => 'Payment Info Label', 'field_type' => 'text', 'display_order' => 3, 'default_value' => 'Payment Info:'],
             ['section_key' => 'text_elements', 'field_key' => 'scan_details_label', 'label' => 'Scan Details Label', 'field_type' => 'text', 'display_order' => 4, 'default_value' => 'Scan to View Receipt'],
-            ['section_key'=>'invoice_header','field_key'=>'title','label'=>'Invoice','field_type'=>'text','display_order'=>1],
+            ['section_key' => 'invoice_header', 'field_key' => 'title', 'label' => 'Invoice', 'field_type' => 'text', 'display_order' => 1],
 
-            ['section_key'=>'invoice_meta','field_key'=>'invoice_no','label'=>'Invoice No','field_type'=>'label','display_order'=>1],
-            ['section_key'=>'invoice_meta','field_key'=>'invoice_date','label'=>'Invoice Date','field_type'=>'label','display_order'=>2],
-            ['section_key'=>'invoice_meta','field_key'=>'due_date','label'=>'Due Date','field_type'=>'label','display_order'=>3],
-            
-            ['section_key'=>'customer_info','field_key'=>'gstin_label','label'=>'GSTIN','field_type'=>'label','display_order'=>6],
-            
+            ['section_key' => 'invoice_meta', 'field_key' => 'invoice_no', 'label' => 'Invoice No', 'field_type' => 'label', 'display_order' => 1],
+            ['section_key' => 'invoice_meta', 'field_key' => 'invoice_date', 'label' => 'Invoice Date', 'field_type' => 'label', 'display_order' => 2],
+            ['section_key' => 'invoice_meta', 'field_key' => 'due_date', 'label' => 'Due Date', 'field_type' => 'label', 'display_order' => 3],
+
+            ['section_key' => 'customer_info', 'field_key' => 'gstin_label', 'label' => 'GSTIN', 'field_type' => 'label', 'display_order' => 6],
+
         ];
 
         foreach ($defaults as $default) {
@@ -232,11 +235,11 @@ class InvoiceTemplateController extends Controller
                 'display_order' => $default['display_order'],
                 'field_type' => $default['field_type'],
             ];
-            
+
             if (isset($default['default_value'])) {
                 $createData['default_value'] = $default['default_value'];
             }
-            
+
             InvoiceTemplateSetting::create($createData);
         }
     }
@@ -247,12 +250,12 @@ class InvoiceTemplateController extends Controller
     public function reset(Request $request)
     {
         $adminId = Auth::id();
-        
+
         DB::beginTransaction();
         try {
             InvoiceTemplateSetting::where('admin_id', $adminId)->delete();
             $this->initializeDefaultSettings($adminId);
-            
+
             DB::commit();
             return response()->json([
                 'success' => true,
@@ -273,22 +276,22 @@ class InvoiceTemplateController extends Controller
     public function storeBlock(Request $request)
     {
         $adminId = Auth::id();
-        
+
         DB::beginTransaction();
         try {
             $imagePath = null;
-            
+
             // Handle image upload
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 if ($image->isValid()) {
                     $filename = 'block_' . $adminId . '_' . time() . '.' . $image->getClientOriginalExtension();
                     $path = public_path('assets/img/invoice-templates/blocks/');
-                    
+
                     if (!file_exists($path)) {
                         mkdir($path, 0777, true);
                     }
-                    
+
                     $image->move($path, $filename);
                     $imagePath = '/public/assets/img/invoice-templates/blocks/' . $filename;
                 }
@@ -328,7 +331,7 @@ class InvoiceTemplateController extends Controller
     public function updateBlock(Request $request, $id)
     {
         $adminId = Auth::id();
-        
+
         DB::beginTransaction();
         try {
             $block = InvoiceTemplateCustomBlock::where('admin_id', $adminId)
@@ -351,11 +354,11 @@ class InvoiceTemplateController extends Controller
                 if ($image->isValid()) {
                     $filename = 'block_' . $adminId . '_' . time() . '.' . $image->getClientOriginalExtension();
                     $path = public_path('assets/img/invoice-templates/blocks/');
-                    
+
                     if (!file_exists($path)) {
                         mkdir($path, 0777, true);
                     }
-                    
+
                     $image->move($path, $filename);
                     $updateData['image_path'] = '/public/assets/img/invoice-templates/blocks/' . $filename;
                 }
@@ -384,12 +387,12 @@ class InvoiceTemplateController extends Controller
     public function deleteBlock($id)
     {
         $adminId = Auth::id();
-        
+
         DB::beginTransaction();
         try {
             $block = InvoiceTemplateCustomBlock::where('admin_id', $adminId)
                 ->findOrFail($id);
-            
+
             $block->delete();
 
             DB::commit();

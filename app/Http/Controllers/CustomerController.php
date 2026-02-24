@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\PurityModel;
 use App\Models\MetalRate;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
@@ -40,7 +41,7 @@ class CustomerController extends Controller
             'account_number' => 'nullable|string|max:50',
             'ifsc' => 'nullable|string|max:20',
         ]);
-      //  dd($request);exit();
+        //  dd($request);exit();
         $customer = Customer::create([
             'admin_id' => Auth::guard('admin')->id(),
             'name' => $request->name,
@@ -63,31 +64,66 @@ class CustomerController extends Controller
     }
     public function addproducts()
     {
-         $adminId = Auth::guard('admin')->id();
+        $adminId = Auth::guard('admin')->id();
 
-    $categories = Category::where('admin_id', $adminId)
-        ->orderBy('category_id', 'DESC')
-        ->get();
+        $categories = Category::where('admin_id', $adminId)
+            ->orderBy('category_id', 'DESC')
+            ->get();
 
-    $subcategories = Subcategory::where('admin_id', $adminId)
-        ->orderBy('subcategory_id', 'DESC')
-        ->get();
+        $subcategories = Subcategory::where('admin_id', $adminId)
+            ->orderBy('subcategory_id', 'DESC')
+            ->get();
 
-    $purities = PurityModel::where('admin_id', $adminId)
-        ->orderBy('id', 'DESC')
-        ->get();
+        $purities = PurityModel::where('admin_id', $adminId)
+            ->orderBy('id', 'DESC')
+            ->get();
 
-    $metalRates = MetalRate::where('admin_id', $adminId)
-        ->orderBy('id', 'DESC')
-        ->get();
+        $metalRates = MetalRate::where('admin_id', $adminId)
+            ->orderBy('id', 'DESC')
+            ->get();
 
-    return view('Inventory/Products/add-products', compact(
-        'categories',
-        'subcategories',
-        'purities',
-        'metalRates'
-    ));
-   }
+        $lastBarcode = Product::where('admin_id', $adminId)
+            ->orderBy('id', 'DESC')
+            ->value('barcode');
+
+        if ($lastBarcode) {
+
+            // Case 1: Barcode is only number (1002)
+            if (ctype_digit($lastBarcode)) {
+                $newBarcode = (int)$lastBarcode + 1;
+            }
+            // Case 2: Barcode has prefix + number (GLD001 / NBB00021)
+            else {
+
+                preg_match('/^([A-Za-z]+)(\d+)$/', $lastBarcode, $matches);
+
+                if (count($matches) == 3) {
+                    $prefix = $matches[1];
+                    $number = $matches[2];
+
+                    $incremented = (int)$number + 1;
+
+                    // Keep same zero format
+                    $newNumber = str_pad($incremented, strlen($number), '0', STR_PAD_LEFT);
+
+                    $newBarcode = $prefix . $newNumber;
+                } else {
+                    // fallback
+                    $newBarcode = 1001;
+                }
+            }
+        } else {
+            $newBarcode = 1001;
+        }
+
+        return view('Inventory/Products/add-products', compact(
+            'categories',
+            'subcategories',
+            'purities',
+            'metalRates',
+            'newBarcode'
+        ));
+    }
     public function edit($id)
     {
         $customer = Customer::where('id', $id)->where('admin_id', Auth::guard('admin')->id())->firstOrFail();

@@ -12,7 +12,12 @@
                 @endslot
             @endcomponent
             <!-- /Page Header -->
-
+@if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    @endif
             <!-- Template Editor Link -->
             <div class="row mb-3">
                 <div class="col-12">
@@ -29,8 +34,8 @@
             <!-- /Search Filter -->
 
             <!-- Inovices card -->
-         @component('components.invoices-card', ['cards' => $cards])
-@endcomponent
+            @component('components.invoices-card', ['cards' => $cards])
+            @endcomponent
 
             <!-- /Inovices card -->
 
@@ -69,7 +74,8 @@
                                                 <td>{{ $loop->iteration }}</td>
 
                                                 <td>
-                                                    <a href="{{ route('sell.invoice.view', $invoice->id) }}" class="invoice-link">
+                                                    <a href="{{ route('sell.invoice.view', $invoice->id) }}"
+                                                        class="invoice-link" target="_blank">
                                                         {{ $invoice->invoice_no }}
                                                     </a>
                                                 </td>
@@ -94,7 +100,8 @@
                                                 <td>{{ $invoice->invoice_due_date }}</td>
 
                                                 <td>
-                                                    <span class="badge
+                                                    <span
+                                                        class="badge
                                                     @if ($invoice->status === 'paid') bg-success
                                                     @elseif($invoice->status === 'pending') bg-warning
                                                     @else bg-danger @endif">
@@ -117,6 +124,10 @@
                                                                 href="{{ route('sell.invoice.view', $invoice->id) }}"
                                                                 target="_blank">
                                                                 <i class="far fa-eye me-2"></i>View
+                                                            </a>
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('sell.invoice.sendMail', $invoice->id) }}">
+                                                                <i class="far fa-envelope me-2"></i>Send on Mail
                                                             </a>
                                                             <a class="dropdown-item text-danger" href="#"
                                                                 onclick="if(confirm('Are you sure?')) {

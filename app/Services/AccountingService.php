@@ -165,39 +165,48 @@ class AccountingService
         $totalGoldAmount = 0;
         $totalDiamondAmount = 0;
         $totalStoneAmount = 0;
+        $totalPacketAmount = 0;
         $totalSilverAmount = 0;
 
         foreach ($invoice->items as $item) {
             $category = strtolower($item->category ?? '');
 
             if (str_contains($category, 'gold')) {
-                if($item->diamond_amount > 0){
+                if ($item->diamond_amount > 0) {
                     $totalDiamondAmount += $item->diamond_amount;
                 }
-                if($item->stone_amount > 0){
+                if ($item->stone_amount > 0) {
                     $totalStoneAmount += $item->stone_amount;
                 }
-                $totalGoldAmount += $item->final_price - ($item->gst_amount ?? 0)-($item->diamond_amount ?? 0)-($item->stone_amount ?? 0);
-
+                if ($item->packet_amount > 0) {
+                    $totalPacketAmount += $item->packet_amount;
+                }
+                $totalGoldAmount += $item->final_price - ($item->gst_amount ?? 0) - ($item->diamond_amount ?? 0) - ($item->stone_amount ?? 0) - ($item->packet_amount ?? 0);
             } elseif (str_contains($category, 'silver')) {
-                if($item->diamond_amount > 0){
+                if ($item->diamond_amount > 0) {
                     $totalDiamondAmount += $item->diamond_amount;
                 }
-                if($item->stone_amount > 0){
+                if ($item->stone_amount > 0) {
                     $totalStoneAmount += $item->stone_amount;
                 }
-                $totalSilverAmount += $item->final_price - ($item->gst_amount ?? 0)-($item->diamond_amount ?? 0)-($item->stone_amount ?? 0);
+                if ($item->packet_amount > 0) {
+                    $totalPacketAmount += $item->packet_amount;
+                }
+                $totalSilverAmount += $item->final_price - ($item->gst_amount ?? 0) - ($item->diamond_amount ?? 0) - ($item->stone_amount ?? 0) - ($item->packet_amount ?? 0);
             } elseif (str_contains($category, 'stone')) {
                 $totalStoneAmount += $item->final_price - ($item->gst_amount ?? 0);
             } else {
                 // Default to Gold/Jewellery for others
-                if($item->diamond_amount > 0){
+                if ($item->diamond_amount > 0) {
                     $totalDiamondAmount += $item->diamond_amount;
                 }
-                if($item->stone_amount > 0){
+                if ($item->stone_amount > 0) {
                     $totalStoneAmount += $item->stone_amount;
                 }
-                $totalGoldAmount += $item->final_price - ($item->gst_amount ?? 0)-($item->diamond_amount ?? 0)-($item->stone_amount ?? 0);
+                if ($item->packet_amount > 0) {
+                    $totalPacketAmount += $item->packet_amount;
+                }
+                $totalGoldAmount += $item->final_price - ($item->gst_amount ?? 0) - ($item->diamond_amount ?? 0) - ($item->stone_amount ?? 0) - ($item->packet_amount ?? 0);
             }
         }
 
@@ -230,6 +239,14 @@ class AccountingService
                 'memo' => "Stone sales income for Invoice #{$invoice->invoice_no}"
             ];
         }
+        if ($totalPacketAmount > 0) {
+            $lines[] = [
+                'account_id' => $this->getAccountId('Packet Sales'),
+                'debit' => 0,
+                'credit' => $totalPacketAmount,
+                'memo' => "Packet sales income for Invoice #{$invoice->invoice_no}"
+            ];
+        }
 
         // Post Silver Sales
         if ($totalSilverAmount > 0) {
@@ -242,8 +259,8 @@ class AccountingService
         }
 
         // Fallback or miscellaneous if nothing matched (rare but safe)
-        if ($totalGoldAmount == 0 && $totalDiamondAmount == 0 && $totalStoneAmount == 0 && $totalSilverAmount == 0) {
-             $lines[] = [
+        if ($totalGoldAmount == 0 && $totalDiamondAmount == 0 && $totalStoneAmount == 0 && $totalSilverAmount == 0 && $totalPacketAmount == 0) {
+            $lines[] = [
                 'account_id' => $this->getAccountId('Jewellery Sales'),
                 'debit' => 0,
                 'credit' => $invoice->taxable_amount,
@@ -266,6 +283,14 @@ class AccountingService
                 'debit' => 0,
                 'credit' => $invoice->sgst_amount,
                 'memo' => "SGST on Invoice #{$invoice->invoice_no}"
+            ];
+        }
+           if ($invoice->igst_amount > 0) {
+            $lines[] = [
+                'account_id' => $this->getAccountId('GST Output IGST'),
+                'debit' => 0,
+                'credit' => $invoice->igst_amount,
+                'memo' => "IGST on Invoice #{$invoice->invoice_no}"
             ];
         }
 
@@ -413,11 +438,11 @@ class AccountingService
 
     public function getTrialBalance($fromDate = null, $toDate = null)
     {
-        $report = Account::with(['group'])->get()->map(function($account) use ($fromDate, $toDate) {
+        $report = Account::with(['group'])->get()->map(function ($account) use ($fromDate, $toDate) {
             $query = JournalEntryLine::where('account_id', $account->id);
 
             if ($fromDate && $toDate) {
-                $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+                $query->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
@@ -446,12 +471,12 @@ class AccountingService
 
     public function getProfitAndLoss($fromDate = null, $toDate = null)
     {
-        $incomes = Account::whereHas('group', function($q) {
+        $incomes = Account::whereHas('group', function ($q) {
             $q->where('type', 'Income');
-        })->get()->map(function($account) use ($fromDate, $toDate) {
+        })->get()->map(function ($account) use ($fromDate, $toDate) {
             $query = JournalEntryLine::where('account_id', $account->id);
             if ($fromDate && $toDate) {
-                $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+                $query->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
@@ -462,12 +487,12 @@ class AccountingService
             ];
         });
 
-        $expenses = Account::whereHas('group', function($q) {
+        $expenses = Account::whereHas('group', function ($q) {
             $q->where('type', 'Expense');
-        })->get()->map(function($account) use ($fromDate, $toDate) {
+        })->get()->map(function ($account) use ($fromDate, $toDate) {
             $query = JournalEntryLine::where('account_id', $account->id);
             if ($fromDate && $toDate) {
-                $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+                $query->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
@@ -493,12 +518,12 @@ class AccountingService
 
     public function getBalanceSheet($fromDate = null, $toDate = null)
     {
-        $assets = Account::whereHas('group', function($q) {
+        $assets = Account::whereHas('group', function ($q) {
             $q->where('type', 'Asset');
-        })->get()->map(function($account) use ($fromDate, $toDate) {
+        })->get()->map(function ($account) use ($fromDate, $toDate) {
             $query = JournalEntryLine::where('account_id', $account->id);
             if ($fromDate && $toDate) {
-                $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+                $query->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
@@ -509,12 +534,12 @@ class AccountingService
             ];
         });
 
-        $liabilities = Account::whereHas('group', function($q) {
+        $liabilities = Account::whereHas('group', function ($q) {
             $q->where('type', 'Liability');
-        })->get()->map(function($account) use ($fromDate, $toDate) {
+        })->get()->map(function ($account) use ($fromDate, $toDate) {
             $query = JournalEntryLine::where('account_id', $account->id);
             if ($fromDate && $toDate) {
-                $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+                $query->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
@@ -525,12 +550,12 @@ class AccountingService
             ];
         });
 
-        $equity = Account::whereHas('group', function($q) {
+        $equity = Account::whereHas('group', function ($q) {
             $q->where('type', 'Equity');
-        })->get()->map(function($account) use ($fromDate, $toDate) {
+        })->get()->map(function ($account) use ($fromDate, $toDate) {
             $query = JournalEntryLine::where('account_id', $account->id);
             if ($fromDate && $toDate) {
-                $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+                $query->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
@@ -542,17 +567,21 @@ class AccountingService
         });
 
         // Calculate Net Profit for Balance Sheet (Retained Earnings)
-        $incomeTotalQuery = Account::whereHas('group', function($q) { $q->where('type', 'Income'); })
+        $incomeTotalQuery = Account::whereHas('group', function ($q) {
+            $q->where('type', 'Income');
+        })
             ->join('journal_entry_lines', 'accounts.id', '=', 'journal_entry_lines.account_id');
 
-        $expenseTotalQuery = Account::whereHas('group', function($q) { $q->where('type', 'Expense'); })
+        $expenseTotalQuery = Account::whereHas('group', function ($q) {
+            $q->where('type', 'Expense');
+        })
             ->join('journal_entry_lines', 'accounts.id', '=', 'journal_entry_lines.account_id');
 
         if ($fromDate && $toDate) {
-            $incomeTotalQuery->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+            $incomeTotalQuery->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                 $q->whereBetween('entry_date', [$fromDate, $toDate]);
             });
-            $expenseTotalQuery->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+            $expenseTotalQuery->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                 $q->whereBetween('entry_date', [$fromDate, $toDate]);
             });
         }
@@ -583,7 +612,7 @@ class AccountingService
             ->where('account_id', $accountId);
 
         if ($fromDate && $toDate) {
-            $query->whereHas('journalEntry', function($q) use ($fromDate, $toDate) {
+            $query->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {
                 $q->whereBetween('entry_date', [$fromDate, $toDate]);
             });
         }
@@ -595,7 +624,7 @@ class AccountingService
         $openingBalance = 0;
         if ($fromDate) {
             $preQuery = JournalEntryLine::where('account_id', $accountId)
-                ->whereHas('journalEntry', function($q) use ($fromDate) {
+                ->whereHas('journalEntry', function ($q) use ($fromDate) {
                     $q->where('entry_date', '<', $fromDate);
                 });
 
@@ -619,26 +648,26 @@ class AccountingService
      */
     public function syncAll()
     {
-        return DB::transaction(function() {
+        return DB::transaction(function () {
             // 1. Delete all journal entries that were created via sync/models
             JournalEntry::whereNotNull('reference_type')->delete();
 
             // 2. Sync Invoices
-            SellInvoice::with('items')->chunk(50, function($invoices) {
+            SellInvoice::with('items')->chunk(50, function ($invoices) {
                 foreach ($invoices as $invoice) {
                     $this->postSellInvoice($invoice);
                 }
             });
 
             // 3. Sync Expenses
-            Expense::with(['expenseAccount', 'paymentAccount'])->chunk(50, function($expenses) {
+            Expense::with(['expenseAccount', 'paymentAccount'])->chunk(50, function ($expenses) {
                 foreach ($expenses as $expense) {
                     $this->postExpense($expense);
                 }
             });
 
             // 4. Sync Products (Stock In)
-            Product::chunk(50, function($products) {
+            Product::chunk(50, function ($products) {
                 foreach ($products as $product) {
                     if ($product->final_price > 0) {
                         $this->postStockIn($product, $product->final_price, $product->created_at);

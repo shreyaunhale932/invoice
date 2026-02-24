@@ -58,6 +58,7 @@ class AccountingSeeder extends Seeder
         Account::create(['name' => 'Capital', 'account_group_id' => $liabilities->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'GST Output CGST', 'account_group_id' => $liabilities->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'GST Output SGST', 'account_group_id' => $liabilities->id, 'firm_id' => $firmId]);
+        Account::create(['name' => 'GST Output IGST', 'account_group_id' => $liabilities->id, 'firm_id' => $firmId]);
 
         // 4. Income Accounts
         Account::create(['name' => 'Jewellery Sales', 'account_group_id' => $income->id, 'firm_id' => $firmId]);
@@ -65,6 +66,7 @@ class AccountingSeeder extends Seeder
         Account::create(['name' => 'Silver Sales', 'account_group_id' => $income->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'Diamond Sales', 'account_group_id' => $income->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'Stone Sales', 'account_group_id' => $income->id, 'firm_id' => $firmId]);
+        Account::create(['name' => 'Packet Sales', 'account_group_id' => $income->id, 'firm_id' => $firmId]);
 
         // 5. Expense Accounts
         Account::create(['name' => 'Office Rent', 'account_group_id' => $expense->id, 'firm_id' => $firmId]);

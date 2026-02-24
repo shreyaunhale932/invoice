@@ -16,6 +16,8 @@ use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use App\Models\PurityModel;
 use App\Models\Subcategory;
 use App\Models\Category;
+use App\Models\ProductPacket;
+use App\Models\PacketMaster;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\InventoryTransaction;
@@ -91,7 +93,7 @@ class ProductController extends Controller
             // }
 
 
-
+// dd( $request->making_type);
             // Create or find item_product_data (shared data: product_name, pre_code, purity_id)
             $itemProductData = ItemProductData::firstOrCreate(
                 [
@@ -119,13 +121,18 @@ class ProductController extends Controller
                     'mrp_price' => $request->mrp_price,
                     'sale_price' => $request->sale_price,
                     'final_price' => $request->final_price,
+                    'making_type' => $request->making_type,
+                    'making_final_amount' => $request->making_final_amount,
+
                 ]
             );
 
             // Create Product linked to item_product_data
-            $oldProduct = Product::where('item_product_data_id', $itemProductData->id)
+            $oldProduct = Product::withTrashed()
+                ->where('item_product_data_id', $itemProductData->id)
                 ->orderByDesc('post_code')
                 ->first();
+
 
             if ($oldProduct) {
                 $postid = $oldProduct->post_code + 1;
@@ -159,24 +166,28 @@ class ProductController extends Controller
                 'final_fn_weight' =>  $request->final_fn_weight,
                 'size'     =>  $request->size,
                 'final_price' => $request->final_price,
+                'making_type' => $request->making_type,
+                'making_final_amount' => $request->making_final_amount,
+                'hallmarking' => $request->hallmarking,
+
             ]);
-            if (empty($product->barcode)) {
-                $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
-                $purity          = $product->purity_id;
-                $productId       = str_pad($product->id, 4, '0', STR_PAD_LEFT);
+            // if (empty($product->barcode)) {
+            //     $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
+            //     $purity          = $product->purity_id;
+            //     $productId       = str_pad($product->id, 4, '0', STR_PAD_LEFT);
 
-                do {
-                    $barcode = $productCodePart . '-' . $purity . '-' . $productId;
-                    $exists  = Product::where('barcode', $barcode)->exists();
+            //     do {
+            //         $barcode = $productCodePart . '-' . $purity . '-' . $productId;
+            //         $exists  = Product::where('barcode', $barcode)->exists();
 
-                    // edge case fallback
-                    $productId++;
-                } while ($exists);
+            //         // edge case fallback
+            //         $productId++;
+            //     } while ($exists);
 
-                $product->update([
-                    'barcode' => $barcode
-                ]);
-            }
+            //     $product->update([
+            //         'barcode' => $barcode
+            //     ]);
+            // }
 
 
 
@@ -253,6 +264,36 @@ class ProductController extends Controller
                     ]);
                 }
             }
+            /* =======================
+           SAVE PACKETS (Product Only)
+        ======================== */
+            if ($request->has('packet.packet_no')) {
+                foreach ($request->packet['packet_no'] as $index => $value) {
+                    if (!empty($value)) {
+                        ProductPacket::create([
+                            'product_id' => $product->id,
+                            'packet_no' => $value,
+                            'packet_master_id' => $request->packet['packet_master_id'][$index] ?? null,
+                            'stone_id' => $request->packet['stone_id'][$index] ?? null,
+                            'clarity_id' => $request->packet['clarity_id'][$index] ?? null,
+                            'color_id' => $request->packet['color_id'][$index] ?? null,
+                            'cut_id' => $request->packet['cut_id'][$index] ?? null,
+                            'shape_id' => $request->packet['shape_id'][$index] ?? null,
+                            'chalni_id' => $request->packet['chalni_id'][$index] ?? null,
+                            'mm_id' => $request->packet['mm_id'][$index] ?? null,
+                            'weight' => $request->packet['weight'][$index] ?? 0,
+                            'wt_in_gram' => $request->packet['wt_in_gram'][$index] ?? 0,
+                            'pcs' => $request->packet['pcs'][$index] ?? 0,
+                            'amount' => $request->packet['amount'][$index] ?? 0,
+                            'uom' => $request->packet['uom'][$index] ?? 0,
+                            'rate' => $request->packet['rate'][$index] ?? 0,
+                            'solitaire' => isset($request->packet['solitaire'][$index]) ? 1 : 0,
+                            'certificate_no' => $request->packet['certificate_no'][$index] ?? null,
+                        ]);
+                    }
+                }
+            }
+
             // Create transaction using item_product_data_id
             if ($product->item_product_data_id) {
                 InventoryTransaction::create([
@@ -299,7 +340,15 @@ class ProductController extends Controller
             'category',
             'subcategory',
             'diamonds',
-            'stones'
+            'stones',
+            'packets.packetMaster', // Eager load packet relation
+            'packets.stone',
+            'packets.clarity',
+            'packets.color',
+            'packets.cut',
+            'packets.shape',
+            'packets.chalni',
+            'packets.mm'
         ])->findOrFail($id);
 
         $categories = Category::where('admin_id', Auth::guard('admin')->id())->get();
@@ -379,6 +428,8 @@ class ProductController extends Controller
                     'stone_weight'     => $request->stone_weight ?? 0,
                     'wastage_percent'  => $request->wastage_percent,
                     'making_price'     => $request->making_price,
+                    'making_type' => $request->making_type,
+                'making_final_amount' => $request->making_final_amount,
                     'gst_percent'      => $request->gst_percent,
                     'gst_amount'       => $request->gst_amount,
                     'gold_price'       => $request->gold_price,
@@ -417,6 +468,10 @@ class ProductController extends Controller
                 'final_fn_weight'  => $request->final_fn_weight,
                 'size'             => $request->size,
                 'final_price' => $request->final_price,
+                'making_type' => $request->making_type,
+                'making_final_amount' => $request->making_final_amount,
+                'hallmarking' => $request->hallmarking,
+
             ]);
 
             /*
@@ -424,19 +479,19 @@ class ProductController extends Controller
         | Auto-generate barcode if empty
         |--------------------------------------------------------------------------
         */
-            if (empty($product->barcode)) {
-                $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
-                $purity          = $product->purity_id;
-                $productId       = str_pad($product->id, 4, '0', STR_PAD_LEFT);
+            // if (empty($product->barcode)) {
+            //     $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
+            //     $purity          = $product->purity_id;
+            //     $productId       = str_pad($product->id, 4, '0', STR_PAD_LEFT);
 
-                do {
-                    $barcode = $productCodePart . '-' . $purity . '-' . $productId;
-                    $exists  = Product::where('barcode', $barcode)->exists();
-                    $productId++;
-                } while ($exists);
+            //     do {
+            //         $barcode = $productCodePart . '-' . $purity . '-' . $productId;
+            //         $exists  = Product::where('barcode', $barcode)->exists();
+            //         $productId++;
+            //     } while ($exists);
 
-                $product->update(['barcode' => $barcode]);
-            }
+            //     $product->update(['barcode' => $barcode]);
+            // }
 
             /*
         |--------------------------------------------------------------------------
@@ -531,6 +586,40 @@ class ProductController extends Controller
 
             /*
         |--------------------------------------------------------------------------
+        | Packets (Delete + Reinsert)
+        |--------------------------------------------------------------------------
+        */
+            ProductPacket::where('product_id', $product->id)->delete();
+
+            if ($request->has('packet.packet_no')) {
+                foreach ($request->packet['packet_no'] as $index => $value) {
+                    if (!empty($value)) {
+                        ProductPacket::create([
+                            'product_id' => $product->id,
+                            'packet_no' => $value,
+                            'packet_master_id' => $request->packet['packet_master_id'][$index] ?? null,
+                            'stone_id' => $request->packet['stone_id'][$index] ?? null,
+                            'clarity_id' => $request->packet['clarity_id'][$index] ?? null,
+                            'color_id' => $request->packet['color_id'][$index] ?? null,
+                            'cut_id' => $request->packet['cut_id'][$index] ?? null,
+                            'shape_id' => $request->packet['shape_id'][$index] ?? null,
+                            'chalni_id' => $request->packet['chalni_id'][$index] ?? null,
+                            'mm_id' => $request->packet['mm_id'][$index] ?? null,
+                            'weight' => $request->packet['weight'][$index] ?? 0,
+                            'rate' => $request->packet['rate'][$index] ?? 0,
+                            'solitaire' => isset($request->packet['solitaire'][$index]) ? 1 : 0,
+                            'certificate_no' => $request->packet['certificate_no'][$index] ?? null,
+                            'pcs' => $request->packet['pcs'][$index] ?? null,
+                            'wt_in_gram' => $request->packet['wt_in_gram'][$index] ?? null,
+                            'uom' => $request->packet['uom'][$index] ?? null,
+                            'amount' => $request->packet['amount'][$index] ?? 0,
+                        ]);
+                    }
+                }
+            }
+
+            /*
+        |--------------------------------------------------------------------------
         | Inventory Transaction
         |--------------------------------------------------------------------------
         */
@@ -571,7 +660,6 @@ class ProductController extends Controller
                 ->delete();
             try {
                 app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
-
             } catch (\Exception $e) {
                 \Log::error("Accounting Post failed for Stock In: " . $e->getMessage());
             }
@@ -588,23 +676,29 @@ class ProductController extends Controller
                 ->where('admin_id', Auth::guard('admin')->id())
                 ->firstOrFail();
 
-            // ✅ Delete inventory transactions
+            // ✅ Soft delete inventory transactions
             InventoryTransaction::where('product_id', $product->id)->delete();
 
-            // Optional: delete related product details
+            // ✅ Soft delete diamond & stone details
             DiamondDetail::where('product_id', $product->id)->delete();
             StoneDetail::where('product_id', $product->id)->delete();
+
+            // ✅ Soft delete journal entries
             \App\Models\JournalEntry::where('reference_type', get_class($product))
                 ->where('reference_id', $product->id)
                 ->delete();
 
-            // ✅ Finally delete product
+            // ✅ Soft delete product packets
+            ProductPacket::where('product_id', $product->id)->delete();
+
+            // ✅ Finally soft delete product
             $product->delete();
         });
 
         return redirect()->route('product-list')
-            ->with('success', 'Product and inventory transactions deleted successfully');
+            ->with('success', 'Product and related entries soft deleted successfully');
     }
+
 
     public function getSubcategories($category_id)
     {
@@ -643,5 +737,47 @@ class ProductController extends Controller
         $products = $query->get();
 
         return view('Inventory/Products/product-list', compact('products'));
+    }
+
+    public function searchPacket(Request $request)
+    {
+        $term = $request->input('term');
+
+        $packets = PacketMaster::where('packet_no', 'LIKE', '%' . $term . '%')
+            // ->where('firm_id', \App\Models\Firm::first()->id) // Adjust firm logic if needed
+            ->with(['stone', 'clarity', 'color', 'cut', 'shape', 'chalni', 'mm'])
+            ->limit(10)
+            ->get();
+
+        $results = [];
+        foreach ($packets as $packet) {
+            $results[] = [
+                'id' => $packet->id,
+                'label' => $packet->packet_no,
+                'value' => $packet->packet_no,
+                'details' => [
+                    'stone_id' => $packet->stone_id,
+                    'stone_name' => $packet->stone ? $packet->stone->name : '',
+                    'clarity_id' => $packet->clarity_id,
+                    'clarity_name' => $packet->clarity ? $packet->clarity->name : '',
+                    'color_id' => $packet->color_id,
+                    'color_name' => $packet->color ? $packet->color->name : '',
+                    'cut_id' => $packet->cut_id,
+                    'cut_name' => $packet->cut ? $packet->cut->name : '',
+                    'shape_id' => $packet->shape_id,
+                    'shape_name' => $packet->shape ? $packet->shape->name : '',
+                    'chalni_id' => $packet->chalni_id,
+                    'chalni_name' => $packet->chalni ? $packet->chalni->name : '',
+                    'mm_id' => $packet->mm_id,
+                    'mm_name' => $packet->mm ? $packet->mm->name : '',
+                    'weight' => $packet->average_wt, // or appropriate weight field
+                    'rate'   => $packet->rate_retail, // or appropriate rate
+                    'solitaire' => $packet->solitaire,
+                    'certificate_no' => $packet->certificate_no
+                ]
+            ];
+        }
+
+        return response()->json($results);
     }
 }

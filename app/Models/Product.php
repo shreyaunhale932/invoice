@@ -44,6 +44,9 @@ class Product extends Model
         'size',
         'final_price',
         'availability',
+         'making_type',
+        'making_final_amount',
+        'hallmarking',
     ];
 
     // One product has many diamonds
@@ -57,6 +60,11 @@ class Product extends Model
     {
         return $this->hasMany(StoneDetail::class, 'product_id');
     }
+    public function packets()
+    {
+        return $this->hasMany(ProductPacket::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
