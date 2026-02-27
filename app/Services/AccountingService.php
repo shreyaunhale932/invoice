@@ -582,15 +582,13 @@ class AccountingService
         });
 
         // Calculate Net Profit for Balance Sheet (Retained Earnings)
-        $incomeTotalQuery = Account::whereHas('group', function ($q) {
+        $incomeTotalQuery = JournalEntryLine::whereHas('account.group', function ($q) {
             $q->where('type', 'Income');
-        })
-            ->join('journal_entry_lines', 'accounts.id', '=', 'journal_entry_lines.account_id');
+        });
 
-        $expenseTotalQuery = Account::whereHas('group', function ($q) {
+        $expenseTotalQuery = JournalEntryLine::whereHas('account.group', function ($q) {
             $q->where('type', 'Expense');
-        })
-            ->join('journal_entry_lines', 'accounts.id', '=', 'journal_entry_lines.account_id');
+        });
 
         if ($fromDate && $toDate) {
             $incomeTotalQuery->whereHas('journalEntry', function ($q) use ($fromDate, $toDate) {

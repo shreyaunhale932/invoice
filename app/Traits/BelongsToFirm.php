@@ -15,7 +15,7 @@ trait BelongsToFirm
     {
         static::addGlobalScope('firm', function (Builder $builder) {
             if (Session::has('selected_firm_id')) {
-                $builder->where('firm_id', Session::get('selected_firm_id'));
+                $builder->where($builder->getModel()->getTable() . '.firm_id', Session::get('selected_firm_id'));
             }
         });
 

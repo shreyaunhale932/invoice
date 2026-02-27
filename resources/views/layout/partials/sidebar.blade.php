@@ -99,10 +99,10 @@
 
                     <!-- Settings -->
                     <li class="menu-title"><span>Settings</span></li>
-                    <li>
+                    {{-- <li>
                         <a class="{{ Request::is('settings', 'company-settings', 'invoice-settings', 'template-invoice', 'payment-settings', 'bank-account', 'tax-rates', 'plan-billing', 'two-factor', 'custom-filed', 'email-settings', 'preferences', 'saas-settings', 'seo-settings', 'email-template') ? 'active' : '' }}"
                             href="{{ url('settings') }}"><i class="fe fe-settings"></i> <span>Settings</span></a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="{{ Request::is('login') ? 'active' : '' }}" href="{{ route('logout') }}"><i
                                 class="fe fe-power"></i> <span>Logout</span></a>
@@ -210,7 +210,29 @@
                     </li>
                 </ul>
                 <!-- /Inventory -->
-
+   <!-- Packet Management -->
+                <ul>
+                    <li class="menu-title"><span>Packet Management</span></li>
+                    <li>
+                        <a class="{{ Request::is('packet-masters*') ? 'active' : '' }}" href="{{ route('packet-masters.index') }}">
+                            <i class="fe fe-package"></i> <span>Packets</span>
+                        </a>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fe fe-list"></i> <span> Masters</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{{ route('packet-attributes.index', 'stones') }}">Stones</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'clarities') }}">Clarities</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'colors') }}">Colors</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'cuts') }}">Cuts</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'shapes') }}">Shapes</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'mms') }}">MMs</a></li>
+                            <li><a href="{{ route('packet-attributes.index', 'chalnis') }}">Chalnis</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /Packet Management -->
                 <!-- Signature -->
                 <!-- <ul>
                     <li class="menu-title"><span>Signature</span></li>
@@ -260,6 +282,8 @@
                                     href="{{ route('day-book.index') }}">Day Book</a></li>
                                      <li><a class="{{ Request::is('expenses', 'expenses/create') ? 'active' : '' }}"
                                     href="{{ url('expenses') }}">Expenses</a></li>
+                                      <li><a class="{{ Request::is('accounting/balance-sheet') ? 'active' : '' }}"
+                                    href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
 
                         </ul>
                     </li>
@@ -287,37 +311,15 @@
 
 
 
-                <!-- Packet Management -->
-                <ul>
-                    <li class="menu-title"><span>Packet Management</span></li>
-                    <li>
-                        <a class="{{ Request::is('packet-masters*') ? 'active' : '' }}" href="{{ route('packet-masters.index') }}">
-                            <i class="fe fe-package"></i> <span>Packets</span>
-                        </a>
-                    </li>
-                    <li class="submenu">
-                        <a href="#"><i class="fe fe-list"></i> <span> Masters</span> <span
-                                class="menu-arrow"></span></a>
-                        <ul>
-                            <li><a href="{{ route('packet-attributes.index', 'stones') }}">Stones</a></li>
-                            <li><a href="{{ route('packet-attributes.index', 'clarities') }}">Clarities</a></li>
-                            <li><a href="{{ route('packet-attributes.index', 'colors') }}">Colors</a></li>
-                            <li><a href="{{ route('packet-attributes.index', 'cuts') }}">Cuts</a></li>
-                            <li><a href="{{ route('packet-attributes.index', 'shapes') }}">Shapes</a></li>
-                            <li><a href="{{ route('packet-attributes.index', 'mms') }}">MMs</a></li>
-                            <li><a href="{{ route('packet-attributes.index', 'chalnis') }}">Chalnis</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- /Packet Management -->
+
 
                 <!-- Settings -->
                 <ul>
                     <li class="menu-title"><span>Settings</span></li>
-                    <li>
+                    {{-- <li>
                         <a class="{{ Request::is('settings', 'company-settings', 'invoice-settings', 'template-invoice', 'payment-settings', 'bank-account', 'tax-rates', 'plan-billing', 'two-factor', 'custom-filed', 'email-settings', 'preferences', 'saas-settings', 'seo-settings', 'email-template') ? 'active' : '' }}"
                             href="{{ url('settings') }}"><i class="fe fe-settings"></i> <span>Settings</span></a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="{{ Request::is('login') ? 'active' : '' }}" href="{{ route('logout') }}"><i
                                 class="fe fe-power"></i> <span>Logout</span></a>
