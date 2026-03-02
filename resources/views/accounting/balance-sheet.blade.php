@@ -18,7 +18,7 @@
             <a href="{{ route('accounting.balance-sheet') }}" class="btn btn-secondary btn-sm">Reset</a>
         </form>
     </div>
-    
+
     <div class="row">
         <!-- Assets -->
         <div class="col-md-6">

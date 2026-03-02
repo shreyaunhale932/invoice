@@ -18,7 +18,7 @@
             <a href="{{ route('accounting.profit-loss') }}" class="btn btn-secondary btn-sm">Reset</a>
         </form>
     </div>
-    
+
     <div class="row">
         <!-- Income -->
         <div class="col-md-6">

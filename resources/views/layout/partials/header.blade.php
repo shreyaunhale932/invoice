@@ -84,9 +84,9 @@ $('#globalSearch').on('keyup', function () {
         <ul class="nav nav-tabs user-menu">
             <!-- Flag -->
             <li class="nav-item dropdown has-arrow flag-nav">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+                {{-- <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                     <img src="{{ URL::asset('/public/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
-                </a>
+                </a> --}}
                 <!-- <div class="dropdown-menu dropdown-menu-end">
                     <a href="javascript:void(0);" class="dropdown-item">
                         <img src="{{ URL::asset('/public/assets/img/flags/us.png') }}" alt="flag"><span>English</span>

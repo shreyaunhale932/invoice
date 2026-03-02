@@ -284,6 +284,8 @@
                                     href="{{ url('expenses') }}">Expenses</a></li>
                                       <li><a class="{{ Request::is('accounting/balance-sheet') ? 'active' : '' }}"
                                     href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
+                                     <li><a class="{{ Request::is('accounting/profit-loss') ? 'active' : '' }}"
+                                    href="{{ route('accounting.profit-loss') }}">Profit & Loss</a></li>
 
                         </ul>
                     </li>
