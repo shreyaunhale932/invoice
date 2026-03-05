@@ -42,7 +42,10 @@ class MetalRateController extends Controller
             'purity_type' => $request->purity_type,
         ]);
 
-        return redirect()->back()->with('success', 'Metal rate updated successfully!');
+        // Automaticaly update valuation for all available products
+        app(\App\Services\ProductValuationService::class)->updateProductValuations($metalRate);
+
+        return redirect()->back()->with('success', 'Metal rate updated and product valuations refreshed successfully!');
     }
     public function destroy($id)
     {
