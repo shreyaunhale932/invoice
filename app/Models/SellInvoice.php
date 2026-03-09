@@ -66,6 +66,7 @@ class SellInvoice extends Model
         'invoice_due_date',
         'per_invoice_no',
         'post_invoice_no',
+        'total_exchange_amount',
         'status',
     ];
 
@@ -99,6 +100,8 @@ class SellInvoice extends Model
         'diamond_discount_amount'  => 'float',
         'diamond_total_amount'     => 'float',
 
+        'total_exchange_amount'    => 'float',
+
         'cash_received'        => 'float',
         'online_received'      => 'float',
         'bank_received'        => 'float',
@@ -129,6 +132,11 @@ class SellInvoice extends Model
       public function packetItems()
     {
         return $this->hasMany(SellPacketItem::class, 'sell_invoice_id');
+    }
+
+    public function exchangeItems()
+    {
+        return $this->hasMany(SellExchangeItem::class, 'sell_invoice_id');
     }
 
     public function items()

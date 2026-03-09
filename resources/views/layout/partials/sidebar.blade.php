@@ -256,10 +256,10 @@
                         <ul>
                             <li><a class="{{ Request::is('invoices', 'invoices-paid', 'invoices-overdue', 'invoices-cancelled', 'invoices-recurring', 'invoices-unpaid', 'invoices-refunded', 'invoices-draft') ? 'active' : '' }}"
                                     href="{{ url('invoices') }}">Invoices List</a></li>
-                            <li><a class="{{ Request::is('invoice-details-admin') ? 'active' : '' }}"
+                            {{-- <li><a class="{{ Request::is('invoice-details-admin') ? 'active' : '' }}"
                                     href="{{ url('invoice-details-admin') }}">Invoice Details (Admin)</a></li>
                             <li><a class="{{ Request::is('invoice-details') ? 'active' : '' }}"
-                                    href="{{ url('invoice-details') }}">Invoice Details (Customer)</a></li>
+                                    href="{{ url('invoice-details') }}">Invoice Details (Customer)</a></li> --}}
                             <li><a class="{{ Route::is('invoice.template.index') ? 'active' : '' }}"
                                     href="{{ route('invoice.template.index') }}">Invoice Templates</a></li>
                         </ul>
@@ -306,6 +306,8 @@
                                     href="{{ url('sales-report') }}">Sold Stock</a></li>
                                         <li><a class="{{ Request::is('stock-summary') ? 'active' : '' }}"
                                     href="{{ url('stock-summary') }}">Stock Summary</a></li>
+                                        <li><a class="{{ Request::is('old-metal-received') ? 'active' : '' }}"
+                                    href="{{ url('old-metal-received') }}">Old Metal Received</a></li>
 
                         </ul>
                     </li>

@@ -405,6 +405,38 @@
                                     <tbody></tbody>
                                 </table>
 
+                                <!-- Exchange / Old Gold Section -->
+                                <div class="card mt-4">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Exchange/Old Gold</h5>
+                                        <button type="button" class="btn btn-warning btn-sm" id="addExchangeItem">
+                                            + Add Item
+                                        </button>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <table class="table table-bordered mb-0" id="exchangeTable">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th>Metal</th>
+                                                    <th>Purity</th>
+                                                    <th>Gross</th>
+                                                    <th>Less</th>
+                                                    <th>Net</th>
+                                                    <th>Fine</th>
+                                                    <th>Wanted Amt</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Dynamic rows will be added here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
 
 
 
@@ -487,6 +519,15 @@
                                                             <span id="taxableAmount">₹0.00</span>
                                                             <input type="hidden" id="taxableAmountInput" value="0">
                                                         </p>
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Exchange</label>
+                                                            <span id="totalExchangeAmount">₹0.00</span>
+                                                            <input type="hidden" id="totalExchangeAmountInput"
+                                                                value="0">
+                                                        </div>
+
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>Final Discount %</label>
                                                             <input type="number" id="discountPercent"
@@ -1693,6 +1734,7 @@
             $('#cardReceived').val(invoice.card_received);
 
             renderItemsTable(globalInvoiceItems);
+            renderExchangeTable(invoice.exchange_items || []);
             calculateInvoiceTotals();
 
             // Update Button State to 'Update'
@@ -1789,7 +1831,34 @@
             });
         }
 
-        // ---------------------------------------------------------
+        function renderExchangeTable(exchangeItems) {
+            const tbody = $('#exchangeTable tbody');
+            tbody.empty();
+
+            exchangeItems.forEach(function(ex) {
+                const tr = `
+                <tr class="exchange-row">
+                    <td><input type="text" name="exchange_description[]" class="form-control" value="${ex.description || ''}"></td>
+                    <td>
+                        <select name="exchange_metal[]" class="form-control">
+                            <option value="Gold" ${ex.metal === 'Gold' ? 'selected' : ''}>Gold</option>
+                            <option value="Silver" ${ex.metal === 'Silver' ? 'selected' : ''}>Silver</option>
+                        </select>
+                    </td>
+                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity" value="${ex.purity || ''}"></td>
+                    <td><input type="number" step="0.001" name="exchange_gross[]" class="form-control exchange-gross" value="${ex.gross_weight || 0}"></td>
+                    <td><input type="number" step="0.001" name="exchange_less[]" class="form-control exchange-less" value="${ex.less_weight || 0}"></td>
+                    <td><input type="number" step="0.001" name="exchange_net[]" class="form-control exchange-net" readonly style="background-color: #e9ecef;" value="${ex.net_weight || 0}"></td>
+                    <td><input type="number" step="0.001" name="exchange_fine[]" class="form-control exchange-fine" readonly style="background-color: #e9ecef;" value="${ex.fine_weight || 0}"></td>
+                    <td><input type="number" step="0.01" name="exchange_wanted_amt[]" class="form-control exchange-wanted-amt" value="${ex.wanted_amt || 0}"></td>
+                    <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate" value="${ex.rate || 0}"></td>
+                    <td><input type="number" step="0.01" name="exchange_amount[]" class="form-control exchange-amount" readonly style="background-color: #e9ecef;" value="${ex.amount || 0}"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-exchange-row">X</button></td>
+                </tr>
+            `;
+                tbody.append(tr);
+            });
+        }
         // FINALIZE INVOICE
         // ---------------------------------------------------------
         function finalizeInvoice() {
@@ -1797,16 +1866,35 @@
                 alert('No active invoice to save.');
                 return;
             }
+            // Collect Exchange Items
+            const exchange_items = [];
+            $('.exchange-row').each(function() {
+                const row = $(this);
+                exchange_items.push({
+                    description: row.find('input[name="exchange_description[]"]').val(),
+                    metal: row.find('select[name="exchange_metal[]"]').val(),
+                    purity: row.find('input[name="exchange_purity[]"]').val(),
+                    gross_weight: row.find('input[name="exchange_gross[]"]').val(),
+                    less_weight: row.find('input[name="exchange_less[]"]').val(),
+                    net_weight: row.find('input[name="exchange_net[]"]').val(),
+                    fine_weight: row.find('input[name="exchange_fine[]"]').val(),
+                    wanted_amt: row.find('input[name="exchange_wanted_amt[]"]').val(),
+                    rate: row.find('input[name="exchange_rate[]"]').val(),
+                    amount: row.find('input[name="exchange_amount[]"]').val(),
+                });
+            });
+
             // Collect Invoice Level Data
             const payload = {
                 _token: '{{ csrf_token() }}',
                 sell_invoice_id: globalInvoiceId,
                 customer_id: document.querySelector('#customerDropdown').value,
-                invoice_date: document.querySelector('input[name="invoice_date"]').value || date('Y-m-d'),
-                due_date: document.querySelector('input[name="due_date"]').value || date('Y-m-d'),
+                invoice_date: document.querySelector('input[name="invoice_date"]').value,
+                due_date: document.querySelector('input[name="due_date"]').value,
                 taxable_amount: document.getElementById('taxableAmountInput').value,
-                // remaining_amount: document.getElementById('remainingamountInput').value,
 
+                total_exchange_amount: document.getElementById('totalExchangeAmountInput').value,
+                exchange_items: exchange_items,
 
                 discount_percent: document.getElementById('discountPercent').value || 0,
                 cgst_percent: document.getElementById('cgstPercent').value || 0,
@@ -1814,17 +1902,13 @@
                 igst_percent: document.getElementById('igstPercent').value || 0,
 
                 // New Discount Fields
-                total_making_charge: document.getElementById('totalMakingAmountInput').value || 0,
-                making_discount_percent: document.getElementById('makingDiscountPercent').value || 0,
-                making_discount_amount: document.getElementById('makingDiscountAmount').textContent.replace('₹', '') ||
-                    0,
-                total_diamond_stone_packet: document.getElementById('totalDiamondStonePacketAmountInput').value || 0,
-                diamond_discount_percent: document.getElementById('diamondDiscountPercent').value || 0,
-                diamond_discount_amount: document.getElementById('diamondDiscountAmount').textContent.replace('₹',
-                    '') || 0,
-                diamond_total_amount: (parseFloat(document.getElementById('totalDiamondStonePacketAmountInput').value ||
-                    0) - parseFloat(document.getElementById('diamondDiscountAmount').textContent.replace('₹',
-                    '') || 0)).toFixed(2),
+                total_making_charge: document.getElementById('totalMakingAmountInput').value,
+                making_discount_percent: document.getElementById('makingDiscountPercent').value,
+                making_discount_amount: document.getElementById('makingDiscountAmount').innerText.replace('₹', '').replace(',', ''),
+                total_diamond_stone_packet: document.getElementById('totalDiamondStonePacketAmountInput').value,
+                diamond_discount_percent: document.getElementById('diamondDiscountPercent').value,
+                diamond_discount_amount: document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', ''),
+                diamond_total_amount: document.getElementById('totalDiamondStonePacketAmountInput').value - document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', ''),
 
                 cash_received: document.getElementById('cashReceived').value || 0,
                 bank_received: document.getElementById('bankReceived').value || 0,
@@ -1990,6 +2074,87 @@
         `);
             });
         }
+        // ---------------------------------------------------------
+        // EXCHANGE / OLD GOLD LOGIC
+        // ---------------------------------------------------------
+        $('#addExchangeItem').on('click', function() {
+            const rowCount = $('#exchangeTable tbody tr').length;
+            const tr = `
+                <tr class="exchange-row">
+                    <td><input type="text" name="exchange_description[]" class="form-control"></td>
+                    <td>
+                        <select name="exchange_metal[]" class="form-control">
+                            <option value="Gold">Gold</option>
+                            <option value="Silver">Silver</option>
+                        </select>
+                    </td>
+                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity"></td>
+                    <td><input type="number" step="0.001" name="exchange_gross[]" class="form-control exchange-gross"></td>
+                    <td><input type="number" step="0.001" name="exchange_less[]" class="form-control exchange-less"></td>
+                    <td><input type="number" step="0.001" name="exchange_net[]" class="form-control exchange-net" readonly style="background-color: #e9ecef;"></td>
+                    <td><input type="number" step="0.001" name="exchange_fine[]" class="form-control exchange-fine" readonly style="background-color: #e9ecef;"></td>
+                    <td><input type="number" step="0.01" name="exchange_wanted_amt[]" class="form-control exchange-wanted-amt"></td>
+                    <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate"></td>
+                    <td><input type="number" step="0.01" name="exchange_amount[]" class="form-control exchange-amount" readonly style="background-color: #e9ecef;"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-exchange-row">X</button></td>
+                </tr>
+            `;
+            $('#exchangeTable tbody').append(tr);
+        });
+
+        $(document).on('click', '.remove-exchange-row', function() {
+            $(this).closest('tr').remove();
+            calculateInvoiceTotals();
+        });
+
+        $(document).on('input', '.exchange-gross, .exchange-less', function() {
+            let row = $(this).closest('tr');
+            let gross = parseFloat(row.find('.exchange-gross').val()) || 0;
+            let less = parseFloat(row.find('.exchange-less').val()) || 0;
+            let net = gross - less;
+             let purity = parseFloat(row.find('.exchange-purity').val()) || 0;
+            let fine = (net * purity) / 100;
+             row.find('.exchange-fine').val(fine.toFixed(3));
+            row.find('.exchange-net').val(net.toFixed(3));
+            row.trigger('exchange-calculate');
+        });
+
+        $(document).on('input', '.exchange-purity', function() {
+            $(this).closest('tr').trigger('exchange-calculate');
+        });
+
+        $(document).on('exchange-calculate', '.exchange-row', function() {
+            let row = $(this);
+            let net = parseFloat(row.find('.exchange-net').val()) || 0;
+            let purity = parseFloat(row.find('.exchange-purity').val()) || 0;
+            let fine = (net * purity) / 100;
+            row.find('.exchange-fine').val(fine.toFixed(3));
+        });
+
+        $(document).on('input', '.exchange-wanted-amt', function() {
+            let row = $(this).closest('tr');
+            let wantedAmt = parseFloat($(this).val()) || 0;
+            let net = parseFloat(row.find('.exchange-net').val()) || 0;
+
+            row.find('.exchange-amount').val(wantedAmt.toFixed(2));
+            if (net > 0) {
+                let rate = wantedAmt / net;
+                row.find('.exchange-rate').val(rate.toFixed(2));
+            }
+            calculateInvoiceTotals();
+        });
+
+        $(document).on('input', '.exchange-rate', function() {
+            let row = $(this).closest('tr');
+            let rate = parseFloat($(this).val()) || 0;
+            let net = parseFloat(row.find('.exchange-net').val()) || 0;
+
+            let amount = net * rate;
+            row.find('.exchange-amount').val(amount.toFixed(2));
+            row.find('.exchange-wanted-amt').val(amount.toFixed(2));
+            calculateInvoiceTotals();
+        });
+
         // REMOVE ITEM
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('removeItem')) {
@@ -2144,7 +2309,14 @@
     // -------------------------
     // 5️⃣ Final Invoice Amount (UNCHANGED FLOW)
     // -------------------------
-    const totalInvoiceAmount = amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount;
+    let totalExchange = 0;
+    $('.exchange-amount').each(function() {
+        totalExchange += parseFloat($(this).val()) || 0;
+    });
+    setBoxText('totalExchangeAmount', totalExchange);
+    document.getElementById('totalExchangeAmountInput').value = totalExchange.toFixed(2);
+
+    const totalInvoiceAmount = (amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount) - totalExchange;
 
     setBoxText('totalInvoiceAmount', totalInvoiceAmount);
 

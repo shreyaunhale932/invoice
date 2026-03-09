@@ -408,22 +408,77 @@
                                     <tbody>
                                         @foreach ($invoice->items as $item)
                                             <tr>
-                                                <td>{{ $item->product->name }}</td>
-                                                <td>{{ $item->product->code }}</td>
-                                                <td>{{ $item->product->barcode }}</td>
+                                                <td>{{ $item->product->product_name }}</td>
+                                                <td>{{ $item->pre_code }}-{{ $item->post_code }}</td>
+                                                <td>{{ $item->barcode }}</td>
                                                 <td>{{ $item->net_weight }}</td>
                                                 <td>{{ $item->final_fn_weight }}</td>
                                                 <td>{{ $item->metal_rate }}</td>
-                                                <td>{{ $item->making }}</td>
+                                                <td>{{ $item->making_final_amount }}</td>
                                                 {{-- <td>{{ $item->gst }}</td> --}}
-                                                <td>{{ $item->final_amount }}</td>
+                                                <td>₹{{ number_format($item->diamond_amount, 2) }}</td>
+                                                <td>₹{{ number_format($item->stone_amount, 2) }}</td>
+                                                <td>₹{{ number_format($item->packet_amount, 2) }}</td>
+                                                <td>₹{{ number_format($item->final_price, 2) }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger"
-                                                        onclick="removeItem({{ $item->id }})">Remove</button>
+                                                    <button type="button" class="btn btn-warning btn-sm" onclick="editItem({{ $item->id }})">Edit</button>
+                                                    <button type="button" class="btn btn-danger btn-sm removeItem" data-id="{{ $item->id }}">X</button>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                </table>
+
+                                <!-- Exchange / Old Gold Section -->
+                                <div class="card mt-4">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Exchange/Old Gold</h5>
+                                        <button type="button" class="btn btn-warning btn-sm" id="addExchangeItem">
+                                            + Add Item
+                                        </button>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <table class="table table-bordered mb-0" id="exchangeTable">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th>Metal</th>
+                                                    <th>Purity</th>
+                                                    <th>Gross</th>
+                                                    <th>Less</th>
+                                                    <th>Net</th>
+                                                    <th>Fine</th>
+                                                    <th>Wanted Amt</th>
+                                                    <th>Rate</th>
+                                                    <th>Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($invoice->exchangeItems as $ex)
+                                                <tr class="exchange-row">
+                                                    <td><input type="text" name="exchange_description[]" class="form-control" value="{{ $ex->description }}"></td>
+                                                    <td>
+                                                        <select name="exchange_metal[]" class="form-control">
+                                                            <option value="Gold" {{ $ex->metal == 'Gold' ? 'selected' : '' }}>Gold</option>
+                                                            <option value="Silver" {{ $ex->metal == 'Silver' ? 'selected' : '' }}>Silver</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity" value="{{ $ex->purity }}"></td>
+                                                    <td><input type="number" step="0.001" name="exchange_gross[]" class="form-control exchange-gross" value="{{ $ex->gross_weight }}"></td>
+                                                    <td><input type="number" step="0.001" name="exchange_less[]" class="form-control exchange-less" value="{{ $ex->less_weight }}"></td>
+                                                    <td><input type="number" step="0.001" name="exchange_net[]" class="form-control exchange-net" readonly style="background-color: #e9ecef;" value="{{ $ex->net_weight }}"></td>
+                                                    <td><input type="number" step="0.001" name="exchange_fine[]" class="form-control exchange-fine" readonly style="background-color: #e9ecef;" value="{{ $ex->fine_weight }}"></td>
+                                                    <td><input type="number" step="0.01" name="exchange_wanted_amt[]" class="form-control exchange-wanted-amt" value="{{ $ex->wanted_amt }}"></td>
+                                                    <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate" value="{{ $ex->rate }}"></td>
+                                                    <td><input type="number" step="0.01" name="exchange_amount[]" class="form-control exchange-amount" readonly style="background-color: #e9ecef;" value="{{ $ex->amount }}"></td>
+                                                    <td><button type="button" class="btn btn-danger btn-sm remove-exchange-row">X</button></td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 </table>
 
 
@@ -493,6 +548,12 @@
                                                             <span id="taxableAmount">₹{{ number_format($invoice->taxable_amount ?? 0, 2) }}</span>
                                                             <input type="hidden" id="taxableAmountInput" value="{{ $invoice->taxable_amount ?? 0 }}">
                                                         </p>
+
+                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Exchange</label>
+                                                            <span id="totalExchangeAmount">₹{{ number_format($invoice->total_exchange_amount ?? 0, 2) }}</span>
+                                                            <input type="hidden" id="totalExchangeAmountInput" value="{{ $invoice->total_exchange_amount ?? 0 }}">
+                                                        </div>
                                                              <div class="d-flex justify-content-between align-items-center">
                                                             <label>Final Discount %</label>
                                                             <input type="number" id="discountPercent"
@@ -1774,6 +1835,24 @@
                 alert('No active invoice to save.');
                 return;
             }
+            // Collect Exchange Items
+            const exchange_items = [];
+            $('.exchange-row').each(function() {
+                const row = $(this);
+                exchange_items.push({
+                    description: row.find('input[name="exchange_description[]"]').val(),
+                    metal: row.find('select[name="exchange_metal[]"]').val(),
+                    purity: row.find('input[name="exchange_purity[]"]').val(),
+                    gross_weight: row.find('input[name="exchange_gross[]"]').val(),
+                    less_weight: row.find('input[name="exchange_less[]"]').val(),
+                    net_weight: row.find('input[name="exchange_net[]"]').val(),
+                    fine_weight: row.find('input[name="exchange_fine[]"]').val(),
+                    wanted_amt: row.find('input[name="exchange_wanted_amt[]"]').val(),
+                    rate: row.find('input[name="exchange_rate[]"]').val(),
+                    amount: row.find('input[name="exchange_amount[]"]').val(),
+                });
+            });
+
             // Collect Invoice Level Data
             const payload = {
                 _token: '{{ csrf_token() }}',
@@ -1783,7 +1862,9 @@
                 invoice_date: document.querySelector('input[name="invoice_date"]').value || '',
                 due_date: document.querySelector('input[name="due_date"]').value || '',
                 taxable_amount: document.getElementById('taxableAmountInput').value,
-                // remaining_amount: document.getElementById('remainingamountInput').value,
+                
+                total_exchange_amount: document.getElementById('totalExchangeAmountInput').value,
+                exchange_items: exchange_items,
 
                 discount_percent: document.getElementById('discountPercent').value || 0,
                 cgst_percent: document.getElementById('cgstPercent').value || 0,
@@ -1793,11 +1874,11 @@
                 // New Discount Fields
                 total_making_charge: document.getElementById('totalMakingAmountInput').value || 0,
                 making_discount_percent: document.getElementById('makingDiscountPercent').value || 0,
-                making_discount_amount: document.getElementById('makingDiscountAmount').textContent.replace('₹', '') || 0,
+                making_discount_amount: document.getElementById('makingDiscountAmount').innerText.replace('₹', '').replace(',', ''),
                 total_diamond_stone_packet: document.getElementById('totalDiamondStonePacketAmountInput').value || 0,
                 diamond_discount_percent: document.getElementById('diamondDiscountPercent').value || 0,
-                diamond_discount_amount: document.getElementById('diamondDiscountAmount').textContent.replace('₹', '') || 0,
-                diamond_total_amount: (parseFloat(document.getElementById('totalDiamondStonePacketAmountInput').value || 0) - parseFloat(document.getElementById('diamondDiscountAmount').textContent.replace('₹', '') || 0)).toFixed(2),
+                diamond_discount_amount: document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', ''),
+                diamond_total_amount: (parseFloat(document.getElementById('totalDiamondStonePacketAmountInput').value || 0) - parseFloat(document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', '') || 0)).toFixed(2),
 
                 cash_received: document.getElementById('cashReceived').value || 0,
                 bank_received: document.getElementById('bankReceived').value || 0,
@@ -1992,6 +2073,55 @@
             }
         });
 
+        // --- EXCHANGE ROW LOGIC ---
+        $(document).on('click', '#addExchangeItem', function() {
+            const tr = `
+                <tr class="exchange-row">
+                    <td><input type="text" name="exchange_description[]" class="form-control" placeholder="Description"></td>
+                    <td>
+                        <select name="exchange_metal[]" class="form-control">
+                            <option value="Gold">Gold</option>
+                            <option value="Silver">Silver</option>
+                        </select>
+                    </td>
+                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity" placeholder="Purity"></td>
+                    <td><input type="number" step="0.001" name="exchange_gross[]" class="form-control exchange-gross" placeholder="Gross"></td>
+                    <td><input type="number" step="0.001" name="exchange_less[]" class="form-control exchange-less" placeholder="Less"></td>
+                    <td><input type="number" step="0.001" name="exchange_net[]" class="form-control exchange-net" readonly style="background-color: #e9ecef;"></td>
+                    <td><input type="number" step="0.001" name="exchange_fine[]" class="form-control exchange-fine" readonly style="background-color: #e9ecef;"></td>
+                    <td><input type="number" step="0.01" name="exchange_wanted_amt[]" class="form-control exchange-wanted-amt" placeholder="Wanted"></td>
+                    <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate" placeholder="Rate"></td>
+                    <td><input type="number" step="0.01" name="exchange_amount[]" class="form-control exchange-amount" readonly style="background-color: #e9ecef;"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-exchange-row">X</button></td>
+                </tr>
+            `;
+            $('#exchangeTable tbody').append(tr);
+        });
+
+        $(document).on('click', '.remove-exchange-row', function() {
+            $(this).closest('tr').remove();
+            calculateInvoiceTotals();
+        });
+
+        $(document).on('input', '.exchange-row input', function() {
+            const row = $(this).closest('.exchange-row');
+            const purity = parseFloat(row.find('.exchange-purity').val()) || 0;
+            const gross = parseFloat(row.find('.exchange-gross').val()) || 0;
+            const less = parseFloat(row.find('.exchange-less').val()) || 0;
+            const net = gross - less;
+            row.find('.exchange-net').val(net.toFixed(3));
+
+            const fine = (net * purity) / 100;
+            row.find('.exchange-fine').val(fine.toFixed(3));
+
+            const wanted = parseFloat(row.find('.exchange-wanted-amt').val()) || 0;
+            const rate = parseFloat(row.find('.exchange-rate').val()) || 0;
+            const amount = fine * (rate / 10) + wanted;
+            row.find('.exchange-amount').val(amount.toFixed(2));
+
+            calculateInvoiceTotals();
+        });
+
         // --- CALCULATION LOGIC (Keep existing calculateInvoiceTotals) ---
         // Just ensuring it reads the updated DOM properly
     </script>
@@ -2117,7 +2247,15 @@
     // -------------------------
     // 5️⃣ Final Invoice Amount (UNCHANGED FLOW)
     // -------------------------
-    const totalInvoiceAmount = amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount;
+    let totalExchange = 0;
+    $('.exchange-amount').each(function() {
+        totalExchange += parseFloat($(this).val()) || 0;
+    });
+
+    setBoxText('totalExchangeAmount', totalExchange);
+    document.getElementById('totalExchangeAmountInput').value = totalExchange.toFixed(2);
+
+    const totalInvoiceAmount = (amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount) - totalExchange;
 
     setBoxText('totalInvoiceAmount', totalInvoiceAmount);
 

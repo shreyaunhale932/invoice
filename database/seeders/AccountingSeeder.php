@@ -53,6 +53,7 @@ class AccountingSeeder extends Seeder
         Account::create(['name' => 'UPI Clearing', 'account_group_id' => $assets->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'Card Receivable', 'account_group_id' => $assets->id, 'firm_id' => $firmId]);
         Account::create(['name' => 'Sundry Debtors', 'account_group_id' => $assets->id, 'firm_id' => $firmId]);
+         Account::create(['name' => 'Old Metal Received', 'account_group_id' => $assets->id, 'firm_id' => $firmId]);
 
         // 3. Liabilities Accounts
         Account::create(['name' => 'Capital', 'account_group_id' => $liabilities->id, 'firm_id' => $firmId]);

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\ItemProductData;
 use App\Models\InventoryTransaction;
+use App\Models\SellExchangeItem;
 use Carbon\Carbon;
 
 class PageController extends Controller
@@ -242,6 +243,17 @@ class PageController extends Controller
             });
 
         return view('Reports.Reports.stock-summary', compact('products', 'from_date', 'to_date'));
+    }
+
+    public function old_metal_received_report(Request $request) {
+        $from_date = $request->input('from_date', Carbon::now()->startOfMonth()->toDateString());
+        $to_date = $request->input('to_date', Carbon::now()->endOfMonth()->toDateString());
+
+        $exchange_items = SellExchangeItem::with('invoice.customer')
+            ->whereBetween('created_at', [$from_date . ' 00:00:00', $to_date . ' 23:59:59'])
+            ->get();
+
+        return view('Reports.Reports.old-metal-received', compact('exchange_items', 'from_date', 'to_date'));
     }
     public function purchase_return()
     {

@@ -144,6 +144,16 @@ class AccountingService
                 'memo' => "Credit balance for Invoice #{$invoice->invoice_no}"
             ];
         }
+
+        if ($invoice->total_exchange_amount > 0) {
+            $lines[] = [
+                'account_id' => $this->getAccountId('Old Metal Received'),
+                'debit' => $invoice->total_exchange_amount,
+                'credit' => 0,
+                'memo' => "Old Metal Received for Invoice #{$invoice->invoice_no}"
+            ];
+        }
+
         // 5.1 Discount Allowed (Debit)
         if ($invoice->discount_amount > 0) {
             $lines[] = [
@@ -162,7 +172,7 @@ class AccountingService
                 'memo' => "Dia/St/Pkt Discount on Invoice #{$invoice->invoice_no}"
             ];
         }
-           if ($invoice->making_discount_amount > 0) {
+        if ($invoice->making_discount_amount > 0) {
             $lines[] = [
                 'account_id' => $this->getAccountId('Making Discount Allowed'),
                 'debit' => $invoice->making_discount_amount,
@@ -300,7 +310,7 @@ class AccountingService
                 'memo' => "SGST on Invoice #{$invoice->invoice_no}"
             ];
         }
-           if ($invoice->igst_amount > 0) {
+        if ($invoice->igst_amount > 0) {
             $lines[] = [
                 'account_id' => $this->getAccountId('GST Output IGST'),
                 'debit' => 0,

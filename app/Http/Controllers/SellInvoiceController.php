@@ -447,7 +447,7 @@ class SellInvoiceController extends Controller
 
     public function getPendingInvoice($customerId)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets'])
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems'])
             ->where('user_id', $customerId)
             ->where('status', 'pending')
             ->first();
@@ -711,7 +711,11 @@ class SellInvoiceController extends Controller
             $igstAmount = round(($amountAfterDiscount * $igstPercent) / 100, 2);
 
             $totalTax  = round($cgstAmount + $sgstAmount + $igstAmount, 2);
-            $grandTotal = round($amountAfterDiscount + $totalTax, 2);
+            $totalInvoiceAmount = round($amountAfterDiscount + $totalTax, 2);
+
+            // Exchange Reduction
+            $totalExchangeAmount = round($request->input('total_exchange_amount', 0), 2);
+            $grandTotal = round($totalInvoiceAmount - $totalExchangeAmount, 2);
 
             // Payments
             $cash   = round($request->input('cash_received', 0), 2);
@@ -763,8 +767,9 @@ class SellInvoiceController extends Controller
                 'igst_amount'  => $igstAmount,
 
                 'taxable_amount' => $taxableAmount,
-
                 'final_amount'   => $grandTotal,
+
+                'total_exchange_amount' => $totalExchangeAmount,
 
                 'cash_received'   => $cash,
                 'bank_received'   => $bank,
@@ -778,6 +783,28 @@ class SellInvoiceController extends Controller
                 'invoice_date'     => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
             ]);
+
+            // Save Exchange Items
+            $invoice->exchangeItems()->delete();
+            if ($request->filled('exchange_items') && is_array($request->exchange_items)) {
+                foreach ($request->exchange_items as $ex) {
+                    if (empty($ex['amount']) || $ex['amount'] == 0) continue;
+                    $invoice->exchangeItems()->create([
+                        'admin_id' => Auth::id(),
+                        'firm_id' => $invoice->firm_id,
+                        'description' => $ex['description'] ?? null,
+                        'metal' => $ex['metal'] ?? null,
+                        'purity' => $ex['purity'] ?? null,
+                        'gross_weight' => $ex['gross_weight'] ?? 0,
+                        'less_weight' => $ex['less_weight'] ?? 0,
+                        'net_weight' => $ex['net_weight'] ?? 0,
+                        'fine_weight' => $ex['fine_weight'] ?? 0,
+                        'wanted_amt' => $ex['wanted_amt'] ?? 0,
+                        'rate' => $ex['rate'] ?? 0,
+                        'amount' => $ex['amount'] ?? 0,
+                    ]);
+                }
+            }
 
             // Stock Out Logic
             foreach ($invoice->items as $item) {
@@ -913,7 +940,11 @@ class SellInvoiceController extends Controller
             $igstAmount = round(($amountAfterDiscount * $igstPercent) / 100, 2);
 
             $totalTax  = round($cgstAmount + $sgstAmount + $igstAmount, 2);
-            $grandTotal = round($amountAfterDiscount + $totalTax, 2);
+            $totalInvoiceAmount = round($amountAfterDiscount + $totalTax, 2);
+
+            // Exchange Reduction
+            $totalExchangeAmount = round($request->input('total_exchange_amount', 0), 2);
+            $grandTotal = round($totalInvoiceAmount - $totalExchangeAmount, 2);
 
             /* --------------------
              | Payments
@@ -976,6 +1007,8 @@ class SellInvoiceController extends Controller
                 'taxable_amount' => $itemsTotal,
                 'final_amount'   => $grandTotal,
 
+                'total_exchange_amount' => $totalExchangeAmount,
+
                 'cash_received'   => $cash,
                 'bank_received'   => $bank,
                 'online_received' => $online,
@@ -985,6 +1018,28 @@ class SellInvoiceController extends Controller
                 'amount_left'    => $amountLeft,
                 'status'         => $status,
             ]);
+
+            // Save Exchange Items
+            $invoice->exchangeItems()->delete();
+            if ($request->filled('exchange_items') && is_array($request->exchange_items)) {
+                foreach ($request->exchange_items as $ex) {
+                    if (empty($ex['amount']) || $ex['amount'] == 0) continue;
+                    $invoice->exchangeItems()->create([
+                        'admin_id' => Auth::id(),
+                        'firm_id' => $invoice->firm_id,
+                        'description' => $ex['description'] ?? null,
+                        'metal' => $ex['metal'] ?? null,
+                        'purity' => $ex['purity'] ?? null,
+                        'gross_weight' => $ex['gross_weight'] ?? 0,
+                        'less_weight' => $ex['less_weight'] ?? 0,
+                        'net_weight' => $ex['net_weight'] ?? 0,
+                        'fine_weight' => $ex['fine_weight'] ?? 0,
+                        'wanted_amt' => $ex['wanted_amt'] ?? 0,
+                        'rate' => $ex['rate'] ?? 0,
+                        'amount' => $ex['amount'] ?? 0,
+                    ]);
+                }
+            }
 
             // Stock Out Logic
             foreach ($invoice->items as $item) {
@@ -1044,7 +1099,7 @@ class SellInvoiceController extends Controller
     }
     public function edit($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets'])->findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems'])->findOrFail($id);
         $adminId = Auth::id(); // Use Auth::id() for consistency
 
         $customers = \App\Models\Customer::where('admin_id', $adminId)->get();

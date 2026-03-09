@@ -286,6 +286,7 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('/stock-report', [PageController::class, 'stock_report'])->name('stock-report');
     Route::get('/sales-report', [PageController::class, 'sales_report'])->name('sales-report');
     Route::get('/stock-summary', [PageController::class, 'stock_summary'])->name('stock-summary');
+    Route::get('/old-metal-received', [PageController::class, 'old_metal_received_report'])->name('old-metal-received');
 
     // Packet Master Routes
     Route::resource('packet-masters', \App\Http\Controllers\PacketMasterController::class);
