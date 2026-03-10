@@ -454,6 +454,105 @@ class AccountingService
         );
     }
 
+    /**
+     * Post a Customer Transaction (Advance or Udhaar Payment)
+     */
+    public function postCustomerTransaction($transaction)
+    {
+        $lines = [];
+        $narration = "";
+
+        $methodAccount = 'Cash in Hand';
+        if ($transaction->payment_method == 'bank') $methodAccount = 'Bank';
+        if ($transaction->payment_method == 'online') $methodAccount = 'UPI Clearing';
+
+        if ($transaction->transaction_type == 'advance') {
+            // Dr Cash/Bank, Cr Customer Advance (New Liability Account)
+            $narration = "Advance Received from {$transaction->customer->name}";
+            $lines[] = [
+                'account_id' => $this->getAccountId($methodAccount),
+                'debit' => $transaction->amount,
+                'credit' => 0,
+                'memo' => $narration
+            ];
+            $lines[] = [
+                'account_id' => $this->getOrCreateAccountId('Customer Advance', 'Liabilities'),
+                'debit' => 0,
+                'credit' => $transaction->amount,
+                'memo' => "Advance from {$transaction->customer->name} [Manual]"
+            ];
+        } elseif ($transaction->transaction_type == 'udhaar_payment') {
+            // Dr Cash/Bank, Cr Sundry Debtors
+            $narration = "Udhaar Payment from {$transaction->customer->name}";
+            $lines[] = [
+                'account_id' => $this->getAccountId($methodAccount),
+                'debit' => $transaction->amount,
+                'credit' => 0,
+                'memo' => $narration
+            ];
+            $lines[] = [
+                'account_id' => $this->getAccountId('Sundry Debtors'),
+                'debit' => 0,
+                'credit' => $transaction->amount,
+                'memo' => "Credit Collection from {$transaction->customer->name} [Manual]"
+            ];
+        } elseif ($transaction->transaction_type == 'refund') {
+            // Dr Customer Advance (or Sales Return), Cr Cash/Bank
+            $narration = "Refund to {$transaction->customer->name}";
+            $lines[] = [
+                'account_id' => $this->getOrCreateAccountId('Customer Advance', 'Liabilities'),
+                'debit' => $transaction->amount,
+                'credit' => 0,
+                'memo' => $narration
+            ];
+            $lines[] = [
+                'account_id' => $this->getAccountId($methodAccount),
+                'debit' => 0,
+                'credit' => $transaction->amount,
+                'memo' => "Refund issued [Manual]"
+            ];
+        } elseif ($transaction->transaction_type == 'udhaar_return') {
+            // Dr Sundry Debtors, Cr Cash/Bank
+            $narration = "Udhaar Return to {$transaction->customer->name}";
+            $lines[] = [
+                'account_id' => $this->getAccountId('Sundry Debtors'),
+                'debit' => $transaction->amount,
+                'credit' => 0,
+                'memo' => $narration
+            ];
+            $lines[] = [
+                'account_id' => $this->getAccountId($methodAccount),
+                'debit' => 0,
+                'credit' => $transaction->amount,
+                'memo' => "Udhaar Return issued [Manual]"
+            ];
+        }
+
+        return $this->postJournalEntry(
+            $transaction->transaction_date ?? now(),
+            $narration,
+            $lines,
+            get_class($transaction),
+            $transaction->id
+        );
+    }
+
+    protected function getOrCreateAccountId($name, $groupType)
+    {
+        $account = Account::where('name', $name)->first();
+        if (!$account) {
+            $group = \App\Models\AccountGroup::where('name', $groupType)->first();
+            $account = Account::create([
+                'name' => $name,
+                'account_group_id' => $group->id ?? 1,
+                'opening_balance' => 0,
+                'admin_id' => auth()->id() ?? 1,
+            ]);
+        }
+        return $account->id;
+    }
+
+
     public function deleteExpenseEntry($expense)
     {
         JournalEntry::where('reference_type', get_class($expense))

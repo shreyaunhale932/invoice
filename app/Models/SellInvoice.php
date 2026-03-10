@@ -158,4 +158,20 @@ class SellInvoice extends Model
     {
         return $this->belongsTo(Customer::class, 'user_id');
     }
+
+    public function paymentTransactions()
+    {
+        return $this->hasMany(PaymentTransaction::class, 'invoice_id');
+    }
+
+    public function getRefundedAmountAttribute()
+    {
+        return $this->paymentTransactions()->where('transaction_type', 'refund')->sum('amount');
+    }
+
+    public function getCanBeRefundedAttribute()
+    {
+        // For invoices, we can refund up to the amount received
+        return ($this->total_received - $this->refunded_amount) > 0;
+    }
 }

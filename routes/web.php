@@ -281,6 +281,18 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('/accounting/sync-all', [\App\Http\Controllers\AccountingController::class, 'syncAll'])->name('accounting.sync-all');
     Route::post('/accounting/post-invoice/{id}', [\App\Http\Controllers\AccountingController::class, 'postInvoice'])->name('accounting.post-invoice');
     Route::get('/reports/day-book', [DayBookController::class, 'index'])->name('day-book.index');
+    
+    // Customer Transaction Routes
+    Route::get('/customer/transactions', [\App\Http\Controllers\CustomerTransactionController::class, 'index'])->name('customer.transactions.index');
+    Route::get('/customer/transactions/add', [\App\Http\Controllers\CustomerTransactionController::class, 'create'])->name('customer.transactions.add');
+    Route::post('/customer/transactions/store', [\App\Http\Controllers\CustomerTransactionController::class, 'store'])->name('customer.transactions.store');
+    Route::get('/customer/transactions/{id}/edit', [\App\Http\Controllers\CustomerTransactionController::class, 'edit'])->name('customer.transactions.edit');
+    Route::put('/customer/transactions/{id}/update', [\App\Http\Controllers\CustomerTransactionController::class, 'update'])->name('customer.transactions.update');
+    Route::get('/customer/transactions/{id}/refund', [\App\Http\Controllers\CustomerTransactionController::class, 'refund'])->name('customer.transactions.refund');
+    Route::get('/customer/invoices/{id}/refund', [\App\Http\Controllers\CustomerTransactionController::class, 'refundInvoice'])->name('customer.invoices.refund');
+    Route::delete('/customer/transactions/{id}/delete', [\App\Http\Controllers\CustomerTransactionController::class, 'destroy'])->name('customer.transactions.destroy');
+    Route::get('/customer/reports/transactions', [\App\Http\Controllers\CustomerTransactionController::class, 'report'])->name('customer.reports.transactions');
+
     Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
 
     Route::get('/stock-report', [PageController::class, 'stock_report'])->name('stock-report');

@@ -250,9 +250,13 @@
                 <!-- Sales -->
                 <ul>
                     <li class="menu-title"><span>Sales</span></li>
+                    <li>
+                        <a class="{{ Request::is('customer/transactions*') ? 'active' : '' }}" href="{{ route('customer.transactions.index') }}"><i
+                                class="fe fe-repeat"></i> <span>Transactions</span></a>
+                    </li>
                     <li class="submenu">
-                        <a class="{{ Request::is('invoices') ? 'active' : '' }}" href="{{ url('invoices') }}"><i
-                                class="fe fe-file"></i> <span>Invoices</span></a>
+                        <a class="{{ Request::is('invoices*') ? 'active' : '' }}" href="#"><i
+                                class="fe fe-file"></i> <span>Invoices</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a class="{{ Request::is('invoices', 'invoices-paid', 'invoices-overdue', 'invoices-cancelled', 'invoices-recurring', 'invoices-unpaid', 'invoices-refunded', 'invoices-draft') ? 'active' : '' }}"
                                     href="{{ url('invoices') }}">Invoices List</a></li>
@@ -286,6 +290,8 @@
                                     href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
                                      <li><a class="{{ Request::is('accounting/profit-loss') ? 'active' : '' }}"
                                     href="{{ route('accounting.profit-loss') }}">Profit & Loss</a></li>
+                                    <li><a class="{{ Request::is('customer/reports/transactions') ? 'active' : '' }}"
+                                    href="{{ route('customer.reports.transactions') }}">Customer Transactions</a></li>
 
                         </ul>
                     </li>
