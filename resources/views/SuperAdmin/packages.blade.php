@@ -98,7 +98,7 @@
                                     <h4>Free</h4>
                                 </div>
                                 <span class="icon-frame d-flex align-items-center justify-content-center"><img
-                                        src="{{ asset('/public/assets/img/icons/price-01.svg') }}" alt="img"></span>
+                                        src="{{ asset('/assets/img/icons/price-01.svg') }}" alt="img"></span>
                             </div>
 
                         </div>
@@ -129,7 +129,7 @@
                                     <h4>Basic</h4>
                                 </div>
                                 <span class="icon-frame d-flex align-items-center justify-content-center"><img
-                                        src="{{ asset('/public/assets/img/icons/price-02.svg') }}" alt="img"></span>
+                                        src="{{ asset('/assets/img/icons/price-02.svg') }}" alt="img"></span>
                             </div>
 
                         </div>
@@ -160,7 +160,7 @@
                                     <h4>Premium</h4>
                                 </div>
                                 <span class="icon-frame d-flex align-items-center justify-content-center"><img
-                                        src="{{ asset('/public/assets/img/icons/price-03.svg') }}" alt="img"></span>
+                                        src="{{ asset('/assets/img/icons/price-03.svg') }}" alt="img"></span>
                             </div>
                         </div>
                         <span class="recommend-text">Recommended</span>
@@ -191,7 +191,7 @@
                                     <h4>Enterprise</h4>
                                 </div>
                                 <span class="icon-frame d-flex align-items-center justify-content-center"><img
-                                        src="{{ asset('/public/assets/img/icons/price-04.svg') }}" alt="img"></span>
+                                        src="{{ asset('/assets/img/icons/price-04.svg') }}" alt="img"></span>
                             </div>
 
                         </div>

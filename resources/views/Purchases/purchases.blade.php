@@ -51,7 +51,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/' . $purchase['Image']) }}"
+                                                                src="{{ asset('/assets/img/profiles/' . $purchase['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $purchase['Vendor'] }}
                                                             <span>{{ $purchase['Phone'] }}</span></a>

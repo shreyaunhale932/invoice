@@ -23,7 +23,7 @@
                         <div class="customer-details">
                             <div class="d-flex align-items-center">
                                 <span class="ticket-widget-img rounded-circle d-inline-flex">
-                                    <img src="{{ asset('/public/assets/img/icons/ticket.svg') }}" alt="ticket">
+                                    <img src="{{ asset('/assets/img/icons/ticket.svg') }}" alt="ticket">
                                 </span>
                                 <div class="ticket-details-cont">
                                     <p>TK-105</p>
@@ -55,7 +55,7 @@
                         <div class="customer-details">
                             <div class="d-flex align-items-center">
                                 <span class="customer-widget-img d-inline-flex">
-                                    <img class="rounded-circle" src="{{ asset('/public/assets/img/profiles/avatar-15.jpg') }}"
+                                    <img class="rounded-circle" src="{{ asset('/assets/img/profiles/avatar-15.jpg') }}"
                                         alt="avatar-img">
                                 </span>
                                 <div class="customer-details-cont">

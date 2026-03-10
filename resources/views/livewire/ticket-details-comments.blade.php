@@ -9,7 +9,7 @@
                 <div class="d-flex align-items-center">
                     <span class="comments-widget-img rounded-circle d-inline-flex">
                         <img class="avatar-img rounded-circle"
-                            src="{{ asset('/public/assets/img/profiles/avatar-01.jpg') }}" alt="User Image">
+                            src="{{ asset('/assets/img/profiles/avatar-01.jpg') }}" alt="User Image">
                     </span>
                     <div class="comments-details-cont">
                         <h6>Dennis</h6>
@@ -36,7 +36,7 @@
                 <div class="d-flex align-items-center">
                     <span class="comments-widget-img rounded-circle d-inline-flex">
                         <img class="avatar-img rounded-circle"
-                            src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}" alt="User Image">
+                            src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}" alt="User Image">
                     </span>
                     <div class="comments-details-cont">
                         <h6>Alexandr</h6>
@@ -63,7 +63,7 @@
                 <div class="d-flex align-items-center">
                     <span class="comments-widget-img rounded-circle d-inline-flex">
                         <img class="avatar-img rounded-circle"
-                            src="{{ asset('/public/assets/img/profiles/avatar-04.jpg') }}" alt="User Image">
+                            src="{{ asset('/assets/img/profiles/avatar-04.jpg') }}" alt="User Image">
                     </span>
                     <div class="comments-details-cont">
                         <h6>Doris Brown</h6>

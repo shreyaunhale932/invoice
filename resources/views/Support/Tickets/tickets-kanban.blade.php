@@ -86,7 +86,7 @@
                                                         <a href="#" data-bs-toggle="tooltip" data-bs-placement="top"
                                                             title="" data-bs-original-title="Member 1">
                                                             <img class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-01.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-01.jpg') }}"
                                                                 alt="img">
                                                         </a>
                                                     </li>
@@ -95,7 +95,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}"
                                                                 alt="img"></a>
                                                     </li>
                                                     <li class="more-set">
@@ -170,7 +170,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 1">
                                                             <img class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-01.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-01.jpg') }}"
                                                                 alt="img">
                                                         </a>
                                                     </li>
@@ -179,7 +179,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}"
                                                                 alt="img"></a>
                                                     </li>
                                                     <li class="more-set">
@@ -253,7 +253,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 1">
                                                             <img class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-01.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-01.jpg') }}"
                                                                 alt="img">
                                                         </a>
                                                     </li>
@@ -262,7 +262,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}"
                                                                 alt="img"></a>
                                                     </li>
                                                     <li class="more-set">
@@ -336,7 +336,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 1">
                                                             <img class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-01.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-01.jpg') }}"
                                                                 alt="img">
                                                         </a>
                                                     </li>
@@ -345,7 +345,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}"
                                                                 alt="img"></a>
                                                     </li>
                                                     <li class="more-set">
@@ -419,7 +419,7 @@
                                                             data-bs-placement="top" title=""
                                                             data-bs-original-title="Member 1">
                                                             <img class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/avatar-01.jpg') }}"
+                                                                src="{{ asset('/assets/img/profiles/avatar-01.jpg') }}"
                                                                 alt="img">
                                                         </a>
                                                     </li>

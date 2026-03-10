@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="two-factor icon">
-                                <h5><img src="{{ asset('/public/assets/img/two-factor-icon.svg') }}" alt="Icon"> Enabled,
+                                <h5><img src="{{ asset('/assets/img/two-factor-icon.svg') }}" alt="Icon"> Enabled,
                                     AUG 16, 2023</h5>
                             </div>
                         </div>

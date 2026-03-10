@@ -6,7 +6,7 @@
         <div class="chat-block d-flex">
             <div class="media-img-wrap">
                 <div class="avatar avatar-online">
-                    <img src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
+                    <img src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
                         class="avatar-img rounded-circle">
                 </div>
             </div>

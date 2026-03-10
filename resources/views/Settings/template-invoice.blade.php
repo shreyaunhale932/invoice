@@ -78,10 +78,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens active ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/invoice-one.svg') }}"
+                                                                src="{{ asset('/assets/img/invoice-one.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoice-one.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoice-one.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -101,10 +101,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/invoice - two.svg') }}"
+                                                                src="{{ asset('/assets/img/invoice - two.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoice-two.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoice-two.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -124,10 +124,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/invoice - three.svg') }}"
+                                                                src="{{ asset('/assets/img/invoice - three.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoice-three.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoice-three.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -147,10 +147,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/invoice-four.svg') }}"
+                                                                src="{{ asset('/assets/img/invoice-four.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoice-four.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoice-four.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -170,10 +170,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/invoice - five.svg') }}"
+                                                                src="{{ asset('/assets/img/invoice - five.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoice - five.svg') }}"
+                                                        <a href="{{ asset('/assets/img/invoice - five.svg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -206,10 +206,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens active">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/cash-receipt-1.svg') }}"
+                                                                src="{{ asset('/assets/img/cash-receipt-1.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoices/recepit-one.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoices/recepit-one.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -229,10 +229,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/cash-receipt-2.svg') }}"
+                                                                src="{{ asset('/assets/img/cash-receipt-2.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoices/recepit-two.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoices/recepit-two.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -252,10 +252,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/cash-receipt-3.svg') }}"
+                                                                src="{{ asset('/assets/img/cash-receipt-3.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoices/recepit-three.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoices/recepit-three.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>
@@ -275,10 +275,10 @@
                                                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                                                     <div class="blog-image">
                                                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                                                src="{{ asset('/public/assets/img/cash-receipt-4.svg') }}"
+                                                                src="{{ asset('/assets/img/cash-receipt-4.svg') }}"
                                                                 alt="Post Image">
                                                         </a>
-                                                        <a href="{{ asset('/public/assets/img/invoices/recepit-four.jpg') }}"
+                                                        <a href="{{ asset('/assets/img/invoices/recepit-four.jpg') }}"
                                                             class="preview-invoice image-popup"><i
                                                                 class="fa-regular fa-eye"></i></a>
                                                     </div>

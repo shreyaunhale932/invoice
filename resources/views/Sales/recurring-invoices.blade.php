@@ -71,7 +71,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/' . $invoice['Image']) }}"
+                                                                src="{{ asset('/assets/img/profiles/' . $invoice['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $invoice['InvoiceTo'] }}
                                                             <span>{{ $invoice['Email'] }}</span></a>

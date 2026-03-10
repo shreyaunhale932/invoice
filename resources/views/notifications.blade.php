@@ -24,7 +24,7 @@
                         <div>
                             <div class="avatar avatar-online">
                                 <a href="{{ url('settings') }}"><img
-                                        src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}" class="rounded-circle"
+                                        src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}" class="rounded-circle"
                                         alt="image"></a>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                         <div>
                             <div class="avatar avatar-online">
                                 <a href="{{ url('settings') }}"><img
-                                        src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}" class="rounded-circle"
+                                        src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}" class="rounded-circle"
                                         alt="image"></a>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div>
                             <div class="avatar avatar-online">
                                 <a href="{{ url('settings') }}"><img
-                                        src="{{ asset('/public/assets/img/profiles/avatar-13.jpg') }}" class="rounded-circle"
+                                        src="{{ asset('/assets/img/profiles/avatar-13.jpg') }}" class="rounded-circle"
                                         alt="image"></a>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                         <div>
                             <div class="avatar avatar-online">
                                 <a href="{{ url('settings') }}"><img
-                                        src="{{ asset('/public/assets/img/profiles/avatar-05.jpg') }}" class="rounded-circle"
+                                        src="{{ asset('/assets/img/profiles/avatar-05.jpg') }}" class="rounded-circle"
                                         alt="image"></a>
                             </div>
                         </div>

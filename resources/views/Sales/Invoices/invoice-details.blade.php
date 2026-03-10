@@ -27,9 +27,9 @@
                                                 <div class="col-md-6">
                                                     <div class="invoice-logo">
                                                         <img class="light-color-logo"
-                                                            src="{{ asset('/public/assets/img/logo.png') }}"
+                                                            src="{{ asset('/assets/img/logo.png') }}"
                                                             alt="logo">
-                                                        <img src="{{ asset('/public/assets/img/logo-full-white.png') }}"
+                                                        <img src="{{ asset('/assets/img/logo-full-white.png') }}"
                                                             class="dark-white-logo" alt="logo">
                                                     </div>
                                                 </div>
@@ -223,9 +223,9 @@
                                         <div class="invoice-sign text-end">
                                             <span class="d-block">Authorised Sign</span>
                                             <img class="img-fluid d-inline-block light-color-logo"
-                                                src="{{ asset('/public/assets/img/signature.png') }}" alt="sign">
+                                                src="{{ asset('/assets/img/signature.png') }}" alt="sign">
                                             <img class="img-fluid d-inline-block dark-white-logo"
-                                                src="{{ asset('/public/assets/img/signature-white.png') }}"
+                                                src="{{ asset('/assets/img/signature-white.png') }}"
                                                 alt="sign">
                                         </div>
                                         <!-- /Terms & Conditions -->

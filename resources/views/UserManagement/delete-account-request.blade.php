@@ -44,7 +44,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ asset('/public/assets/img/profiles/' . $account['Image']) }}"
+                                                                src="{{ asset('/assets/img/profiles/' . $account['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $account['UserName'] }}
                                                             <span>{{ $account['Email'] }}</span></a>

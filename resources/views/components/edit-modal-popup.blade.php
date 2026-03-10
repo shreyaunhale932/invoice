@@ -134,7 +134,7 @@
                             <div class="profile-picture">
                                 <div class="upload-profile">
                                     <div class="profile-img company-profile-img">
-                                        <img id="company-img-2" class="img-fluid me-0" src="{{asset('/public/assets/img/icons/price-02.svg')}}" alt="profile-img">
+                                        <img id="company-img-2" class="img-fluid me-0" src="{{asset('/assets/img/icons/price-02.svg')}}" alt="profile-img">
                                     </div>
                                     <div class="add-profile">
                                         <h5>Upload a New Photo</h5>
@@ -918,7 +918,7 @@
                                 <label>&nbsp;</label>
                                 <div class="signature-preview">
                                     <a href="javascript:void(0);"><i class="fe fe-trash-2"></i></a>
-                                    <img src="{{ asset('/public/assets/img/edit-signature.png') }}" class="img-fluid"
+                                    <img src="{{ asset('/assets/img/edit-signature.png') }}" class="img-fluid"
                                         alt="img">
                                 </div>
                             </div>
@@ -1108,7 +1108,7 @@
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -1195,7 +1195,7 @@
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -2099,7 +2099,7 @@
                                                     <label>Attachment</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -2424,7 +2424,7 @@
                                                 <div class="upload-profile">
                                                     <div class="profile-img">
                                                         <img id="blah1" class="avatar"
-                                                            src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}"
+                                                            src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}"
                                                             alt="profile-img">
                                                     </div>
                                                     <div class="add-profile">
@@ -2635,7 +2635,7 @@
                                             <div class="upload-profile">
                                                 <div class="profile-img">
                                                     <img id="blah2" class="avatar"
-                                                        src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}"
+                                                        src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}"
                                                         alt="profile-img">
                                                 </div>
                                                 <div class="add-profile">

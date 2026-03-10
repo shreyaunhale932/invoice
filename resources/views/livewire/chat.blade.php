@@ -19,7 +19,7 @@
             </li>
             <li class="chat-block d-flex received">
                 <div class="avatar">
-                    <img src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
+                    <img src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
                         class="avatar-img rounded-circle">
                 </div>
                 <div class="media-body">
@@ -52,14 +52,14 @@
                         <div>
                             <div class="chat-msg-attachments">
                                 <div class="chat-attachment">
-                                    <img src="{{ asset('/public/assets/img/img-01.jpg') }}" alt="profile-img">
+                                    <img src="{{ asset('/assets/img/img-01.jpg') }}" alt="profile-img">
                                     <div class="chat-attach-caption">placeholder.jpg</div>
                                     <a href="" class="chat-attach-download">
                                         <i class="fas fa-download"></i>
                                     </a>
                                 </div>
                                 <div class="chat-attachment">
-                                    <img src="{{ asset('/public/assets/img/img-01.jpg') }}" alt="profile-img">
+                                    <img src="{{ asset('/assets/img/img-01.jpg') }}" alt="profile-img">
                                     <div class="chat-attach-caption">placeholder.jpg</div>
                                     <a href="" class="chat-attach-download">
                                         <i class="fas fa-download"></i>
@@ -107,7 +107,7 @@
                         <div>
                             <div class="chat-msg-attachments">
                                 <div class="chat-attachment">
-                                    <img src="{{ asset('/public/assets/img/img-01.jpg') }}" alt="profile-img">
+                                    <img src="{{ asset('/assets/img/img-01.jpg') }}" alt="profile-img">
                                     <div class="chat-attach-caption">placeholder.jpg</div>
                                     <a href="" class="chat-attach-download">
                                         <i class="fas fa-download"></i>
@@ -127,7 +127,7 @@
             </li>
             <li class="chat-block d-flex received">
                 <div class="avatar">
-                    <img src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
+                    <img src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
                         class="avatar-img rounded-circle">
                 </div>
                 <div class="media-body">
@@ -150,7 +150,7 @@
             <li class="chat-date">Today</li>
             <li class="chat-block d-flex received">
                 <div class="avatar">
-                    <img src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
+                    <img src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
                         class="avatar-img rounded-circle">
                 </div>
                 <div class="media-body">
@@ -197,7 +197,7 @@
             </li>
             <li class="chat-block d-flex received">
                 <div class="avatar">
-                    <img src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
+                    <img src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}" alt="User Image"
                         class="avatar-img rounded-circle">
                 </div>
                 <div class="media-body">

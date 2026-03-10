@@ -21,7 +21,7 @@
                                 <div class="d-flex align-items-center">
                                     <span class="customer-widget-img d-inline-flex">
                                         <img class="rounded-circle"
-                                            src="{{ asset('/public/assets/img/profiles/avatar-14.jpg') }}" alt="profile-img">
+                                            src="{{ asset('/assets/img/profiles/avatar-14.jpg') }}" alt="profile-img">
                                     </span>
                                     <div class="customer-details-cont">
                                         <h6>John Smith1</h6>

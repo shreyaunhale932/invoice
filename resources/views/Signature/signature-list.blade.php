@@ -42,10 +42,10 @@
                                                     <div class="table-avatar">
                                                         <img class="img-fluid light-color-logo" width="80"
                                                             height="30"
-                                                            src="{{ asset('/public/assets/img/' . $signature['Signature']) }}"
+                                                            src="{{ asset('/assets/img/' . $signature['Signature']) }}"
                                                             alt="User Image">
                                                         <img class="img-fluid dark-white-logo" width="80" height="30"
-                                                            src="{{ asset('/public/assets/img/' . $signature['Image']) }}"
+                                                            src="{{ asset('/assets/img/' . $signature['Image']) }}"
                                                             alt="User Image">
                                                     </div>
                                                 </td>

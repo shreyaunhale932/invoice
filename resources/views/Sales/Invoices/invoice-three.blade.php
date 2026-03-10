@@ -33,8 +33,8 @@
                 </div>
 
                 <div class="inv-header-right">
-                    <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo2.png') }}">
-                    <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo2-white.png') }}">
+                    <img class="logo-lightmode" src="{{ asset('/assets/img/logo2.png') }}">
+                    <img class="logo-darkmode" src="{{ asset('/assets/img/logo2-white.png') }}">
                 </div>
             </div>
 

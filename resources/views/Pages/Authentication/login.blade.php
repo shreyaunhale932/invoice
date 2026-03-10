@@ -4,8 +4,8 @@
     <div class="login-wrapper">
         <div class="container">
              <div class="text-center">
-             <img class="img-fluid logo-dark mb-2 logo-color" src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
-             <img class="img-fluid logo-light mb-2" src="{{ asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
+             <img class="img-fluid logo-dark mb-2 logo-color" src="{{ asset('/assets/img/logo2.png') }}" alt="Logo">
+             <img class="img-fluid logo-light mb-2" src="{{ asset('/assets/img/logo2-white.png') }}" alt="Logo">
              </div>
 
             <div class="loginbox">

@@ -28,7 +28,7 @@
                             <div class="card-body">
                                 <div class="plan-header">
                                     <span class="plan-widget-icon">
-                                        <img src="{{ asset('/public/assets/img/icons/plan-price-01.svg') }}" alt="plan-price">
+                                        <img src="{{ asset('/assets/img/icons/plan-price-01.svg') }}" alt="plan-price">
                                     </span>
                                     <div class="plan-title">
                                         <h6>For individuals</h6>
@@ -76,7 +76,7 @@
                                 <div class="d-flex">
                                     <div class="plan-header">
                                         <span class="plan-widget-icon">
-                                            <img src="{{ asset('/public/assets/img/icons/plan-price-02.svg') }}"
+                                            <img src="{{ asset('/assets/img/icons/plan-price-02.svg') }}"
                                                 alt="plan-price">
                                         </span>
                                         <div class="plan-title">
@@ -131,7 +131,7 @@
                             <div class="card-body">
                                 <div class="plan-header">
                                     <span class="plan-widget-icon">
-                                        <img src="{{ asset('/public/assets/img/icons/plan-price-03.svg') }}" alt="plan-price">
+                                        <img src="{{ asset('/assets/img/icons/plan-price-03.svg') }}" alt="plan-price">
                                     </span>
                                     <div class="plan-title">
                                         <h6>For individuals</h6>

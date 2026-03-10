@@ -22,7 +22,7 @@
                             <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-betweens ">
                                 <div class="blog-image">
                                     <a href="{{ url('invoice-one-a') }}"><img class="img-fluid"
-                                            src="{{ asset('/public/assets/img/invoice-one.svg') }}" alt="Post Image">
+                                            src="{{ asset('/assets/img/invoice-one.svg') }}" alt="Post Image">
                                     </a>
                                 </div>
                                 <div class="{{ url('invoice-content-title') }}">
@@ -38,7 +38,7 @@
 
                                 <div class="blog-image">
                                     <a href="{{ url('invoice-two') }}"><img class="img-fluid"
-                                            src="{{ asset('/public/assets/img/invoice-two.jpg') }}" alt="Post Image">
+                                            src="{{ asset('/assets/img/invoice-two.jpg') }}" alt="Post Image">
                                     </a>
                                 </div>
                                 <div class="invoice-content-title">
@@ -55,7 +55,7 @@
                             <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-between ">
                                 <div class="blog-image">
                                     <a href="{{ url('invoice-three') }}"><img class="img-fluid"
-                                            src="{{ asset('/public/assets/img/invoice - three.svg') }}" alt="Post Image">
+                                            src="{{ asset('/assets/img/invoice - three.svg') }}" alt="Post Image">
                                     </a>
                                 </div>
                                 <div class="invoice-content-title">
@@ -71,7 +71,7 @@
                             <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-between">
                                 <div class="blog-image">
                                     <a href="{{ url('invoice-four-a') }}"><img class="img-fluid"
-                                            src="{{ asset('/public/assets/img/invoice-four.svg') }}" alt="Post Image">
+                                            src="{{ asset('/assets/img/invoice-four.svg') }}" alt="Post Image">
                                     </a>
                                 </div>
                                 <div class="invoice-content-title">
@@ -86,7 +86,7 @@
                             <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-between">
                                 <div class="blog-image">
                                     <a href="{{ url('invoice-five') }}"><img class="img-fluid"
-                                            src="{{ asset('/public/assets/img/invoice - five.svg') }}" alt="Post Image">
+                                            src="{{ asset('/assets/img/invoice - five.svg') }}" alt="Post Image">
                                     </a>
                                 </div>
                                 <div class="invoice-content-title">
@@ -110,7 +110,7 @@
                                 <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-between">
                                     <div class="blog-image">
                                         <a href="{{ url('cashreceipt-1') }}"><img class="img-fluid"
-                                                src="{{ asset('/public/assets/img/cash-receipt-1.svg') }}" alt="Post Image">
+                                                src="{{ asset('/assets/img/cash-receipt-1.svg') }}" alt="Post Image">
                                         </a>
                                     </div>
                                     <div class="invoice-content-title">
@@ -126,7 +126,7 @@
                                 <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-between ">
                                     <div class="blog-image">
                                         <a href="{{ url('cashreceipt-2') }}"><img class="img-fluid"
-                                                src="{{ asset('/public/assets/img/cash-receipt-2.svg') }}" alt="Post Image">
+                                                src="{{ asset('/assets/img/cash-receipt-2.svg') }}" alt="Post Image">
                                         </a>
                                     </div>
                                     <div class="invoice-content-title">
@@ -142,7 +142,7 @@
                                 <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-between ">
                                     <div class="blog-image">
                                         <a href="{{ url('cashreceipt-3') }}"><img class="img-fluid"
-                                                src="{{ asset('/public/assets/img/cash-receipt-3.svg') }}" alt="Post Image">
+                                                src="{{ asset('/assets/img/cash-receipt-3.svg') }}" alt="Post Image">
                                         </a>
                                     </div>
                                     <div class="invoice-content-title">
@@ -158,7 +158,7 @@
                                 <div class="blog grid-blog flex-fill  d-flex flex-wrap align-content-between ">
                                     <div class="blog-image">
                                         <a href="{{ url('cashreceipt-4') }}"><img class="img-fluid"
-                                                src="{{ asset('/public/assets/img/cash-receipt-4.svg') }}" alt="Post Image">
+                                                src="{{ asset('/assets/img/cash-receipt-4.svg') }}" alt="Post Image">
                                         </a>
                                     </div>
                                     <div class="invoice-content-title">

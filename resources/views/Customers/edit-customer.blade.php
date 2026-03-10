@@ -24,7 +24,7 @@
                                         <div class="upload-profile">
                                             <div class="profile-img">
                                                 <img id="blah" class="avatar"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-14.jpg') }}"
+                                                    src="{{ asset('/assets/img/profiles/avatar-14.jpg') }}"
                                                     alt="profile-img">
                                             </div>
                                             <div class="add-profile">

@@ -37,7 +37,7 @@
                                             <div class="d-sm-flex">
                                                 <span
                                                     class="icon-frame d-flex align-items-center justify-content-center"><img
-                                                        src="{{ asset('/public/assets/img/icons/basic.svg') }}"
+                                                        src="{{ asset('/assets/img/icons/basic.svg') }}"
                                                         alt="img"></span>
                                                 <div class="">
                                                     <h5><a href="javascript:void(0);">Basic</a></h5>
@@ -59,7 +59,7 @@
                                             <div class="d-md-flex">
                                                 <span
                                                     class="icon-frame d-flex align-items-center justify-content-center"><img
-                                                        src="{{ asset('/public/assets/img/icons/enterprise.svg') }}"
+                                                        src="{{ asset('/assets/img/icons/enterprise.svg') }}"
                                                         alt="img"></span>
                                                 <div class="">
                                                     <h5><a href="javascript:void(0);">ENTERPRISES</a></h5>
@@ -80,7 +80,7 @@
                                             <div class="d-md-flex">
                                                 <span
                                                     class="icon-frame d-flex align-items-center justify-content-center"><img
-                                                        src="{{ asset('/public/assets/img/icons/basic.svg') }}"
+                                                        src="{{ asset('/assets/img/icons/basic.svg') }}"
                                                         alt="img"></span>
                                                 <div class="">
                                                     <h5><a href="javascript:void(0);">Basic</a></h5>
@@ -102,7 +102,7 @@
                                             <div class="d-md-flex">
                                                 <span
                                                     class="icon-frame d-flex align-items-center justify-content-center"><img
-                                                        src="{{ asset('/public/assets/img/icons/enterprise.svg') }}"
+                                                        src="{{ asset('/assets/img/icons/enterprise.svg') }}"
                                                         alt="img"></span>
                                                 <div class="">
                                                     <h5><a href="javascript:void(0);">ENTERPRISES</a></h5>

@@ -23,7 +23,7 @@
                                 <a href="{{ url('packages') }}" class="btn view-package-btn">All Packages</a>
                             </div>
                             <div class="dash-img">
-                                <img src="{{ asset('/public/assets/img/dashboard-card-img.png') }}" alt="">
+                                <img src="{{ asset('/assets/img/dashboard-card-img.png') }}" alt="">
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                             <div class="col-lg-3 col-sm-6 d-flex">
                                 <div class="company-detail-card w-100">
                                     <div class="company-icon">
-                                        <img src="{{ asset('/public/assets/img/icons/dash-card-icon-01.svg') }}"
+                                        <img src="{{ asset('/assets/img/icons/dash-card-icon-01.svg') }}"
                                             alt="">
                                     </div>
                                     <div class="dash-comapny-info">
@@ -45,7 +45,7 @@
                             <div class="col-lg-3 col-sm-6 d-flex">
                                 <div class="company-detail-card bg-info-light w-100">
                                     <div class="company-icon">
-                                        <img src="{{ asset('/public/assets/img/icons/dash-card-icon-02.svg') }}"
+                                        <img src="{{ asset('/assets/img/icons/dash-card-icon-02.svg') }}"
                                             alt="">
                                     </div>
                                     <div class="dash-comapny-info">
@@ -58,7 +58,7 @@
                             <div class="col-lg-3 col-sm-6 d-flex">
                                 <div class="company-detail-card bg-pink-light w-100">
                                     <div class="company-icon">
-                                        <img src="{{ asset('/public/assets/img/icons/dash-card-icon-03.svg') }}"
+                                        <img src="{{ asset('/assets/img/icons/dash-card-icon-03.svg') }}"
                                             alt="">
                                     </div>
                                     <div class="dash-comapny-info">
@@ -71,7 +71,7 @@
                             <div class="col-lg-3 col-sm-6 d-flex">
                                 <div class="company-detail-card bg-success-light w-100">
                                     <div class="company-icon">
-                                        <img src="{{ asset('/public/assets/img/icons/dash-card-icon-04.svg') }}"
+                                        <img src="{{ asset('/assets/img/icons/dash-card-icon-04.svg') }}"
                                             alt="">
                                     </div>
                                     <div class="dash-comapny-info">
@@ -107,7 +107,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-01.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-01.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Hermann Groups <span
                                                                 class="plane-type">Basic (Monthly)</span></a>
@@ -124,7 +124,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-02.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-02.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Skiles LLC <span
                                                                 class="plane-type">Enterprise (Yearly)</span></a>
@@ -141,7 +141,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-03.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-03.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Kerluke Group <span
                                                                 class="plane-type">Advanced (Monthly)</span></a>
@@ -158,7 +158,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-04.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-04.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Schowalter Group <span
                                                                 class="plane-type">Basic (Yearly)</span></a>
@@ -175,7 +175,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-05.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-05.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Accentric Global <span
                                                                 class="plane-type">Basic (Monthly)</span></a>
@@ -254,7 +254,7 @@
                                 <div class="dash-plane-list">
                                     <div class="plane-info">
                                         <span class="icon-plane"><img
-                                                src="{{ asset('/public/assets/img/icons/dashboard-plane-icon.svg') }}"
+                                                src="{{ asset('/assets/img/icons/dashboard-plane-icon.svg') }}"
                                                 alt=""></span>
                                         <div class="plane-name">Enterprise <span>(Monthly)</span>
                                             <h6>Total Order : 201</h6>
@@ -294,7 +294,7 @@
                                 <div class="dash-plane-list">
                                     <div class="plane-info">
                                         <span class="icon-company"><img
-                                                src="{{ asset('/public/assets/img/companies/company-01.svg') }}"
+                                                src="{{ asset('/assets/img/companies/company-01.svg') }}"
                                                 alt=""></span>
                                         <span class="name-company">Hermann Groups</span>
                                     </div>
@@ -332,7 +332,7 @@
                                 <div class="dash-plane-list">
                                     <div class="plane-info">
                                         <span class="icon-company"><img
-                                                src="{{ asset('/public/assets/img/companies/company-04.svg') }}"
+                                                src="{{ asset('/assets/img/companies/company-04.svg') }}"
                                                 alt=""></span>
                                         <div class="plane-name"><span>Schowalter Group</span>
                                             <h6>sk.example.com</h6>
@@ -370,7 +370,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-01.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-01.svg') }}"
                                                                 alt="Company Image">
                                                         </a>
                                                         <a href="{{ url('companies') }}">Hermann Groups</a>
@@ -392,7 +392,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-02.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-02.svg') }}"
                                                                 alt="Company Image">
                                                         </a>
                                                         <a href="{{ url('companies') }}">Skiles LLC</a>
@@ -413,7 +413,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-03.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-03.svg') }}"
                                                                 alt="Company Image">
                                                         </a>
                                                         <a href="{{ url('companies') }}">Kerluke Group</a>
@@ -435,7 +435,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-04.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-04.svg') }}"
                                                                 alt="Company Image">
                                                         </a>
                                                         <a href="{{ url('companies') }}">Schowalter Group</a>
@@ -457,7 +457,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-05.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-05.svg') }}"
                                                                 alt="Company Image">
                                                         </a>
                                                         <a href="{{ url('companies') }}">Accentric Global</a>
@@ -514,7 +514,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-01.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-01.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Hermann Groups <span
                                                                 class="plane-type">Basic (Monthly)</span></a>
@@ -529,7 +529,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-02.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-02.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Skiles LLC <span
                                                                 class="plane-type">Enterprise (Yearly)</span></a>
@@ -544,7 +544,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-03.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-03.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Kerluke Group <span
                                                                 class="plane-type">Advanced (Monthly)</span></a>
@@ -559,7 +559,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-04.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-04.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Schowalter Group <span
                                                                 class="plane-type">Basic (Yearly)</span></a>
@@ -574,7 +574,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-05.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-05.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Accentric Global <span
                                                                 class="plane-type">Basic (Monthly)</span></a>
@@ -638,7 +638,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-01.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-01.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Hermann Groups <span
                                                                 class="plane-type">Basic (Monthly)</span></a>
@@ -659,7 +659,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-02.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-02.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Skiles LLC <span
                                                                 class="plane-type">Enterprise (Yearly)</span></a>
@@ -680,7 +680,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-03.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-03.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Kerluke Group <span
                                                                 class="plane-type">Advanced (Monthly)</span></a>
@@ -701,7 +701,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-04.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-04.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Schowalter Group <span
                                                                 class="plane-type">Basic (Yearly)</span></a>
@@ -722,7 +722,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-05.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-05.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="{{ url('companies') }}">Accentric Global <span
                                                                 class="plane-type">Basic (Monthly)</span></a>

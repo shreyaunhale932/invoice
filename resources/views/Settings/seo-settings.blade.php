@@ -54,7 +54,7 @@
                                             <div class="upload-profile">
 
                                                 <div class="profile-img company-profile-img">
-                                                    <img id="company-img" class="img-fluid me-0" src="{{asset('/public/assets/img/companies/company-add-img.svg')}}" alt="profile-img">
+                                                    <img id="company-img" class="img-fluid me-0" src="{{asset('/assets/img/companies/company-add-img.svg')}}" alt="profile-img">
                                                 </div>
                                                 <div class="add-profile">
                                                     <h5>Upload a New Photo</h5>

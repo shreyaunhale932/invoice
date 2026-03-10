@@ -24,7 +24,7 @@
                     ]))
                     <li>
                         <div class="short-filter">
-                            <img class="me-2" src="{{ asset('/public/assets/img/icons/sort.svg') }}" alt="Sort by select">
+                            <img class="me-2" src="{{ asset('/assets/img/icons/sort.svg') }}" alt="Sort by select">
                             <div class="sort-by sort-by-ticket">
                                 <select class="sort select">
                                     <option>Sort by: Date</option>
@@ -38,7 +38,7 @@
                     @if (Route::is(['tickets-kanban']))
                     <li>
                         <div class="short-filter">
-                            <img class="me-2" src="{{ asset('/public/assets/img/icons/filter-icon-2.svg') }}"
+                            <img class="me-2" src="{{ asset('/assets/img/icons/filter-icon-2.svg') }}"
                                 alt="Sort by select">
                             <div class="sort-by sort-by-ticket">
                                 <select class="sort select">
@@ -75,7 +75,7 @@
                     <li>
                         <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Filter"><span class="me-2"><img
-                                    src="{{ asset('/public/assets/img/icons/filter-icon.svg') }}"
+                                    src="{{ asset('/assets/img/icons/filter-icon.svg') }}"
                                     alt="filter"></span>Filter
                         </a>
                     </li>
@@ -84,7 +84,7 @@
                     <li>
                         <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" data-bs-original-title="filter"><span
-                                class="me-2"><img src="{{ asset('/public/assets/img/icons/filter-icon.svg')}}"
+                                class="me-2"><img src="{{ asset('/assets/img/icons/filter-icon.svg')}}"
                                     alt="filter"></span>Filter </a>
                     </li>
                     @endif
@@ -97,7 +97,7 @@
                     <li>
                         <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Filter"><span class="me-2 filter-img"><img
-                                    src="{{ asset('/public/assets/img/icons/filter-icon.svg') }}" alt="filter"
+                                    src="{{ asset('/assets/img/icons/filter-icon.svg') }}" alt="filter"
                                     class="filter-img-top"></span>Filter </a>
                     </li>
                     <li class="daterangepicker-wrap cal-icon cal-icon-info">
@@ -701,7 +701,7 @@
                     <li>
                         <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Filter"><span class="me-2"><img
-                                    src="{{ asset('/public/assets/img/icons/filter-icon.svg')}}" alt="filter"></span>Filter
+                                    src="{{ asset('/assets/img/icons/filter-icon.svg')}}" alt="filter"></span>Filter
                         </a>
                     </li>
                     <li>
@@ -772,7 +772,7 @@
                     <li>
                         <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Filter"><span class="me-2"><img
-                                    src="{{asset('/public/assets/img/icons/filter-icon.svg')}}" alt="filter"></span>Filter
+                                    src="{{asset('/assets/img/icons/filter-icon.svg')}}" alt="filter"></span>Filter
                         </a>
                     </li>
 

@@ -18,7 +18,7 @@
             <a href="javascript:void(0);" class="chat-block d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-away">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-03.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-03.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -36,7 +36,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat active d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-04.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-04.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -53,7 +53,7 @@
             <a href="javascript:void(0);" class="chat-block d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-away">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-05.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-05.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -71,7 +71,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-06.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-06.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -88,7 +88,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-offline">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-07.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-07.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -105,7 +105,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-08.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-08.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -122,7 +122,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-away">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-09.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-09.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -139,7 +139,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-offline">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -156,7 +156,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-11.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-11.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>
@@ -173,7 +173,7 @@
             <a href="javascript:void(0);" class="chat-block read-chat d-flex">
                 <div class="media-img-wrap">
                     <div class="avatar avatar-away">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-12.jpg') }}" alt="User Image"
+                        <img src="{{ asset('/assets/img/profiles/avatar-12.jpg') }}" alt="User Image"
                             class="avatar-img rounded-circle">
                     </div>
                 </div>

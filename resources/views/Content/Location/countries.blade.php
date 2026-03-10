@@ -47,7 +47,7 @@
                                                 <td>
                                                     <h2>
                                                         <img class="avatar-img rounded me-2" width="30" height="30"
-                                                            src="{{ asset('/public/assets/img/flags/' . $country['Image']) }}"
+                                                            src="{{ asset('/assets/img/flags/' . $country['Image']) }}"
                                                             alt="User Image">
                                                     </h2>{{ $country['CountryName'] }}
                                                 </td>

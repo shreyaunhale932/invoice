@@ -13,13 +13,13 @@
                 <p>Effortless Invoice Management for Your Business</p>
             </div>
             <div class="authen-img">
-                <img src="{{asset('/public/assets/img/saas-login-img.png')}}" alt="">
+                <img src="{{asset('/assets/img/saas-login-img.png')}}" alt="">
             </div>
             <div class="login-bg-img">
-                <img src="{{asset('/public/assets/img/saas-login-bg-01.png')}}" class="img-fluid vector-bg-one" alt="Img">
-                <img src="{{asset('/public/assets/img/saas-login-bg-02.png')}}" class="img-fluid vector-bg-two" alt="Img">
-                <img src="{{asset('/public/assets/img/saas-login-bg-03.png')}}" class="img-fluid vector-bg-three" alt="Img">
-                <img src="{{asset('/public/assets/img/saas-login-bg-04.png')}}" class="img-fluid vector-bg-four" alt="Img">
+                <img src="{{asset('/assets/img/saas-login-bg-01.png')}}" class="img-fluid vector-bg-one" alt="Img">
+                <img src="{{asset('/assets/img/saas-login-bg-02.png')}}" class="img-fluid vector-bg-two" alt="Img">
+                <img src="{{asset('/assets/img/saas-login-bg-03.png')}}" class="img-fluid vector-bg-three" alt="Img">
+                <img src="{{asset('/assets/img/saas-login-bg-04.png')}}" class="img-fluid vector-bg-four" alt="Img">
            </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
                 <form action="{{url('/')}}">
                     <div class="login-userset">
                         <div class="login-logo">
-                           <img src="{{asset('/public/assets/img/saas-login-logo.svg')}}" alt="img">
+                           <img src="{{asset('/assets/img/saas-login-logo.svg')}}" alt="img">
                        </div>
                        <div class="login-card">
                            <div class="login-heading">

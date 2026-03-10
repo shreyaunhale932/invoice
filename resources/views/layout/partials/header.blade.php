@@ -9,25 +9,25 @@
         @if (!Route::is(['index-two']))
         <a href="{{ url('/') }}"
             class="d-inline-flex d-sm-inline-flex align-items-center d-md-inline-flex d-lg-none align-items-center device-logo">
-            <img src="{{ asset('/public/assets/img/logo.png') }}" class="img-fluid logo2" alt="Logo">
+            <img src="{{ asset('/assets/img/logo.png') }}" class="img-fluid logo2" alt="Logo">
         </a>
         <div class="main-logo d-inline float-start d-lg-flex align-items-center d-none d-sm-none d-md-none">
             <div class="logo-white">
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('/public/assets/img/logo-full-white.png') }}" class="img-fluid logo-blue"
+                    <img src="{{ asset('/assets/img/logo-full-white.png') }}" class="img-fluid logo-blue"
                         alt="Logo">
                 </a>
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('/public/assets/img/logo-small-white.png') }}" class="img-fluid logo-small"
+                    <img src="{{ asset('/assets/img/logo-small-white.png') }}" class="img-fluid logo-small"
                         alt="Logo">
                 </a>
             </div>
             <div class="logo-color">
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('/public/assets/img/logo.png') }}" class="img-fluid logo-blue" alt="Logo">
+                    <img src="{{ asset('/assets/img/logo.png') }}" class="img-fluid logo-blue" alt="Logo">
                 </a>
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('/public/assets/img/logo-small.png') }}" class="img-fluid logo-small"
+                    <img src="{{ asset('/assets/img/logo-small.png') }}" class="img-fluid logo-small"
                         alt="Logo">
                 </a>
             </div>
@@ -52,7 +52,7 @@
                class="form-control"
                placeholder="Search here">
         <button class="btn" type="button">
-            <img src="{{ asset('/public/assets/img/icons/search.svg') }}" alt="img">
+            <img src="{{ asset('/assets/img/icons/search.svg') }}" alt="img">
         </button>
     </form>
 </div>
@@ -85,20 +85,20 @@ $('#globalSearch').on('keyup', function () {
             <!-- Flag -->
             <li class="nav-item dropdown has-arrow flag-nav">
                 {{-- <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                    <img src="{{ asset('/public/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
+                    <img src="{{ asset('/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
                 </a> --}}
                 <!-- <div class="dropdown-menu dropdown-menu-end">
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/us.png') }}" alt="flag"><span>English</span>
+                        <img src="{{ asset('/assets/img/flags/us.png') }}" alt="flag"><span>English</span>
                     </a>
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/fr.png') }}" alt="flag"><span>French</span>
+                        <img src="{{ asset('/assets/img/flags/fr.png') }}" alt="flag"><span>French</span>
                     </a>
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/es.png') }}" alt="flag"><span>Spanish</span>
+                        <img src="{{ asset('/assets/img/flags/es.png') }}" alt="flag"><span>Spanish</span>
                     </a>
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/de.png') }}" alt="flag"><span>German</span>
+                        <img src="{{ asset('/assets/img/flags/de.png') }}" alt="flag"><span>German</span>
                     </a>
                 </div> -->
             </li>
@@ -121,7 +121,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md active">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">Lex Murphy</span> requested
@@ -141,7 +141,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md active">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">Ray Arnold</span> left 6
@@ -158,7 +158,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-13.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-13.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">Dennis Nedry</span> commented
@@ -179,7 +179,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-05.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-05.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">John Hammond</span> created
@@ -261,7 +261,7 @@ $('#globalSearch').on('keyup', function () {
                         'seo-settings',
                         'saas-settings',
                         ]))
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-07.jpg') }}" alt="img"
+                        <img src="{{ asset('/assets/img/profiles/avatar-07.jpg') }}" alt="img"
                             class="profilesidebar">
                         @endif
                         @if (Route::is([
@@ -284,7 +284,7 @@ $('#globalSearch').on('keyup', function () {
                         'seo-settings',
                         'saas-settings',
                         ]))
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-20.jpg') }}" alt="img"
+                        <img src="{{ asset('/assets/img/profiles/avatar-20.jpg') }}" alt="img"
                             class="profilesidebar">
                         @endif
                         <span class="animate-circle"></span>
@@ -344,13 +344,13 @@ $('#globalSearch').on('keyup', function () {
             <!-- Logo -->
             <div class="header-left header-left-five">
                 <a href="{{ url('/') }}" class="logo">
-                    <img src="{{ asset('/public/assets/img/logo.png') }}" alt="Logo">
+                    <img src="{{ asset('/assets/img/logo.png') }}" alt="Logo">
                 </a>
                 <a href="{{ url('/') }}" class="white-logo">
-                    <img src="{{ asset('/public/assets/img/logo-white.png') }}" alt="Logo">
+                    <img src="{{ asset('/assets/img/logo-white.png') }}" alt="Logo">
                 </a>
                 <a href="{{ url('/') }}" class="logo logo-small">
-                    <img src="{{ asset('/public/assets/img/logo-small.png') }}" alt="Logo" width="30"
+                    <img src="{{ asset('/assets/img/logo-small.png') }}" alt="Logo" width="30"
                         height="30">
                 </a>
             </div>
@@ -372,7 +372,7 @@ $('#globalSearch').on('keyup', function () {
                 <form>
                     <input type="text" class="form-control" placeholder="Search here">
                     <button class="btn" type="submit"><img
-                            src="{{ asset('/public/assets/img/icons/search.svg') }}" alt="img"></button>
+                            src="{{ asset('/assets/img/icons/search.svg') }}" alt="img"></button>
                 </form>
             </div>
             <!-- /Search -->
@@ -388,23 +388,23 @@ $('#globalSearch').on('keyup', function () {
                 <!-- Flag -->
                 <li class="nav-item dropdown has-arrow flag-nav">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                        <img src="{{ asset('/public/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
+                        <img src="{{ asset('/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/us.png') }}"
+                            <img src="{{ asset('/assets/img/flags/us.png') }}"
                                 alt="flag"><span>English</span>
                         </a>
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/fr.png') }}"
+                            <img src="{{ asset('/assets/img/flags/fr.png') }}"
                                 alt="flag"><span>French</span>
                         </a>
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/es.png') }}"
+                            <img src="{{ asset('/assets/img/flags/es.png') }}"
                                 alt="flag"><span>Spanish</span>
                         </a>
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/de.png') }}"
+                            <img src="{{ asset('/assets/img/flags/de.png') }}"
                                 alt="flag"><span>German</span>
                         </a>
                     </div>
@@ -435,7 +435,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md active">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">Lex Murphy</span>
@@ -456,7 +456,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md active">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">Ray Arnold</span>
@@ -473,7 +473,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-13.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-13.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">Dennis
@@ -495,7 +495,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-05.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-05.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">John
@@ -523,7 +523,7 @@ $('#globalSearch').on('keyup', function () {
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
-                            <img src="{{ asset('/public/assets/img/profiles/avatar-07.png') }}" alt="img"
+                            <img src="{{ asset('/assets/img/profiles/avatar-07.png') }}" alt="img"
                                 class="profilesidebar">
                             <span class="animate-circle"></span>
                         </span>
@@ -571,10 +571,10 @@ $('#globalSearch').on('keyup', function () {
         <!-- Logo -->
         <div class="header-left header-left-three">
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('/public/assets/img/logo-small.png') }}" alt="Logo">
+                <img src="{{ asset('/assets/img/logo-small.png') }}" alt="Logo">
             </a>
             <a href="{{ url('/') }}" class="logo logo-small">
-                <img src="{{ asset('/public/assets/img/logo-small.png') }}" alt="Logo" width="30"
+                <img src="{{ asset('/assets/img/logo-small.png') }}" alt="Logo" width="30"
                     height="30">
             </a>
         </div>
@@ -584,7 +584,7 @@ $('#globalSearch').on('keyup', function () {
         <div class="top-nav-search top-nav-search-five">
             <form>
                 <input type="text" class="form-control" placeholder="Search here">
-                <button class="btn" type="submit"><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
+                <button class="btn" type="submit"><img src="{{ asset('/assets/img/icons/search.svg') }}"
                         alt="img"></button>
             </form>
         </div>
@@ -601,20 +601,20 @@ $('#globalSearch').on('keyup', function () {
             <!-- Flag -->
             <li class="nav-item dropdown has-arrow flag-nav">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                    <img src="{{ asset('/public/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
+                    <img src="{{ asset('/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/us.png') }}" alt="flag"><span>English</span>
+                        <img src="{{ asset('/assets/img/flags/us.png') }}" alt="flag"><span>English</span>
                     </a>
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/fr.png') }}" alt="flag"><span>French</span>
+                        <img src="{{ asset('/assets/img/flags/fr.png') }}" alt="flag"><span>French</span>
                     </a>
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/es.png') }}" alt="flag"><span>Spanish</span>
+                        <img src="{{ asset('/assets/img/flags/es.png') }}" alt="flag"><span>Spanish</span>
                     </a>
                     <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="{{ asset('/public/assets/img/flags/de.png') }}" alt="flag"><span>German</span>
+                        <img src="{{ asset('/assets/img/flags/de.png') }}" alt="flag"><span>German</span>
                     </a>
                 </div>
             </li>
@@ -644,7 +644,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md active">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">Lex Murphy</span>
@@ -665,7 +665,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md active">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">Ray Arnold</span> left 6
@@ -682,7 +682,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-13.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-13.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">Dennis Nedry</span>
@@ -704,7 +704,7 @@ $('#globalSearch').on('keyup', function () {
                                     <div class="d-flex">
                                         <span class="avatar avatar-md">
                                             <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                src="{{ asset('/public/assets/img/profiles/avatar-05.jpg') }}">
+                                                src="{{ asset('/assets/img/profiles/avatar-05.jpg') }}">
                                         </span>
                                         <div class="media-body">
                                             <p class="noti-details"><span class="noti-title">John Hammond</span>
@@ -732,7 +732,7 @@ $('#globalSearch').on('keyup', function () {
             <li class="nav-item dropdown">
                 <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                     <span class="user-img">
-                        <img src="{{ asset('/public/assets/img/profiles/avatar-07.jpg') }}" alt="img"
+                        <img src="{{ asset('/assets/img/profiles/avatar-07.jpg') }}" alt="img"
                             class="profilesidebar">
                         <span class="animate-circle"></span>
                     </span>
@@ -779,13 +779,13 @@ $('#globalSearch').on('keyup', function () {
             <!-- Logo -->
             <div class="header-left header-left-four">
                 <a href="{{ url('/') }}" class="logo">
-                    <img src="{{ asset('/public/assets/img/logo-white.png') }}" alt="Logo">
+                    <img src="{{ asset('/assets/img/logo-white.png') }}" alt="Logo">
                 </a>
                 <a href="{{ url('/') }}" class="dark-logo">
-                    <img src="{{ asset('/public/assets/img/logo.png') }}" alt="Logo">
+                    <img src="{{ asset('/assets/img/logo.png') }}" alt="Logo">
                 </a>
                 <a href="{{ url('/') }}" class="logo logo-small">
-                    <img src="{{ asset('/public/assets/img/logo-small.png') }}" alt="Logo" width="30"
+                    <img src="{{ asset('/assets/img/logo-small.png') }}" alt="Logo" width="30"
                         height="30">
                 </a>
             </div>
@@ -1215,23 +1215,23 @@ $('#globalSearch').on('keyup', function () {
                 <!-- Flag -->
                 <li class="nav-item dropdown has-arrow flag-nav">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                        <img src="{{ asset('/public/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
+                        <img src="{{ asset('/assets/img/flags/us1.png') }}" alt="flag"><span>English</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/us.png') }}"
+                            <img src="{{ asset('/assets/img/flags/us.png') }}"
                                 alt="flag"><span>English</span>
                         </a>
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/fr.png') }}"
+                            <img src="{{ asset('/assets/img/flags/fr.png') }}"
                                 alt="flag"><span>French</span>
                         </a>
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/es.png') }}"
+                            <img src="{{ asset('/assets/img/flags/es.png') }}"
                                 alt="flag"><span>Spanish</span>
                         </a>
                         <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="{{ asset('/public/assets/img/flags/de.png') }}"
+                            <img src="{{ asset('/assets/img/flags/de.png') }}"
                                 alt="flag"><span>German</span>
                         </a>
                     </div>
@@ -1263,7 +1263,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md active">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">Lex Murphy</span>
@@ -1284,7 +1284,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md active">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-10.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">Ray Arnold</span>
@@ -1301,7 +1301,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-13.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-13.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">Dennis Nedry</span>
@@ -1323,7 +1323,7 @@ $('#globalSearch').on('keyup', function () {
                                         <div class="d-flex">
                                             <span class="avatar avatar-md">
                                                 <img class="avatar-img rounded-circle" alt="avatar-img"
-                                                    src="{{ asset('/public/assets/img/profiles/avatar-05.jpg') }}">
+                                                    src="{{ asset('/assets/img/profiles/avatar-05.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">John Hammond</span>
@@ -1351,7 +1351,7 @@ $('#globalSearch').on('keyup', function () {
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
-                            <img src="{{ asset('/public/assets/img/profiles/avatar-07.jpg') }}" alt="img"
+                            <img src="{{ asset('/assets/img/profiles/avatar-07.jpg') }}" alt="img"
                                 class="profilesidebar">
                             <span class="animate-circle"></span>
                         </span>

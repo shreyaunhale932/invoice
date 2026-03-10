@@ -109,7 +109,7 @@
         </div>
         <div class="sample_text ">
             12332345698234592384
-            <img src="{{ asset('/public/assets/img/bar.png') }}" alt="bar-img">
+            <img src="{{ asset('/assets/img/bar.png') }}" alt="bar-img">
         </div>
         <div class="sample_text">**VAT against this challan is payable through central registration. Thank you for your
             business!</div>

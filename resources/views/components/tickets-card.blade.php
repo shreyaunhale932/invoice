@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <div class="dash-widget-header mb-0">
                         <span class="inovices-widget-icon rounded-circle {{ $ticket['class'] }}">
-                            <img src="{{ asset('/public/assets/img/icons/' . $ticket['icon']) }}" alt="invoices">
+                            <img src="{{ asset('/assets/img/icons/' . $ticket['icon']) }}" alt="invoices">
                         </span>
                         <div class="dash-count">
                             <div class="dash-title">{{ $ticket['title'] }}</div>

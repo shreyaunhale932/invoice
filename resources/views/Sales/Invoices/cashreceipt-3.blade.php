@@ -113,7 +113,7 @@
         <div class="receipt-seperator"></div>
         <div class="sample_text ">
             12332345698234592384
-            <img src="{{ asset('/public/assets/img/bar.png') }}" alt="bar-img">
+            <img src="{{ asset('/assets/img/bar.png') }}" alt="bar-img">
         </div>
         <div class="receipt-seperator"></div>
         <div class="sample_text">

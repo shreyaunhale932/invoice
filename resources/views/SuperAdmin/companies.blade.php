@@ -109,7 +109,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-01.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-01.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Hermann Groups</a>
                                                     </h2>
@@ -172,7 +172,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-02.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-02.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Skiles LLC</a>
                                                     </h2>
@@ -236,7 +236,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-03.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-03.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Kerluke Group</a>
                                                     </h2>
@@ -301,7 +301,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-04.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-04.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Schowalter Group</a>
                                                     </h2>
@@ -366,7 +366,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-05.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-05.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Accentric Global</a>
                                                     </h2>
@@ -431,7 +431,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-06.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-06.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Dexter Matrix</a>
                                                     </h2>
@@ -496,7 +496,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-07.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-07.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Emporis Technologies</a>
                                                     </h2>
@@ -561,7 +561,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-08.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-08.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Beacon Softwares</a>
                                                     </h2>
@@ -626,7 +626,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-09.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-09.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">Global tech</a>
                                                     </h2>
@@ -691,7 +691,7 @@
                                                         <a href="{{ url('profile') }}"
                                                             class="company-avatar avatar-md me-2 companies company-icon">
                                                             <img class="avatar-img rounded-circle company"
-                                                                src="{{ asset('/public/assets/img/companies/company-10.svg') }}"
+                                                                src="{{ asset('/assets/img/companies/company-10.svg') }}"
                                                                 alt="Company Image"></a>
                                                         <a href="#">High Tech Lead</a>
                                                     </h2>

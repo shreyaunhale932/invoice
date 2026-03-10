@@ -4,8 +4,8 @@
     <!-- Page Wrapper -->
     <!-- Select2 CSS -->
 
-    <script src="{{ asset('/public/assets/js/sellcalculation.js') }}"></script>
-    <!-- <script src="{{ asset('/public/assets/js/sellcalculation.js') }}"></script> -->
+    <script src="{{ asset('/assets/js/sellcalculation.js') }}"></script>
+    <!-- <script src="{{ asset('/assets/js/sellcalculation.js') }}"></script> -->
     <!-- Summernote CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
