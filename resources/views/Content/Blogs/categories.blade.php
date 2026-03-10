@@ -46,7 +46,7 @@
                                                 <td>
                                                     <h2>
                                                         <img class="avatar-img rounded me-2" width="30" height="30"
-                                                            src="{{ URL::asset('/assets/img/category/' . $category['Image']) }}"
+                                                            src="{{ asset('/assets/img/category/' . $category['Image']) }}"
                                                             alt="User Image">
                                                     </h2>{{ $category['CategoryName'] }}
                                                 </td>
@@ -55,7 +55,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('/assets/img/profiles/' . $category['AdminImage']) }}"
+                                                                src="{{ asset('/assets/img/profiles/' . $category['AdminImage']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $category['AddedBy'] }}</a>
                                                     </h2>

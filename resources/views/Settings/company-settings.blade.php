@@ -104,7 +104,7 @@
                                                 <input type="file" multiple="">
                                             </div>
                                             <span class="sites-logo"><img
-                                                    src="{{ URL::asset('/public/assets/img/settings-logo1png') }}"
+                                                    src="{{ asset('/public/assets/img/settings-logo1png') }}"
                                                     alt="upload"></span>
                                         </div>
                                     </div>
@@ -121,7 +121,7 @@
                                                 <input type="file" multiple="">
                                             </div>
                                             <span class="sites-logo"><img
-                                                    src="{{ URL::asset('/public/assets/img/settings-logopng') }}" alt="upload">
+                                                    src="{{ asset('/public/assets/img/settings-logopng') }}" alt="upload">
                                             </span>
                                         </div>
                                     </div>
@@ -138,7 +138,7 @@
                                                 <input type="file" multiple="">
                                             </div>
                                             <span class="sites-logo"><img
-                                                    src="{{ URL::asset('/public/assets/img/settings-logopng') }}"
+                                                    src="{{ asset('/public/assets/img/settings-logopng') }}"
                                                     alt="upload"></span>
                                         </div>
                                     </div>

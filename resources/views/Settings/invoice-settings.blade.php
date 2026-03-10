@@ -49,7 +49,7 @@
                                     <div class="input-block mb-3">
                                         <label>Invoice Logo</label>
                                         <div class="input-block service-upload logo-upload mb-0">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/img-drop.svg') }}"
+                                            <span><img src="{{ asset('/public/assets/img/icons/img-drop.svg') }}"
                                                     alt="upload"></span>
                                             <div class="drag-drop">
                                                 <h6 class="drop-browse align-center">
@@ -66,7 +66,7 @@
                                     <div class="input-block mb-3">
                                         <label>Digital Signature Image</label>
                                         <div class="input-block service-upload logo-upload mb-0">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/img-drop.svg') }}"
+                                            <span><img src="{{ asset('/public/assets/img/icons/img-drop.svg') }}"
                                                     alt="upload"></span>
                                             <div class="drag-drop">
                                                 <h6 class="drop-browse align-center">

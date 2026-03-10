@@ -18,7 +18,7 @@
                     <div class="ledger-info mb-4">
                         <div class="d-flex align-items-center">
                             <a href="{{url('profile')}}" class="avatar me-2"><img class="avatar-img rounded-circle"
-                                    src="{{ URL::asset('/public/assets/img/profiles/avatar-14.jpg')}}" alt="User Image"></a>
+                                    src="{{ asset('/public/assets/img/profiles/avatar-14.jpg')}}" alt="User Image"></a>
                             <h2><a href="{{url('profile')}}">John Smith<a href="mailto:johnsmith@example.com"
                                         class="d-block mail-to">johnsmith@example.com</a></a></h2>
                         </div>

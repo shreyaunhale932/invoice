@@ -7,8 +7,8 @@
                 <div class="invoice-header">
                     <div class="inv-header-right text-start">
                         <a href="#">
-                            <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
-                            <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
+                            <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
+                            <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
                         </a>
                         <span>Original For Recipient</span>
                     </div>
@@ -141,7 +141,7 @@
                         <div class="col-md-6">
                             <div class="company-sign">
                                 <span>For Kanakku</span>
-                                <img src="{{ URL::asset('/public/assets/img/signature.png') }}" alt="signature-img">
+                                <img src="{{ asset('/public/assets/img/signature.png') }}" alt="signature-img">
                             </div>
                         </div>
 

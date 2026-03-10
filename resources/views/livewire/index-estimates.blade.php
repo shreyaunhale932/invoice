@@ -58,11 +58,11 @@
                                     <a href="{{ url('invoice-details/' . $estimate->uuid) }}">
                                         @if($estimate->customer && $estimate->customer->image)
                                             <img class="avatar avatar-sm me-2 avatar-img rounded-circle"
-                                                src="{{ URL::asset('/public/assets/img/profiles/' . $estimate->customer->image) }}"
+                                                src="{{ asset('/public/assets/img/profiles/' . $estimate->customer->image) }}"
                                                 alt="User Image">
                                         @else
                                             <img class="avatar avatar-sm me-2 avatar-img rounded-circle"
-                                                src="{{ URL::asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                                                src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
                                                 alt="User Image">
                                         @endif
                                         {{ $estimate->customer->name ?? 'Unknown' }}
@@ -97,7 +97,7 @@
                             </td>
                         </tr>
                     @endforeach --}}
-                </tbody> 
+                </tbody>
             </table>
         </div>
     </div>

@@ -4,8 +4,8 @@
     <!-- Page Wrapper -->
     <!-- Select2 CSS -->
 
-    <script src="{{ URL::asset('/public/assets/js/sellcalculation.js') }}"></script>
-    <!-- <script src="{{ URL::asset('/public/assets/js/sellcalculation.js') }}"></script> -->
+    <script src="{{ asset('/public/assets/js/sellcalculation.js') }}"></script>
+    <!-- <script src="{{ asset('/public/assets/js/sellcalculation.js') }}"></script> -->
     <!-- Summernote CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
@@ -1862,7 +1862,7 @@
                 invoice_date: document.querySelector('input[name="invoice_date"]').value || '',
                 due_date: document.querySelector('input[name="due_date"]').value || '',
                 taxable_amount: document.getElementById('taxableAmountInput').value,
-                
+
                 total_exchange_amount: document.getElementById('totalExchangeAmountInput').value,
                 exchange_items: exchange_items,
 

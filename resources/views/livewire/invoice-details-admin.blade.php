@@ -8,9 +8,9 @@
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <div class="invoice-logo">
-                                    <img src="{{ URL::asset('/public/assets/img/logo.png') }}"
+                                    <img src="{{ asset('/public/assets/img/logo.png') }}"
                                         class="light-color-logo" alt="logo">
-                                    <img src="{{ URL::asset('/public/assets/img/logo-full-white.png') }}"
+                                    <img src="{{ asset('/public/assets/img/logo-full-white.png') }}"
                                         class="dark-white-logo" alt="logo">
                                 </div>
                             </div>

@@ -121,10 +121,10 @@
         <div class="sidebar-header">
             <div class="sidebar-logo">
                 <a href="{{ url('index') }}">
-                    <img src="{{ URL::asset('/assets/img/logo-white.png') }}" class="img-fluid logo" alt="Logo">
+                    <img src="{{ asset('/assets/img/logo-white.png') }}" class="img-fluid logo" alt="Logo">
                 </a>
                 <a href="{{ url('index') }}">
-                    <img src="{{ URL::asset('/assets/img/logo-small.png') }}" class="img-fluid logo-small"
+                    <img src="{{ asset('/assets/img/logo-small.png') }}" class="img-fluid logo-small"
                         alt="Logo">
                 </a>
             </div>

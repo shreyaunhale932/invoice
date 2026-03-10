@@ -68,7 +68,7 @@
                     <h4 class="mb-0">Edit Ledger</h4>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    
+
                 </button>
             </div>
             <div class="modal-body">
@@ -134,7 +134,7 @@
                             <div class="profile-picture">
                                 <div class="upload-profile">
                                     <div class="profile-img company-profile-img">
-                                        <img id="company-img-2" class="img-fluid me-0" src="{{URL::asset('/public/assets/img/icons/price-02.svg')}}" alt="profile-img">
+                                        <img id="company-img-2" class="img-fluid me-0" src="{{asset('/public/assets/img/icons/price-02.svg')}}" alt="profile-img">
                                     </div>
                                     <div class="add-profile">
                                         <h5>Upload a New Photo</h5>
@@ -146,14 +146,14 @@
                                         Upload <input type="file">
                                     </label>
                                     <a class="btn btn-remove">Remove</a>
-                                </div>										
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <h5 class="form-title mb-3">Plan Info</h5>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            
+
                             <div class="input-block mb-3">
                                 <label>Plan Name</label>
                                 <input type="text" class="form-control" placeholder="Enter Plan Name" value="Enterprise">
@@ -245,122 +245,122 @@
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Select All
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Invoices
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Payments
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Payment Summary
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked>Vendors
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Estimates
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Quotations
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Memberships
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked>Customers
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Recurring Invoices
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Delivery Challans
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Products
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked>Vendors
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Expenses
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Reports
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked> Inventory
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
                                 <div class="checkboxes">
                                     <label>
                                         <input type="checkbox" name="checkbox" checked>Signature
                                     </label>
-                                </div>										
+                                </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <h6 class="mb-0">Access Trial</h6>
@@ -386,7 +386,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="input-block mb-3">
@@ -918,7 +918,7 @@
                                 <label>&nbsp;</label>
                                 <div class="signature-preview">
                                     <a href="javascript:void(0);"><i class="fe fe-trash-2"></i></a>
-                                    <img src="{{ URL::asset('/public/assets/img/edit-signature.png') }}" class="img-fluid"
+                                    <img src="{{ asset('/public/assets/img/edit-signature.png') }}" class="img-fluid"
                                         alt="img">
                                 </div>
                             </div>
@@ -1108,7 +1108,7 @@
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -1195,7 +1195,7 @@
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -2099,7 +2099,7 @@
                                                     <label>Attachment</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -2424,7 +2424,7 @@
                                                 <div class="upload-profile">
                                                     <div class="profile-img">
                                                         <img id="blah1" class="avatar"
-                                                            src="{{ URL::asset('/public/assets/img/profiles/avatar-10.jpg') }}"
+                                                            src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}"
                                                             alt="profile-img">
                                                     </div>
                                                     <div class="add-profile">
@@ -2635,7 +2635,7 @@
                                             <div class="upload-profile">
                                                 <div class="profile-img">
                                                     <img id="blah2" class="avatar"
-                                                        src="{{ URL::asset('/public/assets/img/profiles/avatar-10.jpg') }}"
+                                                        src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}"
                                                         alt="profile-img">
                                                 </div>
                                                 <div class="add-profile">

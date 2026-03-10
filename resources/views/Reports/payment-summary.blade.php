@@ -52,7 +52,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('assets/img/profiles/' . $payment['Image']) }}"
+                                                                src="{{ asset('assets/img/profiles/' . $payment['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $payment['Customer'] }} <span>
                                                                 {{ $payment['Phone'] }}</span></a>

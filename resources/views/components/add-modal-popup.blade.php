@@ -29,7 +29,7 @@
                                             <div class="form-custom">
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
-                                                <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -136,7 +136,7 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -236,7 +236,7 @@
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -443,7 +443,7 @@
                                                 <input type="text" class="form-control" id="member_search"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -549,7 +549,7 @@
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -648,7 +648,7 @@
                     <!-- /Category -->
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -679,7 +679,7 @@
                                     <div class="upload-profile">
                                         <div class="profile-img company-profile-img">
                                             <img id="company-img" class="img-fluid me-0"
-                                                src="{{ URL::asset('/public/assets/img/companies/company-add-img.svg') }}"
+                                                src="{{ asset('/public/assets/img/companies/company-add-img.svg') }}"
                                                 alt="profile-img">
                                         </div>
                                         <div class="add-profile">
@@ -995,7 +995,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -1196,7 +1196,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -1622,7 +1622,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -1736,7 +1736,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -1976,7 +1976,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -2134,7 +2134,7 @@
                                                     placeholder="Search Product">
 
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
 
@@ -2171,7 +2171,7 @@
        value="{{ request('product_code') }}"
        placeholder="Search Product Code">
 
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                            <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                     alt="img"></span>
                                         </div>
 
@@ -2213,7 +2213,7 @@
                            value="{{ request('category_name') }}"
                            placeholder="Enter Category Name">
                     <span>
-                        <img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}" alt="img">
+                        <img src="{{ asset('/public/assets/img/icons/search.svg') }}" alt="img">
                     </span>
                 </div>
 
@@ -2274,7 +2274,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -2494,7 +2494,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -2767,7 +2767,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -3131,7 +3131,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -3395,7 +3395,7 @@
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -3469,7 +3469,7 @@
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                            <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                     alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
@@ -3784,7 +3784,7 @@
                                                     placeholder="Search Product">
 
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
 
@@ -3821,7 +3821,7 @@
        value="{{ request('product_code') }}"
        placeholder="Search Product Code">
 
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                            <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                     alt="img"></span>
                                         </div>
 
@@ -3863,7 +3863,7 @@
                            value="{{ request('category_name') }}"
                            placeholder="Enter Category Name">
                     <span>
-                        <img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}" alt="img">
+                        <img src="{{ asset('/public/assets/img/icons/search.svg') }}" alt="img">
                     </span>
                 </div>
 
@@ -4062,7 +4062,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -4132,7 +4132,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                            <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                     alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
@@ -4336,7 +4336,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -4444,7 +4444,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -4545,7 +4545,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -4757,7 +4757,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -4865,7 +4865,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -4966,7 +4966,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -5009,7 +5009,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -5117,7 +5117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -5218,7 +5218,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -5359,7 +5359,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -5463,7 +5463,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -5564,7 +5564,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -5814,7 +5814,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -6195,7 +6195,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Vendor">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -6611,7 +6611,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -6775,7 +6775,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -6959,7 +6959,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -7067,7 +7067,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -7168,7 +7168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -7234,7 +7234,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                     <label>Image</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -7458,7 +7458,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -7566,7 +7566,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -7667,7 +7667,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -7710,7 +7710,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -7818,7 +7818,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -8033,7 +8033,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -8141,7 +8141,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -8241,7 +8241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <!-- /Category -->
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -8284,7 +8284,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -8392,7 +8392,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -8598,7 +8598,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -8827,7 +8827,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -8966,7 +8966,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -9110,7 +9110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -9297,7 +9297,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -9526,7 +9526,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -9612,7 +9612,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -9802,7 +9802,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10209,7 +10209,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Vendor">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10476,7 +10476,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10679,7 +10679,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -10922,7 +10922,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11197,7 +11197,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                     <label>Attachment</label>
                                                     <div class="input-block service-upload mb-0">
                                                         <span><img
-                                                                src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                                src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                                 alt="upload"></span>
                                                         <h6 class="drop-browse align-center">Drop your files here
                                                             or<span class="text-primary ms-1">browse</span></h6>
@@ -11259,7 +11259,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11367,7 +11367,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -11467,7 +11467,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <!-- /Category -->
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -11568,7 +11568,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11676,7 +11676,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -11777,7 +11777,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -11841,7 +11841,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <label>Image</label>
                                                 <div class="input-block service-upload mb-0">
                                                     <span><img
-                                                            src="{{ URL::asset('/public/assets/img/icons/drop-icon.svg') }}"
+                                                            src="{{ asset('/public/assets/img/icons/drop-icon.svg') }}"
                                                             alt="upload"></span>
                                                     <h6 class="drop-browse align-center">Drop your files here or<span
                                                             class="text-primary ms-1">browse</span></h6>
@@ -11901,7 +11901,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -11998,7 +11998,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Product">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -12071,7 +12071,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <div class="form-custom">
                                             <input type="text" class="form-control" id="member_search2"
                                                 placeholder="Search Invoice">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                            <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                     alt="img"></span>
                                         </div>
                                         <label class="custom_check w-100">
@@ -12275,7 +12275,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -12347,7 +12347,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search"
                                                     placeholder="Search Invoice">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -12598,7 +12598,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13003,7 +13003,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13423,7 +13423,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -13531,7 +13531,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -13632,7 +13632,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -13962,7 +13962,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14061,7 +14061,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14254,7 +14254,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14340,7 +14340,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -14383,7 +14383,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14469,7 +14469,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -14520,7 +14520,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14628,7 +14628,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -14729,7 +14729,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -14772,7 +14772,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -14850,7 +14850,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -14928,7 +14928,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search Customer">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -15210,7 +15210,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -15441,7 +15441,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -15864,7 +15864,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -16232,7 +16232,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -16340,7 +16340,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -16441,7 +16441,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <button type="submit"
                         class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="{{ URL::asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
+                        <span><img src="{{ asset('/public/assets/img/icons/chart.svg') }}" class="me-2"
                                 alt="Generate report"></span>Generate report
                     </button>
                 </form>
@@ -16474,7 +16474,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <div class="upload-profile">
                                                     <div class="profile-img">
                                                         <img id="blah" class="avatar"
-                                                            src="{{ URL::asset('/public/assets/img/profiles/avatar-10.jpg') }}"
+                                                            src="{{ asset('/public/assets/img/profiles/avatar-10.jpg') }}"
                                                             alt="profile-img">
                                                     </div>
                                                     <div class="add-profile">
@@ -16592,7 +16592,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -16700,7 +16700,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">
@@ -16942,7 +16942,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 <input type="text" class="form-control" id="member_search1"
                                                     placeholder="Search here">
                                                 <span><img
-                                                        src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                                        src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                         alt="img"></span>
                                             </div>
                                             <div class="selectBox-cont">
@@ -17046,7 +17046,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="form-custom">
                                         <input type="text" class="form-control" id="member_search2"
                                             placeholder="Search here">
-                                        <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg') }}"
+                                        <span><img src="{{ asset('/public/assets/img/icons/search.svg') }}"
                                                 alt="img"></span>
                                     </div>
                                     <div class="selectBox-cont">

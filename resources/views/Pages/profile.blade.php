@@ -18,7 +18,7 @@
 
                     <div class="profile-cover">
                         <div class="profile-cover-wrap">
-                            <img class="profile-cover-img" src="{{ URL::asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                            <img class="profile-cover-img" src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
                                 alt="Profile Cover" id="cover-image">
 
                             <!-- Custom File Cover -->
@@ -37,7 +37,7 @@
 
                     <div class="text-center mb-5">
                         <label class="avatar avatar-xxl profile-cover-avatar" for="avatar_upload">
-                            <img class="avatar-img" src="{{ URL::asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                            <img class="avatar-img" src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
                                 alt="Profile Image" id="blah">
                             <input type="file" id="avatar_upload">
                             <span class="avatar-edit">

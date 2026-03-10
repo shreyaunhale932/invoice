@@ -65,11 +65,11 @@
                                     <a href="{{ url('invoice-details/' . $invoice->id) }}">
                                         @if($invoice->customer && $invoice->customer->image)
                                             <img class="avatar avatar-sm me-2 avatar-img rounded-circle"
-                                                src="{{ URL::asset('/public/assets/img/profiles/' . $invoice->customer->image) }}"
+                                                src="{{ asset('/public/assets/img/profiles/' . $invoice->customer->image) }}"
                                                 alt="User Image">
                                         @else
                                             <img class="avatar avatar-sm me-2 avatar-img rounded-circle"
-                                                src="{{ URL::asset('/public/assets/img/profiles/avatar-01.jpg') }}"
+                                                src="{{ asset('/public/assets/img/profiles/avatar-01.jpg') }}"
                                                 alt="User Image">
                                         @endif
                                         {{ $invoice->customer->name ?? 'Unknown' }}

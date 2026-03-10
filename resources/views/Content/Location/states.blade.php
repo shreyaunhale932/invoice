@@ -46,7 +46,7 @@
                                                 <td>
                                                     <h2>
                                                         <img class="avatar-img rounded me-2" width="30" height="30"
-                                                            src="{{ URL::asset('/public/assets/img/flags/' . $state['Image']) }}"
+                                                            src="{{ asset('/public/assets/img/flags/' . $state['Image']) }}"
                                                             alt="User Image">
                                                     </h2>{{ $state['CountryName'] }}
                                                 </td>

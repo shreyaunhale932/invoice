@@ -37,7 +37,7 @@
     <title>Sirsonite Solutions Pvt Ltd</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('/public/assets/img/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('/public/assets/img/favicon.png') }}">
 
     @include('layout.partials.head')
 </head>

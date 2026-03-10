@@ -49,7 +49,7 @@
                                                             <a href="{{ url('profile') }}"
                                                                 class="avatar avatar-md me-2 companies">
                                                                 <img class="avatar-img sales-rep"
-                                                                    src="{{ URL::asset('assets/img/' . $salesreturnreport['Image']) }}"
+                                                                    src="{{ asset('assets/img/' . $salesreturnreport['Image']) }}"
                                                                     alt="User Image"></a>
                                                             <a
                                                                 href="{{ url('profile') }}">{{ $salesreturnreport['Product'] }}</a>

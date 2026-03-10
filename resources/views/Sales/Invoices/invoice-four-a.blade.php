@@ -16,8 +16,8 @@
                     </div>
                     <div class="inv-header-right">
                         <a href="#">
-                            <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
-                            <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
+                            <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
+                            <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
                         </a>
                         <div class="inv-details">
                             <div class="inv-date">Date: <span>7/10/2023</span></div>
@@ -128,7 +128,7 @@
                 <div class="invoice-table-footer">
                     <div class="table-footer-left notes">
                         <div class="logo3">
-                            <img src="{{ URL::asset('/public/assets/img/not paid.svg') }}">
+                            <img src="{{ asset('/public/assets/img/not paid.svg') }}">
                         </div>
                     </div>
                     <div class="text-end table-footer-right">
@@ -179,7 +179,7 @@
                         <div class="col-md-6">
                             <div class="payment-info">
                                 <div class="qr-code">
-                                    <img src="{{ URL::asset('/public/assets/img/qr-code.svg') }}" alt="qr">
+                                    <img src="{{ asset('/public/assets/img/qr-code.svg') }}" alt="qr">
                                     <h6 class="scan-details">
                                         Scan to View Receipt
                                     </h6>

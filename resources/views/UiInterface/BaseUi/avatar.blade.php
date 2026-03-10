@@ -22,27 +22,27 @@
                         <div class="card-body">
                             <div class="avatar avatar-xxl">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar avatar-xl">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar avatar-lg">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar avatar-sm">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar avatar-xs">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                         </div>
                     </div>
@@ -55,15 +55,15 @@
                         <div class="card-body">
                             <div class="avatar avatar-online">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar avatar-offline">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar avatar-away">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                         </div>
                     </div>
@@ -76,11 +76,11 @@
                         <div class="card-body">
                             <div class="avatar">
                                 <img class="avatar-img rounded" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                             <div class="avatar">
                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                    src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                    src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                             </div>
                         </div>
                     </div>
@@ -94,15 +94,15 @@
                             <div class="avatar-group">
                                 <div class="avatar">
                                     <img class="avatar-img rounded-circle border border-white" alt="User Image"
-                                        src="{{ URL::asset('/assets/img/profiles/avatar-02.jpg') }}">
+                                        src="{{ asset('/assets/img/profiles/avatar-02.jpg') }}">
                                 </div>
                                 <div class="avatar">
                                     <img class="avatar-img rounded-circle border border-white" alt="User Image"
-                                        src="{{ URL::asset('/assets/img/profiles/avatar-03.jpg') }}">
+                                        src="{{ asset('/assets/img/profiles/avatar-03.jpg') }}">
                                 </div>
                                 <div class="avatar">
                                     <img class="avatar-img rounded-circle border border-white" alt="User Image"
-                                        src="{{ URL::asset('/assets/img/profiles/avatar-04.jpg') }}">
+                                        src="{{ asset('/assets/img/profiles/avatar-04.jpg') }}">
                                 </div>
                                 <div class="avatar">
                                     <span class="avatar-title rounded-circle border border-white">CF</span>

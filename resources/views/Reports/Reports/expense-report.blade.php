@@ -47,7 +47,7 @@
                                                         <a href="{{ url('contact-details') }}"
                                                             class="avatar avatar-sm me-2 subscription-img"><img
                                                                 class="avatar-img rounded-circle subscription-circle"
-                                                                src="{{ URL::asset('assets/img/profiles/' . $expensereport['Image']) }}"
+                                                                src="{{ asset('assets/img/profiles/' . $expensereport['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $expensereport['CompanyName'] }}
                                                             <span>{{ $expensereport['Email'] }}</span></a>

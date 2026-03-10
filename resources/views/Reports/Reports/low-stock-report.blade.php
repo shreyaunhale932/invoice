@@ -45,7 +45,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('product-list') }}"
                                                             class="product-list-item-bg"><img class=""
-                                                                src="{{ URL::asset('assets/img/products/' . $lowstockreport['Image']) }}"
+                                                                src="{{ asset('assets/img/products/' . $lowstockreport['Image']) }}"
                                                                 alt="Product Image"></a>
                                                         <a
                                                             href="{{ url('product-list') }}">{{ $lowstockreport['Product'] }}</a>

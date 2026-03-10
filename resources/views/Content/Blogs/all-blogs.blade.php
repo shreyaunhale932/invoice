@@ -45,7 +45,7 @@
                         <div class="blog grid-blog flex-fill">
                             <div class="blog-image">
                                 <a href="#"><img class="img-fluid"
-                                        src="{{ URL::asset('assets/img/category/' . $allblog['Image']) }}"
+                                        src="{{ asset('assets/img/category/' . $allblog['Image']) }}"
                                         alt="Post Image"></a>
                                 <div class="blog-views">
                                     <p>{{ $allblog['Id'] }}</p>
@@ -62,7 +62,7 @@
                                             </div>
                                             <div class="post-author">
                                                 <a href="{{ url('profile') }}">
-                                                    <img src="{{ URL::asset('assets/img/profiles/' . $allblog['Image1']) }}"
+                                                    <img src="{{ asset('assets/img/profiles/' . $allblog['Image1']) }}"
                                                         alt="Post Author">
                                                     <span>
                                                         <span class="post-title">{{ $allblog['Posttitle'] }}</span>

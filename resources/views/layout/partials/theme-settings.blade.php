@@ -1,7 +1,7 @@
 <!-- Theme Setting -->
 <div class="settings-icon">
     <span data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas"
-        aria-controls="theme-settings-offcanvas"><img src="{{ URL::asset('/public/assets/img/icons/siderbar-icon2.svg') }}"
+        aria-controls="theme-settings-offcanvas"><img src="{{ asset('/public/assets/img/icons/siderbar-icon2.svg') }}"
             class="feather-five" alt="layout"></span>
 </div>
 <div class="offcanvas offcanvas-end border-0 " tabindex="-1" id="theme-settings-offcanvas">
@@ -11,7 +11,7 @@
             <h3>Customize your overview Page layout</h3>
         </div>
         <div class="sidebar-headerclose">
-            <a data-bs-dismiss="offcanvas" aria-label="Close"><img src="{{ URL::asset('/public/assets/img/close.png') }}"
+            <a data-bs-dismiss="offcanvas" aria-label="Close"><img src="{{ asset('/public/assets/img/close.png') }}"
                     alt="img"></a>
         </div>
     </div>
@@ -28,7 +28,7 @@
                             <input id="customizer-layout01" name="data-layout" type="radio" value="vertical"
                                 class="form-check-input">
                             <label class="form-check-label avatar-md w-100" for="customizer-layout01">
-                                <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                             </label>
                         </div>
                         <h5 class="fs-13 text-center mt-2">Vertical</h5>
@@ -38,7 +38,7 @@
                             <input id="customizer-layout02" name="data-layout" type="radio" value="horizontal"
                                 class="form-check-input">
                             <label class="form-check-label  avatar-md w-100" for="customizer-layout02">
-                                <img src="{{ URL::asset('/public/assets/img/horizontal.png') }}" alt="img">
+                                <img src="{{ asset('/public/assets/img/horizontal.png') }}" alt="img">
                             </label>
                         </div>
                         <h5 class="fs-13 text-center mt-2">Horizontal</h5>
@@ -48,7 +48,7 @@
                             <input id="customizer-layout03" name="data-layout" type="radio" value="twocolumn"
                                 class="form-check-input">
                             <label class="form-check-label  avatar-md w-100" for="customizer-layout03">
-                                <img src="{{ URL::asset('/public/assets/img/two-col.png') }}" alt="img">
+                                <img src="{{ asset('/public/assets/img/two-col.png') }}" alt="img">
                             </label>
                         </div>
                         <h5 class="fs-13 text-center mt-2">Two Column</h5>
@@ -79,7 +79,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-blue" value="blue">
                                 <label class="form-check-label  avatar-md w-100" for="layout-mode-blue">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2 mb-2">Blue</h5>
@@ -89,7 +89,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-light" value="light">
                                 <label class="form-check-label  avatar-md w-100" for="layout-mode-light">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2 mb-2">Light</h5>
@@ -99,7 +99,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-dark" value="dark">
                                 <label class="form-check-label avatar-md w-100 " for="layout-mode-dark">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2 mb-2">Dark</h5>
@@ -109,7 +109,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-orange" value="orange">
                                 <label class="form-check-label  avatar-md w-100 " for="layout-mode-orange">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2 mb-2">Orange</h5>
@@ -119,7 +119,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-maroon" value="maroon">
                                 <label class="form-check-label  avatar-md w-100 " for="layout-mode-maroon">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2 mb-2">Brink Pink</h5>
@@ -129,7 +129,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-purple" value="purple">
                                 <label class="form-check-label  avatar-md w-100 " for="layout-mode-purple">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2 mb-2">Green</h5>
@@ -148,7 +148,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-width"
                                     id="layout-width-fluid" value="fluid">
                                 <label class="form-check-label avatar-md w-100" for="layout-width-fluid">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2">Fluid</h5>
@@ -158,7 +158,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-width"
                                     id="layout-width-boxed" value="boxed">
                                 <label class="form-check-label avatar-md w-100 px-2" for="layout-width-boxed">
-                                    <img src="{{ URL::asset('/public/assets/img/boxed.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/boxed.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2">Boxed</h5>
@@ -191,7 +191,7 @@
                             <input class="form-check-input" type="radio" name="data-topbar"
                                 id="topbar-color-light" value="light">
                             <label class="form-check-label avatar-md w-100" for="topbar-color-light">
-                                <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                             </label>
                         </div>
                         <h5 class="fs-13 text-center mt-2">Light</h5>
@@ -201,7 +201,7 @@
                             <input class="form-check-input" type="radio" name="data-topbar" id="topbar-color-dark"
                                 value="dark">
                             <label class="form-check-label  avatar-md w-100" for="topbar-color-dark">
-                                <img src="{{ URL::asset('/public/assets/img/dark.png') }}" alt="img">
+                                <img src="{{ asset('/public/assets/img/dark.png') }}" alt="img">
                             </label>
                         </div>
                         <h5 class="fs-13 text-center mt-2">Dark</h5>
@@ -219,7 +219,7 @@
                                 <input class="form-check-input" type="radio" name="data-sidebar-size"
                                     id="sidebar-size-default" value="lg">
                                 <label class="form-check-label avatar-md w-100" for="sidebar-size-default">
-                                    <img src="{{ URL::asset('/public/assets/img/vertical.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/vertical.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2">Default</h5>
@@ -230,7 +230,7 @@
                                 <input class="form-check-input" type="radio" name="data-sidebar-size"
                                     id="sidebar-size-compact" value="md">
                                 <label class="form-check-label  avatar-md w-100" for="sidebar-size-compact">
-                                    <img src="{{ URL::asset('/public/assets/img/compact.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/compact.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2">Compact</h5>
@@ -240,7 +240,7 @@
                                 <input class="form-check-input" type="radio" name="data-sidebar-size"
                                     id="sidebar-size-small-hover" value="md">
                                 <label class="form-check-label avatar-md w-100" for="sidebar-size-small-hover">
-                                    <img src="{{ URL::asset('/public/assets/img/small-hover.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/small-hover.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2">Small Sidebar</h5>
@@ -259,7 +259,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-style"
                                     id="sidebar-view-default" value="default">
                                 <label class="form-check-label avatar-md w-100" for="sidebar-view-default">
-                                    <img src="{{ URL::asset('/public/assets/img/compact.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/compact.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2">Default</h5>
@@ -269,7 +269,7 @@
                                 <input class="form-check-input" type="radio" name="data-layout-style"
                                     id="sidebar-view-detached" value="detached">
                                 <label class="form-check-label  avatar-md w-100" for="sidebar-view-detached">
-                                    <img src="{{ URL::asset('/public/assets/img/detached.png') }}" alt="img">
+                                    <img src="{{ asset('/public/assets/img/detached.png') }}" alt="img">
                                 </label>
                             </div>
                             <h5 class="fs-13 text-center mt-2">Detached</h5>

@@ -50,7 +50,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('/public/assets/img/profiles/' . $order['Image']) }}"
+                                                                src="{{ asset('/public/assets/img/profiles/' . $order['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $order['Vendor'] }}
                                                             <span>{{ $order['Phone'] }}</span></a>

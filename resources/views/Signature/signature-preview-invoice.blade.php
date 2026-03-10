@@ -7,7 +7,7 @@
                 <div class="invoice-header">
                     <div class="inv-header-left">
                         <a href="#">
-                            <img src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
+                            <img src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
                         </a>
                         <span>Orginal For Receipient</span>
                     </div>
@@ -161,7 +161,7 @@
                     </div>
                     <div class="company-sign">
                         <span>For Dreamguys</span>
-                        <img src="{{ URL::asset('/public/assets/img/signature.png') }}" alt="signature-img">
+                        <img src="{{ asset('/public/assets/img/signature.png') }}" alt="signature-img">
                     </div>
                 </div>
                 <div class="terms-condition">

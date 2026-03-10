@@ -52,9 +52,9 @@
                                         <h6 class="mb-3">Meta Image</h6>
                                         <div class="profile-picture">
                                             <div class="upload-profile">
-                                                
+
                                                 <div class="profile-img company-profile-img">
-                                                    <img id="company-img" class="img-fluid me-0" src="{{URL::asset('/public/assets/img/companies/company-add-img.svg')}}" alt="profile-img">
+                                                    <img id="company-img" class="img-fluid me-0" src="{{asset('/public/assets/img/companies/company-add-img.svg')}}" alt="profile-img">
                                                 </div>
                                                 <div class="add-profile">
                                                     <h5>Upload a New Photo</h5>
@@ -66,9 +66,9 @@
                                                     Upload <input type="file">
                                                 </label>
                                                 <a class="btn btn-remove">Remove</a>
-                                            </div>										
+                                            </div>
                                         </div>
-                                    </div>										
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="modal-footer p-0">
@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         </form>
-                        
+
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                                     </div>
                                 </div>
                             </form>
-                            
+
                             <div class="modal-footer">
                                 <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
                                 <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add New</button>
@@ -170,13 +170,13 @@
                                     </div>
                                 </div>
                             </form>
-                            
+
                             <div class="modal-footer">
                                 <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
                                 <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save Changes</button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

@@ -12,10 +12,10 @@ tabindex="0">
                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens active ">
                     <div class="blog-image">
                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                src="{{ URL::asset('/public/assets/img/invoice-one.svg') }}"
+                                src="{{ asset('/public/assets/img/invoice-one.svg') }}"
                                 alt="Post Image">
                         </a>
-                        <a href="{{ URL::asset('/public/assets/img/invoice-one.jpg') }}"
+                        <a href="{{ asset('/public/assets/img/invoice-one.jpg') }}"
                             class="preview-invoice image-popup"><i
                                 class="fa-regular fa-eye"></i></a>
                     </div>
@@ -35,10 +35,10 @@ tabindex="0">
                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                     <div class="blog-image">
                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                src="{{ URL::asset('/public/assets/img/invoice - two.svg') }}"
+                                src="{{ asset('/public/assets/img/invoice - two.svg') }}"
                                 alt="Post Image">
                         </a>
-                        <a href="{{ URL::asset('/public/assets/img/invoice-two.jpg') }}"
+                        <a href="{{ asset('/public/assets/img/invoice-two.jpg') }}"
                             class="preview-invoice image-popup"><i
                                 class="fa-regular fa-eye"></i></a>
                     </div>
@@ -58,10 +58,10 @@ tabindex="0">
                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                     <div class="blog-image">
                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                src="{{ URL::asset('/public/assets/img/invoice - three.svg') }}"
+                                src="{{ asset('/public/assets/img/invoice - three.svg') }}"
                                 alt="Post Image">
                         </a>
-                        <a href="{{ URL::asset('/public/assets/img/invoice-three.jpg') }}"
+                        <a href="{{ asset('/public/assets/img/invoice-three.jpg') }}"
                             class="preview-invoice image-popup"><i
                                 class="fa-regular fa-eye"></i></a>
                     </div>
@@ -81,10 +81,10 @@ tabindex="0">
                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens  ">
                     <div class="blog-image">
                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                src="{{ URL::asset('/public/assets/img/invoice-four.svg') }}"
+                                src="{{ asset('/public/assets/img/invoice-four.svg') }}"
                                 alt="Post Image">
                         </a>
-                        <a href="{{ URL::asset('/public/assets/img/invoice-four.jpg') }}"
+                        <a href="{{ asset('/public/assets/img/invoice-four.jpg') }}"
                             class="preview-invoice image-popup"><i
                                 class="fa-regular fa-eye"></i></a>
                     </div>
@@ -104,10 +104,10 @@ tabindex="0">
                     class="blog grid-blog invoice-blog flex-fill  d-flex flex-wrap align-content-betweens ">
                     <div class="blog-image">
                         <a href="javascript:;" class="img-general"><img class="img-fluid"
-                                src="{{ URL::asset('/public/assets/img/invoice - five.svg') }}"
+                                src="{{ asset('/public/assets/img/invoice - five.svg') }}"
                                 alt="Post Image">
                         </a>
-                        <a href="{{ URL::asset('/public/assets/img/invoice - five.svg') }}"
+                        <a href="{{ asset('/public/assets/img/invoice - five.svg') }}"
                             class="preview-invoice image-popup"><i
                                 class="fa-regular fa-eye"></i></a>
                     </div>

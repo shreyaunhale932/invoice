@@ -52,7 +52,7 @@
                                                             <a href="{{ url('profile') }}"
                                                                 class="avatar avatar-md me-2 companies">
                                                                 <img class="avatar-img rounded-circle"
-                                                                    src="{{ URL::asset('assets/img/profiles/' . $taxsale['Image']) }}"
+                                                                    src="{{ asset('assets/img/profiles/' . $taxsale['Image']) }}"
                                                                     alt="User Image"></a>
                                                             <a href="{{ url('profile') }}">{{ $taxsale['Customer'] }}</a>
                                                         </h2>

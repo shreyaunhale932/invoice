@@ -43,7 +43,7 @@
                                                         <a href="{{ url('contact-details') }}"
                                                             class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('assets/img/profiles/' . $contactmessage['Image']) }}"
+                                                                src="{{ asset('assets/img/profiles/' . $contactmessage['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $contactmessage['Name'] }}</a>
                                                     </h2>

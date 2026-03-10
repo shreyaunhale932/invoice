@@ -3,12 +3,12 @@
 @section('content')
     <div class="login-wrapper">
         <div class="container">
-            <img class="img-fluid logo-dark mb-4" src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
+            <img class="img-fluid logo-dark mb-4" src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
             <div class="loginbox">
                 <div class="login-right">
                     <div class="login-right-wrap">
                         <div class="lock-user">
-                            <img class="rounded-circle" src="{{ URL::asset('/public/assets/img/profiles/avatar-02.jpg') }}"
+                            <img class="rounded-circle" src="{{ asset('/public/assets/img/profiles/avatar-02.jpg') }}"
                                 alt="User Image">
                             <h4>John Doe</h4>
                         </div>

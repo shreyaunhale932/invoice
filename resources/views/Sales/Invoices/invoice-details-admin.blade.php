@@ -109,9 +109,9 @@
                                 <div class="invoice-sign text-end col-lg-6">
                                     <span class="d-block">Authorised Sign</span>
                                     <img class="img-fluid d-inline-block light-color-logo"
-                                        src="{{ URL::asset('/public/assets/img/signature.png') }}" alt="sign">
+                                        src="{{ asset('/public/assets/img/signature.png') }}" alt="sign">
                                     <img class="img-fluid d-inline-block dark-white-logo"
-                                        src="{{ URL::asset('/public/assets/img/signature-white.png') }}" alt="sign">
+                                        src="{{ asset('/public/assets/img/signature-white.png') }}" alt="sign">
                                 </div>
                             </div>
                         </div>

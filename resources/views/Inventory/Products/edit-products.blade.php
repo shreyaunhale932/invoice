@@ -137,7 +137,7 @@
                                         <div class="input-block mb-3">
                                             <label>Product Image</label>
                                             <div class="input-block mb-3 service-upload mb-0">
-                                                <span><img src="{{ URL::asset('/assets/img/icons/drop-icon.svg') }}"
+                                                <span><img src="{{ asset('/assets/img/icons/drop-icon.svg') }}"
                                                         alt="upload"></span>
                                                 <h6 class="drop-browse align-center">
                                                     Drop your files here or<span class="text-primary ms-1">browse</span>

@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-4 d-flex">
                     <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="{{ URL::asset('/assets/img/img-01.jpg') }}" class="card-img-top">
+                        <img alt="Card Image" src="{{ asset('/assets/img/img-01.jpg') }}" class="card-img-top">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Card with image and links</h5>
                         </div>
@@ -32,7 +32,7 @@
 
                 <div class="col-12 col-md-6 col-lg-4 d-flex">
                     <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="{{ URL::asset('/assets/img/img-01.jpg') }}" class="card-img-top">
+                        <img alt="Card Image" src="{{ asset('/assets/img/img-01.jpg') }}" class="card-img-top">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Card with image and button</h5>
                         </div>
@@ -46,7 +46,7 @@
 
                 <div class="col-12 col-md-6 col-lg-4 d-flex">
                     <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="{{ URL::asset('/assets/img/img-01.jpg') }}" class="card-img-top">
+                        <img alt="Card Image" src="{{ asset('/assets/img/img-01.jpg') }}" class="card-img-top">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Card with image and list</h5>
                         </div>

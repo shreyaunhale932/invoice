@@ -93,7 +93,7 @@
                                 <div
                                     class="input-block service-upload service-upload-info mb-0">
                                     <span><img
-                                            src="{{ URL::asset('/public/assets/img/invoice-signature.png') }}"
+                                            src="{{ asset('/public/assets/img/invoice-signature.png') }}"
                                             alt="signature"></span>
                                     <input type="file" multiple="" id="image_sign">
                                     <div id="frames"></div>

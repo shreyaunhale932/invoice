@@ -42,7 +42,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('/public/assets/img/profiles/' . $subscriber['Image']) }}"
+                                                                src="{{ asset('/public/assets/img/profiles/' . $subscriber['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $subscriber['ProviderName'] }}
                                                             <span>{{ $subscriber['Email'] }}</span></a>

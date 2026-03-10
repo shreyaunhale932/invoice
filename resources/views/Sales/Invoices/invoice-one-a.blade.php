@@ -18,8 +18,8 @@
                     </div>
                     <div class="inv-header-right">
                         <a href="#">
-                            <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
-                            <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
+                            <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
+                            <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
 
                         </a>
                         <h6>Invoice No : <span> #005</span></h6>
@@ -134,7 +134,7 @@
                 <div class="invoice-table-footer">
                     <div class="table-footer-left notes">
                         <div class="logo3">
-                            <img src="{{ URL::asset('/public/assets/img/paid.svg') }}">
+                            <img src="{{ asset('/public/assets/img/paid.svg') }}">
                         </div>
                     </div>
                     <div class="text-end table-footer-right">
@@ -183,7 +183,7 @@
                         <div class="col md-6">
                             <div class="payment-info">
                                 <div class="qr">
-                                    <img src="{{ URL::asset('/public/assets/img/qr-code.svg') }}" alt="qr">
+                                    <img src="{{ asset('/public/assets/img/qr-code.svg') }}" alt="qr">
                                     <h6 class="scan-details">Scan to View Receipt</h6>
                                 </div>
                                 <div class="pay-details">

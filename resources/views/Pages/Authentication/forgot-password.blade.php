@@ -3,8 +3,8 @@
 @section('content')
     <div class="login-wrapper">
         <div class="container">
-            <img class="img-fluid logo-dark mb-2" src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
-            <img class="img-fluid logo-light mb-2" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
+            <img class="img-fluid logo-dark mb-2" src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
+            <img class="img-fluid logo-light mb-2" src="{{ asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
             <div class="loginbox">
                 <div class="login-right">
                     <div class="login-right-wrap">

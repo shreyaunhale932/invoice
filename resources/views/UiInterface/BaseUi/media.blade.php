@@ -24,7 +24,7 @@
                                 customization than before.</p>
                             <div class="d-flex align-items-start text-muted mb-4">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('/assets/img/user-5.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-5.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                                 <div class="flex-grow-1">
@@ -40,13 +40,13 @@
                                     adjust it as needed.
                                 </div>
                                 <div class="flex-shrink-0 ms-3">
-                                    <img src="{{ URL::asset('/assets/img/user-6.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-6.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                             </div>
                             <div class="d-flex align-items-start text-muted">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('/assets/img/user-7.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-7.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                                 <div class="flex-grow-1">
@@ -73,7 +73,7 @@
                                 <code>flex-grow-1</code> of a parent media object.</p>
                             <div class="d-flex align-items-start text-muted mb-4">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('/assets/img/user-5.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-5.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                                 <div class="flex-grow-1">
@@ -82,7 +82,7 @@
                                     adjust it as needed.
                                     <div class="d-flex align-items-start text-muted mt-3">
                                         <div class="flex-shrink-0 me-3">
-                                            <img src="{{ URL::asset('/assets/img/user-6.jpg') }}" class="avatar-sm rounded"
+                                            <img src="{{ asset('/assets/img/user-6.jpg') }}" class="avatar-sm rounded"
                                                 alt="...">
                                         </div>
                                         <div class="flex-grow-1">
@@ -95,7 +95,7 @@
                             </div>
                             <div class="d-flex align-items-start text-muted">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('/assets/img/user-7.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-7.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                                 <div class="flex-grow-1">
@@ -125,7 +125,7 @@
                             </p>
                             <div class="d-flex align-items-start text-muted mb-4">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('/assets/img/user-5.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-5.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                                 <div class="flex-grow-1">
@@ -141,7 +141,7 @@
                             </div>
                             <div class="d-flex align-items-center text-muted mb-4">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('/assets/img/user-6.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-6.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                                 <div class="flex-grow-1">
@@ -157,7 +157,7 @@
                             </div>
                             <div class="d-flex align-items-end text-muted">
                                 <div class="flex-shrink-0 me-3">
-                                    <img src="{{ URL::asset('/assets/img/user-7.jpg') }}" class="avatar-sm rounded"
+                                    <img src="{{ asset('/assets/img/user-7.jpg') }}" class="avatar-sm rounded"
                                         alt="...">
                                 </div>
                                 <div class="flex-grow-1">

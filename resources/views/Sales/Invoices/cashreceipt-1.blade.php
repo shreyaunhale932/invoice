@@ -4,8 +4,8 @@
     <div class="receipt-wrap">
         <div class="receipt-top">
             <div class="company-logo">
-                <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo.png') }}" alt="Logo">
-                <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo-full-white.png') }}" alt="Logo">
+                <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo.png') }}" alt="Logo">
+                <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo-full-white.png') }}" alt="Logo">
             </div>
             <div class="company-name">Dreamguys Technologies Pvt Ltd.,</div>
             <div class="company-address">

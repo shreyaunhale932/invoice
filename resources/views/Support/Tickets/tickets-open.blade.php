@@ -66,7 +66,7 @@
                                                     <h2 class="table-avatar">
                                                         <span class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('assets/img/profiles/' . $ticketsopen['Image']) }}"
+                                                                src="{{ asset('assets/img/profiles/' . $ticketsopen['Image']) }}"
                                                                 alt="User Image"></span>
                                                         <span>{{ $ticketsopen['Assigned'] }}</span>
                                                     </h2>
@@ -78,7 +78,7 @@
                                                     <h2 class="table-avatar">
                                                         <a class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('assets/img/profiles/' . $ticketsopen['Image1']) }}"
+                                                                src="{{ asset('assets/img/profiles/' . $ticketsopen['Image1']) }}"
                                                                 alt="User Image"></a>
                                                         <a>{{ $ticketsopen['Assignee'] }}
                                                             <span>{{ $ticketsopen['Phone'] }}</span></a>

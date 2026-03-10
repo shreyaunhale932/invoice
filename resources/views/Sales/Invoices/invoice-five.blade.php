@@ -7,8 +7,8 @@
                 <div class="invoice-header">
                     <div class="inv-header-left">
                         <a href="#">
-                            <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo2.png') }}" alt="Logo">
-                            <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
+                            <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo2.png') }}" alt="Logo">
+                            <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo2-white.png') }}" alt="Logo">
                         </a>
                     </div>
                     <div class="inv-header-right">
@@ -189,12 +189,12 @@
                             </div>
                         </div>
                         <div class="qr-code ms-3">
-                            <img src="{{ URL::asset('/public/assets/img/qr-code.svg') }}" alt="qr">
+                            <img src="{{ asset('/public/assets/img/qr-code.svg') }}" alt="qr">
                         </div>
                     </div>
                     <div class="company-sign">
                         <span>For Dreamguys</span>
-                        <img src="{{ URL::asset('/public/assets/img/signature.png') }}" alt="signature-img">
+                        <img src="{{ asset('/public/assets/img/signature.png') }}" alt="signature-img">
                     </div>
                 </div>
             </div>

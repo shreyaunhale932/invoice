@@ -89,7 +89,7 @@
                                 aria-selected="true">
                                 <input type="radio" class="form-control" name="payment" checked>
                                 <span class="checkmark"></span> Manual Signature
-                                <img src="{{ URL::asset('/public/assets/img/icons/credit-card.svg') }}" alt="img">
+                                <img src="{{ asset('/public/assets/img/icons/credit-card.svg') }}" alt="img">
                             </label>
                         </li>
                         <li class="nav-item col-12 col-sm-6" role="presentation">
@@ -98,7 +98,7 @@
                                 aria-selected="false">
                                 <input type="radio" class="form-control" name="payment">
                                 <span class="checkmark"></span> eSignature
-                                <img src="{{ URL::asset('/public/assets/img/icons/paypal.svg') }}" alt="img">
+                                <img src="{{ asset('/public/assets/img/icons/paypal.svg') }}" alt="img">
                             </label>
                         </li>
                     </ul>

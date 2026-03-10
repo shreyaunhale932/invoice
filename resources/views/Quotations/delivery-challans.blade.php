@@ -48,7 +48,7 @@
                                                     <h2 class="table-avatar">
                                                         <a href="{{ url('profile') }}" class="avatar avatar-sm me-2"><img
                                                                 class="avatar-img rounded-circle"
-                                                                src="{{ URL::asset('assets/img/profiles/' . $challan['Image']) }}"
+                                                                src="{{ asset('assets/img/profiles/' . $challan['Image']) }}"
                                                                 alt="User Image"></a>
                                                         <a href="{{ url('profile') }}">{{ $challan['Customer'] }}<span>{{ $challan['Phone'] }}
                                                             </span></a>

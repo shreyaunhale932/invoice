@@ -6,8 +6,8 @@
             <div class="receipt-seperator"></div>
             <div class="receipt-seperator"></div>
             <div class="company-logo">
-                <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo.png') }}" alt="Logo">
-                <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo-full-white.png') }}" alt="Logo">
+                <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo.png') }}" alt="Logo">
+                <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo-full-white.png') }}" alt="Logo">
             </div>
             <div class="receipt-seperator"></div>
             <div class="receipt-seperator"></div>
@@ -132,7 +132,7 @@
         <div class="receipt-seperator"></div>
         <div class="sample_text ">
             12332345698234592384
-            <img src="{{ URL::asset('/public/assets/img/bar.png') }}" alt="bar-img">
+            <img src="{{ asset('/public/assets/img/bar.png') }}" alt="bar-img">
         </div>
         <div class="receipt-seperator"></div>
         <div class="sample_text">Thank You</div>

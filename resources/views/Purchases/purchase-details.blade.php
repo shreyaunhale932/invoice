@@ -22,7 +22,7 @@
                                         <div class="row align-items-center">
                                             <div class="col-md-6">
                                                 <div class="invoice-logo">
-                                                    <img src="{{ URL::asset('/public/assets/img/logo.png') }}" alt="logo">
+                                                    <img src="{{ asset('/public/assets/img/logo.png') }}" alt="logo">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -180,7 +180,7 @@
                                     <div class="invoice-sign text-end">
                                         <span class="d-block">Harristemp</span>
                                         <img class="img-fluid d-inline-block"
-                                            src="{{ URL::asset('/public/assets/img/signature.png') }}" alt="sign">
+                                            src="{{ asset('/public/assets/img/signature.png') }}" alt="sign">
                                     </div>
                                     <!-- /Terms & Conditions -->
                                 </div>

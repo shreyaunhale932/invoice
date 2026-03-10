@@ -30,7 +30,7 @@
 												<div class="form-custom">
 													<input type="text" class="form-control member-search-dropdown" id="member_search1"
 														placeholder="Search Company">
-													<span><img src="{{URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+													<span><img src="{{asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
 												</div>
 												<div class="selectBox-cont search-dropdown-item">
 													<label class="custom_check w-100">
@@ -268,7 +268,7 @@
 										<div class="profile-picture">
 											<div class="upload-profile">
 												<div class="profile-img company-profile-img">
-													<img id="company-img" class="img-fluid me-0" src="{{URL::asset('/public/assets/img/companies/company-add-img.svg')}}" alt="profile-img">
+													<img id="company-img" class="img-fluid me-0" src="{{asset('/public/assets/img/companies/company-add-img.svg')}}" alt="profile-img">
 												</div>
 												<div class="add-profile">
 													<h5>Upload a New Photo</h5>
@@ -434,7 +434,7 @@
 										<div class="profile-picture">
 											<div class="upload-profile">
 												<div class="profile-img company-profile-img">
-													<img id="edit-company-img" class="img-fluid me-0" src="{{URL::asset('/public/assets/img/companies/company-01.svg')}}" alt="profile-img">
+													<img id="edit-company-img" class="img-fluid me-0" src="{{asset('/public/assets/img/companies/company-01.svg')}}" alt="profile-img">
 												</div>
 												<div class="add-profile">
 													<h5>Upload a New Photo</h5>
@@ -597,7 +597,7 @@
 									<div class="profile-picture company-detail-head">
 										<div class="upload-profile">
 											<div class="profile-img company-profile-img">
-												<img id="view-company-img" class="img-fluid me-0" src="{{URL::asset('/public/assets/img/companies/company-01.svg')}}" alt="profile-img">
+												<img id="view-company-img" class="img-fluid me-0" src="{{asset('/public/assets/img/companies/company-01.svg')}}" alt="profile-img">
 											</div>
 											<div class="add-profile">
 												<h5>Hermann Groups</h5>
@@ -962,7 +962,7 @@
                                     <div id="checkBoxes">
                                         <div class="form-custom">
                                             <input type="text" class="form-control  member-search-dropdown" id="member_search" placeholder="Search Subscriber">
-                                            <span><img src="{{ URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{ asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
                                         </div>
                                         <div class="selectBox-cont search-dropdown-item">
                                             <label class="custom_check w-100">
@@ -1499,7 +1499,7 @@
                                     <div id="checkBoxes1">
                                         <div class="form-custom">
                                             <input type="text" class="form-control member-search-dropdown" id="member_search1" placeholder="Search Company">
-                                            <span><img src="{{URL::asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{asset('/public/assets/img/icons/search.svg')}}" alt="img"></span>
                                         </div>
                                         <div class="selectBox-cont search-dropdown-item">
                                             <label class="custom_check w-100">
@@ -1569,7 +1569,7 @@
                                     <div id="checkBoxes4">
                                         <div class="form-custom">
                                             <input type="text" class="form-control " id="member_search2" placeholder="Search Domain">
-                                            <span><img src="{{URL::asset('assets/img/icons/search.svg')}}" alt="img"></span>
+                                            <span><img src="{{asset('assets/img/icons/search.svg')}}" alt="img"></span>
                                         </div>
 
                                     </div>
@@ -1727,7 +1727,7 @@
                             <div class="profile-picture company-detail-head">
                                 <div class="upload-profile">
                                     <div class="profile-img company-profile-img">
-                                        <img id="view-company-img" class="img-fluid me-0" src="{{URL::asset('/public/assets/img/companies/company-01.svg')}}" alt="profile-img">
+                                        <img id="view-company-img" class="img-fluid me-0" src="{{asset('/public/assets/img/companies/company-01.svg')}}" alt="profile-img">
                                     </div>
                                     <div class="add-profile">
                                         <h5>Hermann Groups</h5>
@@ -4011,7 +4011,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             <div class="authorization text-end">
                                 <h6>For YOUR BUSINESS NAME</h6>
-                                <img src="{{ URL::asset('/public/assets/img/signature.png')}}" class="my-3" alt="signature-img">
+                                <img src="{{ asset('/public/assets/img/signature.png')}}" class="my-3" alt="signature-img">
                                 <h6>Authorized Signatory</h6>
                             </div>
 
@@ -4032,8 +4032,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="text-center powered">
                             <h6 class="mt-4 mb-3">Powered By</h6>
                             <a href="#">
-                                <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo.png')}}" alt="Logo">
-                                <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo-white.png')}}" alt="Logo">
+                                <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo.png')}}" alt="Logo">
+                                <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo-white.png')}}" alt="Logo">
                             </a>
                         </div>
                     </div>
@@ -4924,7 +4924,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             <div class="authorization text-end">
                                 <h6>For YOUR BUSINESS NAME</h6>
-                                <img src="{{ URL::asset('/public/assets/img/signature.png')}}" class="my-3" alt="signature-img">
+                                <img src="{{ asset('/public/assets/img/signature.png')}}" class="my-3" alt="signature-img">
                                 <h6>Authorized Signatory</h6>
                             </div>
 
@@ -4945,8 +4945,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="text-center powered">
                             <h6 class="mt-4 mb-3">Powered By</h6>
                             <a href="#">
-                                <img class="logo-lightmode" src="{{ URL::asset('/public/assets/img/logo.png')}}" alt="Logo">
-                                <img class="logo-darkmode" src="{{ URL::asset('/public/assets/img/logo-white.png')}}" alt="Logo">
+                                <img class="logo-lightmode" src="{{ asset('/public/assets/img/logo.png')}}" alt="Logo">
+                                <img class="logo-darkmode" src="{{ asset('/public/assets/img/logo-white.png')}}" alt="Logo">
                             </a>
                         </div>
                     </div>
