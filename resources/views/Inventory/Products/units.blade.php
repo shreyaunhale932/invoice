@@ -40,7 +40,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/units.json'));
+                                            $json = file_get_contents(public_path('../assets/json/units.json'));
                                             $units = json_decode($json, true);
                                         @endphp
                                         @foreach ($units as $unit)

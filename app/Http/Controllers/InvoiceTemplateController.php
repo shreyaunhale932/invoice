@@ -78,7 +78,7 @@ class InvoiceTemplateController extends Controller
                         }
 
                         $file->move($path, $filename);
-                        $uploadedImages[$key] = '/public/assets/img/invoice-templates/' . $filename;
+                        $uploadedImages[$key] = '/assets/img/invoice-templates/' . $filename;
                     }
                 }
             }
@@ -204,12 +204,12 @@ class InvoiceTemplateController extends Controller
             ['section_key' => 'invoice_footer', 'field_key' => 'balance_due_label', 'label' => 'Balance Due', 'field_type' => 'label', 'display_order' => 13],
 
             // Visual Elements
-            ['section_key' => 'visual_elements', 'field_key' => 'logo_light', 'label' => 'Logo (Light Mode)', 'field_type' => 'image', 'display_order' => 1, 'default_value' => '/public/assets/img/logo2.png'],
-            ['section_key' => 'visual_elements', 'field_key' => 'logo_dark', 'label' => 'Logo (Dark Mode)', 'field_type' => 'image', 'display_order' => 2, 'default_value' => '/public/assets/img/logo2-white.png'],
-            ['section_key' => 'visual_elements', 'field_key' => 'paid_logo', 'label' => 'Paid Status Logo', 'field_type' => 'image', 'display_order' => 3, 'default_value' => '/public/assets/img/paid.svg'],
-            ['section_key' => 'visual_elements', 'field_key' => 'signature_image', 'label' => 'Signature Image', 'field_type' => 'image', 'display_order' => 4, 'default_value' => '/public/assets/img/signature.png'],
-            ['section_key' => 'visual_elements', 'field_key' => 'qr_code', 'label' => 'QR Code Image', 'field_type' => 'image', 'display_order' => 5, 'default_value' => '/public/assets/img/qr-code.svg'],
-            ['section_key' => 'visual_elements', 'field_key' => 'dummy_image', 'label' => 'QR Code Image', 'field_type' => 'image', 'display_order' => 5, 'default_value' => '/public/assets/img/qr-code.svg'],
+            ['section_key' => 'visual_elements', 'field_key' => 'logo_light', 'label' => 'Logo (Light Mode)', 'field_type' => 'image', 'display_order' => 1, 'default_value' => '/assets/img/logo2.png'],
+            ['section_key' => 'visual_elements', 'field_key' => 'logo_dark', 'label' => 'Logo (Dark Mode)', 'field_type' => 'image', 'display_order' => 2, 'default_value' => '/assets/img/logo2-white.png'],
+            ['section_key' => 'visual_elements', 'field_key' => 'paid_logo', 'label' => 'Paid Status Logo', 'field_type' => 'image', 'display_order' => 3, 'default_value' => '/assets/img/paid.svg'],
+            ['section_key' => 'visual_elements', 'field_key' => 'signature_image', 'label' => 'Signature Image', 'field_type' => 'image', 'display_order' => 4, 'default_value' => '/assets/img/signature.png'],
+            ['section_key' => 'visual_elements', 'field_key' => 'qr_code', 'label' => 'QR Code Image', 'field_type' => 'image', 'display_order' => 5, 'default_value' => '/assets/img/qr-code.svg'],
+            ['section_key' => 'visual_elements', 'field_key' => 'dummy_image', 'label' => 'QR Code Image', 'field_type' => 'image', 'display_order' => 5, 'default_value' => '/assets/img/qr-code.svg'],
             // Text Elements
             ['section_key' => 'text_elements', 'field_key' => 'thanks_message', 'label' => 'Thanks Message', 'field_type' => 'text', 'display_order' => 1, 'default_value' => 'Thanks for your Business'],
             ['section_key' => 'text_elements', 'field_key' => 'terms_label', 'label' => 'Terms & Conditions Label', 'field_type' => 'text', 'display_order' => 2, 'default_value' => 'Terms & Conditions:'],
@@ -293,7 +293,7 @@ class InvoiceTemplateController extends Controller
                     }
 
                     $image->move($path, $filename);
-                    $imagePath = '/public/assets/img/invoice-templates/blocks/' . $filename;
+                    $imagePath = '/assets/img/invoice-templates/blocks/' . $filename;
                 }
             }
 
@@ -360,7 +360,7 @@ class InvoiceTemplateController extends Controller
                     }
 
                     $image->move($path, $filename);
-                    $updateData['image_path'] = '/public/assets/img/invoice-templates/blocks/' . $filename;
+                    $updateData['image_path'] = '/assets/img/invoice-templates/blocks/' . $filename;
                 }
             }
 

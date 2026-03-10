@@ -57,7 +57,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/invoices-cancelled.json'));
+                                            $json = file_get_contents(public_path('../assets/json/invoices-cancelled.json'));
                                             $invoices = json_decode($json, true);
                                         @endphp
                                         @foreach ($invoices as $invoice)

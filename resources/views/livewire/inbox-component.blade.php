@@ -92,7 +92,7 @@
                         </thead>
                         <tbody>
                             @php
-                                $json = file_get_contents(public_path('../public/assets/json/inbox.json'));
+                                $json = file_get_contents(public_path('../assets/json/inbox.json'));
                                 $indexs = json_decode($json, true);
                             @endphp
                             @foreach ($indexs as $index)

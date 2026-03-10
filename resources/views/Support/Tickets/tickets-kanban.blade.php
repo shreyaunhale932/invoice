@@ -45,7 +45,7 @@
                                 </div>
                             </li>
                             @php
-                                $json = file_get_contents(public_path('../public/assets/json/tickets-kanban-open.json'));
+                                $json = file_get_contents(public_path('../assets/json/tickets-kanban-open.json'));
                                 $tickets = json_decode($json, true);
                             @endphp
                             @foreach ($tickets as $ticket)
@@ -128,7 +128,7 @@
                                 </div>
                             </li>
                             @php
-                                $json = file_get_contents(public_path('../public/assets/json/tickets-kanban-inprogress.json'));
+                                $json = file_get_contents(public_path('../assets/json/tickets-kanban-inprogress.json'));
                                 $tickets = json_decode($json, true);
                             @endphp
                             @foreach ($tickets as $ticket)
@@ -211,7 +211,7 @@
                                 </div>
                             </li>
                             @php
-                                $json = file_get_contents(public_path('../public/assets/json/tickets-kanban-hold.json'));
+                                $json = file_get_contents(public_path('../assets/json/tickets-kanban-hold.json'));
                                 $tickets = json_decode($json, true);
                             @endphp
                             @foreach ($tickets as $ticket)
@@ -294,7 +294,7 @@
                                 </div>
                             </li>
                             @php
-                                $json = file_get_contents(public_path('../public/assets/json/tickets-kanban-unassigned.json'));
+                                $json = file_get_contents(public_path('../assets/json/tickets-kanban-unassigned.json'));
                                 $tickets = json_decode($json, true);
                             @endphp
                             @foreach ($tickets as $ticket)
@@ -377,7 +377,7 @@
                                 </div>
                             </li>
                             @php
-                                $json = file_get_contents(public_path('../public/assets/json/tickets-kanban-solved.json'));
+                                $json = file_get_contents(public_path('../assets/json/tickets-kanban-solved.json'));
                                 $tickets = json_decode($json, true);
                             @endphp
                             @foreach ($tickets as $ticket)

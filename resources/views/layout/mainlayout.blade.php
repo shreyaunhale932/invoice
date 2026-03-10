@@ -21,7 +21,7 @@
     <meta name="twitter:title" content="Finance & Accounting Admin Website Templates | Kanakku">
     <meta name="twitter:description"
         content="Kanakku is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
-    <meta name="twitter:image" content="/public/assets/img/kanakku.jpg">
+    <meta name="twitter:image" content="/assets/img/kanakku.jpg">
     <meta name="twitter:image:alt" content="Kanakku">
 
     <!-- Facebook -->
@@ -29,8 +29,8 @@
     <meta property="og:title" content="Finance & Accounting Admin Website Templates | Kanakku">
     <meta property="og:description"
         content="Kanakku is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
-    <meta property="og:image" content="/public/assets/img/kanakku.jpg">
-    <meta property="og:image:secure_url" content="/public/assets/img/kanakku.jpg">
+    <meta property="og:image" content="/assets/img/kanakku.jpg">
+    <meta property="og:image:secure_url" content="/assets/img/kanakku.jpg">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="600"> --}}

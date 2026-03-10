@@ -23,18 +23,18 @@
 
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ url('/public/assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/assets/css/bootstrap.min.css') }}">
 
     <!-- Font family -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="{{ url('/public/assets/plugins/fontawesome/css/fontawesome.min.css') }}">
-    <link rel="stylesheet" href="{{ url('/public/assets/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/assets/plugins/fontawesome/css/all.min.css') }}">
 
     <!-- Feather CSS -->
-    <link rel="stylesheet" href="{{ url('/public/assets/plugins/feather/feather.css') }}">
+    <link rel="stylesheet" href="{{ url('/assets/plugins/feather/feather.css') }}">
 
     @if (Route::is([
             'bus-ticket',
@@ -73,60 +73,60 @@
             'train-ticket-booking',
             'sell.invoice.view',
         ]))
-        <link rel="stylesheet" href="{{ url('/public/assets/css/feather.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/css/feather.css') }}">
     @endif
 
     @if (!Route::is(['index-two']))
         <!-- Datepicker CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/css/bootstrap-datetimepicker.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/css/bootstrap-datetimepicker.min.css') }}">
     @endif
 
     @if (!Route::is(['index-two', 'companies']))
         <!-- Datatables CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/datatables/datatables.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/datatables/datatables.min.css') }}">
     @endif
 
     @if (Route::is(['companies']))
-        <link rel="stylesheet" href="/public/assets/css/dataTables.bootstrap5.min.css">
+        <link rel="stylesheet" href="/assets/css/dataTables.bootstrap5.min.css">
     @endif
 
     <!-- Select2 CSS -->
-    <link rel="stylesheet" href="{{ url('/public/assets/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/assets/plugins/select2/css/select2.min.css') }}">
 
     @if (Route::is(['calendar']))
         <!-- Full Calander CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/fullcalendar/fullcalendar.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/fullcalendar/fullcalendar.min.css') }}">
     @endif
 
     @if (Route::is(['companies']))
         <!-- Mobile CSS-->
-        <link rel="stylesheet" href="/public/assets/plugins/intltelinput/css/intlTelInput.css">
-        <link rel="stylesheet" href="/public/assets/plugins/intltelinput/css/demo.css">
+        <link rel="stylesheet" href="/assets/plugins/intltelinput/css/intlTelInput.css">
+        <link rel="stylesheet" href="/assets/plugins/intltelinput/css/demo.css">
     @endif
 
     @if (Route::is(['add-customer', 'edit-customer', 'testimonials']))
         <!-- Mobile CSS-->
-        <link rel="stylesheet" href="/public/assets/plugins/intltelinput/css/intlTelInput.css">
+        <link rel="stylesheet" href="/assets/plugins/intltelinput/css/intlTelInput.css">
     @endif
 
     @if (Route::is(['plan-billing']))
         <!-- Owl carousel CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/css/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/css/owl.carousel.min.css') }}">
     @endif
 
     @if (Route::is(['lightbox', 'template-invoice']))
         <!-- Lightbox CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/lightbox/glightbox.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/lightbox/glightbox.min.css') }}">
     @endif
 
     @if (Route::is(['drag-drop', 'clipboard']))
         <!-- Dragula CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/dragula/css/dragula.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/dragula/css/dragula.min.css') }}">
     @endif
 
     @if (Route::is(['text-editor']))
         <!-- Summernote CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/summernote/summernote-bs4.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/summernote/summernote-bs4.min.css') }}">
     @endif
 
     @if (Route::is([
@@ -142,80 +142,80 @@
             'seo-settings',
             'saas-settings',
         ]))
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/summernote/summernote-lite.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/summernote/summernote-lite.min.css') }}">
     @endif
 
     @if (Route::is(['icon-ionic']))
         <!-- Ionic CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/icons/ionic/ionicons.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/icons/ionic/ionicons.css') }}">
     @endif
 
     @if (Route::is(['icon-material']))
         <!-- Material CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/material/materialdesignicons.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/material/materialdesignicons.css') }}">
     @endif
 
     @if (Route::is(['icon-pe7']))
         <!-- Pe7 CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/icons/pe7/pe-icon-7.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/icons/pe7/pe-icon-7.css') }}">
     @endif
 
     @if (Route::is(['icon-simpleline']))
         <!-- Simpleline CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/simpleline/simple-line-icons.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/simpleline/simple-line-icons.css') }}">
     @endif
 
     @if (Route::is(['icon-themify']))
         <!-- Themify CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/icons/themify/themify.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/icons/themify/themify.css') }}">
     @endif
 
     @if (Route::is(['icon-weather']))
         <!-- weathericons CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/icons/weather/weathericons.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/icons/weather/weathericons.css') }}">
     @endif
 
     @if (Route::is(['icon-typicon']))
         <!-- typicons CSS typicon-->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/icons/typicons/typicons.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/icons/typicons/typicons.css') }}">
     @endif
 
     @if (Route::is(['icon-flag']))
         <!-- flags CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/icons/flags/flags.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/icons/flags/flags.css') }}">
     @endif
 
     @if (Route::is(['maps-vector']))
         <!-- Map CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css') }}">
     @endif
 
     @if (Route::is(['chart-c3']))
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/c3-chart/c3.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/c3-chart/c3.min.css') }}">
     @endif
 
     @if (Route::is(['stickynote']))
         <!-- Sticky CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/stickynote/sticky.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/stickynote/sticky.css') }}">
     @endif
 
     @if (Route::is(['notification']))
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/alertify/alertify.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/alertify/alertify.min.css') }}">
     @endif
 
     @if (Route::is(['scrollbar']))
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/scrollbar/scroll.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/scrollbar/scroll.min.css') }}">
     @endif
 
     @if (Route::is(['rangeslider']))
         <!-- Rangeslider CSS -->
-        <link rel="stylesheet" href="{{ url('/public/assets/plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
+        <link rel="stylesheet" href="{{ url('/assets/plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
     @endif
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ url('/public/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url('/assets/css/style.css') }}">
 
     @if (!Route::is(['index-two', 'index-three', 'index-four', 'index-five']))
         <!-- Layout JS -->
-        <script src="{{ url('/public/assets/js/layout.js') }}"></script>
+        <script src="{{ url('/assets/js/layout.js') }}"></script>
     @endif

@@ -39,7 +39,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/debit-notes.json'));
+                                            $json = file_get_contents(public_path('../assets/json/debit-notes.json'));
                                             $notes = json_decode($json, true);
                                         @endphp
                                         @foreach ($notes as $note)

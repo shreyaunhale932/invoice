@@ -34,7 +34,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/payments.json'));
+                                            $json = file_get_contents(public_path('../assets/json/payments.json'));
                                             $payments = json_decode($json, true);
                                         @endphp
                                         @foreach ($payments as $payment)

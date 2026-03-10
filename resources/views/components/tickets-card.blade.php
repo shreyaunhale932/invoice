@@ -1,7 +1,7 @@
 <!-- Inovices card -->
 <div class="row">
     @php
-        $json = file_get_contents(public_path('../public/assets/json/tickets-card.json'));
+        $json = file_get_contents(public_path('../assets/json/tickets-card.json'));
         $tickets = json_decode($json, true);
     @endphp
     @foreach ($tickets as $ticket)

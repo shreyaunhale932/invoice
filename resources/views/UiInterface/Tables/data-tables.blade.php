@@ -9,10 +9,10 @@
 					<div class="page-header">
 						<div class="content-page-header">
 							<h5>Default Datatable</h5>
-						</div>	
+						</div>
 					</div>
 					<!-- /Page Header -->
-					
+
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="card">
@@ -38,7 +38,7 @@
 											</thead>
 											<tbody>
 												@php
-                                            $json = file_get_contents(public_path('../public/assets/json/tables-datatables.json'));
+                                            $json = file_get_contents(public_path('../assets/json/tables-datatables.json'));
                                             $datatables = json_decode($json, true);
                                         @endphp
                                         @foreach ($datatables as $datatables)
@@ -58,8 +58,8 @@
 							</div>
 						</div>
 					</div>
-				
-				</div>			
+
+				</div>
 			</div>
 			<!-- /Page Wrapper -->
 @endsection

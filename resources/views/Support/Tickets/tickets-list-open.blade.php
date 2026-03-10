@@ -32,7 +32,7 @@
             <div class="comments">
                 <!-- card -->
                 @php
-                    $json = file_get_contents(public_path('../public/assets/json/tickets-list-open.json'));
+                    $json = file_get_contents(public_path('../assets/json/tickets-list-open.json'));
                     $tickets = json_decode($json, true);
                 @endphp
                 @foreach ($tickets as $ticket)

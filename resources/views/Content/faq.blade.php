@@ -34,7 +34,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/faq.json'));
+                                            $json = file_get_contents(public_path('../assets/json/faq.json'));
                                             $faqs = json_decode($json, true);
                                         @endphp
                                         @foreach ($faqs as $faq)

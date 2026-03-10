@@ -36,7 +36,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/vendors.json'));
+                                            $json = file_get_contents(public_path('../assets/json/vendors.json'));
                                             $vendors = json_decode($json, true);
                                         @endphp
                                         @foreach ($vendors as $vendor)

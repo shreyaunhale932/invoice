@@ -28,7 +28,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/roles-permission.json'));
+                                            $json = file_get_contents(public_path('../assets/json/roles-permission.json'));
                                             $roles = json_decode($json, true);
                                         @endphp
                                         @foreach ($roles as $role)

@@ -52,7 +52,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/tickets-open.json'));
+                                            $json = file_get_contents(public_path('../assets/json/tickets-open.json'));
                                             $ticketsopens = json_decode($json, true);
                                         @endphp
                                         @foreach ($ticketsopens as $ticketsopen)

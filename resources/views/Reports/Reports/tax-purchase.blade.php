@@ -40,7 +40,7 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $json = file_get_contents(public_path('../public/assets/json/tax-purchase.json'));
+                                                $json = file_get_contents(public_path('../assets/json/tax-purchase.json'));
                                                 $taxpurchases = json_decode($json, true);
                                             @endphp
                                             @foreach ($taxpurchases as $taxpurchase)

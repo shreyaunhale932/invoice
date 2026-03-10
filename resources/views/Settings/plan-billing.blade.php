@@ -137,7 +137,7 @@
                                                     </thead>
                                                     <tbody>
                                                         @php
-                                                            $json = file_get_contents(public_path('../public/public/assets/json/plan-billing.json'));
+                                                            $json = file_get_contents(public_path('../public/assets/json/plan-billing.json'));
                                                             $plans = json_decode($json, true);
                                                         @endphp
                                                         @foreach ($plans as $plan)

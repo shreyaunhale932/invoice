@@ -3,8 +3,8 @@
 @section('content')
     <div class="page-wrapper">
         <div class="content container-fluid">
-            <script src="{{ url('/public/assets/js/calculation.js') }}"></script>
-            <script src="{{ url('/public/assets/js/functions.js') }}"></script>
+            <script src="{{ url('/assets/js/calculation.js') }}"></script>
+            <script src="{{ url('/assets/js/functions.js') }}"></script>
             <style>
                 .readonly-field {
                     pointer-events: none;

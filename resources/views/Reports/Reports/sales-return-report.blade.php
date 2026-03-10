@@ -38,7 +38,7 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $json = file_get_contents(public_path('../public/assets/json/sales-return-report.json'));
+                                                $json = file_get_contents(public_path('../assets/json/sales-return-report.json'));
                                                 $salesreturnreports = json_decode($json, true);
                                             @endphp
                                             @foreach ($salesreturnreports as $salesreturnreport)

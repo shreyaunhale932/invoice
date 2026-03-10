@@ -36,7 +36,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/states.json'));
+                                            $json = file_get_contents(public_path('../assets/json/states.json'));
                                             $states = json_decode($json, true);
                                         @endphp
                                         @foreach ($states as $state)

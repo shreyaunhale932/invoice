@@ -36,7 +36,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/expense-report.json'));
+                                            $json = file_get_contents(public_path('../assets/json/expense-report.json'));
                                             $expensereports = json_decode($json, true);
                                         @endphp
                                         @foreach ($expensereports as $expensereport)

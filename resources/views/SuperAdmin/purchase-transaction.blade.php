@@ -35,7 +35,7 @@
                                         <tbody>
                                             @php
                                                 $json = file_get_contents(
-                                                    public_path('../public/assets/json/purchase-transcation.json'),
+                                                    public_path('../assets/json/purchase-transcation.json'),
                                                 );
                                                 $transcations = json_decode($json, true);
                                             @endphp

@@ -41,7 +41,7 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $json = file_get_contents(public_path('../public/assets/json/tax-sales.json'));
+                                                $json = file_get_contents(public_path('../assets/json/tax-sales.json'));
                                                 $taxsales = json_decode($json, true);
                                             @endphp
                                             @foreach ($taxsales as $taxsale)

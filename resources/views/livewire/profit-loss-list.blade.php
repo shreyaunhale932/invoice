@@ -17,10 +17,10 @@
                             <th class="table-profit-head" colspan="5">Income</th>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                         @php
-                        $json = file_get_contents(public_path('../public/assets/json/profit.json'));
+                        $json = file_get_contents(public_path('../assets/json/profit.json'));
                         $profits = json_decode($json, true);
                     @endphp
                     @foreach ($profits as $profit)
@@ -33,7 +33,7 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    
+
                 </table>
             </td>
         </tr>
@@ -47,7 +47,7 @@
                     </thead>
                     <tbody>
                         @php
-                        $json = file_get_contents(public_path('../public/assets/json/loss.json'));
+                        $json = file_get_contents(public_path('../assets/json/loss.json'));
                         $losses = json_decode($json, true);
                     @endphp
                     @foreach ($losses as $loss)
@@ -61,7 +61,7 @@
                     @endforeach
                     </tbody>
 
-                
+
                 </table>
             </td>
         </tr>

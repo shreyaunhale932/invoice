@@ -34,7 +34,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/delete-account-request.json'));
+                                            $json = file_get_contents(public_path('../assets/json/delete-account-request.json'));
                                             $accounts = json_decode($json, true);
                                         @endphp
                                         @foreach ($accounts as $account)

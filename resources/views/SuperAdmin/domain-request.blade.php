@@ -40,7 +40,7 @@
                                     <tbody>
                                         @php
                                             $json = file_get_contents(
-                                                public_path('../public/assets/json/domain-request.json'),
+                                                public_path('../assets/json/domain-request.json'),
                                             );
                                             $domains = json_decode($json, true);
                                         @endphp

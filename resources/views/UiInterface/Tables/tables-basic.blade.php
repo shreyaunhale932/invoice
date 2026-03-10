@@ -31,7 +31,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/tables-basic.json'));
+                                            $json = file_get_contents(public_path('../assets/json/tables-basic.json'));
                                             $basics = json_decode($json, true);
                                         @endphp
                                         @foreach ($basics as $basic)
@@ -64,7 +64,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/tables-basic.json'));
+                                            $json = file_get_contents(public_path('../assets/json/tables-basic.json'));
                                             $basics = json_decode($json, true);
                                         @endphp
                                         @foreach ($basics as $basic)
@@ -99,7 +99,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/tables-basic.json'));
+                                            $json = file_get_contents(public_path('../assets/json/tables-basic.json'));
                                             $basics = json_decode($json, true);
                                         @endphp
                                         @foreach ($basics as $basic)
@@ -132,7 +132,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/tables-basic.json'));
+                                            $json = file_get_contents(public_path('../assets/json/tables-basic.json'));
                                             $basics = json_decode($json, true);
                                         @endphp
                                         @foreach ($basics as $basic)
@@ -167,7 +167,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/basic-tables.json'));
+                                            $json = file_get_contents(public_path('../assets/json/basic-tables.json'));
                                             $basics = json_decode($json, true);
                                         @endphp
                                         @foreach ($basics as $basic)
@@ -203,7 +203,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/tables-responsive.json'));
+                                            $json = file_get_contents(public_path('../assets/json/tables-responsive.json'));
                                             $basics = json_decode($json, true);
                                         @endphp
                                         @foreach ($basics as $basic)

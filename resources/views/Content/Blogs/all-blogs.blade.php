@@ -37,7 +37,7 @@
             <div class="row">
                 <!-- Blog Post -->
                 @php
-                    $json = file_get_contents(public_path('../public/assets/json/all-blogs.json'));
+                    $json = file_get_contents(public_path('../assets/json/all-blogs.json'));
                     $allblogs = json_decode($json, true);
                 @endphp
                 @foreach ($allblogs as $allblog)

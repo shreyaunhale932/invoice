@@ -50,7 +50,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @php
-                                                        $json = file_get_contents(public_path('../public/assets/json/custom-filed.json'));
+                                                        $json = file_get_contents(public_path('../assets/json/custom-filed.json'));
                                                         $customs = json_decode($json, true);
                                                     @endphp
                                                     @foreach ($customs as $custom)

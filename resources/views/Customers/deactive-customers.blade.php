@@ -37,7 +37,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/deactive-customers.json'));
+                                            $json = file_get_contents(public_path('../assets/json/deactive-customers.json'));
                                             $customers = json_decode($json, true);
                                         @endphp
                                         @foreach ($customers as $customer)

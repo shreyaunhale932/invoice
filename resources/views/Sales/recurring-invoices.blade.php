@@ -52,7 +52,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/recurring-invoices.json'));
+                                            $json = file_get_contents(public_path('../assets/json/recurring-invoices.json'));
                                             $invoices = json_decode($json, true);
                                         @endphp
                                         @foreach ($invoices as $invoice)

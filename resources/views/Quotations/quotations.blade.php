@@ -37,7 +37,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/quotations.json'));
+                                            $json = file_get_contents(public_path('../assets/json/quotations.json'));
                                             $quotations = json_decode($json, true);
                                         @endphp
                                         @foreach ($quotations as $quotation)

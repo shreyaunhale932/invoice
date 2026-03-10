@@ -32,7 +32,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/contact-messages.json'));
+                                            $json = file_get_contents(public_path('../assets/json/contact-messages.json'));
                                             $contactmessages = json_decode($json, true);
                                         @endphp
                                         @foreach ($contactmessages as $contactmessage)

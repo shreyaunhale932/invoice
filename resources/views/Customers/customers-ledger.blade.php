@@ -79,7 +79,7 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                                $json = file_get_contents(public_path('../public/assets/json/customers-ledger.json'));
+                                                $json = file_get_contents(public_path('../assets/json/customers-ledger.json'));
                                                 $ledgers = json_decode($json, true);
                                             @endphp
                                             @foreach ($ledgers as $ledger)

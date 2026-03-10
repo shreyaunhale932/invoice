@@ -37,7 +37,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/categories.json'));
+                                            $json = file_get_contents(public_path('../assets/json/categories.json'));
                                             $categories = json_decode($json, true);
                                         @endphp
                                         @foreach ($categories as $category)

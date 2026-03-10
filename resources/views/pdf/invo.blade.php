@@ -352,12 +352,12 @@
                         $logoLight =
                             $templateSettings['visual_elements.logo_light']->value ??
                             ($templateSettings['visual_elements.logo_light']->default_value ??
-                                '/public/assets/img/logo2.png');
+                                '/assets/img/logo2.png');
 
                         $logoDark =
                             $templateSettings['visual_elements.logo_dark']->value ??
                             ($templateSettings['visual_elements.logo_dark']->default_value ??
-                                '/public/assets/img/logo2-white.png');
+                                '/assets/img/logo2-white.png');
 
                         /* =====================================================
                  | INVOICE META LABELS
@@ -899,7 +899,7 @@
                         $paidLogo =
                             $templateSettings['visual_elements.paid_logo']->value ??
                             ($templateSettings['visual_elements.paid_logo']->default_value ??
-                                '/public/assets/img/paid.svg');
+                                '/assets/img/paid.svg');
 
                         $paidLogoVisible = $templateSettings['visual_elements.paid_logo']->is_visible ?? true;
                     @endphp
@@ -1109,12 +1109,12 @@
                         $qrCode =
                             $templateSettings['visual_elements.qr_code']->value ??
                             ($templateSettings['visual_elements.qr_code']->default_value ??
-                                '/public/assets/img/qr-code.svg');
+                                '/assets/img/qr-code.svg');
 
                         $signatureImage =
                             $templateSettings['visual_elements.signature_image']->value ??
                             ($templateSettings['visual_elements.signature_image']->default_value ??
-                                '/public/assets/img/signature.png');
+                                '/assets/img/signature.png');
 
                         $scanDetailsLabel =
                             $templateSettings['text_elements.scan_details_label']->value ??

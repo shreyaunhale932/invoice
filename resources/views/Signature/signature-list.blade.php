@@ -31,7 +31,7 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $json = file_get_contents(public_path('../public/assets/json/signature-list.json'));
+                                            $json = file_get_contents(public_path('../assets/json/signature-list.json'));
                                             $signatures = json_decode($json, true);
                                         @endphp
                                         @foreach ($signatures as $signature)
