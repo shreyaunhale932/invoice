@@ -21,7 +21,7 @@ class CustomerTransactionController extends Controller
 
     public function index(Request $request)
     {
-        $firmId = session('selected_firm_id') ?? 1; 
+        $firmId = session('selected_firm_id') ?? 1;
         $query = PaymentTransaction::with('customer')->where('firm_id', $firmId);
 
         if ($request->has('customer_id')) {
@@ -33,13 +33,13 @@ class CustomerTransactionController extends Controller
         }
 
         $transactions = $query->latest()->paginate(15);
-        return view('customers.transactions.index', compact('transactions'));
+        return view('Customers.transactions.index', compact('transactions'));
     }
 
     public function create()
     {
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
-        return view('customers.transactions.add', compact('customers'));
+        return view('Customers.transactions.add', compact('customers'));
     }
 
     public function store(Request $request)
@@ -100,7 +100,7 @@ class CustomerTransactionController extends Controller
             return redirect()->route('customer.transactions.index')->with('error', 'This transaction has already been fully refunded.');
         }
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
-        
+
         $type = 'refund'; // Default for Advance
         $label = 'Refund';
         if ($original->transaction_type == 'udhaar_payment') {
@@ -108,7 +108,7 @@ class CustomerTransactionController extends Controller
             $label = 'Return';
         }
 
-        return view('customers.transactions.add', [
+        return view('Customers.transactions.add', [
             'customers' => $customers,
             'original' => $original,
             'customer_id' => $original->customer_id,
@@ -126,7 +126,7 @@ class CustomerTransactionController extends Controller
             return redirect()->route('invoices.index')->with('error', 'This invoice has already been fully refunded.');
         }
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
-        return view('customers.transactions.add', [
+        return view('Customers.transactions.add', [
             'customers' => $customers,
             'original' => null,
             'customer_id' => $invoice->customer_id,
@@ -141,7 +141,7 @@ class CustomerTransactionController extends Controller
     {
         $transaction = PaymentTransaction::findOrFail($id);
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
-        return view('customers.transactions.edit', compact('transaction', 'customers'));
+        return view('Customers.transactions.edit', compact('transaction', 'customers'));
     }
 
     public function update(Request $request, $id)
