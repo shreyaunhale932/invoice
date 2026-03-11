@@ -507,7 +507,7 @@
                                             <div class="form-group-bank">
 
                                                 <!-- hidden states -->
-                                                <input type="hidden" id="businessState" value="{{ $business->state }}">
+                                                <input type="hidden" id="businessState" value="">
                                                 <input type="hidden" id="customerState" value="">
 
                                                 <div class="invoice-total-box">
@@ -606,7 +606,7 @@
                                             <div class="form-group-bank">
 
                                                 <!-- hidden states -->
-                                                <input type="hidden" id="businessState" value="{{ $business->state }}">
+                                                <input type="hidden" id="businessState" value="">
                                                 <input type="hidden" id="customerState" value="">
 
                                                 <div class="invoice-total-box">
