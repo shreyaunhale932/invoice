@@ -4,51 +4,37 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
-        Schema::table('payment_transactions', function (Blueprint $table) {
-            if (!Schema::hasColumn('payment_transactions', 'firm_id')) {
-                $table->unsignedBigInteger('firm_id')->nullable()->after('id');
-            }
-            if (!Schema::hasColumn('payment_transactions', 'customer_id')) {
-                $table->unsignedBigInteger('customer_id')->nullable()->after('firm_id');
-            }
-            if (!Schema::hasColumn('payment_transactions', 'transaction_type')) {
-                $table->string('transaction_type')->nullable()->after('customer_id'); // e.g., advance, udhaar_payment, refund, sale_payment
-            }
-            if (!Schema::hasColumn('payment_transactions', 'payment_method')) {
-                $table->string('payment_method')->nullable()->after('transaction_type'); // cash, bank, online
-            }
-            if (!Schema::hasColumn('payment_transactions', 'transaction_date')) {
-                $table->date('transaction_date')->nullable()->after('payment_method');
-            }
-            if (!Schema::hasColumn('payment_transactions', 'reference_no')) {
-                $table->string('reference_no')->nullable()->after('transaction_date');
-            }
-            if (!Schema::hasColumn('payment_transactions', 'narration')) {
-                $table->text('narration')->nullable()->after('reference_no');
-            }
-            if (!Schema::hasColumn('payment_transactions', 'status')) {
-                $table->string('status')->default('completed')->after('narration');
-            }
+        Schema::create('payment_transactions', function (Blueprint $table) {
+            $table->id();
+
+            $table->unsignedBigInteger('firm_id')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('invoice_id')->nullable();
+
+            $table->decimal('amount', 15, 2);
+            $table->enum('transaction_type', ['advance', 'udhaar_payment', 'refund', 'sale_payment']);
+            $table->enum('payment_method', ['cash', 'bank', 'online']);
+
+            $table->date('transaction_date')->nullable();
+            $table->string('reference_no')->nullable();
+            $table->text('narration')->nullable();
+            $table->string('status')->default('completed');
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('admin_id')->nullable();
+
+            $table->timestamps();
+
+            $table->foreign('firm_id')->references('id')->on('firms')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('payment_transactions', function (Blueprint $table) {
-            $table->dropColumn([
-                'firm_id', 'customer_id', 'transaction_type', 'payment_method', 
-                'transaction_date', 'reference_no', 'narration', 'status'
-            ]);
-        });
+        Schema::dropIfExists('payment_transactions');
     }
 };
