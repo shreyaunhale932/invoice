@@ -46,13 +46,13 @@ class SuperAdminController extends Controller
             'status' => $request->status,
         ]);
 
-        // try {
+        try {
             $dbName = $tenantService->createTenant($admin);
             $admin->update(['db_name' => $dbName]);
-        // } catch (\Exception $e) {
-        //     // Optionally handle cleanup if DB creation fails
-        //     return redirect()->back()->with('error', 'Admin created but database setup failed: ' . $e->getMessage());
-        // }
+        } catch (\Exception $e) {
+            // Optionally handle cleanup if DB creation fails
+            return redirect()->back()->with('error', 'Admin created but database setup failed: ' . $e->getMessage());
+        }
 
         return redirect()->back()->with('success', 'Admin added and database initialized successfully.');
     }

@@ -24,7 +24,7 @@ class TenantService
 
         Log::info("Starting tenant creation for admin: {$admin->id}, database: {$dbName}");
 
-        // try {
+        try {
             // 1. Create the database
             DB::statement("CREATE DATABASE IF NOT EXISTS `{$dbName}`");
             Log::info("Database created successfully: {$dbName}");
@@ -56,14 +56,14 @@ class TenantService
             Log::info("Reset connection to main database");
 
             return $dbName;
-        // } catch (Exception $e) {
-        //     Log::error("Failed to create tenant for admin: {$admin->id}", [
-        //         'database' => $dbName,
-        //         'error' => $e->getMessage(),
-        //         'trace' => $e->getTraceAsString()
-        //     ]);
-        //     DatabaseSwitcher::reset();
-        //     throw $e;
-        // }
+        } catch (Exception $e) {
+            Log::error("Failed to create tenant for admin: {$admin->id}", [
+                'database' => $dbName,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            DatabaseSwitcher::reset();
+            throw $e;
+        }
     }
 }
