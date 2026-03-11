@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class SuperAdminController extends Controller
     //     $users = User::where('role', 'admin')->get();
     //     // dd($users);
     //     return view('UserManagement/users', compact('users'));
-        
+
     // }
     public function createAdmin()
     {
@@ -36,7 +36,7 @@ class SuperAdminController extends Controller
             'password' => 'required|min:6|confirmed',
             'status' => 'required|in:active,inactive',
         ]);
-    
+
         $admin = \App\Models\Admin::create([
             'name' => $request->first_name . ' ' . $request->last_name,
             'username' => $request->username,
@@ -46,14 +46,14 @@ class SuperAdminController extends Controller
             'status' => $request->status,
         ]);
 
-        try {
+        // try {
             $dbName = $tenantService->createTenant($admin);
             $admin->update(['db_name' => $dbName]);
-        } catch (\Exception $e) {
-            // Optionally handle cleanup if DB creation fails
-            return redirect()->back()->with('error', 'Admin created but database setup failed: ' . $e->getMessage());
-        }
-    
+        // } catch (\Exception $e) {
+        //     // Optionally handle cleanup if DB creation fails
+        //     return redirect()->back()->with('error', 'Admin created but database setup failed: ' . $e->getMessage());
+        // }
+
         return redirect()->back()->with('success', 'Admin added and database initialized successfully.');
     }
     public function updateAdmin(Request $request, $id)
