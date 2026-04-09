@@ -18,6 +18,7 @@ document.addEventListener('change', function (e) {
     }
 });
 function calculateRow(row) {
+    // alert('hiii');
 
     const metalRate = parseFloat(row.querySelector('[name="metal_rate[]"]').value) || 0;
     const finalFnWeight = parseFloat(row.querySelector('[name="final_fn_weight[]"]').value) || 0;
@@ -72,9 +73,13 @@ function calculateRow(row) {
     row.querySelector('[name="making_final_amount[]"]').value =
         makingFinalAmount.toFixed(2);
 
-    // ✅ GOLD TOTAL (add making + wastage)
-    const subTotal = goldAmount + makingFinalAmount + wastageAmount;
+// alert('goldAmount='+goldAmount);
+// alert('makingFinalAmount='+makingFinalAmount);
+// alert('wastageAmount='+wastageAmount);
 
+    // ✅ GOLD TOTAL (add making + wastage)
+    const subTotal = goldAmount + makingFinalAmount ;
+// alert('subTotal='+subTotal);
     // GST
     const gstAmount = (subTotal * gstPercent) / 100;
 

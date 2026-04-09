@@ -3,11 +3,11 @@
 namespace App\Services;
 
 use App\Models\Account;
+use App\Models\Expense;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryLine;
-use App\Models\SellInvoice;
-use App\Models\Expense;
 use App\Models\Product;
+use App\Models\SellInvoice;
 use Illuminate\Support\Facades\DB;
 
 class AccountingService
@@ -21,8 +21,10 @@ class AccountingService
             $totalDebit = collect($lines)->sum('debit');
             $totalCredit = collect($lines)->sum('credit');
 
-            if (abs($totalDebit - $totalCredit) > 0.01) {
-                throw new \Exception("Journal entry is not balanced. Total Debit: $totalDebit, Total Credit: $totalCredit");
+            $difference = bcsub($totalDebit, $totalCredit, 2);
+
+            if (abs($difference) > 0.01) {
+                throw new \Exception('Journal entry is not balanced.');
             }
 
             $entry = JournalEntry::create([
@@ -62,14 +64,14 @@ class AccountingService
                 'account_id' => $this->getAccountId('Stock'),
                 'debit' => $amount,
                 'credit' => 0,
-                'memo' => "Stock addition for {$product->product_name}"
+                'memo' => "Stock addition for {$product->product_name}",
             ],
             [
                 'account_id' => $this->getAccountId('Capital'),
                 'debit' => 0,
                 'credit' => $amount,
-                'memo' => "Capital inversion for stock: {$product->product_name}"
-            ]
+                'memo' => "Capital inversion for stock: {$product->product_name}",
+            ],
         ];
 
         return $this->postJournalEntry(
@@ -100,7 +102,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Cash in Hand'),
                 'debit' => $invoice->cash_received,
                 'credit' => 0,
-                'memo' => "Cash payment for Invoice #{$invoice->invoice_no}"
+                'memo' => "Cash payment for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -110,7 +112,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Bank'),
                 'debit' => $invoice->bank_received,
                 'credit' => 0,
-                'memo' => "Bank payment for Invoice #{$invoice->invoice_no}"
+                'memo' => "Bank payment for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -120,7 +122,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('UPI Clearing'),
                 'debit' => $invoice->online_received,
                 'credit' => 0,
-                'memo' => "UPI payment for Invoice #{$invoice->invoice_no}"
+                'memo' => "UPI payment for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -130,18 +132,26 @@ class AccountingService
                 'account_id' => $this->getAccountId('Card Receivable'),
                 'debit' => $invoice->card_received,
                 'credit' => 0,
-                'memo' => "Card payment for Invoice #{$invoice->invoice_no}"
+                'memo' => "Card payment for Invoice #{$invoice->invoice_no}",
             ];
         }
 
-        // 5. Amount Left (Sundry Debtors)
-        // If there's a balance left, it must go to Sundry Debtors to balance the entry.
+        // 5. Amount Left (Sundry Debtors or Customer Advance)
+        // If there's a positive balance, it goes to Sundry Debtors (Receivable).
+        // If there's a negative balance (overpayment), it goes to Customer Advance (Liability).
         if ($invoice->amount_left > 0) {
             $lines[] = [
                 'account_id' => $this->getAccountId('Sundry Debtors'),
                 'debit' => $invoice->amount_left,
                 'credit' => 0,
-                'memo' => "Credit balance for Invoice #{$invoice->invoice_no}"
+                'memo' => "Credit balance for Invoice #{$invoice->invoice_no}",
+            ];
+        } else if ($invoice->amount_left < 0) {
+            $lines[] = [
+                'account_id' => $this->getOrCreateAccountId('Customer Advance', 'Liabilities'),
+                'debit' => 0,
+                'credit' => abs($invoice->amount_left),
+                'memo' => "Overpayment (Advance) for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -150,7 +160,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Old Metal Received'),
                 'debit' => $invoice->total_exchange_amount,
                 'credit' => 0,
-                'memo' => "Old Metal Received for Invoice #{$invoice->invoice_no}"
+                'memo' => "Old Metal Received for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -160,7 +170,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Discount Allowed'),
                 'debit' => $invoice->discount_amount,
                 'credit' => 0,
-                'memo' => "Discount on Invoice #{$invoice->invoice_no}"
+                'memo' => "Discount on Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -169,7 +179,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Dia/St/Pkt Discount Allowed'),
                 'debit' => $invoice->diamond_discount_amount,
                 'credit' => 0,
-                'memo' => "Dia/St/Pkt Discount on Invoice #{$invoice->invoice_no}"
+                'memo' => "Dia/St/Pkt Discount on Invoice #{$invoice->invoice_no}",
             ];
         }
         if ($invoice->making_discount_amount > 0) {
@@ -177,7 +187,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Making Discount Allowed'),
                 'debit' => $invoice->making_discount_amount,
                 'credit' => 0,
-                'memo' => "Making Discount on Invoice #{$invoice->invoice_no}"
+                'memo' => "Making Discount on Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -242,7 +252,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Gold Sales'),
                 'debit' => 0,
                 'credit' => $totalGoldAmount,
-                'memo' => "Gold sales income for Invoice #{$invoice->invoice_no}"
+                'memo' => "Gold sales income for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -252,7 +262,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Diamond Sales'),
                 'debit' => 0,
                 'credit' => $totalDiamondAmount,
-                'memo' => "Diamond sales income for Invoice #{$invoice->invoice_no}"
+                'memo' => "Diamond sales income for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -262,7 +272,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Stone Sales'),
                 'debit' => 0,
                 'credit' => $totalStoneAmount,
-                'memo' => "Stone sales income for Invoice #{$invoice->invoice_no}"
+                'memo' => "Stone sales income for Invoice #{$invoice->invoice_no}",
             ];
         }
         if ($totalPacketAmount > 0) {
@@ -270,7 +280,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Packet Sales'),
                 'debit' => 0,
                 'credit' => $totalPacketAmount,
-                'memo' => "Packet sales income for Invoice #{$invoice->invoice_no}"
+                'memo' => "Packet sales income for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -280,7 +290,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Silver Sales'),
                 'debit' => 0,
                 'credit' => $totalSilverAmount,
-                'memo' => "Silver sales income for Invoice #{$invoice->invoice_no}"
+                'memo' => "Silver sales income for Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -290,7 +300,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('Jewellery Sales'),
                 'debit' => 0,
                 'credit' => $invoice->taxable_amount,
-                'memo' => "General sales income for Invoice #{$invoice->invoice_no}"
+                'memo' => "General sales income for Invoice #{$invoice->invoice_no}",
             ];
         }
         // 7. GST Output
@@ -299,7 +309,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('GST Output CGST'),
                 'debit' => 0,
                 'credit' => $invoice->cgst_amount,
-                'memo' => "CGST on Invoice #{$invoice->invoice_no}"
+                'memo' => "CGST on Invoice #{$invoice->invoice_no}",
             ];
         }
         if ($invoice->sgst_amount > 0) {
@@ -307,7 +317,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('GST Output SGST'),
                 'debit' => 0,
                 'credit' => $invoice->sgst_amount,
-                'memo' => "SGST on Invoice #{$invoice->invoice_no}"
+                'memo' => "SGST on Invoice #{$invoice->invoice_no}",
             ];
         }
         if ($invoice->igst_amount > 0) {
@@ -315,7 +325,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('GST Output IGST'),
                 'debit' => 0,
                 'credit' => $invoice->igst_amount,
-                'memo' => "IGST on Invoice #{$invoice->invoice_no}"
+                'memo' => "IGST on Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -338,25 +348,25 @@ class AccountingService
                 'account_id' => $this->getAccountId('Bank'),
                 'debit' => $amount - $charges,
                 'credit' => 0,
-                'memo' => "Card settlement received"
+                'memo' => 'Card settlement received',
             ],
             [
                 'account_id' => $this->getAccountId('Bank / Card Charges'),
                 'debit' => $charges,
                 'credit' => 0,
-                'memo' => "Card processing charges"
+                'memo' => 'Card processing charges',
             ],
             [
                 'account_id' => $this->getAccountId('Card Receivable'),
                 'debit' => 0,
                 'credit' => $amount,
-                'memo' => "Card settlement cleared"
-            ]
+                'memo' => 'Card settlement cleared',
+            ],
         ];
 
         return $this->postJournalEntry(
             $date ?? now(),
-            "Card Settlement",
+            'Card Settlement',
             $lines
         );
     }
@@ -371,19 +381,19 @@ class AccountingService
                 'account_id' => $this->getAccountId('Bank'),
                 'debit' => $amount,
                 'credit' => 0,
-                'memo' => "UPI settlement received"
+                'memo' => 'UPI settlement received',
             ],
             [
                 'account_id' => $this->getAccountId('UPI Clearing'),
                 'debit' => 0,
                 'credit' => $amount,
-                'memo' => "UPI settlement cleared"
-            ]
+                'memo' => 'UPI settlement cleared',
+            ],
         ];
 
         return $this->postJournalEntry(
             $date ?? now(),
-            "UPI Settlement",
+            'UPI Settlement',
             $lines
         );
     }
@@ -399,7 +409,7 @@ class AccountingService
                 'account_id' => $this->getAccountId('GST Output CGST'),
                 'debit' => $cgst,
                 'credit' => 0,
-                'memo' => "GST CGST Payment"
+                'memo' => 'GST CGST Payment',
             ];
         }
         if ($sgst > 0) {
@@ -407,19 +417,19 @@ class AccountingService
                 'account_id' => $this->getAccountId('GST Output SGST'),
                 'debit' => $sgst,
                 'credit' => 0,
-                'memo' => "GST SGST Payment"
+                'memo' => 'GST SGST Payment',
             ];
         }
         $lines[] = [
             'account_id' => $this->getAccountId('Bank'),
             'debit' => 0,
             'credit' => $cgst + $sgst,
-            'memo' => "GST Tax Payment"
+            'memo' => 'GST Tax Payment',
         ];
 
         return $this->postJournalEntry(
             $date ?? now(),
-            "GST Payment",
+            'GST Payment',
             $lines
         );
     }
@@ -435,19 +445,19 @@ class AccountingService
                 'account_id' => $expense->expense_account_id,
                 'debit' => $expense->amount,
                 'credit' => 0,
-                'memo' => "Expense: {$expense->description}"
+                'memo' => "Expense: {$expense->description}",
             ],
             [
                 'account_id' => $expense->payment_account_id,
                 'debit' => 0,
                 'credit' => $expense->amount,
-                'memo' => "Payment for expense: {$expense->description}"
-            ]
+                'memo' => "Payment for expense: {$expense->description}",
+            ],
         ];
 
         return $this->postJournalEntry(
             $expense->expense_date,
-            "Expense: " . ($expense->description ?? $expense->expenseAccount->name),
+            'Expense: '.($expense->description ?? $expense->expenseAccount->name),
             $lines,
             get_class($expense),
             $expense->id
@@ -460,11 +470,15 @@ class AccountingService
     public function postCustomerTransaction($transaction)
     {
         $lines = [];
-        $narration = "";
+        $narration = '';
 
         $methodAccount = 'Cash in Hand';
-        if ($transaction->payment_method == 'bank') $methodAccount = 'Bank';
-        if ($transaction->payment_method == 'online') $methodAccount = 'UPI Clearing';
+        if ($transaction->payment_method == 'bank') {
+            $methodAccount = 'Bank';
+        }
+        if ($transaction->payment_method == 'online') {
+            $methodAccount = 'UPI Clearing';
+        }
 
         if ($transaction->transaction_type == 'advance') {
             // Dr Cash/Bank, Cr Customer Advance (New Liability Account)
@@ -473,13 +487,13 @@ class AccountingService
                 'account_id' => $this->getAccountId($methodAccount),
                 'debit' => $transaction->amount,
                 'credit' => 0,
-                'memo' => $narration
+                'memo' => $narration,
             ];
             $lines[] = [
                 'account_id' => $this->getOrCreateAccountId('Customer Advance', 'Liabilities'),
                 'debit' => 0,
                 'credit' => $transaction->amount,
-                'memo' => "Advance from {$transaction->customer->name} [Manual]"
+                'memo' => "Advance from {$transaction->customer->name} [Manual]",
             ];
         } elseif ($transaction->transaction_type == 'udhaar_payment') {
             // Dr Cash/Bank, Cr Sundry Debtors
@@ -488,13 +502,13 @@ class AccountingService
                 'account_id' => $this->getAccountId($methodAccount),
                 'debit' => $transaction->amount,
                 'credit' => 0,
-                'memo' => $narration
+                'memo' => $narration,
             ];
             $lines[] = [
                 'account_id' => $this->getAccountId('Sundry Debtors'),
                 'debit' => 0,
                 'credit' => $transaction->amount,
-                'memo' => "Credit Collection from {$transaction->customer->name} [Manual]"
+                'memo' => "Credit Collection from {$transaction->customer->name} [Manual]",
             ];
         } elseif ($transaction->transaction_type == 'refund') {
             // Dr Customer Advance (or Sales Return), Cr Cash/Bank
@@ -503,13 +517,13 @@ class AccountingService
                 'account_id' => $this->getOrCreateAccountId('Customer Advance', 'Liabilities'),
                 'debit' => $transaction->amount,
                 'credit' => 0,
-                'memo' => $narration
+                'memo' => $narration,
             ];
             $lines[] = [
                 'account_id' => $this->getAccountId($methodAccount),
                 'debit' => 0,
                 'credit' => $transaction->amount,
-                'memo' => "Refund issued [Manual]"
+                'memo' => 'Refund issued [Manual]',
             ];
         } elseif ($transaction->transaction_type == 'udhaar_return') {
             // Dr Sundry Debtors, Cr Cash/Bank
@@ -518,13 +532,29 @@ class AccountingService
                 'account_id' => $this->getAccountId('Sundry Debtors'),
                 'debit' => $transaction->amount,
                 'credit' => 0,
-                'memo' => $narration
+                'memo' => $narration,
             ];
             $lines[] = [
                 'account_id' => $this->getAccountId($methodAccount),
                 'debit' => 0,
                 'credit' => $transaction->amount,
-                'memo' => "Udhaar Return issued [Manual]"
+                'memo' => 'Udhaar Return issued [Manual]',
+            ];
+        } elseif ($transaction->transaction_type == 'udhaar_get') {
+            // Dr Sundry Debtors, Cr Capital (or generic "Owner's Equity")
+            // This is typically for pure loans or manual debt entries.
+            $narration = "Udhaar (Debt) Created for {$transaction->customer->name}";
+            $lines[] = [
+                'account_id' => $this->getAccountId('Sundry Debtors'),
+                'debit' => $transaction->amount,
+                'credit' => 0,
+                'memo' => $narration,
+            ];
+            $lines[] = [
+                'account_id' => $this->getAccountId('Capital'),
+                'debit' => 0,
+                'credit' => $transaction->amount,
+                'memo' => "Debt recorded",
             ];
         }
 
@@ -540,7 +570,7 @@ class AccountingService
     protected function getOrCreateAccountId($name, $groupType)
     {
         $account = Account::where('name', $name)->first();
-        if (!$account) {
+        if (! $account) {
             $group = \App\Models\AccountGroup::where('name', $groupType)->first();
             $account = Account::create([
                 'name' => $name,
@@ -549,9 +579,9 @@ class AccountingService
                 'admin_id' => auth()->id() ?? 1,
             ]);
         }
+
         return $account->id;
     }
-
 
     public function deleteExpenseEntry($expense)
     {
@@ -579,7 +609,7 @@ class AccountingService
                 'name' => $account->name,
                 'group' => $account->group->name,
                 'debit' => $debit,
-                'credit' => $credit
+                'credit' => $credit,
             ];
         });
 
@@ -589,7 +619,7 @@ class AccountingService
         return [
             'report' => $report,
             'totalDebit' => $totalDebit,
-            'totalCredit' => $totalCredit
+            'totalCredit' => $totalCredit,
         ];
     }
 
@@ -604,10 +634,11 @@ class AccountingService
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
+
             return [
                 'id' => $account->id,
                 'name' => $account->name,
-                'amount' => $query->sum('credit') - $query->sum('debit')
+                'amount' => $query->sum('credit') - $query->sum('debit'),
             ];
         });
 
@@ -620,10 +651,11 @@ class AccountingService
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
+
             return [
                 'id' => $account->id,
                 'name' => $account->name,
-                'amount' => $query->sum('debit') - $query->sum('credit')
+                'amount' => $query->sum('debit') - $query->sum('credit'),
             ];
         });
 
@@ -636,7 +668,7 @@ class AccountingService
             'expenses' => $expenses,
             'totalIncome' => $totalIncome,
             'totalExpense' => $totalExpense,
-            'netProfit' => $netProfit
+            'netProfit' => $netProfit,
         ];
     }
 
@@ -651,10 +683,11 @@ class AccountingService
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
+
             return [
                 'id' => $account->id,
                 'name' => $account->name,
-                'amount' => $query->sum('debit') - $query->sum('credit')
+                'amount' => $query->sum('debit') - $query->sum('credit'),
             ];
         });
 
@@ -667,10 +700,11 @@ class AccountingService
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
+
             return [
                 'id' => $account->id,
                 'name' => $account->name,
-                'amount' => $query->sum('credit') - $query->sum('debit')
+                'amount' => $query->sum('credit') - $query->sum('debit'),
             ];
         });
 
@@ -683,10 +717,11 @@ class AccountingService
                     $q->whereBetween('entry_date', [$fromDate, $toDate]);
                 });
             }
+
             return [
                 'id' => $account->id,
                 'name' => $account->name,
-                'amount' => $query->sum('credit') - $query->sum('debit')
+                'amount' => $query->sum('credit') - $query->sum('debit'),
             ];
         });
 
@@ -722,7 +757,7 @@ class AccountingService
             'equity' => $equity,
             'netProfit' => $netProfit,
             'totalAssets' => $totalAssets,
-            'totalLiabilities' => $totalLiabilities
+            'totalLiabilities' => $totalLiabilities,
         ];
     }
 
@@ -760,7 +795,7 @@ class AccountingService
         return [
             'account' => $account,
             'lines' => $lines,
-            'openingBalance' => $openingBalance
+            'openingBalance' => $openingBalance,
         ];
     }
 

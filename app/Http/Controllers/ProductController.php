@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\DiamondDetail;
-use App\Models\StoneDetail;
-use App\Models\ItemProductData;
-use App\Models\ItemDiamondDetail;
-use App\Models\ItemProductStone;
-use Illuminate\Http\Request;
-use App\Models\MetalRate;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver as GdDriver;
-
-use App\Models\PurityModel;
-use App\Models\Subcategory;
 use App\Models\Category;
-use App\Models\ProductPacket;
-use App\Models\PacketMaster;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\DiamondDetail;
 use App\Models\InventoryTransaction;
-
-
+use App\Models\ItemDiamondDetail;
+use App\Models\ItemProductData;
+use App\Models\ItemProductStone;
+use App\Models\MetalRate;
+use App\Models\PacketMaster;
+use App\Models\Product;
+use App\Models\ProductPacket;
+use App\Models\PurityModel;
+use App\Models\StoneDetail;
+use App\Models\Subcategory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\ImageManager;
 
 class ProductController extends Controller
 {
@@ -31,12 +28,12 @@ class ProductController extends Controller
         // dd($request->all);
         DB::transaction(function () use ($request) {
             $request->validate([
-                'barcode'   => 'nullable|unique:products,barcode',
-                'pre_code'  => 'required|string',
+                'barcode' => 'nullable|unique:products,barcode',
+                'pre_code' => 'required|string',
                 'post_code' => 'required|string',
             ]);
 
-            $preCode  = trim($request->pre_code);
+            $preCode = trim($request->pre_code);
             $postCode = trim($request->post_code);
 
             /*
@@ -52,7 +49,7 @@ class ProductController extends Controller
                 return redirect()
                     ->back()
                     ->withErrors([
-                        'pre_code' => 'This product already exists with Pre Code: ' . $originalItem->product_code,
+                        'pre_code' => 'This product already exists with Pre Code: '.$originalItem->product_code,
                     ])
                     ->withInput();
             }
@@ -92,8 +89,7 @@ class ProductController extends Controller
             //         ->withInput(); // keeps entered values
             // }
 
-
-// dd( $request->making_type);
+            // dd( $request->making_type);
             // Create or find item_product_data (shared data: product_name, pre_code, purity_id)
             $itemProductData = ItemProductData::firstOrCreate(
                 [
@@ -133,7 +129,6 @@ class ProductController extends Controller
                 ->orderByDesc('post_code')
                 ->first();
 
-
             if ($oldProduct) {
                 $postid = $oldProduct->post_code + 1;
             } else {
@@ -162,9 +157,9 @@ class ProductController extends Controller
                 'gst_amount' => $request->gst_amount,
                 'mrp_price' => $request->mrp_price,
                 'sale_price' => $request->sale_price,
-                'quantity' =>  $request->quantity,
-                'final_fn_weight' =>  $request->final_fn_weight,
-                'size'     =>  $request->size,
+                'quantity' => $request->quantity,
+                'final_fn_weight' => $request->final_fn_weight,
+                'size' => $request->size,
                 'final_price' => $request->final_price,
                 'making_type' => $request->making_type,
                 'making_final_amount' => $request->making_final_amount,
@@ -189,21 +184,19 @@ class ProductController extends Controller
             //     ]);
             // }
 
-
-
             if ($request->hasFile('image')) {
 
-                $manager  = new ImageManager(new GdDriver());
-                $file     = $request->file('image');
-                $filename = 'Product_' . time() . '.' . $file->getClientOriginalExtension();
+                $manager = new ImageManager(new GdDriver);
+                $file = $request->file('image');
+                $filename = 'Product_'.time().'.'.$file->getClientOriginalExtension();
 
                 $image = $manager->read($file->getPathname());
                 $image->resize(500, 500);
 
-                $path = public_path('assets/products/' . $filename);
+                $path = public_path('assets/products/'.$filename);
                 $image->toJpeg(90)->save($path);
 
-                $product->image = 'assets/products/' . $filename;
+                $product->image = 'assets/products/'.$filename;
                 $product->save();
             }
             /* =======================
@@ -269,7 +262,7 @@ class ProductController extends Controller
         ======================== */
             if ($request->has('packet.packet_no')) {
                 foreach ($request->packet['packet_no'] as $index => $value) {
-                    if (!empty($value)) {
+                    if (! empty($value)) {
                         ProductPacket::create([
                             'product_id' => $product->id,
                             'packet_no' => $value,
@@ -297,16 +290,16 @@ class ProductController extends Controller
             // Create transaction using item_product_data_id
             if ($product->item_product_data_id) {
                 InventoryTransaction::create([
-                    'admin_id'             => Auth::guard('admin')->id(),
+                    'admin_id' => Auth::guard('admin')->id(),
                     'item_product_data_id' => $product->item_product_data_id,
-                    'product_id'          => $product->id,
-                    'type'                 => 'IN',
-                    'gross_weight'         => $request->gross_weight,
-                    'net_weight'           => $request->net_weight,
-                    'final_fn_weight'      => $request->final_fn_weight,
-                    'quantity'             => $request->quantity,
-                    'unit'                 => 'GM',
-                    'remarks'              => 'Initial stock added with product creation',
+                    'product_id' => $product->id,
+                    'type' => 'IN',
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
+                    'final_fn_weight' => $request->final_fn_weight,
+                    'quantity' => $request->quantity,
+                    'unit' => 'GM',
+                    'remarks' => 'Initial stock added with product creation',
                 ]);
             }
 
@@ -317,7 +310,7 @@ class ProductController extends Controller
                 // Log or handle error if needed, but don't break transaction if accounting is secondary
                 // Actually, user wants Trial Balance to always match, so maybe it SHOULD break transaction.
                 // But for safety against missing accounts:
-                \Log::error("Accounting Post failed for Stock In: " . $e->getMessage());
+                \Log::error('Accounting Post failed for Stock In: '.$e->getMessage());
             }
         });
 
@@ -331,9 +324,10 @@ class ProductController extends Controller
             ->exists();
 
         return response()->json([
-            'exists' => $exists
+            'exists' => $exists,
         ]);
     }
+
     public function edit($id)
     {
         $product = Product::with([
@@ -348,7 +342,7 @@ class ProductController extends Controller
             'packets.cut',
             'packets.shape',
             'packets.chalni',
-            'packets.mm'
+            'packets.mm',
         ])->findOrFail($id);
 
         $categories = Category::where('admin_id', Auth::guard('admin')->id())->get();
@@ -370,13 +364,14 @@ class ProductController extends Controller
             )
         );
     }
+
     public function update(Request $request, $id)
     {
         DB::transaction(function () use ($request, $id) {
 
             $request->validate([
-                'barcode'   => 'nullable|unique:products,barcode,' . $id,
-                'pre_code'  => 'required|string',
+                'barcode' => 'nullable|unique:products,barcode,'.$id,
+                'pre_code' => 'required|string',
                 'post_code' => 'required|string',
             ]);
 
@@ -384,7 +379,7 @@ class ProductController extends Controller
                 ->where('admin_id', Auth::guard('admin')->id())
                 ->firstOrFail();
 
-            $preCode  = trim($request->pre_code);
+            $preCode = trim($request->pre_code);
             $postCode = trim($request->post_code);
 
             /*
@@ -412,28 +407,28 @@ class ProductController extends Controller
 
             if ($itemProductData) {
                 $itemProductData->update([
-                    'product_code'     => $preCode,
-                    'product_name'     => $request->product_name,
-                    'purity_id'        => $request->purity_id,
-                    'barcode'          => $request->barcode,
-                    'category_id'      => $request->category_id,
-                    'subcategory_id'   => $request->subcategory_id,
-                    'metal_rate'       => $request->metal_rate_id,
-                    'hsn_code'         => $request->hsn_code,
-                    'gold_purity'      => $request->gold_color,
-                    'gross_weight'     => $request->gross_weight,
-                    'net_weight'       => $request->net_weight,
+                    'product_code' => $preCode,
+                    'product_name' => $request->product_name,
+                    'purity_id' => $request->purity_id,
+                    'barcode' => $request->barcode,
+                    'category_id' => $request->category_id,
+                    'subcategory_id' => $request->subcategory_id,
+                    'metal_rate' => $request->metal_rate_id,
+                    'hsn_code' => $request->hsn_code,
+                    'gold_purity' => $request->gold_color,
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
                     'final_fn_weight' => $request->final_fn_weight,
-                    'diamond_weight'   => $request->diamond_weight ?? 0,
-                    'stone_weight'     => $request->stone_weight ?? 0,
-                    'wastage_percent'  => $request->wastage_percent,
-                    'making_price'     => $request->making_price,
+                    'diamond_weight' => $request->diamond_weight ?? 0,
+                    'stone_weight' => $request->stone_weight ?? 0,
+                    'wastage_percent' => $request->wastage_percent,
+                    'making_price' => $request->making_price,
                     'making_type' => $request->making_type,
-                'making_final_amount' => $request->making_final_amount,
-                    'gst_percent'      => $request->gst_percent,
-                    'gst_amount'       => $request->gst_amount,
-                    'gold_price'       => $request->gold_price,
-                    'mrp_price'        => $request->mrp_price,
+                    'making_final_amount' => $request->making_final_amount,
+                    'gst_percent' => $request->gst_percent,
+                    'gst_amount' => $request->gst_amount,
+                    'gold_price' => $request->gold_price,
+                    'mrp_price' => $request->mrp_price,
                     'sale_price' => $request->sale_price,
                     'final_price' => $request->final_price,
                 ]);
@@ -445,28 +440,28 @@ class ProductController extends Controller
         |--------------------------------------------------------------------------
         */
             $product->update([
-                'product_name'     => $request->product_name,
-                'pre_code'         => $preCode,
-                'post_code'        => $postCode,
-                'barcode'          => $request->barcode,
-                'category_id'      => $request->category_id,
-                'subcategory_id'   => $request->subcategory_id,
-                'purity_id'        => $request->purity_id,
-                'metal_rate'       => $request->metal_rate_id,
-                'gross_weight'     => $request->gross_weight,
-                'net_weight'       => $request->net_weight,
-                'hsn_code'         => $request->hsn_code,
-                'gold_color'       => $request->gold_color,
-                'wastage_percent'  => $request->wastage_percent,
-                'making_price'     => $request->making_price,
-                'gold_price'       => $request->gold_price,
-                'gst_percent'      => $request->gst_percent,
-                'gst_amount'       => $request->gst_amount,
-                'mrp_price'        => $request->mrp_price,
-                'sale_price'       => $request->sale_price,
-                'quantity'         => $request->quantity,
-                'final_fn_weight'  => $request->final_fn_weight,
-                'size'             => $request->size,
+                'product_name' => $request->product_name,
+                'pre_code' => $preCode,
+                'post_code' => $postCode,
+                'barcode' => $request->barcode,
+                'category_id' => $request->category_id,
+                'subcategory_id' => $request->subcategory_id,
+                'purity_id' => $request->purity_id,
+                'metal_rate' => $request->metal_rate_id,
+                'gross_weight' => $request->gross_weight,
+                'net_weight' => $request->net_weight,
+                'hsn_code' => $request->hsn_code,
+                'gold_color' => $request->gold_color,
+                'wastage_percent' => $request->wastage_percent,
+                'making_price' => $request->making_price,
+                'gold_price' => $request->gold_price,
+                'gst_percent' => $request->gst_percent,
+                'gst_amount' => $request->gst_amount,
+                'mrp_price' => $request->mrp_price,
+                'sale_price' => $request->sale_price,
+                'quantity' => $request->quantity,
+                'final_fn_weight' => $request->final_fn_weight,
+                'size' => $request->size,
                 'final_price' => $request->final_price,
                 'making_type' => $request->making_type,
                 'making_final_amount' => $request->making_final_amount,
@@ -504,17 +499,17 @@ class ProductController extends Controller
                     unlink(public_path($product->image));
                 }
 
-                $manager  = new ImageManager(new GdDriver());
-                $file     = $request->file('image');
-                $filename = 'Product_' . time() . '.' . $file->getClientOriginalExtension();
+                $manager = new ImageManager(new GdDriver);
+                $file = $request->file('image');
+                $filename = 'Product_'.time().'.'.$file->getClientOriginalExtension();
 
                 $image = $manager->read($file->getPathname());
                 $image->resize(500, 500);
 
-                $path = public_path('assets/products/' . $filename);
+                $path = public_path('assets/products/'.$filename);
                 $image->toJpeg(90)->save($path);
 
-                $product->update(['image' => 'assets/products/' . $filename]);
+                $product->update(['image' => 'assets/products/'.$filename]);
             }
 
             /*
@@ -529,25 +524,25 @@ class ProductController extends Controller
                 foreach ($request->diamond['clarity'] as $index => $value) {
 
                     DiamondDetail::create([
-                        'admin_id'            => Auth::guard('admin')->id(),
-                        'product_id'          => $product->id,
-                        'clarity'             => $value,
-                        'cut'                 => $request->diamond['cut'][$index],
-                        'color'               => $request->diamond['color'][$index],
-                        'pieces'              => $request->diamond['pieces'][$index],
-                        'diamond_weight'      => $request->diamond['diamond_weight'][$index],
-                        'price_per_carat'     => $request->diamond['price_per_carat'][$index],
+                        'admin_id' => Auth::guard('admin')->id(),
+                        'product_id' => $product->id,
+                        'clarity' => $value,
+                        'cut' => $request->diamond['cut'][$index],
+                        'color' => $request->diamond['color'][$index],
+                        'pieces' => $request->diamond['pieces'][$index],
+                        'diamond_weight' => $request->diamond['diamond_weight'][$index],
+                        'price_per_carat' => $request->diamond['price_per_carat'][$index],
                         'diamond_final_price' => $request->diamond['diamond_final_price'][$index],
                     ]);
 
                     ItemDiamondDetail::create([
                         'item_product_data_id' => $itemProductData->id,
-                        'clarity'             => $value,
-                        'cut'                 => $request->diamond['cut'][$index],
-                        'color'               => $request->diamond['color'][$index],
-                        'pieces'              => $request->diamond['pieces'][$index],
-                        'diamond_weight'      => $request->diamond['diamond_weight'][$index],
-                        'price_per_carat'     => $request->diamond['price_per_carat'][$index],
+                        'clarity' => $value,
+                        'cut' => $request->diamond['cut'][$index],
+                        'color' => $request->diamond['color'][$index],
+                        'pieces' => $request->diamond['pieces'][$index],
+                        'diamond_weight' => $request->diamond['diamond_weight'][$index],
+                        'price_per_carat' => $request->diamond['price_per_carat'][$index],
                         'diamond_final_price' => $request->diamond['diamond_final_price'][$index],
                     ]);
                 }
@@ -565,21 +560,21 @@ class ProductController extends Controller
                 foreach ($request->stone['stone_name'] as $index => $value) {
 
                     StoneDetail::create([
-                        'admin_id'          => Auth::guard('admin')->id(),
-                        'product_id'        => $product->id,
-                        'stone_name'        => $value,
-                        'stone_weight'      => $request->stone['stone_weight'][$index],
-                        'stone_price'       => $request->stone['stone_price'][$index],
+                        'admin_id' => Auth::guard('admin')->id(),
+                        'product_id' => $product->id,
+                        'stone_name' => $value,
+                        'stone_weight' => $request->stone['stone_weight'][$index],
+                        'stone_price' => $request->stone['stone_price'][$index],
                         'stone_final_price' => $request->stone['stone_final_price'][$index],
                     ]);
 
                     ItemProductStone::create([
-                        'admin_id'              => Auth::guard('admin')->id(),
-                        'item_product_data_id'  => $itemProductData->id,
-                        'stone_name'            => $value,
-                        'stone_weight'          => $request->stone['stone_weight'][$index],
-                        'stone_price'           => $request->stone['stone_price'][$index],
-                        'stone_final_price'     => $request->stone['stone_final_price'][$index],
+                        'admin_id' => Auth::guard('admin')->id(),
+                        'item_product_data_id' => $itemProductData->id,
+                        'stone_name' => $value,
+                        'stone_weight' => $request->stone['stone_weight'][$index],
+                        'stone_price' => $request->stone['stone_price'][$index],
+                        'stone_final_price' => $request->stone['stone_final_price'][$index],
                     ]);
                 }
             }
@@ -589,11 +584,15 @@ class ProductController extends Controller
         | Packets (Delete + Reinsert)
         |--------------------------------------------------------------------------
         */
-            ProductPacket::where('product_id', $product->id)->delete();
+            ProductPacket::where('product_id', $product->id)
+                ->get()
+                ->each(function ($packet) {
+                    $packet->forceDelete();
+                });
 
             if ($request->has('packet.packet_no')) {
                 foreach ($request->packet['packet_no'] as $index => $value) {
-                    if (!empty($value)) {
+                    if (! empty($value)) {
                         ProductPacket::create([
                             'product_id' => $product->id,
                             'packet_no' => $value,
@@ -632,26 +631,26 @@ class ProductController extends Controller
 
                 // ✅ UPDATE existing inventory transaction
                 $inventoryTransaction->update([
-                    'gross_weight'    => $request->gross_weight,
-                    'net_weight'      => $request->net_weight,
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
                     'final_fn_weight' => $request->final_fn_weight,
-                    'quantity'        => $request->quantity,
-                    'remarks'         => 'Product updated',
+                    'quantity' => $request->quantity,
+                    'remarks' => 'Product updated',
                 ]);
             } else {
 
                 // ✅ CREATE only if not exists (optional safety)
                 InventoryTransaction::create([
-                    'admin_id'             => Auth::guard('admin')->id(),
+                    'admin_id' => Auth::guard('admin')->id(),
                     'item_product_data_id' => $itemProductData->id,
-                    'product_id'           => $product->id,
-                    'type'                 => 'IN',
-                    'gross_weight'         => $request->gross_weight,
-                    'net_weight'           => $request->net_weight,
-                    'final_fn_weight'      => $request->final_fn_weight,
-                    'quantity'             => $request->quantity,
-                    'unit'                 => 'GM',
-                    'remarks'              => 'Product updated',
+                    'product_id' => $product->id,
+                    'type' => 'IN',
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
+                    'final_fn_weight' => $request->final_fn_weight,
+                    'quantity' => $request->quantity,
+                    'unit' => 'GM',
+                    'remarks' => 'Product updated',
                 ]);
             }
             // Accounting Post
@@ -661,7 +660,7 @@ class ProductController extends Controller
             try {
                 app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
             } catch (\Exception $e) {
-                \Log::error("Accounting Post failed for Stock In: " . $e->getMessage());
+                \Log::error('Accounting Post failed for Stock In: '.$e->getMessage());
             }
         });
 
@@ -699,20 +698,20 @@ class ProductController extends Controller
             ->with('success', 'Product and related entries soft deleted successfully');
     }
 
-
     public function getSubcategories($category_id)
     {
         return Subcategory::where('category_id', $category_id)
             ->select('subcategory_id', 'subcategory_name')
             ->get();
     }
+
     public function index(Request $request)
     {
         $query = Product::with('category');
 
         // Product name search
         if ($request->filled('product_name')) {
-            $query->where('product_name', 'LIKE', '%' . trim($request->product_name) . '%');
+            $query->where('product_name', 'LIKE', '%'.trim($request->product_name).'%');
         }
 
         // Combined Pre + Post Code Search (BR, BR1, BR12 etc.)
@@ -721,8 +720,8 @@ class ProductController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->whereRaw(
-                    "LOWER(CONCAT(pre_code, post_code)) LIKE ?",
-                    ['%' . strtolower($search) . '%']
+                    'LOWER(CONCAT(pre_code, post_code)) LIKE ?',
+                    ['%'.strtolower($search).'%']
                 );
             });
         }
@@ -730,7 +729,7 @@ class ProductController extends Controller
         // Category filter
         if ($request->filled('category_name')) {
             $query->whereHas('category', function ($q) use ($request) {
-                $q->where('category_name', 'LIKE', '%' . trim($request->category_name) . '%');
+                $q->where('category_name', 'LIKE', '%'.trim($request->category_name).'%');
             });
         }
 
@@ -743,7 +742,7 @@ class ProductController extends Controller
     {
         $term = $request->input('term');
 
-        $packets = PacketMaster::where('packet_no', 'LIKE', '%' . $term . '%')
+        $packets = PacketMaster::where('packet_no', 'LIKE', '%'.$term.'%')
             // ->where('firm_id', \App\Models\Firm::first()->id) // Adjust firm logic if needed
             ->with(['stone', 'clarity', 'color', 'cut', 'shape', 'chalni', 'mm'])
             ->limit(10)
@@ -771,10 +770,10 @@ class ProductController extends Controller
                     'mm_id' => $packet->mm_id,
                     'mm_name' => $packet->mm ? $packet->mm->name : '',
                     'weight' => $packet->average_wt, // or appropriate weight field
-                    'rate'   => $packet->rate_retail, // or appropriate rate
+                    'rate' => $packet->rate_retail, // or appropriate rate
                     'solitaire' => $packet->solitaire,
-                    'certificate_no' => $packet->certificate_no
-                ]
+                    'certificate_no' => $packet->certificate_no,
+                ],
             ];
         }
 

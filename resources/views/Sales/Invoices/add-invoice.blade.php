@@ -437,6 +437,29 @@
                                     </div>
                                 </div>
 
+                                <!-- Unsettled Advances / Udhar Section -->
+                                <div class="card mt-4" id="unsettledEntriesSection" style="display: none;">
+                                    <div class="card-header">
+                                        <h5 class="mb-0" style="color:red;">Customer Unsettled Advance/Udhar</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <table class="table table-bordered mb-0" id="unsettledEntriesTable">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>Total Amount</th>
+                                                    <th>Remaining Amount</th>
+                                                    <th>Settle?</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Dynamic rows -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
 
 
 
@@ -565,6 +588,16 @@
                                                         <h4>
                                                             Total Amount
                                                             <span id="totalInvoiceAmount">₹0.00</span>
+                                                        </h4>
+                                                        <hr>
+                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Settled (Udhar/Adv)</label>
+                                                            <span id="totalSettledAmount">₹0.00</span>
+                                                        </div>
+                                                        <hr>
+                                                        <h4>
+                                                            Remaining Amount
+                                                            <span id="remainingAmountFooter">₹0.00</span>
                                                         </h4>
                                                     </div>
                                                 </div>
@@ -1667,17 +1700,70 @@
                 fetchInvoiceDetails(preloadedInvoiceId);
             }
 
-            $('#customerDropdown').on('change', function() {
-                var customerId = $(this).val();
-                // If we just set it programmatically for Edit, we might want to skip the "Pending" fetch
-                // which might overwrite our specific invoice fetch.
-                // But since we are triggering change above, this runs.
-                // Verification needed: Does the user want to merge pending?
-                // For now, if we are in "Edit Mode" (URL has ID), we prefer that ID.
-                if (!preloadedInvoiceId) {
-                    if (customerId) fetchPendingInvoice(customerId);
-                }
-            });
+         $('#customerDropdown').on('change', function () {
+
+    let customerId = $(this).val();
+
+    // Clear unsettled entries
+    let tbody = $('#unsettledEntriesTable tbody');
+    tbody.empty();
+    $('#unsettledEntriesSection').hide();
+
+    if (!customerId) return;
+
+    // 1️⃣ Load Pending Invoice
+    fetchPendingInvoice(customerId);
+
+    // 2️⃣ Load Unsettled Transactions
+    $.ajax({
+        url: "/sell-invoice/customer-unsettled-entries/" + customerId,
+        type: "GET",
+        success: function(res) {
+
+            if (res.success && res.data.length > 0) {
+
+                $('#unsettledEntriesSection').show();
+
+                res.data.forEach((entry, index) => {
+
+                    let tr = `
+                        <tr>
+                            <td>
+                                ${entry.transaction_date}
+                                <input type="hidden" class="settle-id" value="${entry.id}">
+                            </td>
+
+                            <td>
+                                <span class="badge bg-secondary">
+                                    ${entry.transaction_type}
+                                </span>
+                            </td>
+
+                            <td>₹${parseFloat(entry.amount).toFixed(2)}</td>
+
+                            <td class="remaining-amt" data-val="${entry.remaining_amount}">₹${parseFloat(entry.remaining_amount).toFixed(2)}</td>
+
+                            <td>
+                                <input type="checkbox"
+                                    class="settle-checkbox"
+                                    style="width: 20px; height: 20px;"
+                                    data-type="${entry.transaction_type}">
+                            </td>
+                        </tr>
+                    `;
+
+                    tbody.append(tr);
+                });
+
+            }
+
+        },
+        error: function(err) {
+            console.log("Unsettled entry fetch error", err);
+        }
+    });
+
+});
         });
 
         // New function to fetch specific invoice (for Edit / Paid invoices)
@@ -1914,6 +2000,7 @@
                 bank_received: document.getElementById('bankReceived').value || 0,
                 online_received: document.getElementById('onlineReceived').value || 0,
                 card_received: document.getElementById('cardReceived').value || 0,
+                settled_transactions: collectSettledTransactions(),
             };
 
             fetch('{{ route('sell.invoice.finalize') }}', {
@@ -1995,6 +2082,18 @@
             });
 
             return packets;
+        }
+
+        function collectSettledTransactions() {
+            let transactions = [];
+            $('.settle-checkbox:checked').each(function() {
+                let row = $(this).closest('tr');
+                transactions.push({
+                    id: row.find('.settle-id').val(),
+                    amount: row.find('.remaining-amt').data('val')
+                });
+            });
+            return transactions;
         }
 
 
@@ -2330,10 +2429,26 @@
 
     const totalPaid = cash + bank + online + card;
 
-    let remaining = totalInvoiceAmount - totalPaid;
+    let totalSettled = 0;
+    $('.settle-checkbox:checked').each(function() {
+        let row = $(this).closest('tr');
+        let type = $(this).data('type');
+        let val = parseFloat(row.find('.remaining-amt').data('val')) || 0;
+
+        if (type === 'advance') {
+            totalSettled += val; // Money already with us (Payment)
+        } else if (type === 'udhaar_get' || type === 'udhaar_payment') {
+            totalSettled -= val; // Money they owe us (Debt to be added)
+        }
+    });
+
+    setBoxText('totalSettledAmount', totalSettled);
+
+    let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
     if (remaining < 0) remaining = 0;
 
     setBoxText('remainingAmount', remaining);
+    setBoxText('remainingAmountFooter', remaining);
 }
 
 
@@ -2344,5 +2459,82 @@
                 el.textContent = '₹' + parseFloat(amount).toFixed(2);
             }
         }
+
+        // Fetch unsettled entries on customer change
+//         $('#customerDropdown').on('change', function () {
+
+//     let customerId = $(this).val();
+
+//     // reset unsettled table
+//     let tbody = $('#unsettledEntriesTable tbody');
+//     tbody.empty();
+//     $('#unsettledEntriesSection').hide();
+
+//     if (!customerId) return;
+
+//     // 1️⃣ Fetch Pending Invoice
+//     fetchPendingInvoice(customerId);
+
+//     // 2️⃣ Fetch Unsettled Entries
+//     $.ajax({
+//         url: `/sell-invoice/customer-unsettled-entries/${customerId}`,
+//         type: 'GET',
+//         success: function(res) {
+
+//             if (res.success && res.data.length > 0) {
+
+//                 $('#unsettledEntriesSection').show();
+
+//                 res.data.forEach((entry, index) => {
+
+//                     let tr = `
+//                         <tr>
+//                             <td>${entry.transaction_date}
+//                                 <input type="hidden" name="settled_transactions[${index}][id]" value="${entry.id}">
+//                             </td>
+
+//                             <td>
+//                                 <span class="badge bg-secondary">
+//                                     ${entry.transaction_type}
+//                                 </span>
+//                             </td>
+
+//                             <td>₹${parseFloat(entry.amount).toFixed(2)}</td>
+
+//                             <td>₹${parseFloat(entry.remaining_amount).toFixed(2)}</td>
+
+//                             <td>
+//                                 <input type="number"
+//                                        class="form-control settle-amount-input"
+//                                        name="settled_transactions[${index}][amount]"
+//                                        max="${entry.remaining_amount}"
+//                                        min="0"
+//                                        step="0.01"
+//                                        placeholder="0.00">
+//                             </td>
+
+//                             <td>
+//                                 <button type="button"
+//                                     class="btn btn-sm btn-primary max-settle-btn"
+//                                     data-max="${entry.remaining_amount}">
+//                                     Max
+//                                 </button>
+//                             </td>
+//                         </tr>
+//                     `;
+
+//                     tbody.append(tr);
+//                 });
+
+//             }
+
+//         }
+//     });
+
+// });
+
+        $(document).on('change', '.settle-checkbox', function() {
+            calculateInvoiceTotals();
+        });
     </script>
 @endsection

@@ -479,6 +479,28 @@
                                         </table>
                                     </div>
                                 </div>
+
+                                <!-- Unsettled Advances / Udhar Section -->
+                                <div class="card mt-4" id="unsettledEntriesSection" style="display: none;">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Unsettled Advances / Udhar</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <table class="table table-bordered mb-0" id="unsettledEntriesTable">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>Total Amount</th>
+                                                    <th>Remaining Amount</th>
+                                                    <th>Settle?</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 </table>
 
 
@@ -596,7 +618,17 @@
                                                         <hr>
                                                         <h4>
                                                             Total Amount
-                                                            <span id="totalInvoiceAmount">₹{{ number_format($invoice->final_amount ?? 0, 2) }}</span>
+                                                            <span id="totalInvoiceAmount">₹{{ number_format($invoice->total_amount ?? 0, 2) }}</span>
+                                                        </h4>
+                                                        <hr>
+                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Settled (Udhar/Adv)</label>
+                                                            <span id="totalSettledAmount">₹0.00</span>
+                                                        </div>
+                                                        <hr>
+                                                        <h4>
+                                                            Remaining Amount
+                                                            <span id="remainingAmountFooter">₹{{ number_format($invoice->amount_left ?? 0, 2) }}</span>
                                                         </h4>
                                                     </div>
                                                 </div>
@@ -1449,6 +1481,7 @@
     <script>
         let globalInvoiceItems = [];
         let editingItemId = null;
+        let alreadySettled = 0;
         let globalInvoiceId = null;
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -1733,6 +1766,7 @@
             // Initialize global state from Laravel data
             globalInvoiceId = "{{ $invoice->id }}";
             globalInvoiceItems = @json($invoice->items);
+            alreadySettled = parseFloat("{{ $alreadySettled ?? 0 }}") || 0;
 
             // Pre-select Customer
             var customerId = "{{ $invoice->user_id }}";
@@ -1754,6 +1788,78 @@
         $('#customerDropdown').on('change', function() {
             // In Edit Mode, we don't automatically load "Pending" invoices
             // to avoid overwriting the current invoice data with another pending one.
+            const customerId = $(this).val();
+            if (customerId) {
+                fetchUnsettledEntries(customerId);
+            } else {
+                $('#unsettledEntriesSection').hide();
+                $('#unsettledEntriesTable tbody').empty();
+            }
+        });
+
+        let customerId = {{ $invoice->user_id }};
+        let invoiceId = {{ $invoice->id }};
+        let currentAlreadySettled = {{ $alreadySettled ?? 0 }}; // Keep a copy
+        fetchUnsettledEntries(customerId, invoiceId);
+
+        function fetchUnsettledEntries(customerId, invoiceId = null) {
+            let url = "{{ route('sell.invoice.unsettled', [':customerId', ':invoiceId']) }}";
+            url = url.replace(':customerId', customerId);
+            url = url.replace(':invoiceId', invoiceId || '');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(res) {
+                    const section = $('#unsettledEntriesSection');
+                    const tbody = $('#unsettledEntriesTable tbody');
+                    tbody.empty();
+
+                    if (res.success && res.data.length > 0) {
+                        section.show();
+                        res.data.forEach((entry) => {
+                            let checked = entry.is_already_settled ? 'checked' : '';
+                            let tr = `
+                                <tr>
+                                    <td>
+                                        ${entry.transaction_date}
+                                        <input type="hidden" class="settle-id" value="${entry.id}">
+                                    </td>
+                                    <td><span class="badge bg-secondary">${entry.transaction_type}</span></td>
+                                    <td>₹${parseFloat(entry.amount).toFixed(2)}</td>
+                                    <td class="remaining-amt" data-val="${entry.remaining_amount}">₹${parseFloat(entry.remaining_amount).toFixed(2)}</td>
+                                    <td>
+                                        <input type="checkbox" class="settle-checkbox" ${checked} style="width: 20px; height: 20px;" data-type="${entry.transaction_type}">
+                                    </td>
+                                </tr>
+                            `;
+                            tbody.append(tr);
+                        });
+                        // Once table is loaded, we handle everything via checkboxes.
+                        // Reset the base alreadySettled so we don't double count.
+                        alreadySettled = 0;
+                    } else {
+                        section.hide();
+                    }
+                    calculateInvoiceTotals();
+                }
+            });
+        }
+
+        function collectSettledTransactions() {
+            let transactions = [];
+            $('.settle-checkbox:checked').each(function() {
+                let row = $(this).closest('tr');
+                transactions.push({
+                    id: row.find('.settle-id').val(),
+                    amount: row.find('.remaining-amt').data('val')
+                });
+            });
+            return transactions;
+        }
+
+        $(document).on('change', '.settle-checkbox', function() {
+            calculateInvoiceTotals();
         });
 
         function fetchPendingInvoice(customerId) {
@@ -1884,6 +1990,7 @@
                 bank_received: document.getElementById('bankReceived').value || 0,
                 online_received: document.getElementById('onlineReceived').value || 0,
                 card_received: document.getElementById('cardReceived').value || 0,
+                settled_transactions: collectSettledTransactions(),
             };
 
             fetch('{{ route('sell.invoice.update') }}', {
@@ -2269,10 +2376,26 @@
 
     const totalPaid = cash + bank + online + card;
 
-    let remaining = totalInvoiceAmount - totalPaid;
+    let totalSettled = 0;
+    $('.settle-checkbox:checked').each(function() {
+        let row = $(this).closest('tr');
+        let type = $(this).data('type');
+        let val = parseFloat(row.find('.remaining-amt').data('val')) || 0;
+
+       if (type === 'advance') {
+            totalSettled += val; // Money already with us (Payment)
+        } else if (type === 'udhaar_get' || type === 'udhaar_payment') {
+            totalSettled -= val; // Money they owe us (Debt to be added)
+        }
+    });
+
+    setBoxText('totalSettledAmount', totalSettled);
+
+    let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
     if (remaining < 0) remaining = 0;
 
     setBoxText('remainingAmount', remaining);
+    setBoxText('remainingAmountFooter', remaining);
 }
 
         /**

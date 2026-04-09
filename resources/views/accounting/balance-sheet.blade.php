@@ -85,15 +85,21 @@
         </div>
     </div>
 
-    @if(abs($totalAssets - $totalLiabilities) < 0.01)
-        <div class="alert alert-success mt-4 shadow-sm text-center">
-            <h4><i class="fas fa-balance-scale me-2"></i> Balance Sheet is Balanced!</h4>
-        </div>
-    @else
-        <div class="alert alert-danger mt-4 shadow-sm text-center">
-            <h4><i class="fas fa-exclamation-circle me-2"></i> Balance Sheet is OUT by {{ number_format(abs($totalAssets - $totalLiabilities), 2) }}</h4>
-        </div>
-    @endif
+   @if(abs($totalAssets - $totalLiabilities) <= 1)
+    <div class="alert alert-success mt-4 shadow-sm text-center">
+        <h4>
+            <i class="fas fa-balance-scale me-2"></i>
+            Balance Sheet is Balanced!
+        </h4>
+    </div>
+@else
+    <div class="alert alert-danger mt-4 shadow-sm text-center">
+        <h4>
+            <i class="fas fa-exclamation-circle me-2"></i>
+            Balance Sheet is OUT by {{ number_format(abs($totalAssets - $totalLiabilities), 2) }}
+        </h4>
+    </div>
+@endif
 </div>
 </div>
 </div>

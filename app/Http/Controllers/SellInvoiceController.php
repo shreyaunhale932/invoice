@@ -465,6 +465,55 @@ class SellInvoiceController extends Controller
         ]);
     }
 
+    public function getCustomerUnsettledEntries($customerId, $invoiceId = null)
+    {
+        $query = \App\Models\PaymentTransaction::where('customer_id', $customerId)
+            ->whereIn('transaction_type', ['advance', 'udhaar_payment', 'udhaar_get']);
+
+        if ($invoiceId) {
+            // Exclude the current invoice's own balance transactions (Advance/Udhaar created FROM this invoice)
+            $query->where(function($q) use ($invoiceId) {
+                $q->where('invoice_id', '!=', $invoiceId)
+                  ->orWhereNull('invoice_id');
+            });
+        }
+
+        $transactions = $query->get()
+            ->map(function ($t) use ($invoiceId) {
+                $alreadySettledAmount = 0;
+                if ($invoiceId) {
+                    $alreadySettledAmount = $t->children()
+                        ->where('invoice_id', $invoiceId)
+                        ->whereIn('transaction_type', ['refund', 'udhaar_return'])
+                        ->sum('amount');
+                }
+
+                $totalRefunded = $t->refunded_amount; // sum of all child settlements
+                $otherRefunded = $totalRefunded - $alreadySettledAmount;
+                $remainingAmount = $t->amount - $otherRefunded;
+
+                return [
+                    'id' => $t->id,
+                    'transaction_date' => \Carbon\Carbon::parse($t->transaction_date)->format('d-m-Y'),
+                    'transaction_type' => $t->transaction_type,
+                    'amount' => $t->amount,
+                    'remaining_amount' => $remainingAmount,
+                    'already_settled_amount' => $alreadySettledAmount,
+                    'is_already_settled' => $alreadySettledAmount > 0,
+                ];
+            })
+            ->filter(function ($t) {
+                // Keep if there is still something to settle OR it was already settled in this invoice
+                return $t['remaining_amount'] > 0 || $t['is_already_settled'];
+            })
+            ->values();
+
+        return response()->json([
+            'success' => true,
+            'data' => $transactions
+        ]);
+    }
+
     public function removeItem(Request $request)
     {
         DB::beginTransaction();
@@ -724,8 +773,27 @@ class SellInvoiceController extends Controller
             $card   = round($request->input('card_received', 0), 2);
 
             $totalReceived = round($cash + $bank + $online + $card, 2);
+
+            $totalSettled = 0;
+            if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
+                foreach ($request->settled_transactions as $settlement) {
+                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) continue;
+                    
+                    $originalTx = \App\Models\PaymentTransaction::find($settlement['id']);
+                    if (!$originalTx) continue;
+
+                    if ($originalTx->transaction_type === 'advance' || $originalTx->transaction_type === 'udhaar_payment') {
+                        // Advance or Overpayment reduces balance (acts as payment)
+                        $totalSettled += round($settlement['amount'], 2);
+                    } else if ($originalTx->transaction_type === 'udhaar_get') {
+                        // Udhaar debt increases balance (acts as extra charge)
+                        $totalSettled -= round($settlement['amount'], 2);
+                    }
+                }
+            }
+
             // $amountLeft = round(max(0, $grandTotal - $totalReceived), 2);
-            $totalReceived = round($cash + $bank + $online + $card, 2);
+            $totalReceived = round($cash + $bank + $online + $card + $totalSettled, 2);
 
             // Difference before rounding
             $balanceDiff = $grandTotal - $totalReceived;
@@ -784,6 +852,26 @@ class SellInvoiceController extends Controller
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
             ]);
 
+            // Automatically record balance as Advance or Udhaar Get
+            if (abs($amountLeft) >= 0.05) {
+                $type = $amountLeft > 0 ? 'udhaar_get' : 'advance';
+                $label = $amountLeft > 0 ? 'Udhaar (Debt)' : 'Advance';
+                
+                \App\Models\PaymentTransaction::create([
+                    'firm_id' => $invoice->firm_id,
+                    'admin_id' => Auth::id(),
+                    'customer_id' => $invoice->user_id,
+                    'invoice_id' => $invoice->id,
+                    'amount' => abs($amountLeft),
+                    'transaction_type' => $type,
+                    'payment_method' => 'cash', // Default
+                    'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    'narration' => "{$label} recorded from balance of Invoice #{$invoice->invoice_no}",
+                ]);
+                // Note: We don't call postCustomerTransaction here because postSellInvoice
+                // handles the Sundry Debtors / Customer Advance posting for the invoice balance.
+            }
+
             // Save Exchange Items
             $invoice->exchangeItems()->delete();
             if ($request->filled('exchange_items') && is_array($request->exchange_items)) {
@@ -803,6 +891,42 @@ class SellInvoiceController extends Controller
                         'rate' => $ex['rate'] ?? 0,
                         'amount' => $ex['amount'] ?? 0,
                     ]);
+                }
+            }
+
+            // Save settled transactions (Udhar/Advance)
+            if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
+                foreach ($request->settled_transactions as $settlement) {
+                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) continue;
+
+                    $originalTx = \App\Models\PaymentTransaction::find($settlement['id']);
+                    if (!$originalTx) continue;
+
+                    $type = 'refund'; // For advance
+                    $label = 'Refund';
+                    if ($originalTx->transaction_type == 'udhaar_payment' || $originalTx->transaction_type == 'udhaar_get') {
+                        $type = 'udhaar_return';
+                        $label = 'Return';
+                    }
+
+                    $newTx = \App\Models\PaymentTransaction::create([
+                        'firm_id' => $invoice->firm_id,
+                        'admin_id' => Auth::id(),
+                        'customer_id' => $invoice->user_id,
+                        'invoice_id' => $invoice->id,
+                        'parent_id' => $originalTx->id,
+                        'amount' => $settlement['amount'],
+                        'transaction_type' => $type,
+                        'payment_method' => 'cash',
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                        'narration' => "{$label} settled during Invoice #{$invoice->invoice_no}",
+                    ]);
+
+                    try {
+                        app(\App\Services\AccountingService::class)->postCustomerTransaction($newTx);
+                    } catch (\Exception $e) {
+                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: " . $e->getMessage());
+                    }
                 }
             }
 
@@ -875,7 +999,17 @@ class SellInvoiceController extends Controller
                 $item->delete();
             }
 
-            // ✅ Delete associated journal entry
+            // ✅ Delete all associated PaymentTransactions (Settlements & Balance records)
+            $transactions = \App\Models\PaymentTransaction::where('invoice_id', $id)->get();
+            foreach ($transactions as $tx) {
+                // Delete associated journal entries for each transaction
+                \App\Models\JournalEntry::where('reference_type', get_class($tx))
+                    ->where('reference_id', $tx->id)
+                    ->delete();
+                $tx->delete();
+            }
+
+            // ✅ Delete associated journal entry for the invoice itself
             \App\Models\JournalEntry::where('reference_type', get_class($invoice))
                 ->where('reference_id', $invoice->id)
                 ->delete();
@@ -954,15 +1088,60 @@ class SellInvoiceController extends Controller
             $online = round($request->input('online_received', 0), 2);
             $card   = round($request->input('card_received', 0), 2);
 
-            $totalReceived = round($cash + $bank + $online + $card, 2);
+            $totalReceivedPayments = round($cash + $bank + $online + $card, 2);
 
-            $balanceDiff = round($grandTotal - $totalReceived, 2);
+            /* --------------------
+             | Settlements (Udhar/Advance)
+             -------------------- */
+            // $totalSettled = 0;
+            // if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
+            //     foreach ($request->settled_transactions as $settlement) {
+            //         $totalSettled += (float) ($settlement['amount'] ?? 0);
+            //     }
+            // }
+
+            // 1. Delete existing settlements for this invoice to prevent duplication
+            $oldSettlements = \App\Models\PaymentTransaction::where('invoice_id', $invoice->id)
+                ->whereIn('transaction_type', ['refund', 'udhaar_return'])
+                ->get();
+
+            foreach ($oldSettlements as $oldTx) {
+                // Delete associated journal entries
+                \App\Models\JournalEntry::where('reference_type', get_class($oldTx))
+                    ->where('reference_id', $oldTx->id)
+                    ->delete();
+                $oldTx->delete();
+            }
+
+            $alreadySettled = 0; // Reset to 0 since we deleted old entries
+
+            // NEW settlements from request
+            $newSettled = 0;
+            if ($request->filled('settled_transactions')) {
+                foreach ($request->settled_transactions as $settlement) {
+                    $originalTx = \App\Models\PaymentTransaction::find($settlement['id'] ?? null);
+                    if (!$originalTx) continue;
+
+                    if ($originalTx->transaction_type === 'advance' || $originalTx->transaction_type === 'udhaar_payment') {
+                        $newSettled += (float) ($settlement['amount'] ?? 0);
+                    } else if ($originalTx->transaction_type === 'udhaar_get') {
+                        $newSettled -= (float) ($settlement['amount'] ?? 0);
+                    }
+                }
+            }
+
+            // TOTAL settlement
+            $totalSettled = $alreadySettled + $newSettled;
+
+            // In this system, total_received includes both payments and settlements
+            $totalReceivedTotal = round($totalReceivedPayments + $totalSettled, 2);
+            $balanceDiff = round($grandTotal - $totalReceivedTotal, 2);
 
             // Rounding tolerance (same as finalize)
             if (abs($balanceDiff) < 0.05) {
                 $amountLeft = 0.00;
             } else {
-                $amountLeft = max(0, $balanceDiff);
+                $amountLeft = $balanceDiff;
             }
 
             /* --------------------
@@ -971,7 +1150,7 @@ class SellInvoiceController extends Controller
             $status = 'pending';
             if ($amountLeft <= 0) {
                 $status = 'paid';
-            } elseif ($totalReceived > 0) {
+            } elseif ($totalReceivedTotal > 0) {
                 $status = 'partial';
             }
 
@@ -1014,11 +1193,34 @@ class SellInvoiceController extends Controller
                 'online_received' => $online,
                 'card_received'   => $card,
 
-                'total_received' => $totalReceived,
+                'total_received' => $totalReceivedTotal,
                 'amount_left'    => $amountLeft,
                 'status'         => $status,
             ]);
 
+            // 1.1 Delete existing balance transactions for this invoice (not settlements)
+            \App\Models\PaymentTransaction::where('invoice_id', $invoice->id)
+                ->whereIn('transaction_type', ['advance', 'udhaar_get'])
+                ->whereNull('parent_id') // Only parent balance records
+                ->delete();
+
+            // 1.2 Automatically record new balance as Advance or Udhaar Get
+            if (abs($amountLeft) >= 0.05) {
+                $type = $amountLeft > 0 ? 'udhaar_get' : 'advance';
+                $label = $amountLeft > 0 ? 'Udhaar (Debt)' : 'Advance';
+
+                \App\Models\PaymentTransaction::create([
+                    'firm_id' => $invoice->firm_id,
+                    'admin_id' => Auth::id(),
+                    'customer_id' => $invoice->user_id,
+                    'invoice_id' => $invoice->id,
+                    'amount' => abs($amountLeft),
+                    'transaction_type' => $type,
+                    'payment_method' => 'cash',
+                    'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    'narration' => "{$label} recorded from balance of Invoice Update #{$invoice->invoice_no}",
+                ]);
+            }
             // Save Exchange Items
             $invoice->exchangeItems()->delete();
             if ($request->filled('exchange_items') && is_array($request->exchange_items)) {
@@ -1038,6 +1240,42 @@ class SellInvoiceController extends Controller
                         'rate' => $ex['rate'] ?? 0,
                         'amount' => $ex['amount'] ?? 0,
                     ]);
+                }
+            }
+
+            // Save settled transactions (Udhar/Advance)
+            if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
+                foreach ($request->settled_transactions as $settlement) {
+                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) continue;
+
+                    $originalTx = \App\Models\PaymentTransaction::find($settlement['id']);
+                    if (!$originalTx) continue;
+
+                    $type = 'refund'; // For advance
+                    $label = 'Refund';
+                    if ($originalTx->transaction_type == 'udhaar_payment' || $originalTx->transaction_type == 'udhaar_get') {
+                        $type = 'udhaar_return';
+                        $label = 'Return';
+                    }
+
+                    $newTx = \App\Models\PaymentTransaction::create([
+                        'firm_id' => $invoice->firm_id,
+                        'admin_id' => Auth::id(),
+                        'customer_id' => $invoice->user_id,
+                        'invoice_id' => $invoice->id,
+                        'parent_id' => $originalTx->id,
+                        'amount' => $settlement['amount'],
+                        'transaction_type' => $type,
+                        'payment_method' => 'cash',
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                        'narration' => "{$label} settled during Invoice Update #{$invoice->invoice_no}",
+                    ]);
+
+                    try {
+                        app(\App\Services\AccountingService::class)->postCustomerTransaction($newTx);
+                    } catch (\Exception $e) {
+                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: " . $e->getMessage());
+                    }
                 }
             }
 
@@ -1158,6 +1396,15 @@ class SellInvoiceController extends Controller
         $previewInvoiceNo = $invoice->invoice_no;
         $invoice_id = $id;
 
+        // Calculate already settled amount from Udhar/Advance for this invoice
+        $alreadyRefunds = \App\Models\PaymentTransaction::where('invoice_id', $invoice->id)
+            ->where('transaction_type', 'refund')
+            ->sum('amount');
+        $alreadyReturns = \App\Models\PaymentTransaction::where('invoice_id', $invoice->id)
+            ->where('transaction_type', 'udhaar_return')
+            ->sum('amount');
+        $alreadySettled = $alreadyRefunds - $alreadyReturns;
+
         return view('Sales.Invoices.edit-invoice', compact(
             'invoice',
             'invoice_id',
@@ -1168,7 +1415,8 @@ class SellInvoiceController extends Controller
             'notes',
             'terms',
             'customFields',
-            'previewInvoiceNo'
+            'previewInvoiceNo',
+            'alreadySettled'
         ) + ['customer_id' => $invoice->user_id]);
     }
 

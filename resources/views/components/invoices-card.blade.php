@@ -5,7 +5,7 @@
             <div class="card-body">
                 <div class="dash-widget-header">
                     <span class="inovices-widget-icon {{ $invoice['class'] }}">
-                        <img src="{{ asset('public/assets/img/icons/' . $invoice['icon']) }}" alt="icon">
+                        <img src="{{ asset('assets/img/icons/' . $invoice['icon']) }}" alt="icon">
                     </span>
                     <div class="dash-count">
                         <div class="dash-title">{{ $invoice['title'] }}</div>

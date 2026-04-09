@@ -736,7 +736,7 @@
                                                         <input class="form-check-input packet-solitaire" type="checkbox"
                                                             name="packet[solitaire][]" value="1"
                                                             {{ $packet->solitaire ? 'checked' : '' }}
-                                                            onclick="return false;">
+                                                            >
                                                         <label class="form-check-label">Solitaire</label>
                                                     </div>
                                                 </div>
@@ -831,7 +831,7 @@
 
                                          <div class="col-lg-3 mt-3">
                                             <div class="form-check mt-4">
-                                                <input class="form-check-input packet-solitaire" type="checkbox" name="packet[solitaire][]" value="1" onclick="return false;">
+                                                <input class="form-check-input packet-solitaire" type="checkbox" name="packet[solitaire][]" value="1" >
                                                 <label class="form-check-label">Solitaire</label>
                                             </div>
                                         </div>

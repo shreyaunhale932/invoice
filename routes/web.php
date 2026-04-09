@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\HomeController;
-use App\Http\Middleware\CheckUserRole;
+// use App\Http\Middleware\CheckUserRole;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
@@ -97,7 +97,7 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::PUT('/invoice-columns/update', [InvoiceController::class, 'updatecolumns'])->name('invoice-columns.update');
     Route::get('invoice-columns-index', [InvoiceController::class, 'invoice_columns_index'])->name('invoice-columns.index');
 
-    Route::get('/purity', [\App\Http\Controllers\PurityController::class, 'index'])->name('purity');
+    Route::get('/purity', [PurityController::class, 'index'])->name('purity');
     Route::post('/purity/store', [PurityController::class, 'store'])->name('purity.store');
     Route::get('purity/{id}/edit', [PurityController::class, 'edit'])->name('purity.edit');
     Route::put('purity/{id}', [PurityController::class, 'update'])->name('purity.update');
@@ -164,6 +164,11 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
         '/sell-invoice/get-pending/{customerId}',
         [SellInvoiceController::class, 'getPendingInvoice']
     )->name('sell.invoice.getPending');
+
+    Route::get(
+        '/sell-invoice/customer-unsettled-entries/{customerId}/{invoiceId?}',
+        [SellInvoiceController::class, 'getCustomerUnsettledEntries']
+    )->name('sell.invoice.unsettled');
 
     Route::get(
         '/sell-invoice/get/{id}',
@@ -281,7 +286,7 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('/accounting/sync-all', [\App\Http\Controllers\AccountingController::class, 'syncAll'])->name('accounting.sync-all');
     Route::post('/accounting/post-invoice/{id}', [\App\Http\Controllers\AccountingController::class, 'postInvoice'])->name('accounting.post-invoice');
     Route::get('/reports/day-book', [DayBookController::class, 'index'])->name('day-book.index');
-    
+
     // Customer Transaction Routes
     Route::get('/customer/transactions', [\App\Http\Controllers\CustomerTransactionController::class, 'index'])->name('customer.transactions.index');
     Route::get('/customer/transactions/add', [\App\Http\Controllers\CustomerTransactionController::class, 'create'])->name('customer.transactions.add');
@@ -313,6 +318,13 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('/invoice/{id}/whatsapp',[SellInvoiceController::class,'sendWhatsAppInvoice'])->name('invoice.whatsapp');
 Route::get('/invoice/{id}/email',[SellInvoiceController::class,'sendInvoiceEmail'])->name('invoice.email');
 Route::get('/invoice/{id}/sms',[SellInvoiceController::class,'sendInvoiceSMS'])->name('invoice.sms');
+
+Route::get('/invoices-overdue', [PageController::class, 'invoices_overdue'])->name('invoices-overdue');
+Route::get('/invoices-paid', [PageController::class, 'invoices_paid'])->name('invoices-paid');
+Route::get('/invoices-recurring', [PageController::class, 'invoices_recurring'])->name('invoices-recurring');
+Route::get('/invoices-refunded', [PageController::class, 'invoices_refunded'])->name('invoices-refunded');
+Route::get('/invoices-unpaid', [PageController::class, 'invoices_unpaid'])->name('invoices-unpaid');
+
 });
 
 
@@ -394,11 +406,11 @@ Route::get('/invoice-three', [PageController::class, 'invoice_three'])->name('in
 Route::get('/invoice-two', [PageController::class, 'invoice_two'])->name('invoice-two');
 Route::get('/invoices-cancelled', [PageController::class, 'invoices_cancelled'])->name('invoices-cancelled');
 Route::get('/invoices-draft', [PageController::class, 'invoices_draft'])->name('invoices-draft');
-Route::get('/invoices-overdue', [PageController::class, 'invoices_overdue'])->name('invoices-overdue');
-Route::get('/invoices-paid', [PageController::class, 'invoices_paid'])->name('invoices-paid');
-Route::get('/invoices-recurring', [PageController::class, 'invoices_recurring'])->name('invoices-recurring');
-Route::get('/invoices-refunded', [PageController::class, 'invoices_refunded'])->name('invoices-refunded');
-Route::get('/invoices-unpaid', [PageController::class, 'invoices_unpaid'])->name('invoices-unpaid');
+// Route::get('/invoices-overdue', [PageController::class, 'invoices_overdue'])->name('invoices-overdue');
+// Route::get('/invoices-paid', [PageController::class, 'invoices_paid'])->name('invoices-paid');
+// Route::get('/invoices-recurring', [PageController::class, 'invoices_recurring'])->name('invoices-recurring');
+// Route::get('/invoices-refunded', [PageController::class, 'invoices_refunded'])->name('invoices-refunded');
+// Route::get('/invoices-unpaid', [PageController::class, 'invoices_unpaid'])->name('invoices-unpaid');
 // Route::get('/invoices', [PageController::class, 'invoices'])->name('invoices');
 // Route::get('/bank-account', [PageController::class, 'bank_account'])->name('bank-account');
 Route::get('/company-settings', [PageController::class, 'company_settings'])->name('company-settings');

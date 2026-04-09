@@ -204,10 +204,10 @@
                                     href="{{ url('units') }}">Units</a></li> --}}
                         </ul>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="{{ Request::is('inventory', 'inventory-history') ? 'active' : '' }}"
                             href="{{ url('inventory') }}"><i class="fe fe-user"></i> <span>Inventory</span></a>
-                    </li>
+                    </li> --}}
                 </ul>
                 <!-- /Inventory -->
    <!-- Packet Management -->
