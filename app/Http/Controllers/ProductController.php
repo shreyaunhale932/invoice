@@ -304,14 +304,14 @@ class ProductController extends Controller
             }
 
             // Accounting Post
-            try {
-                app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
-            } catch (\Exception $e) {
-                // Log or handle error if needed, but don't break transaction if accounting is secondary
-                // Actually, user wants Trial Balance to always match, so maybe it SHOULD break transaction.
-                // But for safety against missing accounts:
-                \Log::error('Accounting Post failed for Stock In: '.$e->getMessage());
-            }
+            // try {
+            //     app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
+            // } catch (\Exception $e) {
+            //     // Log or handle error if needed, but don't break transaction if accounting is secondary
+            //     // Actually, user wants Trial Balance to always match, so maybe it SHOULD break transaction.
+            //     // But for safety against missing accounts:
+            //     \Log::error('Accounting Post failed for Stock In: '.$e->getMessage());
+            // }
         });
 
         return redirect()->back()->with('success', 'Product added successfully');
@@ -654,14 +654,14 @@ class ProductController extends Controller
                 ]);
             }
             // Accounting Post
-            \App\Models\JournalEntry::where('reference_type', get_class($product))
-                ->where('reference_id', $product->id)
-                ->delete();
-            try {
-                app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
-            } catch (\Exception $e) {
-                \Log::error('Accounting Post failed for Stock In: '.$e->getMessage());
-            }
+            // \App\Models\JournalEntry::where('reference_type', get_class($product))
+            //     ->where('reference_id', $product->id)
+            //     ->delete();
+            // try {
+            //     app(\App\Services\AccountingService::class)->postStockIn($product, $product->final_price);
+            // } catch (\Exception $e) {
+            //     \Log::error('Accounting Post failed for Stock In: '.$e->getMessage());
+            // }
         });
 
         return redirect()->back()->with('success', 'Product updated successfully');

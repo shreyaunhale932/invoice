@@ -29,8 +29,8 @@
                     <tr>
                         <th style="width: 120px;">Date</th>
                         <th>Narration / Reference</th>
-                        <th class="text-end" style="width: 150px;">Debit</th>
                         <th class="text-end" style="width: 150px;">Credit</th>
+                        <th class="text-end" style="width: 150px;">Debit</th>
                         <th class="text-end" style="width: 150px;">Balance</th>
                     </tr>
                 </thead>

@@ -71,7 +71,7 @@
                                                     <td>{{ $item->created_at->format('d-m-Y') }}</td>
                                                     <td>{{ $item->invoice->customer->name ?? 'N/A' }}</td>
                                                     <td>
-                                                        <a href="{{ route('sell.invoice.view', $item->sell_invoice_id) }}">
+                                                        <a href="{{ route('sell.invoice.view', $item->sell_invoice_id) }}" target="_blank">
                                                             #{{ $item->invoice->invoice_number ?? $item->sell_invoice_id }}
                                                         </a>
                                                     </td>

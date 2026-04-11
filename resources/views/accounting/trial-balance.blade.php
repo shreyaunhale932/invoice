@@ -28,8 +28,8 @@
                                 <tr>
                                     <th>Account Name</th>
                                     <th>Group</th>
-                                    <th class="text-end">Debit</th>
                                     <th class="text-end">Credit</th>
+                                    <th class="text-end">Debit</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -118,7 +118,7 @@
                                         @forelse($salesActivity as $sale)
                                             <tr>
                                                 <td>
-                                                    <a href="{{ route('sell.invoice.view', $sale->id) }}" class="text-primary fw-bold">
+                                                    <a href="{{ route('sell.invoice.view', $sale->id) }}" class="text-primary fw-bold" target="_blank">
                                                         {{ $sale->invoice_no }}
                                                     </a>
                                                 </td>
@@ -211,7 +211,7 @@
                                                 <td>
                                                     <small>
                                                         @foreach($entry->lines as $line)
-                                                            {{ $line->account->name }}: 
+                                                            {{ $line->account->name }}:
                                                             <span class="{{ $line->debit > 0 ? 'text-success' : 'text-danger' }}">
                                                                 {{ number_format($line->debit > 0 ? $line->debit : $line->credit, 2) }}
                                                             </span><br>

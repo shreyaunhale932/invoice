@@ -71,7 +71,7 @@ class InvoiceTemplateController extends Controller
                 foreach ($request->file('images') as $key => $file) {
                     if ($file && $file->isValid()) {
                         $filename = 'invoice_' . $adminId . '_' . time() . '_' . $key . '.' . $file->getClientOriginalExtension();
-                        $path = public_path('assets/img/invoice-templates/');
+                        $path = 'assets/img/invoice-templates/';
 
                         if (!file_exists($path)) {
                             mkdir($path, 0777, true);
@@ -286,7 +286,7 @@ class InvoiceTemplateController extends Controller
                 $image = $request->file('image');
                 if ($image->isValid()) {
                     $filename = 'block_' . $adminId . '_' . time() . '.' . $image->getClientOriginalExtension();
-                    $path = public_path('assets/img/invoice-templates/blocks/');
+                    $path = 'assets/img/invoice-templates/blocks/';
 
                     if (!file_exists($path)) {
                         mkdir($path, 0777, true);
@@ -353,7 +353,7 @@ class InvoiceTemplateController extends Controller
                 $image = $request->file('image');
                 if ($image->isValid()) {
                     $filename = 'block_' . $adminId . '_' . time() . '.' . $image->getClientOriginalExtension();
-                    $path = public_path('assets/img/invoice-templates/blocks/');
+                    $path = 'assets/img/invoice-templates/blocks/';
 
                     if (!file_exists($path)) {
                         mkdir($path, 0777, true);

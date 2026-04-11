@@ -61,7 +61,7 @@
                                             <tr>
                                                 <td>
                                                    <a href="{{ route('sell.invoice.view', $invoice->id) }}"
-                                                        class="invoice-link">
+                                                        class="invoice-link" target="_blank">
                                                         {{ $invoice->invoice_no }}
                                                     </a>
                                                 </td>
@@ -98,7 +98,7 @@
                                                                 <i class="far fa-edit me-2"></i>Edit
                                                             </a>
                                                             <a class="dropdown-item"
-                                                                href="{{ route('sell.invoice.view', $invoice->id) }}">
+                                                                href="{{ route('sell.invoice.view', $invoice->id) }}" target="_blank">
                                                                 <i class="far fa-eye me-2"></i>View
                                                             </a>
                                                         </div>

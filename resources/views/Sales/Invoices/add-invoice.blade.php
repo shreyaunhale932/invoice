@@ -2445,10 +2445,11 @@
     setBoxText('totalSettledAmount', totalSettled);
 
     let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
-    if (remaining < 0) remaining = 0;
+
+    // if (remaining < 0) remaining = 0;
 
     setBoxText('remainingAmount', remaining);
-    setBoxText('remainingAmountFooter', remaining);
+    setBoxText('remainingAmountFooter', totalInvoiceAmount);
 }
 
 
