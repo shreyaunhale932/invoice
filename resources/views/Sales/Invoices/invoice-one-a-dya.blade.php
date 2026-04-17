@@ -1,5 +1,3 @@
-
-
 @extends('layout.mainlayout')
 @section('content')
     @php
@@ -7,8 +5,8 @@
     @endphp
     <style>
         /* =========================
-       PRINT FIX – ADD ONLY
-       ========================= */
+           PRINT FIX – ADD ONLY
+           ========================= */
         .container,
         .container-fluid {
             max-width: none !important;
@@ -33,13 +31,13 @@
         }
 
         /* =====================================================
-       PRINT CSS – ULTRA COMPACT (ALL INVOICES)
-       ===================================================== */
+           PRINT CSS – ULTRA COMPACT (ALL INVOICES)
+           ===================================================== */
         @media print {
 
             /* -----------------------------
-           PAGE RESET
-           ----------------------------- */
+               PAGE RESET
+               ----------------------------- */
             html,
             body {
                 margin: 0 !important;
@@ -62,8 +60,8 @@
             }
 
             /* -----------------------------
-           CONTAINER / WRAPPER
-           ----------------------------- */
+               CONTAINER / WRAPPER
+               ----------------------------- */
             .container,
             .container-fluid,
             .invoice-one,
@@ -85,8 +83,8 @@
             }
 
             /* -----------------------------
-           HEADINGS
-           ----------------------------- */
+               HEADINGS
+               ----------------------------- */
             .add-details {
                 font-size: 9.5px !important;
             }
@@ -120,8 +118,8 @@
             }
 
             /* -----------------------------
-           HEADER COMPRESSION
-           ----------------------------- */
+               HEADER COMPRESSION
+               ----------------------------- */
             .invoice-header {
                 margin-bottom: 6px !important;
                 padding-bottom: 4px !important;
@@ -149,8 +147,8 @@
             }
 
             /* -----------------------------
-           CUSTOMER INFO
-           ----------------------------- */
+               CUSTOMER INFO
+               ----------------------------- */
             .patient-infos {
                 margin-bottom: 6px !important;
             }
@@ -170,8 +168,8 @@
             }
 
             /* -----------------------------
-           TABLE COMPRESSION
-           ----------------------------- */
+               TABLE COMPRESSION
+               ----------------------------- */
             table {
                 width: 100% !important;
                 table-layout: fixed !important;
@@ -213,8 +211,8 @@
             }
 
             /* -----------------------------
-           TOTALS / PAYMENT BLOCKS
-           ----------------------------- */
+               TOTALS / PAYMENT BLOCKS
+               ----------------------------- */
             .invoice-table-footer {
                 margin-top: 4px !important;
                 padding-top: 4px !important;
@@ -231,8 +229,8 @@
             }
 
             /* -----------------------------
-           QR + TERMS
-           ----------------------------- */
+               QR + TERMS
+               ----------------------------- */
             .qr img {
                 max-width: 70px !important;
             }
@@ -253,8 +251,8 @@
             }
 
             /* -----------------------------
-           FINAL MESSAGE
-           ----------------------------- */
+               FINAL MESSAGE
+               ----------------------------- */
             .thanks-msg {
                 font-size: 9px !important;
                 margin-top: 6px !important;
@@ -262,15 +260,15 @@
             }
 
             /* -----------------------------
-           HIDE ACTION BUTTONS
-           ----------------------------- */
+               HIDE ACTION BUTTONS
+               ----------------------------- */
             .file-link {
                 display: none !important;
             }
 
             /* -----------------------------
-           PRESERVE COLORS
-           ----------------------------- */
+               PRESERVE COLORS
+               ----------------------------- */
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -281,8 +279,8 @@
             }
 
             /* -----------------------------
-           PAGE SETUP
-           ----------------------------- */
+               PAGE SETUP
+               ----------------------------- */
             @page {
                 size: A4;
                 margin: 0;
@@ -340,8 +338,7 @@
                  ===================================================== */
                     $logoLight =
                         $templateSettings['visual_elements.logo_light']->value ??
-                        ($templateSettings['visual_elements.logo_light']->default_value ??
-                            '/assets/img/logo2.png');
+                        ($templateSettings['visual_elements.logo_light']->default_value ?? '/assets/img/logo2.png');
 
                     $logoDark =
                         $templateSettings['visual_elements.logo_dark']->value ??
@@ -555,8 +552,23 @@
                         'diamond_amount' =>
                             $templateSettings['item_table.column_diamond_amount']->label ?? 'Diamond Amount',
                         'stone_amount' => $templateSettings['item_table.column_stone_amount']->label ?? 'Stone Amount',
-                        'packet_amount' => $templateSettings['item_table.column_packet_amount']->label ?? 'Packet Amount',
+                        'packet_amount' =>
+                            $templateSettings['item_table.column_packet_amount']->label ?? 'Packet Amount',
                         'amount' => $templateSettings['item_table.column_amount']->label ?? 'Amount',
+                    ];
+
+                    $exchangeLabels = [
+                        'section_title' =>
+                            $templateSettings['exchange_table.section_title']->label ?? 'Old Metal Received',
+                        'description' => $templateSettings['exchange_table.column_description']->label ?? 'Description',
+                        'metal' => $templateSettings['exchange_table.column_metal']->label ?? 'Metal',
+                        'purity' => $templateSettings['exchange_table.column_purity']->label ?? 'Purity',
+                        'gross_wt' => $templateSettings['exchange_table.column_gross_wt']->label ?? 'Gross Wt',
+                        'less_wt' => $templateSettings['exchange_table.column_less_wt']->label ?? 'Less Wt',
+                        'net_wt' => $templateSettings['exchange_table.column_net_wt']->label ?? 'Net Wt',
+                        'fine_wt' => $templateSettings['exchange_table.column_fine_wt']->label ?? 'Fine Wt',
+                        'rate' => $templateSettings['exchange_table.column_rate']->label ?? 'Rate',
+                        'amount' => $templateSettings['exchange_table.column_amount']->label ?? 'Amount',
                     ];
 
                     $columnVisibility = [
@@ -584,6 +596,19 @@
                         'stone_amount' => $templateSettings['item_table.column_stone_amount']->is_visible ?? true,
                         'packet_amount' => $templateSettings['item_table.column_packet_amount']->is_visible ?? true,
                         'amount' => $templateSettings['item_table.column_amount']->is_visible ?? true,
+                    ];
+
+                    $exchangeVisibility = [
+                        'section' => $templateSettings['exchange_table.section_title']->is_visible ?? true,
+                        'description' => $templateSettings['exchange_table.column_description']->is_visible ?? true,
+                        'metal' => $templateSettings['exchange_table.column_metal']->is_visible ?? true,
+                        'purity' => $templateSettings['exchange_table.column_purity']->is_visible ?? true,
+                        'gross_wt' => $templateSettings['exchange_table.column_gross_wt']->is_visible ?? true,
+                        'less_wt' => $templateSettings['exchange_table.column_less_wt']->is_visible ?? true,
+                        'net_wt' => $templateSettings['exchange_table.column_net_wt']->is_visible ?? true,
+                        'fine_wt' => $templateSettings['exchange_table.column_fine_wt']->is_visible ?? true,
+                        'rate' => $templateSettings['exchange_table.column_rate']->is_visible ?? true,
+                        'amount' => $templateSettings['exchange_table.column_amount']->is_visible ?? true,
                     ];
                 @endphp
 
@@ -746,39 +771,50 @@
                                     </tr>
 
                                     {{-- UNIFIED GEMS & PACKET DETAILS ROW --}}
-                                    @if (($item->diamonds && $item->diamonds->count() > 0) || ($item->stones && $item->stones->count() > 0) || ($item->packets && $item->packets->count() > 0))
+                                    @if (
+                                        ($item->diamonds && $item->diamonds->count() > 0) ||
+                                            ($item->stones && $item->stones->count() > 0) ||
+                                            ($item->packets && $item->packets->count() > 0))
                                         <tr class="item-details-row">
                                             <td colspan="{{ count(array_filter($columnVisibility)) }}"
                                                 style="padding:4px 12px; border-top:none; background-color: #fcfcfc;">
 
                                                 {{-- Diamonds --}}
-                                                @if($item->diamonds && $item->diamonds->count() > 0)
-                                                    @foreach($item->diamonds as $diamond)
+                                                @if ($item->diamonds && $item->diamonds->count() > 0)
+                                                    @foreach ($item->diamonds as $diamond)
                                                         <div style="font-size:9.5px; margin:0; padding:1px 0; color: #444;">
-                                                            <strong>Dia:</strong> {{ $diamond->diamond_weight }}ct | {{ $diamond->pieces }}Pcs | {{ $diamond->clarity }}/{{ $diamond->color }} | {{ $diamond->cut }}
+                                                            <strong>Dia:</strong> {{ $diamond->diamond_weight }}ct |
+                                                            {{ $diamond->pieces }}Pcs |
+                                                            {{ $diamond->clarity }}/{{ $diamond->color }} |
+                                                            {{ $diamond->cut }}
                                                         </div>
                                                     @endforeach
                                                 @endif
 
                                                 {{-- Stones --}}
-                                                @if($item->stones && $item->stones->count() > 0)
-                                                    @foreach($item->stones as $stone)
+                                                @if ($item->stones && $item->stones->count() > 0)
+                                                    @foreach ($item->stones as $stone)
                                                         <div style="font-size:9.5px; margin:0; padding:1px 0; color: #444;">
-                                                            <strong>St:</strong> {{ $stone->stone_name }} | {{ $stone->stone_weight }}ct | {{ $stone->pieces ?? 0 }}Pcs
+                                                            <strong>St:</strong> {{ $stone->stone_name }} |
+                                                            {{ $stone->stone_weight }}ct | {{ $stone->pieces ?? 0 }}Pcs
                                                         </div>
                                                     @endforeach
                                                 @endif
 
                                                 {{-- Packets --}}
-                                                @if($item->packets && $item->packets->count() > 0)
+                                                @if ($item->packets && $item->packets->count() > 0)
                                                     @foreach ($item->packets as $packet)
                                                         <div style="font-size:9.5px; margin:0; padding:1px 0; color: #444;">
                                                             <strong>Pk:</strong> {{ $packet->packet_no }} |
                                                             {{ $packet->stone }} |
                                                             {{ $packet->weight }}CT |
                                                             {{ $packet->pcs }} Pcs
-                                                            @if ($packet->clarity) | {{ $packet->clarity }} @endif
-                                                            @if ($packet->color) | {{ $packet->color }} @endif
+                                                            @if ($packet->clarity)
+                                                                | {{ $packet->clarity }}
+                                                            @endif
+                                                            @if ($packet->color)
+                                                                | {{ $packet->color }}
+                                                            @endif
                                                         </div>
                                                     @endforeach
                                                 @endif
@@ -791,10 +827,95 @@
 
                     </div>
                 </div>
+
+                {{-- EXCHANGE ITEMS (OLD METAL) --}}
+                @if ($exchangeVisibility['section'] && $invoice->exchangeItems->count() > 0)
+                    <div class="mt-4">
+                        <h5>{{ $exchangeLabels['section_title'] }}</h5>
+                        <div class="invoice-table">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="ecommercetable">
+                                            <th>#</th>
+                                            @if ($exchangeVisibility['description'])
+                                                <th>{{ $exchangeLabels['description'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['metal'])
+                                                <th>{{ $exchangeLabels['metal'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['purity'])
+                                                <th>{{ $exchangeLabels['purity'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['gross_wt'])
+                                                <th>{{ $exchangeLabels['gross_wt'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['less_wt'])
+                                                <th>{{ $exchangeLabels['less_wt'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['net_wt'])
+                                                <th>{{ $exchangeLabels['net_wt'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['fine_wt'])
+                                                <th>{{ $exchangeLabels['fine_wt'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['rate'])
+                                                <th>{{ $exchangeLabels['rate'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['amount'])
+                                                <th class="text-end">{{ $exchangeLabels['amount'] }}</th>
+                                            @endif
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($invoice->exchangeItems as $ex)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                @if ($exchangeVisibility['description'])
+                                                    <td>{{ $ex->description }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['metal'])
+                                                    <td>{{ $ex->metal }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['purity'])
+                                                    <td>{{ $ex->purity }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['gross_wt'])
+                                                    <td>{{ number_format($ex->gross_weight, 3) }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['less_wt'])
+                                                    <td>{{ number_format($ex->less_weight, 3) }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['net_wt'])
+                                                    <td>{{ number_format($ex->net_weight, 3) }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['fine_wt'])
+                                                    <td>{{ number_format($ex->fine_weight, 3) }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['rate'])
+                                                    <td>{{ number_format($ex->rate, 2) }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['amount'])
+                                                    <td class="text-end">{{ number_format($ex->amount, 2) }}</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 @php
                     /* ===============================
                  | BASIC AMOUNTS
                  =============================== */
+
+                    $advSettled = $invoice->paymentTransactions->where('transaction_type', 'refund')->sum('amount');
+                    $udharSettled = $invoice->paymentTransactions
+                        ->where('transaction_type', 'udhaar_return')
+                        ->sum('amount');
+
                     $taxableAmount = $invoice->taxable_amount ?? 0;
 
                     $cgstPercent = $invoice->cgst_percent ?? 0;
@@ -822,9 +943,10 @@
                     $online = $invoice->online_received ?? 0;
                     $bank = $invoice->bank_received ?? 0;
                     $card = $invoice->card_received ?? 0;
+                    $totalExchangeAmt = $invoice->total_exchange_amount ?? 0;
 
-                    $totalReceived = $cash + $online + $bank + $card;
-                    $balanceAmount = $finalAmount - $totalReceived;
+                    $totalReceived = $cash + $online + $bank + $card + $totalExchangeAmt;
+                    $balanceAmount = $finalAmount - $totalReceived - $advSettled + $udharSettled;
 
                     /* ===============================
                  | INVOICE STATUS
@@ -864,8 +986,7 @@
                  =============================== */
                     $paidLogo =
                         $templateSettings['visual_elements.paid_logo']->value ??
-                        ($templateSettings['visual_elements.paid_logo']->default_value ??
-                            '/assets/img/paid.svg');
+                        ($templateSettings['visual_elements.paid_logo']->default_value ?? '/assets/img/paid.svg');
 
                     $paidLogoVisible = $templateSettings['visual_elements.paid_logo']->is_visible ?? true;
                 @endphp
@@ -983,6 +1104,11 @@
                         $templateSettings['invoice_footer.total_received_label']->label ?? 'Total Received';
                     $balanceDueLabel = $templateSettings['invoice_footer.balance_due_label']->label ?? 'Balance Due';
 
+                    $advSettledLabel =
+                        $templateSettings['invoice_footer.adv_settled_label']->label ?? 'Advance Settled';
+                    $udharSettledLabel =
+                        $templateSettings['invoice_footer.udhar_settled_label']->label ?? 'Udhar Settled';
+
                     /* ===============================
   | VISIBILITY FLAGS
   =============================== */
@@ -993,6 +1119,17 @@
                     $totalReceivedVisible =
                         $templateSettings['invoice_footer.total_received_label']->is_visible ?? true;
                     $balanceDueVisible = $templateSettings['invoice_footer.balance_due_label']->is_visible ?? true;
+
+                    $advSettledVisible = $templateSettings['invoice_footer.adv_settled_label']->is_visible ?? true;
+                    $udharSettledVisible = $templateSettings['invoice_footer.udhar_settled_label']->is_visible ?? true;
+
+                    /* ===============================
+   | SETTLEMENT CALCULATIONS
+   =============================== */
+                    $advSettled = $invoice->paymentTransactions->where('transaction_type', 'refund')->sum('amount');
+                    $udharSettled = $invoice->paymentTransactions
+                        ->where('transaction_type', 'udhaar_return')
+                        ->sum('amount');
                 @endphp
 
                 @if (
@@ -1006,6 +1143,25 @@
                         <div class="table-footer-right">
                             <table class="totalamt-table">
                                 <tbody>
+                                    @if ($totalExchangeAmt > 0)
+                                        <tr>
+                                            <td>Exchange Amount</td>
+                                            <td>₹{{ number_format($totalExchangeAmt, 2) }}</td>
+                                        </tr>
+                                    @endif
+                                    @if ($advSettledVisible && $advSettled > 0)
+                                        <tr>
+                                            <td>{{ $advSettledLabel }}</td>
+                                            <td>₹{{ number_format($advSettled, 2) }}</td>
+                                        </tr>
+                                    @endif
+
+                                    @if ($udharSettledVisible && $udharSettled > 0)
+                                        <tr>
+                                            <td>{{ $udharSettledLabel }}</td>
+                                            <td>₹{{ number_format($udharSettled, 2) }}</td>
+                                        </tr>
+                                    @endif
 
                                     @if ($cashVisible && $cash > 0)
                                         <tr>
@@ -1042,6 +1198,8 @@
                                         </tr>
                                     @endif
 
+
+
                                     @if ($balanceDueVisible)
                                         <tr>
                                             <td>
@@ -1072,8 +1230,7 @@
  =============================== */
                     $qrCode =
                         $templateSettings['visual_elements.qr_code']->value ??
-                        ($templateSettings['visual_elements.qr_code']->default_value ??
-                            '/assets/img/qr-code.svg');
+                        ($templateSettings['visual_elements.qr_code']->default_value ?? '/assets/img/qr-code.svg');
 
                     $signatureImage =
                         $templateSettings['visual_elements.signature_image']->value ??
@@ -1110,7 +1267,7 @@
                         <div class="row align-items-start">
 
                             {{-- QR COLUMN --}}
-                            @if ($qrVisible)
+                            {{-- @if ($qrVisible)
                                 <div class="col-md-4 text-center">
                                     <div class="qr">
                                         <img src="{{ asset($qrCode) }}" alt="QR Code" style="max-width:120px;">
@@ -1119,10 +1276,10 @@
                                         @endif
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
 
                             {{-- PAYMENT INFO COLUMN --}}
-                            @if ($paymentVisible)
+                            {{-- @if ($paymentVisible)
                                 <div class="col-md-4">
                                     <div class="pay-details">
                                         <span class="payment-title d-block mb-1">{{ $paymentInfoLabel }}</span>
@@ -1130,7 +1287,7 @@
                                         <div><span>Amount :</span> $1,815</div>
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
 
                             {{-- SIGNATURE COLUMN --}}
                             @if ($signatureVisible)

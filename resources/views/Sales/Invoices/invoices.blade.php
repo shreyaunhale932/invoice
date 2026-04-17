@@ -49,6 +49,7 @@
                 <div class="col-sm-12">
                     <div class="card-table">
                         <div class="card-body">
+                            <div id="tableSearch" class="mb-3"></div>
                             <div class="table-responsive">
                                 <table class="table table-stripped table-hover datatable">
                                     <thead class="thead-light">

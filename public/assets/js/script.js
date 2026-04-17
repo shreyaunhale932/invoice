@@ -261,7 +261,7 @@ Version      : 1.0
 
 	if($('.datatable').length > 0) {
 		$('.datatable').DataTable({
-			"bFilter": false,
+			"bFilter": true,
 			// "scrollX": true,
 			"autoWidth": false,
 			"sDom": 'fBtlpi', 
@@ -272,12 +272,30 @@ Version      : 1.0
 		  	} ],
 			"language": {
 				search: ' ',
+				sSearchPlaceholder: 'Search ...',
 				sLengthMenu: '_MENU_',
 				paginate: {
 					next: 'Next <i class=" fa fa-angle-double-right ms-2"></i>',
 					previous: '<i class="fa fa-angle-double-left me-2"></i> Previous'
 				},
 			 },
+			buttons: [
+				{
+					extend: 'excel',
+					className: 'btn btn-primary',
+					text: '<i class="far fa-file-excel me-2"></i>Excel'
+				},
+				{
+					extend: 'pdf',
+					className: 'btn btn-primary',
+					text: '<i class="far fa-file-pdf me-2"></i>PDF'
+				},
+				{
+					extend: 'print',
+					className: 'btn btn-primary',
+					text: '<i class="fe fe-printer me-2"></i>Print'
+				}
+			],
 			initComplete: (settings, json)=>{
 				$('.dataTables_filter').appendTo('#tableSearch');
 				$('.dataTables_filter').appendTo('.search-input');

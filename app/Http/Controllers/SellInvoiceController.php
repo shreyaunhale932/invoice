@@ -14,10 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\SellPacketItem;
 
-use Illuminate\Support\Facades\Storage;
 use App\Mail\InvoiceMail;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -778,7 +775,7 @@ class SellInvoiceController extends Controller
             if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
                 foreach ($request->settled_transactions as $settlement) {
                     if (empty($settlement['amount']) || $settlement['amount'] <= 0) continue;
-                    
+
                     $originalTx = \App\Models\PaymentTransaction::find($settlement['id']);
                     if (!$originalTx) continue;
 
@@ -856,7 +853,7 @@ class SellInvoiceController extends Controller
             if (abs($amountLeft) >= 0.05) {
                 $type = $amountLeft > 0 ? 'udhaar_get' : 'advance';
                 $label = $amountLeft > 0 ? 'Udhaar (Debt)' : 'Advance';
-                
+
                 \App\Models\PaymentTransaction::create([
                     'firm_id' => $invoice->firm_id,
                     'admin_id' => Auth::id(),
@@ -983,7 +980,7 @@ class SellInvoiceController extends Controller
         DB::beginTransaction();
         try {
             $invoice = SellInvoice::findOrFail($id);
-
+            $invoice->exchangeItems()->delete();
             // Delete items (Cascading should ideally handle this, but manual is safer)
             $items = SellInvoiceItem::where('sell_invoice_id', $id)->get();
             foreach ($items as $item) {
@@ -1422,7 +1419,7 @@ class SellInvoiceController extends Controller
 
     public function show($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.packets',  'items.product', 'customer'])->findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.packets',  'items.product', 'customer', 'paymentTransactions', 'exchangeItems'])->findOrFail($id);
         $adminId = $invoice->admin_id;
         $customer = \App\Models\Customer::where('id', $invoice->user_id)->first();
 

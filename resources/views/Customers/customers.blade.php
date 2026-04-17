@@ -59,10 +59,10 @@
                                                 <td><span class="{{ $customer['Class'] }}">{{ $customer['Status'] }}</span>
                                                 </td>
                                                 <td class="d-flex align-items-center">
-                                                    <a href="{{ url('add-invoice') }}" class="btn btn-greys me-2"><i
+                                                    {{-- <a href="{{ url('add-invoice') }}" class="btn btn-greys me-2"><i
                                                             class="fa fa-plus-circle me-1"></i> Invoice</a>
                                                     <a href="{{ url('customers-ledger') }}" class="btn btn-greys me-2"><i
-                                                            class="fa-regular fa-eye me-1"></i> Ledger</a>
+                                                            class="fa-regular fa-eye me-1"></i> Ledger</a> --}}
                                                     <div class="dropdown dropdown-action">
                                                         <a href="#" class=" btn-action-icon "
                                                             data-bs-toggle="dropdown" aria-expanded="false"><i

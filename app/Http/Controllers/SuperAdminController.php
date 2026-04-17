@@ -22,7 +22,16 @@ class SuperAdminController extends Controller
     public function createAdmin()
     {
         $users = \App\Models\Admin::all();
-        return view('UserManagement/users', compact('users'));
+        $states = [
+            'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
+            'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh',
+            'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+            'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+            'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh',
+            'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir',
+            'Ladakh', 'Lakshadweep', 'Puducherry'
+        ];
+        return view('UserManagement/users', compact('users', 'states'));
     }
 
     public function storeAdmin(Request $request, \App\Services\TenantService $tenantService)
@@ -35,6 +44,10 @@ class SuperAdminController extends Controller
             'phone' => 'required|string|max:15',
             'password' => 'required|min:6|confirmed',
             'status' => 'required|in:active,inactive',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'pincode' => 'nullable|string',
         ]);
 
         $admin = \App\Models\Admin::create([
@@ -44,6 +57,10 @@ class SuperAdminController extends Controller
             'phone' => $request->phone,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
             'status' => $request->status,
+            'address' => $request->address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'pincode' => $request->pincode,
         ]);
 
         try {
@@ -58,6 +75,7 @@ class SuperAdminController extends Controller
     }
     public function updateAdmin(Request $request, $id)
     {
+        // dd( $request);
         $admin = \App\Models\Admin::findOrFail($id);
 
         $request->validate([
@@ -65,14 +83,22 @@ class SuperAdminController extends Controller
             'email' => 'required|email|unique:admins,email,' . $id,
             'phone' => 'required|string|max:15',
             'status' => 'required|in:active,inactive',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'pincode' => 'nullable|string',
             'password' => 'nullable|min:6', // Password optional on update
         ]);
-
+// dd($request->address);
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'status' => $request->status,
+            'address' => $request->address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'pincode' => $request->pincode,
         ];
 
         if ($request->filled('password')) {

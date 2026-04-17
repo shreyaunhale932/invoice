@@ -421,8 +421,10 @@
                                                 <td>₹{{ number_format($item->packet_amount, 2) }}</td>
                                                 <td>₹{{ number_format($item->final_price, 2) }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-warning btn-sm" onclick="editItem({{ $item->id }})">Edit</button>
-                                                    <button type="button" class="btn btn-danger btn-sm removeItem" data-id="{{ $item->id }}">X</button>
+                                                    <button type="button" class="btn btn-warning btn-sm"
+                                                        onclick="editItem({{ $item->id }})">Edit</button>
+                                                    <button type="button" class="btn btn-danger btn-sm removeItem"
+                                                        data-id="{{ $item->id }}">X</button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -455,25 +457,52 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($invoice->exchangeItems as $ex)
-                                                <tr class="exchange-row">
-                                                    <td><input type="text" name="exchange_description[]" class="form-control" value="{{ $ex->description }}"></td>
-                                                    <td>
-                                                        <select name="exchange_metal[]" class="form-control">
-                                                            <option value="Gold" {{ $ex->metal == 'Gold' ? 'selected' : '' }}>Gold</option>
-                                                            <option value="Silver" {{ $ex->metal == 'Silver' ? 'selected' : '' }}>Silver</option>
-                                                        </select>
-                                                    </td>
-                                                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity" value="{{ $ex->purity }}"></td>
-                                                    <td><input type="number" step="0.001" name="exchange_gross[]" class="form-control exchange-gross" value="{{ $ex->gross_weight }}"></td>
-                                                    <td><input type="number" step="0.001" name="exchange_less[]" class="form-control exchange-less" value="{{ $ex->less_weight }}"></td>
-                                                    <td><input type="number" step="0.001" name="exchange_net[]" class="form-control exchange-net" readonly style="background-color: #e9ecef;" value="{{ $ex->net_weight }}"></td>
-                                                    <td><input type="number" step="0.001" name="exchange_fine[]" class="form-control exchange-fine" readonly style="background-color: #e9ecef;" value="{{ $ex->fine_weight }}"></td>
-                                                    <td><input type="number" step="0.01" name="exchange_wanted_amt[]" class="form-control exchange-wanted-amt" value="{{ $ex->wanted_amt }}"></td>
-                                                    <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate" value="{{ $ex->rate }}"></td>
-                                                    <td><input type="number" step="0.01" name="exchange_amount[]" class="form-control exchange-amount" readonly style="background-color: #e9ecef;" value="{{ $ex->amount }}"></td>
-                                                    <td><button type="button" class="btn btn-danger btn-sm remove-exchange-row">X</button></td>
-                                                </tr>
+                                                @foreach ($invoice->exchangeItems as $ex)
+                                                    <tr class="exchange-row">
+                                                        <td><input type="text" name="exchange_description[]"
+                                                                class="form-control" value="{{ $ex->description }}"></td>
+                                                        <td>
+                                                            <select name="exchange_metal[]" class="form-control">
+                                                                <option value="Gold"
+                                                                    {{ $ex->metal == 'Gold' ? 'selected' : '' }}>Gold
+                                                                </option>
+                                                                <option value="Silver"
+                                                                    {{ $ex->metal == 'Silver' ? 'selected' : '' }}>Silver
+                                                                </option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="number" step="0.01" name="exchange_purity[]"
+                                                                class="form-control exchange-purity"
+                                                                value="{{ $ex->purity }}"></td>
+                                                        <td><input type="number" step="0.001" name="exchange_gross[]"
+                                                                class="form-control exchange-gross"
+                                                                value="{{ $ex->gross_weight }}"></td>
+                                                        <td><input type="number" step="0.001" name="exchange_less[]"
+                                                                class="form-control exchange-less"
+                                                                value="{{ $ex->less_weight }}"></td>
+                                                        <td><input type="number" step="0.001" name="exchange_net[]"
+                                                                class="form-control exchange-net" readonly
+                                                                style="background-color: #e9ecef;"
+                                                                value="{{ $ex->net_weight }}"></td>
+                                                        <td><input type="number" step="0.001" name="exchange_fine[]"
+                                                                class="form-control exchange-fine" readonly
+                                                                style="background-color: #e9ecef;"
+                                                                value="{{ $ex->fine_weight }}"></td>
+                                                        <td><input type="number" step="0.01"
+                                                                name="exchange_wanted_amt[]"
+                                                                class="form-control exchange-wanted-amt"
+                                                                value="{{ $ex->wanted_amt }}"></td>
+                                                        <td><input type="number" step="0.01" name="exchange_rate[]"
+                                                                class="form-control exchange-rate"
+                                                                value="{{ $ex->rate }}"></td>
+                                                        <td><input type="number" step="0.01" name="exchange_amount[]"
+                                                                class="form-control exchange-amount" readonly
+                                                                style="background-color: #e9ecef;"
+                                                                value="{{ $ex->amount }}"></td>
+                                                        <td><button type="button"
+                                                                class="btn btn-danger btn-sm remove-exchange-row">X</button>
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -536,80 +565,106 @@
                                                     <div class="invoice-total-inner">
 
                                                         <!-- Making Charge Section -->
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Making Charge</label>
-                                                            <span id="totalMakingAmount">₹{{ number_format($invoice->total_making_charge ?? 0, 2) }}</span>
-                                                            <input type="hidden" id="totalMakingAmountInput" value="{{ $invoice->total_making_charge ?? 0 }}">
+                                                            <span
+                                                                id="totalMakingAmount">₹{{ number_format($invoice->total_making_charge ?? 0, 2) }}</span>
+                                                            <input type="hidden" id="totalMakingAmountInput"
+                                                                value="{{ $invoice->total_making_charge ?? 0 }}">
                                                         </div>
 
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Making Discount %</label>
-                                                            <input type="number" id="makingDiscountPercent" class="form-control w-25" value="{{ $invoice->making_discount_percent ?? 0 }}">
-                                                            <span id="makingDiscountAmount">₹{{ number_format($invoice->making_discount_amount ?? 0, 2) }}</span>
+                                                            <input type="number" id="makingDiscountPercent"
+                                                                class="form-control w-25"
+                                                                value="{{ $invoice->making_discount_percent ?? 0 }}">
+                                                            <span
+                                                                id="makingDiscountAmount">₹{{ number_format($invoice->making_discount_amount ?? 0, 2) }}</span>
                                                         </div>
 
                                                         <hr>
 
                                                         <!-- Diamond/Stone/Packet Section -->
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Diamond/Stone/Pkt</label>
-                                                            <span id="totalDiamondStonePacketAmount">₹{{ number_format($invoice->total_diamond_stone_packet ?? 0, 2) }}</span>
-                                                            <input type="hidden" id="totalDiamondStonePacketAmountInput" value="{{ $invoice->total_diamond_stone_packet ?? 0 }}">
+                                                            <span
+                                                                id="totalDiamondStonePacketAmount">₹{{ number_format($invoice->total_diamond_stone_packet ?? 0, 2) }}</span>
+                                                            <input type="hidden" id="totalDiamondStonePacketAmountInput"
+                                                                value="{{ $invoice->total_diamond_stone_packet ?? 0 }}">
                                                         </div>
 
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Diamond Discount %</label>
-                                                            <input type="number" id="diamondDiscountPercent" class="form-control w-25" value="{{ $invoice->diamond_discount_percent ?? 0 }}">
-                                                            <span id="diamondDiscountAmount">₹{{ number_format($invoice->diamond_discount_amount ?? 0, 2) }}</span>
+                                                            <input type="number" id="diamondDiscountPercent"
+                                                                class="form-control w-25"
+                                                                value="{{ $invoice->diamond_discount_percent ?? 0 }}">
+                                                            <span
+                                                                id="diamondDiscountAmount">₹{{ number_format($invoice->diamond_discount_amount ?? 0, 2) }}</span>
                                                         </div>
 
                                                         <hr>
 
                                                         <p>
                                                             Taxable Amount
-                                                            <span id="taxableAmount">₹{{ number_format($invoice->taxable_amount ?? 0, 2) }}</span>
-                                                            <input type="hidden" id="taxableAmountInput" value="{{ $invoice->taxable_amount ?? 0 }}">
+                                                            <span
+                                                                id="taxableAmount">₹{{ number_format($invoice->taxable_amount ?? 0, 2) }}</span>
+                                                            <input type="hidden" id="taxableAmountInput"
+                                                                value="{{ $invoice->taxable_amount ?? 0 }}">
                                                         </p>
 
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Exchange</label>
-                                                            <span id="totalExchangeAmount">₹{{ number_format($invoice->total_exchange_amount ?? 0, 2) }}</span>
-                                                            <input type="hidden" id="totalExchangeAmountInput" value="{{ $invoice->total_exchange_amount ?? 0 }}">
+                                                            <span
+                                                                id="totalExchangeAmount">₹{{ number_format($invoice->total_exchange_amount ?? 0, 2) }}</span>
+                                                            <input type="hidden" id="totalExchangeAmountInput"
+                                                                value="{{ $invoice->total_exchange_amount ?? 0 }}">
                                                         </div>
-                                                             <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center">
                                                             <label>Final Discount %</label>
                                                             <input type="number" id="discountPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->discount_percent ?? 0 }}">
-                                                            <span id="discountAmount">₹{{ number_format($invoice->discount_amount ?? 0, 2) }}</span>
+                                                            <span
+                                                                id="discountAmount">₹{{ number_format($invoice->discount_amount ?? 0, 2) }}</span>
                                                         </div>
                                                         <hr>
 
                                                         <!-- CGST -->
-                                                        <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center"
+                                                            id="cgstdiv">
                                                             <label>CGST %</label>
                                                             <input type="number" id="cgstPercent"
                                                                 class="form-control w-25"
-                                                                value="{{ $invoice->cgst_percent ?? 0 }}">
-                                                            <span id="cgstAmount">₹{{ number_format($invoice->cgst_amount ?? 0, 2) }}</span>
+                                                                value="{{ $invoice->cgst_percent ?? 0 }}" readonly>
+                                                            <span
+                                                                id="cgstAmount">₹{{ number_format($invoice->cgst_amount ?? 0, 2) }}</span>
                                                         </div>
 
                                                         <!-- SGST -->
-                                                        <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center"
+                                                            id="sgstdiv">
                                                             <label>SGST %</label>
                                                             <input type="number" id="sgstPercent"
                                                                 class="form-control w-25"
-                                                                value="{{ $invoice->sgst_percent ?? 0 }}">
-                                                            <span id="sgstAmount">₹{{ number_format($invoice->sgst_amount ?? 0, 2) }}</span>
+                                                                value="{{ $invoice->sgst_percent ?? 0 }}" readonly>
+                                                            <span
+                                                                id="sgstAmount">₹{{ number_format($invoice->sgst_amount ?? 0, 2) }}</span>
                                                         </div>
 
                                                         <!-- IGST -->
-                                                        <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center"
+                                                            id="igstdiv">
                                                             <label>IGST %</label>
                                                             <input type="number" id="igstPercent"
                                                                 class="form-control w-25"
-                                                                value="{{ $invoice->igst_percent ?? 0 }}">
-                                                            <span id="igstAmount">₹{{ number_format($invoice->igst_amount ?? 0, 2) }}</span>
+                                                                value="{{ $invoice->igst_percent ?? 0 }}" readonly>
+                                                            <span
+                                                                id="igstAmount">₹{{ number_format($invoice->igst_amount ?? 0, 2) }}</span>
                                                         </div>
 
                                                         <!-- Final Discount -->
@@ -618,17 +673,20 @@
                                                         <hr>
                                                         <h4>
                                                             Total Amount
-                                                            <span id="totalInvoiceAmount">₹{{ number_format($invoice->total_amount ?? 0, 2) }}</span>
+                                                            <span
+                                                                id="totalInvoiceAmount">₹{{ number_format($invoice->total_amount ?? 0, 2) }}</span>
                                                         </h4>
                                                         <hr>
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Settled (Udhar/Adv)</label>
                                                             <span id="totalSettledAmount">₹0.00</span>
                                                         </div>
                                                         <hr>
                                                         <h4>
                                                             Remaining Amount
-                                                            <span id="remainingAmountFooter">₹{{ number_format($invoice->amount_left ?? 0, 2) }}</span>
+                                                            <span
+                                                                id="remainingAmountFooter">₹{{ number_format($invoice->amount_left ?? 0, 2) }}</span>
                                                         </h4>
                                                     </div>
                                                 </div>
@@ -1783,24 +1841,68 @@
             // Ensure button text is correct
             const saveBtn = document.querySelector('button[type="submit"]');
             if (saveBtn) saveBtn.textContent = "Update Invoice";
+
+            // Initial GST Check
+            updateGstByType();
         });
 
         $('#customerDropdown').on('change', function() {
-            // In Edit Mode, we don't automatically load "Pending" invoices
-            // to avoid overwriting the current invoice data with another pending one.
             const customerId = $(this).val();
+            updateGstByType();
+
             if (customerId) {
-                fetchUnsettledEntries(customerId);
+                fetchUnsettledEntries(customerId, "{{ $invoice->id }}");
             } else {
                 $('#unsettledEntriesSection').hide();
                 $('#unsettledEntriesTable tbody').empty();
             }
         });
 
+        function updateGstByType() {
+            let customerDropdown = $('#customerDropdown');
+            let CustomerState = customerDropdown.find(':selected').data('state');
+            console.log('CustomerState=' + CustomerState);
+
+            let AdminState =
+                "{{ optional(Auth::guard('admin')->user())->state ?? (optional(Auth::guard('web')->user())->state ?? '') }}";
+            console.log('AdminState->' + AdminState);
+
+            if (!CustomerState || !AdminState) return;
+
+            // Auto GST Logic
+            if (AdminState.trim().toLowerCase() === CustomerState.trim().toLowerCase()) {
+                // ✅ SAME STATE → CGST + SGST
+                // $('#cgstPercent').val(1.5);
+                // $('#sgstPercent').val(1.5);
+                // $('#igstPercent').val(0);
+
+                // SHOW CGST + SGST
+                $('#cgstdiv').attr('style', 'display: flex !important;');
+                $('#sgstdiv').attr('style', 'display: flex !important;');
+                // HIDE IGST
+                $('#igstdiv').attr('style', 'display: none !important;');
+            } else {
+                // ✅ DIFFERENT STATE → IGST
+                // $('#cgstPercent').val(0);
+                // $('#sgstPercent').val(0);
+                // $('#igstPercent').val(3);
+
+                // HIDE CGST + SGST
+                $('#cgstdiv').attr('style', 'display: none !important;');
+                $('#sgstdiv').attr('style', 'display: none !important;');
+                // SHOW IGST
+                $('#igstdiv').attr('style', 'display: flex !important;');
+            }
+            calculateInvoiceTotals();
+        }
+
         let customerId = {{ $invoice->user_id }};
         let invoiceId = {{ $invoice->id }};
         let currentAlreadySettled = {{ $alreadySettled ?? 0 }}; // Keep a copy
         fetchUnsettledEntries(customerId, invoiceId);
+
+
+
 
         function fetchUnsettledEntries(customerId, invoiceId = null) {
             let url = "{{ route('sell.invoice.unsettled', [':customerId', ':invoiceId']) }}";
@@ -1980,11 +2082,15 @@
                 // New Discount Fields
                 total_making_charge: document.getElementById('totalMakingAmountInput').value || 0,
                 making_discount_percent: document.getElementById('makingDiscountPercent').value || 0,
-                making_discount_amount: document.getElementById('makingDiscountAmount').innerText.replace('₹', '').replace(',', ''),
+                making_discount_amount: document.getElementById('makingDiscountAmount').innerText.replace('₹', '')
+                    .replace(',', ''),
                 total_diamond_stone_packet: document.getElementById('totalDiamondStonePacketAmountInput').value || 0,
                 diamond_discount_percent: document.getElementById('diamondDiscountPercent').value || 0,
-                diamond_discount_amount: document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', ''),
-                diamond_total_amount: (parseFloat(document.getElementById('totalDiamondStonePacketAmountInput').value || 0) - parseFloat(document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', '') || 0)).toFixed(2),
+                diamond_discount_amount: document.getElementById('diamondDiscountAmount').innerText.replace('₹', '')
+                    .replace(',', ''),
+                diamond_total_amount: (parseFloat(document.getElementById('totalDiamondStonePacketAmountInput').value ||
+                    0) - parseFloat(document.getElementById('diamondDiscountAmount').innerText.replace('₹', '')
+                    .replace(',', '') || 0)).toFixed(2),
 
                 cash_received: document.getElementById('cashReceived').value || 0,
                 bank_received: document.getElementById('bankReceived').value || 0,
@@ -2210,24 +2316,75 @@
             calculateInvoiceTotals();
         });
 
-        $(document).on('input', '.exchange-row input', function() {
-            const row = $(this).closest('.exchange-row');
-            const purity = parseFloat(row.find('.exchange-purity').val()) || 0;
-            const gross = parseFloat(row.find('.exchange-gross').val()) || 0;
-            const less = parseFloat(row.find('.exchange-less').val()) || 0;
-            const net = gross - less;
-            row.find('.exchange-net').val(net.toFixed(3));
-
-            const fine = (net * purity) / 100;
+        $(document).on('input', '.exchange-gross, .exchange-less', function() {
+            let row = $(this).closest('tr');
+            let gross = parseFloat(row.find('.exchange-gross').val()) || 0;
+            let less = parseFloat(row.find('.exchange-less').val()) || 0;
+            let net = gross - less;
+            let purity = parseFloat(row.find('.exchange-purity').val()) || 0;
+            let fine = (net * purity) / 100;
             row.find('.exchange-fine').val(fine.toFixed(3));
+            row.find('.exchange-net').val(net.toFixed(3));
+            row.trigger('exchange-calculate');
+        });
 
-            const wanted = parseFloat(row.find('.exchange-wanted-amt').val()) || 0;
-            const rate = parseFloat(row.find('.exchange-rate').val()) || 0;
-            const amount = fine * (rate / 10) + wanted;
-            row.find('.exchange-amount').val(amount.toFixed(2));
+        $(document).on('input', '.exchange-purity', function() {
+            $(this).closest('tr').trigger('exchange-calculate');
+        });
 
+        $(document).on('exchange-calculate', '.exchange-row', function() {
+            let row = $(this);
+            let net = parseFloat(row.find('.exchange-net').val()) || 0;
+            let purity = parseFloat(row.find('.exchange-purity').val()) || 0;
+            let fine = (net * purity) / 100;
+            row.find('.exchange-fine').val(fine.toFixed(3));
+        });
+
+        $(document).on('input', '.exchange-wanted-amt', function() {
+            let row = $(this).closest('tr');
+            let wantedAmt = parseFloat($(this).val()) || 0;
+            let net = parseFloat(row.find('.exchange-net').val()) || 0;
+
+            row.find('.exchange-amount').val(wantedAmt.toFixed(2));
+            if (net > 0) {
+                let rate = wantedAmt / net;
+                row.find('.exchange-rate').val(rate.toFixed(2));
+            }
             calculateInvoiceTotals();
         });
+
+        $(document).on('input', '.exchange-rate', function() {
+            let row = $(this).closest('tr');
+            let rate = parseFloat($(this).val()) || 0;
+            let net = parseFloat(row.find('.exchange-net').val()) || 0;
+
+            let amount = net * rate;
+            row.find('.exchange-amount').val(amount.toFixed(2));
+            row.find('.exchange-wanted-amt').val(amount.toFixed(2));
+            calculateInvoiceTotals();
+        });
+
+
+
+        // $(document).on('input', '.exchange-row input', function() {
+        //     const row = $(this).closest('.exchange-row');
+        //     const purity = parseFloat(row.find('.exchange-purity').val()) || 0;
+        //     const gross = parseFloat(row.find('.exchange-gross').val()) || 0;
+        //     const less = parseFloat(row.find('.exchange-less').val()) || 0;
+        //     const net = gross - less;
+        //     row.find('.exchange-net').val(net.toFixed(3));
+
+        //     const fine = (net * purity) / 100;
+        //     row.find('.exchange-fine').val(fine.toFixed(3));
+
+        //     const wanted = parseFloat(row.find('.exchange-wanted-amt').val()) || 0;
+        //     const rate = parseFloat(row.find('.exchange-rate').val()) || 0;
+        //     const amount = fine * (rate / 10) + wanted;
+        //     // console.log('amount='+amount);
+        //     row.find('.exchange-amount').val(amount.toFixed(2));
+
+        //     calculateInvoiceTotals();
+        // });
 
         // --- CALCULATION LOGIC (Keep existing calculateInvoiceTotals) ---
         // Just ensuring it reads the updated DOM properly
@@ -2270,133 +2427,141 @@
          * Main Calculation Function
          * Recalculates all invoice totals based on items and rules.
          */
-             function calculateInvoiceTotals() {
+        function calculateInvoiceTotals() {
 
-    let totalGold = 0;
-    let totalMaking = 0;
-    let totalDiaStonePkt = 0;
+            let totalGold = 0;
+            let totalMaking = 0;
+            let totalDiaStonePkt = 0;
 
-    globalInvoiceItems.forEach(item => {
+            globalInvoiceItems.forEach(item => {
 
-        let goldenPrice = parseFloat(item.total_amount) || 0;
+                let goldenPrice = parseFloat(item.total_amount) || 0;
 
-        totalGold += goldenPrice;
-        totalMaking += parseFloat(item.making_final_amount) || 0;
+                totalGold += goldenPrice;
+                totalMaking += parseFloat(item.making_final_amount) || 0;
 
-        if (Array.isArray(item.diamonds)) {
-            item.diamonds.forEach(d => {
-                totalDiaStonePkt += parseFloat(d.diamond_final_price || 0);
+                if (Array.isArray(item.diamonds)) {
+                    item.diamonds.forEach(d => {
+                        totalDiaStonePkt += parseFloat(d.diamond_final_price || 0);
+                    });
+                }
+
+                if (Array.isArray(item.stones)) {
+                    item.stones.forEach(s => {
+                        totalDiaStonePkt += parseFloat(s.stone_final_price || 0);
+                    });
+                }
+
+                if (Array.isArray(item.packets)) {
+                    item.packets.forEach(p => {
+                        totalDiaStonePkt += parseFloat(p.amount || 0);
+                    });
+                }
             });
-        }
 
-        if (Array.isArray(item.stones)) {
-            item.stones.forEach(s => {
-                totalDiaStonePkt += parseFloat(s.stone_final_price || 0);
+            // -------------------------
+            // 1️⃣ Discounts (Only Calculate, Don't Affect Taxable)
+            // -------------------------
+            const makingDiscountPercent = parseFloat(document.getElementById('makingDiscountPercent')?.value) || 0;
+            const makingDiscountAmount = (totalMaking * makingDiscountPercent) / 100;
+
+            const diamondDiscountPercent = parseFloat(document.getElementById('diamondDiscountPercent')?.value) || 0;
+            const diamondDiscountAmount = (totalDiaStonePkt * diamondDiscountPercent) / 100;
+
+            setBoxText('totalMakingAmount', totalMaking);
+            document.getElementById('totalMakingAmountInput').value = totalMaking.toFixed(2);
+            setBoxText('makingDiscountAmount', makingDiscountAmount);
+
+            setBoxText('totalDiamondStonePacketAmount', totalDiaStonePkt);
+            document.getElementById('totalDiamondStonePacketAmountInput').value = totalDiaStonePkt.toFixed(2);
+            setBoxText('diamondDiscountAmount', diamondDiscountAmount);
+
+            // -------------------------
+            // 2️⃣ FIXED TAXABLE AMOUNT (NO DISCOUNT MINUS)
+            // -------------------------
+            const taxableAmount = totalGold + totalDiaStonePkt;
+
+            setBoxText('taxableAmount', taxableAmount);
+            document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
+
+            // -------------------------
+            // 3️⃣ Final Discount (Same Logic As Before)
+            // -------------------------
+            const finalDiscountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
+            const finalDiscountAmount = (taxableAmount * finalDiscountPercent) / 100;
+            const amountAfterFinalDiscount = taxableAmount - finalDiscountAmount - diamondDiscountAmount -
+                makingDiscountAmount;
+
+            setBoxText('discountAmount', finalDiscountAmount);
+
+            // -------------------------
+            // 4️⃣ GST (Same As Your Working Logic)
+            // -------------------------
+            const cgstPercent = parseFloat(document.getElementById('cgstPercent')?.value) || 0;
+            const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
+            const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
+
+            const cgstAmount = (amountAfterFinalDiscount * cgstPercent) / 100;
+            const sgstAmount = (amountAfterFinalDiscount * sgstPercent) / 100;
+            const igstAmount = (amountAfterFinalDiscount * igstPercent) / 100;
+
+            setBoxText('cgstAmount', cgstAmount);
+            setBoxText('sgstAmount', sgstAmount);
+            setBoxText('igstAmount', igstAmount);
+
+            // -------------------------
+            // 5️⃣ Final Invoice Amount (UNCHANGED FLOW)
+            // -------------------------
+            let totalExchange = 0;
+            $('.exchange-amount').each(function() {
+                totalExchange += parseFloat($(this).val()) || 0;
             });
-        }
 
-        if (Array.isArray(item.packets)) {
-            item.packets.forEach(p => {
-                totalDiaStonePkt += parseFloat(p.amount || 0);
+            setBoxText('totalExchangeAmount', totalExchange);
+            document.getElementById('totalExchangeAmountInput').value = totalExchange.toFixed(2);
+
+            const totalInvoiceAmount = (amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount) - totalExchange;
+
+            setBoxText('totalInvoiceAmount', totalInvoiceAmount);
+
+            // -------------------------
+            // 6️⃣ Payment + Remaining
+            // -------------------------
+            const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
+            const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
+            const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
+            const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
+
+            const totalPaid = cash + bank + online + card;
+
+            let totalSettled = 0;
+            $('.settle-checkbox:checked').each(function() {
+                let row = $(this).closest('tr');
+                let type = $(this).data('type');
+                let val = parseFloat(row.find('.remaining-amt').data('val')) || 0;
+
+                if (type === 'advance') {
+                    totalSettled += val; // Money already with us (Payment)
+                } else if (type === 'udhaar_get' || type === 'udhaar_payment') {
+                    totalSettled -= val; // Money they owe us (Debt to be added)
+                }
             });
+
+            setBoxText('totalSettledAmount', totalSettled);
+            //  console.log('totalInvoiceAmount='+totalInvoiceAmount);
+            //  console.log('totalPaid='+totalPaid);
+            //  console.log('totalSettled='+totalSettled);
+            let remaining = Math.abs(
+                parseFloat((totalInvoiceAmount - (totalPaid + totalSettled)).toFixed(2))
+            );
+
+            setBoxText('remainingAmount', remaining.toFixed(2));
+            // console.log('remaining-'+totalInvoiceAmount+'-'+totalPaid+'+'totalSettled);
+            // if (remaining < 0) remaining = 0;
+
+            setBoxText('remainingAmount', remaining);
+            setBoxText('remainingAmountFooter', totalInvoiceAmount - totalSettled);
         }
-    });
-
-    // -------------------------
-    // 1️⃣ Discounts (Only Calculate, Don't Affect Taxable)
-    // -------------------------
-    const makingDiscountPercent = parseFloat(document.getElementById('makingDiscountPercent')?.value) || 0;
-    const makingDiscountAmount = (totalMaking * makingDiscountPercent) / 100;
-
-    const diamondDiscountPercent = parseFloat(document.getElementById('diamondDiscountPercent')?.value) || 0;
-    const diamondDiscountAmount = (totalDiaStonePkt * diamondDiscountPercent) / 100;
-
-    setBoxText('totalMakingAmount', totalMaking);
-    document.getElementById('totalMakingAmountInput').value = totalMaking.toFixed(2);
-    setBoxText('makingDiscountAmount', makingDiscountAmount);
-
-    setBoxText('totalDiamondStonePacketAmount', totalDiaStonePkt);
-    document.getElementById('totalDiamondStonePacketAmountInput').value = totalDiaStonePkt.toFixed(2);
-    setBoxText('diamondDiscountAmount', diamondDiscountAmount);
-
-    // -------------------------
-    // 2️⃣ FIXED TAXABLE AMOUNT (NO DISCOUNT MINUS)
-    // -------------------------
-    const taxableAmount = totalGold  + totalDiaStonePkt;
-
-    setBoxText('taxableAmount', taxableAmount);
-    document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
-
-    // -------------------------
-    // 3️⃣ Final Discount (Same Logic As Before)
-    // -------------------------
-    const finalDiscountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
-    const finalDiscountAmount = (taxableAmount * finalDiscountPercent) / 100;
-    const amountAfterFinalDiscount = taxableAmount - finalDiscountAmount-diamondDiscountAmount-makingDiscountAmount;
-
-    setBoxText('discountAmount', finalDiscountAmount);
-
-    // -------------------------
-    // 4️⃣ GST (Same As Your Working Logic)
-    // -------------------------
-    const cgstPercent = parseFloat(document.getElementById('cgstPercent')?.value) || 0;
-    const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
-    const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
-
-    const cgstAmount = (amountAfterFinalDiscount * cgstPercent) / 100;
-    const sgstAmount = (amountAfterFinalDiscount * sgstPercent) / 100;
-    const igstAmount = (amountAfterFinalDiscount * igstPercent) / 100;
-
-    setBoxText('cgstAmount', cgstAmount);
-    setBoxText('sgstAmount', sgstAmount);
-    setBoxText('igstAmount', igstAmount);
-
-    // -------------------------
-    // 5️⃣ Final Invoice Amount (UNCHANGED FLOW)
-    // -------------------------
-    let totalExchange = 0;
-    $('.exchange-amount').each(function() {
-        totalExchange += parseFloat($(this).val()) || 0;
-    });
-
-    setBoxText('totalExchangeAmount', totalExchange);
-    document.getElementById('totalExchangeAmountInput').value = totalExchange.toFixed(2);
-
-    const totalInvoiceAmount = (amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount) - totalExchange;
-
-    setBoxText('totalInvoiceAmount', totalInvoiceAmount);
-
-    // -------------------------
-    // 6️⃣ Payment + Remaining
-    // -------------------------
-    const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
-    const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
-    const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
-    const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
-
-    const totalPaid = cash + bank + online + card;
-
-    let totalSettled = 0;
-    $('.settle-checkbox:checked').each(function() {
-        let row = $(this).closest('tr');
-        let type = $(this).data('type');
-        let val = parseFloat(row.find('.remaining-amt').data('val')) || 0;
-
-       if (type === 'advance') {
-            totalSettled += val; // Money already with us (Payment)
-        } else if (type === 'udhaar_get' || type === 'udhaar_payment') {
-            totalSettled -= val; // Money they owe us (Debt to be added)
-        }
-    });
-
-    setBoxText('totalSettledAmount', totalSettled);
-
-    let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
-    // if (remaining < 0) remaining = 0;
-
-    setBoxText('remainingAmount', remaining);
-    setBoxText('remainingAmountFooter', totalInvoiceAmount);
-}
 
         /**
          * Helper to update text content with Currency formatting

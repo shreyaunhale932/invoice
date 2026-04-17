@@ -10,6 +10,12 @@
         Usersr
         @endslot
         @endcomponent
+         @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
         <!-- /Page Header -->
         @if (Route::is(['createAdmin']))
         <div class="row">
@@ -36,7 +42,7 @@
                                         <td>{{ $user->id }}</td>
                                         <td>
                                             <h2 class="table-avatar">
-                                               
+
                                                 <a href="{{ url('profile') }}">{{ $user->name }}
                                                     <span>{{ $user->email }}</span>
                                                 </a>
@@ -58,18 +64,22 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <ul>
                                                         <li>
-                                                            <a class="dropdown-item edit-user-btn" href="javascript:void(0);" 
+                                                            <a class="dropdown-item edit-user-btn" href="javascript:void(0);"
                                                                 data-bs-toggle="modal" data-bs-target="#edit_user"
                                                                 data-id="{{ $user->id }}"
                                                                 data-name="{{ $user->name }}"
                                                                 data-email="{{ $user->email }}"
                                                                 data-phone="{{ $user->phone }}"
-                                                                data-status="{{ $user->status }}">
+                                                                data-status="{{ $user->status }}"
+                                                                data-address="{{ $user->address }}"
+                                                                data-city="{{ $user->city }}"
+                                                                data-state="{{ $user->state }}"
+                                                                data-pincode="{{ $user->pincode }}">
                                                                 <i class="far fa-edit me-2"></i>Edit
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item delete-user-btn" href="javascript:void(0);" 
+                                                            <a class="dropdown-item delete-user-btn" href="javascript:void(0);"
                                                                 data-bs-toggle="modal" data-bs-target="#delete_modal"
                                                                 data-id="{{ $user->id }}">
                                                                 <i class="far fa-trash-alt me-2"></i>Delete
@@ -127,7 +137,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit User</h5>
+                <h5 class="modal-title">Edit User22</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -135,40 +145,110 @@
                     @csrf
                     @method('PUT')
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" name="name" id="edit_name">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" name="email" id="edit_email">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" name="phone" id="edit_phone">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Password (Leave blank to keep current)</label>
-                                <input type="password" class="form-control" name="password">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Status</label>
-                                <select class="select" name="status" id="edit_status">
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+
+    <!-- Name -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" name="name" id="edit_name">
+            @error('name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email" id="edit_email">
+            @error('email')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Phone</label>
+            <input type="text" class="form-control" name="phone" id="edit_phone">
+            @error('phone')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Password -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Password (Leave blank to keep current)</label>
+            <input type="password" class="form-control" name="password">
+            @error('password')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Address -->
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Address</label>
+            <textarea class="form-control" name="address" id="edit_address"></textarea>
+            @error('address')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- City -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>City</label>
+            <input type="text" class="form-control" name="city" id="edit_city">
+            @error('city')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- State -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>State</label>
+           <select class="form-control searchable-select" name="state" id="edit_state"> <option value="">Select State</option> @foreach(['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'] as $stateName) <option value="{{ $stateName }}">{{ $stateName }}</option> @endforeach </select>
+            @error('state')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Pincode -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>Pincode</label>
+            <input type="text" class="form-control" name="pincode" id="edit_pincode">
+            @error('pincode')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Status</label>
+            <select class="select" name="status" id="edit_status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+            @error('status')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+</div>
                     <div class="submit-section">
                         <button type="submit" class="btn btn-primary submit-btn">Update</button>
                     </div>
@@ -215,30 +295,56 @@
 <script>
     $(document).ready(function () {
         // Edit User
-        $('.edit-user-btn').on('click', function () {
+        $(document).on('click', '.edit-user-btn', function () {
             var id = $(this).data('id');
             var name = $(this).data('name');
             var email = $(this).data('email');
             var phone = $(this).data('phone');
             var status = $(this).data('status');
-            
+            var address = $(this).data('address');
+            var city = $(this).data('city');
+            var state = $(this).data('state');
+            var pincode = $(this).data('pincode');
+
             var url = "{{ route('admin.update', ':id') }}";
             url = url.replace(':id', id);
-            
+
             $('#edit_user_form').attr('action', url);
             $('#edit_name').val(name);
             $('#edit_email').val(email);
             $('#edit_phone').val(phone);
             $('#edit_status').val(status).change();
+            $('#edit_address').val(address);
+            $('#edit_city').val(city);
+            $('#edit_state').val(state).trigger('change');
+            $('#edit_pincode').val(pincode);
         });
 
         // Delete User
-        $('.delete-user-btn').on('click', function () {
+        $(document).on('click', '.delete-user-btn', function () {
             var id = $(this).data('id');
             var url = "{{ route('admin.destroy', ':id') }}";
             url = url.replace(':id', id);
             $('#delete_user_form').attr('action', url);
         });
+
+        // Initialize Searchable Select2
+        if ($('.searchable-select').length > 0) {
+            $('.searchable-select').select2({
+                dropdownParent: $('#add_user'), // Ensure dropdown works inside modal
+                width: '100%',
+                placeholder: 'Select State'
+            });
+
+            // For edit modal
+            $('#edit_user').on('shown.bs.modal', function () {
+                $('.searchable-select').select2({
+                    dropdownParent: $('#edit_user'),
+                    width: '100%',
+                    placeholder: 'Select State'
+                });
+            });
+        }
     });
 </script>
 @endsection

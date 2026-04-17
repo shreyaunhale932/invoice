@@ -25,6 +25,10 @@ class Admin extends Authenticatable
         'password',
         'db_name',
         'status',
+        'address',
+        'city',
+        'state',
+        'pincode',
     ];
 
     /**

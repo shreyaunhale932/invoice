@@ -30,15 +30,20 @@ class InvoiceTemplateController extends Controller
         // If no settings exist, initialize with defaults
         if ($settings->isEmpty()) {
             $this->initializeDefaultSettings($adminId);
-            $settings = InvoiceTemplateSetting::where(function ($query) use ($adminId) {
-                $query->where('admin_id', $adminId)
-                    ->orWhereNull('admin_id');
-            })
-                ->orderBy('section_key')
-                ->orderBy('display_order')
-                ->get()
-                ->groupBy('section_key');
+        } else {
+            // Check for missing default settings and add them
+            $this->mergeMissingDefaultSettings($adminId);
         }
+
+        // Refetch settings after initialization or merge
+        $settings = InvoiceTemplateSetting::where(function ($query) use ($adminId) {
+            $query->where('admin_id', $adminId)
+                ->orWhereNull('admin_id');
+        })
+            ->orderBy('section_key')
+            ->orderBy('display_order')
+            ->get()
+            ->groupBy('section_key');
 
         // Get custom blocks
         $customBlocks = InvoiceTemplateCustomBlock::where('admin_id', $adminId)
@@ -149,7 +154,68 @@ class InvoiceTemplateController extends Controller
      */
     private function initializeDefaultSettings($adminId)
     {
-        $defaults = [
+        $defaults = $this->getDefaultSettingsArray($adminId);
+
+        foreach ($defaults as $default) {
+            $createData = [
+                'admin_id' => $adminId,
+                'section_key' => $default['section_key'],
+                'field_key' => $default['field_key'],
+                'label' => $default['label'],
+                'is_visible' => true,
+                'display_order' => $default['display_order'],
+                'field_type' => $default['field_type'],
+            ];
+
+            if (isset($default['default_value'])) {
+                $createData['default_value'] = $default['default_value'];
+                $createData['value'] = $default['default_value'];
+            }
+
+            InvoiceTemplateSetting::create($createData);
+        }
+    }
+
+    /**
+     * Merge missing default settings for an admin
+     */
+    private function mergeMissingDefaultSettings($adminId)
+    {
+        $defaults = $this->getDefaultSettingsArray($adminId);
+
+        foreach ($defaults as $default) {
+            $exists = InvoiceTemplateSetting::where('admin_id', $adminId)
+                ->where('section_key', $default['section_key'])
+                ->where('field_key', $default['field_key'])
+                ->exists();
+
+            if (!$exists) {
+                $createData = [
+                    'admin_id' => $adminId,
+                    'section_key' => $default['section_key'],
+                    'field_key' => $default['field_key'],
+                    'label' => $default['label'],
+                    'is_visible' => true,
+                    'display_order' => $default['display_order'],
+                    'field_type' => $default['field_type'],
+                ];
+
+                if (isset($default['default_value'])) {
+                    $createData['default_value'] = $default['default_value'];
+                    $createData['value'] = $default['default_value'];
+                }
+
+                InvoiceTemplateSetting::create($createData);
+            }
+        }
+    }
+
+    /**
+     * Get default settings array
+     */
+    private function getDefaultSettingsArray($adminId)
+    {
+        return [
             // Customer Information Section
             ['section_key' => 'text_elements', 'field_key' => 'company_name', 'label' => 'Dreamguys Technologies Pvt Ltd', 'field_type' => 'text', 'display_order' => 1, 'default_value' => 'Dreamguys Technologies Pvt Ltd'],
             ['section_key' => 'text_elements', 'field_key' => 'company_address', 'label' => 'Address:15 Hodges Mews, High Wycombe HP12 3JL, United Kingdom.', 'field_type' => 'text', 'display_order' => 2, 'default_value' => 'Address:15 Hodges Mews, High Wycombe HP12 3JL, United Kingdom.'],
@@ -203,6 +269,10 @@ class InvoiceTemplateController extends Controller
             ['section_key' => 'invoice_footer', 'field_key' => 'total_received_label', 'label' => 'Total Received', 'field_type' => 'label', 'display_order' => 12],
             ['section_key' => 'invoice_footer', 'field_key' => 'balance_due_label', 'label' => 'Balance Due', 'field_type' => 'label', 'display_order' => 13],
 
+            // Add Settlement Labels
+            ['section_key' => 'invoice_footer', 'field_key' => 'adv_settled_label', 'label' => 'Advance Settled', 'field_type' => 'label', 'display_order' => 14],
+            ['section_key' => 'invoice_footer', 'field_key' => 'udhar_settled_label', 'label' => 'Udhar Settled', 'field_type' => 'label', 'display_order' => 15],
+
             // Visual Elements
             ['section_key' => 'visual_elements', 'field_key' => 'logo_light', 'label' => 'Logo (Light Mode)', 'field_type' => 'image', 'display_order' => 1, 'default_value' => '/assets/img/logo2.png'],
             ['section_key' => 'visual_elements', 'field_key' => 'logo_dark', 'label' => 'Logo (Dark Mode)', 'field_type' => 'image', 'display_order' => 2, 'default_value' => '/assets/img/logo2-white.png'],
@@ -223,30 +293,22 @@ class InvoiceTemplateController extends Controller
 
             ['section_key' => 'customer_info', 'field_key' => 'gstin_label', 'label' => 'GSTIN', 'field_type' => 'label', 'display_order' => 6],
 
+            // Add Exchange Table Settings
+            ['section_key' => 'exchange_table', 'field_key' => 'section_title', 'label' => 'Old Metal Received', 'field_type' => 'text', 'display_order' => 1, 'default_value' => 'Old Metal Received'],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_description', 'label' => 'Description', 'field_type' => 'column', 'display_order' => 2],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_metal', 'label' => 'Metal', 'field_type' => 'column', 'display_order' => 3],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_purity', 'label' => 'Purity', 'field_type' => 'column', 'display_order' => 4],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_gross_wt', 'label' => 'Gross Wt', 'field_type' => 'column', 'display_order' => 5],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_less_wt', 'label' => 'Less Wt', 'field_type' => 'column', 'display_order' => 6],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_net_wt', 'label' => 'Net Wt', 'field_type' => 'column', 'display_order' => 7],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_fine_wt', 'label' => 'Fine Wt', 'field_type' => 'column', 'display_order' => 8],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_rate', 'label' => 'Rate', 'field_type' => 'column', 'display_order' => 9],
+            ['section_key' => 'exchange_table', 'field_key' => 'column_amount', 'label' => 'Amount', 'field_type' => 'column', 'display_order' => 10],
+
         ];
-
-        foreach ($defaults as $default) {
-            $createData = [
-                'admin_id' => $adminId,
-                'section_key' => $default['section_key'],
-                'field_key' => $default['field_key'],
-                'label' => $default['label'],
-                'is_visible' => true,
-                'display_order' => $default['display_order'],
-                'field_type' => $default['field_type'],
-            ];
-
-            if (isset($default['default_value'])) {
-                $createData['default_value'] = $default['default_value'];
-            }
-
-            InvoiceTemplateSetting::create($createData);
-        }
     }
 
-    /**
-     * Reset to defaults
-     */
+
     public function reset(Request $request)
     {
         $adminId = Auth::id();

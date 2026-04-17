@@ -559,26 +559,29 @@
                                                         </div>
                                                         <hr>
                                                         <!-- CGST -->
-                                                        <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center"
+                                                            id="cgstdiv">
                                                             <label>CGST %</label>
                                                             <input type="number" id="cgstPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="" readonly>
                                                             <span id="cgstAmount">₹0.00</span>
                                                         </div>
 
                                                         <!-- SGST -->
-                                                        <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center"
+                                                            id="sgstdiv">
                                                             <label>SGST %</label>
                                                             <input type="number" id="sgstPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="" readonly>
                                                             <span id="sgstAmount">₹0.00</span>
                                                         </div>
 
                                                         <!-- IGST -->
-                                                        <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex justify-content-between align-items-center"
+                                                            id="igstdiv">
                                                             <label>IGST %</label>
                                                             <input type="number" id="igstPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="" readonly>
                                                             <span id="igstAmount">₹0.00</span>
                                                         </div>
 
@@ -590,7 +593,8 @@
                                                             <span id="totalInvoiceAmount">₹0.00</span>
                                                         </h4>
                                                         <hr>
-                                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Settled (Udhar/Adv)</label>
                                                             <span id="totalSettledAmount">₹0.00</span>
                                                         </div>
@@ -1700,33 +1704,80 @@
                 fetchInvoiceDetails(preloadedInvoiceId);
             }
 
-         $('#customerDropdown').on('change', function () {
+            $('#customerDropdown').on('change', function() {
 
-    let customerId = $(this).val();
 
-    // Clear unsettled entries
-    let tbody = $('#unsettledEntriesTable tbody');
-    tbody.empty();
-    $('#unsettledEntriesSection').hide();
 
-    if (!customerId) return;
+                let customerId = $(this).val();
 
-    // 1️⃣ Load Pending Invoice
-    fetchPendingInvoice(customerId);
 
-    // 2️⃣ Load Unsettled Transactions
-    $.ajax({
-        url: "/sell-invoice/customer-unsettled-entries/" + customerId,
-        type: "GET",
-        success: function(res) {
 
-            if (res.success && res.data.length > 0) {
+                // Clear unsettled entries
+                let tbody = $('#unsettledEntriesTable tbody');
+                tbody.empty();
+                $('#unsettledEntriesSection').hide();
 
-                $('#unsettledEntriesSection').show();
+                if (!customerId) return;
 
-                res.data.forEach((entry, index) => {
+                let CustomerState = $(this).find(':selected').data('state');
+                console.log('CustomerState=' + CustomerState);
 
-                    let tr = `
+                let AdminState =
+                    "{{ optional(Auth::guard('admin')->user())->state ?? (optional(Auth::guard('web')->user())->state ?? '') }}";
+                console.log('AdminState->' + AdminState);
+
+                // Auto GST Logic
+                if (AdminState === CustomerState) {
+
+                    // ✅ SAME STATE → CGST + SGST
+                    $('#cgstPercent').val(1.5);
+                    $('#sgstPercent').val(1.5);
+                    $('#igstPercent').val(0);
+
+                    // SHOW CGST + SGST
+                    $('#cgstdiv').attr('style', 'display: flex !important;');
+                    $('#sgstdiv').attr('style', 'display: flex !important;');
+
+                    // HIDE IGST
+                    $('#igstdiv').attr('style', 'display: none !important;');
+
+                } else {
+
+
+                    // ✅ DIFFERENT STATE → IGST
+                    $('#cgstPercent').val(0);
+                    $('#sgstPercent').val(0);
+                    $('#igstPercent').val(3);
+
+                    // HIDE CGST + SGST
+                    $('#cgstdiv').attr('style', 'display: none !important;');
+                    $('#sgstdiv').attr('style', 'display: none !important;');
+
+                    // SHOW IGST
+                    $('#igstdiv').attr('style', 'display: flex !important;');
+                }
+
+                // 🔄 Recalculate totals
+                if (typeof calculateInvoiceTotals === "function") {
+                    calculateInvoiceTotals();
+                }
+
+                // 1️⃣ Load Pending Invoice
+                fetchPendingInvoice(customerId);
+
+                // 2️⃣ Load Unsettled Transactions
+                $.ajax({
+                    url: "/sell-invoice/customer-unsettled-entries/" + customerId,
+                    type: "GET",
+                    success: function(res) {
+
+                        if (res.success && res.data.length > 0) {
+
+                            $('#unsettledEntriesSection').show();
+
+                            res.data.forEach((entry, index) => {
+
+                                let tr = `
                         <tr>
                             <td>
                                 ${entry.transaction_date}
@@ -1752,18 +1803,18 @@
                         </tr>
                     `;
 
-                    tbody.append(tr);
+                                tbody.append(tr);
+                            });
+
+                        }
+
+                    },
+                    error: function(err) {
+                        console.log("Unsettled entry fetch error", err);
+                    }
                 });
 
-            }
-
-        },
-        error: function(err) {
-            console.log("Unsettled entry fetch error", err);
-        }
-    });
-
-});
+            });
         });
 
         // New function to fetch specific invoice (for Edit / Paid invoices)
@@ -1810,9 +1861,9 @@
             $('#makingDiscountPercent').val(invoice.making_discount_percent);
             $('#diamondDiscountPercent').val(invoice.diamond_discount_percent);
             $('#discountPercent').val(invoice.discount_percent);
-            $('#cgstPercent').val(invoice.cgst_percent);
-            $('#sgstPercent').val(invoice.sgst_percent);
-            $('#igstPercent').val(invoice.igst_percent);
+            // $('#cgstPercent').val(invoice.cgst_percent);
+            // $('#sgstPercent').val(invoice.sgst_percent);
+            // $('#igstPercent').val(invoice.igst_percent);
             // Payments
             $('#cashReceived').val(invoice.cash_received);
             $('#bankReceived').val(invoice.bank_received);
@@ -1990,11 +2041,14 @@
                 // New Discount Fields
                 total_making_charge: document.getElementById('totalMakingAmountInput').value,
                 making_discount_percent: document.getElementById('makingDiscountPercent').value,
-                making_discount_amount: document.getElementById('makingDiscountAmount').innerText.replace('₹', '').replace(',', ''),
+                making_discount_amount: document.getElementById('makingDiscountAmount').innerText.replace('₹', '')
+                    .replace(',', ''),
                 total_diamond_stone_packet: document.getElementById('totalDiamondStonePacketAmountInput').value,
                 diamond_discount_percent: document.getElementById('diamondDiscountPercent').value,
-                diamond_discount_amount: document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', ''),
-                diamond_total_amount: document.getElementById('totalDiamondStonePacketAmountInput').value - document.getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', ''),
+                diamond_discount_amount: document.getElementById('diamondDiscountAmount').innerText.replace('₹', '')
+                    .replace(',', ''),
+                diamond_total_amount: document.getElementById('totalDiamondStonePacketAmountInput').value - document
+                    .getElementById('diamondDiscountAmount').innerText.replace('₹', '').replace(',', ''),
 
                 cash_received: document.getElementById('cashReceived').value || 0,
                 bank_received: document.getElementById('bankReceived').value || 0,
@@ -2211,9 +2265,9 @@
             let gross = parseFloat(row.find('.exchange-gross').val()) || 0;
             let less = parseFloat(row.find('.exchange-less').val()) || 0;
             let net = gross - less;
-             let purity = parseFloat(row.find('.exchange-purity').val()) || 0;
+            let purity = parseFloat(row.find('.exchange-purity').val()) || 0;
             let fine = (net * purity) / 100;
-             row.find('.exchange-fine').val(fine.toFixed(3));
+            row.find('.exchange-fine').val(fine.toFixed(3));
             row.find('.exchange-net').val(net.toFixed(3));
             row.trigger('exchange-calculate');
         });
@@ -2324,133 +2378,139 @@
          * Main Calculation Function
          * Recalculates all invoice totals based on items and rules.
          */
-       function calculateInvoiceTotals() {
+        function calculateInvoiceTotals() {
 
-    let totalGold = 0;
-    let totalMaking = 0;
-    let totalDiaStonePkt = 0;
+            let totalGold = 0;
+            let totalMaking = 0;
+            let totalDiaStonePkt = 0;
 
-    globalInvoiceItems.forEach(item => {
+            globalInvoiceItems.forEach(item => {
 
-        let goldenPrice = parseFloat(item.total_amount) || 0;
+                let goldenPrice = parseFloat(item.total_amount) || 0;
 
-        totalGold += goldenPrice;
-        totalMaking += parseFloat(item.making_final_amount) || 0;
+                totalGold += goldenPrice;
+                totalMaking += parseFloat(item.making_final_amount) || 0;
 
-        if (Array.isArray(item.diamonds)) {
-            item.diamonds.forEach(d => {
-                totalDiaStonePkt += parseFloat(d.diamond_final_price || 0);
+                if (Array.isArray(item.diamonds)) {
+                    item.diamonds.forEach(d => {
+                        totalDiaStonePkt += parseFloat(d.diamond_final_price || 0);
+                    });
+                }
+
+                if (Array.isArray(item.stones)) {
+                    item.stones.forEach(s => {
+                        totalDiaStonePkt += parseFloat(s.stone_final_price || 0);
+                    });
+                }
+
+                if (Array.isArray(item.packets)) {
+                    item.packets.forEach(p => {
+                        totalDiaStonePkt += parseFloat(p.amount || 0);
+                    });
+                }
             });
-        }
 
-        if (Array.isArray(item.stones)) {
-            item.stones.forEach(s => {
-                totalDiaStonePkt += parseFloat(s.stone_final_price || 0);
+            // -------------------------
+            // 1️⃣ Discounts (Only Calculate, Don't Affect Taxable)
+            // -------------------------
+            const makingDiscountPercent = parseFloat(document.getElementById('makingDiscountPercent')?.value) || 0;
+            const makingDiscountAmount = (totalMaking * makingDiscountPercent) / 100;
+
+            const diamondDiscountPercent = parseFloat(document.getElementById('diamondDiscountPercent')?.value) || 0;
+            const diamondDiscountAmount = (totalDiaStonePkt * diamondDiscountPercent) / 100;
+
+            setBoxText('totalMakingAmount', totalMaking);
+            document.getElementById('totalMakingAmountInput').value = totalMaking.toFixed(2);
+            setBoxText('makingDiscountAmount', makingDiscountAmount);
+
+            setBoxText('totalDiamondStonePacketAmount', totalDiaStonePkt);
+            document.getElementById('totalDiamondStonePacketAmountInput').value = totalDiaStonePkt.toFixed(2);
+            setBoxText('diamondDiscountAmount', diamondDiscountAmount);
+
+            // -------------------------
+            // 2️⃣ FIXED TAXABLE AMOUNT (NO DISCOUNT MINUS)
+            // -------------------------
+            const taxableAmount = totalGold + totalDiaStonePkt;
+
+            setBoxText('taxableAmount', taxableAmount);
+            document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
+
+            // -------------------------
+            // 3️⃣ Final Discount (Same Logic As Before)
+            // -------------------------
+            const finalDiscountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
+            const finalDiscountAmount = (taxableAmount * finalDiscountPercent) / 100;
+            const amountAfterFinalDiscount = taxableAmount - finalDiscountAmount - diamondDiscountAmount -
+                makingDiscountAmount;
+
+            setBoxText('discountAmount', finalDiscountAmount);
+
+            // -------------------------
+            // 4️⃣ GST (Same As Your Working Logic)
+            // -------------------------
+            const cgstPercent = parseFloat(document.getElementById('cgstPercent')?.value) || 0;
+            const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
+            const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
+
+            const cgstAmount = (amountAfterFinalDiscount * cgstPercent) / 100;
+            const sgstAmount = (amountAfterFinalDiscount * sgstPercent) / 100;
+            const igstAmount = (amountAfterFinalDiscount * igstPercent) / 100;
+            // alert('igstAmount==-->'+igstAmount);
+
+            setBoxText('cgstAmount', cgstAmount);
+            setBoxText('sgstAmount', sgstAmount);
+            setBoxText('igstAmount', igstAmount);
+
+            // -------------------------
+            // 5️⃣ Final Invoice Amount (UNCHANGED FLOW)
+            // -------------------------
+            let totalExchange = 0;
+            $('.exchange-amount').each(function() {
+                totalExchange += parseFloat($(this).val()) || 0;
             });
-        }
+            setBoxText('totalExchangeAmount', totalExchange);
+            document.getElementById('totalExchangeAmountInput').value = totalExchange.toFixed(2);
+            console.log('amountAfterFinalDiscount==' + amountAfterFinalDiscount);
+            console.log('cgstAmount=' + cgstAmount);
+            console.log('sgstAmount=' + sgstAmount);
+            console.log('igstAmount=' + igstAmount);
 
-        if (Array.isArray(item.packets)) {
-            item.packets.forEach(p => {
-                totalDiaStonePkt += parseFloat(p.amount || 0);
+            const totalInvoiceAmount = (amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount) - totalExchange;
+
+            setBoxText('totalInvoiceAmount', totalInvoiceAmount);
+
+            // -------------------------
+            // 6️⃣ Payment + Remaining
+            // -------------------------
+            const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
+            const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
+            const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
+            const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
+
+            const totalPaid = cash + bank + online + card;
+
+            let totalSettled = 0;
+            $('.settle-checkbox:checked').each(function() {
+                let row = $(this).closest('tr');
+                let type = $(this).data('type');
+                let val = parseFloat(row.find('.remaining-amt').data('val')) || 0;
+
+                if (type === 'advance') {
+                    totalSettled += val; // Money already with us (Payment)
+                } else if (type === 'udhaar_get' || type === 'udhaar_payment') {
+                    totalSettled -= val; // Money they owe us (Debt to be added)
+                }
             });
+
+            setBoxText('totalSettledAmount', totalSettled);
+
+            let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
+
+            // if (remaining < 0) remaining = 0;+
+
+            setBoxText('remainingAmount', remaining);
+          setBoxText('remainingAmountFooter', totalInvoiceAmount -  totalSettled );
         }
-    });
-
-    // -------------------------
-    // 1️⃣ Discounts (Only Calculate, Don't Affect Taxable)
-    // -------------------------
-    const makingDiscountPercent = parseFloat(document.getElementById('makingDiscountPercent')?.value) || 0;
-    const makingDiscountAmount = (totalMaking * makingDiscountPercent) / 100;
-
-    const diamondDiscountPercent = parseFloat(document.getElementById('diamondDiscountPercent')?.value) || 0;
-    const diamondDiscountAmount = (totalDiaStonePkt * diamondDiscountPercent) / 100;
-
-    setBoxText('totalMakingAmount', totalMaking);
-    document.getElementById('totalMakingAmountInput').value = totalMaking.toFixed(2);
-    setBoxText('makingDiscountAmount', makingDiscountAmount);
-
-    setBoxText('totalDiamondStonePacketAmount', totalDiaStonePkt);
-    document.getElementById('totalDiamondStonePacketAmountInput').value = totalDiaStonePkt.toFixed(2);
-    setBoxText('diamondDiscountAmount', diamondDiscountAmount);
-
-    // -------------------------
-    // 2️⃣ FIXED TAXABLE AMOUNT (NO DISCOUNT MINUS)
-    // -------------------------
-    const taxableAmount = totalGold  + totalDiaStonePkt;
-
-    setBoxText('taxableAmount', taxableAmount);
-    document.getElementById('taxableAmountInput').value = taxableAmount.toFixed(2);
-
-    // -------------------------
-    // 3️⃣ Final Discount (Same Logic As Before)
-    // -------------------------
-    const finalDiscountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
-    const finalDiscountAmount = (taxableAmount * finalDiscountPercent) / 100;
-    const amountAfterFinalDiscount = taxableAmount - finalDiscountAmount-diamondDiscountAmount-makingDiscountAmount;
-
-    setBoxText('discountAmount', finalDiscountAmount);
-
-    // -------------------------
-    // 4️⃣ GST (Same As Your Working Logic)
-    // -------------------------
-    const cgstPercent = parseFloat(document.getElementById('cgstPercent')?.value) || 0;
-    const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
-    const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
-
-    const cgstAmount = (amountAfterFinalDiscount * cgstPercent) / 100;
-    const sgstAmount = (amountAfterFinalDiscount * sgstPercent) / 100;
-    const igstAmount = (amountAfterFinalDiscount * igstPercent) / 100;
-
-    setBoxText('cgstAmount', cgstAmount);
-    setBoxText('sgstAmount', sgstAmount);
-    setBoxText('igstAmount', igstAmount);
-
-    // -------------------------
-    // 5️⃣ Final Invoice Amount (UNCHANGED FLOW)
-    // -------------------------
-    let totalExchange = 0;
-    $('.exchange-amount').each(function() {
-        totalExchange += parseFloat($(this).val()) || 0;
-    });
-    setBoxText('totalExchangeAmount', totalExchange);
-    document.getElementById('totalExchangeAmountInput').value = totalExchange.toFixed(2);
-
-    const totalInvoiceAmount = (amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount) - totalExchange;
-
-    setBoxText('totalInvoiceAmount', totalInvoiceAmount);
-
-    // -------------------------
-    // 6️⃣ Payment + Remaining
-    // -------------------------
-    const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
-    const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
-    const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
-    const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
-
-    const totalPaid = cash + bank + online + card;
-
-    let totalSettled = 0;
-    $('.settle-checkbox:checked').each(function() {
-        let row = $(this).closest('tr');
-        let type = $(this).data('type');
-        let val = parseFloat(row.find('.remaining-amt').data('val')) || 0;
-
-        if (type === 'advance') {
-            totalSettled += val; // Money already with us (Payment)
-        } else if (type === 'udhaar_get' || type === 'udhaar_payment') {
-            totalSettled -= val; // Money they owe us (Debt to be added)
-        }
-    });
-
-    setBoxText('totalSettledAmount', totalSettled);
-
-    let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
-
-    // if (remaining < 0) remaining = 0;
-
-    setBoxText('remainingAmount', remaining);
-    setBoxText('remainingAmountFooter', totalInvoiceAmount);
-}
 
 
         function setBoxText(elementId, amount) {
@@ -2462,77 +2522,77 @@
         }
 
         // Fetch unsettled entries on customer change
-//         $('#customerDropdown').on('change', function () {
+        //         $('#customerDropdown').on('change', function () {
 
-//     let customerId = $(this).val();
+        //     let customerId = $(this).val();
 
-//     // reset unsettled table
-//     let tbody = $('#unsettledEntriesTable tbody');
-//     tbody.empty();
-//     $('#unsettledEntriesSection').hide();
+        //     // reset unsettled table
+        //     let tbody = $('#unsettledEntriesTable tbody');
+        //     tbody.empty();
+        //     $('#unsettledEntriesSection').hide();
 
-//     if (!customerId) return;
+        //     if (!customerId) return;
 
-//     // 1️⃣ Fetch Pending Invoice
-//     fetchPendingInvoice(customerId);
+        //     // 1️⃣ Fetch Pending Invoice
+        //     fetchPendingInvoice(customerId);
 
-//     // 2️⃣ Fetch Unsettled Entries
-//     $.ajax({
-//         url: `/sell-invoice/customer-unsettled-entries/${customerId}`,
-//         type: 'GET',
-//         success: function(res) {
+        //     // 2️⃣ Fetch Unsettled Entries
+        //     $.ajax({
+        //         url: `/sell-invoice/customer-unsettled-entries/${customerId}`,
+        //         type: 'GET',
+        //         success: function(res) {
 
-//             if (res.success && res.data.length > 0) {
+        //             if (res.success && res.data.length > 0) {
 
-//                 $('#unsettledEntriesSection').show();
+        //                 $('#unsettledEntriesSection').show();
 
-//                 res.data.forEach((entry, index) => {
+        //                 res.data.forEach((entry, index) => {
 
-//                     let tr = `
-//                         <tr>
-//                             <td>${entry.transaction_date}
-//                                 <input type="hidden" name="settled_transactions[${index}][id]" value="${entry.id}">
-//                             </td>
+        //                     let tr = `
+    //                         <tr>
+    //                             <td>${entry.transaction_date}
+    //                                 <input type="hidden" name="settled_transactions[${index}][id]" value="${entry.id}">
+    //                             </td>
 
-//                             <td>
-//                                 <span class="badge bg-secondary">
-//                                     ${entry.transaction_type}
-//                                 </span>
-//                             </td>
+    //                             <td>
+    //                                 <span class="badge bg-secondary">
+    //                                     ${entry.transaction_type}
+    //                                 </span>
+    //                             </td>
 
-//                             <td>₹${parseFloat(entry.amount).toFixed(2)}</td>
+    //                             <td>₹${parseFloat(entry.amount).toFixed(2)}</td>
 
-//                             <td>₹${parseFloat(entry.remaining_amount).toFixed(2)}</td>
+    //                             <td>₹${parseFloat(entry.remaining_amount).toFixed(2)}</td>
 
-//                             <td>
-//                                 <input type="number"
-//                                        class="form-control settle-amount-input"
-//                                        name="settled_transactions[${index}][amount]"
-//                                        max="${entry.remaining_amount}"
-//                                        min="0"
-//                                        step="0.01"
-//                                        placeholder="0.00">
-//                             </td>
+    //                             <td>
+    //                                 <input type="number"
+    //                                        class="form-control settle-amount-input"
+    //                                        name="settled_transactions[${index}][amount]"
+    //                                        max="${entry.remaining_amount}"
+    //                                        min="0"
+    //                                        step="0.01"
+    //                                        placeholder="0.00">
+    //                             </td>
 
-//                             <td>
-//                                 <button type="button"
-//                                     class="btn btn-sm btn-primary max-settle-btn"
-//                                     data-max="${entry.remaining_amount}">
-//                                     Max
-//                                 </button>
-//                             </td>
-//                         </tr>
-//                     `;
+    //                             <td>
+    //                                 <button type="button"
+    //                                     class="btn btn-sm btn-primary max-settle-btn"
+    //                                     data-max="${entry.remaining_amount}">
+    //                                     Max
+    //                                 </button>
+    //                             </td>
+    //                         </tr>
+    //                     `;
 
-//                     tbody.append(tr);
-//                 });
+        //                     tbody.append(tr);
+        //                 });
 
-//             }
+        //             }
 
-//         }
-//     });
+        //         }
+        //     });
 
-// });
+        // });
 
         $(document).on('change', '.settle-checkbox', function() {
             calculateInvoiceTotals();

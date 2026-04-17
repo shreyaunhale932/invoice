@@ -17101,81 +17101,174 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div class="card-body">
                                     <div class="form-groups-item">
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>First Name</label>
-                                                    <input type="text" class="form-control"
-                                                        name="first_name" placeholder="Enter First Name">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Last Name</label>
-                                                    <input type="text" class="form-control" name="last_name"
-                                                        placeholder="Enter Last Name">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>User Name</label>
-                                                    <input type="text" class="form-control" name="username"
-                                                        placeholder="Enter User Name">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Email</label>
-                                                    <input type="email" class="form-control" name="email"
-                                                        placeholder="Enter Email Address">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Phone Number</label>
-                                                    <input type="text" class="form-control" name="phone"
-                                                        placeholder="Enter Phone Number">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-block mb-3">
-                                                    <label>Role</label>
-                                                    <select class="form-control" name="role">
-                                                        <option value="">Select Role</option>
-                                                        <option value="superadmin">Super Admin</option>
-                                                        <option value="admin">Admin</option>
+
+    <!-- First Name -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>First Name</label>
+            <input type="text" class="form-control @error('first_name') is-invalid @enderror"
+                   name="first_name" placeholder="Enter First Name">
+            @error('first_name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>Last Name</label>
+            <input type="text" class="form-control @error('last_name') is-invalid @enderror"
+                   name="last_name" placeholder="Enter Last Name">
+            @error('last_name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Username -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>User Name</label>
+            <input type="text" class="form-control @error('username') is-invalid @enderror"
+                   name="username" placeholder="Enter User Name">
+            @error('username')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                   name="email" placeholder="Enter Email Address">
+            @error('email')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>Phone Number</label>
+            <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                   name="phone" placeholder="Enter Phone Number">
+            @error('phone')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Address -->
+    <div class="col-lg-8 col-md-12 col-sm-12">
+        <div class="input-block mb-3">
+            <label>Address</label>
+            <textarea class="form-control @error('address') is-invalid @enderror"
+                      name="address" placeholder="Enter Address"></textarea>
+            @error('address')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- City -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>City</label>
+            <input type="text" class="form-control @error('city') is-invalid @enderror"
+                   name="city" placeholder="Enter City">
+            @error('city')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- State -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>State</label>
+              <select class="form-control searchable-select" name="state">
+                                                        <option value="">Select State</option>
+                                                        @foreach(['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'] as $stateName)
+                                                            <option value="{{ $stateName }}">{{ $stateName }}</option>
+                                                        @endforeach
                                                     </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="pass-group">
-                                                    <div class="input-block">
-                                                        <label>Password</label>
-                                                        <input type="password" class="form-control"
-                                                            name="password" placeholder="Enter Password">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="pass-group">
-                                                    <div class="input-block">
-                                                        <label>Confirm Password</label>
-                                                        <input type="password" class="form-control"
-                                                            name="password_confirmation"
-                                                            placeholder="Confirm Password">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="input-block">
-                                                    <label>Status</label>
-                                                    <select class="form-control" name="status">
-                                                        <option value="">Select Status</option>
-                                                        <option value="active">Active</option>
-                                                        <option value="inactive">Inactive</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
+            @error('state')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Pincode -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>Pincode</label>
+            <input type="text" class="form-control @error('pincode') is-invalid @enderror"
+                   name="pincode" placeholder="Enter Pincode">
+            @error('pincode')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Role -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>Role</label>
+            <select class="form-control @error('role') is-invalid @enderror" name="role">
+                <option value="">Select Role</option>
+                <option value="superadmin">Super Admin</option>
+                <option value="admin">Admin</option>
+            </select>
+            @error('role')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Password -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block">
+            <label>Password</label>
+            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                   name="password" placeholder="Enter Password">
+            @error('password')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block">
+            <label>Confirm Password</label>
+            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
+                   name="password_confirmation" placeholder="Confirm Password">
+            @error('password_confirmation')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Status -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block">
+            <label>Status</label>
+            <select class="form-control @error('status') is-invalid @enderror" name="status">
+                <option value="">Select Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+            @error('status')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+</div>
                                     </div>
 
                                 </div>
