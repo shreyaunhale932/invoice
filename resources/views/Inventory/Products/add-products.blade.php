@@ -1081,8 +1081,8 @@
 
                     wrapper.find('.packet-mm-id').val(details.mm_id);
 
-                    wrapper.find('.packet-weight').val(details.weight).trigger(
-                        'change'); // Trigger for weight conversion
+                    // wrapper.find('.packet-weight').val(details.weight).trigger(
+                    //     'change'); // Trigger for weight conversion
                     wrapper.find('.packet-rate').val(details.rate);
                     wrapper.find('.packet-cert').val(details.certificate_no);
 

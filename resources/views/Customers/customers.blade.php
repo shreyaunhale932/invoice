@@ -33,10 +33,10 @@
                                             <th>#</th>
                                             <th>Name</th>
                                             <th>Phone</th>
-                                            <th>Balance </th>
-                                            <th>Total Invoice </th>
+                                            {{-- <th>Balance </th> --}}
+                                            {{-- <th>Total Invoice </th> --}}
                                             <th>Created</th>
-                                            <th>Status</th>
+                                            {{-- <th>Status</th> --}}
                                             <th class="no-sort">Actions</th>
                                         </tr>
                                     </thead>
@@ -53,11 +53,11 @@
                                                     </h2>
                                                 </td>
                                                 <td>{{ $customer['phone'] }}</td>
-                                                <td>{{ $customer['Balance'] }}</td>
-                                                <td>{{ $customer['TotalInvoice'] }}</td>
+                                                {{-- <td>{{ $customer['Balance'] }}</td> --}}
+                                                {{-- <td>{{ $customer['TotalInvoice'] }}</td> --}}
                                                 <td>{{ $customer['created_at'] }}</td>
-                                                <td><span class="{{ $customer['Class'] }}">{{ $customer['Status'] }}</span>
-                                                </td>
+                                                {{-- <td><span class="{{ $customer['Class'] }}">{{ $customer['Status'] }}</span>
+                                                </td> --}}
                                                 <td class="d-flex align-items-center">
                                                     {{-- <a href="{{ url('add-invoice') }}" class="btn btn-greys me-2"><i
                                                             class="fa fa-plus-circle me-1"></i> Invoice</a>

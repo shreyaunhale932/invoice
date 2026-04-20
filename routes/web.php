@@ -210,7 +210,8 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     ->name('sell.invoice.sendMail');
     Route::get('/invoice/pdf/{id}', [SellInvoiceController::class, 'generatePDF'])
         ->name('invoice.pdf');
-
+Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWhatsApp'])
+    ->name('sell.invoice.sendWhatsapp');
     // Invoice Template Routes
     Route::get(
         '/invoice-template/editor',
