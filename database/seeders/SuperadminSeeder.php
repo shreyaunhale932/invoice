@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class SuperadminSeeder extends Seeder
 {
@@ -13,16 +12,30 @@ class SuperadminSeeder extends Seeder
      */
     public function run(): void
     {
+        // User::updateOrCreate(
+        //     ['username' => 'superadmin'],
+        //     [
+        //         'name' => 'Super Admin',
+        //         'username' => 'superadmin',
+        //         'email' => 'admin@example.com',
+        //         'phone' => '9999999999',
+        //         'role' => 'superadmin',
+        //         'password' => 'superadmin',
+        //         'status' => 1
+        //     ]
+        // );
+
         User::updateOrCreate(
-            ['username' => 'superadmin'],
-            [
+            ['username' => 'superadmin',
                 'name' => 'Super Admin',
                 'username' => 'superadmin',
                 'email' => 'admin@example.com',
-                'phone' => '9999999999',
+                'phone' => '9999999999', ],
+            [
+
                 'role' => 'superadmin',
                 'password' => 'superadmin',
-                'status' => 1
+                'status' => 1,
             ]
         );
     }
