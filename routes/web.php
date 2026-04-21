@@ -562,6 +562,8 @@ Route::get('/seo-settings', [PageController::class, 'seosettings'])->name('seo-s
 Route::get('/saas-settings', [PageController::class, 'saassettings'])->name('saas-settings');
 Route::get('/saas-login', [HomeController::class, 'saaslogin'])->name('saas-login');
 Route::get('/saas-register', [HomeController::class, 'saasregister'])->name('saas-register');
+Route::post('/saas-register-submit', [\App\Http\Controllers\Auth\RegistrationController::class, 'register'])->name('saas.register.submit');
+Route::post('/saas-verify-otp', [\App\Http\Controllers\Auth\RegistrationController::class, 'verifyOtp'])->name('saas.verify.otp');
 
 
 

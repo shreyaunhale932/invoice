@@ -26838,11 +26838,15 @@ td .invoice-detail i {
  
  / *   M a g n i f y i n g   G l a s s   I c o n   * / 
  . d a t a T a b l e s _ f i l t e r : : b e f o r e   { 
-         c o n t e n t :   \  
+         c o n t e n t :   \ 
+ 
  \ \ f 0 0 2 \ ; 
-         f o n t - f a m i l y :   \ F o n t  
- A w e s o m e  
- 5  
+         f o n t - f a m i l y :   \ F o n t 
+ 
+ A w e s o m e 
+ 
+ 5 
+ 
  F r e e \ ; 
          f o n t - w e i g h t :   9 0 0 ; 
          p o s i t i o n :   a b s o l u t e ; 
@@ -26906,5 +26910,6 @@ td .invoice-detail i {
          . d t - b u t t o n s   { 
                  j u s t i f y - c o n t e n t :   c e n t e r ; 
          } 
- }  
+ } 
+ 
  

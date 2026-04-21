@@ -13,10 +13,10 @@ class CustomAuthController extends Controller
 
     public function index()
     {
-        
+
         return view('login');
-    }  
-      
+    }
+
 
     public function customLogin(Request $request)
     {
@@ -45,12 +45,12 @@ class CustomAuthController extends Controller
     {
         return view('register');
     }
-      
+
 
     public function customRegistration(Request $request)
-    {  
+    {
         $request->validate([
-            'name' => 'required|min:5|max:30',
+            'first_name' => 'required|min:5|max:30',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
             'confirm_password' => 'required|min:8',
@@ -62,10 +62,10 @@ class CustomAuthController extends Controller
             'confirm_password.required' => 'Confrim Password is required',
         ]
     );
-           
+
         $data = $request->all();
         $check = $this->create($data);
-         
+
         return redirect("login")->withSuccess('You have signed-in');
     }
 
@@ -78,23 +78,23 @@ class CustomAuthController extends Controller
         'password' => Hash::make($data['password']),
         'confirm_password' => Hash::make($data['confirm_password'])
       ]);
-    }    
-    
+    }
+
 
     public function dashboard()
     {
         if(Auth::check()){
             return view('/');
         }
-  
+
         return redirect("login")->withSuccess('You are not allowed to access');
     }
-    
+
 
     public function signOut() {
         Session::flush();
         Auth::logout();
-  
+
         return Redirect('login');
     }
 }

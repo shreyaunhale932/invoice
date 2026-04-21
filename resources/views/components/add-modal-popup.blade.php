@@ -17215,7 +17215,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <!-- Role -->
-    <div class="col-lg-4 col-md-6 col-sm-12">
+    {{-- <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="input-block mb-3">
             <label>Role</label>
             <select class="form-control @error('role') is-invalid @enderror" name="role">
@@ -17227,7 +17227,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
-    </div>
+    </div> --}}
 
     <!-- Password -->
     <div class="col-lg-4 col-md-6 col-sm-12">

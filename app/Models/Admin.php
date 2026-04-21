@@ -29,6 +29,9 @@ class Admin extends Authenticatable
         'city',
         'state',
         'pincode',
+        'otp',
+        'otp_expiry',
+        'verification_status',
     ];
 
     /**
