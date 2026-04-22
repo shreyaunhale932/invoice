@@ -233,7 +233,7 @@ class CustomerTransactionController extends Controller
             elseif ($t->transaction_type == 'udhaar_return') $totalUdhaarReturn += $t->amount;
         }
 
-        return view('customers.reports.transaction-report', compact(
+        return view('Customers.reports.transaction-report', compact(
             'transactions', 'customers', 'customerId', 'fromDate', 'toDate',
             'totalAdvance', 'totalUdhaarPaid', 'totalRefund', 'totalUdhaarReturn'
         ));
