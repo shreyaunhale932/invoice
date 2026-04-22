@@ -38,7 +38,7 @@ class RegistrationController extends Controller
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
-        // try {
+        try {
             $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
             $admin = Admin::create([
@@ -59,6 +59,7 @@ class RegistrationController extends Controller
             ]);
 
             // Mail::to($request->email)->send(new OTPMail($otp));
+            Mail::to($request->email)->queue(new OTPMail($otp));
 
             return response()->json([
                 'success' => true,
@@ -66,9 +67,9 @@ class RegistrationController extends Controller
                 'admin_id' => $admin->id
             ]);
 
-        // } catch (Exception $e) {
-        //     return response()->json(['success' => false, 'message' => 'Registration failed: ' . $e->getMessage()], 500);
-        // }
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Registration failed: ' . $e->getMessage()], 500);
+        }
     }
 
     public function verifyOtp(Request $request)
