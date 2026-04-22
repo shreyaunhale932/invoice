@@ -58,8 +58,7 @@ class RegistrationController extends Controller
                 // Company name can be stored if there's a field, otherwise it might be used in tenant service
             ]);
 
-            // Mail::to($request->email)->send(new OTPMail($otp));
-            Mail::to($request->email)->queue(new OTPMail($otp));
+            Mail::to($request->email)->send(new OTPMail($otp));
 
             return response()->json([
                 'success' => true,
