@@ -6,6 +6,7 @@ use App\Models\Firm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 
 class FirmController extends Controller
 {
@@ -41,6 +42,9 @@ class FirmController extends Controller
         ]);
 
         $firm = Firm::create($request->all());
+
+        // Seed accounting data for the new firm
+        Artisan::call('db:seed', ['--class' => 'AccountingSeeder']);
 
         // If it's the first firm, select it automatically
         if (Firm::count() === 1) {
