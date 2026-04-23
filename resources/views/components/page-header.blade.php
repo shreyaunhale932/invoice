@@ -72,13 +72,13 @@
                     'domain',
                     'purchase-transaction'
                     ]))
-                    <li>
+                    {{-- <li>
                         <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Filter"><span class="me-2"><img
                                     src="{{ asset('/assets/img/icons/filter-icon.svg') }}"
-                                    alt="filter"></span>Filter
+                                    alt="filter"></span>Filtervf
                         </a>
-                    </li>
+                    </li> --}}
                     @endif
                     @if(Route::is(['purchase-transaction']))
                     <li>
@@ -188,10 +188,10 @@
                     </li>
                     @endif
                     @if (Route::is(['customers']))
-                    <li>
+                    {{-- <li>
                         <a class="btn btn-import" href="javascript:void(0);"><span><i
                                     class="fe fe-check-square me-2"></i>Import Customer</span></a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="btn btn-primary" href="{{ url('add-customer') }}"><i class="fa fa-plus-circle me-2"
                                 aria-hidden="true"></i>Add Customer</a>
@@ -264,11 +264,11 @@
                     </li>
                     @endif
                     @if (Route::is(['invoices']))
-                    <li>
+                    {{-- <li>
                         <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Settings"><span><i class="fe fe-settings"></i></span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="btn btn-primary" href="{{ url('/invoices/create') }}"><i class="fa fa-plus-circle me-2"
                                 aria-hidden="true"></i>New Invoice</a>
@@ -283,7 +283,7 @@
                     'invoices-refunded',
                     'invoices-draft',
                     ]))
-                    <li>
+                    {{-- <li>
                         <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="Settings"><span><i class="fe fe-settings"></i></span>
                         </a>
@@ -297,7 +297,7 @@
                         <a class="active btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
                             data-bs-placement="bottom" title="List-View"><span><i class="fe fe-list"></i></span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="btn btn-primary" href="{{ url('add-invoice') }}"><i class="fa fa-plus-circle me-2"
                                 aria-hidden="true"></i>New Invoice</a>
@@ -677,10 +677,10 @@
                             data-bs-placement="bottom" title="Print"><span><i class="fe fe-printer"></i></span>
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="btn btn-import" href="javascript:void(0);"><span><i
                                     class="fe fe-inbox me-2"></i>Import Customer</span></a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="btn btn-primary" href="{{ url('add-invoice') }}"><i class="fa fa-plus-circle me-2"
                                 aria-hidden="true"></i>New Invoice</a>

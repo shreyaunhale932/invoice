@@ -103,7 +103,7 @@ $('#globalSearch').on('keyup', function () {
                 </div> -->
             </li>
             <!-- /Flag -->
-            <li class="nav-item dropdown  flag-nav dropdown-heads">
+            {{-- <li class="nav-item dropdown  flag-nav dropdown-heads">
                 <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
                     <i class="fe fe-bell"></i> <span class="badge rounded-pill"></span>
                 </a>
@@ -197,7 +197,7 @@ $('#globalSearch').on('keyup', function () {
                         <a href="#">Clear All</a>
                     </div>
                 </div>
-            </li>
+            </li> --}}
             <li class="nav-item  has-arrow dropdown-heads ">
                 <a href="javascript:void(0);" class="win-maximize">
                     <i class="fe fe-maximize"></i>
@@ -306,7 +306,7 @@ $('#globalSearch').on('keyup', function () {
                 </a>
                 <div class="dropdown-menu menu-drop-user">
                     <div class="profilemenu">
-                        <div class="subscription-menu">
+                        {{-- <div class="subscription-menu">
                             <ul>
                                 <li>
                                     <a class="dropdown-item" href="{{ url('profile') }}">Profile</a>
@@ -315,7 +315,7 @@ $('#globalSearch').on('keyup', function () {
                                     <a class="dropdown-item" href="{{ url('app/settings') }}">Settings</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                         <div class="subscription-logout">
                             <ul>
                                 <li class="pb-0">

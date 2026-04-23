@@ -20,7 +20,7 @@
                                 @method('PUT')
                                 <div class="form-group-item">
                                     <h5 class="form-title">Basic Details</h5>
-                                    <div class="profile-picture">
+                                    {{-- <div class="profile-picture">
                                         <div class="upload-profile">
                                             <div class="profile-img">
                                                 <img id="blah" class="avatar"
@@ -38,7 +38,7 @@
                                             </label>
                                             <a class="btn btn-remove">Remove</a>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
@@ -131,7 +131,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-6">
                                             <div class="billing-btn">
                                                 <h5 class="form-title mb-0">Shipping Address</h5>
                                                 <a href="#" class="btn btn-primary">Copy from Billing</a>
@@ -174,7 +174,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                                 <div class="form-group-customer customer-additional-form">
