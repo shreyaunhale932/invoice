@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
-use App\Mail\OTPMail;
+use App\Services\MailjetService;
 use App\Services\TenantService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Exception;
 
 class RegistrationController extends Controller
 {
@@ -22,7 +21,7 @@ class RegistrationController extends Controller
         $this->tenantService = $tenantService;
     }
 
-    public function register(Request $request)
+    public function register(Request $request, MailjetService $mailjet)
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -35,14 +34,17 @@ class RegistrationController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
-        try {
+        // try {
             $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
             $admin = Admin::create([
-                'name' => $request->first_name . ' ' . $request->last_name,
+                'name' => $request->first_name.' '.$request->last_name,
                 'username' => $request->username,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -55,20 +57,29 @@ class RegistrationController extends Controller
                 'otp' => $otp,
                 'otp_expiry' => Carbon::now()->addMinutes(10),
                 'verification_status' => 'pending',
-                // Company name can be stored if there's a field, otherwise it might be used in tenant service
             ]);
+            $htmlContent = view('emails.otp', ['otp' => $otp])->render();
 
-            Mail::to($request->email)->send(new OTPMail($otp));
+            // ✅ Send OTP via Mailjet API (NO SMTP)
+            $mailjet->sendEmail(
+                $request->email,
+                $admin->name,
+                'Your OTP Verification Code',
+                'Your OTP is: '.$otp."\nThis OTP will expire in 10 minutes."
+            );
 
             return response()->json([
                 'success' => true,
                 'message' => 'Registration successful. OTP sent to your email.',
-                'admin_id' => $admin->id
+                'admin_id' => $admin->id,
             ]);
 
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Registration failed: ' . $e->getMessage()], 500);
-        }
+        // } catch (Exception $e) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Registration failed: '.$e->getMessage(),
+        //     ], 500);
+        // }
     }
 
     public function verifyOtp(Request $request)
@@ -80,7 +91,7 @@ class RegistrationController extends Controller
 
         $admin = Admin::find($request->admin_id);
 
-        if (!$admin || $admin->otp !== $request->otp) {
+        if (! $admin || $admin->otp !== $request->otp) {
             return response()->json(['success' => false, 'message' => 'Invalid OTP.'], 422);
         }
 
@@ -104,11 +115,11 @@ class RegistrationController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Email verified and database created successfully!',
-                'redirect' => route('login')
+                'redirect' => route('login'),
             ]);
 
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Verification successful but database creation failed: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Verification successful but database creation failed: '.$e->getMessage()], 500);
         }
     }
 }

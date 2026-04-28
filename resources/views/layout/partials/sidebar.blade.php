@@ -41,7 +41,7 @@
                         <a class="{{ Request::is('createAdmin') ? 'active' : '' }}" href="{{ url('createAdmin') }}"><i
                                 class="fe fe-user"></i> <span>Users</span></a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="{{ Request::is('roles-permission', 'permission') ? 'active' : '' }}"
                             href="{{ url('roles-permission') }}"><i class="fe fe-clipboard"></i> <span>Roles &
                                 Permission</span></a>
@@ -51,11 +51,11 @@
                             href="{{ url('delete-account-request') }}"><i class="fe fe-trash-2"></i> <span>Delete
                                 Account
                                 Request</span></a>
-                    </li>
+                    </li> --}}
                     <!-- /User Management -->
 
                     <!-- Membership) -->
-                    <li class="menu-title"><span>Membership</span></li>
+                    {{-- <li class="menu-title"><span>Membership</span></li>
                     <li class="submenu">
                         <a href="#"><i class="fe fe-book"></i> <span> Membership</span> <span
                                 class="menu-arrow"></span></a>
@@ -69,7 +69,7 @@
                             <li><a class="{{ Request::is('transactions') ? 'active' : '' }}"
                                     href="{{ url('transactions') }}">Transactions</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                     <!-- /Membership) -->
 
                     <!-- Accounting -->

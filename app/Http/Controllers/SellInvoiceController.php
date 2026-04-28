@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Models\SellInvoiceItem;
-use App\Models\SellDiamondItem;
-use App\Models\SellStoneItem;
-use App\Models\SellInvoice;
 use App\Models\InventoryTransaction;
 use App\Models\Product;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Models\SellDiamondItem;
+use App\Models\SellInvoice;
+use App\Models\SellInvoiceItem;
 use App\Models\SellPacketItem;
+use App\Models\SellStoneItem;
+use App\Services\MailjetService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
-use App\Mail\InvoiceMail;
-use Illuminate\Support\Facades\Mail;
-
-
+// use App\Http\Controllers\Pdf;
 
 class SellInvoiceController extends Controller
 {
@@ -36,7 +35,7 @@ class SellInvoiceController extends Controller
                 $item = SellInvoiceItem::create([
                     'admin_id' => Auth::id(),
                     'sell_invoice_id' => $invoiceId,
-                    'product_id'   => $request->product_id,
+                    'product_id' => $request->product_id,
                     'item_name' => $request->product_name,
                     'pre_code' => $request->pre_code,
                     'post_code' => $request->post_code,
@@ -86,7 +85,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $request->final_fn_weight,
                             'size' => $request->size,
                             'unit' => 'GM',
-                            'remarks' => 'Reserved via Invoice #' . $invoiceId,
+                            'remarks' => 'Reserved via Invoice #'.$invoiceId,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
                             'sell_invoice_item_id' => $item->id,
@@ -163,7 +162,7 @@ class SellInvoiceController extends Controller
                 // Packets (EDIT MODE)
                 $packetAmount = 0;
 
-                if (!empty($request->packets) && is_array($request->packets)) {
+                if (! empty($request->packets) && is_array($request->packets)) {
 
                     foreach ($request->packets as $packet) {
 
@@ -181,23 +180,23 @@ class SellInvoiceController extends Controller
 
                         SellPacketItem::create([
                             'admin_id' => Auth::id(),
-                            'sell_invoice_id'      => $invoiceId,
+                            'sell_invoice_id' => $invoiceId,
                             'sell_invoice_item_id' => $item->id,
                             'packet_no' => $packet['packet_no'] ?? null,
-                            'pcs'       => $packet['pcs'] ?? 0,
-                            'stone'     => $packet['stone'] ?? null,
-                            'clarity'   => $packet['clarity'] ?? null,
-                            'color'     => $packet['color'] ?? null,
-                            'cut'       => $packet['cut'] ?? null,
-                            'shape'     => $packet['shape'] ?? null,
-                            'chalni'    => $packet['chalni'] ?? null,
-                            'mm'        => $packet['mm'] ?? null,
+                            'pcs' => $packet['pcs'] ?? 0,
+                            'stone' => $packet['stone'] ?? null,
+                            'clarity' => $packet['clarity'] ?? null,
+                            'color' => $packet['color'] ?? null,
+                            'cut' => $packet['cut'] ?? null,
+                            'shape' => $packet['shape'] ?? null,
+                            'chalni' => $packet['chalni'] ?? null,
+                            'mm' => $packet['mm'] ?? null,
                             'solitaire' => $packet['solitaire'] ?? 0,
-                            'rate'      => $packet['rate'] ?? 0,
-                            'amount'    => $packet['amount'] ?? 0,
-                            'weight'    => $packet['weight'] ?? 0,
+                            'rate' => $packet['rate'] ?? 0,
+                            'amount' => $packet['amount'] ?? 0,
+                            'weight' => $packet['weight'] ?? 0,
                             'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
-                            'uom'       => $packet['uom'] ?? null,
+                            'uom' => $packet['uom'] ?? null,
                             'certificate_no' => $packet['certificate_no'] ?? null,
                         ]);
                     }
@@ -218,19 +217,18 @@ class SellInvoiceController extends Controller
                 return response()->json([
                     'success' => true,
                     'invoice_id' => $invoiceId,
-                    'item_id' => $item->id
+                    'item_id' => $item->id,
                 ]);
             } else {
                 $UserInvoice = SellInvoice::where('user_id', $request->customer_id)
                     ->whereIn('status', ['pending', 'draft'])
                     ->first();
 
-
                 $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d');
-                $dueDate     = Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d');
+                $dueDate = Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d');
 
                 // Create invoice only once
-                if (!$UserInvoice) {
+                if (! $UserInvoice) {
                     $UserInvoice = SellInvoice::create([
                         'admin_id' => Auth::id(),
                         'invoice_no' => $request->invoice_no,
@@ -254,7 +252,7 @@ class SellInvoiceController extends Controller
                 $item = SellInvoiceItem::create([
                     'admin_id' => Auth::id(),
                     'sell_invoice_id' => $invoiceId,
-                    'product_id'   => $request->product_id,
+                    'product_id' => $request->product_id,
                     'item_name' => $request->product_name,
                     'pre_code' => $request->pre_code,
                     'post_code' => $request->post_code,
@@ -301,7 +299,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $request->final_fn_weight,
                             'size' => $request->size,
                             'unit' => 'GM',
-                            'remarks' => 'Reserved via Invoice #' . $invoiceId,
+                            'remarks' => 'Reserved via Invoice #'.$invoiceId,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
                             'sell_invoice_item_id' => $item->id,
@@ -376,7 +374,7 @@ class SellInvoiceController extends Controller
                 ]);
                 $packetAmount = 0;
                 // Packets
-                if (!empty($request->packets) && is_array($request->packets)) {
+                if (! empty($request->packets) && is_array($request->packets)) {
 
                     foreach ($request->packets as $packet) {
 
@@ -391,23 +389,23 @@ class SellInvoiceController extends Controller
                         }
                         $packetAmount += $packet['amount'];
                         SellPacketItem::create([
-                            'sell_invoice_id'      => $invoiceId,
+                            'sell_invoice_id' => $invoiceId,
                             'sell_invoice_item_id' => $item->id,
                             'packet_no' => $packet['packet_no'] ?? null,
-                            'pcs'       => $packet['pcs'] ?? 0,
-                            'stone'     => $packet['stone'] ?? null,
-                            'clarity'   => $packet['clarity'] ?? null,
-                            'color'     => $packet['color'] ?? null,
-                            'cut'       => $packet['cut'] ?? null,
-                            'shape'    => $packet['shape'] ?? null,
-                            'chalni'    => $packet['chalni'] ?? null,
-                            'mm'        => $packet['mm'] ?? null,
+                            'pcs' => $packet['pcs'] ?? 0,
+                            'stone' => $packet['stone'] ?? null,
+                            'clarity' => $packet['clarity'] ?? null,
+                            'color' => $packet['color'] ?? null,
+                            'cut' => $packet['cut'] ?? null,
+                            'shape' => $packet['shape'] ?? null,
+                            'chalni' => $packet['chalni'] ?? null,
+                            'mm' => $packet['mm'] ?? null,
                             'solitaire' => $packet['solitaire'] ?? 0,
-                            'rate'      => $packet['rate'] ?? 0,
-                            'amount'    => $packet['amount'] ?? 0,
-                            'weight'    => $packet['weight'] ?? 0,
+                            'rate' => $packet['rate'] ?? 0,
+                            'amount' => $packet['amount'] ?? 0,
+                            'weight' => $packet['weight'] ?? 0,
                             'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
-                            'uom'       => $packet['uom'] ?? null,
+                            'uom' => $packet['uom'] ?? null,
                             'certificate_no' => $packet['certificate_no'] ?? null,
                         ]);
                     }
@@ -416,12 +414,11 @@ class SellInvoiceController extends Controller
                     'packet_amount' => $packetAmount,
                 ]);
 
-
                 // Recalculate invoice total AFTER everything is saved
                 $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
 
                 SellInvoice::where('id', $invoiceId)->update([
-                    'final_amount' => $invoiceTotal
+                    'final_amount' => $invoiceTotal,
                 ]);
 
                 DB::commit();
@@ -429,7 +426,7 @@ class SellInvoiceController extends Controller
                 return response()->json([
                     'success' => true,
                     'invoice_id' => $invoiceId,
-                    'item_id' => $item->id
+                    'item_id' => $item->id,
                 ]);
             }
         } catch (\Exception $e) {
@@ -452,13 +449,13 @@ class SellInvoiceController extends Controller
         if ($invoice) {
             return response()->json([
                 'success' => true,
-                'invoice' => $invoice
+                'invoice' => $invoice,
             ]);
         }
 
         return response()->json([
             'success' => false,
-            'message' => 'No pending invoice found'
+            'message' => 'No pending invoice found',
         ]);
     }
 
@@ -469,9 +466,9 @@ class SellInvoiceController extends Controller
 
         if ($invoiceId) {
             // Exclude the current invoice's own balance transactions (Advance/Udhaar created FROM this invoice)
-            $query->where(function($q) use ($invoiceId) {
+            $query->where(function ($q) use ($invoiceId) {
                 $q->where('invoice_id', '!=', $invoiceId)
-                  ->orWhereNull('invoice_id');
+                    ->orWhereNull('invoice_id');
             });
         }
 
@@ -507,7 +504,7 @@ class SellInvoiceController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $transactions
+            'data' => $transactions,
         ]);
     }
 
@@ -539,16 +536,19 @@ class SellInvoiceController extends Controller
             // Recalculate invoice total
             $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
             SellInvoice::where('id', $invoiceId)->update([
-                'final_amount' => $invoiceTotal
+                'final_amount' => $invoiceTotal,
             ]);
 
             DB::commit();
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
     public function updateItem(Request $request)
     {
         DB::beginTransaction();
@@ -560,7 +560,7 @@ class SellInvoiceController extends Controller
 
             // Update item details
             $item->update([
-                'product_id'   => $request->product_id,
+                'product_id' => $request->product_id,
                 'item_name' => $request->product_name,
                 'pre_code' => $request->pre_code,
                 'post_code' => $request->post_code,
@@ -653,12 +653,11 @@ class SellInvoiceController extends Controller
                 'stone_amount' => $stoneAmount,
             ]);
 
-
             // Delete old packets
             SellPacketItem::where('sell_invoice_item_id', $item->id)->forcedelete();
             $packetAmount = 0;
             // Re-create packets
-            if (!empty($request->packets)) {
+            if (! empty($request->packets)) {
                 foreach ($request->packets as $packet) {
 
                     if (
@@ -671,23 +670,23 @@ class SellInvoiceController extends Controller
                     }
                     $packetAmount += $packet['amount'];
                     SellPacketItem::create([
-                        'sell_invoice_id'      => $item->sell_invoice_id,
+                        'sell_invoice_id' => $item->sell_invoice_id,
                         'sell_invoice_item_id' => $item->id,
                         'packet_no' => $packet['packet_no'] ?? null,
-                        'pcs'       => $packet['pcs'] ?? 0,
-                        'stone'     => $packet['stone'] ?? null,
-                        'clarity'   => $packet['clarity'] ?? null,
-                        'color'     => $packet['color'] ?? null,
-                        'cut'       => $packet['cut'] ?? null,
-                        'shape'    => $packet['shape'] ?? null,
-                        'chalni'    => $packet['chalni'] ?? null,
-                        'mm'        => $packet['mm'] ?? null,
+                        'pcs' => $packet['pcs'] ?? 0,
+                        'stone' => $packet['stone'] ?? null,
+                        'clarity' => $packet['clarity'] ?? null,
+                        'color' => $packet['color'] ?? null,
+                        'cut' => $packet['cut'] ?? null,
+                        'shape' => $packet['shape'] ?? null,
+                        'chalni' => $packet['chalni'] ?? null,
+                        'mm' => $packet['mm'] ?? null,
                         'solitaire' => $packet['solitaire'] ?? 0,
-                        'rate'      => $packet['rate'] ?? 0,
-                        'amount'    => $packet['amount'] ?? 0,
-                        'weight'    => $packet['weight'] ?? 0,
+                        'rate' => $packet['rate'] ?? 0,
+                        'amount' => $packet['amount'] ?? 0,
+                        'weight' => $packet['weight'] ?? 0,
                         'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
-                        'uom'       => $packet['uom'] ?? null,
+                        'uom' => $packet['uom'] ?? null,
                         'certificate_no' => $packet['certificate_no'] ?? null,
                     ]);
                 }
@@ -699,7 +698,7 @@ class SellInvoiceController extends Controller
             // Recalculate invoice total
             $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $item->sell_invoice_id)->sum('final_price');
             SellInvoice::where('id', $item->sell_invoice_id)->update([
-                'final_amount' => $invoiceTotal
+                'final_amount' => $invoiceTotal,
             ]);
 
             DB::commit();
@@ -708,10 +707,11 @@ class SellInvoiceController extends Controller
                 'success' => true,
                 'message' => 'Item updated successfully',
                 'invoice_id' => $item->sell_invoice_id,
-                'item_id' => $item->id
+                'item_id' => $item->id,
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
@@ -721,7 +721,7 @@ class SellInvoiceController extends Controller
         DB::beginTransaction();
         try {
             $invoiceId = $request->sell_invoice_id;
-            if (!$invoiceId) {
+            if (! $invoiceId) {
                 return response()->json(['success' => false, 'message' => 'Invoice ID is missing'], 400);
             }
 
@@ -731,19 +731,19 @@ class SellInvoiceController extends Controller
             $finalAmount = round($invoice->final_amount, 2);
 
             // New Discount Fields
-            $totalMakingCharge         = round($request->input('total_making_charge', 0), 2);
-            $makingDiscountPercent    = round($request->input('making_discount_percent', 0), 2);
-            $makingDiscountAmount     = round($request->input('making_discount_amount', 0), 2);
+            $totalMakingCharge = round($request->input('total_making_charge', 0), 2);
+            $makingDiscountPercent = round($request->input('making_discount_percent', 0), 2);
+            $makingDiscountAmount = round($request->input('making_discount_amount', 0), 2);
 
-            $totalDiaStonePacket      = round($request->input('total_diamond_stone_packet', 0), 2);
-            $diamondDiscountPercent   = round($request->input('diamond_discount_percent', 0), 2);
-            $diamondDiscountAmount    = round($request->input('diamond_discount_amount', 0), 2);
-            $diamondTotalAmount       = round($request->input('diamond_total_amount', 0), 2);
+            $totalDiaStonePacket = round($request->input('total_diamond_stone_packet', 0), 2);
+            $diamondDiscountPercent = round($request->input('diamond_discount_percent', 0), 2);
+            $diamondDiscountAmount = round($request->input('diamond_discount_amount', 0), 2);
+            $diamondTotalAmount = round($request->input('diamond_total_amount', 0), 2);
 
             // Discount
-            $taxableAmount    = round($request->taxable_amount, 2);
-            $discountPercent  = round($request->input('discount_percent', 0), 2);
-            $discountAmount   = round(($finalAmount * $discountPercent) / 100, 2);
+            $taxableAmount = round($request->taxable_amount, 2);
+            $discountPercent = round($request->input('discount_percent', 0), 2);
+            $discountAmount = round(($finalAmount * $discountPercent) / 100, 2);
             $amountAfterDiscount = round($finalAmount - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount, 2);
 
             // GST %
@@ -756,7 +756,7 @@ class SellInvoiceController extends Controller
             $sgstAmount = round(($amountAfterDiscount * $sgstPercent) / 100, 2);
             $igstAmount = round(($amountAfterDiscount * $igstPercent) / 100, 2);
 
-            $totalTax  = round($cgstAmount + $sgstAmount + $igstAmount, 2);
+            $totalTax = round($cgstAmount + $sgstAmount + $igstAmount, 2);
             $totalInvoiceAmount = round($amountAfterDiscount + $totalTax, 2);
 
             // Exchange Reduction
@@ -764,37 +764,42 @@ class SellInvoiceController extends Controller
             $grandTotal = round($totalInvoiceAmount - $totalExchangeAmount, 2);
 
             // Payments
-            $cash   = round($request->input('cash_received', 0), 2);
-            $bank   = round($request->input('bank_received', 0), 2);
+            $cash = round($request->input('cash_received', 0), 2);
+            $bank = round($request->input('bank_received', 0), 2);
             $online = round($request->input('online_received', 0), 2);
-            $card   = round($request->input('card_received', 0), 2);
+            $card = round($request->input('card_received', 0), 2);
 
             $totalReceived = round($cash + $bank + $online + $card, 2);
 
-            $totalSettled = 0;
+            $totaludharSettled = 0;
+            $totaladvSettled = 0;
             if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
                 foreach ($request->settled_transactions as $settlement) {
-                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) continue;
+                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) {
+                        continue;
+                    }
 
                     $originalTx = \App\Models\PaymentTransaction::find($settlement['id']);
-                    if (!$originalTx) continue;
+                    if (! $originalTx) {
+                        continue;
+                    }
 
-                    if ($originalTx->transaction_type === 'advance' || $originalTx->transaction_type === 'udhaar_payment') {
+                    if ($originalTx->transaction_type === 'advance') {
                         // Advance or Overpayment reduces balance (acts as payment)
-                        $totalSettled += round($settlement['amount'], 2);
-                    } else if ($originalTx->transaction_type === 'udhaar_get') {
+                        $totaladvSettled += round($settlement['amount'], 2);
+                    } elseif ($originalTx->transaction_type === 'udhaar_get' || $originalTx->transaction_type === 'udhaar_payment') {
                         // Udhaar debt increases balance (acts as extra charge)
-                        $totalSettled -= round($settlement['amount'], 2);
+                        $totaludharSettled += round($settlement['amount'], 2);
                     }
                 }
             }
 
             // $amountLeft = round(max(0, $grandTotal - $totalReceived), 2);
-            $totalReceived = round($cash + $bank + $online + $card + $totalSettled, 2);
-
+            $totalReceived = round($cash + $bank + $online + $card, 2);
+            // dd($totalReceived);
             // Difference before rounding
-            $balanceDiff = $grandTotal - $totalReceived;
-
+            $balanceDiff = (($grandTotal + $totaludharSettled) - ($totalReceived + $totaladvSettled));
+            // dd($balanceDiff.'='.$totalReceived.'+'.$totaladvSettled.'='.$grandTotal.'+'.$totaludharSettled);
             // Tolerance check (important)
             if (abs($balanceDiff) < 0.05) {
                 $amountLeft = 0.00;
@@ -813,43 +818,44 @@ class SellInvoiceController extends Controller
 
             // Update Invoice
             $invoice->update([
-                'total_making_charge'      => $totalMakingCharge,
-                'making_discount_percent'  => $makingDiscountPercent,
-                'making_discount_amount'   => $makingDiscountAmount,
+                'total_making_charge' => $totalMakingCharge,
+                'making_discount_percent' => $makingDiscountPercent,
+                'making_discount_amount' => $makingDiscountAmount,
                 'total_diamond_stone_packet' => $totalDiaStonePacket,
                 'diamond_discount_percent' => $diamondDiscountPercent,
-                'diamond_discount_amount'  => $diamondDiscountAmount,
-                'diamond_total_amount'     => $diamondTotalAmount,
+                'diamond_discount_amount' => $diamondDiscountAmount,
+                'diamond_total_amount' => $diamondTotalAmount,
 
                 'discount_percent' => $discountPercent,
-                'discount_amount'  => $discountAmount,
+                'discount_amount' => $discountAmount,
 
                 'cgst_percent' => $cgstPercent,
-                'cgst_amount'  => $cgstAmount,
+                'cgst_amount' => $cgstAmount,
                 'sgst_percent' => $sgstPercent,
-                'sgst_amount'  => $sgstAmount,
+                'sgst_amount' => $sgstAmount,
                 'igst_percent' => $igstPercent,
-                'igst_amount'  => $igstAmount,
+                'igst_amount' => $igstAmount,
 
                 'taxable_amount' => $taxableAmount,
-                'final_amount'   => $grandTotal,
+                'final_amount' => $grandTotal,
 
                 'total_exchange_amount' => $totalExchangeAmount,
 
-                'cash_received'   => $cash,
-                'bank_received'   => $bank,
+                'cash_received' => $cash,
+                'bank_received' => $bank,
                 'online_received' => $online,
-                'card_received'   => $card,
+                'card_received' => $card,
 
                 'total_received' => $totalReceived,
-                'amount_left'    => $amountLeft,
-                'status'         => $status,
+                'amount_left' => $amountLeft,
+                'status' => $status,
 
-                'invoice_date'     => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
             ]);
 
             // Automatically record balance as Advance or Udhaar Get
+            // dd($amountLeft);
             if (abs($amountLeft) >= 0.05) {
                 $type = $amountLeft > 0 ? 'udhaar_get' : 'advance';
                 $label = $amountLeft > 0 ? 'Udhaar (Debt)' : 'Advance';
@@ -873,7 +879,9 @@ class SellInvoiceController extends Controller
             $invoice->exchangeItems()->delete();
             if ($request->filled('exchange_items') && is_array($request->exchange_items)) {
                 foreach ($request->exchange_items as $ex) {
-                    if (empty($ex['amount']) || $ex['amount'] == 0) continue;
+                    if (empty($ex['amount']) || $ex['amount'] == 0) {
+                        continue;
+                    }
                     $invoice->exchangeItems()->create([
                         'admin_id' => Auth::id(),
                         'firm_id' => $invoice->firm_id,
@@ -894,10 +902,14 @@ class SellInvoiceController extends Controller
             // Save settled transactions (Udhar/Advance)
             if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
                 foreach ($request->settled_transactions as $settlement) {
-                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) continue;
+                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) {
+                        continue;
+                    }
 
                     $originalTx = \App\Models\PaymentTransaction::find($settlement['id']);
-                    if (!$originalTx) continue;
+                    if (! $originalTx) {
+                        continue;
+                    }
 
                     $type = 'refund'; // For advance
                     $label = 'Refund';
@@ -922,7 +934,7 @@ class SellInvoiceController extends Controller
                     try {
                         app(\App\Services\AccountingService::class)->postCustomerTransaction($newTx);
                     } catch (\Exception $e) {
-                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: " . $e->getMessage());
+                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: ".$e->getMessage());
                     }
                 }
             }
@@ -946,7 +958,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
-                            'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
+                            'remarks' => 'Sold via Invoice #'.$invoice->invoice_no,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoice->id,
                             'sell_invoice_item_id' => $item->id,
@@ -958,7 +970,7 @@ class SellInvoiceController extends Controller
             try {
                 app(\App\Services\AccountingService::class)->postSellInvoice($invoice);
             } catch (\Exception $e) {
-                \Log::error("Accounting Post failed for Invoice Finalize #{$invoice->invoice_no}: " . $e->getMessage());
+                \Log::error("Accounting Post failed for Invoice Finalize #{$invoice->invoice_no}: ".$e->getMessage());
             }
 
             DB::commit();
@@ -966,14 +978,14 @@ class SellInvoiceController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Invoice finalized successfully',
-                'redirect_url' => route('invoices')
+                'redirect_url' => route('invoices'),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
-
 
     public function destroy($id)
     {
@@ -1014,12 +1026,15 @@ class SellInvoiceController extends Controller
             $invoice->delete();
 
             DB::commit();
+
             return response()->json(['success' => true, 'message' => 'Invoice deleted successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
     public function update(Request $request)
     {
         DB::beginTransaction();
@@ -1028,7 +1043,7 @@ class SellInvoiceController extends Controller
             if (! $invoiceId) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Invoice ID is missing'
+                    'message' => 'Invoice ID is missing',
                 ], 400);
             }
 
@@ -1042,21 +1057,20 @@ class SellInvoiceController extends Controller
              */
             $itemsTotal = round($request->taxable_amount ?? 0, 2);
 
-            $totalMakingCharge         = round($request->input('total_making_charge', 0), 2);
-            $makingDiscountPercent    = round($request->input('making_discount_percent', 0), 2);
-            $makingDiscountAmount     = round($request->input('making_discount_amount', 0), 2);
+            $totalMakingCharge = round($request->input('total_making_charge', 0), 2);
+            $makingDiscountPercent = round($request->input('making_discount_percent', 0), 2);
+            $makingDiscountAmount = round($request->input('making_discount_amount', 0), 2);
 
-            $totalDiaStonePacket      = round($request->input('total_diamond_stone_packet', 0), 2);
-            $diamondDiscountPercent   = round($request->input('diamond_discount_percent', 0), 2);
-            $diamondDiscountAmount    = round($request->input('diamond_discount_amount', 0), 2);
-            $diamondTotalAmount       = round($request->input('diamond_total_amount', 0), 2);
-
+            $totalDiaStonePacket = round($request->input('total_diamond_stone_packet', 0), 2);
+            $diamondDiscountPercent = round($request->input('diamond_discount_percent', 0), 2);
+            $diamondDiscountAmount = round($request->input('diamond_discount_amount', 0), 2);
+            $diamondTotalAmount = round($request->input('diamond_total_amount', 0), 2);
 
             /* --------------------
              | Discount
              -------------------- */
             $discountPercent = round($request->input('discount_percent', 0), 2);
-            $discountAmount  = round(($itemsTotal * $discountPercent) / 100, 2);
+            $discountAmount = round(($itemsTotal * $discountPercent) / 100, 2);
             $amountAfterDiscount = round($itemsTotal - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount, 2);
 
             /* --------------------
@@ -1070,7 +1084,7 @@ class SellInvoiceController extends Controller
             $sgstAmount = round(($amountAfterDiscount * $sgstPercent) / 100, 2);
             $igstAmount = round(($amountAfterDiscount * $igstPercent) / 100, 2);
 
-            $totalTax  = round($cgstAmount + $sgstAmount + $igstAmount, 2);
+            $totalTax = round($cgstAmount + $sgstAmount + $igstAmount, 2);
             $totalInvoiceAmount = round($amountAfterDiscount + $totalTax, 2);
 
             // Exchange Reduction
@@ -1080,10 +1094,10 @@ class SellInvoiceController extends Controller
             /* --------------------
              | Payments
              -------------------- */
-            $cash   = round($request->input('cash_received', 0), 2);
-            $bank   = round($request->input('bank_received', 0), 2);
+            $cash = round($request->input('cash_received', 0), 2);
+            $bank = round($request->input('bank_received', 0), 2);
             $online = round($request->input('online_received', 0), 2);
-            $card   = round($request->input('card_received', 0), 2);
+            $card = round($request->input('card_received', 0), 2);
 
             $totalReceivedPayments = round($cash + $bank + $online + $card, 2);
 
@@ -1114,15 +1128,21 @@ class SellInvoiceController extends Controller
 
             // NEW settlements from request
             $newSettled = 0;
+            $newadvsettled = 0;
+            $newudharsettled = 0;
             if ($request->filled('settled_transactions')) {
                 foreach ($request->settled_transactions as $settlement) {
                     $originalTx = \App\Models\PaymentTransaction::find($settlement['id'] ?? null);
-                    if (!$originalTx) continue;
+                    if (! $originalTx) {
+                        continue;
+                    }
 
-                    if ($originalTx->transaction_type === 'advance' || $originalTx->transaction_type === 'udhaar_payment') {
-                        $newSettled += (float) ($settlement['amount'] ?? 0);
-                    } else if ($originalTx->transaction_type === 'udhaar_get') {
-                        $newSettled -= (float) ($settlement['amount'] ?? 0);
+                    if ($originalTx->transaction_type === 'advance') {
+                        // $newSettled += (float) ($settlement['amount'] ?? 0);
+                        $newadvsettled += (float) ($settlement['amount'] ?? 0);
+                    } elseif ($originalTx->transaction_type === 'udhaar_get' || $originalTx->transaction_type === 'udhaar_payment') {
+                        // $newSettled -= (float) ($settlement['amount'] ?? 0);
+                        $newudharsettled += (float) ($settlement['amount'] ?? 0);
                     }
                 }
             }
@@ -1131,8 +1151,12 @@ class SellInvoiceController extends Controller
             $totalSettled = $alreadySettled + $newSettled;
 
             // In this system, total_received includes both payments and settlements
-            $totalReceivedTotal = round($totalReceivedPayments + $totalSettled, 2);
-            $balanceDiff = round($grandTotal - $totalReceivedTotal, 2);
+            $totalReceivedTotal = round($totalReceivedPayments, 2);
+            // $balanceDiff = round($grandTotal - $totalReceivedTotal, 2);
+            $balanceDiff = round(
+                ($grandTotal + $newudharsettled) - ($totalReceivedTotal + $newadvsettled),
+                2
+            );
 
             // Rounding tolerance (same as finalize)
             if (abs($balanceDiff) < 0.05) {
@@ -1155,44 +1179,42 @@ class SellInvoiceController extends Controller
              | Update Invoice
              -------------------- */
             $invoice->update([
-                'invoice_no'       => $request->invoice_no,
-                'invoice_date'     => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                'invoice_no' => $request->invoice_no,
+                'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
-                'user_id'          => $request->customer_id,
+                'user_id' => $request->customer_id,
 
-
-                'total_making_charge'      => $totalMakingCharge,
-                'making_discount_percent'  => $makingDiscountPercent,
-                'making_discount_amount'   => $makingDiscountAmount,
+                'total_making_charge' => $totalMakingCharge,
+                'making_discount_percent' => $makingDiscountPercent,
+                'making_discount_amount' => $makingDiscountAmount,
                 'total_diamond_stone_packet' => $totalDiaStonePacket,
                 'diamond_discount_percent' => $diamondDiscountPercent,
-                'diamond_discount_amount'  => $diamondDiscountAmount,
-                'diamond_total_amount'     => $diamondTotalAmount,
-
+                'diamond_discount_amount' => $diamondDiscountAmount,
+                'diamond_total_amount' => $diamondTotalAmount,
 
                 'discount_percent' => $discountPercent,
-                'discount_amount'  => $discountAmount,
+                'discount_amount' => $discountAmount,
 
                 'cgst_percent' => $cgstPercent,
-                'cgst_amount'  => $cgstAmount,
+                'cgst_amount' => $cgstAmount,
                 'sgst_percent' => $sgstPercent,
-                'sgst_amount'  => $sgstAmount,
+                'sgst_amount' => $sgstAmount,
                 'igst_percent' => $igstPercent,
-                'igst_amount'  => $igstAmount,
+                'igst_amount' => $igstAmount,
 
                 'taxable_amount' => $itemsTotal,
-                'final_amount'   => $grandTotal,
+                'final_amount' => $grandTotal,
 
                 'total_exchange_amount' => $totalExchangeAmount,
 
-                'cash_received'   => $cash,
-                'bank_received'   => $bank,
+                'cash_received' => $cash,
+                'bank_received' => $bank,
                 'online_received' => $online,
-                'card_received'   => $card,
+                'card_received' => $card,
 
                 'total_received' => $totalReceivedTotal,
-                'amount_left'    => $amountLeft,
-                'status'         => $status,
+                'amount_left' => $amountLeft,
+                'status' => $status,
             ]);
 
             // 1.1 Delete existing balance transactions for this invoice (not settlements)
@@ -1222,7 +1244,9 @@ class SellInvoiceController extends Controller
             $invoice->exchangeItems()->delete();
             if ($request->filled('exchange_items') && is_array($request->exchange_items)) {
                 foreach ($request->exchange_items as $ex) {
-                    if (empty($ex['amount']) || $ex['amount'] == 0) continue;
+                    if (empty($ex['amount']) || $ex['amount'] == 0) {
+                        continue;
+                    }
                     $invoice->exchangeItems()->create([
                         'admin_id' => Auth::id(),
                         'firm_id' => $invoice->firm_id,
@@ -1243,10 +1267,14 @@ class SellInvoiceController extends Controller
             // Save settled transactions (Udhar/Advance)
             if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
                 foreach ($request->settled_transactions as $settlement) {
-                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) continue;
+                    if (empty($settlement['amount']) || $settlement['amount'] <= 0) {
+                        continue;
+                    }
 
                     $originalTx = \App\Models\PaymentTransaction::find($settlement['id']);
-                    if (!$originalTx) continue;
+                    if (! $originalTx) {
+                        continue;
+                    }
 
                     $type = 'refund'; // For advance
                     $label = 'Refund';
@@ -1271,7 +1299,7 @@ class SellInvoiceController extends Controller
                     try {
                         app(\App\Services\AccountingService::class)->postCustomerTransaction($newTx);
                     } catch (\Exception $e) {
-                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: " . $e->getMessage());
+                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: ".$e->getMessage());
                     }
                 }
             }
@@ -1295,7 +1323,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
-                            'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
+                            'remarks' => 'Sold via Invoice #'.$invoice->invoice_no,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoice->id,
                             'sell_invoice_item_id' => $item->id,
@@ -1314,7 +1342,7 @@ class SellInvoiceController extends Controller
 
                 app(\App\Services\AccountingService::class)->postSellInvoice($invoice);
             } catch (\Exception $e) {
-                \Log::error("Accounting Post failed for Invoice Update #{$invoice->invoice_no}: " . $e->getMessage());
+                \Log::error("Accounting Post failed for Invoice Update #{$invoice->invoice_no}: ".$e->getMessage());
             }
 
             DB::commit();
@@ -1322,16 +1350,18 @@ class SellInvoiceController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Invoice updated successfully',
-                'redirect_url' => route('invoices')
+                'redirect_url' => route('invoices'),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], 500);
         }
     }
+
     public function edit($id)
     {
         $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems'])->findOrFail($id);
@@ -1352,8 +1382,6 @@ class SellInvoiceController extends Controller
             ->where('type', 'term')
             ->get();
         $customFields = [];
-
-
 
         // $columns = \App\Models\InvoiceColumn::orderBy('id')->where('user_id', $adminId)->get();
 
@@ -1434,7 +1462,7 @@ class SellInvoiceController extends Controller
             ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
             ->get()
             ->keyBy(function ($item) {
-                return $item->section_key . '.' . $item->field_key;
+                return $item->section_key.'.'.$item->field_key;
             });
 
         // Get custom blocks
@@ -1448,18 +1476,54 @@ class SellInvoiceController extends Controller
 
         return view('Sales.Invoices.invoice-one-a-dya', compact('invoice', 'business', 'bank', 'customer', 'templateSettings', 'customBlocks'));
     }
-    public function sendInvoiceMail($id)
+
+    public function sendInvoiceMail($id, MailjetService $mailjet)
     {
-        // dd('hiiiii');
         $invoice = SellInvoice::with('customer')->findOrFail($id);
 
-        if (!$invoice->customer || !$invoice->customer->email) {
+        if (! $invoice->customer || ! $invoice->customer->email) {
             return back()->with('error', 'Customer email not found.');
         }
 
-        Mail::to('shreyaunhale@sirsonite.com')
-            ->send(new InvoiceMail($invoice));
+        // Generate PDF
+        $html = view('pdf.invo', [
+            'invoice' => $invoice,
+            'customer' => $invoice->customer,
+        ])->render();
 
-        return back()->with('success', 'Invoice sent successfully on email.');
+        $pdf = Pdf::loadHTML($html)->setPaper('A4', 'portrait');
+
+        $attachments = [
+            [
+                'ContentType' => 'application/pdf',
+                'Filename' => 'Invoice-'.$invoice->invoice_no.'.pdf',
+                'Base64Content' => base64_encode($pdf->output()),
+            ],
+        ];
+        $htmlContent = "
+    <h2>Invoice Details</h2>
+
+    <p><strong>Invoice No:</strong> {$invoice->invoice_no}</p>
+    <p><strong>Date:</strong> {$invoice->invoice_date}</p>
+    <p><strong>Total:</strong> ₹ ".number_format($invoice->final_amount, 2).'</p>
+    <p><strong>Paid:</strong> ₹ '.number_format($invoice->total_received ?? 0, 2).'</p>
+    <p><strong>Balance:</strong> ₹ '.number_format($invoice->amount_left ?? 0, 2).'</p>
+
+    <p>Thank you for your business.</p>
+';
+        $response = $mailjet->sendEmail(
+            $invoice->customer->email,
+            $invoice->customer->name ?? 'Customer',
+            'Invoice #'.$invoice->invoice_no,
+            'Please find your invoice attached.',
+            $attachments,
+            $htmlContent
+        );
+
+        if ($response->successful()) {
+            return back()->with('success', 'Invoice sent successfully.');
+        }
+
+        return back()->with('error', 'Mail failed: '.$response->body());
     }
 }

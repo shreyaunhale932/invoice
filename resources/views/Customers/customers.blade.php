@@ -81,21 +81,21 @@
                                                                         onclick="setDeleteAction('{{ route('customers.destroy', $customer->id) }}')"><i
                                                                             class="far fa-trash-alt me-2"></i>Delete</a>
                                                                 </li>
-                                                                <li>
+                                                                {{-- <li>
                                                                     <a class="dropdown-item"
                                                                         href="{{ url('customer-details') }}"><i
                                                                             class="far fa-eye me-2"></i>View</a>
-                                                                </li>
-                                                                <li>
+                                                                </li> --}}
+                                                                {{-- <li>
                                                                     <a class="dropdown-item"
                                                                         href="{{ url('active-customers') }}"><i
                                                                             class="fa-solid fa-power-off me-2"></i>Activate</a>
-                                                                </li>
-                                                                <li>
+                                                                </li> --}}
+                                                                {{-- <li>
                                                                     <a class="dropdown-item"
                                                                         href="{{ url('deactive-customers') }}"><i
                                                                             class="far fa-bell-slash me-2"></i>Deactivate</a>
-                                                                </li>
+                                                                </li> --}}
                                                             </ul>
                                                         </div>
                                                     </div>
