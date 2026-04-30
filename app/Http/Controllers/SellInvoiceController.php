@@ -1477,53 +1477,134 @@ class SellInvoiceController extends Controller
         return view('Sales.Invoices.invoice-one-a-dya', compact('invoice', 'business', 'bank', 'customer', 'templateSettings', 'customBlocks'));
     }
 
-    public function sendInvoiceMail($id, MailjetService $mailjet)
-    {
-        $invoice = SellInvoice::with('customer')->findOrFail($id);
+        public function sendInvoiceMail($id, MailjetService $mailjet)
+        {
+            $invoice = SellInvoice::with('customer')->findOrFail($id);
 
-        if (! $invoice->customer || ! $invoice->customer->email) {
-            return back()->with('error', 'Customer email not found.');
+            if (! $invoice->customer || ! $invoice->customer->email) {
+                return back()->with('error', 'Customer email not found.');
+            }
+
+            // Generate PDF
+            $html = view('pdf.invo', [
+                'invoice' => $invoice,
+                'customer' => $invoice->customer,
+            ])->render();
+
+            $pdf = Pdf::loadHTML($html)->setPaper('A4', 'portrait');
+
+            $attachments = [
+                [
+                    'ContentType' => 'application/pdf',
+                    'Filename' => 'Invoice-'.$invoice->invoice_no.'.pdf',
+                    'Base64Content' => base64_encode($pdf->output()),
+                ],
+            ];
+            $htmlContent = "
+        <h2>Invoice Details</h2>
+
+        <p><strong>Invoice No:</strong> {$invoice->invoice_no}</p>
+        <p><strong>Date:</strong> {$invoice->invoice_date}</p>
+        <p><strong>Total:</strong> ₹ ".number_format($invoice->final_amount, 2).'</p>
+        <p><strong>Paid:</strong> ₹ '.number_format($invoice->total_received ?? 0, 2).'</p>
+        <p><strong>Balance:</strong> ₹ '.number_format($invoice->amount_left ?? 0, 2).'</p>
+
+        <p>Thank you for your business.</p>
+    ';
+            $response = $mailjet->sendEmail(
+                $invoice->customer->email,
+                $invoice->customer->name ?? 'Customer',
+                'Invoice #'.$invoice->invoice_no,
+                'Please find your invoice attached.',
+                $attachments,
+                $htmlContent
+            );
+
+            if ($response->successful()) {
+                return back()->with('success', 'Invoice sent successfully.');
+            }
+
+            return back()->with('error', 'Mail failed: '.$response->body());
         }
 
-        // Generate PDF
-        $html = view('pdf.invo', [
-            'invoice' => $invoice,
-            'customer' => $invoice->customer,
-        ])->render();
+    // public function sendInvoiceMail($id)
+    // {
+    //     $invoice = SellInvoice::with('customer')->findOrFail($id);
 
-        $pdf = Pdf::loadHTML($html)->setPaper('A4', 'portrait');
+    //     if (! $invoice->customer || ! $invoice->customer->email) {
+    //         return back()->with('error', 'Customer email not found.');
+    //     }
 
-        $attachments = [
-            [
-                'ContentType' => 'application/pdf',
-                'Filename' => 'Invoice-'.$invoice->invoice_no.'.pdf',
-                'Base64Content' => base64_encode($pdf->output()),
-            ],
-        ];
-        $htmlContent = "
-    <h2>Invoice Details</h2>
+    //     // ✅ Generate PDF
+    //     $html = view('pdf.invo', [
+    //         'invoice' => $invoice,
+    //         'customer' => $invoice->customer,
+    //     ])->render();
 
-    <p><strong>Invoice No:</strong> {$invoice->invoice_no}</p>
-    <p><strong>Date:</strong> {$invoice->invoice_date}</p>
-    <p><strong>Total:</strong> ₹ ".number_format($invoice->final_amount, 2).'</p>
-    <p><strong>Paid:</strong> ₹ '.number_format($invoice->total_received ?? 0, 2).'</p>
-    <p><strong>Balance:</strong> ₹ '.number_format($invoice->amount_left ?? 0, 2).'</p>
+    //     $pdf = Pdf::loadHTML($html)->setPaper('A4', 'portrait');
+    //     $pdfContent = base64_encode($pdf->output());
 
-    <p>Thank you for your business.</p>
-';
-        $response = $mailjet->sendEmail(
-            $invoice->customer->email,
-            $invoice->customer->name ?? 'Customer',
-            'Invoice #'.$invoice->invoice_no,
-            'Please find your invoice attached.',
-            $attachments,
-            $htmlContent
-        );
+    //     // ✅ Prepare Mailjet payload
+    //     $payload = [
+    //         'Messages' => [
+    //             [
+    //                 'From' => [
+    //                     'Email' => 'support@sirsonite.in',
+    //                     'Name' => 'Mail Test',
+    //                 ],
+    //                 'To' => [
+    //                     [
+    //                         'Email' => 'shreyaunhale@sirsonite.com',
+    //                         'Name' => $invoice->customer->name ?? 'Customer',
+    //                     ],
+    //                 ],
+    //                 'Subject' => 'Invoice #'.$invoice->invoice_no,
+    //                 'TextPart' => 'Please find your invoice attached.',
+    //                 'Attachments' => [
+    //                     [
+    //                         'ContentType' => 'application/pdf',
+    //                         'Filename' => 'Invoice-'.$invoice->invoice_no.'.pdf',
+    //                         'Base64Content' => $pdfContent,
+    //                     ],
+    //                 ],
+    //             ],
+    //         ],
+    //     ];
 
-        if ($response->successful()) {
-            return back()->with('success', 'Invoice sent successfully.');
-        }
+    //     // ✅ cURL setup
+    //     $ch = curl_init();
 
-        return back()->with('error', 'Mail failed: '.$response->body());
-    }
+    //     curl_setopt_array($ch, [
+    //         CURLOPT_URL => 'https://api.mailjet.com/v3.1/send',
+    //         CURLOPT_RETURNTRANSFER => true,
+    //         CURLOPT_POST => true,
+    //         CURLOPT_POSTFIELDS => json_encode($payload),
+    //         CURLOPT_HTTPHEADER => [
+    //             'Content-Type: application/json',
+    //         ],
+    //         CURLOPT_USERPWD => env('30c952da49f12c2be8621ebf5ffd191a').':'.env('daaf83789db44ffa560cec092c604ea5'),
+    //         CURLOPT_TIMEOUT => 30,
+    //     ]);
+
+    //     // ✅ Execute request
+    //     $response = curl_exec($ch);
+    //     $error = curl_error($ch);
+    //     curl_close($ch);
+
+    //     // ❌ cURL error
+    //     if ($error) {
+    //         return back()->with('error', 'cURL Error: '.$error);
+    //     }
+
+    //     // ✅ Decode response
+    //     $result = json_decode($response, true);
+
+    //     // ✅ Success check (Mailjet format)
+    //     if (isset($result['Messages'][0]['Status']) && $result['Messages'][0]['Status'] == 'success') {
+    //         return back()->with('success', 'Invoice sent successfully via Mailjet (cURL).');
+    //     }
+
+    //     // ❌ Failure
+    //     return back()->with('error', 'Mail sending failed: '.$response);
+    // }
 }

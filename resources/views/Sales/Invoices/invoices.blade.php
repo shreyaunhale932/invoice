@@ -126,10 +126,10 @@
                                                                 target="_blank">
                                                                 <i class="far fa-eye me-2"></i>View
                                                             </a>
-                                                            <a class="dropdown-item"
+                                                            {{-- <a class="dropdown-item"
                                                                 href="{{ route('sell.invoice.sendMail', $invoice->id) }}">
                                                                 <i class="far fa-envelope me-2"></i>Send on Mail
-                                                            </a>
+                                                            </a> --}}
                                                             <a class="dropdown-item text-danger" href="#"
                                                                 onclick="if(confirm('Are you sure?')) {
                                                                     event.preventDefault();
