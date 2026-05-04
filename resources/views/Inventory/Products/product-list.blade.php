@@ -58,7 +58,7 @@
                                                         <h2 class="table-avatar">
 
                                                             <a
-                                                                href="{{ url('profile') }}">{{ $product['product_name'] }}</a>
+                                                                href="#">{{ $product['product_name'] }}</a>
                                                         </h2>
                                                     </td>
                                                     <td>{{ $product['pre_code'] . '-' . $product['post_code']}}</td>
