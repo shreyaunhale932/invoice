@@ -809,7 +809,7 @@ class SellInvoiceController extends Controller
 
             // dd('=='.$amountLeft);
             // Status
-            $status = 'pending';
+            $status = 'partial';
             if ($amountLeft <= 0) {
                 $status = 'paid';
             } elseif ($totalReceived > 0) {
@@ -992,6 +992,22 @@ class SellInvoiceController extends Controller
         DB::beginTransaction();
         try {
             $invoice = SellInvoice::findOrFail($id);
+             $usedInAnotherInvoice = \App\Models\PaymentTransaction::where('invoice_id', $id)
+                ->whereIn('transaction_type', ['advance', 'udhaar_get'])
+                ->whereHas('children', function ($q) {
+                    $q->whereIn('transaction_type', ['refund', 'udhaar_return']);
+                })
+                ->exists();
+
+            if ($usedInAnotherInvoice) {
+
+                DB::rollBack();
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invoice cannot be deleted because its due/advance amount is already settled in another invoice.',
+                ], 400);
+            }
             $invoice->exchangeItems()->delete();
             // Delete items (Cascading should ideally handle this, but manual is safer)
             $items = SellInvoiceItem::where('sell_invoice_id', $id)->get();

@@ -12,12 +12,12 @@
                 @endslot
             @endcomponent
             <!-- /Page Header -->
-@if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    @endif
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
             <!-- Template Editor Link -->
             <div class="row mb-3">
                 <div class="col-12">
@@ -131,13 +131,7 @@
                                                                 <i class="far fa-envelope me-2"></i>Send on Mail
                                                             </a> --}}
                                                             <a class="dropdown-item text-danger" href="#"
-                                                                onclick="if(confirm('Are you sure?')) {
-                                                                    event.preventDefault();
-                                                                    fetch('{{ route('sell.invoice.destroy', $invoice->id) }}', {
-                                                                        method: 'DELETE',
-                                                                        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-                                                                    }).then(res => {window.location.reload()});
-                                                               }">
+                                                                onclick="deleteInvoice(event, '{{ route('sell.invoice.destroy', $invoice->id) }}')">
                                                                 <i class="far fa-trash-alt me-2"></i>Delete
                                                             </a>
                                                         </div>
@@ -158,4 +152,43 @@
         </div>
     </div>
     <!-- /Page Wrapper -->
+    <script>
+        function deleteInvoice(event, url) {
+
+            event.preventDefault();
+
+            if (!confirm('Are you sure you want to delete this invoice?')) {
+                return;
+            }
+
+            fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    if (data.success) {
+
+                        alert(data.message);
+
+                        window.location.reload();
+
+                    } else {
+
+                        alert(data.message);
+                    }
+
+                })
+                .catch(error => {
+
+                    alert('Something went wrong.');
+                    console.log(error);
+
+                });
+        }
+    </script>
 @endsection

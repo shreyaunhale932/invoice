@@ -185,6 +185,28 @@ class CustomerTransactionController extends Controller
         $transaction = PaymentTransaction::findOrFail($id);
 
         return DB::transaction(function () use ($transaction) {
+
+          /*
+        |--------------------------------------------------------------------------
+        | Check Refund / Return Exists
+        |--------------------------------------------------------------------------
+        | If this transaction already has refund/return entries
+        | OR settled in another invoice then do not allow delete
+        */
+
+        $hasChildTransactions = PaymentTransaction::where('parent_id', $transaction->id)
+            ->whereIn('transaction_type', ['refund', 'udhaar_return'])
+            ->exists();
+
+        if ($hasChildTransactions) {
+
+            return redirect()
+                ->route('customer.transactions.index')
+                ->with(
+                    'error',
+                    'Cannot delete this transaction because refund/return or invoice settlement already exists.'
+                );
+        }
             // Delete Accounting Entry first
             JournalEntry::where('reference_type', PaymentTransaction::class)
                 ->where('reference_id', $transaction->id)
