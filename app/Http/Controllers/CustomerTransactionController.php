@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\JournalEntry;
 use App\Models\PaymentTransaction;
 use App\Services\AccountingService;
-use App\Models\JournalEntry;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -33,12 +33,14 @@ class CustomerTransactionController extends Controller
         }
 
         $transactions = $query->latest()->paginate(15);
+
         return view('Customers.transactions.index', compact('transactions'));
     }
 
     public function create()
     {
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+
         return view('Customers.transactions.add', compact('customers'));
     }
 
@@ -61,19 +63,19 @@ class CustomerTransactionController extends Controller
                     $original = PaymentTransaction::findOrFail($request->parent_id);
                     $remaining = $original->amount - $original->refunded_amount;
                     if ($request->amount > $remaining) {
-                        return back()->withErrors(['amount' => "Refund amount cannot exceed remaining balance (₹" . number_format($remaining, 2) . ")"])->withInput();
+                        return back()->withErrors(['amount' => 'Refund amount cannot exceed remaining balance (₹'.number_format($remaining, 2).')'])->withInput();
                     }
                 } elseif ($request->invoice_id) {
                     $invoice = \App\Models\SellInvoice::findOrFail($request->invoice_id);
                     $remaining = $invoice->total_received - $invoice->refunded_amount;
                     if ($request->amount > $remaining) {
-                        return back()->withErrors(['amount' => "Refund amount cannot exceed remaining paid balance (₹" . number_format($remaining, 2) . ")"])->withInput();
+                        return back()->withErrors(['amount' => 'Refund amount cannot exceed remaining paid balance (₹'.number_format($remaining, 2).')'])->withInput();
                     }
                 }
             }
 
             $transaction = PaymentTransaction::create([
-               'firm_id' => session('selected_firm_id') ?? 1,
+                'firm_id' => session('selected_firm_id') ?? 1,
                 'admin_id' => Auth::guard('admin')->id(),
                 'customer_id' => $request->customer_id,
                 'invoice_id' => $request->invoice_id,
@@ -96,7 +98,7 @@ class CustomerTransactionController extends Controller
     public function refund($id)
     {
         $original = PaymentTransaction::findOrFail($id);
-        if (!$original->canBeRefunded()) {
+        if (! $original->canBeRefunded()) {
             return redirect()->route('customer.transactions.index')->with('error', 'This transaction has already been fully refunded.');
         }
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
@@ -115,17 +117,18 @@ class CustomerTransactionController extends Controller
             'transaction_type' => $type,
             'parent_id' => $original->id,
             'amount' => $original->amount - $original->refunded_amount,
-            'narration' => "{$label} of transaction #{$original->id}"
+            'narration' => "{$label} of transaction #{$original->id}",
         ]);
     }
 
     public function refundInvoice($id)
     {
         $invoice = \App\Models\SellInvoice::findOrFail($id);
-        if (!$invoice->can_be_refunded) {
+        if (! $invoice->can_be_refunded) {
             return redirect()->route('invoices.index')->with('error', 'This invoice has already been fully refunded.');
         }
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+
         return view('Customers.transactions.add', [
             'customers' => $customers,
             'original' => null,
@@ -133,14 +136,55 @@ class CustomerTransactionController extends Controller
             'transaction_type' => 'refund',
             'invoice_id' => $invoice->id,
             'amount' => $invoice->total_received - $invoice->refunded_amount, // Pre-fill with remaining paid balance
-            'narration' => "Refund/Return for Invoice #{$invoice->invoice_no}"
+            'narration' => "Refund/Return for Invoice #{$invoice->invoice_no}",
         ]);
     }
 
     public function edit($id)
     {
         $transaction = PaymentTransaction::findOrFail($id);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Prevent Edit If Transaction Already Settled In Invoice
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            in_array($transaction->transaction_type, ['advance', 'udhaar_payment', 'udhaar_get']) &&
+            ! empty($transaction->invoice_id)
+        ) {
+
+            return redirect()
+                ->route('customer.transactions.index')
+                ->with(
+                    'error',
+                    'This transaction is already settled in invoice, cannot edit.'
+                );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Prevent Edit If Refund/Return Already Exists
+        |--------------------------------------------------------------------------
+        */
+
+        $hasRefundOrReturn = PaymentTransaction::where('parent_id', $transaction->id)
+            ->whereIn('transaction_type', ['refund', 'udhaar_return'])
+            ->exists();
+
+        if ($hasRefundOrReturn) {
+
+            return redirect()
+                ->route('customer.transactions.index')
+                ->with(
+                    'error',
+                    'Refund/return already created for this transaction, cannot edit.'
+                );
+        }
+
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+
         return view('Customers.transactions.edit', compact('transaction', 'customers'));
     }
 
@@ -186,27 +230,45 @@ class CustomerTransactionController extends Controller
 
         return DB::transaction(function () use ($transaction) {
 
-          /*
-        |--------------------------------------------------------------------------
-        | Check Refund / Return Exists
-        |--------------------------------------------------------------------------
-        | If this transaction already has refund/return entries
-        | OR settled in another invoice then do not allow delete
-        */
+            /*
+            |--------------------------------------------------------------------------
+            | Check Child Refund / Return Exists
+            |--------------------------------------------------------------------------
+            */
 
-        $hasChildTransactions = PaymentTransaction::where('parent_id', $transaction->id)
-            ->whereIn('transaction_type', ['refund', 'udhaar_return'])
-            ->exists();
+            $hasChildTransactions = PaymentTransaction::where('parent_id', $transaction->id)
+                ->whereIn('transaction_type', ['refund', 'udhaar_return'])
+                ->exists();
 
-        if ($hasChildTransactions) {
+            if ($hasChildTransactions) {
 
-            return redirect()
-                ->route('customer.transactions.index')
-                ->with(
-                    'error',
-                    'Cannot delete this transaction because refund/return or invoice settlement already exists.'
-                );
-        }
+                return redirect()
+                    ->route('customer.transactions.index')
+                    ->with(
+                        'error',
+                        'Cannot delete this transaction because refund/return already exists.'
+                    );
+            }
+
+            /*
+|--------------------------------------------------------------------------
+| Check Refund/Return Settled In Invoice
+|--------------------------------------------------------------------------
+*/
+
+            if (
+                in_array($transaction->transaction_type, ['refund', 'udhaar_return']) &&
+                ! empty($transaction->invoice_id)
+            ) {
+
+                return redirect()
+                    ->route('customer.transactions.index')
+                    ->with(
+                        'error',
+                        'Entry already settled in invoice, cannot delete this transaction.'
+                    );
+            }
+
             // Delete Accounting Entry first
             JournalEntry::where('reference_type', PaymentTransaction::class)
                 ->where('reference_id', $transaction->id)
@@ -214,7 +276,9 @@ class CustomerTransactionController extends Controller
 
             $transaction->delete();
 
-            return redirect()->route('customer.transactions.index')->with('success', 'Transaction deleted and ledger adjusted.');
+            return redirect()
+                ->route('customer.transactions.index')
+                ->with('success', 'Transaction deleted and ledger adjusted.');
         });
     }
 
@@ -249,10 +313,15 @@ class CustomerTransactionController extends Controller
         $totalUdhaarReturn = 0;
 
         foreach ($transactions as $t) {
-            if ($t->transaction_type == 'advance') $totalAdvance += $t->amount;
-            elseif ($t->transaction_type == 'udhaar_payment') $totalUdhaarPaid += $t->amount;
-            elseif ($t->transaction_type == 'refund') $totalRefund += $t->amount;
-            elseif ($t->transaction_type == 'udhaar_return') $totalUdhaarReturn += $t->amount;
+            if ($t->transaction_type == 'advance') {
+                $totalAdvance += $t->amount;
+            } elseif ($t->transaction_type == 'udhaar_payment') {
+                $totalUdhaarPaid += $t->amount;
+            } elseif ($t->transaction_type == 'refund') {
+                $totalRefund += $t->amount;
+            } elseif ($t->transaction_type == 'udhaar_return') {
+                $totalUdhaarReturn += $t->amount;
+            }
         }
 
         return view('Customers.reports.transaction-report', compact(
