@@ -494,10 +494,23 @@ class ProductController extends Controller
         |--------------------------------------------------------------------------
         */
             if ($request->hasFile('image')) {
+                // dd('hii');
 
                 if ($product->image && file_exists(public_path($product->image))) {
                     unlink(public_path($product->image));
                 }
+
+                // $manager = new ImageManager(new GdDriver);
+                // $file = $request->file('image');
+                // $filename = 'Product_'.time().'.'.$file->getClientOriginalExtension();
+
+                // $image = $manager->read($file->getPathname());
+                // $image->resize(500, 500);
+
+                // $path = public_path('assets/products/'.$filename);
+                // $image->toJpeg(90)->save($path);
+
+                // $product->update(['image' => 'assets/products/'.$filename]);
 
                 $manager = new ImageManager(new GdDriver);
                 $file = $request->file('image');
@@ -509,7 +522,9 @@ class ProductController extends Controller
                 $path = public_path('assets/products/'.$filename);
                 $image->toJpeg(90)->save($path);
 
-                $product->update(['image' => 'assets/products/'.$filename]);
+                $product->image = 'assets/products/'.$filename;
+                $product->save();
+
             }
 
             /*
