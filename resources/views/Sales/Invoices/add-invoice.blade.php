@@ -2441,11 +2441,15 @@
             const finalDiscountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
             const finalDiscountAmount = (taxableAmount * finalDiscountPercent) / 100;
 
-            console.log('taxableAmount=-----------------------------'+taxableAmount);
-            console.log('finalDiscountAmount--'+finalDiscountAmount);
-            console.log('diamondDiscountAmount--'+diamondDiscountAmount);
-            const amountAfterFinalDiscount = taxableAmount - finalDiscountAmount - diamondDiscountAmount -
-                makingDiscountAmount;
+            console.log('taxableAmount=-----------------------------' + taxableAmount);
+            console.log('finalDiscountAmount--' + finalDiscountAmount);
+            console.log('diamondDiscountAmount--' + diamondDiscountAmount);
+            const amountAfterFinalDiscount = Number((
+                taxableAmount -
+                finalDiscountAmount -
+                diamondDiscountAmount -
+                makingDiscountAmount
+            ).toFixed(2));
 
             setBoxText('discountAmount', finalDiscountAmount);
 
@@ -2456,9 +2460,9 @@
             const sgstPercent = parseFloat(document.getElementById('sgstPercent')?.value) || 0;
             const igstPercent = parseFloat(document.getElementById('igstPercent')?.value) || 0;
 
-            const cgstAmount = (amountAfterFinalDiscount * cgstPercent) / 100;
-            const sgstAmount = (amountAfterFinalDiscount * sgstPercent) / 100;
-            const igstAmount = (amountAfterFinalDiscount * igstPercent) / 100;
+            const cgstAmount = Number(((amountAfterFinalDiscount * cgstPercent) / 100).toFixed(2));
+            const sgstAmount = Number(((amountAfterFinalDiscount * sgstPercent) / 100).toFixed(2));
+            const igstAmount = Number(((amountAfterFinalDiscount * igstPercent) / 100).toFixed(2));
             // alert('igstAmount==-->'+igstAmount);
 
             setBoxText('cgstAmount', cgstAmount);
@@ -2479,8 +2483,13 @@
             console.log('sgstAmount=' + sgstAmount);
             console.log('igstAmount=' + igstAmount);
 
-            const totalInvoiceAmount = (amountAfterFinalDiscount + cgstAmount + sgstAmount + igstAmount) - totalExchange;
-
+            const totalInvoiceAmount = Number((
+                amountAfterFinalDiscount +
+                cgstAmount +
+                sgstAmount +
+                igstAmount -
+                totalExchange
+            ).toFixed(2));
             setBoxText('totalInvoiceAmount', totalInvoiceAmount);
 
             // -------------------------
@@ -2491,7 +2500,7 @@
             const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
             const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
 
-            const totalPaid = cash + bank + online + card;
+            const totalPaid = Number((cash + bank + online + card).toFixed(2));
 
             let totalSettled = 0;
             $('.settle-checkbox:checked').each(function() {
@@ -2507,16 +2516,18 @@
             });
 
             setBoxText('totalSettledAmount', totalSettled);
-    console.log('totalInvoiceAmount=='+totalInvoiceAmount);
-    console.log('totalPaid=='+totalPaid);
-    console.log('totalSettled=='+totalSettled);
+            console.log('totalInvoiceAmount==' + totalInvoiceAmount);
+            console.log('totalPaid==' + totalPaid);
+            console.log('totalSettled==' + totalSettled);
 
-            let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
-             console.log('remaining=='+remaining);
+            let remaining = Number((
+                totalInvoiceAmount - (totalPaid + totalSettled)
+            ).toFixed(2));
+            console.log('remaining==' + remaining);
             // if (remaining < 0) remaining = 0;+
 
             setBoxText('remainingAmount', remaining);
-          setBoxText('remainingAmountFooter', totalInvoiceAmount -  totalSettled );
+            setBoxText('remainingAmountFooter', totalInvoiceAmount - totalSettled);
         }
 
 
