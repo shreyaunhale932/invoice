@@ -42,6 +42,7 @@
                                                 <th>Item</th>
                                                 <th>Code</th>
                                                 <th>Category</th>
+                                                <th>Image</th>
 
                                                 <th>Selling Price</th>
                                                 <th>Purchase Price</th>
@@ -57,20 +58,24 @@
                                                     <td>
                                                         <h2 class="table-avatar">
 
-                                                            <a
-                                                                href="#">{{ $product['product_name'] }}</a>
+                                                            <a href="#">{{ $product['product_name'] }}</a>
                                                         </h2>
                                                     </td>
-                                                    <td>{{ $product['pre_code'] . '-' . $product['post_code']}}</td>
+                                                    <td>{{ $product['pre_code'] . '-' . $product['post_code'] }}</td>
                                                     <td>
                                                         {{ $product->category->category_name ?? '-' }}
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($product) && $product->image)
+                                                            <img src="{{ asset($product->image) }}" width="70">
+                                                        @endif
                                                     </td>
 
 
                                                     <td>{{ $product['sale_price'] }}</td>
                                                     <td>{{ $product['final_price'] }}</td>
                                                     <td>
-                                                        @if(($product->availability ?? 'available') == 'available')
+                                                        @if (($product->availability ?? 'available') == 'available')
                                                             <span class="badge bg-success">Available</span>
                                                         @else
                                                             <span class="badge bg-danger">Sold</span>
