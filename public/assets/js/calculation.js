@@ -72,7 +72,7 @@ function calculatePrice() {
     let gstAmount = ((goldValue + makingFinal) * gstPerc) / 100;
 
     /* ===== FINAL GOLD PRICE ===== */
-    let goldFinalPrice = goldValue + makingFinal + gstAmount;
+    let goldFinalPrice = goldValue + makingFinal ;
 
     $('input[name="gold_price"]').val(goldFinalPrice.toFixed(2));
 
@@ -93,7 +93,7 @@ function calculatePrice() {
 
     let subTotal = goldValue + makingFinal + diamondTotal + stoneTotal + packetTotal;
     let gstAmountFinal = (subTotal * gstPerc) / 100;
-    let finalPrice = subTotal + gstAmountFinal;
+    let finalPrice = subTotal ;
 
     $('input[name="gst_amount"]').val(gstAmountFinal.toFixed(2));
     $('input[name="final_price"]').val(finalPrice.toFixed(2));

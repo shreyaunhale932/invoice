@@ -944,9 +944,10 @@
                     $bank = $invoice->bank_received ?? 0;
                     $card = $invoice->card_received ?? 0;
                     $totalExchangeAmt = $invoice->total_exchange_amount ?? 0;
+                    $makingDiscount = $invoice->making_discount_amount ?? 0;
 
                     $totalReceived = $cash + $online + $bank + $card + $totalExchangeAmt;
-                    $balanceAmount = $finalAmount - $totalReceived - $advSettled + $udharSettled;
+                    $balanceAmount = $finalAmount - $totalReceived - $advSettled + $udharSettled - $makingDiscount;
 
                     /* ===============================
                  | INVOICE STATUS
