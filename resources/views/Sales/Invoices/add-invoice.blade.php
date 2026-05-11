@@ -2440,9 +2440,12 @@
             // -------------------------
             const finalDiscountPercent = parseFloat(document.getElementById('discountPercent')?.value) || 0;
             const finalDiscountAmount = (taxableAmount * finalDiscountPercent) / 100;
-            const amountAfterFinalDiscount = Math.round(taxableAmount -  finalDiscountAmount - diamondDiscountAmount -
-                makingDiscountAmount
-            );
+
+            console.log('taxableAmount=-----------------------------'+taxableAmount);
+            console.log('finalDiscountAmount--'+finalDiscountAmount);
+            console.log('diamondDiscountAmount--'+diamondDiscountAmount);
+            const amountAfterFinalDiscount = taxableAmount - finalDiscountAmount - diamondDiscountAmount -
+                makingDiscountAmount;
 
             setBoxText('discountAmount', finalDiscountAmount);
 
@@ -2504,16 +2507,16 @@
             });
 
             setBoxText('totalSettledAmount', totalSettled);
-            console.log('totalInvoiceAmount==' + totalInvoiceAmount);
-            console.log('totalPaid==' + totalPaid);
-            console.log('totalSettled==' + totalSettled);
+    console.log('totalInvoiceAmount=='+totalInvoiceAmount);
+    console.log('totalPaid=='+totalPaid);
+    console.log('totalSettled=='+totalSettled);
 
             let remaining = totalInvoiceAmount - (totalPaid + totalSettled);
-            console.log('remaining==' + remaining);
+             console.log('remaining=='+remaining);
             // if (remaining < 0) remaining = 0;+
 
             setBoxText('remainingAmount', remaining);
-            setBoxText('remainingAmountFooter', totalInvoiceAmount - totalSettled);
+          setBoxText('remainingAmountFooter', totalInvoiceAmount -  totalSettled );
         }
 
 
