@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label>Post Code</label>
-                                    <input type="text"
+                                    <input type="number"
                                         class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="post_code"
                                         id="post_code" value="{{ old('post_code', $product->post_code ?? 1) }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
