@@ -56,7 +56,7 @@ class ProductController extends Controller
             $itemProduct = ItemProductData::where('product_code', $preCode)->first();
             //  dd($itemProduct);
             if ($itemProduct) {
-                 dd('Reequest product name=>'.$request->product_name.'   Item product name=>'.$itemProduct->product_name);
+                //  dd('Reequest product name=>'.$request->product_name.'   Item product name=>'.$itemProduct->product_name);
                 //  echo ''
                 // pre_code used for another product → ERROR
                 if (
