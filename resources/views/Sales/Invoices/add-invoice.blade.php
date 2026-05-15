@@ -69,11 +69,12 @@
                                                 <label>Invoice Date</label>
                                                 <div class="cal-icon cal-icon-info">
                                                     <input type="text" class="datetimepicker form-control"
-                                                        placeholder="Select Date" name="invoice_date">
+                                                        placeholder="Select Date" name="invoice_date"
+                                                        value="{{ date('d-m-Y') }}">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Due Date</label>
                                                 <div class="cal-icon cal-icon-info">
@@ -81,7 +82,7 @@
                                                         class="datetimepicker form-control" placeholder="Select Date">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         {{-- <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="input-block mb-3">
                                             <label>Status</label>

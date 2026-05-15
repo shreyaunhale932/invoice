@@ -38,14 +38,20 @@
                                     <table class="table table-center table-hover datatable">
                                         <thead class="thead-light">
                                             <tr>
+                                                <th></th>
                                                 <th>#</th>
                                                 <th>Item</th>
+                                                <th>Image</th>
                                                 <th>Code</th>
                                                 <th>Category</th>
-                                                <th>Image</th>
+                                                <th>SubCategory</th>
+                                                <th>Gs Wt</th>
+                                                <th>Net Wt</th>
+                                                <th>final Wt</th>
+
 
                                                 <th>Selling Price</th>
-                                                <th>Purchase Price</th>
+                                                {{-- <th>Purchase Price</th> --}}
                                                 <th>Availability</th>
                                                 <th class="no-sort">Action</th>
                                             </tr>
@@ -54,6 +60,91 @@
 
                                             @foreach ($products as $product)
                                                 <tr>
+                                                    <td class="details-control">
+                                                        <button type="button" class="btn btn-sm btn-primary show-details"
+                                                            data-details='
+
+        <div class="p-3">
+
+            <h5>Diamonds</h5>
+
+            @if ($product->diamonds->count())
+<table class="table table-bordered">
+                    <tr>
+                        <th>Clarity</th>
+                        <th>Color</th>
+                        <th>Cut</th>
+                        <th>Weight</th>
+                        <th>Price</th>
+                    </tr>
+
+                    @foreach ($product->diamonds as $diamond)
+<tr>
+                            <td>{{ $diamond->clarity }}</td>
+                            <td>{{ $diamond->color }}</td>
+                            <td>{{ $diamond->cut }}</td>
+                            <td>{{ $diamond->diamond_weight }}</td>
+                            <td>{{ $diamond->diamond_final_price }}</td>
+                        </tr>
+@endforeach
+                </table>
+@else
+<p>No Diamonds</p>
+@endif
+
+
+            <h5>Stones</h5>
+
+            @if ($product->stones->count())
+<table class="table table-bordered">
+                    <tr>
+                        <th>Name</th>
+                        <th>Weight</th>
+                        <th>Amount</th>
+                    </tr>
+
+                    @foreach ($product->stones as $stone)
+<tr>
+                            <td>{{ $stone->stone_name }}</td>
+                            <td>{{ $stone->stone_weight }}</td>
+                            <td>{{ $stone->stone_final_price }}</td>
+                        </tr>
+@endforeach
+                </table>
+@else
+<p>No Stones</p>
+@endif
+
+
+            <h5>Packets</h5>
+
+            @if ($product->packets->count())
+<table class="table table-bordered">
+                    <tr>
+                        <th>Packet No</th>
+                        <th>Pcs</th>
+                        <th>Weight</th>
+                        <th>Amount</th>
+                    </tr>
+
+                    @foreach ($product->packets as $packet)
+<tr>
+                            <td>{{ $packet->packet_no }}</td>
+                            <td>{{ $packet->pcs }}</td>
+                            <td>{{ $packet->weight }}</td>
+                            <td>{{ $packet->amount }}</td>
+                        </tr>
+@endforeach
+                </table>
+@else
+<p>No Packets</p>
+@endif
+
+        </div>
+        '>
+                                                            +
+                                                        </button>
+                                                    </td>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>
                                                         <h2 class="table-avatar">
@@ -61,19 +152,34 @@
                                                             <a href="#">{{ $product['product_name'] }}</a>
                                                         </h2>
                                                     </td>
-                                                    <td>{{ $product['pre_code'] . '-' . $product['post_code'] }}</td>
-                                                    <td>
-                                                        {{ $product->category->category_name ?? '-' }}
-                                                    </td>
                                                     <td>
                                                         @if (isset($product) && $product->image)
                                                             <img src="{{ asset($product->image) }}" width="70">
                                                         @endif
                                                     </td>
+                                                    <td>{{ $product['pre_code'] . '-' . $product['post_code'] }}</td>
+                                                    <td>
+                                                        {{ $product->category->category_name ?? '-' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $product->subcategory->subcategory_name ?? '-' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $product->gross_weight ?? '-' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $product->net_weight ?? '-' }}
+                                                    </td>
+
+                                                    <td>
+
+                                                        {{ $product->final_fn_weight ?? '-' }}
+                                                    </td>
+
 
 
                                                     <td>{{ $product['sale_price'] }}</td>
-                                                    <td>{{ $product['final_price'] }}</td>
+                                                    {{-- <td>{{ $product['final_price'] }}</td> --}}
                                                     <td>
                                                         @if (($product->availability ?? 'available') == 'available')
                                                             <span class="badge bg-success">Available</span>
@@ -134,6 +240,35 @@
 
                 document.getElementById('deleteProductForm').action = url;
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            var table = $('.datatable').DataTable();
+
+            $('.datatable tbody').on('click', '.show-details', function() {
+
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+
+                    row.child.hide();
+                    tr.removeClass('shown');
+                    $(this).text('+');
+
+                } else {
+
+                    var details = $(this).attr('data-details');
+
+                    row.child(details).show();
+                    tr.addClass('shown');
+                    $(this).text('-');
+                }
+
+            });
+
         });
     </script>
 @endsection

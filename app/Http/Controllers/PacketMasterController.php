@@ -34,16 +34,18 @@ class PacketMasterController extends Controller
 
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'packet_no' => 'required|unique:packet_masters,packet_no',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'packet_no' => 'required|unique:packet_masters,packet_no,NULL,id,firm_id,' . auth()->user()->firm_id,
+    ]);
 
-        PacketMaster::create($request->all());
+    PacketMaster::create($request->all());
 
-        return redirect()->route('packet-masters.index')->with('success', 'Packet created successfully.');
-    }
+    return redirect()
+        ->route('packet-masters.index')
+        ->with('success', 'Packet created successfully.');
+}
 
     public function edit($packetMaster)
     {

@@ -48,7 +48,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Email <span class="text-danger">*</span></label>
+                                                <label>Email </label>
                                                 <input type="email" class="form-control"
                                                     placeholder="Enter Email Address" name="email" value="{{ $customer->email }}">
                                             </div>

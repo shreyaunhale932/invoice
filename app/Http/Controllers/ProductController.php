@@ -28,11 +28,10 @@ class ProductController extends Controller
         // dd($request->all);
         DB::transaction(function () use ($request) {
             $request->validate([
-                'barcode' => 'nullable|unique:products,barcode',
+                'barcode' => 'nullable|unique:products,barcode,NULL,id,firm_id,'.auth()->user()->firm_id,
                 'pre_code' => 'required|string',
                 'post_code' => 'required|string',
             ]);
-
             $preCode = trim($request->pre_code);
             $postCode = trim($request->post_code);
 
