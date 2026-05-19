@@ -56,10 +56,11 @@
 
                                                     </li>
                                                     <li>
-                                                        <a class="btn btn-primary form-plus-btn"
-                                                            href="{{ url('add-customer') }}">
-                                                            <i class="fe fe-plus-circle"></i>
-                                                        </a>
+                                                        <button type="button" class="btn btn-primary"
+                                                            data-bs-toggle="modal" data-bs-target="#addCustomerModal">
+                                                            +
+                                                        </button>
+
                                                     </li>
                                                 </ul>
                                             </div>
@@ -74,7 +75,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Due Date</label>
                                                 <div class="cal-icon cal-icon-info">
@@ -82,7 +83,7 @@
                                                         class="datetimepicker form-control" placeholder="Select Date">
                                                 </div>
                                             </div>
-                                        </div> --}}
+                                        </div>
                                         {{-- <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="input-block mb-3">
                                             <label>Status</label>
@@ -627,13 +628,13 @@
                                                         </div>
 
                                                         <div class="d-flex justify-content-between">
-                                                            <label>Bank Received</label>
+                                                            <label>Cheque Received</label>
                                                             <input type="number" id="bankReceived"
                                                                 class="form-control w-50" value="0">
                                                         </div>
 
                                                         <div class="d-flex justify-content-between">
-                                                            <label>Online Received</label>
+                                                            <label>UPI Received</label>
                                                             <input type="number" id="onlineReceived"
                                                                 class="form-control w-50" value="0">
                                                         </div>
@@ -679,7 +680,60 @@
     <!-- Edit Columns Modal ---->
 
 
+    <div class="modal fade" id="addCustomerModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Customer</h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="customerForm">
+                    @csrf
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Name</label>
+
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Phone</label>
+
+                                <input type="text" name="phone" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Email</label>
+
+                                <input type="email" name="email" class="form-control">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>City</label>
+
+                                <input type="text" name="city" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="saveCustomerBtn" class="btn btn-success">
+                            Save Customer
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
     <!-- GST Configuration Modal -->
     <!-- GST Configuration Modal -->
     <div class="modal fade" id="gstConfigModal" tabindex="-1" aria-hidden="true">
@@ -2615,6 +2669,63 @@
 
         $(document).on('change', '.settle-checkbox', function() {
             calculateInvoiceTotals();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            // setup csrf token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('#saveCustomerBtn').click(function(e) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                let formData = $('#customerForm').serialize();
+
+                $.ajax({
+                    url: "{{ route('customers.store') }}",
+                    type: "POST",
+                    data: formData,
+
+                    success: function(response) {
+
+                        if (response.success) {
+
+                            let option = new Option(
+                                response.customer.name,
+                                response.customer.id,
+                                true,
+                                true
+                            );
+
+                            $('#customerDropdown')
+                                .append(option)
+                                .trigger('change');
+
+                            $('#addCustomerModal').modal('hide');
+
+                            $('#customerForm')[0].reset();
+
+                            alert('Customer Added Successfully');
+                        }
+                    },
+
+                    error: function(xhr) {
+
+                        console.log(xhr.responseText);
+
+                        alert('Customer not saved');
+                    }
+                });
+
+            });
+
         });
     </script>
 @endsection

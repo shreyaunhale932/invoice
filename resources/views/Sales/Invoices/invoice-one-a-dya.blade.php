@@ -1005,8 +1005,12 @@
                         $roundOffVisible)
                     <div class="invoice-table-footer">
                         <div class="table-footer-left notes">
-                            @if ($status === 'paid' && $paidLogoVisible)
+                            @if ($status === 'paid')
+
+                             @if($paidLogoVisible)
                                 <img src="{{ asset($paidLogo) }}" alt="Paid">
+                                @endif
+
                             @elseif($status === 'partial')
                                 <span class="badge bg-warning">Partially Paid</span>
                             @else

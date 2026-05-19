@@ -45,7 +45,7 @@
                                     </div>
 
                                     <!-- Helper function for Dropdown with Add Button -->
-                                    @foreach (['stone', 'clarity', 'color', 'cut', 'shape', 'mm', 'chalni'] as $attr)
+                                    @foreach (['stone', 'clarity', 'color', 'cut', 'shape', 'mm'] as $attr)
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>{{ ucfirst($attr) }}</label>

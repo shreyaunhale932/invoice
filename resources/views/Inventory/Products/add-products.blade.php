@@ -135,18 +135,17 @@
                                 <!-- Purity -->
                                 <div class="col-lg-4 mt-3">
                                     <label>Purity</label>
-                                    <!-- Purity -->
-                                    <select name="purity_id" class="form-control select" required>
+                                    <select name="purity_id" id="purity_id" class="form-control select" required>
                                         <option value="">Select Purity</option>
                                         @foreach ($purities as $purity)
-                                            <option value="{{ $purity->id }}"
+                                            <option value="{{ $purity->id }}" 
+                                                data-purity-value="{{ (float)$purity->purity_value }}"
+                                                data-purity-type="{{ $purity->purity_type }}"
                                                 {{ old('purity_id', $product->purity_id ?? '') == $purity->id ? 'selected' : '' }}>
                                                 {{ $purity->purity_value }}{{ $purity->purity_type == 'karat' ? 'K' : '%' }}
                                             </option>
                                         @endforeach
                                     </select>
-
-
                                 </div>
                                 <div class="col-lg-3 col-md-6">
                                     <label>Hallmark(HUID)</label>
@@ -177,15 +176,13 @@
                                         @endforeach
                                     </select> --}}
                                     <select name="metal_rate_id" id="metal_rate" class="form-control" required>
-
                                         <option value="">Select Metal Rate</option>
-
                                         @foreach ($metalRates as $rate)
-                                            {{-- {{  $rate->id }}
-                                             {{ $product->metal_rate }} --}}
                                             <option value="{{ $rate->id }}"
                                                 data-metal="{{ strtolower($rate->metal_type) }}"
                                                 data-price="{{ $rate->price_per_gram }}"
+                                                data-karat="{{ (float)$rate->karat }}"
+                                                data-purity-type="{{ $rate->purity_type }}"
                                                 {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
                                                 {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm -
                                                 {{ $rate->karat }}{{ $rate->purity_type === 'karat' ? 'K' : '%' }}
@@ -1003,9 +1000,72 @@
                 }
             }
 
-            // When category changes → reset metal rate
+            // When category changes → reset metal rate and trigger purity check
             $('#category_id').on('change', function() {
                 filterMetalRates(true);
+                $('#purity_id').trigger('change');
+            });
+
+            // Auto-select metal rate on purity change
+            $('#purity_id').on('change', function() {
+                let selectedOption = $(this).find('option:selected');
+                let selectedPurityValue = parseFloat(selectedOption.data('purity-value'));
+                let selectedPurityType = selectedOption.data('purity-type');
+                let selectedMetal = $('#category_id option:selected').data('metal');
+
+                if (!isNaN(selectedPurityValue) && selectedMetal) {
+                    let strictExactMatch = '';
+                    let convertedExactMatch = '';
+                    let closeMatch = '';
+                    let minDiff = Infinity;
+                    
+                    // Function to convert karat to percent for comparison
+                    function getPercentValue(val, type) {
+                        return type === 'karat' ? (val / 24) * 100 : val;
+                    }
+
+                    let selectedPercent = getPercentValue(selectedPurityValue, selectedPurityType);
+
+                    // Iterate to find the matching metal rate
+                    $('#metal_rate option').each(function() {
+                        let optionMetal = $(this).data('metal');
+                        let optionKarat = parseFloat($(this).data('karat'));
+                        let optionPurityType = $(this).data('purity-type');
+                        
+                        if (optionMetal === selectedMetal && !isNaN(optionKarat)) {
+                            // 1. Strict Exact Match (Same type, exactly same value)
+                            if (optionPurityType === selectedPurityType && Math.abs(optionKarat - selectedPurityValue) === 0) {
+                                strictExactMatch = $(this).val();
+                            } 
+                            // Otherwise check percent conversion
+                            else {
+                                let optionPercent = getPercentValue(optionKarat, optionPurityType);
+                                let diff = Math.abs(optionPercent - selectedPercent);
+                                
+                                if (diff < 0.1) { 
+                                    convertedExactMatch = $(this).val();
+                                } else if (diff <= 1.5) { // 1.5% / 1.5 unit tolerance
+                                    if (diff < minDiff) {
+                                        minDiff = diff;
+                                        closeMatch = $(this).val();
+                                    } else if (diff === minDiff) {
+                                        closeMatch = $(this).val(); // latest close match
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    let matchingOption = strictExactMatch || convertedExactMatch || closeMatch;
+
+                    if (matchingOption) {
+                        $('#metal_rate').val(matchingOption).trigger('change');
+                    } else {
+                        $('#metal_rate').val('').trigger('change');
+                    }
+                } else {
+                    $('#metal_rate').val('').trigger('change');
+                }
             });
 
             // On PAGE LOAD (edit) → do NOT reset

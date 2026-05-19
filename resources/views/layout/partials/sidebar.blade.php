@@ -228,7 +228,7 @@
                             <li><a href="{{ route('packet-attributes.index', 'cuts') }}">Cuts</a></li>
                             <li><a href="{{ route('packet-attributes.index', 'shapes') }}">Shapes</a></li>
                             <li><a href="{{ route('packet-attributes.index', 'mms') }}">MMs</a></li>
-                            <li><a href="{{ route('packet-attributes.index', 'chalnis') }}">Chalnis</a></li>
+                            {{-- <li><a href="{{ route('packet-attributes.index', 'chalnis') }}">Chalnis</a></li> --}}
                         </ul>
                     </li>
                 </ul>
