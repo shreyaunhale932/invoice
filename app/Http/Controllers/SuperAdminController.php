@@ -61,6 +61,7 @@ class SuperAdminController extends Controller
             'city' => $request->city,
             'state' => $request->state,
             'pincode' => $request->pincode,
+            'is_verified' => true, // Automatically verify admins created by Super Admin
         ]);
 
         try {

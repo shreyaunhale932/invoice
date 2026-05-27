@@ -40,6 +40,21 @@
     <link rel="shortcut icon" href="{{ asset('/assets/img/favicon.png') }}">
 
     @include('layout.partials.head')
+
+    <!-- Custom Redesign Stylesheet -->
+    <link rel="stylesheet" href="{{ asset('assets/css/new-dashboard.css') }}">
+    
+    <!-- Google Fonts Outfit and Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', 'Outfit', sans-serif !important;
+        }
+        .logo-text-main {
+            font-family: 'Outfit', sans-serif !important;
+        }
+    </style>
 </head>
 @if (
     !Route::is([
@@ -149,7 +164,7 @@
         'cashreceipt-3',
         'cashreceipt-4',
     ]))
-    @include('layout.partials.header')
+    @include('layout.partials.newheader')
 @endif
 @if (Route::is(['index-three']))
     <div class="container">
@@ -177,7 +192,7 @@
         'cashreceipt-3',
         'cashreceipt-4',
     ]))
-    @include('layout.partials.sidebar')
+    @include('layout.partials.newsidebar')
 @endif
 @if (Route::is(['index-four']))
     @include('layout.partials.two-col-sidebar')
@@ -228,6 +243,46 @@
 
 @include('layout.partials.footer-scripts')
 @yield('scripts')
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sidebar Toggle Logic
+        var toggleBtn = document.getElementById('toggle_btn_new');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.body.classList.toggle('mini-sidebar');
+            });
+        }
+
+        // Dark Mode Theme Toggle Logic
+        var themeBtn = document.getElementById('theme_toggle_btn');
+        var themeIcon = document.getElementById('theme_icon');
+        
+        // Check saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            if(themeIcon) {
+                themeIcon.classList.replace('fe-moon', 'fe-sun');
+            }
+        }
+
+        if (themeBtn) {
+            themeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    if(themeIcon) themeIcon.classList.replace('fe-moon', 'fe-sun');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    if(themeIcon) themeIcon.classList.replace('fe-sun', 'fe-moon');
+                }
+            });
+        }
+    });
+</script>
 </body>
 
 </html>

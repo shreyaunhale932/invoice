@@ -20,7 +20,8 @@ use App\Http\Controllers\SellInvoiceController;
 use App\Http\Controllers\DayBookController;
 use Illuminate\Support\Str;
 use App\Models\Invoice;
-
+use App\Http\Controllers\LabelDesignerController;
+use App\Http\Controllers\PrintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -325,6 +326,19 @@ Route::get('/invoices-paid', [PageController::class, 'invoices_paid'])->name('in
 Route::get('/invoices-recurring', [PageController::class, 'invoices_recurring'])->name('invoices-recurring');
 Route::get('/invoices-refunded', [PageController::class, 'invoices_refunded'])->name('invoices-refunded');
 Route::get('/invoices-unpaid', [PageController::class, 'invoices_unpaid'])->name('invoices-unpaid');
+
+    // Barcode & Label Printing Routes
+    
+    Route::get('/labels/templates', [LabelDesignerController::class, 'index'])->name('labels.templates.index');
+    Route::get('/labels/designer', [LabelDesignerController::class, 'create'])->name('labels.designer.create');
+    Route::post('/labels/designer', [LabelDesignerController::class, 'store'])->name('labels.designer.store');
+    Route::get('/labels/designer/{template}/edit', [LabelDesignerController::class, 'edit'])->name('labels.designer.edit');
+    Route::put('/labels/designer/{template}', [LabelDesignerController::class, 'update'])->name('labels.designer.update');
+    Route::delete('/labels/templates/{template}', [LabelDesignerController::class, 'destroy'])->name('labels.templates.destroy');
+
+    Route::get('/labels/print/preview/{template_id}/{product_id}', [PrintController::class, 'preview'])->name('labels.print.preview');
+    Route::get('/labels/print/bulk', [PrintController::class, 'bulkPrintView'])->name('labels.print.bulk');
+    Route::post('/labels/print/bulk', [PrintController::class, 'processBulk'])->name('labels.print.processBulk');
 
 });
 

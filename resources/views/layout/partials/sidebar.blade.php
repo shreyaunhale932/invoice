@@ -208,6 +208,16 @@
                         <a class="{{ Request::is('inventory', 'inventory-history') ? 'active' : '' }}"
                             href="{{ url('inventory') }}"><i class="fe fe-user"></i> <span>Inventory</span></a>
                     </li> --}}
+                    <li class="submenu">
+                        <a href="#"><i class="fe fe-printer"></i> <span> Label Printing</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a class="{{ Request::is('labels/templates*') ? 'active' : '' }}"
+                                    href="{{ route('labels.templates.index') }}">Label Templates</a></li>
+                            <li><a class="{{ Request::is('labels/print/bulk') ? 'active' : '' }}"
+                                    href="{{ route('labels.print.bulk') }}">Bulk Print</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <!-- /Inventory -->
    <!-- Packet Management -->

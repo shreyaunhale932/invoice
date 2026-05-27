@@ -99,6 +99,8 @@ class InvoiceController extends Controller
         return view('Sales/Invoices/invoices', compact('invoices', 'cards'));
     }
 
+
+
     public function create()
     {
         $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();

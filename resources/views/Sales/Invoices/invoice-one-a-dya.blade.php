@@ -1389,6 +1389,20 @@
             // document.body.innerHTML = originalContents;
             // window.location.reload(); // ensure JS & layout restored properly
         }
+
+        @if(request()->has('auto_print'))
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                window.print();
+            }, 500);
+        });
+
+        window.addEventListener('afterprint', function() {
+            if (window.parent) {
+                window.parent.postMessage('print_completed', '*');
+            }
+        });
+        @endif
     </script>
 
 @endsection

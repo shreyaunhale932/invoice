@@ -39,6 +39,7 @@ class AuthController extends Controller
     // }
     public function authenticate(Request $request)
     {
+        // dd($request->username.'-'.$request->password);
         $credentials = $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
@@ -49,6 +50,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect('/superadmin/dashboard');
         }
+// dd($credentials['username'].'-'.$credentials['password']);
 
         // 2. Try Admin login (admin guard)
         if (Auth::guard('admin')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {

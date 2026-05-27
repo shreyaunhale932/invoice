@@ -189,7 +189,7 @@ class SellInvoiceController extends Controller
                             'color' => $packet['color'] ?? null,
                             'cut' => $packet['cut'] ?? null,
                             'shape' => $packet['shape'] ?? null,
-                            'chalni' => $packet['chalni'] ?? null,
+                            // 'chalni' => $packet['chalni'] ?? null,
                             'mm' => $packet['mm'] ?? null,
                             'solitaire' => $packet['solitaire'] ?? 0,
                             'rate' => $packet['rate'] ?? 0,
@@ -398,7 +398,7 @@ class SellInvoiceController extends Controller
                             'color' => $packet['color'] ?? null,
                             'cut' => $packet['cut'] ?? null,
                             'shape' => $packet['shape'] ?? null,
-                            'chalni' => $packet['chalni'] ?? null,
+                            // 'chalni' => $packet['chalni'] ?? null,
                             'mm' => $packet['mm'] ?? null,
                             'solitaire' => $packet['solitaire'] ?? 0,
                             'rate' => $packet['rate'] ?? 0,
@@ -679,7 +679,7 @@ class SellInvoiceController extends Controller
                         'color' => $packet['color'] ?? null,
                         'cut' => $packet['cut'] ?? null,
                         'shape' => $packet['shape'] ?? null,
-                        'chalni' => $packet['chalni'] ?? null,
+                        // 'chalni' => $packet['chalni'] ?? null,
                         'mm' => $packet['mm'] ?? null,
                         'solitaire' => $packet['solitaire'] ?? 0,
                         'rate' => $packet['rate'] ?? 0,
@@ -979,6 +979,7 @@ class SellInvoiceController extends Controller
                 'success' => true,
                 'message' => 'Invoice finalized successfully',
                 'redirect_url' => route('invoices'),
+                'print_url' => route('sell.invoice.view', $invoice->id),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -1367,6 +1368,7 @@ class SellInvoiceController extends Controller
                 'success' => true,
                 'message' => 'Invoice updated successfully',
                 'redirect_url' => route('invoices'),
+                'print_url' => route('sell.invoice.view', $invoice->id),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

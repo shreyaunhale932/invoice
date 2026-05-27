@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\OTPMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegistrationController extends Controller
 {
@@ -40,7 +42,7 @@ class RegistrationController extends Controller
             ], 422);
         }
 
-        // try {
+        try {
             $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
             $admin = Admin::create([
@@ -58,15 +60,16 @@ class RegistrationController extends Controller
                 'otp_expiry' => Carbon::now()->addMinutes(10),
                 'verification_status' => 'pending',
             ]);
-            $htmlContent = view('emails.otp', ['otp' => $otp])->render();
+            // $htmlContent = view('emails.otp', ['otp' => $otp])->render();
+             Mail::to($request->email)->send(new OTPMail($otp));
 
             // ✅ Send OTP via Mailjet API (NO SMTP)
-            $mailjet->sendEmail(
-                $request->email,
-                $admin->name,
-                'Your OTP Verification Code',
-                'Your OTP is: '.$otp."\nThis OTP will expire in 10 minutes."
-            );
+            // $mailjet->sendEmail(
+            //     $request->email,
+            //     $admin->name,
+            //     'Your OTP Verification Code',
+            //     'Your OTP is: '.$otp."\nThis OTP will expire in 10 minutes."
+            // );
 
             return response()->json([
                 'success' => true,
@@ -74,12 +77,12 @@ class RegistrationController extends Controller
                 'admin_id' => $admin->id,
             ]);
 
-        // } catch (Exception $e) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'Registration failed: '.$e->getMessage(),
-        //     ], 500);
-        // }
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Registration failed: '.$e->getMessage(),
+            ], 500);
+        }
     }
 
     public function verifyOtp(Request $request)
