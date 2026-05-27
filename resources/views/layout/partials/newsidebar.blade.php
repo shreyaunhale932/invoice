@@ -67,12 +67,12 @@
                         <a href="{{ url('purity') }}">Purity</a>
                     </li>
 
-                    <li class="{{ Request::is('labels/templates*') ? 'active' : '' }}">
+                    {{-- <li class="{{ Request::is('labels/templates*') ? 'active' : '' }}">
                         <a href="{{ route('labels.templates.index') }}">Label Templates</a>
                     </li>
                     <li class="{{ Request::is('labels/print/bulk') ? 'active' : '' }}">
                         <a href="{{ route('labels.print.bulk') }}">Bulk Print</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
 
@@ -268,14 +268,14 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     var submenuTriggers = document.querySelectorAll(".submenu-trigger-new > a");
-    
+
     submenuTriggers.forEach(function(trigger) {
         trigger.addEventListener("click", function(e) {
             e.preventDefault();
             var li = this.parentElement;
             var submenu = li.querySelector(".submenu-new");
             var arrow = this.querySelector(".menu-arrow-new");
-            
+
             if (submenu.style.display === "block" || getComputedStyle(submenu).display === "block") {
                 submenu.style.display = "none";
                 li.classList.remove("active");
@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
-    
+
     // Auto-expand submenus for active routes
     var activeSubmenuItems = document.querySelectorAll(".submenu-new li.active");
     activeSubmenuItems.forEach(function(item) {
