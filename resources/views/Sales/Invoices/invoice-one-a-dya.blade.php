@@ -500,7 +500,7 @@
                                             {{ $billingAddressLabel }} :
                                         </div>
                                         <div class="add-details">
-                                            {{ $customer->address1 }}
+                                            {{ $customer->address }}
                                         </div>
                                     </div>
                                 </div>
@@ -514,7 +514,7 @@
                                             {{ $shippingAddressLabel }} :
                                         </div>
                                         <div class="add-details">
-                                            {{ $invoice->shipping_address ?: $customer->address1 }}
+                                            {{ $invoice->shipping_address ?: $customer->address }}
                                         </div>
                                     </div>
                                 </div>
@@ -560,12 +560,12 @@
                     $exchangeLabels = [
                         'section_title' =>
                             $templateSettings['exchange_table.section_title']->label ?? 'Old Metal Received',
-                        'description' => $templateSettings['exchange_table.column_description']->label ?? 'Description',
+                        'description' => $templateSettings['exchange_table.column_description']->label ?? 'Desc',
                         'metal' => $templateSettings['exchange_table.column_metal']->label ?? 'Metal',
                         'purity' => $templateSettings['exchange_table.column_purity']->label ?? 'Purity',
-                        'gross_wt' => $templateSettings['exchange_table.column_gross_wt']->label ?? 'Gross Wt',
-                        'less_wt' => $templateSettings['exchange_table.column_less_wt']->label ?? 'Less Wt',
-                        'net_wt' => $templateSettings['exchange_table.column_net_wt']->label ?? 'Net Wt',
+                        'gross_wt' => $templateSettings['exchange_table.column_gross_wt']->label ?? 'GW',
+                        'less_wt' => $templateSettings['exchange_table.column_less_wt']->label ?? 'LW',
+                        'net_wt' => $templateSettings['exchange_table.column_net_wt']->label ?? 'NW',
                         'fine_wt' => $templateSettings['exchange_table.column_fine_wt']->label ?? 'Fine Wt',
                         'rate' => $templateSettings['exchange_table.column_rate']->label ?? 'Rate',
                         'amount' => $templateSettings['exchange_table.column_amount']->label ?? 'Amount',
@@ -844,9 +844,6 @@
                                             @if ($exchangeVisibility['metal'])
                                                 <th>{{ $exchangeLabels['metal'] }}</th>
                                             @endif
-                                            @if ($exchangeVisibility['purity'])
-                                                <th>{{ $exchangeLabels['purity'] }}</th>
-                                            @endif
                                             @if ($exchangeVisibility['gross_wt'])
                                                 <th>{{ $exchangeLabels['gross_wt'] }}</th>
                                             @endif
@@ -855,6 +852,9 @@
                                             @endif
                                             @if ($exchangeVisibility['net_wt'])
                                                 <th>{{ $exchangeLabels['net_wt'] }}</th>
+                                            @endif
+                                            @if ($exchangeVisibility['purity'])
+                                                <th>{{ $exchangeLabels['purity'] }}</th>
                                             @endif
                                             @if ($exchangeVisibility['fine_wt'])
                                                 <th>{{ $exchangeLabels['fine_wt'] }}</th>
@@ -877,9 +877,6 @@
                                                 @if ($exchangeVisibility['metal'])
                                                     <td>{{ $ex->metal }}</td>
                                                 @endif
-                                                @if ($exchangeVisibility['purity'])
-                                                    <td>{{ $ex->purity }}</td>
-                                                @endif
                                                 @if ($exchangeVisibility['gross_wt'])
                                                     <td>{{ number_format($ex->gross_weight, 3) }}</td>
                                                 @endif
@@ -888,6 +885,9 @@
                                                 @endif
                                                 @if ($exchangeVisibility['net_wt'])
                                                     <td>{{ number_format($ex->net_weight, 3) }}</td>
+                                                @endif
+                                                @if ($exchangeVisibility['purity'])
+                                                    <td>{{ $ex->purity }}</td>
                                                 @endif
                                                 @if ($exchangeVisibility['fine_wt'])
                                                     <td>{{ number_format($ex->fine_weight, 3) }}</td>

@@ -79,13 +79,13 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end border-0 shadow" style="min-width: 180px;">
                     <a class="dropdown-item" href="{{ url('add-products') }}">
-                        <i class="fe fe-package me-2" style="color: #7D56D9;"></i> Add Retail Stock
+                        <i class="fe fe-package me-2" style="color: #7D56D9;"></i> Add Stock
                     </a>
-                    <a class="dropdown-item" href="{{ route('add-customer') }}">
+                    {{-- <a class="dropdown-item" href="{{ route('add-customer') }}">
                         <i class="fe fe-user-plus me-2" style="color: #2DCA73;"></i> Add Customer
-                    </a>
+                    </a> --}}
                     <a class="dropdown-item" href="{{ route('invoices.create') }}">
-                        <i class="fe fe-file-text me-2" style="color: #FFB800;"></i> Create New Invoice
+                        <i class="fe fe-file-text me-2" style="color: #FFB800;"></i> Add Sell
                     </a>
                     <!-- <a class="dropdown-item" href="{{ route('metal-rates') }}">
                         <i class="fe fe-database me-2" style="color: #FA5252;"></i> Add Raw Metal
@@ -106,6 +106,12 @@
                     <a class="dropdown-item" href="{{ route('day-book.index') }}">Accounting</a>
                 </div>
             </div>
+
+            <!-- Update Rate Pill -->
+            <button class="pill-button-new" style="background: rgba(255, 184, 0, 0.12); color: #B37D00; border: none; font-weight: 700; transition: all 0.2s ease;" type="button" data-bs-toggle="modal" data-bs-target="#updateRateModal" onmouseover="this.style.background='rgba(255, 184, 0, 0.2)'" onmouseout="this.style.background='rgba(255, 184, 0, 0.12)'">
+                <i class="fas fa-edit" style="margin-right: 6px;"></i>
+                <span>Update Rate</span>
+            </button>
 
         </div>
 
@@ -133,53 +139,78 @@
         </div>
     </div>
 
-    <!-- Row 2: Scrolling Metal Rates Banner -->
-    <div class="header-row-two marquee-container" style="padding-top: 6px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">
-        <div class="marquee-content">
-            @php
-                $metalRates = \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())
-                    ->orderBy('id', 'desc')
-                    ->take(15)
-                    ->get();
-            @endphp
+</header>
 
-            @if($metalRates->count() > 0)
-                @foreach($metalRates as $index => $rate)
-                    <span class="rate-item-new" style="display: inline-block; margin-right: 32px; font-size: 13px;">
-                        <i class="fas fa-coins" style="color: #FFB800; margin-right: 4px;"></i>
-                        <span style="font-weight: 600; color: var(--text-main);">{{ $rate->metal_type }} ({{ $rate->karat ?? ($rate->purity_type == 'percent' ? $rate->percent.'%' : 'Fine') }}):</span>
-                        <span class="rate-value" style="font-weight: 800; color: var(--primary-color); margin-left: 4px;">₹{{ number_format($rate->price_per_gram, 2) }} /Gm</span>
-                    </span>
-                    @if(!$loop->last)
-                        <span class="rate-divider-new" style="margin-right: 32px; color: var(--border-color); font-weight: bold;">|</span>
-                    @endif
-                @endforeach
-            @else
-                <!-- Fallback placeholder rates if none is configured -->
-                <span class="rate-item-new" style="display: inline-block; margin-right: 32px; font-size: 13px;">
-                    <i class="fas fa-coins" style="color: #FFB800; margin-right: 4px;"></i>
-                    <span style="font-weight: 600; color: var(--text-main);">Gold (58.33):</span>
-                    <span class="rate-value" style="font-weight: 800; color: var(--primary-color); margin-left: 4px;">₹9,566.00 /Gm</span>
-                </span>
-                <span class="rate-divider-new" style="margin-right: 32px; color: var(--border-color); font-weight: bold;">|</span>
-                <span class="rate-item-new" style="display: inline-block; margin-right: 32px; font-size: 13px;">
-                    <i class="fas fa-coins" style="color: #FFB800; margin-right: 4px;"></i>
-                    <span style="font-weight: 600; color: var(--text-main);">Gold (24K):</span>
-                    <span class="rate-value" style="font-weight: 800; color: var(--primary-color); margin-left: 4px;">₹16,400.00 /Gm</span>
-                </span>
-                <span class="rate-divider-new" style="margin-right: 32px; color: var(--border-color); font-weight: bold;">|</span>
-                <span class="rate-item-new" style="display: inline-block; margin-right: 32px; font-size: 13px;">
-                    <i class="fas fa-coins" style="color: #FFB800; margin-right: 4px;"></i>
-                    <span style="font-weight: 600; color: var(--text-main);">Gold (14K):</span>
-                    <span class="rate-value" style="font-weight: 800; color: var(--primary-color); margin-left: 4px;">₹9,566.00 /Gm</span>
-                </span>
-                <span class="rate-divider-new" style="margin-right: 32px; color: var(--border-color); font-weight: bold;">|</span>
-                <span class="rate-item-new" style="display: inline-block; margin-right: 32px; font-size: 13px;">
-                    <i class="fas fa-coins" style="color: #FFB800; margin-right: 4px;"></i>
-                    <span style="font-weight: 600; color: var(--text-main);">Silver (Fine):</span>
-                    <span class="rate-value" style="font-weight: 800; color: var(--primary-color); margin-left: 4px;">₹295.00 /Gm</span>
-                </span>
-            @endif
+<!-- Update Rate Modal -->
+<div class="modal fade" id="updateRateModal" tabindex="-1" aria-labelledby="updateRateModalLabel" aria-hidden="true" style="z-index: 10050;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0" style="border-radius: 16px; background: #FFFFFF;">
+            <form action="{{ route('metal-rates.bulk-update') }}" method="POST">
+                @csrf
+                <div class="modal-header" style="border-bottom: 1px solid var(--border-color); padding: 20px 24px;">
+                    <h5 class="modal-title" id="updateRateModalLabel" style="font-weight: 800; color: var(--text-main) !important; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-coins" style="color: #FFB800;"></i> Update Metal Rates
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 24px; max-height: 70vh; overflow-y: auto;">
+                    <div class="mb-3">
+                        <label for="rate_24k" class="form-label" style="font-weight: 700; color: var(--text-main) !important; display: block; margin-bottom: 8px;">Gold 24K Rate per Gram (₹)</label>
+                        <input type="number" step="0.01" class="form-control" id="rate_24k" name="rate_24k" placeholder="e.g. 7200" required style="border-radius: 8px; padding: 12px 14px; border: 2px solid var(--primary-color); font-size: 16px; font-weight: 700; color: var(--primary-color);">
+                        <div class="form-text text-muted" style="font-size: 11px; margin-top: 6px;">Entering Gold 24K rate will automatically calculate rates for other karats (22K, 20K, 18K, 14K, 9K).</div>
+                    </div>
+
+                    <!-- Real-time Karat Calculations Table -->
+                    <div class="mb-4">
+                        <h6 style="font-weight: 700; color: var(--text-main) !important; margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Calculated Karat Rates</h6>
+                        <div class="table-responsive" style="border-radius: 10px; border: 1px solid var(--border-color); overflow: hidden;">
+                            <table class="table table-sm table-borderless mb-0" style="font-size: 13px;">
+                                <thead style="background: #F9FAFB; border-bottom: 1px solid var(--border-color);">
+                                    <tr>
+                                        <th style="padding: 8px 12px; font-weight: 600; color: var(--text-muted);">Karat</th>
+                                        <th style="padding: 8px 12px; font-weight: 600; color: var(--text-muted); text-align: right;">Rate / Gm</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="karat_preview_body">
+                                    @foreach([24, 22, 20, 18, 14, 9] as $k)
+                                        <tr style="border-bottom: 1px solid #F3F4F6;">
+                                            <td style="padding: 8px 12px; font-weight: 600; color: var(--text-main) !important;">Gold ({{ $k }}K)</td>
+                                            <td style="padding: 8px 12px; font-weight: 700; text-align: right; color: var(--primary-color);" id="preview_rate_{{ $k }}">₹0.00</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="silver_rate" class="form-label" style="font-weight: 600; color: var(--text-main) !important; display: block; margin-bottom: 8px;">Silver Rate per Gram (₹) <span class="text-muted" style="font-size: 11px; font-weight: normal;">(Optional)</span></label>
+                        <input type="number" step="0.01" class="form-control" id="silver_rate" name="silver_rate" placeholder="e.g. 95" style="border-radius: 8px; padding: 10px 14px; border: 1px solid var(--border-color);">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid var(--border-color); padding: 16px 24px;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 8px;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="background: var(--primary-color); border-color: var(--primary-color); border-radius: 8px; font-weight: 600;">Update Rates</button>
+                </div>
+            </form>
         </div>
     </div>
-</header>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rateInput = document.getElementById('rate_24k');
+        const karats = [24, 22, 20, 18, 14, 9];
+        
+        rateInput.addEventListener('input', function() {
+            const val = parseFloat(this.value) || 0;
+            karats.forEach(function(k) {
+                const price = (val * k) / 24;
+                const el = document.getElementById('preview_rate_' + k);
+                if (el) {
+                    el.textContent = '₹' + price.toFixed(2);
+                }
+            });
+        });
+    });
+</script>

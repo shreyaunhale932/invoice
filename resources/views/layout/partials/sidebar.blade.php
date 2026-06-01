@@ -114,8 +114,7 @@
         </div>
     </div>
     <!-- /Sidebar -->
-{{-- @endif --}}
-
+    {{-- @endif --}}
 @elseif (Auth::guard('admin')->check())
     <div class="sidebar sidebar-two" id="sidebar">
         <div class="sidebar-header">
@@ -124,8 +123,7 @@
                     <img src="{{ asset('/assets/img/logo-white.png') }}" class="img-fluid logo" alt="Logo">
                 </a>
                 <a href="{{ url('index') }}">
-                    <img src="{{ asset('/assets/img/logo-small.png') }}" class="img-fluid logo-small"
-                        alt="Logo">
+                    <img src="{{ asset('/assets/img/logo-small.png') }}" class="img-fluid logo-small" alt="Logo">
                 </a>
             </div>
         </div>
@@ -155,7 +153,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="{{ Request::is('firms/select') ? 'active' : '' }}" href="{{ route('firms.select') }}">
+                        <a class="{{ Request::is('firms/select') ? 'active' : '' }}"
+                            href="{{ route('firms.select') }}">
                             <i class="fe fe-shuffle"></i> <span>Switch Firm</span>
                         </a>
                     </li>
@@ -190,13 +189,15 @@
                         <ul>
                             <li><a class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}"
                                     href="{{ url('product-list') }}">Product List</a></li>
+                            <li><a class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}"
+                                    href="{{ url('add-products') }}">Add Product</a></li>
                             <li><a class="{{ Request::is('category') ? 'active' : '' }}"
                                     href="{{ url('category') }}">Category</a></li>
                             <li><a class="{{ Request::is('subcategory') ? 'active' : '' }}"
                                     href="{{ url('subcategory') }}">Subcategory</a></li>
-                              <li><a class="{{ Request::is('metalrates') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('metalrates') ? 'active' : '' }}"
                                     href="{{ url('metal-rates') }}">Metal Rates</a></li>
-                                    <li><a class="{{ Request::is('purity') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('purity') ? 'active' : '' }}"
                                     href="{{ url('purity') }}">Purity</a></li>
 
 
@@ -220,11 +221,12 @@
                     </li>
                 </ul>
                 <!-- /Inventory -->
-   <!-- Packet Management -->
+                <!-- Packet Management -->
                 <ul>
                     <li class="menu-title"><span>Packet Management</span></li>
                     <li>
-                        <a class="{{ Request::is('packet-masters*') ? 'active' : '' }}" href="{{ route('packet-masters.index') }}">
+                        <a class="{{ Request::is('packet-masters*') ? 'active' : '' }}"
+                            href="{{ route('packet-masters.index') }}">
                             <i class="fe fe-package"></i> <span>Packets</span>
                         </a>
                     </li>
@@ -261,8 +263,9 @@
                 <ul>
                     <li class="menu-title"><span>Sales</span></li>
                     <li>
-                        <a class="{{ Request::is('customer/transactions*') ? 'active' : '' }}" href="{{ route('customer.transactions.index') }}"><i
-                                class="fe fe-repeat"></i> <span>Transactions</span></a>
+                        <a class="{{ Request::is('customer/transactions*') ? 'active' : '' }}"
+                            href="{{ route('customer.transactions.index') }}"><i class="fe fe-repeat"></i>
+                            <span>Transactions</span></a>
                     </li>
                     <li class="submenu">
                         <a class="{{ Request::is('invoices*') ? 'active' : '' }}" href="#"><i
@@ -290,17 +293,17 @@
                         <ul>
                             <li><a class="{{ Request::is('accounting/trial-balance') ? 'active' : '' }}"
                                     href="{{ route('accounting.trial-balance') }}">Trial Balance</a></li>
-                                      <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('accounting/chart-of-accounts') ? 'active' : '' }}"
                                     href="{{ route('accounting.chart-of-accounts') }}">Ledger</a></li>
-                                    <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('reports/day-book') ? 'active' : '' }}"
                                     href="{{ route('day-book.index') }}">Day Book</a></li>
-                                     <li><a class="{{ Request::is('expenses', 'expenses/create') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('expenses', 'expenses/create') ? 'active' : '' }}"
                                     href="{{ url('expenses') }}">Expenses</a></li>
-                                      <li><a class="{{ Request::is('accounting/balance-sheet') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('accounting/balance-sheet') ? 'active' : '' }}"
                                     href="{{ route('accounting.balance-sheet') }}">Balance Sheet</a></li>
-                                     <li><a class="{{ Request::is('accounting/profit-loss') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('accounting/profit-loss') ? 'active' : '' }}"
                                     href="{{ route('accounting.profit-loss') }}">Profit & Loss</a></li>
-                                    <li><a class="{{ Request::is('customer/reports/transactions') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('customer/reports/transactions') ? 'active' : '' }}"
                                     href="{{ route('customer.reports.transactions') }}">Customer Transactions</a></li>
 
                         </ul>
@@ -310,19 +313,19 @@
 
                 <!-- stock reports -->
 
-                  <ul>
+                <ul>
                     <li class="menu-title"><span>Reports</span></li>
                     <li class="submenu">
-                        <a href="#"><i class="fe fe-file-text"></i> <span>  Item Reports</span> <span
+                        <a href="#"><i class="fe fe-file-text"></i> <span> Item Reports</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
                             <li><a class="{{ Request::is('stock-report') ? 'active' : '' }}"
                                     href="{{ url('stock-report') }}">Available Stock</a></li>
-                                    <li><a class="{{ Request::is('sales-report') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('sales-report') ? 'active' : '' }}"
                                     href="{{ url('sales-report') }}">Sold Stock</a></li>
-                                        <li><a class="{{ Request::is('stock-summary') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('stock-summary') ? 'active' : '' }}"
                                     href="{{ url('stock-summary') }}">Stock Summary</a></li>
-                                        <li><a class="{{ Request::is('old-metal-received') ? 'active' : '' }}"
+                            <li><a class="{{ Request::is('old-metal-received') ? 'active' : '' }}"
                                     href="{{ url('old-metal-received') }}">Old Metal Received</a></li>
 
                         </ul>

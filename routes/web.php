@@ -107,6 +107,7 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
 
     Route::get('/metal-rates', [HomeController::class, 'metalrates'])->name('metal-rates');
     Route::post('/metal-rates', [MetalRateController::class, 'addmetalrates'])->name('metal-rates');
+    Route::post('/metal-rates/bulk-update', [MetalRateController::class, 'bulkUpdate'])->name('metal-rates.bulk-update');
     Route::put('/metal-rates/{id}', [MetalRateController::class, 'update'])->name('metal-rates.update');
     Route::delete('/metal-rates/{id}', [MetalRateController::class, 'destroy'])
         ->name('metal-rates.destroy');

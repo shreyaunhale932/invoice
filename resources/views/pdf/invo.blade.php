@@ -517,7 +517,7 @@
                                                 {{ $billingAddressLabel }} :
                                             </div>
                                             <div class="add-details">
-                                                {{ $customer->address1 }}
+                                                {{ $customer->address }}
                                             </div>
                                         </div>
                                     </div>
@@ -531,7 +531,7 @@
                                                 {{ $shippingAddressLabel }} :
                                             </div>
                                             <div class="add-details">
-                                                {{ $invoice->shipping_address ?: $customer->address1 }}
+                                                {{ $invoice->shipping_address ?: $customer->address }}
                                             </div>
                                         </div>
                                     </div>

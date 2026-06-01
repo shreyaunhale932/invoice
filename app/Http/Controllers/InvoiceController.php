@@ -387,7 +387,7 @@ class InvoiceController extends Controller
             'customer_id' => $request->customer_id,
             'invoice_number' => 'INV-' . time(),
             'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
-            'due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
+            'due_date' => $request->due_date ? Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
             'total_amount' => $totalAmount,
             'notes' => $request->notes,
             'terms' => $request->terms,

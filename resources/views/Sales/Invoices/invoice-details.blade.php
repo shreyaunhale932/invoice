@@ -68,7 +68,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <p class="invoice-details">
-                                                        Invoice No<span>: </span><strong>{{ $invoice->invoice_number ?? 'N/A' }}</strong>
+                                                        Invoice No<span>: </span><strong>{{ $invoice_no ?? 'N/A' }}</strong>
                                                     </p>
                                                 </div>
                                             </div>
@@ -85,7 +85,7 @@
                                                             To<span>:</span></strong>
                                                         <p class="invoice-details-two">
                                                             {{ $invoice->customer->name ?? 'N/A' }}<br>
-                                                            {{ $invoice->customer->address1 ?? 'N/A' }}
+                                                            {{ $invoice->customer->address ?? 'N/A' }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -93,7 +93,7 @@
                                                     <div class="invoice-info invoice-info2 mb-3">
                                                         <strong class="customer-text-one">Pay To<span>:</span></strong>
                                                         <p class="invoice-details-two">
-                                                            {{ $invoice->customer->address1 ?? 'N/A' }}
+                                                            {{ $invoice->customer->address ?? 'N/A' }}
                                                             299 Star Trek Drive, Panama City,<br>
                                                             Florida, 32405,<br>
                                                             USA

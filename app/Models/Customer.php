@@ -12,8 +12,9 @@ class Customer extends Model
 
     protected $fillable = [
         'admin_id', 'name', 'email', 'phone',
-        'address1', 'address2', 'country', 'state', 'city', 'pincode',
-        'bank_name', 'branch', 'account_holder_name', 'account_number', 'ifsc'
+        'address', 'country', 'state', 'city', 'pincode',
+        'bank_name', 'branch', 'account_holder_name', 'account_number', 'ifsc',
+        'gst_no', 'adhaar_no', 'pan_no', 'tan', 'dob', 'anniversary_date'
     ];
 }
 

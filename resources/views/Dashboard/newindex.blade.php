@@ -44,6 +44,70 @@
             </div>
         </div>
 
+        <!-- Live Metal Rates Section -->
+        <div class="mb-4" style="margin-top: 24px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <h4 style="font-weight: 800; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 8px; font-size: 16px;">
+                    <i class="fas fa-coins" style="color: #FFB800;"></i> Live Metal Rates (per Gram)
+                </h4>
+                <button class="btn btn-sm" style="background: rgba(94, 88, 227, 0.1); color: #5E58E3; border: none; font-weight: 700; border-radius: 8px; padding: 6px 12px; font-size: 12px; transition: all 0.2s ease;" type="button" data-bs-toggle="modal" data-bs-target="#updateRateModal" onmouseover="this.style.background='rgba(94, 88, 227, 0.18)'" onmouseout="this.style.background='rgba(94, 88, 227, 0.1)'">
+                    <i class="fas fa-edit" style="margin-right: 4px;"></i> Update Rates
+                </button>
+            </div>
+            
+            <div class="row g-3">
+                @php
+                    $allRates = \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())->get();
+                    $goldRates = $allRates->where('metal_type', 'Gold')->sortByDesc(function($rate) {
+                        return (int)$rate->karat;
+                    });
+                    $silverRates = $allRates->where('metal_type', 'Silver');
+                    $sortedRates = $goldRates->concat($silverRates);
+                @endphp
+                @forelse($sortedRates as $rate)
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="card border-0 shadow-sm" style="border-radius: 12px; background: {{ $rate->metal_type == 'Silver' ? 'linear-gradient(135deg, #FFFFFF 0%, #F5F7FA 100%)' : 'linear-gradient(135deg, #FFFFFF 0%, #FFFDF5 100%)' }}; padding: 16px; border-left: 4px solid {{ $rate->metal_type == 'Silver' ? '#C0C0C0' : '#FFD700' }}; display: flex; flex-direction: column; gap: 6px; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.03)';">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">
+                                    {{ $rate->metal_type }} ({{ $rate->karat ? $rate->karat.'K' : ($rate->purity_type == 'percent' ? $rate->percent.'%' : 'Fine') }})
+                                </span>
+                                @if($rate->metal_type == 'Silver')
+                                    <i class="fas fa-coins" style="color: #A0A0A0; font-size: 14px; filter: drop-shadow(0 2px 4px rgba(160, 160, 160, 0.25));"></i>
+                                @else
+                                    <i class="fas fa-coins" style="color: #FFB800; font-size: 14px; filter: drop-shadow(0 2px 4px rgba(255, 184, 0, 0.35));"></i>
+                                @endif
+                            </div>
+                            <span style="font-size: 18px; font-weight: 800; color: var(--text-main);">
+                                ₹{{ number_format($rate->price_per_gram, 2) }}
+                            </span>
+                        </div>
+                    </div>
+                @empty
+                    <!-- Fallback if no rates are configured -->
+                    @foreach([['type'=>'Gold', 'k'=>'24'], ['type'=>'Gold', 'k'=>'22'], ['type'=>'Gold', 'k'=>'20'], ['type'=>'Gold', 'k'=>'18'], ['type'=>'Gold', 'k'=>'14'], ['type'=>'Silver', 'k'=>'24']] as $d)
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="card border-0 shadow-sm" style="border-radius: 12px; background: {{ $d['type'] == 'Silver' ? 'linear-gradient(135deg, #FFFFFF 0%, #F5F7FA 100%)' : 'linear-gradient(135deg, #FFFFFF 0%, #FFFDF5 100%)' }}; padding: 16px; border-left: 4px solid {{ $d['type'] == 'Silver' ? '#C0C0C0' : '#FFD700' }}; display: flex; flex-direction: column; gap: 6px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">
+                                        {{ $d['type'] }} ({{ $d['k'] }}K)
+                                    </span>
+                                    @if($d['type'] == 'Silver')
+                                        <i class="fas fa-coins" style="color: #A0A0A0; font-size: 14px;"></i>
+                                    @else
+                                        <i class="fas fa-coins" style="color: #FFB800; font-size: 14px;"></i>
+                                    @endif
+                                </div>
+                                <span style="font-size: 18px; font-weight: 800; color: var(--text-main);">
+                                    ₹{{ $d['type'] == 'Silver' ? '95.00' : number_format(7200 * $d['k'] / 24, 2) }}
+                                </span>
+                            </div>
+                        </div>
+                    @endforeach
+                @endforelse
+            </div>
+        </div>
+
+
         <!-- Filter Section -->
         <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
             <form id="filterForm" method="GET" action="{{ route('admin.dashboard') }}">

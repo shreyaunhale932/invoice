@@ -19,13 +19,13 @@ body {
 /* Page Wrapper Adjustments */
 .page-wrapper-new {
     margin-left: 260px;
-    padding-top: 110px; /* Space for the dual-row header */
+    padding-top: 65px; /* Space for the dual-row header */
     transition: all 0.2s ease;
     min-height: 100vh;
 }
 .page-wrapper  {
     margin-left: 260px;
-    padding-top: 110px !important; /* Space for the dual-row header */
+    padding-top: 65px !important; /* Space for the dual-row header */
     transition: all 0.2s ease;
     min-height: 100vh;
 }

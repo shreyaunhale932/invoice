@@ -57,6 +57,9 @@
                     <li class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}">
                         <a href="{{ url('product-list') }}">Product List</a>
                     </li>
+                     <li class="{{ Request::is('add-products') ? 'active' : '' }}">
+                        <a href="{{ url('add-products') }}">Add Product</a>
+                    </li>
                     <li class="{{ Request::is('category') ? 'active' : '' }}">
                         <a href="{{ url('category') }}">Category</a>
                     </li>

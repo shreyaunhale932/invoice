@@ -5,44 +5,144 @@
         <div class="content container-fluid">
             <script src="{{ url('/assets/js/calculation.js') }}"></script>
             <script src="{{ url('/assets/js/functions.js') }}"></script>
+
             <style>
                 .readonly-field {
                     pointer-events: none;
                     background-color: #e9ecef;
                     cursor: not-allowed;
                 }
+
+                .glass-card {
+                    background: rgba(255, 255, 255, 0.7);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+                    border-radius: 15px;
+                    transition: all 0.3s ease;
+                }
+
+                .dark .glass-card {
+                    background: rgba(30, 30, 30, 0.6);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+                }
+
+                .glass-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+                }
+
+                .form-group-item {
+                    background: transparent !important;
+                    border: none !important;
+                    padding: 0 !important;
+                }
+
+                .section-header {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                    border-bottom: 2px solid rgba(118, 75, 162, 0.2);
+                    padding-bottom: 10px;
+                    display: inline-block;
+                }
+
+                .dark .section-header {
+                    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    border-bottom: 2px solid rgba(251, 194, 235, 0.2);
+                }
+
+                .form-control,
+                .form-select,
+                .select {
+                    border-radius: 8px;
+                    border: 1px solid #ced4da;
+                    padding: 10px 15px;
+                    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                }
+
+                .form-control:focus,
+                .form-select:focus {
+                    border-color: #764ba2;
+                    box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25);
+                }
+
+                .dark .form-control,
+                .dark .form-select,
+                .dark .select {
+                    background-color: #2b2b2b;
+                    border-color: #444;
+                    color: #fff;
+                }
+
+                .dark .form-control:focus,
+                .dark .form-select:focus {
+                    border-color: #a18cd1;
+                    box-shadow: 0 0 0 0.25rem rgba(161, 140, 209, 0.25);
+                }
+
+                label {
+                    font-weight: 600;
+                    color: #4a5568;
+                    margin-bottom: 8px;
+                }
+
+                .dark label {
+                    color: #e2e8f0;
+                }
+
+                .custom-btn-primary {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    border: none;
+                    border-radius: 8px;
+                    padding: 10px 25px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                }
+
+                .custom-btn-primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+                }
             </style>
 
 
-            <div class="card mb-0">
-                <div class="card-body">
 
-                    <div class="page-header">
-                        <h5>
-                            {{ isset($product) ? 'Update Product (Jewellery)' : 'Add Product (Jewellery)' }}
-                        </h5>
+            <div class="container-fluid p-0">
+
+                <div class="page-header">
+                    <h5>
+                        {{ isset($product) ? 'Update Product' : 'Add Product' }}
+                        </h4>
+                </div>
+
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
+                @endif
 
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
+                <form method="POST"
+                    action="{{ isset($product) ? route('products.update', $product->id) : route('products.store') }}"
+                    enctype="multipart/form-data">
+
+                    @csrf
+                    @if (isset($product))
+                        @method('PUT')
                     @endif
 
-                    <form method="POST"
-                        action="{{ isset($product) ? route('products.update', $product->id) : route('products.store') }}"
-                        enctype="multipart/form-data">
 
-                        @csrf
-                        @if (isset($product))
-                            @method('PUT')
-                        @endif
-
-
-                        <!-- BASIC DETAILS -->
+                    <!-- BASIC DETAILS -->
+                    <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item">
-                            <h5 class="form-title">Basic Details</h5>
+                            <h4 class="section-header">Basic Details</h4>
 
                             <div class="row">
 
@@ -93,7 +193,7 @@
                                         class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="barcode"
                                         value="{{ old('barcode', $product->barcode ?? ($newBarcode ?? '')) }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
-                                        @error('barcode')
+                                    @error('barcode')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -138,8 +238,8 @@
                                     <select name="purity_id" id="purity_id" class="form-control select" required>
                                         <option value="">Select Purity</option>
                                         @foreach ($purities as $purity)
-                                            <option value="{{ $purity->id }}" 
-                                                data-purity-value="{{ (float)$purity->purity_value }}"
+                                            <option value="{{ $purity->id }}"
+                                                data-purity-value="{{ (float) $purity->purity_value }}"
                                                 data-purity-type="{{ $purity->purity_type }}"
                                                 {{ old('purity_id', $product->purity_id ?? '') == $purity->id ? 'selected' : '' }}>
                                                 {{ $purity->purity_value }}{{ $purity->purity_type == 'karat' ? 'K' : '%' }}
@@ -156,9 +256,11 @@
                             </div>
                         </div>
 
-                        <!-- METAL DETAILS -->
+                    </div>
+                    <!-- METAL DETAILS -->
+                    <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item mt-4">
-                            <h5 class="form-title">Metal Details</h5>
+                            <h4 class="section-header">Metal Details</h4>
 
                             <div class="row">
 
@@ -181,7 +283,7 @@
                                             <option value="{{ $rate->id }}"
                                                 data-metal="{{ strtolower($rate->metal_type) }}"
                                                 data-price="{{ $rate->price_per_gram }}"
-                                                data-karat="{{ (float)$rate->karat }}"
+                                                data-karat="{{ (float) $rate->karat }}"
                                                 data-purity-type="{{ $rate->purity_type }}"
                                                 {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
                                                 {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm -
@@ -310,9 +412,11 @@
 
 
 
-                        <!-- PRICING -->
+                    </div>
+                    <!-- PRICING -->
+                    <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item mt-4">
-                            <h5 class="form-title">Pricing</h5>
+                            <h4 class="section-header">Pricing</h4>
 
                             <div class="row">
 
@@ -401,9 +505,11 @@
                             </div>
                         </div>
 
-                        <!-- DIAMOND & STONES -->
+                    </div>
+                    <!-- DIAMOND & STONES -->
+                    <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item mt-4">
-                            <h5 class="form-title">Diamonds & Stones</h5>
+                            <h4 class="section-header">Diamonds & Stones</h4>
 
                             <button type="button" id="addDiamondBtn" class="btn btn-success mb-4">
                                 + Add Diamond
@@ -606,9 +712,11 @@
 
                         </div>
 
-                        <!-- PACKETS -->
+                    </div>
+                    <!-- PACKETS -->
+                    <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item mt-4">
-                            <h5 class="form-title">Packets</h5>
+                            <h4 class="section-header">Packets</h4>
 
                             <button type="button" id="addPacketBtn" class="btn btn-warning mb-4">
                                 + Add Packet
@@ -625,120 +733,130 @@
                                             <input type="hidden" name="packet[packet_master_id][]"
                                                 value="{{ $packet->packet_master_id }}">
 
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <label>Packet No *</label>
+                                            <div class="row g-3">
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Packet No *</label>
                                                     <select name="packet[packet_no][]" class="form-control packet-select"
                                                         required>
                                                         <option value="{{ $packet->packet_no }}" selected>
-                                                            {{ $packet->packet_no }}</option>
+                                                            {{ $packet->packet_no }}
+                                                        </option>
                                                     </select>
                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <label>Stone</label>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Stone</label>
                                                     <input type="text" class="form-control packet-stone"
                                                         value="{{ $packet->stone ? $packet->stone->name : '' }}" readonly>
                                                     <input type="hidden" name="packet[stone_id][]"
                                                         value="{{ $packet->stone_id }}">
                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <label>Shape</label>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Shape</label>
                                                     <input type="text" class="form-control packet-shape"
                                                         value="{{ $packet->shape ? $packet->shape->name : '' }}" readonly>
                                                     <input type="hidden" name="packet[shape_id][]"
                                                         value="{{ $packet->shape_id }}">
                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <label>Carat (Wt)</label>
-                                                    <input type="text" name="packet[weight][]"
-                                                        class="form-control packet-weight" value="{{ $packet->weight }}">
-                                                </div>
 
-                                                <!-- Row 2 -->
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Color</label>
-                                                    <input type="text" class="form-control packet-color"
-                                                        value="{{ $packet->color ? $packet->color->name : '' }}" readonly>
-                                                    <input type="hidden" name="packet[color_id][]"
-                                                        value="{{ $packet->color_id }}">
-                                                </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Clarity</label>
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Clarity</label>
                                                     <input type="text" class="form-control packet-clarity"
                                                         value="{{ $packet->clarity ? $packet->clarity->name : '' }}"
                                                         readonly>
                                                     <input type="hidden" name="packet[clarity_id][]"
                                                         value="{{ $packet->clarity_id }}">
                                                 </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Cut</label>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Color</label>
+                                                    <input type="text" class="form-control packet-color"
+                                                        value="{{ $packet->color ? $packet->color->name : '' }}" readonly>
+                                                    <input type="hidden" name="packet[color_id][]"
+                                                        value="{{ $packet->color_id }}">
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Cut</label>
                                                     <input type="text" class="form-control packet-cut"
                                                         value="{{ $packet->cut ? $packet->cut->name : '' }}" readonly>
                                                     <input type="hidden" name="packet[cut_id][]"
                                                         value="{{ $packet->cut_id }}">
                                                 </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Chalni</label>
-                                                    <input type="text" class="form-control packet-chalni"
-                                                        value="{{ $packet->chalni ? $packet->chalni->name : '' }}"
-                                                        readonly>
-                                                    <input type="hidden" name="packet[chalni_id][]"
-                                                        value="{{ $packet->chalni_id }}">
-                                                </div>
 
-                                                <!-- Row 3 -->
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Rate</label>
-                                                    <input type="text" name="packet[rate][]"
-                                                        class="form-control packet-rate" value="{{ $packet->rate }}">
-                                                </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Certificate No</label>
-                                                    <input type="text" name="packet[certificate_no][]"
-                                                        class="form-control packet-cert"
-                                                        value="{{ $packet->certificate_no }}" readonly>
-                                                </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Pcs</label>
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Pcs</label>
                                                     <input type="number" name="packet[pcs][]"
                                                         class="form-control packet-pcs" value="{{ $packet->pcs }}">
                                                 </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Wt (Gram)</label>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Carat (Wt)</label>
+                                                    <input type="text" name="packet[weight][]"
+                                                        class="form-control packet-weight"
+                                                        value="{{ $packet->weight }}">
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Wt (Gram)</label>
                                                     <input type="number" step="0.001" name="packet[wt_in_gram][]"
                                                         class="form-control packet-gram"
                                                         value="{{ $packet->wt_in_gram }}">
                                                 </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>UOM</label>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Rate</label>
+                                                    <input type="text" name="packet[rate][]"
+                                                        class="form-control packet-rate" value="{{ $packet->rate }}">
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Certificate No</label>
+                                                    <input type="text" name="packet[certificate_no][]"
+                                                        class="form-control packet-cert"
+                                                        value="{{ $packet->certificate_no }}" readonly>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">UOM</label>
                                                     <select name="packet[uom][]" class="form-select packet-uom">
                                                         <option value="">Select UOM</option>
                                                         <option value="PCS"
-                                                            {{ $packet->uom == 'PCS' ? 'selected' : '' }}>PCS</option>
+                                                            {{ $packet->uom == 'PCS' ? 'selected' : '' }}>
+                                                            PCS
+                                                        </option>
                                                         <option value="CT"
-                                                            {{ $packet->uom == 'CT' ? 'selected' : '' }}>CT</option>
+                                                            {{ $packet->uom == 'CT' ? 'selected' : '' }}>
+                                                            CT
+                                                        </option>
                                                         <option value="WT"
-                                                            {{ $packet->uom == 'WT' ? 'selected' : '' }}>WT</option>
+                                                            {{ $packet->uom == 'WT' ? 'selected' : '' }}>
+                                                            WT
+                                                        </option>
                                                     </select>
                                                 </div>
-                                                <div class="col-lg-3 mt-3">
-                                                    <label>Amount</label>
+
+                                                <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Amount</label>
                                                     <input type="number" step="0.01" name="packet[amount][]"
                                                         class="form-control packet-amount" value="{{ $packet->amount }}"
                                                         readonly>
                                                 </div>
 
-                                                <div class="col-lg-3 mt-3">
+                                                <div class="col-lg-3 col-md-6 d-flex align-items-center">
                                                     <div class="form-check mt-4">
                                                         <input class="form-check-input packet-solitaire" type="checkbox"
                                                             name="packet[solitaire][]" value="1"
-                                                            {{ $packet->solitaire ? 'checked' : '' }}
-                                                            >
+                                                            {{ $packet->solitaire ? 'checked' : '' }}>
                                                         <label class="form-check-label">Solitaire</label>
                                                     </div>
                                                 </div>
+
                                                 <input type="hidden" name="packet[mm_id][]"
                                                     value="{{ $packet->mm_id }}">
+
                                             </div>
                                         </div>
                                     @endforeach
@@ -752,95 +870,103 @@
                                         <button type="button" class="btn btn-sm removePacket">✖</button>
                                     </div>
                                     <input type="hidden" name="packet[packet_master_id][]" class="packet-master-id">
+<div class="row g-3">
 
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <label>Packet No *</label>
-                                            <select name="packet[packet_no][]" class="form-control packet-select" required></select>
-                                        </div>
-                                        <div class="col-lg-3">
-                                              <label>Stone</label>
-                                              <input type="text" class="form-control packet-stone" readonly>
-                                              <input type="hidden" name="packet[stone_id][]" class="packet-stone-id">
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <label>Shape</label>
-                                            <input type="text" class="form-control packet-shape" readonly>
-                                            <input type="hidden" name="packet[shape_id][]" class="packet-shape-id">
-                                        </div>
-                                         <div class="col-lg-3">
-                                            <label>Carat (Wt)</label>
-                                            <input type="text" name="packet[weight][]" class="form-control packet-weight" >
-                                        </div>
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Packet No *</label>
+        <select name="packet[packet_no][]" class="form-control packet-select" required></select>
+    </div>
 
-                                        <!-- Row 2 -->
-                                        <div class="col-lg-3 mt-3">
-                                            <label>Color</label>
-                                            <input type="text" class="form-control packet-color" readonly>
-                                            <input type="hidden" name="packet[color_id][]" class="packet-color-id">
-                                        </div>
-                                        <div class="col-lg-3 mt-3">
-                                            <label>Clarity</label>
-                                            <input type="text" class="form-control packet-clarity" readonly>
-                                            <input type="hidden" name="packet[clarity_id][]" class="packet-clarity-id">
-                                        </div>
-                                         <div class="col-lg-3 mt-3">
-                                            <label>Cut</label>
-                                            <input type="text" class="form-control packet-cut" readonly>
-                                            <input type="hidden" name="packet[cut_id][]" class="packet-cut-id">
-                                        </div>
-                                        <div class="col-lg-3 mt-3">
-                                            <label>Chalni</label>
-                                            <input type="text" class="form-control packet-chalni" readonly>
-                                            <input type="hidden" name="packet[chalni_id][]" class="packet-chalni-id">
-                                        </div>
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Stone</label>
+        <input type="text" class="form-control packet-stone" readonly>
+        <input type="hidden" name="packet[stone_id][]" class="packet-stone-id">
+    </div>
 
-                                        <!-- Row 3 -->
-                                        <div class="col-lg-3 mt-3">
-                                            <label>Rate</label>
-                                            <input type="text" name="packet[rate][]" class="form-control packet-rate">
-                                        </div>
-                                         <div class="col-lg-3 mt-3">
-                                            <label>Certificate No</label>
-                                            <input type="text" name="packet[certificate_no][]" class="form-control packet-cert" readonly>
-                                        </div>
-                                         <div class="col-lg-3 mt-3">
-                                            <label>Pcs</label>
-                                            <input type="number" name="packet[pcs][]" class="form-control packet-pcs" >
-                                        </div>
-                                         <div class="col-lg-3 mt-3">
-                                            <label>Wt (Gram)</label>
-                                            <input type="number" step="0.001" name="packet[wt_in_gram][]" class="form-control packet-gram" >
-                                        </div>
-                                        <div class="col-lg-3 mt-3">
-                                            <label>UOM</label>
-                                            <select name="packet[uom][]" class="form-select packet-uom">
-                                                <option value="">Select UOM</option>
-                                                <option value="PCS">PCS</option>
-                                                <option value="CT">CT</option>
-                                                <option value="WT">WT</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-3 mt-3">
-                                            <label>Amount</label>
-                                            <input type="number" step="0.01" name="packet[amount][]" class="form-control packet-amount" readonly>
-                                        </div>
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Shape</label>
+        <input type="text" class="form-control packet-shape" readonly>
+        <input type="hidden" name="packet[shape_id][]" class="packet-shape-id">
+    </div>
 
-                                         <div class="col-lg-3 mt-3">
-                                            <div class="form-check mt-4">
-                                                <input class="form-check-input packet-solitaire" type="checkbox" name="packet[solitaire][]" value="1" >
-                                                <label class="form-check-label">Solitaire</label>
-                                            </div>
-                                        </div>
-                                         <input type="hidden" name="packet[mm_id][]" class="packet-mm-id">
-                                    </div>
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Clarity</label>
+        <input type="text" class="form-control packet-clarity" readonly>
+        <input type="hidden" name="packet[clarity_id][]" class="packet-clarity-id">
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Color</label>
+        <input type="text" class="form-control packet-color" readonly>
+        <input type="hidden" name="packet[color_id][]" class="packet-color-id">
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Cut</label>
+        <input type="text" class="form-control packet-cut" readonly>
+        <input type="hidden" name="packet[cut_id][]" class="packet-cut-id">
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Pcs</label>
+        <input type="number" name="packet[pcs][]" class="form-control packet-pcs">
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Carat (Wt)</label>
+        <input type="text" name="packet[weight][]" class="form-control packet-weight">
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Wt (Gram)</label>
+        <input type="number" step="0.001" name="packet[wt_in_gram][]" class="form-control packet-gram">
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Rate</label>
+        <input type="text" name="packet[rate][]" class="form-control packet-rate">
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Certificate No</label>
+        <input type="text" name="packet[certificate_no][]" class="form-control packet-cert" readonly>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">UOM</label>
+        <select name="packet[uom][]" class="form-select packet-uom">
+            <option value="">Select UOM</option>
+            <option value="PCS">PCS</option>
+            <option value="CT">CT</option>
+            <option value="WT">WT</option>
+        </select>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Amount</label>
+        <input type="number" step="0.01" name="packet[amount][]" class="form-control packet-amount" readonly>
+    </div>
+
+    <div class="col-lg-3 col-md-6 d-flex align-items-center">
+        <div class="form-check mt-4">
+            <input class="form-check-input packet-solitaire" type="checkbox"
+                name="packet[solitaire][]" value="1">
+            <label class="form-check-label">Solitaire</label>
+        </div>
+    </div>
+
+    <input type="hidden" name="packet[mm_id][]" class="packet-mm-id">
+
+</div>
                                 </div>
                             </script>
 
                         </div>
-                        <!-- PRODUCT IMAGES -->
+                    </div>
+                    <!-- PRODUCT IMAGES -->
+                    <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item mt-4">
-                            <h5 class="form-title">Product Image</h5>
+                            <h4 class="section-header">Product Image</h4>
                             <input type="file" name="image" class="form-control">
                             @if (isset($product) && $product->image)
                                 <img src="{{ asset($product->image) }}" width="120">
@@ -849,22 +975,24 @@
 
                         </div>
 
-                        <!-- BUTTONS -->
-                        <div class="text-end mt-4">
+                    </div>
+                    <!-- BUTTONS -->
+                    <div class="card glass-card mb-4 p-4">
+                        <div class="text-end">
                             <button type="reset" class="btn btn-secondary">Cancel</button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn custom-btn-primary text-white">
                                 {{ isset($product) ? 'Update Product' : 'Add Product' }}
                             </button>
 
                         </div>
 
-                    </form>
-
-
-                </div>
+                </form>
             </div>
 
         </div>
+    </div>
+
+    </div>
     </div>
 
     <script>
@@ -1018,7 +1146,7 @@
                     let convertedExactMatch = '';
                     let closeMatch = '';
                     let minDiff = Infinity;
-                    
+
                     // Function to convert karat to percent for comparison
                     function getPercentValue(val, type) {
                         return type === 'karat' ? (val / 24) * 100 : val;
@@ -1031,18 +1159,19 @@
                         let optionMetal = $(this).data('metal');
                         let optionKarat = parseFloat($(this).data('karat'));
                         let optionPurityType = $(this).data('purity-type');
-                        
+
                         if (optionMetal === selectedMetal && !isNaN(optionKarat)) {
                             // 1. Strict Exact Match (Same type, exactly same value)
-                            if (optionPurityType === selectedPurityType && Math.abs(optionKarat - selectedPurityValue) === 0) {
+                            if (optionPurityType === selectedPurityType && Math.abs(optionKarat -
+                                    selectedPurityValue) === 0) {
                                 strictExactMatch = $(this).val();
-                            } 
+                            }
                             // Otherwise check percent conversion
                             else {
                                 let optionPercent = getPercentValue(optionKarat, optionPurityType);
                                 let diff = Math.abs(optionPercent - selectedPercent);
-                                
-                                if (diff < 0.1) { 
+
+                                if (diff < 0.1) {
                                     convertedExactMatch = $(this).val();
                                 } else if (diff <= 1.5) { // 1.5% / 1.5 unit tolerance
                                     if (diff < minDiff) {
@@ -1296,5 +1425,42 @@
         });
     </script>
 
+    <!-- Label Print Modal -->
+    <div class="modal fade" id="printLabelModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Print Label</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0" style="height: 500px;">
+                    <iframe id="printLabelIframe" src=""
+                        style="width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (session('print_template_id') && session('print_product_id'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var printTemplateId = "{{ session('print_template_id') }}";
+                var printProductId = "{{ session('print_product_id') }}";
+                var printUrl = "/labels/print/preview/" + printTemplateId + "/" + printProductId;
+
+                var iframe = document.getElementById('printLabelIframe');
+                iframe.src = printUrl;
+
+                var printModal = new bootstrap.Modal(document.getElementById('printLabelModal'));
+                printModal.show();
+
+                iframe.onload = function() {
+                    setTimeout(function() {
+                        iframe.contentWindow.print();
+                    }, 500);
+                };
+            });
+        </script>
+    @endif
 
 @endsection

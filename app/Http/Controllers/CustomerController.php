@@ -29,8 +29,7 @@ class CustomerController extends Controller
         'name' => 'required|string|max:255',
         'email' => 'nullable|email',
         'phone' => 'required|string|max:20',
-        'address1' => 'nullable|string',
-        'address2' => 'nullable|string',
+        'address' => 'nullable|string',
         'country' => 'nullable|string',
         'state' => 'nullable|string',
         'city' => 'nullable|string',
@@ -40,6 +39,12 @@ class CustomerController extends Controller
         'account_holder_name' => 'nullable|string|max:255',
         'account_number' => 'nullable|string|max:50',
         'ifsc' => 'nullable|string|max:20',
+        'gst_no' => 'nullable|string|max:50',
+        'adhaar_no' => 'nullable|string|max:50',
+        'pan_no' => 'nullable|string|max:50',
+        'tan' => 'nullable|string|max:50',
+        'dob' => 'nullable|date',
+        'anniversary_date' => 'nullable|date',
     ]);
 
     $customer = Customer::create([
@@ -47,8 +52,7 @@ class CustomerController extends Controller
         'name' => $request->name,
         'email' => $request->email,
         'phone' => $request->phone,
-        'address1' => $request->address1,
-        'address2' => $request->address2,
+        'address' => $request->address,
         'country' => $request->country,
         'state' => $request->state,
         'city' => $request->city,
@@ -58,6 +62,12 @@ class CustomerController extends Controller
         'account_holder_name' => $request->account_holder_name,
         'account_number' => $request->account_number,
         'ifsc' => $request->ifsc,
+        'gst_no' => $request->gst_no,
+        'adhaar_no' => $request->adhaar_no,
+        'pan_no' => $request->pan_no,
+        'tan' => $request->tan,
+        'dob' => $request->dob,
+        'anniversary_date' => $request->anniversary_date,
     ]);
 
     // AJAX request
@@ -148,8 +158,7 @@ class CustomerController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'nullable|email',
             'phone' => 'nullable|string|max:20',
-            'address1' => 'nullable|string',
-            'address2' => 'nullable|string',
+            'address' => 'nullable|string',
             'country' => 'nullable|string',
             'state' => 'nullable|string',
             'city' => 'nullable|string',
@@ -159,14 +168,19 @@ class CustomerController extends Controller
             'account_holder_name' => 'nullable|string|max:255',
             'account_number' => 'nullable|string|max:50',
             'ifsc' => 'nullable|string|max:20',
+            'gst_no' => 'nullable|string|max:50',
+            'adhaar_no' => 'nullable|string|max:50',
+            'pan_no' => 'nullable|string|max:50',
+            'tan' => 'nullable|string|max:50',
+            'dob' => 'nullable|date',
+            'anniversary_date' => 'nullable|date',
         ]);
 
         $customer->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'address1' => $request->address1,
-            'address2' => $request->address2,
+            'address' => $request->address,
             'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
@@ -176,6 +190,12 @@ class CustomerController extends Controller
             'account_holder_name' => $request->account_holder_name,
             'account_number' => $request->account_number,
             'ifsc' => $request->ifsc,
+            'gst_no' => $request->gst_no,
+            'adhaar_no' => $request->adhaar_no,
+            'pan_no' => $request->pan_no,
+            'tan' => $request->tan,
+            'dob' => $request->dob,
+            'anniversary_date' => $request->anniversary_date,
         ]);
 
         return redirect()->route('customers')->with('success', 'Customer updated successfully!');

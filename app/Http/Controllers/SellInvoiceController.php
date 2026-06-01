@@ -225,7 +225,7 @@ class SellInvoiceController extends Controller
                     ->first();
 
                 $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d');
-                $dueDate = Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d');
+                $dueDate = $request->due_date ? Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d') : $invoiceDate;
 
                 // Create invoice only once
                 if (! $UserInvoice) {
@@ -851,7 +851,7 @@ class SellInvoiceController extends Controller
                 'status' => $status,
 
                 'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
-                'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
+                'invoice_due_date' => $request->due_date ? Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
             ]);
 
             // Automatically record balance as Advance or Udhaar Get
@@ -1054,6 +1054,7 @@ class SellInvoiceController extends Controller
 
     public function update(Request $request)
     {
+        // dd('hiii');
         DB::beginTransaction();
         try {
             $invoiceId = $request->sell_invoice_id;
@@ -1198,7 +1199,7 @@ class SellInvoiceController extends Controller
             $invoice->update([
                 'invoice_no' => $request->invoice_no,
                 'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
-                'invoice_due_date' => Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d'),
+                'invoice_due_date' => $request->due_date ? Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'user_id' => $request->customer_id,
 
                 'total_making_charge' => $totalMakingCharge,

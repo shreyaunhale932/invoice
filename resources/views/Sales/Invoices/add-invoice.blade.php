@@ -12,20 +12,189 @@
     <!-- Intl-Tel-Input CSS -->
     <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"> -->
 
-    <div class="page-wrapper">
+
+<style>
+    .readonly-field {
+        pointer-events: none;
+        background-color: #e9ecef;
+        cursor: not-allowed;
+    }
+    .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+    .dark .glass-card {
+        background: rgba(30, 30, 30, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    }
+    .glass-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+    }
+    .form-group-item {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    .section-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        margin-bottom: 20px;
+        border-bottom: 2px solid rgba(118, 75, 162, 0.2);
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+    .dark .section-header {
+        background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        border-bottom: 2px solid rgba(251, 194, 235, 0.2);
+    }
+    .form-control, .form-select, .select {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        padding: 10px 15px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #764ba2;
+        box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25);
+    }
+    .dark .form-control, .dark .form-select, .dark .select {
+        background-color: #2b2b2b;
+        border-color: #444;
+        color: #fff;
+    }
+    .dark .form-control:focus, .dark .form-select:focus {
+        border-color: #a18cd1;
+        box-shadow: 0 0 0 0.25rem rgba(161, 140, 209, 0.25);
+    }
+    label {
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 8px;
+    }
+    .dark label {
+        color: #e2e8f0;
+    }
+    .custom-btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 10px 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    .custom-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+    }
+    /* Invoice specific fixes */
+    .invoice-total-box { background: transparent !important; border: none !important; }
+
+    .glass-card table {
+        background: transparent !important;
+    }
+    .glass-card th {
+        background: rgba(118, 75, 162, 0.1) !important;
+        color: #4a5568 !important;
+        font-weight: 600 !important;
+        border-color: rgba(0, 0, 0, 0.08) !important;
+    }
+    .dark .glass-card th {
+        background: rgba(161, 140, 209, 0.1) !important;
+        color: #cbd5e0 !important;
+        border-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    .glass-card td {
+        border-color: rgba(0, 0, 0, 0.08) !important;
+    }
+    .dark .glass-card td {
+        border-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+
+    /* Grid layout for entryTable */
+    #entryTable {
+        border: none !important;
+        display: block;
+        width: 100%;
+    }
+    #entryTable thead {
+        display: none;
+    }
+    #entryTable tbody {
+        display: block;
+        width: 100%;
+    }
+    #entryTable tr {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.4);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .dark #entryTable tr {
+        background: rgba(30, 30, 30, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    #entryTable td {
+        display: block;
+        flex: 1 1 calc(25% - 15px); /* 4 columns */
+        min-width: 200px;
+        border: none !important;
+        padding: 0 !important;
+    }
+    @media (max-width: 992px) {
+        #entryTable td {
+            flex: 1 1 calc(50% - 15px); /* 2 columns */
+        }
+    }
+    @media (max-width: 576px) {
+        #entryTable td {
+            flex: 1 1 100%; /* 1 column */
+        }
+    }
+    .entry-label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #4a5568;
+    }
+    .dark .entry-label {
+        color: #cbd5e0;
+    }
+</style>
+
+
+<div class="page-wrapper">
         <div class="content container-fluid">
-            <div class="card mb-0">
-                <div class="card-body">
-                    <div class="page-header">
-                        <div class="content-page-header">
-                            <h5>Add Invoice</h5>
-                        </div>
+            <div class="container-fluid p-0">
+                    <div class="page-header mb-4">
+                        <h2 class="section-header fs-3 mb-0">
+                            Add Invoice
+                        </h2>
                     </div>
 
                     <form action="{{ route('invoices.store') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-md-12">
+
+<!-- BASIC DETAILS -->
+<div class="card glass-card mb-4 p-4">
+<h4 class="section-header">Basic Details</h4>
                                 <div class="form-group-item border-0 mb-0">
                                     <div class="row align-items-center">
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -56,7 +225,7 @@
 
                                                     </li>
                                                     <li>
-                                                        <button type="button" class="btn btn-primary"
+                                                        <button type="button" class="btn custom-btn-primary text-white"
                                                             data-bs-toggle="modal" data-bs-target="#addCustomerModal">
                                                             +
                                                         </button>
@@ -75,15 +244,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
-                                            <div class="input-block mb-3">
-                                                <label>Due Date</label>
-                                                <div class="cal-icon cal-icon-info">
-                                                    <input type="text" name='due_date'
-                                                        class="datetimepicker form-control" placeholder="Select Date">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <input type="hidden" name="due_date" value="">
                                         {{-- <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="input-block mb-3">
                                             <label>Status</label>
@@ -140,11 +301,16 @@
                             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editColumnsModal">
                                 Customize Columns
                             </button> --}}
-                                <div class="row mb-3">
+                                </div>
+
+<!-- PRODUCT ITEMS -->
+<div class="card glass-card mb-4 p-4">
+<h4 class="section-header">Product Items</h4>
+<div class="row mb-3">
                                     <div class="col-lg-6 col-md-8 col-sm-12">
                                         <label>Search Product Code</label>
                                         <select id="productSearch" class="form-control select">
-                                            <option value="">Search by Product Code</option>
+                                            <option value="">Search by Product Code/Barcode</option>
 
                                             @foreach ($products as $product)
                                                 @php
@@ -166,7 +332,7 @@
                                                                 'color' => optional($p->color)->name,
                                                                 'cut' => optional($p->cut)->name,
                                                                 'shape' => optional($p->shape)->name,
-                                                                'chalni' => optional($p->chalni)->name,
+                                                                // 'chalni' => optional($p->chalni)->name,
                                                                 'mm' => optional($p->mm)->name,
                                                                 'weight' => $p->weight,
                                                                 'wt_in_gram' => $p->wt_in_gram,
@@ -207,7 +373,7 @@
                                                     data-diamonds='@json($product->diamonds)'
                                                     data-stones='@json($product->stones)'
                                                     data-packets='@json($packetsJson)'>
-                                                    {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->product_name }}
+                                                   {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }} ({{ $product->product_name }})
                                                 </option>
                                             @endforeach
                                         </select>
@@ -251,43 +417,83 @@
                                                     <input type="hidden" name="product_id[]" id="entry_product_id">
                                                 </td>
 
-                                                <td><input type="text" name="category[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="text" name="subcategory[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="text" name="product_name[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="text" name="pre_code[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="text" name="post_code[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
+                                                <td>
+                                                    <span class="entry-label">Category</span>
+                                                    <input type="text" name="category[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Sub Category</span>
+                                                    <input type="text" name="subcategory[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Product Name</span>
+                                                    <input type="text" name="product_name[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Pre Code</span>
+                                                    <input type="text" name="pre_code[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Post Code</span>
+                                                    <input type="text" name="post_code[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
                                                 <input type="hidden" name="barcode[]"
                                                     class="form-control"style="pointer-events: none; background-color: #e9ecef;">
 
                                                 <input type="hidden" name="hsn_code[]" class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;">
-                                                <td><input type="number" step="0.01" name="metal_rate[]"
-                                                        class="form-control"></td>
-                                                <td><input type="number" name="quantity[]" class="form-control"
-                                                        value="1"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="number" step="0.001" name="gross_weight[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="number" step="0.001" name="net_weight[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="number" step="0.001" name="final_fn_weight[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="text" name="size[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="number" step="0.01" name="wastage_percent[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;"></td>
-                                                <td><input type="number" step="0.01" name="making_price[]"
-                                                        class="form-control"></td>
                                                 <td>
+                                                    <span class="entry-label">Metal Rate</span>
+                                                    <input type="number" step="0.01" name="metal_rate[]"
+                                                        class="form-control">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Qty</span>
+                                                    <input type="number" name="quantity[]" class="form-control"
+                                                        value="1"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">GS Wt</span>
+                                                    <input type="number" step="0.001" name="gross_weight[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Net Wt</span>
+                                                    <input type="number" step="0.001" name="net_weight[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Fn Wt</span>
+                                                    <input type="number" step="0.001" name="final_fn_weight[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Size</span>
+                                                    <input type="text" name="size[]" class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Wastage %</span>
+                                                    <input type="number" step="0.01" name="wastage_percent[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Mkg</span>
+                                                    <input type="number" step="0.01" name="making_price[]"
+                                                        class="form-control">
+                                                </td>
+                                                <td>
+                                                    <span class="entry-label">Mkg Type</span>
                                                     <select name="making_type[]" class="form-control">
                                                         <option value="val">Value</option>
                                                         <option value="per_gld_val">% of Gold Value</option>
@@ -297,10 +503,11 @@
                                                         <option value="per_gm_fine_wt">Rate/Gm of Fine Wt</option>
                                                     </select>
                                                 </td>
-                                                {{-- <td><input type="text" step="0.01" name="certificate_no[]"
-                                                        class="form-control"></td> --}}
-                                                <td><input type="number" step="0.01" name="making_final_amount[]"
-                                                        class="form-control"></td>
+                                                <td>
+                                                    <span class="entry-label">Mkg Amt</span>
+                                                    <input type="number" step="0.01" name="making_final_amount[]"
+                                                        class="form-control">
+                                                </td>
                                                 <input type="hidden" step="0.01" name="gst_percent[]"
                                                     class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;">
@@ -308,11 +515,13 @@
                                                     class="form-control"
                                                     style="pointer-events: none; background-color: #e9ecef;">
                                                 <td>
+                                                    <span class="entry-label">Gold Price</span>
                                                     <input type="number" step="0.01" name="total_amount[]"
                                                         class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
                                                 <td>
+                                                    <span class="entry-label">Final price</span>
                                                     <input type="number" step="0.01" name="final_price[]"
                                                         class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;">
@@ -364,7 +573,7 @@
                                                     <th>Color</th>
                                                     <th>Cut</th>
                                                     <th>Shape</th>
-                                                    <th>Chalni</th>
+                                                    {{-- <th>Chalni</th> --}}
                                                     <th>MM</th>
                                                     <th>Wt(CT)</th>
                                                     <th>Wt(GM)</th>
@@ -407,26 +616,26 @@
                                     <tbody></tbody>
                                 </table>
 
-                                <!-- Exchange / Old Gold Section -->
-                                <div class="card mt-4">
+                                </div>
+<!-- Exchange / Old Gold Section -->
+                                <div class="card glass-card mt-4 p-4 border-0 shadow-none bg-transparent">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Exchange/Old Gold</h5>
                                         <button type="button" class="btn btn-warning btn-sm" id="addExchangeItem">
-                                            + Add Item
+                                            + Add Purchase
                                         </button>
                                     </div>
                                     <div class="card-body p-0">
                                         <table class="table table-bordered mb-0" id="exchangeTable">
                                             <thead class="bg-light">
                                                 <tr>
-                                                    <th>Description</th>
+                                                    <th>Desc</th>
                                                     <th>Metal</th>
+                                                    <th>GW</th>
+                                                    <th>LW</th>
+                                                    <th>NW</th>
                                                     <th>Purity</th>
-                                                    <th>Gross</th>
-                                                    <th>Less</th>
-                                                    <th>Net</th>
-                                                    <th>Fine</th>
-                                                    <th>Wanted Amt</th>
+                                                    <th>Fine Wt</th>
                                                     <th>Rate</th>
                                                     <th>Amount</th>
                                                     <th>Action</th>
@@ -479,7 +688,9 @@
                             <button class="btn btn-outline-secondary" id="addContactBtn">+ Add Contact</button>
 
                             <button class="btn btn-outline-primary" id="addInfoBtn">+ Add Additional Info</button> --}}
-                                <div class="form-group-item border-0 p-0">
+                                <div class="card glass-card mt-4 p-4">
+<h4 class="section-header">Totals & Adjustments</h4>
+<div class="form-group-item border-0 p-0">
                                     <div class="row">
 
 
@@ -523,7 +734,7 @@
                                                         <!-- Diamond/Stone/Packet Section -->
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
-                                                            <label>Total Diamond/Stone/Pkt</label>
+                                                            <label>Total Diamond Price</label>
                                                             <span id="totalDiamondStonePacketAmount">₹0.00</span>
                                                             <input type="hidden" id="totalDiamondStonePacketAmountInput"
                                                                 value="0">
@@ -666,14 +877,16 @@
                                     </div>
                                 </div>
 
-                                <button type="reset" class="btn btn-primary cancel me-2">Cancel</button>
-                                <button type="reset" class="btn btn-primary cancel me-2">Save</button>
-                                <button type="submit" class="btn btn-primary">Save & Continue</button>
+                                </div>
+<div class="card glass-card mt-4 p-4 text-end">
+<div><a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
+                                <button type="button" id="saveInvoiceBtn" class="btn custom-btn-primary text-white me-2">Save</button>
+                                <button type="button" id="savePrintInvoiceBtn" class="btn custom-btn-primary text-white">Save & Print</button>
 
                             </div>
                         </div>
                     </form>
-                </div>
+</div>
             </div>
         </div>
     </div>
@@ -751,7 +964,7 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="applyGstConfig">Apply</button>
+                    <button type="button" class="btn custom-btn-primary text-white" id="applyGstConfig">Apply</button>
                 </div>
             </div>
         </div>
@@ -1369,11 +1582,7 @@
                     value="${p.shape ?? ''}">
             </td>
 
-            <td>
-                <input type="text" class="form-control"
-                    name="packets[${index}][chalni]"
-                    value="${p.chalni ?? ''}">
-            </td>
+
 
             <td>
                 <input type="text" class="form-control"
@@ -1427,20 +1636,23 @@
         let globalInvoiceId = null;
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Hijack Save buttons
-            document.querySelector('button[type="submit"]').addEventListener('click', function(e) {
-                e.preventDefault();
-                finalizeInvoice();
-            });
-            // Also handle "Save" button if it exists separately
-            document.querySelectorAll('.cancel.me-2').forEach(btn => {
-                if (btn.textContent.trim() === 'Save') {
-                    btn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        finalizeInvoice();
-                    });
-                }
-            });
+            // Save button
+            const saveInvoiceBtn = document.getElementById('saveInvoiceBtn');
+            if (saveInvoiceBtn) {
+                saveInvoiceBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    finalizeInvoice(false);
+                });
+            }
+
+            // Save & Print button
+            const savePrintInvoiceBtn = document.getElementById('savePrintInvoiceBtn');
+            if (savePrintInvoiceBtn) {
+                savePrintInvoiceBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    finalizeInvoice(true);
+                });
+            }
         });
 
         // ---------------------------------------------------------
@@ -1495,10 +1707,6 @@
 
             if (isEmpty(invoiceDate)) {
                 return showError('Invoice date is required');
-            }
-
-            if (isEmpty(dueDate)) {
-                return showError('Due date is required');
             }
 
             if (isEmpty(productId)) {
@@ -1930,8 +2138,10 @@
             calculateInvoiceTotals();
 
             // Update Button State to 'Update'
-            const saveBtn = document.querySelector('button[type="submit"]');
-            if (saveBtn) saveBtn.textContent = "Update Invoice";
+            const saveBtn = document.getElementById('saveInvoiceBtn');
+            if (saveBtn) saveBtn.textContent = "Update";
+            const savePrintBtn = document.getElementById('savePrintInvoiceBtn');
+            if (savePrintBtn) savePrintBtn.textContent = "Update & Print";
         }
 
         function fetchPendingInvoice(customerId) {
@@ -2037,12 +2247,11 @@
                             <option value="Silver" ${ex.metal === 'Silver' ? 'selected' : ''}>Silver</option>
                         </select>
                     </td>
-                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity" value="${ex.purity || ''}"></td>
                     <td><input type="number" step="0.001" name="exchange_gross[]" class="form-control exchange-gross" value="${ex.gross_weight || 0}"></td>
                     <td><input type="number" step="0.001" name="exchange_less[]" class="form-control exchange-less" value="${ex.less_weight || 0}"></td>
                     <td><input type="number" step="0.001" name="exchange_net[]" class="form-control exchange-net" readonly style="background-color: #e9ecef;" value="${ex.net_weight || 0}"></td>
+                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity" value="${ex.purity || ''}"></td>
                     <td><input type="number" step="0.001" name="exchange_fine[]" class="form-control exchange-fine" readonly style="background-color: #e9ecef;" value="${ex.fine_weight || 0}"></td>
-                    <td><input type="number" step="0.01" name="exchange_wanted_amt[]" class="form-control exchange-wanted-amt" value="${ex.wanted_amt || 0}"></td>
                     <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate" value="${ex.rate || 0}"></td>
                     <td><input type="number" step="0.01" name="exchange_amount[]" class="form-control exchange-amount" readonly style="background-color: #e9ecef;" value="${ex.amount || 0}"></td>
                     <td><button type="button" class="btn btn-danger btn-sm remove-exchange-row">X</button></td>
@@ -2053,7 +2262,7 @@
         }
         // FINALIZE INVOICE
         // ---------------------------------------------------------
-        function finalizeInvoice() {
+        function finalizeInvoice(shouldPrint = false) {
             if (!globalInvoiceId) {
                 alert('No active invoice to save.');
                 return;
@@ -2070,7 +2279,7 @@
                     less_weight: row.find('input[name="exchange_less[]"]').val(),
                     net_weight: row.find('input[name="exchange_net[]"]').val(),
                     fine_weight: row.find('input[name="exchange_fine[]"]').val(),
-                    wanted_amt: row.find('input[name="exchange_wanted_amt[]"]').val(),
+                    wanted_amt: 0,
                     rate: row.find('input[name="exchange_rate[]"]').val(),
                     amount: row.find('input[name="exchange_amount[]"]').val(),
                 });
@@ -2124,7 +2333,37 @@
                 .then(res => {
                     if (res.success) {
                         alert('Invoice Saved Successfully!');
-                        window.location.href = res.redirect_url;
+
+                        if (shouldPrint && res.print_url) {
+                            let iframe = document.getElementById('invoicePrintIframe');
+                            if (!iframe) {
+                                iframe = document.createElement('iframe');
+                                iframe.id = 'invoicePrintIframe';
+                                iframe.style.position = 'fixed';
+                                iframe.style.top = '0';
+                                iframe.style.left = '0';
+                                iframe.style.width = '100%';
+                                iframe.style.height = '100vh';
+                                iframe.style.zIndex = '9999';
+                                iframe.style.border = 'none';
+                                iframe.style.backgroundColor = '#fff';
+                                document.body.appendChild(iframe);
+                            }
+
+                            iframe.style.display = 'block';
+                            iframe.src = res.print_url + '?auto_print=1';
+
+                            // Listen for message from iframe when print is done
+                            window.addEventListener('message', function printListener(e) {
+                                if (e.data === 'print_completed') {
+                                    iframe.style.display = 'none';
+                                    window.removeEventListener('message', printListener);
+                                    window.location.href = res.redirect_url;
+                                }
+                            });
+                        } else {
+                            window.location.href = res.redirect_url;
+                        }
                     } else {
                         alert('Error: ' + res.message);
                     }
@@ -2180,7 +2419,7 @@
                     color: row.querySelector('[name*="[color]"]')?.value,
                     cut: row.querySelector('[name*="[cut]"]')?.value,
                     shape: row.querySelector('[name*="[shape]"]')?.value,
-                    chalni: row.querySelector('[name*="[chalni]"]')?.value,
+                    // chalni: row.querySelector('[name*="[chalni]"]')?.value,
                     mm: row.querySelector('[name*="[mm]"]')?.value,
                     weight: row.querySelector('[name*="[weight]"]')?.value,
                     wt_in_gram: row.querySelector('[name*="[wt_in_gram]"]')?.value,
@@ -2265,8 +2504,7 @@
                 <td><input type="text" class="form-control" name="packets[${index}][color]" value="${p.color ?? ''}"></td>
                 <td><input type="text" class="form-control" name="packets[${index}][cut]" value="${p.cut ?? ''}"></td>
                 <td><input type="text" class="form-control" name="packets[${index}][shape]" value="${p.shape ?? ''}"></td>
-                <td><input type="text" class="form-control" name="packets[${index}][chalni]" value="${p.chalni ?? ''}"></td>
-                <td><input type="text" class="form-control" name="packets[${index}][mm]" value="${p.mm ?? ''}"></td>
+                 <td><input type="text" class="form-control" name="packets[${index}][mm]" value="${p.mm ?? ''}"></td>
                 <td><input type="number" step="0.001" class="form-control" name="packets[${index}][weight]" value="${p.weight ?? 0}"></td>
                 <td><input type="number" step="0.001" class="form-control" name="packets[${index}][wt_in_gram]" value="${p.wt_in_gram ?? 0}"></td>
                 <td>
@@ -2285,24 +2523,26 @@
         // ---------------------------------------------------------
         // EXCHANGE / OLD GOLD LOGIC
         // ---------------------------------------------------------
+        const defaultGoldRate24k = {{ \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())->where('metal_type', 'Gold')->where('karat', '24')->value('price_per_gram') ?? 0 }};
+        const defaultSilverRate = {{ \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())->where('metal_type', 'Silver')->value('price_per_gram') ?? 0 }};
+
         $('#addExchangeItem').on('click', function() {
             const rowCount = $('#exchangeTable tbody tr').length;
             const tr = `
                 <tr class="exchange-row">
                     <td><input type="text" name="exchange_description[]" class="form-control"></td>
                     <td>
-                        <select name="exchange_metal[]" class="form-control">
+                        <select name="exchange_metal[]" class="form-control exchange-metal">
                             <option value="Gold">Gold</option>
                             <option value="Silver">Silver</option>
                         </select>
                     </td>
-                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity"></td>
                     <td><input type="number" step="0.001" name="exchange_gross[]" class="form-control exchange-gross"></td>
                     <td><input type="number" step="0.001" name="exchange_less[]" class="form-control exchange-less"></td>
                     <td><input type="number" step="0.001" name="exchange_net[]" class="form-control exchange-net" readonly style="background-color: #e9ecef;"></td>
+                    <td><input type="number" step="0.01" name="exchange_purity[]" class="form-control exchange-purity"></td>
                     <td><input type="number" step="0.001" name="exchange_fine[]" class="form-control exchange-fine" readonly style="background-color: #e9ecef;"></td>
-                    <td><input type="number" step="0.01" name="exchange_wanted_amt[]" class="form-control exchange-wanted-amt"></td>
-                    <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate"></td>
+                    <td><input type="number" step="0.01" name="exchange_rate[]" class="form-control exchange-rate" value="${defaultGoldRate24k}"></td>
                     <td><input type="number" step="0.01" name="exchange_amount[]" class="form-control exchange-amount" readonly style="background-color: #e9ecef;"></td>
                     <td><button type="button" class="btn btn-danger btn-sm remove-exchange-row">X</button></td>
                 </tr>
@@ -2315,7 +2555,17 @@
             calculateInvoiceTotals();
         });
 
-        $(document).on('input', '.exchange-gross, .exchange-less', function() {
+        $(document).on('change', '.exchange-metal', function() {
+            let row = $(this).closest('tr');
+            let metal = $(this).val();
+            if (metal === 'Gold') {
+                row.find('.exchange-rate').val(defaultGoldRate24k).trigger('input');
+            } else if (metal === 'Silver') {
+                row.find('.exchange-rate').val(defaultSilverRate).trigger('input');
+            }
+        });
+
+        $(document).on('input', '.exchange-gross, .exchange-less, .exchange-purity', function() {
             let row = $(this).closest('tr');
             let gross = parseFloat(row.find('.exchange-gross').val()) || 0;
             let less = parseFloat(row.find('.exchange-less').val()) || 0;
@@ -2324,42 +2574,20 @@
             let fine = (net * purity) / 100;
             row.find('.exchange-fine').val(fine.toFixed(3));
             row.find('.exchange-net').val(net.toFixed(3));
-            row.trigger('exchange-calculate');
-        });
 
-        $(document).on('input', '.exchange-purity', function() {
-            $(this).closest('tr').trigger('exchange-calculate');
-        });
-
-        $(document).on('exchange-calculate', '.exchange-row', function() {
-            let row = $(this);
-            let net = parseFloat(row.find('.exchange-net').val()) || 0;
-            let purity = parseFloat(row.find('.exchange-purity').val()) || 0;
-            let fine = (net * purity) / 100;
-            row.find('.exchange-fine').val(fine.toFixed(3));
-        });
-
-        $(document).on('input', '.exchange-wanted-amt', function() {
-            let row = $(this).closest('tr');
-            let wantedAmt = parseFloat($(this).val()) || 0;
-            let net = parseFloat(row.find('.exchange-net').val()) || 0;
-
-            row.find('.exchange-amount').val(wantedAmt.toFixed(2));
-            if (net > 0) {
-                let rate = wantedAmt / net;
-                row.find('.exchange-rate').val(rate.toFixed(2));
-            }
+            let rate = parseFloat(row.find('.exchange-rate').val()) || 0;
+            let amount = fine * rate;
+            row.find('.exchange-amount').val(amount.toFixed(2));
             calculateInvoiceTotals();
         });
 
         $(document).on('input', '.exchange-rate', function() {
             let row = $(this).closest('tr');
             let rate = parseFloat($(this).val()) || 0;
-            let net = parseFloat(row.find('.exchange-net').val()) || 0;
+            let fine = parseFloat(row.find('.exchange-fine').val()) || 0;
 
-            let amount = net * rate;
+            let amount = fine * rate;
             row.find('.exchange-amount').val(amount.toFixed(2));
-            row.find('.exchange-wanted-amt').val(amount.toFixed(2));
             calculateInvoiceTotals();
         });
 

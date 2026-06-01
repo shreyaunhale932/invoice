@@ -50,6 +50,18 @@
                                                     placeholder="Phone Number" required>
                                             </div>
                                         </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Date of Birth</label>
+                                                <input type="date" class="form-control" name="dob">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="input-block mb-3">
+                                                <label>Anniversary Date</label>
+                                                <input type="date" class="form-control" name="anniversary_date">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -58,26 +70,58 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
-                                                <label>Address Line 1</label>
-                                                <input type="text" class="form-control" name="address1"
-                                                    placeholder="Enter Address 1">
-                                            </div>
-                                            <div class="input-block mb-3">
-                                                <label>Address Line 2</label>
-                                                <input type="text" class="form-control" name="address2"
-                                                    placeholder="Enter Address 2">
+                                                <label>Address(Area)</label>
+                                                <input type="text" class="form-control" name="address"
+                                                    placeholder="Enter Address(Area)">
                                             </div>
                                             <div class="input-block mb-3">
                                                 <label>Country</label>
                                                 <input type="text" class="form-control" name="country"
-                                                    placeholder="Enter Country">
+                                                    value="INDIA" placeholder="Enter Country">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>State</label>
-                                                <input type="text" class="form-control" name="state"
-                                                    placeholder="Enter State">
+                                                <select class="form-control" name="state">
+                                                    <option value="">Select State</option>
+                                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                    <option value="Assam">Assam</option>
+                                                    <option value="Bihar">Bihar</option>
+                                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                                    <option value="Goa">Goa</option>
+                                                    <option value="Gujarat">Gujarat</option>
+                                                    <option value="Haryana">Haryana</option>
+                                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                    <option value="Jharkhand">Jharkhand</option>
+                                                    <option value="Karnataka">Karnataka</option>
+                                                    <option value="Kerala">Kerala</option>
+                                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                    <option value="Maharashtra">Maharashtra</option>
+                                                    <option value="Manipur">Manipur</option>
+                                                    <option value="Meghalaya">Meghalaya</option>
+                                                    <option value="Mizoram">Mizoram</option>
+                                                    <option value="Nagaland">Nagaland</option>
+                                                    <option value="Odisha">Odisha</option>
+                                                    <option value="Punjab">Punjab</option>
+                                                    <option value="Rajasthan">Rajasthan</option>
+                                                    <option value="Sikkim">Sikkim</option>
+                                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                                    <option value="Telangana">Telangana</option>
+                                                    <option value="Tripura">Tripura</option>
+                                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                    <option value="Uttarakhand">Uttarakhand</option>
+                                                    <option value="West Bengal">West Bengal</option>
+                                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                                    <option value="Chandigarh">Chandigarh</option>
+                                                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                                    <option value="Delhi">Delhi</option>
+                                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                                    <option value="Ladakh">Ladakh</option>
+                                                    <option value="Lakshadweep">Lakshadweep</option>
+                                                    <option value="Puducherry">Puducherry</option>
+                                                </select>
                                             </div>
                                             <div class="input-block mb-3">
                                                 <label>City</label>
@@ -93,42 +137,35 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group-customer customer-additional-form">
-                                    <h5 class="form-title">Bank Details</h5>
+                                <div class="form-group-item">
+                                    <h5 class="form-title">Tax & Identity Details</h5>
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Bank Name</label>
-                                                <input type="text" class="form-control" name="bank_name"
-                                                    placeholder="Enter Bank Name">
+                                                <label>GST No.</label>
+                                                <input type="text" class="form-control" name="gst_no"
+                                                    placeholder="Enter GST Number">
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Branch</label>
-                                                <input type="text" class="form-control" name="branch"
-                                                    placeholder="Enter Branch Name">
+                                                <label>Aadhaar No.</label>
+                                                <input type="text" class="form-control" name="adhaar_no"
+                                                    placeholder="Enter Aadhaar Number">
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-12 col-sm-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Account Holder Name</label>
-                                                <input type="text" class="form-control" name="account_holder_name"
-                                                    placeholder="Enter Account Holder Name">
+                                                <label>PAN No.</label>
+                                                <input type="text" class="form-control" name="pan_no"
+                                                    placeholder="Enter PAN Number">
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-12 col-sm-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Account Number</label>
-                                                <input type="text" class="form-control" name="account_number"
-                                                    placeholder="Enter Account Number">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-12 col-sm-12">
-                                            <div class="input-block mb-3">
-                                                <label>IFSC</label>
-                                                <input type="text" class="form-control" name="ifsc"
-                                                    placeholder="Enter IFSC Code">
+                                                <label>TAN</label>
+                                                <input type="text" class="form-control" name="tan"
+                                                    placeholder="Enter TAN">
                                             </div>
                                         </div>
                                     </div>
