@@ -47,6 +47,7 @@ class Product extends Model
          'making_type',
         'making_final_amount',
         'hallmarking',
+        'wastage_amount',
     ];
 
     // One product has many diamonds

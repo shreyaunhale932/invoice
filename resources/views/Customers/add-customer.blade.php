@@ -31,6 +31,9 @@
                                                 <label>Name <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" name="name"
                                                     placeholder="Enter Name" required>
+                                                    @error('name')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -48,6 +51,9 @@
                                                 <label>Phone <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" name="phone"
                                                     placeholder="Phone Number" required>
+                                                    @error('phone')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -83,7 +89,7 @@
                                         <div class="col-lg-6 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>State</label>
-                                                <select class="form-control" name="state">
+                                                <select class="form-control" name="state" required>
                                                     <option value="">Select State</option>
                                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -122,6 +128,9 @@
                                                     <option value="Lakshadweep">Lakshadweep</option>
                                                     <option value="Puducherry">Puducherry</option>
                                                 </select>
+                                                @error('state')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </div>
                                             <div class="input-block mb-3">
                                                 <label>City</label>

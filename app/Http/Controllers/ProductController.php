@@ -26,7 +26,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // dd($request->all);
-        DB::transaction(function () use ($request) {
+        $productId = null;
+        $transactionResult = DB::transaction(function () use ($request, &$productId) {
             $request->validate([
                 'barcode' => 'nullable|unique:products,barcode,NULL,id,firm_id,'.auth()->user()->firm_id,
                 'pre_code' => 'required|string',
@@ -165,6 +166,8 @@ class ProductController extends Controller
                 'hallmarking' => $request->hallmarking,
 
             ]);
+            $productId = $product->id;
+
             // if (empty($product->barcode)) {
             //     $productCodePart = strtoupper(substr($product->pre_code, 0, 3));
             //     $purity          = $product->purity_id;
@@ -313,6 +316,18 @@ class ProductController extends Controller
             // }
         });
 
+        if ($transactionResult instanceof \Illuminate\Http\RedirectResponse) {
+            return $transactionResult;
+        }
+
+        $defaultTemplate = \App\Models\PrintTemplate::where('is_default', true)->first();
+        if ($defaultTemplate && $productId) {
+            return redirect()->back()
+                ->with('success', 'Product added successfully')
+                ->with('print_template_id', $defaultTemplate->id)
+                ->with('print_product_id', $productId);
+        }
+
         return redirect()->back()->with('success', 'Product added successfully');
     }
 
@@ -352,6 +367,14 @@ class ProductController extends Controller
 
         $metalRates = MetalRate::where('admin_id', Auth::guard('admin')->id())->get();
 
+        $stones = \App\Models\Stone::all();
+        $clarities = \App\Models\Clarity::all();
+        $colors = \App\Models\Color::all();
+        $cuts = \App\Models\Cut::all();
+        $mms = \App\Models\Mm::all();
+        $chalnis = \App\Models\Chalni::all();
+        $shapes = \App\Models\Shape::all();
+
         return view(
             'Inventory.Products.add-products',
             compact(
@@ -359,7 +382,14 @@ class ProductController extends Controller
                 'categories',
                 'subcategories',
                 'purities',
-                'metalRates'
+                'metalRates',
+                'stones',
+                'clarities',
+                'colors',
+                'cuts',
+                'mms',
+                'chalnis',
+                'shapes'
             )
         );
     }
@@ -748,8 +778,9 @@ class ProductController extends Controller
         }
 
         $products = $query->get();
+        $templates = \App\Models\PrintTemplate::all();
 
-        return view('Inventory/Products/product-list', compact('products'));
+        return view('Inventory/Products/product-list', compact('products', 'templates'));
     }
 
     public function searchPacket(Request $request)

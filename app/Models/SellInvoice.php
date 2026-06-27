@@ -59,6 +59,9 @@ class SellInvoice extends Model
         'diamond_discount_percent',
         'diamond_discount_amount',
         'diamond_total_amount',
+        'total_wastage_charge',
+        'wastage_discount_percent',
+        'wastage_discount_amount',
 
         // Invoice numbers
         'invoice_no',
@@ -68,6 +71,7 @@ class SellInvoice extends Model
         'post_invoice_no',
         'total_exchange_amount',
         'status',
+        'round_off',
     ];
 
     protected $casts = [
@@ -107,6 +111,11 @@ class SellInvoice extends Model
         'bank_received'        => 'float',
         'total_received'       => 'float',
         'amount_left'          => 'float',
+
+        'total_wastage_charge'     => 'float',
+        'wastage_discount_percent' => 'float',
+        'wastage_discount_amount'  => 'float',
+        'round_off'                => 'float',
     ];
 
     /**
@@ -142,6 +151,11 @@ class SellInvoice extends Model
     public function items()
     {
         return $this->hasMany(SellInvoiceItem::class, 'sell_invoice_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(SellInvoicePayment::class, 'sell_invoice_id');
     }
     // App\Models\SellInvoice.php
     protected static function booted()

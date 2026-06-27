@@ -24,7 +24,7 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Name <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="Enter Name" name="name" value="{{ $customer->name }}">
+                                                <input type="text" class="form-control" placeholder="Enter Name" name="name" value="{{ $customer->name }}" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -38,7 +38,7 @@
                                             <div class="input-block mb-3">
                                                 <label>Phone <span class="text-danger">*</span></label>
                                                 <input type="text" id="mobile_code" class="form-control"
-                                                    placeholder="Phone Number" name="phone" value="{{ $customer->phone }}">
+                                                    placeholder="Phone Number" name="phone" value="{{ $customer->phone }}" required>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -76,7 +76,7 @@
                                                 <div class="col-lg-6 col-md-12">
                                                     <div class="input-block mb-3">
                                                         <label>State</label>
-                                                        <select class="form-control" name="state">
+                                                        <select class="form-control" name="state" required>
                                                             <option value="">Select State</option>
                                                             <option value="Andhra Pradesh" {{ $customer->state == 'Andhra Pradesh' ? 'selected' : '' }}>Andhra Pradesh</option>
                                                             <option value="Arunachal Pradesh" {{ $customer->state == 'Arunachal Pradesh' ? 'selected' : '' }}>Arunachal Pradesh</option>

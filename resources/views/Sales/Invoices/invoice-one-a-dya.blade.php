@@ -933,8 +933,8 @@
                  =============================== */
                     $grossTotal = $taxableAmount + $cgstAmount + $sgstAmount + $igstAmount - $discountAmount;
 
-                    $finalAmount = $grossTotal;
-                    $roundOff = $finalAmount - $grossTotal;
+                    $finalAmount = $invoice->final_amount ?? $grossTotal;
+                    $roundOff = $invoice->round_off ?? 0;
 
                     /* ===============================
                  | PAYMENT DETAILS
@@ -945,13 +945,18 @@
                     $card = $invoice->card_received ?? 0;
                     $totalExchangeAmt = $invoice->total_exchange_amount ?? 0;
                     $makingDiscount = $invoice->making_discount_amount ?? 0;
+                    $wastageDiscount = $invoice->wastage_discount_amount ?? 0;
+                    $diamondDiscount = $invoice->diamond_discount_amount ?? 0;
 
                     $totalReceived = $cash + $online + $bank + $card + $totalExchangeAmt;
-                    $balanceAmount = $finalAmount - $totalReceived - $advSettled + $udharSettled - $makingDiscount;
+
+                    $balanceAmount = $invoice->amount_left ?? ($finalAmount - $totalReceived - $advSettled + $udharSettled);
 
                     /* ===============================
                  | INVOICE STATUS
                  =============================== */
+                $balanceAmount = (int)round($balanceAmount);
+                //  dd($balanceAmount );
                     if ($balanceAmount <= 0) {
                         $status = 'paid';
                     } elseif ($totalReceived > 0) {
@@ -1029,6 +1034,7 @@
                                         </tr>
                                     @endif
 
+
                                     @if ($igstAmount > 0 && $igstVisible)
                                         <tr>
                                             <td>{{ $igstLabel }} {{ $cgstPercent + $sgstPercent }}%</td>
@@ -1054,6 +1060,43 @@
                                         <tr>
                                             <td>{{ $discountLabel }} ({{ $discountPercent }}%)</td>
                                             <td>-₹{{ number_format($discountAmount, 2) }}</td>
+                                        </tr>
+                                    @endif
+
+                                    @php
+                                        $diamondDiscount = $invoice->diamond_discount_amount ?? 0;
+                                        $totalSaved = $makingDiscount + $wastageDiscount + $diamondDiscount + $discountAmount;
+                                    @endphp
+                                    @if ($totalSaved > 0)
+                                        @if ($makingDiscount > 0)
+                                            <tr style="font-size: 0.85em; color: #555;">
+                                                <td style="padding-left: 20px; border-top: none;">- Making Discount</td>
+                                                <td style="border-top: none;">-₹{{ number_format($makingDiscount, 2) }}</td>
+                                            </tr>
+                                        @endif
+                                        @if ($wastageDiscount > 0)
+                                            <tr style="font-size: 0.85em; color: #555;">
+                                                <td style="padding-left: 20px; border-top: none;">- Wastage Discount</td>
+                                                <td style="border-top: none;">-₹{{ number_format($wastageDiscount, 2) }}</td>
+                                            </tr>
+                                        @endif
+                                        @if ($diamondDiscount > 0)
+                                            <tr style="font-size: 0.85em; color: #555;">
+                                                <td style="padding-left: 20px; border-top: none;">- Diamond Discount</td>
+                                                <td style="border-top: none;">-₹{{ number_format($diamondDiscount, 2) }}</td>
+                                            </tr>
+                                        @endif
+                                        @if ($discountAmount > 0)
+                                            <tr style="font-size: 0.85em; color: #555;">
+                                                <td style="padding-left: 20px; border-top: none;">- Final Discount ({{ $discountPercent }}%)</td>
+                                                <td style="border-top: none;">-₹{{ number_format($discountAmount, 2) }}</td>
+                                            </tr>
+                                        @endif
+                                        <tr style="border-top: 1px dashed #28a745;">
+                                            <td style="border-top: 1px dashed #28a745;">
+                                                <span style="font-size: 0.85em; padding: 3px 6px; background-color: #28a745; color: white; border-radius: 4px; display: inline-block; font-weight: bold;">You Save</span>
+                                            </td>
+                                            <td class="text-success" style="font-weight: bold; border-top: 1px dashed #28a745;">₹{{ number_format($totalSaved, 2) }}</td>
                                         </tr>
                                     @endif
 

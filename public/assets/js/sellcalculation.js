@@ -16,81 +16,91 @@ document.addEventListener('change', function (e) {
         const row = e.target.closest('tr');
         calculateRow(row);
     }
-});
-function calculateRow(row) {
-    // alert('hiii');
+});function calculateRow(row) {
+    if (!row) return;
+    if (row.jquery) {
+        row = row[0];
+    }
 
-    const metalRate = parseFloat(row.querySelector('[name="metal_rate[]"]').value) || 0;
-    const finalFnWeight = parseFloat(row.querySelector('[name="final_fn_weight[]"]').value) || 0;
-    const grossWeight = parseFloat(row.querySelector('[name="gross_weight[]"]').value) || 0;
-    const netWeight = parseFloat(row.querySelector('[name="net_weight[]"]').value) || 0;
-    const wastagePercent = parseFloat(row.querySelector('[name="wastage_percent[]"]').value) || 0;
-    const makingPrice = parseFloat(row.querySelector('[name="making_price[]"]').value) || 0;
-    const gstPercent = parseFloat(row.querySelector('[name="gst_percent[]"]').value) || 0;
-    const makingType = row.querySelector('[name="making_type[]"]').value;
+    const getVal = (sel) => {
+        const el = row.querySelector(sel);
+        return el ? (parseFloat(el.value) || 0) : 0;
+    };
 
-    // ✅ GOLD AMOUNT
-    const goldAmount = finalFnWeight * metalRate;
+    const metalRate = getVal('[name="metal_rate[]"]');
+    const finalFnWeight = getVal('[name="final_fn_weight[]"]');
+    const grossWeight = getVal('[name="gross_weight[]"]');
+    const netWeight = getVal('[name="net_weight[]"]');
+    const wastagePercent = getVal('[name="wastage_percent[]"]');
+    const makingPrice = getVal('[name="making_price[]"]');
+    const gstPercent = getVal('[name="gst_percent[]"]');
+    
+    const makingTypeEl = row.querySelector('[name="making_type[]"]');
+    const makingType = makingTypeEl ? makingTypeEl.value : 'val';
 
-    // ✅ WASTAGE
-    const wastageAmount = (goldAmount * wastagePercent) / 100;
+    // ✅ GOLD AMOUNT (on Net Weight)
+    const goldAmount = netWeight * metalRate;
+
+    // ✅ WASTAGE AMOUNT (on Net Weight)
+    const wastageAmount = (netWeight * wastagePercent / 100) * metalRate;
+
+    // Set wastage amount input in row
+    const wastageInput = row.querySelector('[name="wastage_amount[]"]');
+    if (wastageInput) {
+        wastageInput.value = wastageAmount.toFixed(2);
+    }
 
     // ✅ MAKING CALCULATION BASED ON TYPE
     let makingFinalAmount = 0;
 
     switch (makingType) {
-
         case 'val': // Direct Value
             makingFinalAmount = makingPrice;
             break;
-
         case 'per_gld_val': // % of Gold Value
             makingFinalAmount = (goldAmount * makingPrice) / 100;
             break;
-
         case 'per_pcs': // per piece
-            const qty = parseFloat(row.querySelector('[name="quantity[]"]').value) || 1;
+            const qty = getVal('[name="quantity[]"]') || 1;
             makingFinalAmount = makingPrice * qty;
             break;
-
         case 'per_gm_nw': // net weight
             makingFinalAmount = makingPrice * netWeight;
             break;
-
         case 'per_gm_gw': // gross weight
             makingFinalAmount = makingPrice * grossWeight;
             break;
-
         case 'per_gm_fine_wt': // fine weight
             makingFinalAmount = makingPrice * finalFnWeight;
             break;
-
         default:
             makingFinalAmount = makingPrice;
     }
 
     // Set making final amount
-    row.querySelector('[name="making_final_amount[]"]').value =
-        makingFinalAmount.toFixed(2);
+    const makingFinalAmountInput = row.querySelector('[name="making_final_amount[]"]');
+    if (makingFinalAmountInput) {
+        makingFinalAmountInput.value = makingFinalAmount.toFixed(2);
+    }
 
-// alert('goldAmount='+goldAmount);
-// alert('makingFinalAmount='+makingFinalAmount);
-// alert('wastageAmount='+wastageAmount);
+    // ✅ GOLD TOTAL (add goldAmount + wastageAmount + making)
+    const subTotal = goldAmount + wastageAmount + makingFinalAmount;
 
-    // ✅ GOLD TOTAL (add making + wastage)
-    const subTotal = goldAmount + makingFinalAmount ;
-// alert('subTotal='+subTotal);
     // GST
     const gstAmount = (subTotal * gstPercent) / 100;
 
-    row.querySelector('[name="gst_amount[]"]').value = gstAmount.toFixed(2);
-    row.querySelector('[name="total_amount[]"]').value = subTotal.toFixed(2);
+    const gstAmountInput = row.querySelector('[name="gst_amount[]"]');
+    if (gstAmountInput) {
+        gstAmountInput.value = gstAmount.toFixed(2);
+    }
+
+    const totalAmountInput = row.querySelector('[name="total_amount[]"]');
+    if (totalAmountInput) {
+        totalAmountInput.value = subTotal.toFixed(2);
+    }
 
     updateGoldFinalPrice(row);
 }
-
-
-
 $(document).on('input', '.diamond-weight, .price-per-carat', function () {
     const row = $(this).closest('tr');
 
@@ -114,11 +124,18 @@ $(document).on('input', '.stone-weight, .stone-price', function () {
 
     row.find('.stone-total').val(total.toFixed(2));
 
-    updateGoldFinalPrice();
+    updateGoldFinalPrice(row);
 });
 
 
 function updateGoldFinalPrice(row) {
+    if (!row) {
+        row = $('#entryTable tbody tr')[0];
+    }
+    if (!row) return;
+    if (row.jquery) {
+        row = row[0];
+    }
 
     let diamondTotal = 0;
     let stoneTotal = 0;
@@ -139,17 +156,16 @@ function updateGoldFinalPrice(row) {
         packetTotal += parseFloat($(this).val()) || 0;
     });
 
-    const goldPrice =
-        parseFloat(row.querySelector('[name="total_amount[]"]').value) || 0;
+    const totalAmountEl = row.querySelector('[name="total_amount[]"]');
+    const goldPrice = totalAmountEl ? (parseFloat(totalAmountEl.value) || 0) : 0;
 
     const finalPrice = goldPrice + diamondTotal + stoneTotal + packetTotal;
 
-    row.querySelector('[name="final_price[]"]').value =
-        finalPrice.toFixed(2);
-}
-
-
-$(document).on('input', '.packet-rate, [name*="[pcs]"]', function () {
+    const finalPriceEl = row.querySelector('[name="final_price[]"]');
+    if (finalPriceEl) {
+        finalPriceEl.value = finalPrice.toFixed(2);
+    }
+}$(document).on('input', '.packet-rate, [name*="[pcs]"]', function () {
 
     const row = $(this).closest('tr');
 

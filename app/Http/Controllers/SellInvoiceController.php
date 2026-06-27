@@ -54,6 +54,7 @@ class SellInvoiceController extends Controller
                     'making_type' => $request->making_type,
                     'making_final_amount' => $request->making_final_amount,
                     'wastage_percent' => $request->wastage_percent,
+                    'wastage_amount' => $request->wastage_amount,
                     'gst_percent' => $request->gst_percent,
                     'gst_amount' => $request->gst_amount,
 
@@ -270,6 +271,7 @@ class SellInvoiceController extends Controller
                     'making_type' => $request->making_type,
                     'making_final_amount' => $request->making_final_amount,
                     'wastage_percent' => $request->wastage_percent,
+                    'wastage_amount' => $request->wastage_amount,
                     'gst_percent' => $request->gst_percent,
                     'gst_amount' => $request->gst_amount,
 
@@ -456,6 +458,17 @@ class SellInvoiceController extends Controller
         return response()->json([
             'success' => false,
             'message' => 'No pending invoice found',
+        ]);
+    }
+
+    public function getInvoiceById($id)
+    {
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems', 'payments'])
+            ->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'invoice' => $invoice,
         ]);
     }
 
@@ -740,11 +753,15 @@ class SellInvoiceController extends Controller
             $diamondDiscountAmount = round($request->input('diamond_discount_amount', 0), 2);
             $diamondTotalAmount = round($request->input('diamond_total_amount', 0), 2);
 
+            $totalWastageCharge = round($request->input('total_wastage_charge', 0), 2);
+            $wastageDiscountPercent = round($request->input('wastage_discount_percent', 0), 2);
+            $wastageDiscountAmount = round($request->input('wastage_discount_amount', 0), 2);
+
             // Discount
             $taxableAmount = round($request->taxable_amount, 2);
             $discountPercent = round($request->input('discount_percent', 0), 2);
             $discountAmount = round(($finalAmount * $discountPercent) / 100, 2);
-            $amountAfterDiscount = round($finalAmount - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount, 2);
+            $amountAfterDiscount = round($finalAmount - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount - $wastageDiscountAmount, 2);
 
             // GST %
             $cgstPercent = round($request->input('cgst_percent', 0), 2);
@@ -762,12 +779,35 @@ class SellInvoiceController extends Controller
             // Exchange Reduction
             $totalExchangeAmount = round($request->input('total_exchange_amount', 0), 2);
             $grandTotal = round($totalInvoiceAmount - $totalExchangeAmount, 2);
+            $finalPayable = round($grandTotal);
+            $roundOff = round($finalPayable - $grandTotal, 2);
 
             // Payments
-            $cash = round($request->input('cash_received', 0), 2);
-            $bank = round($request->input('bank_received', 0), 2);
-            $online = round($request->input('online_received', 0), 2);
-            $card = round($request->input('card_received', 0), 2);
+            $cash = 0;
+            $bank = 0;
+            $online = 0;
+            $card = 0;
+            $hasPayments = $request->filled('payments') && is_array($request->payments);
+
+            if ($hasPayments) {
+                foreach ($request->payments as $p) {
+                    $amt = round($p['amount'] ?? 0, 2);
+                    if ($p['payment_method'] === 'cash') {
+                        $cash += $amt;
+                    } elseif ($p['payment_method'] === 'cheque') {
+                        $bank += $amt;
+                    } elseif ($p['payment_method'] === 'upi') {
+                        $online += $amt;
+                    } elseif ($p['payment_method'] === 'card') {
+                        $card += $amt;
+                    }
+                }
+            } else {
+                $cash = round($request->input('cash_received', 0), 2);
+                $bank = round($request->input('bank_received', 0), 2);
+                $online = round($request->input('online_received', 0), 2);
+                $card = round($request->input('card_received', 0), 2);
+            }
 
             $totalReceived = round($cash + $bank + $online + $card, 2);
 
@@ -796,10 +836,8 @@ class SellInvoiceController extends Controller
 
             // $amountLeft = round(max(0, $grandTotal - $totalReceived), 2);
             $totalReceived = round($cash + $bank + $online + $card, 2);
-            // dd($totalReceived);
             // Difference before rounding
-            $balanceDiff = (($grandTotal + $totaludharSettled) - ($totalReceived + $totaladvSettled));
-            // dd($balanceDiff.'='.$totalReceived.'+'.$totaladvSettled.'='.$grandTotal.'+'.$totaludharSettled);
+            $balanceDiff = (($finalPayable + $totaludharSettled) - ($totalReceived + $totaladvSettled));
             // Tolerance check (important)
             if (abs($balanceDiff) < 0.05) {
                 $amountLeft = 0.00;
@@ -821,6 +859,9 @@ class SellInvoiceController extends Controller
                 'total_making_charge' => $totalMakingCharge,
                 'making_discount_percent' => $makingDiscountPercent,
                 'making_discount_amount' => $makingDiscountAmount,
+                'total_wastage_charge' => $totalWastageCharge,
+                'wastage_discount_percent' => $wastageDiscountPercent,
+                'wastage_discount_amount' => $wastageDiscountAmount,
                 'total_diamond_stone_packet' => $totalDiaStonePacket,
                 'diamond_discount_percent' => $diamondDiscountPercent,
                 'diamond_discount_amount' => $diamondDiscountAmount,
@@ -837,7 +878,8 @@ class SellInvoiceController extends Controller
                 'igst_amount' => $igstAmount,
 
                 'taxable_amount' => $taxableAmount,
-                'final_amount' => $grandTotal,
+                'final_amount' => $finalPayable,
+                'round_off' => $roundOff,
 
                 'total_exchange_amount' => $totalExchangeAmount,
 
@@ -853,6 +895,63 @@ class SellInvoiceController extends Controller
                 'invoice_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                 'invoice_due_date' => $request->due_date ? Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
             ]);
+
+            // Save payments breakdown
+            $invoice->payments()->delete();
+            if ($hasPayments) {
+                foreach ($request->payments as $p) {
+                    $amt = round($p['amount'] ?? 0, 2);
+                    if ($amt <= 0) {
+                        continue;
+                    }
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => $p['account_id'] ?? null,
+                        'payment_method' => $p['payment_method'],
+                        'amount' => $amt,
+                        'reference_no' => $p['reference_no'] ?? null,
+                        'payment_details' => $p['payment_details'] ?? null,
+                        'transaction_date' => !empty($p['transaction_date']) ? Carbon::parse($p['transaction_date'])->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+            } else {
+                if ($cash > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'Cash in Hand')->first()?->id,
+                        'payment_method' => 'cash',
+                        'amount' => $cash,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+                if ($bank > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'Bank')->first()?->id,
+                        'payment_method' => 'cheque',
+                        'amount' => $bank,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+                if ($online > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'UPI Clearing')->first()?->id,
+                        'payment_method' => 'upi',
+                        'amount' => $online,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+                if ($card > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'Card Receivable')->first()?->id,
+                        'payment_method' => 'card',
+                        'amount' => $card,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+            }
 
             // Automatically record balance as Advance or Udhaar Get
             // dd($amountLeft);
@@ -1084,12 +1183,16 @@ class SellInvoiceController extends Controller
             $diamondDiscountAmount = round($request->input('diamond_discount_amount', 0), 2);
             $diamondTotalAmount = round($request->input('diamond_total_amount', 0), 2);
 
+            $totalWastageCharge = round($request->input('total_wastage_charge', 0), 2);
+            $wastageDiscountPercent = round($request->input('wastage_discount_percent', 0), 2);
+            $wastageDiscountAmount = round($request->input('wastage_discount_amount', 0), 2);
+
             /* --------------------
              | Discount
              -------------------- */
             $discountPercent = round($request->input('discount_percent', 0), 2);
             $discountAmount = round(($itemsTotal * $discountPercent) / 100, 2);
-            $amountAfterDiscount = round($itemsTotal - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount, 2);
+            $amountAfterDiscount = round($itemsTotal - $discountAmount - $diamondDiscountAmount - $makingDiscountAmount - $wastageDiscountAmount, 2);
 
             /* --------------------
              | GST
@@ -1108,14 +1211,37 @@ class SellInvoiceController extends Controller
             // Exchange Reduction
             $totalExchangeAmount = round($request->input('total_exchange_amount', 0), 2);
             $grandTotal = round($totalInvoiceAmount - $totalExchangeAmount, 2);
+            $finalPayable = round($grandTotal);
+            $roundOff = round($finalPayable - $grandTotal, 2);
 
             /* --------------------
              | Payments
              -------------------- */
-            $cash = round($request->input('cash_received', 0), 2);
-            $bank = round($request->input('bank_received', 0), 2);
-            $online = round($request->input('online_received', 0), 2);
-            $card = round($request->input('card_received', 0), 2);
+            $cash = 0;
+            $bank = 0;
+            $online = 0;
+            $card = 0;
+            $hasPayments = $request->filled('payments') && is_array($request->payments);
+
+            if ($hasPayments) {
+                foreach ($request->payments as $p) {
+                    $amt = round($p['amount'] ?? 0, 2);
+                    if ($p['payment_method'] === 'cash') {
+                        $cash += $amt;
+                    } elseif ($p['payment_method'] === 'cheque') {
+                        $bank += $amt;
+                    } elseif ($p['payment_method'] === 'upi') {
+                        $online += $amt;
+                    } elseif ($p['payment_method'] === 'card') {
+                        $card += $amt;
+                    }
+                }
+            } else {
+                $cash = round($request->input('cash_received', 0), 2);
+                $bank = round($request->input('bank_received', 0), 2);
+                $online = round($request->input('online_received', 0), 2);
+                $card = round($request->input('card_received', 0), 2);
+            }
 
             $totalReceivedPayments = round($cash + $bank + $online + $card, 2);
 
@@ -1170,9 +1296,8 @@ class SellInvoiceController extends Controller
 
             // In this system, total_received includes both payments and settlements
             $totalReceivedTotal = round($totalReceivedPayments, 2);
-            // $balanceDiff = round($grandTotal - $totalReceivedTotal, 2);
             $balanceDiff = round(
-                ($grandTotal + $newudharsettled) - ($totalReceivedTotal + $newadvsettled),
+                ($finalPayable + $newudharsettled) - ($totalReceivedTotal + $newadvsettled),
                 2
             );
 
@@ -1186,7 +1311,7 @@ class SellInvoiceController extends Controller
             /* --------------------
              | Status
              -------------------- */
-            $status = 'pending';
+            $status = 'partial';
             if ($amountLeft <= 0) {
                 $status = 'paid';
             } elseif ($totalReceivedTotal > 0) {
@@ -1205,6 +1330,9 @@ class SellInvoiceController extends Controller
                 'total_making_charge' => $totalMakingCharge,
                 'making_discount_percent' => $makingDiscountPercent,
                 'making_discount_amount' => $makingDiscountAmount,
+                'total_wastage_charge' => $totalWastageCharge,
+                'wastage_discount_percent' => $wastageDiscountPercent,
+                'wastage_discount_amount' => $wastageDiscountAmount,
                 'total_diamond_stone_packet' => $totalDiaStonePacket,
                 'diamond_discount_percent' => $diamondDiscountPercent,
                 'diamond_discount_amount' => $diamondDiscountAmount,
@@ -1221,7 +1349,8 @@ class SellInvoiceController extends Controller
                 'igst_amount' => $igstAmount,
 
                 'taxable_amount' => $itemsTotal,
-                'final_amount' => $grandTotal,
+                'final_amount' => $finalPayable,
+                'round_off' => $roundOff,
 
                 'total_exchange_amount' => $totalExchangeAmount,
 
@@ -1234,6 +1363,63 @@ class SellInvoiceController extends Controller
                 'amount_left' => $amountLeft,
                 'status' => $status,
             ]);
+
+            // Save payments breakdown
+            $invoice->payments()->delete();
+            if ($hasPayments) {
+                foreach ($request->payments as $p) {
+                    $amt = round($p['amount'] ?? 0, 2);
+                    if ($amt <= 0) {
+                        continue;
+                    }
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => $p['account_id'] ?? null,
+                        'payment_method' => $p['payment_method'],
+                        'amount' => $amt,
+                        'reference_no' => $p['reference_no'] ?? null,
+                        'payment_details' => $p['payment_details'] ?? null,
+                        'transaction_date' => !empty($p['transaction_date']) ? Carbon::parse($p['transaction_date'])->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+            } else {
+                if ($cash > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'Cash in Hand')->first()?->id,
+                        'payment_method' => 'cash',
+                        'amount' => $cash,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+                if ($bank > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'Bank')->first()?->id,
+                        'payment_method' => 'cheque',
+                        'amount' => $bank,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+                if ($online > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'UPI Clearing')->first()?->id,
+                        'payment_method' => 'upi',
+                        'amount' => $online,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+                if ($card > 0) {
+                    $invoice->payments()->create([
+                        'firm_id' => $invoice->firm_id,
+                        'account_id' => \App\Models\Account::where('name', 'Card Receivable')->first()?->id,
+                        'payment_method' => 'card',
+                        'amount' => $card,
+                        'transaction_date' => Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                    ]);
+                }
+            }
 
             // 1.1 Delete existing balance transactions for this invoice (not settlements)
             \App\Models\PaymentTransaction::where('invoice_id', $invoice->id)
@@ -1383,7 +1569,7 @@ class SellInvoiceController extends Controller
 
     public function edit($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems'])->findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems', 'payments'])->findOrFail($id);
         $adminId = Auth::id(); // Use Auth::id() for consistency
 
         $customers = \App\Models\Customer::where('admin_id', $adminId)->get();
@@ -1449,6 +1635,16 @@ class SellInvoiceController extends Controller
             ->sum('amount');
         $alreadySettled = $alreadyRefunds - $alreadyReturns;
 
+        $accounts = \App\Models\Account::with('group')->orderBy('name')->get();
+
+        $stones = \App\Models\Stone::all();
+        $clarities = \App\Models\Clarity::all();
+        $colors = \App\Models\Color::all();
+        $cuts = \App\Models\Cut::all();
+        $mms = \App\Models\Mm::all();
+        $chalnis = \App\Models\Chalni::all();
+        $shapes = \App\Models\Shape::all();
+
         return view('Sales.Invoices.edit-invoice', compact(
             'invoice',
             'invoice_id',
@@ -1460,7 +1656,15 @@ class SellInvoiceController extends Controller
             'terms',
             'customFields',
             'previewInvoiceNo',
-            'alreadySettled'
+            'alreadySettled',
+            'accounts',
+            'stones',
+            'clarities',
+            'colors',
+            'cuts',
+            'mms',
+            'chalnis',
+            'shapes'
         ) + ['customer_id' => $invoice->user_id]);
     }
 

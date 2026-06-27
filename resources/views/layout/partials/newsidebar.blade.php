@@ -70,12 +70,12 @@
                         <a href="{{ url('purity') }}">Purity</a>
                     </li>
 
-                    {{-- <li class="{{ Request::is('labels/templates*') ? 'active' : '' }}">
+                    <li class="{{ Request::is('labels/templates*') ? 'active' : '' }}">
                         <a href="{{ route('labels.templates.index') }}">Label Templates</a>
                     </li>
                     <li class="{{ Request::is('labels/print/bulk') ? 'active' : '' }}">
                         <a href="{{ route('labels.print.bulk') }}">Bulk Print</a>
-                    </li> --}}
+                    </li>
                 </ul>
             </li>
 

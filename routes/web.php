@@ -288,6 +288,9 @@ Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWh
     Route::get('/accounting/ledger/{id}', [\App\Http\Controllers\AccountingController::class, 'ledger'])->name('accounting.ledger');
     Route::get('/accounting/sync-all', [\App\Http\Controllers\AccountingController::class, 'syncAll'])->name('accounting.sync-all');
     Route::post('/accounting/post-invoice/{id}', [\App\Http\Controllers\AccountingController::class, 'postInvoice'])->name('accounting.post-invoice');
+    Route::post('/accounting/accounts', [\App\Http\Controllers\AccountingController::class, 'storeAccount'])->name('accounting.accounts.store');
+    Route::put('/accounting/accounts/{id}', [\App\Http\Controllers\AccountingController::class, 'updateAccount'])->name('accounting.accounts.update');
+    Route::delete('/accounting/accounts/{id}', [\App\Http\Controllers\AccountingController::class, 'deleteAccount'])->name('accounting.accounts.delete');
     Route::get('/reports/day-book', [DayBookController::class, 'index'])->name('day-book.index');
 
     // Customer Transaction Routes

@@ -13,188 +13,279 @@
     <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"> -->
 
 
-<style>
-    .readonly-field {
-        pointer-events: none;
-        background-color: #e9ecef;
-        cursor: not-allowed;
-    }
-    .glass-card {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        border-radius: 15px;
-        transition: all 0.3s ease;
-    }
-    .dark .glass-card {
-        background: rgba(30, 30, 30, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    }
-    .glass-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
-    }
-    .form-group-item {
-        background: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-    }
-    .section-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        margin-bottom: 20px;
-        border-bottom: 2px solid rgba(118, 75, 162, 0.2);
-        padding-bottom: 10px;
-        display: inline-block;
-    }
-    .dark .section-header {
-        background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        border-bottom: 2px solid rgba(251, 194, 235, 0.2);
-    }
-    .form-control, .form-select, .select {
-        border-radius: 8px;
-        border: 1px solid #ced4da;
-        padding: 10px 15px;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
-    .form-control:focus, .form-select:focus {
-        border-color: #764ba2;
-        box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25);
-    }
-    .dark .form-control, .dark .form-select, .dark .select {
-        background-color: #2b2b2b;
-        border-color: #444;
-        color: #fff;
-    }
-    .dark .form-control:focus, .dark .form-select:focus {
-        border-color: #a18cd1;
-        box-shadow: 0 0 0 0.25rem rgba(161, 140, 209, 0.25);
-    }
-    label {
-        font-weight: 600;
-        color: #4a5568;
-        margin-bottom: 8px;
-    }
-    .dark label {
-        color: #e2e8f0;
-    }
-    .custom-btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        border-radius: 8px;
-        padding: 10px 25px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    .custom-btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
-    }
-    /* Invoice specific fixes */
-    .invoice-total-box { background: transparent !important; border: none !important; }
-
-    .glass-card table {
-        background: transparent !important;
-    }
-    .glass-card th {
-        background: rgba(118, 75, 162, 0.1) !important;
-        color: #4a5568 !important;
-        font-weight: 600 !important;
-        border-color: rgba(0, 0, 0, 0.08) !important;
-    }
-    .dark .glass-card th {
-        background: rgba(161, 140, 209, 0.1) !important;
-        color: #cbd5e0 !important;
-        border-color: rgba(255, 255, 255, 0.05) !important;
-    }
-    .glass-card td {
-        border-color: rgba(0, 0, 0, 0.08) !important;
-    }
-    .dark .glass-card td {
-        border-color: rgba(255, 255, 255, 0.05) !important;
-    }
-
-
-    /* Grid layout for entryTable */
-    #entryTable {
-        border: none !important;
-        display: block;
-        width: 100%;
-    }
-    #entryTable thead {
-        display: none;
-    }
-    #entryTable tbody {
-        display: block;
-        width: 100%;
-    }
-    #entryTable tr {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        background: rgba(255, 255, 255, 0.4);
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .dark #entryTable tr {
-        background: rgba(30, 30, 30, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    #entryTable td {
-        display: block;
-        flex: 1 1 calc(25% - 15px); /* 4 columns */
-        min-width: 200px;
-        border: none !important;
-        padding: 0 !important;
-    }
-    @media (max-width: 992px) {
-        #entryTable td {
-            flex: 1 1 calc(50% - 15px); /* 2 columns */
+    <style>
+        .readonly-field {
+            pointer-events: none;
+            background-color: #e9ecef;
+            cursor: not-allowed;
         }
-    }
-    @media (max-width: 576px) {
-        #entryTable td {
-            flex: 1 1 100%; /* 1 column */
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
         }
-    }
-    .entry-label {
-        display: block;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 5px;
-        color: #4a5568;
-    }
-    .dark .entry-label {
-        color: #cbd5e0;
-    }
-</style>
+
+        .dark .glass-card {
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .form-group-item {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(118, 75, 162, 0.2);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .dark .section-header {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 2px solid rgba(251, 194, 235, 0.2);
+        }
+
+        .form-control,
+        .form-select,
+        .select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 10px 15px;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25);
+        }
+
+        .dark .form-control,
+        .dark .form-select,
+        .dark .select {
+            background-color: #2b2b2b;
+            border-color: #444;
+            color: #fff;
+        }
+
+        .dark .form-control:focus,
+        .dark .form-select:focus {
+            border-color: #a18cd1;
+            box-shadow: 0 0 0 0.25rem rgba(161, 140, 209, 0.25);
+        }
+
+        label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .dark label {
+            color: #e2e8f0;
+        }
+
+        .custom-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .custom-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+        }
+
+        /* Invoice specific fixes */
+        .invoice-total-box {
+            background: transparent !important;
+            border: none !important;
+        }
+
+        .glass-card table {
+            background: transparent !important;
+        }
+
+        .glass-card th {
+            background: rgba(118, 75, 162, 0.1) !important;
+            color: #4a5568 !important;
+            font-weight: 600 !important;
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .dark .glass-card th {
+            background: rgba(161, 140, 209, 0.1) !important;
+            color: #cbd5e0 !important;
+            border-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .glass-card td {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .dark .glass-card td {
+            border-color: rgba(255, 255, 255, 0.05) !important;
+        }
 
 
-<div class="page-wrapper">
+        /* Grid layout for entryTable */
+        #entryTable {
+            border: none !important;
+            display: block;
+            width: 100%;
+        }
+
+        #entryTable thead {
+            display: none;
+        }
+
+        #entryTable tbody {
+            display: block;
+            width: 100%;
+        }
+
+        #entryTable tr {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dark #entryTable tr {
+            background: rgba(30, 30, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #entryTable td {
+            display: block;
+            flex: 1 1 calc(25% - 15px);
+            /* 4 columns */
+            min-width: 200px;
+            border: none !important;
+            padding: 0 !important;
+        }
+
+        @media (max-width: 992px) {
+            #entryTable td {
+                flex: 1 1 calc(50% - 15px);
+                /* 2 columns */
+            }
+        }
+
+        @media (max-width: 576px) {
+            #entryTable td {
+                flex: 1 1 100%;
+                /* 1 column */
+            }
+        }
+
+        .entry-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+
+        .dark .entry-label {
+            color: #cbd5e0;
+        }
+
+        /* Payments breakdown styling */
+        .payment-system-container {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            border-radius: 12px !important;
+        }
+
+        .dark .payment-system-container {
+            background: rgba(45, 45, 45, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .payment-row-item {
+            transition: all 0.2s ease-in-out;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .dark .payment-row-item {
+            background: #333 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .payment-row-item:hover {
+            background-color: #f8f9fa !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .payment-row-item:hover {
+            background-color: #3d3d3d !important;
+        }
+
+        .payment-account-select,
+        .payment-ref-input,
+        .payment-details-input,
+        .payment-amount-input {
+            background-color: #fff !important;
+            color: #333 !important;
+            border: 1px solid #ced4da !important;
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+        }
+
+        .dark .payment-account-select,
+        .dark .payment-ref-input,
+        .dark .payment-details-input,
+        .dark .payment-amount-input {
+            background-color: #2b2b2b !important;
+            color: #fff !important;
+            border: 1px solid #555 !important;
+        }
+    </style>
+
+
+    <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="container-fluid p-0">
-                    <div class="page-header mb-4">
-                        <h2 class="section-header fs-3 mb-0">
-                            Add Invoice
-                        </h2>
-                    </div>
+                <div class="page-header mb-4">
+                    <h2 class="section-header fs-3 mb-0">
+                        Add Invoice
+                    </h2>
+                </div>
 
-                    <form action="{{ route('invoices.store') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12">
+                <form action="{{ route('invoices.store') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12">
 
-<!-- BASIC DETAILS -->
-<div class="card glass-card mb-4 p-4">
-<h4 class="section-header">Basic Details</h4>
+                            <!-- BASIC DETAILS -->
+                            <div class="card glass-card mb-4 p-4">
+                                <h4 class="section-header">Basic Details</h4>
                                 <div class="form-group-item border-0 mb-0">
                                     <div class="row align-items-center">
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -301,15 +392,21 @@
                             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editColumnsModal">
                                 Customize Columns
                             </button> --}}
-                                </div>
+                            </div>
 
-<!-- PRODUCT ITEMS -->
-<div class="card glass-card mb-4 p-4">
-<h4 class="section-header">Product Items</h4>
-<div class="row mb-3">
+                            <!-- PRODUCT ITEMS -->
+                            <div class="card glass-card mb-4 p-4">
+                                <h4 class="section-header">Product Items</h4>
+                                <div class="row mb-3">
                                     <div class="col-lg-6 col-md-8 col-sm-12">
                                         <label>Search Product Code</label>
-                                        <select id="productSearch" class="form-control select">
+                                        <input type="text" id="productBarcodeSearch" list="productSearchSuggestions" class="form-control" placeholder="Enter Barcode / Product Code" autofocus>
+                                        <datalist id="productSearchSuggestions">
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}">{{ $product->product_name }}</option>
+                                            @endforeach
+                                        </datalist>
+                                        <select id="productSearch" style="display: none;">
                                             <option value="">Search by Product Code/Barcode</option>
 
                                             @foreach ($products as $product)
@@ -354,6 +451,7 @@
                                                     data-size="{{ $product->size }}"
                                                     data-quantity="{{ $product->quantity }}"
                                                     data-wastage_percent="{{ $product->wastage_percent }}"
+                                                    data-wastage_amount="{{ $product->wastage_amount }}"
                                                     data-making_price="{{ $product->making_price }}" {{-- CATEGORY --}}
                                                     data-making_type="{{ $product->making_type }}"
                                                     data-making_final_amount="{{ $product->making_final_amount }}"
@@ -373,7 +471,8 @@
                                                     data-diamonds='@json($product->diamonds)'
                                                     data-stones='@json($product->stones)'
                                                     data-packets='@json($packetsJson)'>
-                                                   {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }} ({{ $product->product_name }})
+                                                    {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}
+                                                    ({{ $product->product_name }})
                                                 </option>
                                             @endforeach
                                         </select>
@@ -488,6 +587,12 @@
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
                                                 <td>
+                                                    <span class="entry-label">Wastage Amt</span>
+                                                    <input type="number" step="0.01" name="wastage_amount[]"
+                                                        class="form-control"
+                                                        style="pointer-events: none; background-color: #e9ecef;">
+                                                </td>
+                                                <td>
                                                     <span class="entry-label">Mkg</span>
                                                     <input type="number" step="0.01" name="making_price[]"
                                                         class="form-control">
@@ -507,13 +612,9 @@
                                                     <span class="entry-label">Mkg Amt</span>
                                                     <input type="number" step="0.01" name="making_final_amount[]"
                                                         class="form-control">
+                                                    <input type="hidden" name="gst_percent[]">
+                                                    <input type="hidden" name="gst_amount[]">
                                                 </td>
-                                                <input type="hidden" step="0.01" name="gst_percent[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;">
-                                                <input type="hidden" step="0.01" name="gst_amount[]"
-                                                    class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;">
                                                 <td>
                                                     <span class="entry-label">Gold Price</span>
                                                     <input type="number" step="0.01" name="total_amount[]"
@@ -604,6 +705,7 @@
                                             <th>Net Wt</th>
                                             <th>Fn Wt</th>
                                             <th>Metal Rate</th>
+                                            <th>Wastage Amt</th>
                                             <th>Making</th>
                                             {{-- <th>GST</th> --}}
                                             <th>Diamond Amt</th> <!-- NEW -->
@@ -616,60 +718,60 @@
                                     <tbody></tbody>
                                 </table>
 
+                            </div>
+                            <!-- Exchange / Old Gold Section -->
+                            <div class="card glass-card mt-4 p-4 border-0 shadow-none bg-transparent">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Exchange/Old Gold</h5>
+                                    <button type="button" class="btn btn-warning btn-sm" id="addExchangeItem">
+                                        + Add Purchase
+                                    </button>
                                 </div>
-<!-- Exchange / Old Gold Section -->
-                                <div class="card glass-card mt-4 p-4 border-0 shadow-none bg-transparent">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h5 class="mb-0">Exchange/Old Gold</h5>
-                                        <button type="button" class="btn btn-warning btn-sm" id="addExchangeItem">
-                                            + Add Purchase
-                                        </button>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <table class="table table-bordered mb-0" id="exchangeTable">
-                                            <thead class="bg-light">
-                                                <tr>
-                                                    <th>Desc</th>
-                                                    <th>Metal</th>
-                                                    <th>GW</th>
-                                                    <th>LW</th>
-                                                    <th>NW</th>
-                                                    <th>Purity</th>
-                                                    <th>Fine Wt</th>
-                                                    <th>Rate</th>
-                                                    <th>Amount</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Dynamic rows will be added here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="card-body p-0">
+                                    <table class="table table-bordered mb-0" id="exchangeTable">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Desc</th>
+                                                <th>Metal</th>
+                                                <th>GW</th>
+                                                <th>LW</th>
+                                                <th>NW</th>
+                                                <th>Purity</th>
+                                                <th>Fine Wt</th>
+                                                <th>Rate</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic rows will be added here -->
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
 
-                                <!-- Unsettled Advances / Udhar Section -->
-                                <div class="card mt-4" id="unsettledEntriesSection" style="display: none;">
-                                    <div class="card-header">
-                                        <h5 class="mb-0" style="color:red;">Customer Unsettled Advance/Udhar</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <table class="table table-bordered mb-0" id="unsettledEntriesTable">
-                                            <thead class="bg-light">
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Type</th>
-                                                    <th>Total Amount</th>
-                                                    <th>Remaining Amount</th>
-                                                    <th>Settle?</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Dynamic rows -->
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <!-- Unsettled Advances / Udhar Section -->
+                            <div class="card mt-4" id="unsettledEntriesSection" style="display: none;">
+                                <div class="card-header">
+                                    <h5 class="mb-0" style="color:red;">Customer Unsettled Advance/Udhar</h5>
                                 </div>
+                                <div class="card-body p-0">
+                                    <table class="table table-bordered mb-0" id="unsettledEntriesTable">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Type</th>
+                                                <th>Total Amount</th>
+                                                <th>Remaining Amount</th>
+                                                <th>Settle?</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic rows -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
 
 
@@ -678,8 +780,8 @@
 
 
 
-                                <!-- <h4 class="mt-3">Grand Total: ₹<span id="grandTotal">0.00</span></h4> -->
-                                {{-- <button class="btn btn-outline-secondary" id="showTermsBtn">+ Add Terms & Conditions</button>
+                            <!-- <h4 class="mt-3">Grand Total: ₹<span id="grandTotal">0.00</span></h4> -->
+                            {{-- <button class="btn btn-outline-secondary" id="showTermsBtn">+ Add Terms & Conditions</button>
 
                             <button class="btn btn-outline-danger" id="addNoteBtn">+ Add Note</button>
 
@@ -688,9 +790,9 @@
                             <button class="btn btn-outline-secondary" id="addContactBtn">+ Add Contact</button>
 
                             <button class="btn btn-outline-primary" id="addInfoBtn">+ Add Additional Info</button> --}}
-                                <div class="card glass-card mt-4 p-4">
-<h4 class="section-header">Totals & Adjustments</h4>
-<div class="form-group-item border-0 p-0">
+                            <div class="card glass-card mt-4 p-4">
+                                <h4 class="section-header">Totals & Adjustments</h4>
+                                <div class="form-group-item border-0 p-0">
                                     <div class="row">
 
 
@@ -731,6 +833,25 @@
 
                                                         <hr>
 
+                                                        <!-- Wastage Charge Section -->
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Wastage Charge</label>
+                                                            <span id="totalWastageAmount">₹0.00</span>
+                                                            <input type="hidden" id="totalWastageAmountInput"
+                                                                value="0">
+                                                        </div>
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Wastage Discount %</label>
+                                                            <input type="number" id="wastageDiscountPercent"
+                                                                class="form-control w-25" value="0">
+                                                            <span id="wastageDiscountAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <hr>
+
                                                         <!-- Diamond/Stone/Packet Section -->
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
@@ -756,6 +877,7 @@
                                                             <input type="hidden" id="taxableAmountInput" value="0">
                                                         </p>
 
+
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Exchange</label>
@@ -769,6 +891,39 @@
                                                             <input type="number" id="discountPercent"
                                                                 class="form-control w-25" value="0">
                                                             <span id="discountAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <!-- Discounts breakdown and You Save badge -->
+                                                        <div id="discountsUnderTaxable"
+                                                            style="display: none; padding: 10px; margin-top: 10px; margin-bottom: 12px; background-color: rgba(40, 167, 69, 0.05); border-radius: 8px; border: 1px dashed rgba(40, 167, 69, 0.25);">
+                                                            <div class="d-flex justify-content-between align-items-center mb-1"
+                                                                style="font-size: 0.85rem; color: #555;">
+                                                                <span>Making Discount:</span>
+                                                                <span id="displayMakingDiscount">₹0.00</span>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between align-items-center mb-1"
+                                                                style="font-size: 0.85rem; color: #555;">
+                                                                <span>Wastage Discount:</span>
+                                                                <span id="displayWastageDiscount">₹0.00</span>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between align-items-center mb-1"
+                                                                style="font-size: 0.85rem; color: #555;">
+                                                                <span>Diamond Discount:</span>
+                                                                <span id="displayDiamondDiscount">₹0.00</span>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between align-items-center mb-2"
+                                                                style="font-size: 0.85rem; color: #555;">
+                                                                <span>Final Discount:</span>
+                                                                <span id="displayFinalDiscount">₹0.00</span>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between align-items-center pt-2"
+                                                                style="border-top: 1px solid rgba(40, 167, 69, 0.15);">
+                                                                <span
+                                                                    style="font-size: 0.85em; padding: 3px 6px; background-color: #28a745; color: white; border-radius: 4px; display: inline-block; font-weight: bold;">You
+                                                                    Save</span>
+                                                                <span id="totalSavedAmount" class="text-success fw-bold"
+                                                                    style="font-size: 0.95rem;">₹0.00</span>
+                                                            </div>
                                                         </div>
                                                         <hr>
                                                         <!-- CGST -->
@@ -801,9 +956,20 @@
                                                         <!-- Final Discount -->
 
                                                         <hr>
-                                                        <h4>
-                                                            Total Amount
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Amount</label>
                                                             <span id="totalInvoiceAmount">₹0.00</span>
+                                                        </div>
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Round Off</label>
+                                                            <span id="roundOffAmount">₹0.00</span>
+                                                        </div>
+                                                        <hr>
+                                                        <h4>
+                                                            Payable Amount
+                                                            <span id="payableAmount">₹0.00</span>
                                                         </h4>
                                                         <hr>
                                                         <div
@@ -829,66 +995,130 @@
 
                                                 <div class="invoice-total-box">
                                                     <div class="invoice-total-inner">
+                                                        <!-- Dynamic Multiple Payments System -->
+                                                        <div
+                                                            class="payment-system-container p-3 mb-3 border rounded bg-light shadow-sm">
+                                                            <h5
+                                                                class="mb-3 d-flex align-items-center justify-content-between">
+                                                                <span><i
+                                                                        class="feather-credit-card me-2 text-primary"></i>Payment
+                                                                    Breakdown</span>
+                                                                <span class="badge bg-primary fs-6"
+                                                                    id="totalPaymentsBadge">Total: ₹0.00</span>
+                                                            </h5>
 
+                                                            <!-- Cash Payments -->
+                                                            <div class="payment-method-section mb-3 p-2 border-bottom">
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mb-2">
+                                                                    <span class="fw-bold text-secondary"><i
+                                                                            class="feather-dollar-sign me-1"></i>Cash
+                                                                        Payments</span>
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-success add-payment-row-btn"
+                                                                        data-method="cash">
+                                                                        <i class="feather-plus"></i> + Cash Row
+                                                                    </button>
+                                                                </div>
+                                                                <div class="payment-rows-container"
+                                                                    id="cashPaymentsContainer"></div>
+                                                            </div>
 
-                                                        <!-- Payments -->
-                                                        <div class="d-flex justify-content-between">
-                                                            <label>Cash Received</label>
-                                                            <input type="number" id="cashReceived"
-                                                                class="form-control w-50" value="0">
-                                                        </div>
+                                                            <!-- Card Payments -->
+                                                            <div class="payment-method-section mb-3 p-2 border-bottom">
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mb-2">
+                                                                    <span class="fw-bold text-secondary"><i
+                                                                            class="feather-credit-card me-1"></i>Card
+                                                                        Payments</span>
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-primary add-payment-row-btn"
+                                                                        data-method="card">
+                                                                        <i class="feather-plus"></i> + Card Row
+                                                                    </button>
+                                                                </div>
+                                                                <div class="payment-rows-container"
+                                                                    id="cardPaymentsContainer"></div>
+                                                            </div>
 
-                                                        <div class="d-flex justify-content-between">
-                                                            <label>Cheque Received</label>
-                                                            <input type="number" id="bankReceived"
-                                                                class="form-control w-50" value="0">
-                                                        </div>
+                                                            <!-- Cheque Payments -->
+                                                            <div class="payment-method-section mb-3 p-2 border-bottom">
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mb-2">
+                                                                    <span class="fw-bold text-secondary"><i
+                                                                            class="feather-file-text me-1"></i>Cheque
+                                                                        Payments</span>
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-info add-payment-row-btn"
+                                                                        data-method="cheque">
+                                                                        <i class="feather-plus"></i> + Cheque Row
+                                                                    </button>
+                                                                </div>
+                                                                <div class="payment-rows-container"
+                                                                    id="chequePaymentsContainer"></div>
+                                                            </div>
 
-                                                        <div class="d-flex justify-content-between">
-                                                            <label>UPI Received</label>
-                                                            <input type="number" id="onlineReceived"
-                                                                class="form-control w-50" value="0">
-                                                        </div>
+                                                            <!-- UPI Payments -->
+                                                            <div class="payment-method-section mb-3 p-2">
+                                                                <div
+                                                                    class="d-flex justify-content-between align-items-center mb-2">
+                                                                    <span class="fw-bold text-secondary"><i
+                                                                            class="feather-smartphone me-1"></i>UPI
+                                                                        Payments</span>
+                                                                    <button type="button"
+                                                                        class="btn btn-sm btn-outline-warning add-payment-row-btn"
+                                                                        data-method="upi">
+                                                                        <i class="feather-plus"></i> + UPI Row
+                                                                    </button>
+                                                                </div>
+                                                                <div class="payment-rows-container"
+                                                                    id="upiPaymentsContainer"></div>
+                                                            </div>
 
-                                                        <div class="d-flex justify-content-between">
-                                                            <label>Card Received</label>
-                                                            <input type="number" id="cardReceived"
-                                                                class="form-control w-50" value="0">
-                                                        </div>
-
-                                                    </div>
-                                                    <hr>
-
-                                                    <!-- Footer -->
-                                                    <div class="invoice-total-footer">
-
-                                                        <h5 class="text-danger">
-                                                            Remaining Amount
-                                                            <span id="remainingAmount">₹0.00</span>
-                                                            <input type="hidden" id="remainingamountInput"
+                                                            <!-- Legacy hidden inputs for compatibility with other scripts -->
+                                                            <input type="hidden" id="cashReceived" value="0">
+                                                            <input type="hidden" id="bankReceived" value="0">
+                                                            <input type="hidden" id="onlineReceived" value="0">
+                                                            <input type="hidden" id="cardReceived" value="0">
+                                                            <input type="hidden" id="roundOffInput" name="round_off"
                                                                 value="0">
-
-                                                        </h5>
+                                                        </div>
                                                     </div>
+
+                                                </div>
+                                                <hr>
+
+                                                <!-- Footer -->
+                                                <div class="invoice-total-footer">
+
+                                                    <h5 class="text-danger">
+                                                        Remaining Amount
+                                                        <span id="remainingAmount">₹0.00</span>
+                                                        <input type="hidden" id="remainingamountInput" value="0">
+
+                                                    </h5>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
-                                </div>
 
                                 </div>
-<div class="card glass-card mt-4 p-4 text-end">
-<div><a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
-                                <button type="button" id="saveInvoiceBtn" class="btn custom-btn-primary text-white me-2">Save</button>
-                                <button type="button" id="savePrintInvoiceBtn" class="btn custom-btn-primary text-white">Save & Print</button>
+                            </div>
+
+                        </div>
+                        <div class="card glass-card mt-4 p-4 text-end">
+                            <div><a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
+                                <button type="button" id="saveInvoiceBtn"
+                                    class="btn custom-btn-primary text-white me-2">Save</button>
+                                <button type="button" id="savePrintInvoiceBtn"
+                                    class="btn custom-btn-primary text-white">Save & Print</button>
 
                             </div>
                         </div>
-                    </form>
-</div>
+                </form>
             </div>
         </div>
+    </div>
     </div>
     <!-- Edit Columns Modal ---->
 
@@ -1335,6 +1565,59 @@
     <script>
         $(document).ready(function() {
 
+            let lastSearchedValue = '';
+            function searchProductByBarcode(showAlertOnFailure = false) {
+                let searchValue = $('#productBarcodeSearch').val().trim();
+                if (!searchValue) {
+                    return;
+                }
+                if (searchValue === lastSearchedValue) {
+                    return;
+                }
+                lastSearchedValue = searchValue;
+
+                let matchedOption = null;
+                $('#productSearch option').each(function() {
+                    let option = $(this);
+                    let barcode = String(option.data('barcode')).trim();
+                    let preCode = String(option.data('pre_code')).trim();
+                    let postCode = String(option.data('post_code')).trim();
+                    let fullCode = (preCode + '-' + postCode + '-' + barcode).trim();
+                    
+                    if (barcode === searchValue || fullCode === searchValue || option.val() === searchValue) {
+                        matchedOption = option;
+                        return false;
+                    }
+                });
+
+                if (matchedOption) {
+                    $('#productSearch').val(matchedOption.val()).trigger('change');
+                    $('#productBarcodeSearch').val('');
+                    lastSearchedValue = '';
+                } else {
+                    if (showAlertOnFailure) {
+                        alert('Product with barcode/code "' + searchValue + '" not found.');
+                        $('#productBarcodeSearch').val('').focus();
+                    }
+                    lastSearchedValue = '';
+                }
+            }
+
+            $('#productBarcodeSearch').on('keydown', function(e) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    e.preventDefault();
+                    searchProductByBarcode(true);
+                }
+            });
+
+            $('#productBarcodeSearch').on('blur', function() {
+                searchProductByBarcode(false);
+            });
+
+            $('#productBarcodeSearch').on('input', function() {
+                searchProductByBarcode(false);
+            });
+
             $('#productSearch').on('change', function() {
 
                 let option = $(this).find(':selected');
@@ -1361,6 +1644,7 @@
                 row.find('input[name="final_fn_weight[]"]').val(option.data('final_fn_weight'));
                 row.find('input[name="size[]"]').val(option.data('size'));
                 row.find('input[name="wastage_percent[]"]').val(option.data('wastage_percent'));
+                row.find('input[name="wastage_amount[]"]').val(option.data('wastage_amount'));
                 row.find('input[name="making_price[]"]').val(option.data('making_price'));
                 row.find('select[name="making_type[]"]').val(option.data('making_type'));
                 row.find('input[name="making_final_amount[]"]').val(option.data('making_final_amount'));
@@ -1406,6 +1690,7 @@
                 renderDiamonds(diamonds);
                 renderStones(stones);
                 renderPackets(packets);
+                calculateRow(row);
             });
 
             function renderDiamonds(diamonds) {
@@ -1527,13 +1812,13 @@
                 tbody.empty();
 
                 if (!Array.isArray(packets) || packets.length === 0) {
-                    tbody.append(`<tr><td colspan="12" class="text-center">No Packets</td></tr>`);
+                    tbody.append(`<tr><td colspan="14" class="text-center">No Packets</td></tr>`);
                     return;
                 }
 
                 packets.forEach((p, index) => {
                     tbody.append(`
-        <tr>
+        <tr data-index="${index}">
             <td>
                 <input type="text" class="form-control"
                     name="packets[${index}][packet_no]"
@@ -1553,41 +1838,39 @@
             </td>
 
             <td>
-                <input type="text" class="form-control"
-                    name="packets[${index}][stone]"
-                    value="${p.stone ?? ''}">
+                <select class="form-control" name="packets[${index}][stone]">
+                    ${generateSelectOptions(masterStones, p.stone)}
+                </select>
             </td>
 
             <td>
-                <input type="text" class="form-control"
-                    name="packets[${index}][clarity]"
-                    value="${p.clarity ?? ''}">
+                <select class="form-control" name="packets[${index}][clarity]">
+                    ${generateSelectOptions(masterClarities, p.clarity)}
+                </select>
             </td>
 
             <td>
-                <input type="text" class="form-control"
-                    name="packets[${index}][color]"
-                    value="${p.color ?? ''}">
+                <select class="form-control" name="packets[${index}][color]">
+                    ${generateSelectOptions(masterColors, p.color)}
+                </select>
             </td>
 
             <td>
-                <input type="text" class="form-control"
-                    name="packets[${index}][cut]"
-                    value="${p.cut ?? ''}">
+                <select class="form-control" name="packets[${index}][cut]">
+                    ${generateSelectOptions(masterCuts, p.cut)}
+                </select>
             </td>
 
             <td>
-                <input type="text" class="form-control"
-                    name="packets[${index}][shape]"
-                    value="${p.shape ?? ''}">
+                <select class="form-control" name="packets[${index}][shape]">
+                    ${generateSelectOptions(masterShapes, p.shape)}
+                </select>
             </td>
 
-
-
             <td>
-                <input type="text" class="form-control"
-                    name="packets[${index}][mm]"
-                    value="${p.mm ?? ''}">
+                <select class="form-control" name="packets[${index}][mm]">
+                    ${generateSelectOptions(masterMms, p.mm)}
+                </select>
             </td>
 
             <td>
@@ -1601,14 +1884,14 @@
                     value="${p.wt_in_gram ?? 0}">
             </td>
             <td>
-    <select class="form-control"
-        name="packets[${index}][uom]">
-        <option value="">Select UOM</option>
-        <option value="PCS" ${p.uom === 'PCS' ? 'selected' : ''}>PCS</option>
-        <option value="CT" ${p.uom === 'CT' ? 'selected' : ''}>CT</option>
-        <option value="WT" ${!p.uom || p.uom === 'WT' ? 'selected' : ''}>WT</option>
-    </select>
-</td>
+                <select class="form-control"
+                    name="packets[${index}][uom]">
+                    <option value="">Select UOM</option>
+                    <option value="PCS" ${p.uom === 'PCS' ? 'selected' : ''}>PCS</option>
+                    <option value="CT" ${p.uom === 'CT' ? 'selected' : ''}>CT</option>
+                    <option value="WT" ${!p.uom || p.uom === 'WT' ? 'selected' : ''}>WT</option>
+                </select>
+            </td>
 
             <td>
                 <input type="number" step="0.01" class="form-control packet-rate"
@@ -1785,8 +2068,7 @@
 
                 making_price: entryRow.querySelector('input[name="making_price[]"]').value,
                 wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
-                making_price: entryRow.querySelector('input[name="making_price[]"]').value,
-                wastage_percent: entryRow.querySelector('input[name="wastage_percent[]"]').value,
+                wastage_amount: entryRow.querySelector('input[name="wastage_amount[]"]').value,
 
                 making_type: entryRow.querySelector('select[name="making_type[]"]').value,
                 making_final_amount: entryRow.querySelector('input[name="making_final_amount[]"]').value,
@@ -1899,6 +2181,7 @@
             row.find('input[name="size[]"]').val(item.size || p.size || ''); // Size
 
             row.find('input[name="wastage_percent[]"]').val(item.wastage_percent || 0);
+            row.find('input[name="wastage_amount[]"]').val(item.wastage_amount || 0);
             row.find('input[name="making_price[]"]').val(item.making_price || p.making_price || 0); // Making
             row.find('select[name="making_type[]"]').val(item.making_type || p.making_type || 0);
             row.find('input[name="making_final_amount[]"]').val(item.making_final_amount || p.making_final_amount || 0);
@@ -1921,7 +2204,9 @@
         function resetEntryForm() {
             editingItemId = null;
             $('#productInfoSection').hide();
-            $('#productSearch').val('').trigger('change.select2'); // Reset product search dropdown
+            $('#productSearch').val('').trigger('change'); // Reset product search select
+            $('#productBarcodeSearch').val('').focus();
+            lastSearchedValue = '';
 
             document.getElementById('addItemBtn').textContent = '+ Add Item';
             document.getElementById('addItemBtn').classList.remove('btn-warning');
@@ -2133,6 +2418,36 @@
             $('#onlineReceived').val(invoice.online_received);
             $('#cardReceived').val(invoice.card_received);
 
+            // Populate dynamic payment breakdown container
+            $('.payment-rows-container').empty();
+            if (invoice.payments && invoice.payments.length > 0) {
+                invoice.payments.forEach(p => {
+                    PaymentBreakdownManager.addPaymentRow(p.payment_method, p);
+                });
+            } else {
+                if (parseFloat(invoice.cash_received) > 0) PaymentBreakdownManager.addPaymentRow('cash', {
+                    amount: invoice.cash_received
+                });
+                if (parseFloat(invoice.bank_received) > 0) PaymentBreakdownManager.addPaymentRow('cheque', {
+                    amount: invoice.bank_received
+                });
+                if (parseFloat(invoice.online_received) > 0) PaymentBreakdownManager.addPaymentRow('upi', {
+                    amount: invoice.online_received
+                });
+                if (parseFloat(invoice.card_received) > 0) PaymentBreakdownManager.addPaymentRow('card', {
+                    amount: invoice.card_received
+                });
+
+                if (
+                    !(parseFloat(invoice.cash_received) > 0) &&
+                    !(parseFloat(invoice.bank_received) > 0) &&
+                    !(parseFloat(invoice.online_received) > 0) &&
+                    !(parseFloat(invoice.card_received) > 0)
+                ) {
+                    PaymentBreakdownManager.addPaymentRow('cash');
+                }
+            }
+
             renderItemsTable(globalInvoiceItems);
             renderExchangeTable(invoice.exchange_items || []);
             calculateInvoiceTotals();
@@ -2205,6 +2520,7 @@
                 <td>${item.net_weight || 0}</td>
                 <td>${item.final_fn_weight || 0}</td>
                 <td>${item.metal_rate || 0}</td>
+                <td>${item.wastage_amount || 0}</td>
                 <td>${item.making_final_amount || 0}</td>
 
                 <!-- NEW -->
@@ -2307,6 +2623,14 @@
                 making_discount_percent: document.getElementById('makingDiscountPercent').value,
                 making_discount_amount: document.getElementById('makingDiscountAmount').innerText.replace('₹', '')
                     .replace(',', ''),
+                total_wastage_charge: document.getElementById('totalWastageAmountInput').value,
+                wastage_discount_percent: document.getElementById('wastageDiscountPercent').value,
+                wastage_discount_amount: document.getElementById('wastageDiscountAmount').innerText.replace('₹', '')
+                    .replace(',', ''),
+                total_wastage_charge: document.getElementById('totalWastageAmountInput').value,
+                wastage_discount_percent: document.getElementById('wastageDiscountPercent').value,
+                wastage_discount_amount: document.getElementById('wastageDiscountAmount').innerText.replace('₹', '')
+                    .replace(',', ''),
                 total_diamond_stone_packet: document.getElementById('totalDiamondStonePacketAmountInput').value,
                 diamond_discount_percent: document.getElementById('diamondDiscountPercent').value,
                 diamond_discount_amount: document.getElementById('diamondDiscountAmount').innerText.replace('₹', '')
@@ -2318,6 +2642,9 @@
                 bank_received: document.getElementById('bankReceived').value || 0,
                 online_received: document.getElementById('onlineReceived').value || 0,
                 card_received: document.getElementById('cardReceived').value || 0,
+                round_off: document.getElementById('roundOffInput').value || 0,
+                payments: typeof PaymentBreakdownManager !== 'undefined' ? PaymentBreakdownManager.getPaymentsData() :
+                [],
                 settled_transactions: collectSettledTransactions(),
             };
 
@@ -2484,6 +2811,22 @@
             });
         }
 
+        const masterStones = @json($stones);
+        const masterClarities = @json($clarities);
+        const masterColors = @json($colors);
+        const masterCuts = @json($cuts);
+        const masterShapes = @json($shapes);
+        const masterMms = @json($mms);
+
+        function generateSelectOptions(list, selectedValue) {
+            let options = '<option value="">Select</option>';
+            list.forEach(item => {
+                const isSelected = (item.name == selectedValue) ? 'selected' : '';
+                options += `<option value="${item.name}" ${isSelected}>${item.name}</option>`;
+            });
+            return options;
+        }
+
         function renderPackets(packets) {
             const tbody = $('#packetTable tbody');
             tbody.empty();
@@ -2499,12 +2842,36 @@
                 <td><input type="text" class="form-control" name="packets[${index}][packet_no]" value="${p.packet_no ?? ''}"></td>
                 <td><input type="number" class="form-control" name="packets[${index}][pcs]" value="${p.pcs ?? 0}"></td>
                  <td><input type="text" class="form-control" name="packets[${index}][certificate_no]" value="${p.certificate_no ?? 0}"></td>
-                <td><input type="text" class="form-control" name="packets[${index}][stone]" value="${p.stone ?? ''}"></td>
-                <td><input type="text" class="form-control" name="packets[${index}][clarity]" value="${p.clarity ?? ''}"></td>
-                <td><input type="text" class="form-control" name="packets[${index}][color]" value="${p.color ?? ''}"></td>
-                <td><input type="text" class="form-control" name="packets[${index}][cut]" value="${p.cut ?? ''}"></td>
-                <td><input type="text" class="form-control" name="packets[${index}][shape]" value="${p.shape ?? ''}"></td>
-                 <td><input type="text" class="form-control" name="packets[${index}][mm]" value="${p.mm ?? ''}"></td>
+                <td>
+                    <select class="form-control" name="packets[${index}][stone]">
+                        ${generateSelectOptions(masterStones, p.stone)}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" name="packets[${index}][clarity]">
+                        ${generateSelectOptions(masterClarities, p.clarity)}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" name="packets[${index}][color]">
+                        ${generateSelectOptions(masterColors, p.color)}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" name="packets[${index}][cut]">
+                        ${generateSelectOptions(masterCuts, p.cut)}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" name="packets[${index}][shape]">
+                        ${generateSelectOptions(masterShapes, p.shape)}
+                    </select>
+                </td>
+                 <td>
+                    <select class="form-control" name="packets[${index}][mm]">
+                        ${generateSelectOptions(masterMms, p.mm)}
+                    </select>
+                 </td>
                 <td><input type="number" step="0.001" class="form-control" name="packets[${index}][weight]" value="${p.weight ?? 0}"></td>
                 <td><input type="number" step="0.001" class="form-control" name="packets[${index}][wt_in_gram]" value="${p.wt_in_gram ?? 0}"></td>
                 <td>
@@ -2523,8 +2890,10 @@
         // ---------------------------------------------------------
         // EXCHANGE / OLD GOLD LOGIC
         // ---------------------------------------------------------
-        const defaultGoldRate24k = {{ \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())->where('metal_type', 'Gold')->where('karat', '24')->value('price_per_gram') ?? 0 }};
-        const defaultSilverRate = {{ \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())->where('metal_type', 'Silver')->value('price_per_gram') ?? 0 }};
+        const defaultGoldRate24k =
+            {{ \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())->where('metal_type', 'Gold')->where('karat', '24')->value('price_per_gram') ?? 0 }};
+        const defaultSilverRate =
+            {{ \App\Models\MetalRate::where('admin_id', Auth::guard('admin')->id())->where('metal_type', 'Silver')->value('price_per_gram') ?? 0 }};
 
         $('#addExchangeItem').on('click', function() {
             const rowCount = $('#exchangeTable tbody tr').length;
@@ -2631,7 +3000,7 @@
             // 2. Event Listeners for invoice-level inputs
             const summaryIds = [
                 'makingDiscountPercent',
-                'diamondDiscountPercent',
+                'diamondDiscountPercent', 'wastageDiscountPercent',
                 'discountPercent',
                 'cgstPercent', 'sgstPercent', 'igstPercent',
                 'cashReceived', 'bankReceived', 'onlineReceived', 'cardReceived'
@@ -2664,6 +3033,7 @@
         function calculateInvoiceTotals() {
 
             let totalGold = 0;
+            let totalWastage = 0;
             let totalMaking = 0;
             let totalDiaStonePkt = 0;
 
@@ -2672,6 +3042,7 @@
                 let goldenPrice = parseFloat(item.total_amount) || 0;
 
                 totalGold += goldenPrice;
+                totalWastage += parseFloat(item.wastage_amount) || 0;
                 totalMaking += parseFloat(item.making_final_amount) || 0;
 
                 if (Array.isArray(item.diamonds)) {
@@ -2699,12 +3070,19 @@
             const makingDiscountPercent = parseFloat(document.getElementById('makingDiscountPercent')?.value) || 0;
             const makingDiscountAmount = (totalMaking * makingDiscountPercent) / 100;
 
+            const wastageDiscountPercent = parseFloat(document.getElementById('wastageDiscountPercent')?.value) || 0;
+            const wastageDiscountAmount = (totalWastage * wastageDiscountPercent) / 100;
+
             const diamondDiscountPercent = parseFloat(document.getElementById('diamondDiscountPercent')?.value) || 0;
             const diamondDiscountAmount = (totalDiaStonePkt * diamondDiscountPercent) / 100;
 
             setBoxText('totalMakingAmount', totalMaking);
             document.getElementById('totalMakingAmountInput').value = totalMaking.toFixed(2);
             setBoxText('makingDiscountAmount', makingDiscountAmount);
+
+            setBoxText('totalWastageAmount', totalWastage);
+            document.getElementById('totalWastageAmountInput').value = totalWastage.toFixed(2);
+            setBoxText('wastageDiscountAmount', wastageDiscountAmount);
 
             setBoxText('totalDiamondStonePacketAmount', totalDiaStonePkt);
             document.getElementById('totalDiamondStonePacketAmountInput').value = totalDiaStonePkt.toFixed(2);
@@ -2731,10 +3109,28 @@
                 taxableAmount -
                 finalDiscountAmount -
                 diamondDiscountAmount -
-                makingDiscountAmount
+                makingDiscountAmount -
+                wastageDiscountAmount
             ).toFixed(2));
 
             setBoxText('discountAmount', finalDiscountAmount);
+
+            // Calculate and display all discounts under taxable amount
+            const totalSaved = makingDiscountAmount + wastageDiscountAmount + diamondDiscountAmount + finalDiscountAmount;
+            setBoxText('displayMakingDiscount', makingDiscountAmount);
+            setBoxText('displayWastageDiscount', wastageDiscountAmount);
+            setBoxText('displayDiamondDiscount', diamondDiscountAmount);
+            setBoxText('displayFinalDiscount', finalDiscountAmount);
+            setBoxText('totalSavedAmount', totalSaved);
+
+            const discountsContainer = document.getElementById('discountsUnderTaxable');
+            if (discountsContainer) {
+                if (totalSaved > 0) {
+                    discountsContainer.style.display = 'block';
+                } else {
+                    discountsContainer.style.display = 'none';
+                }
+            }
 
             // -------------------------
             // 4️⃣ GST (Same As Your Working Logic)
@@ -2775,15 +3171,30 @@
             ).toFixed(2));
             setBoxText('totalInvoiceAmount', totalInvoiceAmount);
 
+            const roundedTotal = Math.round(totalInvoiceAmount);
+            const roundOff = Number((roundedTotal - totalInvoiceAmount).toFixed(2));
+            setBoxText('roundOffAmount', roundOff);
+            $('#roundOffInput').val(roundOff);
+            setBoxText('payableAmount', roundedTotal);
+
             // -------------------------
             // 6️⃣ Payment + Remaining
             // -------------------------
-            const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
-            const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
-            const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
-            const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
-
-            const totalPaid = Number((cash + bank + online + card).toFixed(2));
+            let totalPaid = 0;
+            if (typeof PaymentBreakdownManager !== 'undefined' && typeof PaymentBreakdownManager.getPaymentsData ===
+                'function') {
+                const dynamicPayments = PaymentBreakdownManager.getPaymentsData();
+                dynamicPayments.forEach(p => {
+                    totalPaid += p.amount;
+                });
+            } else {
+                const cash = parseFloat(document.getElementById('cashReceived')?.value) || 0;
+                const bank = parseFloat(document.getElementById('bankReceived')?.value) || 0;
+                const online = parseFloat(document.getElementById('onlineReceived')?.value) || 0;
+                const card = parseFloat(document.getElementById('cardReceived')?.value) || 0;
+                totalPaid = cash + bank + online + card;
+            }
+            totalPaid = Number(totalPaid.toFixed(2));
 
             let totalSettled = 0;
             $('.settle-checkbox:checked').each(function() {
@@ -2804,13 +3215,13 @@
             console.log('totalSettled==' + totalSettled);
 
             let remaining = Number((
-                totalInvoiceAmount - (totalPaid + totalSettled)
+                roundedTotal - (totalPaid + totalSettled)
             ).toFixed(2));
             console.log('remaining==' + remaining);
             // if (remaining < 0) remaining = 0;+
 
             setBoxText('remainingAmount', remaining);
-            setBoxText('remainingAmountFooter', totalInvoiceAmount - totalSettled);
+            setBoxText('remainingAmountFooter', roundedTotal - totalSettled);
         }
 
 
@@ -2954,6 +3365,300 @@
 
             });
 
+        });
+    </script>
+
+    <script>
+        window.ledgerAccounts = @json($accounts);
+
+        const PaymentBreakdownManager = {
+            accounts: [],
+
+            init(accounts) {
+                this.accounts = accounts || [];
+                this.bindEvents();
+
+                // Add a default cash row if container is empty
+                if ($('.payment-row-item').length === 0) {
+                    this.addPaymentRow('cash');
+                }
+            },
+
+            bindEvents() {
+                const self = this;
+                $(document).on('click', '.add-payment-row-btn', function(e) {
+                    e.preventDefault();
+                    const method = $(this).data('method');
+                    self.addPaymentRow(method);
+                });
+
+                $(document).on('click', '.remove-payment-row-btn', function(e) {
+                    e.preventDefault();
+                    $(this).closest('.payment-row-item').remove();
+                    self.recalculateTotals();
+                });
+
+                $(document).on('input change', '.payment-amount-input, .payment-account-select', function() {
+                    self.recalculateTotals();
+                });
+            },
+
+            getFilteredAccounts(method, selectedAccountId = null) {
+                let defaultAccountId = null;
+                let filtered = [];
+
+                this.accounts.forEach(acc => {
+                    const name = acc.name.toLowerCase();
+                    const subType = (acc.sub_type || '').toLowerCase();
+
+                    let matches = false;
+                    let isDefault = false;
+
+                    if (method === 'cash') {
+                        const isAsset = acc.group && acc.group.type === 'Asset';
+                        const isNormal = subType === 'normal';
+                        const isExcluded = name === 'stock' || name.includes('debtor') || name === 'old metal received';
+                        if ((isAsset && isNormal && !isExcluded) || name.includes('cash')) {
+                            matches = true;
+                        }
+                        if (name === 'cash in hand') {
+                            isDefault = true;
+                            matches = true;
+                        }
+                    } else if (method === 'card') {
+                        if (subType === 'card' || subType === 'bank') {
+                            matches = true;
+                        }
+                        if (name === 'card receivable') {
+                            isDefault = true;
+                            matches = true;
+                        }
+                    } else if (method === 'cheque') {
+                        if (subType === 'bank') {
+                            matches = true;
+                        }
+                        if (name === 'bank') {
+                            isDefault = true;
+                            matches = true;
+                        }
+                    } else if (method === 'upi') {
+                        if (subType === 'upi' || subType === 'bank') {
+                            matches = true;
+                        }
+                        if (name === 'upi clearing') {
+                            isDefault = true;
+                            matches = true;
+                        }
+                    }
+
+                    // Ensure currently selected account is always present in dropdown
+                    if (acc.id == selectedAccountId) {
+                        matches = true;
+                    }
+
+                    if (matches) {
+                        filtered.push({
+                            account: acc,
+                            isDefault: isDefault
+                        });
+                    }
+                });
+
+                // Set a default if none explicitly matches
+                if (filtered.length > 0) {
+                    const hasDefault = filtered.some(f => f.isDefault);
+                    if (!hasDefault) {
+                        filtered[0].isDefault = true;
+                    }
+                }
+
+                // Fallback to all accounts if filtered is empty
+                if (filtered.length === 0) {
+                    this.accounts.forEach(acc => {
+                        filtered.push({
+                            account: acc,
+                            isDefault: false
+                        });
+                    });
+                }
+
+                filtered.forEach(f => {
+                    if (f.isDefault) {
+                        defaultAccountId = f.account.id;
+                    }
+                });
+
+                let optionsHtml = '';
+                filtered.forEach(f => {
+                    const acc = f.account;
+                    const isSel = (selectedAccountId !== null)
+                        ? (acc.id == selectedAccountId)
+                        : f.isDefault;
+                    optionsHtml += `<option value="${acc.id}" ${isSel ? 'selected' : ''}>${acc.name}</option>`;
+                });
+
+                return {
+                    optionsHtml,
+                    defaultAccountId: selectedAccountId || defaultAccountId
+                };
+            },
+
+            addPaymentRow(method, data = null) {
+                const containerId = `#${method}PaymentsContainer`;
+                const container = $(containerId);
+                if (!container.length) return;
+
+                let selectedAccountId = data && data.account_id ? data.account_id : null;
+
+                const {
+                    optionsHtml,
+                    defaultAccountId
+                } = this.getFilteredAccounts(method, selectedAccountId);
+
+                let selectHtml =
+                    `<select class="form-select form-select-sm payment-account-select" style="width: 100%; font-size: 12px;">
+                        ${optionsHtml}
+                    </select>`;
+
+                let rowHtml = `
+                    <div class="payment-row-item p-2 mb-2 bg-white rounded border" data-method="${method}">
+                        <!-- First line: Account Select, Amount, and Remove Button -->
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="flex-grow-1">
+                                ${selectHtml}
+                            </div>
+                            <div style="width: 100px; flex-shrink: 0;">
+                                <input type="number" class="form-control form-control-sm payment-amount-input text-end" placeholder="Amount" style="font-size: 12px; width: 100px;" value="${data && data.amount ? data.amount : '0'}" min="0" step="0.01">
+                            </div>
+                            <div style="width: 25px; flex-shrink: 0; text-align: center;">
+                                <button type="button" class="btn btn-sm btn-link text-danger remove-payment-row-btn p-0 m-0" style="width: 25px; height: 25px; line-height: 1;"><i class="feather-trash-2"></i></button>
+                            </div>
+                        </div>
+                `;
+
+                // Second line for details if non-cash
+                if (method === 'card') {
+                    rowHtml += `
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <div style="width: 120px; flex-shrink: 0;">
+                                <input type="text" class="form-control form-control-sm payment-ref-input" placeholder="Card No." style="font-size: 12px;" value="${data && data.reference_no ? data.reference_no : ''}">
+                            </div>
+                            <div class="flex-grow-1">
+                                <input type="text" class="form-control form-control-sm payment-details-input" placeholder="Bank Name" style="font-size: 12px;" value="${data && data.payment_details ? data.payment_details : ''}">
+                            </div>
+                            <div style="width: 130px; flex-shrink: 0;">
+                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : ''}">
+                            </div>
+                        </div>
+                    `;
+                } else if (method === 'cheque') {
+                    rowHtml += `
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <div style="width: 120px; flex-shrink: 0;">
+                                <input type="text" class="form-control form-control-sm payment-ref-input" placeholder="Cheque No." style="font-size: 12px;" value="${data && data.reference_no ? data.reference_no : ''}">
+                            </div>
+                            <div class="flex-grow-1">
+                                <input type="text" class="form-control form-control-sm payment-details-input" placeholder="Bank Name" style="font-size: 12px;" value="${data && data.payment_details ? data.payment_details : ''}">
+                            </div>
+                            <div style="width: 130px; flex-shrink: 0;">
+                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : ''}">
+                            </div>
+                        </div>
+                    `;
+                } else if (method === 'upi') {
+                    rowHtml += `
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <div class="flex-grow-1">
+                                <input type="text" class="form-control form-control-sm payment-ref-input" placeholder="UPI Txn ID / Ref No." style="font-size: 12px;" value="${data && data.reference_no ? data.reference_no : ''}">
+                            </div>
+                            <div style="width: 130px; flex-shrink: 0;">
+                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : ''}">
+                            </div>
+                        </div>
+                    `;
+                }
+
+                rowHtml += `
+                    </div>
+                `;
+
+                container.append(rowHtml);
+                this.recalculateTotals();
+            },
+
+            getPaymentsData() {
+                const payments = [];
+                $('.payment-row-item').each(function() {
+                    const row = $(this);
+                    const amount = parseFloat(row.find('.payment-amount-input').val()) || 0;
+                    if (amount > 0) {
+                        payments.push({
+                            payment_method: row.attr('data-method'),
+                            account_id: row.find('.payment-account-select').val(),
+                            amount: amount,
+                            reference_no: row.find('.payment-ref-input').val() || null,
+                            payment_details: row.find('.payment-details-input').val() || null,
+                            transaction_date: row.find('.payment-date-input').val() || null
+                        });
+                    }
+                });
+                return payments;
+            },
+
+            recalculateTotals() {
+                let total = 0;
+                let cashTotal = 0;
+                let cardTotal = 0;
+                let chequeTotal = 0;
+                let upiTotal = 0;
+
+                $('.payment-row-item').each(function() {
+                    const row = $(this);
+                    const method = row.attr('data-method');
+                    const amount = parseFloat(row.find('.payment-amount-input').val()) || 0;
+                    total += amount;
+
+                    if (method === 'cash') cashTotal += amount;
+                    else if (method === 'card') cardTotal += amount;
+                    else if (method === 'cheque') chequeTotal += amount;
+                    else if (method === 'upi') upiTotal += amount;
+                });
+
+                $('#totalPaymentsBadge').text(`Total: ₹${total.toFixed(2)}`);
+
+                // Update legacy fields
+                $('#cashReceived').val(cashTotal);
+                $('#cardReceived').val(cardTotal);
+                $('#bankReceived').val(chequeTotal);
+                $('#onlineReceived').val(upiTotal);
+
+                // Call calculateInvoiceTotals to update Remaining Amount
+                if (typeof calculateInvoiceTotals === 'function') {
+                    calculateInvoiceTotals();
+                }
+            }
+        };
+
+        $(document).ready(function() {
+            PaymentBreakdownManager.init(window.ledgerAccounts);
+        });
+    </script>
+    <script>
+        $(document).on('keydown', 'input, select, textarea', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+
+                let formElements = $(this)
+                    .closest('form')
+                    .find('input, select, textarea, button')
+                    .filter(':visible:not([readonly]):not([disabled])');
+
+                let index = formElements.index(this);
+
+                if (index > -1 && index < formElements.length - 1) {
+                    formElements.eq(index + 1).focus();
+                }
+            }
         });
     </script>
 @endsection

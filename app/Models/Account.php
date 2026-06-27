@@ -8,7 +8,7 @@ use App\Traits\BelongsToFirm;
 class Account extends Model
 {
     use BelongsToFirm;
-    protected $fillable = ['name', 'code', 'account_group_id', 'opening_balance', 'admin_id'];
+    protected $fillable = ['name', 'code', 'account_group_id', 'opening_balance', 'admin_id', 'sub_type', 'opening_balance_type', 'is_system'];
 
     public function group()
     {
@@ -28,10 +28,15 @@ class Account extends Model
         // For Assets and Expenses: Balance = Dr - Cr
         // For Liabilities, Equity, and Income: Balance = Cr - Dr
         $type = $this->group->type;
-        if (in_array($type, ['Asset', 'Expense'])) {
-            return $this->opening_balance + $debits - $credits;
+        $isDebitNormal = in_array($type, ['Asset', 'Expense']);
+
+        $openingDr = $this->opening_balance_type === 'dr' ? $this->opening_balance : 0;
+        $openingCr = $this->opening_balance_type === 'cr' ? $this->opening_balance : 0;
+
+        if ($isDebitNormal) {
+            return ($openingDr - $openingCr) + $debits - $credits;
         } else {
-            return $this->opening_balance + $credits - $debits;
+            return ($openingCr - $openingDr) + $credits - $debits;
         }
     }
 }

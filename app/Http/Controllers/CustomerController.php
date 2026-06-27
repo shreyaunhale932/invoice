@@ -31,7 +31,7 @@ class CustomerController extends Controller
         'phone' => 'required|string|max:20',
         'address' => 'nullable|string',
         'country' => 'nullable|string',
-        'state' => 'nullable|string',
+        'state' => 'required|string',
         'city' => 'nullable|string',
         'pincode' => 'nullable|string|max:10',
         'bank_name' => 'nullable|string|max:255',
@@ -136,12 +136,27 @@ class CustomerController extends Controller
             $newBarcode = 1001;
         }
 
+        $stones = \App\Models\Stone::all();
+        $clarities = \App\Models\Clarity::all();
+        $colors = \App\Models\Color::all();
+        $cuts = \App\Models\Cut::all();
+        $mms = \App\Models\Mm::all();
+        $chalnis = \App\Models\Chalni::all();
+        $shapes = \App\Models\Shape::all();
+
         return view('Inventory/Products/add-products', compact(
             'categories',
             'subcategories',
             'purities',
             'metalRates',
-            'newBarcode'
+            'newBarcode',
+            'stones',
+            'clarities',
+            'colors',
+            'cuts',
+            'mms',
+            'chalnis',
+            'shapes'
         ));
     }
     public function edit($id)

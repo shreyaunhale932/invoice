@@ -420,14 +420,20 @@
 
                             <div class="row">
 
-                                <!-- Row 1 (4 fields in one line) -->
-                                <div class="col-lg-3 col-md-6 mb-3">
+                                <!-- Row 1 (5 fields in one line) -->
+                                <div class="col-lg-2 col-md-6 mb-3">
                                     <label>Wastage %</label>
                                     <input type="text" class="form-control" name="wastage_percent"
                                         value="{{ old('wastage_percent', $product->wastage_percent ?? '') }}">
                                 </div>
 
-                                <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="col-lg-2 col-md-6 mb-3">
+                                    <label>Wastage Amount</label>
+                                    <input type="text" class="form-control" name="wastage_amount"
+                                        value="{{ old('wastage_amount', $product->wastage_amount ?? '') }}" readonly>
+                                </div>
+
+                                <div class="col-lg-2 col-md-6 mb-3">
                                     <label>Making</label>
                                     <input type="text" class="form-control" name="making_price"
                                         value="{{ old('making_price', $product->making_price ?? '') }}">
@@ -746,45 +752,64 @@
                                                 </div>
 
                                                 <div class="col-lg-3 col-md-6">
-                                                    <label class="form-label">Stone</label>
-                                                    <input type="text" class="form-control packet-stone"
-                                                        value="{{ $packet->stone ? $packet->stone->name : '' }}" readonly>
-                                                    <input type="hidden" name="packet[stone_id][]"
-                                                        value="{{ $packet->stone_id }}">
-                                                </div>
+                                                     <label class="form-label">Stone</label>
+                                                     <select name="packet[stone_id][]" class="form-control packet-stone-select">
+                                                         <option value="">Select Stone</option>
+                                                         @foreach($stones as $stone)
+                                                             <option value="{{ $stone->id }}" {{ $packet->stone_id == $stone->id ? 'selected' : '' }}>{{ $stone->name }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
 
-                                                <div class="col-lg-3 col-md-6">
-                                                    <label class="form-label">Shape</label>
-                                                    <input type="text" class="form-control packet-shape"
-                                                        value="{{ $packet->shape ? $packet->shape->name : '' }}" readonly>
-                                                    <input type="hidden" name="packet[shape_id][]"
-                                                        value="{{ $packet->shape_id }}">
-                                                </div>
+                                                 <div class="col-lg-3 col-md-6">
+                                                     <label class="form-label">Shape</label>
+                                                     <select name="packet[shape_id][]" class="form-control packet-shape-select">
+                                                         <option value="">Select Shape</option>
+                                                         @foreach($shapes as $shape)
+                                                             <option value="{{ $shape->id }}" {{ $packet->shape_id == $shape->id ? 'selected' : '' }}>{{ $shape->name }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
 
-                                                <div class="col-lg-3 col-md-6">
-                                                    <label class="form-label">Clarity</label>
-                                                    <input type="text" class="form-control packet-clarity"
-                                                        value="{{ $packet->clarity ? $packet->clarity->name : '' }}"
-                                                        readonly>
-                                                    <input type="hidden" name="packet[clarity_id][]"
-                                                        value="{{ $packet->clarity_id }}">
-                                                </div>
+                                                 <div class="col-lg-3 col-md-6">
+                                                     <label class="form-label">Clarity</label>
+                                                     <select name="packet[clarity_id][]" class="form-control packet-clarity-select">
+                                                         <option value="">Select Clarity</option>
+                                                         @foreach($clarities as $clarity)
+                                                             <option value="{{ $clarity->id }}" {{ $packet->clarity_id == $clarity->id ? 'selected' : '' }}>{{ $clarity->name }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
 
-                                                <div class="col-lg-3 col-md-6">
-                                                    <label class="form-label">Color</label>
-                                                    <input type="text" class="form-control packet-color"
-                                                        value="{{ $packet->color ? $packet->color->name : '' }}" readonly>
-                                                    <input type="hidden" name="packet[color_id][]"
-                                                        value="{{ $packet->color_id }}">
-                                                </div>
+                                                 <div class="col-lg-3 col-md-6">
+                                                     <label class="form-label">Color</label>
+                                                     <select name="packet[color_id][]" class="form-control packet-color-select">
+                                                         <option value="">Select Color</option>
+                                                         @foreach($colors as $color)
+                                                             <option value="{{ $color->id }}" {{ $packet->color_id == $color->id ? 'selected' : '' }}>{{ $color->name }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
 
-                                                <div class="col-lg-3 col-md-6">
-                                                    <label class="form-label">Cut</label>
-                                                    <input type="text" class="form-control packet-cut"
-                                                        value="{{ $packet->cut ? $packet->cut->name : '' }}" readonly>
-                                                    <input type="hidden" name="packet[cut_id][]"
-                                                        value="{{ $packet->cut_id }}">
-                                                </div>
+                                                 <div class="col-lg-3 col-md-6">
+                                                     <label class="form-label">Cut</label>
+                                                     <select name="packet[cut_id][]" class="form-control packet-cut-select">
+                                                         <option value="">Select Cut</option>
+                                                         @foreach($cuts as $cut)
+                                                             <option value="{{ $cut->id }}" {{ $packet->cut_id == $cut->id ? 'selected' : '' }}>{{ $cut->name }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
+
+                                                 <div class="col-lg-3 col-md-6">
+                                                     <label class="form-label">MM</label>
+                                                     <select name="packet[mm_id][]" class="form-control packet-mm-select">
+                                                         <option value="">Select MM</option>
+                                                         @foreach($mms as $mm)
+                                                             <option value="{{ $mm->id }}" {{ $packet->mm_id == $mm->id ? 'selected' : '' }}>{{ $mm->name }}</option>
+                                                         @endforeach
+                                                     </select>
+                                                 </div>
 
                                                 <div class="col-lg-3 col-md-6">
                                                     <label class="form-label">Pcs</label>
@@ -854,9 +879,6 @@
                                                     </div>
                                                 </div>
 
-                                                <input type="hidden" name="packet[mm_id][]"
-                                                    value="{{ $packet->mm_id }}">
-
                                             </div>
                                         </div>
                                     @endforeach
@@ -879,32 +901,62 @@
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Stone</label>
-        <input type="text" class="form-control packet-stone" readonly>
-        <input type="hidden" name="packet[stone_id][]" class="packet-stone-id">
+        <select name="packet[stone_id][]" class="form-control packet-stone-select">
+            <option value="">Select Stone</option>
+            @foreach($stones as $stone)
+                <option value="{{ $stone->id }}">{{ $stone->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Shape</label>
-        <input type="text" class="form-control packet-shape" readonly>
-        <input type="hidden" name="packet[shape_id][]" class="packet-shape-id">
+        <select name="packet[shape_id][]" class="form-control packet-shape-select">
+            <option value="">Select Shape</option>
+            @foreach($shapes as $shape)
+                <option value="{{ $shape->id }}">{{ $shape->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Clarity</label>
-        <input type="text" class="form-control packet-clarity" readonly>
-        <input type="hidden" name="packet[clarity_id][]" class="packet-clarity-id">
+        <select name="packet[clarity_id][]" class="form-control packet-clarity-select">
+            <option value="">Select Clarity</option>
+            @foreach($clarities as $clarity)
+                <option value="{{ $clarity->id }}">{{ $clarity->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Color</label>
-        <input type="text" class="form-control packet-color" readonly>
-        <input type="hidden" name="packet[color_id][]" class="packet-color-id">
+        <select name="packet[color_id][]" class="form-control packet-color-select">
+            <option value="">Select Color</option>
+            @foreach($colors as $color)
+                <option value="{{ $color->id }}">{{ $color->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Cut</label>
-        <input type="text" class="form-control packet-cut" readonly>
-        <input type="hidden" name="packet[cut_id][]" class="packet-cut-id">
+        <select name="packet[cut_id][]" class="form-control packet-cut-select">
+            <option value="">Select Cut</option>
+            @foreach($cuts as $cut)
+                <option value="{{ $cut->id }}">{{ $cut->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">MM</label>
+        <select name="packet[mm_id][]" class="form-control packet-mm-select">
+            <option value="">Select MM</option>
+            @foreach($mms as $mm)
+                <option value="{{ $mm->id }}">{{ $mm->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-lg-3 col-md-6">
@@ -929,18 +981,18 @@
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Certificate No</label>
-        <input type="text" name="packet[certificate_no][]" class="form-control packet-cert" readonly>
+        <input type="text" name="packet[certificate_no][]" class="form-control packet-cert" >
     </div>
 
-    <div class="col-lg-3 col-md-6">
-        <label class="form-label">UOM</label>
-        <select name="packet[uom][]" class="form-select packet-uom">
-            <option value="">Select UOM</option>
-            <option value="PCS">PCS</option>
-            <option value="CT">CT</option>
-            <option value="WT">WT</option>
-        </select>
-    </div>
+<div class="col-lg-3 col-md-6">
+    <label class="form-label">UOM</label>
+    <select name="packet[uom][]" class="form-select packet-uom">
+        <option value="">Select UOM</option>
+        <option value="PCS">PCS</option>
+        <option value="CT" selected>CT</option>
+        <option value="WT">WT</option>
+    </select>
+</div>
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Amount</label>
@@ -954,8 +1006,6 @@
             <label class="form-check-label">Solitaire</label>
         </div>
     </div>
-
-    <input type="hidden" name="packet[mm_id][]" class="packet-mm-id">
 
 </div>
                                 </div>
@@ -1250,25 +1300,12 @@
                     // Populate fields
                     wrapper.find('.packet-master-id').val(data.real_id);
 
-                    wrapper.find('.packet-stone').val(details.stone_name);
-                    wrapper.find('.packet-stone-id').val(details.stone_id);
-
-                    wrapper.find('.packet-shape').val(details.shape_name);
-                    wrapper.find('.packet-shape-id').val(details.shape_id);
-
-                    wrapper.find('.packet-color').val(details.color_name);
-                    wrapper.find('.packet-color-id').val(details.color_id);
-
-                    wrapper.find('.packet-clarity').val(details.clarity_name);
-                    wrapper.find('.packet-clarity-id').val(details.clarity_id);
-
-                    wrapper.find('.packet-cut').val(details.cut_name);
-                    wrapper.find('.packet-cut-id').val(details.cut_id);
-
-                    wrapper.find('.packet-chalni').val(details.chalni_name);
-                    wrapper.find('.packet-chalni-id').val(details.chalni_id);
-
-                    wrapper.find('.packet-mm-id').val(details.mm_id);
+                    wrapper.find('.packet-stone-select').val(details.stone_id).trigger('change');
+                    wrapper.find('.packet-shape-select').val(details.shape_id).trigger('change');
+                    wrapper.find('.packet-color-select').val(details.color_id).trigger('change');
+                    wrapper.find('.packet-clarity-select').val(details.clarity_id).trigger('change');
+                    wrapper.find('.packet-cut-select').val(details.cut_id).trigger('change');
+                    wrapper.find('.packet-mm-select').val(details.mm_id).trigger('change');
 
                     // wrapper.find('.packet-weight').val(details.weight).trigger(
                     //     'change'); // Trigger for weight conversion
@@ -1462,5 +1499,22 @@
             });
         </script>
     @endif
+<script>
+$(document).on('keydown', 'input, select, textarea', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
 
+        let formElements = $(this)
+            .closest('form')
+            .find('input, select, textarea, button')
+            .filter(':visible:not([readonly]):not([disabled])');
+
+        let index = formElements.index(this);
+
+        if (index > -1 && index < formElements.length - 1) {
+            formElements.eq(index + 1).focus();
+        }
+    }
+});
+</script>
 @endsection

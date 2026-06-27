@@ -142,4 +142,134 @@ class AccountingController extends Controller
         $accounts = Account::with('group')->orderBy('name')->get();
         return view('accounting.chart-of-accounts', compact('accounts'));
     }
+
+    /**
+     * Store a new custom account
+     */
+    public function storeAccount(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'account_type' => 'required|in:Asset,Liability,Expense,Income',
+            'sub_type' => 'required|in:bank,card,upi,normal',
+            'opening_balance' => 'required|numeric|min:0',
+            'opening_balance_type' => 'required|in:dr,cr',
+        ]);
+
+        $group = \App\Models\AccountGroup::where('type', $request->account_type)->first();
+        if (!$group) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Account group not found for this type.'
+            ], 400);
+        }
+
+        $exists = Account::where('name', $request->name)->exists();
+        if ($exists) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An account with this name already exists.'
+            ], 422);
+        }
+
+        $account = Account::create([
+            'name' => $request->name,
+            'account_group_id' => $group->id,
+            'sub_type' => $request->sub_type,
+            'opening_balance' => $request->opening_balance,
+            'opening_balance_type' => $request->opening_balance_type,
+            'is_system' => false,
+            'admin_id' => auth()->id() ?? 1,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Account created successfully.',
+            'account' => $account
+        ]);
+    }
+
+    /**
+     * Update an account
+     */
+    public function updateAccount(Request $request, $id)
+    {
+        $account = Account::findOrFail($id);
+
+        $rules = [
+            'name' => 'required|string|max:255',
+            'sub_type' => 'required|in:bank,card,upi,normal',
+            'opening_balance' => 'required|numeric|min:0',
+            'opening_balance_type' => 'required|in:dr,cr',
+        ];
+
+        if (!$account->is_system) {
+            $rules['account_type'] = 'required|in:Asset,Liability,Expense,Income';
+        }
+
+        $request->validate($rules);
+
+        $exists = Account::where('name', $request->name)->where('id', '!=', $id)->exists();
+        if ($exists) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An account with this name already exists.'
+            ], 422);
+        }
+
+        $data = [
+            'name' => $request->name,
+            'sub_type' => $request->sub_type,
+            'opening_balance' => $request->opening_balance,
+            'opening_balance_type' => $request->opening_balance_type,
+        ];
+
+        if (!$account->is_system) {
+            $group = \App\Models\AccountGroup::where('type', $request->account_type)->first();
+            if (!$group) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Account group not found for this type.'
+                ], 400);
+            }
+            $data['account_group_id'] = $group->id;
+        }
+
+        $account->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Account updated successfully.',
+            'account' => $account
+        ]);
+    }
+
+    /**
+     * Delete a custom account
+     */
+    public function deleteAccount($id)
+    {
+        $account = Account::findOrFail($id);
+
+        if ($account->is_system) {
+            return response()->json([
+                'success' => false,
+                'message' => 'System accounts cannot be deleted.'
+            ], 400);
+        }
+
+        if ($account->entryLines()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Account cannot be deleted because it contains transaction entries.'
+            ], 400);
+        }
+
+        $account->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Account deleted successfully.'
+        ]);
+    }
 }

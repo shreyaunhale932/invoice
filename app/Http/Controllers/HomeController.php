@@ -223,8 +223,9 @@ class HomeController extends Controller
     ->orderBy('category_id', 'DESC')
     ->get();
 
+   $templates = \App\Models\PrintTemplate::all();
 
-    return view('Inventory/Products/product-list', compact('products'));
+    return view('Inventory/Products/product-list', compact('products', 'templates'));
 }
 
 

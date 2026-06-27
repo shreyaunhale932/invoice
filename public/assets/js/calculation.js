@@ -34,7 +34,11 @@ function calculatePrice() {
     $('input[name="final_fn_weight"]').val(fineWeight.toFixed(3));
 
     /* ===== GOLD VALUE ===== */
-    let goldValue = metalRate * fineWeight;
+    let goldValue = metalRate * netWeight;
+
+    /* ===== WASTAGE AMOUNT ===== */
+    let wastageAmount = wastageWeight * metalRate;
+    $('input[name="wastage_amount"]').val(wastageAmount.toFixed(2));
 
     /* ===== MAKING CALCULATION ===== */
     let makingFinal = 0;
@@ -69,10 +73,10 @@ function calculatePrice() {
     $('input[name="making_final_amount"]').val(makingFinal.toFixed(2));
 
     /* ===== GST ===== */
-    let gstAmount = ((goldValue + makingFinal) * gstPerc) / 100;
+    let gstAmount = ((goldValue + wastageAmount + makingFinal) * gstPerc) / 100;
 
     /* ===== FINAL GOLD PRICE ===== */
-    let goldFinalPrice = goldValue + makingFinal ;
+    let goldFinalPrice = goldValue;
 
     $('input[name="gold_price"]').val(goldFinalPrice.toFixed(2));
 
@@ -91,7 +95,7 @@ function calculatePrice() {
         packetTotal += parseFloat(el.value) || 0;
     });
 
-    let subTotal = goldValue + makingFinal + diamondTotal + stoneTotal + packetTotal;
+    let subTotal = goldValue + wastageAmount + makingFinal + diamondTotal + stoneTotal + packetTotal;
     let gstAmountFinal = (subTotal * gstPerc) / 100;
     let finalPrice = subTotal ;
 

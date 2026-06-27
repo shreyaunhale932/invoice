@@ -197,7 +197,17 @@ class InvoiceController extends Controller
 
         $previewInvoiceNo = 'INV-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
 
-        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'previewInvoiceNo'));
+        $accounts = \App\Models\Account::with('group')->orderBy('name')->get();
+
+        $stones = \App\Models\Stone::all();
+        $clarities = \App\Models\Clarity::all();
+        $colors = \App\Models\Color::all();
+        $cuts = \App\Models\Cut::all();
+        $mms = \App\Models\Mm::all();
+        $chalnis = \App\Models\Chalni::all();
+        $shapes = \App\Models\Shape::all();
+
+        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'previewInvoiceNo', 'accounts', 'stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes'));
     }
     public function updatecolumns(Request $request)
     {

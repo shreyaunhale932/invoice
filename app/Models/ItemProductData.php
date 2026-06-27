@@ -35,6 +35,7 @@ class ItemProductData extends Model
         'final_price',
         'making_type',
         'making_final_amount',
+        'wastage_amount',
     ];
 
     // Relationships

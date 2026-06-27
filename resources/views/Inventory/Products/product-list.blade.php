@@ -199,7 +199,15 @@
                                                                             href="{{ route('products.edit', $product->id) }}">
                                                                             <i class="far fa-edit me-2"></i>Edit
                                                                         </a>
-
+                                                                    </li>
+                                                                    <li>
+                                                                        <a class="dropdown-item btn-print-tag" href="#"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#print_tag_modal"
+                                                                            data-product-id="{{ $product->id }}"
+                                                                            data-product-name="{{ $product->product_name }}">
+                                                                            <i class="fas fa-print me-2"></i>Print Tag
+                                                                        </a>
                                                                     </li>
                                                                     <li>
                                                                         <a class="dropdown-item text-danger" href="#"
@@ -208,8 +216,6 @@
                                                                             data-url="{{ route('products.destroy', $product->id) }}">
                                                                             <i class="far fa-trash-alt me-2"></i>Delete
                                                                         </a>
-
-
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -225,20 +231,99 @@
                     </div>
                 </div>
             </div>
-            <!-- /Table -->
+            <!-- Print Tag Modal -->
+            <div class="modal fade" id="print_tag_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Print Product Tag</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Product Name</label>
+                                <input type="text" id="modal_product_name" class="form-control" readonly>
+                                <input type="hidden" id="modal_product_id">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Select Template</label>
+                                <select class="form-select" id="modal_template_id">
+                                    @if(count($templates ?? []) > 0)
+                                        @foreach($templates as $template)
+                                            <option value="{{ $template->id }}" {{ $template->is_default ? 'selected' : '' }}>
+                                                {{ $template->name }} ({{ $template->canvas_width }}x{{ $template->canvas_height }}mm)
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        <option value="">-- No Templates Available --</option>
+                                    @endif
+                                </select>
+                                @if(count($templates ?? []) == 0)
+                                    <div class="form-text text-danger mt-1">
+                                        Please create a print template in the <a href="{{ route('labels.designer.create') }}">Label Designer</a> first.
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btnConfirmPrint" {{ count($templates ?? []) == 0 ? 'disabled' : '' }}>
+                                <i class="fas fa-print me-2"></i>Print Tag
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Print Tag Modal -->
 
         </div>
     </div>
-    <!-- /Page Wrapper -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const deleteModal = document.getElementById('delete_modal');
 
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const url = button.getAttribute('data-url');
+            if (deleteModal) {
+                deleteModal.addEventListener('show.bs.modal', function(event) {
+                    const button = event.relatedTarget;
+                    const url = button.getAttribute('data-url');
 
-                document.getElementById('deleteProductForm').action = url;
+                    document.getElementById('deleteProductForm').action = url;
+                });
+            }
+
+            // Print Tag Modal Handler
+            const printTagModal = document.getElementById('print_tag_modal');
+            if (printTagModal) {
+                printTagModal.addEventListener('show.bs.modal', function(event) {
+                    const button = event.relatedTarget;
+                    const productId = button.getAttribute('data-product-id');
+                    const productName = button.getAttribute('data-product-name');
+
+                    document.getElementById('modal_product_id').value = productId;
+                    document.getElementById('modal_product_name').value = productName;
+                });
+            }
+
+            document.getElementById('btnConfirmPrint')?.addEventListener('click', function() {
+                const templateId = document.getElementById('modal_template_id').value;
+                const productId = document.getElementById('modal_product_id').value;
+
+                if (!templateId) {
+                    alert('Please select a template first.');
+                    return;
+                }
+
+                // Open print preview in a new window/tab
+                const url = `{{ url('/labels/print/preview') }}/${templateId}/${productId}`;
+                window.open(url, '_blank');
+                
+                // Hide modal using bootstrap
+                const modalInstance = bootstrap.Modal.getInstance(printTagModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    $('#print_tag_modal').modal('hide');
+                }
             });
         });
     </script>

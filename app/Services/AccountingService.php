@@ -17,10 +17,11 @@ class AccountingService
      */
     public function postJournalEntry($date, $narration, $lines, $referenceType = null, $referenceId = null)
     {
+        // dd($lines);
         return DB::transaction(function () use ($date, $narration, $lines, $referenceType, $referenceId) {
             $totalDebit = collect($lines)->sum('debit');
             $totalCredit = collect($lines)->sum('credit');
-
+        // dd($totalDebit.'-'. $totalCredit);
             $difference = bcsub($totalDebit, $totalCredit, 2);
 
             if (abs($difference) > 0.01) {
@@ -92,50 +93,92 @@ class AccountingService
      */
     public function postSellInvoice($invoice)
     {
+        if (!$invoice instanceof \App\Models\SellInvoice) {
+            $invoice = \App\Models\SellInvoice::with('payments')->findOrFail($invoice);
+        }
         $lines = [];
 
         // --- DEBITS (Payments & Receivables) ---
 
-        // 1. Cash Received
-        if ($invoice->cash_received > 0) {
-            $lines[] = [
-                'account_id' => $this->getAccountId('Cash in Hand'),
-                'debit' => $invoice->cash_received,
-                'credit' => 0,
-                'memo' => "Cash payment for Invoice #{$invoice->invoice_no}",
-            ];
-        }
+        // 1. Process payments dynamically from payments relationship
+        // $invoice->loadMissing('payments');
+        // dd($invoice->payments);
+        if ($invoice->payments && $invoice->payments->count() > 0) {
+            foreach ($invoice->payments as $payment) {
 
-        // 2. Bank Received
-        if ($invoice->bank_received > 0) {
-            $lines[] = [
-                'account_id' => $this->getAccountId('Bank'),
-                'debit' => $invoice->bank_received,
-                'credit' => 0,
-                'memo' => "Bank payment for Invoice #{$invoice->invoice_no}",
-            ];
-        }
+            // dd($payment->amount);
+                if ($payment->amount > 0) {
+                    $accountId = $payment->account_id;
+                    // dd($payment->payment_method);
+                    if (!$accountId) {
+                        // Fallback to default accounts based on method
+                        if ($payment->payment_method === 'cash') {
+                            $accountId = $this->getAccountId('Cash in Hand');
+                        } elseif ($payment->payment_method === 'cheque') {
+                            $accountId = $this->getAccountId('Bank');
+                        } elseif ($payment->payment_method === 'upi') {
+                            $accountId = $this->getAccountId('UPI Clearing');
+                        } elseif ($payment->payment_method === 'card') {
+                            $accountId = $this->getAccountId('Card Receivable');
+                        } else {
+                            $accountId = $this->getAccountId('Cash in Hand');
+                        }
+                    }
 
-        // 3. Online/UPI Received
-        if ($invoice->online_received > 0) {
-            $lines[] = [
-                'account_id' => $this->getAccountId('UPI Clearing'),
-                'debit' => $invoice->online_received,
-                'credit' => 0,
-                'memo' => "UPI payment for Invoice #{$invoice->invoice_no}",
-            ];
-        }
+                    $methodLabel = ucfirst($payment->payment_method);
 
-        // 4. Card Received
-        if (isset($invoice->card_received) && $invoice->card_received > 0) {
-            $lines[] = [
-                'account_id' => $this->getAccountId('Card Receivable'),
-                'debit' => $invoice->card_received,
-                'credit' => 0,
-                'memo' => "Card payment for Invoice #{$invoice->invoice_no}",
-            ];
-        }
+                    $refStr = $payment->reference_no ? " (Ref: {$payment->reference_no})" : "";
+                    $lines[] = [
+                        'account_id' => $accountId,
+                        'debit' => $payment->amount,
+                        'credit' => 0,
+                        'memo' => "{$methodLabel} payment for Invoice #{$invoice->invoice_no}{$refStr}",
+                    ];
+                }
+            }
+        } else {
+            // Fallback for legacy invoices
+            // Cash Received
+            if ($invoice->cash_received > 0) {
+                $lines[] = [
+                    'account_id' => $this->getAccountId('Cash in Hand'),
+                    'debit' => $invoice->cash_received,
+                    'credit' => 0,
+                    'memo' => "Cash payment for Invoice #{$invoice->invoice_no}",
+                ];
+            }
 
+            // Bank Received
+            if ($invoice->bank_received > 0) {
+                $lines[] = [
+                    'account_id' => $this->getAccountId('Bank'),
+                    'debit' => $invoice->bank_received,
+                    'credit' => 0,
+                    'memo' => "Bank payment for Invoice #{$invoice->invoice_no}",
+                ];
+            }
+
+            // Online/UPI Received
+            if ($invoice->online_received > 0) {
+                $lines[] = [
+                    'account_id' => $this->getAccountId('UPI Clearing'),
+                    'debit' => $invoice->online_received,
+                    'credit' => 0,
+                    'memo' => "UPI payment for Invoice #{$invoice->invoice_no}",
+                ];
+            }
+
+            // Card Received
+            if (isset($invoice->card_received) && $invoice->card_received > 0) {
+                $lines[] = [
+                    'account_id' => $this->getAccountId('Card Receivable'),
+                    'debit' => $invoice->card_received,
+                    'credit' => 0,
+                    'memo' => "Card payment for Invoice #{$invoice->invoice_no}",
+                ];
+            }
+        }
+// dd($lines);
         // 5. Amount Left (Sundry Debtors or Customer Advance)
         // If there's a positive balance, it goes to Sundry Debtors (Receivable).
         // If there's a negative balance (overpayment), it goes to Customer Advance (Liability).
@@ -153,6 +196,31 @@ class AccountingService
                 'credit' => abs($invoice->amount_left),
                 'memo' => "Overpayment (Advance) for Invoice #{$invoice->invoice_no}",
             ];
+        }
+
+        // 5.2 Settlements (Advance Settlements or Udhaar Returns)
+        $settlements = \App\Models\PaymentTransaction::where('invoice_id', $invoice->id)
+            ->whereIn('transaction_type', ['refund', 'udhaar_return'])
+            ->get();
+
+        foreach ($settlements as $settlement) {
+            if ($settlement->transaction_type === 'refund') {
+                // Advance Settlement reduces Customer Advance liability -> Debit
+                $lines[] = [
+                    'account_id' => $this->getOrCreateAccountId('Customer Advance', 'Liabilities'),
+                    'debit' => $settlement->amount,
+                    'credit' => 0,
+                    'memo' => "Advance settled for Invoice #{$invoice->invoice_no}",
+                ];
+            } elseif ($settlement->transaction_type === 'udhaar_return') {
+                // Udhaar Settlement reduces Sundry Debtors asset -> Credit
+                $lines[] = [
+                    'account_id' => $this->getAccountId('Sundry Debtors'),
+                    'debit' => 0,
+                    'credit' => $settlement->amount,
+                    'memo' => "Udhaar settled for Invoice #{$invoice->invoice_no}",
+                ];
+            }
         }
 
         if ($invoice->total_exchange_amount > 0) {
@@ -188,6 +256,14 @@ class AccountingService
                 'debit' => $invoice->making_discount_amount,
                 'credit' => 0,
                 'memo' => "Making Discount on Invoice #{$invoice->invoice_no}",
+            ];
+        }
+        if ($invoice->wastage_discount_amount > 0) {
+            $lines[] = [
+                'account_id' => $this->getOrCreateAccountId('Wastage Discount Allowed', 'Expenses'),
+                'debit' => $invoice->wastage_discount_amount,
+                'credit' => 0,
+                'memo' => "Wastage Discount on Invoice #{$invoice->invoice_no}",
             ];
         }
 
@@ -245,7 +321,7 @@ class AccountingService
                 $totalGoldAmount += $item->final_price - ($item->gst_amount ?? 0) - ($item->diamond_amount ?? 0) - ($item->stone_amount ?? 0) - ($item->packet_amount ?? 0);
             }
         }
-
+// dd($totalGoldAmount);
         // Post Gold Sales
         if ($totalGoldAmount > 0) {
             $lines[] = [
@@ -329,6 +405,15 @@ class AccountingService
             ];
         }
 
+        if (isset($invoice->round_off) && $invoice->round_off != 0) {
+            $lines[] = [
+                'account_id' => $this->getOrCreateAccountId('Round Off', $invoice->round_off > 0 ? 'Income' : 'Expenses'),
+                'debit' => $invoice->round_off < 0 ? abs($invoice->round_off) : 0,
+                'credit' => $invoice->round_off > 0 ? $invoice->round_off : 0,
+                'memo' => "Round off on Invoice #{$invoice->invoice_no}",
+            ];
+        }
+        //  dd($lines);
         return $this->postJournalEntry(
             $invoice->created_at ?? now(),
             "Invoice Sale #{$invoice->invoice_no}",
@@ -469,6 +554,12 @@ class AccountingService
      */
     public function postCustomerTransaction($transaction)
     {
+        // If it's a settlement transaction on an invoice, we don't post a separate journal entry
+        // because the settlement is posted within the invoice's journal entry.
+        if ($transaction->invoice_id && $transaction->parent_id) {
+            return null;
+        }
+
         $lines = [];
         $narration = '';
 
@@ -777,18 +868,29 @@ class AccountingService
         $lines = $query->orderBy(JournalEntry::select('entry_date')->whereColumn('journal_entries.id', 'journal_entry_lines.journal_entry_id'))
             ->get();
 
-        // Calculate opening balance if dates are provided
-        $openingBalance = 0;
+        // Calculate opening balance
+        $type = $account->group->type;
+        $isDebitNormal = in_array($type, ['Asset', 'Expense']);
+
+        $openingDr = $account->opening_balance_type === 'dr' ? $account->opening_balance : 0;
+        $openingCr = $account->opening_balance_type === 'cr' ? $account->opening_balance : 0;
+
+        if ($isDebitNormal) {
+            $openingBalance = $openingDr - $openingCr;
+        } else {
+            $openingBalance = $openingCr - $openingDr;
+        }
+
         if ($fromDate) {
             $preQuery = JournalEntryLine::where('account_id', $accountId)
                 ->whereHas('journalEntry', function ($q) use ($fromDate) {
                     $q->where('entry_date', '<', $fromDate);
                 });
 
-            if (in_array($account->group->type, ['Asset', 'Expense'])) {
-                $openingBalance = $preQuery->sum('debit') - $preQuery->sum('credit');
+            if ($isDebitNormal) {
+                $openingBalance += ($preQuery->sum('debit') - $preQuery->sum('credit'));
             } else {
-                $openingBalance = $preQuery->sum('credit') - $preQuery->sum('debit');
+                $openingBalance += ($preQuery->sum('credit') - $preQuery->sum('debit'));
             }
         }
 
@@ -829,6 +931,15 @@ class AccountingService
                     if ($product->final_price > 0) {
                         $this->postStockIn($product, $product->final_price, $product->created_at);
                     }
+                }
+            });
+
+            // 5. Sync Customer Transactions (Manual ones, i.e., no parent_id or no invoice_id)
+            \App\Models\PaymentTransaction::where(function ($q) {
+                $q->whereNull('invoice_id')->orWhereNull('parent_id');
+            })->chunk(50, function ($transactions) {
+                foreach ($transactions as $transaction) {
+                    $this->postCustomerTransaction($transaction);
                 }
             });
 

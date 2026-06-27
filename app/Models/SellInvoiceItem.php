@@ -50,6 +50,7 @@ class SellInvoiceItem extends Model
         'user_id',
         'admin_id',
         'final_price',
+        'wastage_amount',
     ];
 
     protected $casts = [
@@ -65,6 +66,7 @@ class SellInvoiceItem extends Model
         'making_charges'  => 'float',
         'other_charges'   => 'float',
         'total_amount'    => 'float',
+        'wastage_amount'  => 'float',
     ];
 
     /**

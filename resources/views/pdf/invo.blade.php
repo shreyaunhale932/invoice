@@ -845,8 +845,8 @@
                  =============================== */
                         $grossTotal = $taxableAmount + $cgstAmount + $sgstAmount + $igstAmount - $discountAmount;
 
-                        $finalAmount = $grossTotal;
-                        $roundOff = $finalAmount - $grossTotal;
+                        $finalAmount = $invoice->final_amount ?? $grossTotal;
+                        $roundOff = $invoice->round_off ?? 0;
 
                         /* ===============================
                  | PAYMENT DETAILS
@@ -857,7 +857,7 @@
                         $card = $invoice->card_received ?? 0;
 
                         $totalReceived = $cash + $online + $bank + $card;
-                        $balanceAmount = $finalAmount - $totalReceived;
+                        $balanceAmount = $invoice->amount_left ?? ($finalAmount - $totalReceived);
 
                         /* ===============================
                  | INVOICE STATUS
