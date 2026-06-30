@@ -487,8 +487,8 @@
                                     <table class="table table-bordered" id="entryTable">
                                         <thead>
                                             <tr>
+                                                <th>Metal Type</th>
                                                 <th>Category</th>
-                                                <th>Sub Category</th>
                                                 <th>Product Name</th>
                                                 <th>Pre Code</th>
                                                 <th>Post Code</th>
@@ -517,12 +517,12 @@
                                                 </td>
 
                                                 <td>
-                                                    <span class="entry-label">Category</span>
+                                                    <span class="entry-label">Metal Type</span>
                                                     <input type="text" name="category[]" class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
                                                 <td>
-                                                    <span class="entry-label">Sub Category</span>
+                                                    <span class="entry-label">Category</span>
                                                     <input type="text" name="subcategory[]" class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
@@ -1583,7 +1583,7 @@
                     let preCode = String(option.data('pre_code')).trim();
                     let postCode = String(option.data('post_code')).trim();
                     let fullCode = (preCode + '-' + postCode + '-' + barcode).trim();
-                    
+
                     if (barcode === searchValue || fullCode === searchValue || option.val() === searchValue) {
                         matchedOption = option;
                         return false;

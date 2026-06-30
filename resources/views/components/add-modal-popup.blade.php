@@ -2362,7 +2362,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Add Category</h4>
+                        <h4 class="mb-0">Add Metal</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -2394,7 +2394,7 @@
                         <button type="button" data-bs-dismiss="modal"
                             class="btn btn-back cancel-btn me-2">Cancel</button>
                         <button type="submit" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-continue-btn">Add Category</button>
+                            class="btn btn-primary paid-continue-btn">Add Metal</button>
                     </div>
                 </form>
             </div>
@@ -2408,7 +2408,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Edit Category</h4>
+                        <h4 class="mb-0">Edit Metal</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -2442,7 +2442,7 @@
             <div class="modal-content">
 
                 <div class="modal-body text-center">
-                    <h4>Are you sure you want to delete this Category?</h4>
+                    <h4>Are you sure you want to delete this Metal?</h4>
 
                     <form id="deleteCategoryForm" method="POST">
                         @csrf
@@ -2478,7 +2478,7 @@
                                 <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
                                     data-bs-target="#collapseOne" aria-expanded="true"
                                     aria-controls="collapseOne">
-                                    Category Name
+                                    Metal Name
                                     <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
                                 </a>
                             </h6>
@@ -2582,7 +2582,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Add Sub Category</h4>
+                        <h4 class="mb-0">Add Category</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -2597,7 +2597,7 @@
                             <!-- Subcategory Name -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>Subcategory Name <span class="text-danger">*</span></label>
+                                    <label>category Name <span class="text-danger">*</span></label>
                                     <input type="text" name="subcategory_name" class="form-control"
                                         placeholder="Enter Subcategory Name" required>
                                 </div>
@@ -2606,14 +2606,14 @@
                             <!-- Parent Category -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>Parent Category <span class="text-danger">*</span></label>
+                                    <label>Metal Type <span class="text-danger">*</span></label>
                                     @php
                                         $categories = \App\Models\Category::all();
                                     @endphp
 
 
                                     <select name="category_id" class="form-control select" required>
-                                        <option value="">Select Category</option>
+                                        <option value="">Select Metal</option>
 
 
                                         @foreach ($categories as $category)
@@ -2634,7 +2634,7 @@
                             class="btn btn-back cancel-btn me-2">Cancel</button>
 
                         <button type="submit" class="btn btn-primary">
-                            Add Subcategory
+                            Add Category
                         </button>
                     </div>
                 </form>
@@ -2650,7 +2650,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Edit SubCategory</h4>
+                        <h4 class="mb-0">Edit Category</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -2672,7 +2672,7 @@
                             <!-- Subcategory Name -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>Subcategory Name <span class="text-danger">*</span></label>
+                                    <label>category Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="subcategory_name"
                                         id="edit_subcategory_name" placeholder="Enter Subcategory Name" required>
                                 </div>
@@ -2681,10 +2681,10 @@
                             <!-- Parent Category -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>Parent Category <span class="text-danger">*</span></label>
+                                    <label>Metal Type <span class="text-danger">*</span></label>
                                     <select class="form-control" name="category_id" id="edit_category_id"
                                         required>
-                                        <option value="">Select Category</option>
+                                        <option value="">Select Metal</option>
                                         @foreach ($categories as $cat)
                                             <option value="{{ $cat->category_id }}">
                                                 {{ $cat->category_name }}
@@ -7389,7 +7389,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Add Category</h4>
+                        <h4 class="mb-0">Add Metal</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span class="align-center" aria-hidden="true">×</span>
@@ -7399,7 +7399,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="modal-body">
                     <form>
                         <div class="input-block mb-3">
-                            <label>Category Name</label>
+                            <label>Metal Name</label>
                             <input class="form-control form-white" placeholder="Enter name" type="text">
                         </div>
                         <div class="input-block mb-0">

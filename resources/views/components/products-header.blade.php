@@ -8,10 +8,10 @@
                          <li><a href="{{ url('product-list') }}"
                                  class="{{ Request::is('product-list') ? 'active' : '' }}">Product</a></li>
                          <li><a href="{{ url('category') }}"
-                                 class="{{ Request::is('category') ? 'active' : '' }}">Category</a></li>
+                                 class="{{ Request::is('category') ? 'active' : '' }}">Metal Type</a></li>
                          {{-- <li><a href="{{ url('units') }}" class="{{ Request::is('units') ? 'active' : '' }}">Units</a> --}}
                             <li><a href="{{ url('subcategory') }}"
-                                 class="{{ Request::is('subcategory') ? 'active' : '' }}">SubCategory</a></li>
+                                 class="{{ Request::is('subcategory') ? 'active' : '' }}">Category</a></li>
                                  <li><a href="{{ url('metal-rates') }}"
                                  class="{{ Request::is('metal-rates') ? 'active' : '' }}">Metal Rates</a></li>
                                  <li><a href="{{ url('purity') }}"

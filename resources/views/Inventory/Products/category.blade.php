@@ -8,7 +8,7 @@
             <!-- Page Header -->
             @component('components.page-header')
                 @slot('title')
-                    Category
+                    Metal Type
                 @endslot
             @endcomponent
             <!-- /Page Header -->
@@ -38,7 +38,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th>#</th>
-                                            <th>Category Name</th>
+                                            <th>Metal Name</th>
                                            <th class="no-sort">Action</th>
                                         </tr>
                                     </thead>

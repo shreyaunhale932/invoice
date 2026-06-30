@@ -430,8 +430,8 @@
                                     <table class="table table-bordered" id="entryTable">
                                         <thead>
                                             <tr>
+                                                <th>Metal Type</th>
                                                 <th>Category</th>
-                                                <th>Sub Category</th>
                                                 <th>Product Name</th>
                                                 <th>Pre Code</th>
                                                 <th>Post Code</th>
@@ -461,12 +461,12 @@
                                                 </td>
 
                                                 <td>
-                                                    <span class="entry-label">Category</span>
+                                                    <span class="entry-label">Metal Type</span>
                                                     <input type="text" name="category[]" class="form-control readonly-field"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
                                                 <td>
-                                                    <span class="entry-label">Sub Category</span>
+                                                    <span class="entry-label">Category</span>
                                                     <input type="text" name="subcategory[]" class="form-control readonly-field"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
@@ -985,7 +985,7 @@
                                                          <h4>
                                                              Payable Amount
                                                              <span id="payableAmount">₹{{ number_format($invoice->final_amount ?? 0, 2) }}</span>
-                                                         </h4>                                                
+                                                         </h4>
                                                         <hr>
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
@@ -1597,7 +1597,7 @@
                     let preCode = String(option.data('pre_code')).trim();
                     let postCode = String(option.data('post_code')).trim();
                     let fullCode = (preCode + '-' + postCode + '-' + barcode).trim();
-                    
+
                     if (barcode === searchValue || fullCode === searchValue || option.val() === searchValue) {
                         matchedOption = option;
                         return false;
@@ -3079,7 +3079,7 @@
             init(accounts, initialPayments) {
                 this.accounts = accounts || [];
                 this.bindEvents();
-                
+
                 if (initialPayments && initialPayments.length > 0) {
                     initialPayments.forEach(p => {
                         this.addPaymentRow(p.payment_method, p);
@@ -3343,7 +3343,7 @@
                 });
 
                 $('#totalPaymentsBadge').text(`Total: ₹${total.toFixed(2)}`);
-                
+
                 // Update legacy fields
                 $('#cashReceived').val(cashTotal);
                 $('#cardReceived').val(cardTotal);

@@ -200,7 +200,7 @@
 
                                 <!-- Category -->
                                 <div class="col-lg-4 mt-3">
-                                    <label>Category *</label>
+                                    <label>Metal Type *</label>
                                     <select name="category_id" id="category_id"
                                         class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
                                         <option value="">Select Category</option>
@@ -218,7 +218,7 @@
 
                                 <!-- Subcategory -->
                                 <div class="col-lg-4 mt-3">
-                                    <label>Subcategory *</label>
+                                    <label>category *</label>
                                     <select name="subcategory_id" id="subcategory_id"
                                         class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
                                         <option value="">Select Subcategory</option>
