@@ -203,7 +203,7 @@
                                     <label>Metal Type *</label>
                                     <select name="category_id" id="category_id"
                                         class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
-                                        <option value="">Select Category</option>
+                                        <option value="">Select Metal Type</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->category_id }}"
                                                 data-metal="{{ strtolower($category->category_name) }}"
@@ -221,7 +221,7 @@
                                     <label>category *</label>
                                     <select name="subcategory_id" id="subcategory_id"
                                         class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
-                                        <option value="">Select Subcategory</option>
+                                        <option value="">Select category</option>
                                         @foreach ($subcategories as $subcategory)
                                             <option value="{{ $subcategory->subcategory_id }}"
                                                 {{ old('subcategory_id', $product->subcategory_id ?? '') == $subcategory->subcategory_id ? 'selected' : '' }}>
