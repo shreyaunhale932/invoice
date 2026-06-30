@@ -323,7 +323,7 @@
                                 <div class="col-lg-3 col-md-6">
                                     <label>HSN Code</label>
                                     <input type="text" class="form-control" name="hsn_code"
-                                        value="{{ old('hsn_code', $product->hsn_code ?? '') }}" required>
+                                        value="{{ old('hsn_code', $product->hsn_code ?? '') }}" >
                                 </div>
 
                             </div>

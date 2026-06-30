@@ -931,7 +931,7 @@
                                                             id="cgstdiv">
                                                             <label>CGST %</label>
                                                             <input type="number" id="cgstPercent"
-                                                                class="form-control w-25" value="" readonly>
+                                                                class="form-control w-25" value="" >
                                                             <span id="cgstAmount">₹0.00</span>
                                                         </div>
 
@@ -940,7 +940,7 @@
                                                             id="sgstdiv">
                                                             <label>SGST %</label>
                                                             <input type="number" id="sgstPercent"
-                                                                class="form-control w-25" value="" readonly>
+                                                                class="form-control w-25" value="" >
                                                             <span id="sgstAmount">₹0.00</span>
                                                         </div>
 
@@ -949,7 +949,7 @@
                                                             id="igstdiv">
                                                             <label>IGST %</label>
                                                             <input type="number" id="igstPercent"
-                                                                class="form-control w-25" value="" readonly>
+                                                                class="form-control w-25" value="" >
                                                             <span id="igstAmount">₹0.00</span>
                                                         </div>
 
@@ -2283,11 +2283,11 @@
                     $('#igstPercent').val(0);
 
                     // SHOW CGST + SGST
-                    $('#cgstdiv').attr('style', 'display: flex !important;');
-                    $('#sgstdiv').attr('style', 'display: flex !important;');
+                    // $('#cgstdiv').attr('style', 'display: flex !important;');
+                    // $('#sgstdiv').attr('style', 'display: flex !important;');
 
-                    // HIDE IGST
-                    $('#igstdiv').attr('style', 'display: none !important;');
+                    // // HIDE IGST
+                    // $('#igstdiv').attr('style', 'display: none !important;');
 
                 } else {
 
@@ -2298,11 +2298,11 @@
                     $('#igstPercent').val(3);
 
                     // HIDE CGST + SGST
-                    $('#cgstdiv').attr('style', 'display: none !important;');
-                    $('#sgstdiv').attr('style', 'display: none !important;');
+                    // $('#cgstdiv').attr('style', 'display: none !important;');
+                    // $('#sgstdiv').attr('style', 'display: none !important;');
 
-                    // SHOW IGST
-                    $('#igstdiv').attr('style', 'display: flex !important;');
+                    // // SHOW IGST
+                    // $('#igstdiv').attr('style', 'display: flex !important;');
                 }
 
                 // 🔄 Recalculate totals

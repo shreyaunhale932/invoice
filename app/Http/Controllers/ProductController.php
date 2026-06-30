@@ -45,32 +45,32 @@ class ProductController extends Controller
                 ->where('purity_id', $request->purity_id)
                 ->first();
 
-            if ($originalItem && $originalItem->product_code !== $preCode) {
-                return redirect()
-                    ->back()
-                    ->withErrors([
-                        'pre_code' => 'This product already exists with Pre Code: '.$originalItem->product_code,
-                    ])
-                    ->withInput();
-            }
+            // if ($originalItem && $originalItem->product_code !== $preCode) {
+            //     return redirect()
+            //         ->back()
+            //         ->withErrors([
+            //             'pre_code' => 'This product already exists with Pre Code: '.$originalItem->product_code,
+            //         ])
+            //         ->withInput();
+            // }
             $itemProduct = ItemProductData::where('product_code', $preCode)->first();
             //  dd($itemProduct);
-            if ($itemProduct) {
-                //  dd('Reequest product name=>'.$request->product_name.'   Item product name=>'.$itemProduct->product_name);
-                //  echo ''
-                // pre_code used for another product → ERROR
-                if (
-                    $itemProduct->product_name != $request->product_name ||
-                    $itemProduct->purity_id != $request->purity_id
-                ) {
-                    return redirect()
-                        ->back()
-                        ->withErrors([
-                            'pre_code' => 'Pre code already present for another product.',
-                        ])
-                        ->withInput();
-                }
-            }
+            // if ($itemProduct) {
+            //     //  dd('Reequest product name=>'.$request->product_name.'   Item product name=>'.$itemProduct->product_name);
+            //     //  echo ''
+            //     // pre_code used for another product → ERROR
+            //     if (
+            //         $itemProduct->product_name != $request->product_name ||
+            //         $itemProduct->purity_id != $request->purity_id
+            //     ) {
+            //         return redirect()
+            //             ->back()
+            //             ->withErrors([
+            //                 'pre_code' => 'Pre code already present for another product.',
+            //             ])
+            //             ->withInput();
+            //     }
+            // }
             /*
             |--------------------------------------------------------------------------
             | Ensure post_code is unique for this pre_code
@@ -421,11 +421,11 @@ class ProductController extends Controller
                 ->where('id', '!=', $id)
                 ->exists();
 
-            if ($exists) {
-                return redirect()->back()
-                    ->withErrors(['post_code' => 'This Post Code already exists for this Pre Code.'])
-                    ->withInput();
-            }
+            // if ($exists) {
+            //     return redirect()->back()
+            //         ->withErrors(['post_code' => 'This Post Code already exists for this Pre Code.'])
+            //         ->withInput();
+            // }
 
             /*
         |--------------------------------------------------------------------------

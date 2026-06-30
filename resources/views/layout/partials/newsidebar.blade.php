@@ -71,10 +71,10 @@
                     </li>
 
                     <li class="{{ Request::is('labels/templates*') ? 'active' : '' }}">
-                        <a href="{{ route('labels.templates.index') }}">Label Templates</a>
+                        <a href="{{ route('labels.templates.index') }}">Tag Design</a>
                     </li>
                     <li class="{{ Request::is('labels/print/bulk') ? 'active' : '' }}">
-                        <a href="{{ route('labels.print.bulk') }}">Bulk Print</a>
+                        <a href="{{ route('labels.print.bulk') }}">Bulk Print Tag</a>
                     </li>
                 </ul>
             </li>
