@@ -2362,7 +2362,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Add Metal</h4>
+                        <h4 class="mb-0">Add Category</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -2394,7 +2394,7 @@
                         <button type="button" data-bs-dismiss="modal"
                             class="btn btn-back cancel-btn me-2">Cancel</button>
                         <button type="submit" data-bs-dismiss="modal"
-                            class="btn btn-primary paid-continue-btn">Add Metal</button>
+                            class="btn btn-primary paid-continue-btn">Add Category</button>
                     </div>
                 </form>
             </div>
@@ -2606,7 +2606,7 @@
                             <!-- Parent Category -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>Metal Type <span class="text-danger">*</span></label>
+                                    <label>Category<span class="text-danger">*</span></label>
                                     @php
                                         $categories = \App\Models\Category::all();
                                     @endphp
@@ -2681,7 +2681,7 @@
                             <!-- Parent Category -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>Metal Type <span class="text-danger">*</span></label>
+                                    <label>Category <span class="text-danger">*</span></label>
                                     <select class="form-control" name="category_id" id="edit_category_id"
                                         required>
                                         <option value="">Select Metal</option>
@@ -7389,7 +7389,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Add Metal</h4>
+                        <h4 class="mb-0">Add Category</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span class="align-center" aria-hidden="true">×</span>

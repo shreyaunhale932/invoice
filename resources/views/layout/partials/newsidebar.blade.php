@@ -61,10 +61,10 @@
                         <a href="{{ url('add-products') }}">Add Product</a>
                     </li>
                     <li class="{{ Request::is('category') ? 'active' : '' }}">
-                        <a href="{{ url('category') }}">Metal Type</a>
+                        <a href="{{ url('category') }}">Category</a>
                     </li>
                     <li class="{{ Request::is('subcategory') ? 'active' : '' }}">
-                        <a href="{{ url('subcategory') }}">Category</a>
+                        <a href="{{ url('subcategory') }}">SubCategory</a>
                     </li>
                     <li class="{{ Request::is('purity') ? 'active' : '' }}">
                         <a href="{{ url('purity') }}">Purity</a>

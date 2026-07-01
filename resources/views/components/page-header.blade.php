@@ -217,14 +217,14 @@
                     @if (Route::is(['category']))
                     <li>
                         <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal"
-                            data-bs-target="#add_category"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Metal</a>
+                            data-bs-target="#add_category"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Category</a>
                     </li>
                     @endif
                       @if (Route::is(['subcategory']))
                     <li>
                         <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal"
                             data-bs-target="#add_subcategory"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add
-                            Category</a>
+                            SubCategory</a>
                     </li>
                     @endif
                      @if (Route::is(['metal-rates']))

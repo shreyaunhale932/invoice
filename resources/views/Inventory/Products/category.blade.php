@@ -8,7 +8,7 @@
             <!-- Page Header -->
             @component('components.page-header')
                 @slot('title')
-                    Metal Type
+                  Category
                 @endslot
             @endcomponent
             <!-- /Page Header -->

@@ -487,8 +487,8 @@
                                     <table class="table table-bordered" id="entryTable">
                                         <thead>
                                             <tr>
-                                                <th>Metal Type</th>
                                                 <th>Category</th>
+                                                <th>SubCategory</th>
                                                 <th>Product Name</th>
                                                 <th>Pre Code</th>
                                                 <th>Post Code</th>
@@ -517,12 +517,12 @@
                                                 </td>
 
                                                 <td>
-                                                    <span class="entry-label">Metal Type</span>
+                                                    <span class="entry-label">Category</span>
                                                     <input type="text" name="category[]" class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
                                                 <td>
-                                                    <span class="entry-label">Category</span>
+                                                    <span class="entry-label">SubCategory</span>
                                                     <input type="text" name="subcategory[]" class="form-control"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
