@@ -2582,7 +2582,7 @@
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <div class="form-header modal-header-title text-start mb-0">
-                        <h4 class="mb-0">Add Category</h4>
+                        <h4 class="mb-0">Add SubCategory</h4>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -2634,7 +2634,7 @@
                             class="btn btn-back cancel-btn me-2">Cancel</button>
 
                         <button type="submit" class="btn btn-primary">
-                            Add Category
+                            Add SubCategory
                         </button>
                     </div>
                 </form>

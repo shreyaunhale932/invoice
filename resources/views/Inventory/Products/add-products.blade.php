@@ -159,7 +159,7 @@
 
                                 <!-- Product Code -->
                                 <div class="col-lg-4">
-                                    <label>Pre Code</label>
+                                    <label>Item Code</label>
                                     <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
                                         name="pre_code" id="pre_code"
                                         value="{{ old('pre_code', $product->pre_code ?? '') }}"
@@ -477,20 +477,20 @@
                                         value="{{ old('gold_price', $product->gold_price ?? '') }}" required>
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 mb-3">
+                                {{-- <div class="col-lg-4 col-md-6 mb-3">
                                     <label>Sale Price</label>
                                     <input type="text" class="form-control" name="sale_price"
                                         value="{{ old('sale_price', $product->sale_price ?? '') }}">
-                                </div>
+                                </div> --}}
 
-                                <div class="col-lg-4 col-md-6 mb-3">
+                                {{-- <div class="col-lg-4 col-md-6 mb-3">
                                     <label>GST %</label>
                                     <input type="text" class="form-control" name="gst_percent"
                                         value="{{ old('gst_percent', $product->gst_percent ?? '') }}">
-                                </div>
+                                </div> --}}
 
                                 <!-- Row 3 -->
-                                <div class="col-lg-4 col-md-6 mb-3">
+                                {{-- <div class="col-lg-4 col-md-6 mb-3">
                                     <label>GST Amount</label>
                                     <input type="text" class="form-control" name="gst_amount"
                                         value="{{ old('gst_amount', $product->gst_amount ?? '') }}">
@@ -500,7 +500,7 @@
                                     <label>MRP Price</label>
                                     <input type="text" class="form-control" name="mrp_price"
                                         value="{{ old('mrp_price', $product->mrp_price ?? '') }}">
-                                </div>
+                                </div> --}}
 
                                 <div class="col-lg-4 col-md-6 mb-3">
                                     <label>Final Price</label>

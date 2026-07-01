@@ -433,7 +433,7 @@
                                                 <th>Category</th>
                                                 <th>SubCategory</th>
                                                 <th>Product Name</th>
-                                                <th>Pre Code</th>
+                                                <th>Item Code</th>
                                                 <th>Post Code</th>
                                                 {{-- <th>Barcode</th> --}}
                                                 {{-- <th>HSN Code</th> --}}
@@ -476,7 +476,7 @@
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>
                                                 <td>
-                                                    <span class="entry-label">Pre Code</span>
+                                                    <span class="entry-label">Item Code</span>
                                                     <input type="text" name="pre_code[]" class="form-control readonly-field"
                                                         style="pointer-events: none; background-color: #e9ecef;">
                                                 </td>

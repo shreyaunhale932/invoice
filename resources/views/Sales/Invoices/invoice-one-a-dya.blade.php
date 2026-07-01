@@ -532,7 +532,7 @@
                         'category' => $templateSettings['item_table.column_category']->label ?? 'Category',
                         'subcategory' => $templateSettings['item_table.column_subcategory']->label ?? 'Sub Category',
                         'item' => $templateSettings['item_table.column_item']->label ?? 'Item',
-                        'pre_code' => $templateSettings['item_table.column_pre_code']->label ?? 'Pre Code',
+                        'pre_code' => $templateSettings['item_table.column_pre_code']->label ?? 'Item Code',
                         'post_code' => $templateSettings['item_table.column_post_code']->label ?? 'Post Code',
                         'barcode' => $templateSettings['item_table.column_barcode']->label ?? 'Barcode',
                         'hsn_code' => $templateSettings['item_table.column_hsn_code']->label ?? 'HSN Code',

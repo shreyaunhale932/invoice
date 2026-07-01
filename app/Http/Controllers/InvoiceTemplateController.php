@@ -76,14 +76,16 @@ class InvoiceTemplateController extends Controller
                 foreach ($request->file('images') as $key => $file) {
                     if ($file && $file->isValid()) {
                         $filename = 'invoice_' . $adminId . '_' . time() . '_' . $key . '.' . $file->getClientOriginalExtension();
-                        $path = 'assets/img/invoice-templates/';
 
-                        if (!file_exists($path)) {
-                            mkdir($path, 0777, true);
-                        }
+$directory = public_path('assets/img/invoice-templates');
 
-                        $file->move($path, $filename);
-                        $uploadedImages[$key] = '/assets/img/invoice-templates/' . $filename;
+if (!file_exists($directory)) {
+    mkdir($directory, 0755, true);
+}
+
+$file->move($directory, $filename);
+
+$uploadedImages[$key] = '/assets/img/invoice-templates/' . $filename;
                     }
                 }
             }
