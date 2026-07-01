@@ -128,7 +128,7 @@ class ProductController extends Controller
                 ->where('item_product_data_id', $itemProductData->id)
                 ->orderByDesc('post_code')
                 ->first();
-dd($oldProduct);
+    dd($oldProduct);
             if ($oldProduct) {
                 $postid = $oldProduct->post_code + 1;
             } else {
