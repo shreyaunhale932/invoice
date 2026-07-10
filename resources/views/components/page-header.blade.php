@@ -231,7 +231,7 @@
                     <li>
                         <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal"
                             data-bs-target="#add_metalrates"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add
-                            Metal Rates</a>
+                            Purity/Metal Rates</a>
                     </li>
                     @endif
                      @if (Route::is(['expenses.index']))

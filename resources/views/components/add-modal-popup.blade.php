@@ -2597,7 +2597,7 @@
                             <!-- Subcategory Name -->
                             <div class="col-lg-12">
                                 <div class="input-block mb-3">
-                                    <label>category Name <span class="text-danger">*</span></label>
+                                    <label>Subcategory Name <span class="text-danger">*</span></label>
                                     <input type="text" name="subcategory_name" class="form-control"
                                         placeholder="Enter Subcategory Name" required>
                                 </div>

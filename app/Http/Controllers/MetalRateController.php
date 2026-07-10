@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\MetalRate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MetalRateController extends Controller
@@ -12,25 +12,26 @@ class MetalRateController extends Controller
     {
         // Validate incoming fields
         $request->validate([
-            'metal_type'      => 'required|string|max:255',
-            'price_per_gram'  => 'required|numeric',
+            'metal_type' => 'required|string|max:255',
+            'price_per_gram' => 'required|numeric',
             // 'gram'            => 'required|numeric',
-            'karat'           => 'nullable|string|max:10',
-            'purity_type'  => 'required|in:karat,percent',
+            'karat' => 'nullable|string|max:10',
+            'purity_type' => 'required|in:karat,percent',
         ]);
 
         // Save data to database
         $metalRate = MetalRate::create([
             'admin_id' => Auth::guard('admin')->id(),
-            'metal_type'      => $request->metal_type,
-            'price_per_gram'  => $request->price_per_gram,
+            'metal_type' => $request->metal_type,
+            'price_per_gram' => $request->price_per_gram,
             // 'gram'            => $request->gram,
-            'karat'           => $request->karat,
+            'karat' => $request->karat,
             'purity_type' => $request->purity_type,
         ]);
 
         return redirect()->back()->with('success', 'Metal rate added successfully!');
     }
+
     public function update(Request $request, $id)
     {
         $metalRate = MetalRate::findOrFail($id);
@@ -47,6 +48,7 @@ class MetalRateController extends Controller
 
         return redirect()->back()->with('success', 'Metal rate updated and product valuations refreshed successfully!');
     }
+
     public function destroy($id)
     {
         $rate = MetalRate::findOrFail($id);
@@ -63,30 +65,46 @@ class MetalRateController extends Controller
         ]);
 
         $rate24k = $request->rate_24k;
-        $karats = [24, 22, 20, 18, 14, 9];
+        $purities = [
+            24 => 100.0,   // or 99.9 if you prefer
+            22 => 91.6,
+            20 => 83.3,
+            18 => 75.0,
+            14 => 58.5,
+            9 => 37.5,
+        ];
         $adminId = Auth::guard('admin')->id();
 
-        foreach ($karats as $karat) {
-            $price = ($rate24k * $karat) / 24;
-            $price = round($price, 2);
+        foreach ($purities as $karat => $percent) {
+
+            // $price = ($rate24k * $percent) / 100;
+            // $price = round($price, 2);
+            $price = round(($rate24k * $percent) / 100);
 
             $rate = MetalRate::where('admin_id', $adminId)
                 ->where('metal_type', 'Gold')
-                ->where('karat', (string)$karat)
+                ->where('karat', (string) $karat)
                 ->where('purity_type', 'karat')
                 ->first();
 
             if ($rate) {
-                $rate->update(['price_per_gram' => $price]);
+
+                $rate->update([
+                    'price_per_gram' => $price,
+                ]);
+
                 if (class_exists(\App\Services\ProductValuationService::class)) {
-                    app(\App\Services\ProductValuationService::class)->updateProductValuations($rate);
+                    app(\App\Services\ProductValuationService::class)
+                        ->updateProductValuations($rate);
                 }
+
             } else {
+
                 MetalRate::create([
                     'admin_id' => $adminId,
                     'metal_type' => 'Gold',
                     'price_per_gram' => $price,
-                    'karat' => (string)$karat,
+                    'karat' => (string) $karat,
                     'purity_type' => 'karat',
                 ]);
             }

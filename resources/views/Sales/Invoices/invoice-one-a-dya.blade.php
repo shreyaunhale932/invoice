@@ -906,6 +906,47 @@
                         </div>
                     </div>
                 @endif
+
+                {{-- EXCHANGE DIAMONDS --}}
+                @if ($invoice->exchangeDiamonds->count() > 0)
+                    <div class="mt-4">
+                        <h5>Old Diamonds Received</h5>
+                        <div class="invoice-table">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="ecommercetable">
+                                            <th>#</th>
+                                            <th>Desc</th>
+                                            <th>Clarity</th>
+                                            <th>Cut</th>
+                                            <th>Color</th>
+                                            <th>Pieces</th>
+                                            <th>Weight (ct)</th>
+                                            <th>Rate/Carat</th>
+                                            <th class="text-end">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($invoice->exchangeDiamonds as $dia)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $dia->description }}</td>
+                                                <td>{{ $dia->clarity }}</td>
+                                                <td>{{ $dia->cut }}</td>
+                                                <td>{{ $dia->color }}</td>
+                                                <td>{{ $dia->pieces }}</td>
+                                                <td>{{ number_format($dia->weight, 3) }}</td>
+                                                <td>{{ number_format($dia->rate, 2) }}</td>
+                                                <td class="text-end">{{ number_format($dia->amount, 2) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 @php
                     /* ===============================
                  | BASIC AMOUNTS

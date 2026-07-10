@@ -149,7 +149,7 @@
                                 <!-- Product Name -->
                                 <div class="col-lg-4">
                                     <label>Product Name *</label>
-                                    <input type="text" class="form-control" name="product_name"
+                                    <input type="text" class="form-control" name="product_name" id="product_name"
                                         value="{{ old('product_name', $product->product_name ?? '') }}" required>
 
                                     @error('product_name')
@@ -174,9 +174,9 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label>Post Code</label>
-                                    <input type="number"
+                                    <input type="text"
                                         class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="post_code"
-                                        id="post_code" value="{{ old('post_code', $product->post_code ?? 1) }}"
+                                        id="post_code" value="{{ old('post_code', isset($product) ? $product->post_code : '0001') }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
 
                                     @error('post_code')
@@ -190,7 +190,7 @@
                                 <div class="col-lg-4">
                                     <label>Barcode</label>
                                     <input type="text"
-                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="barcode"
+                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" name="barcode" id="barcode"
                                         value="{{ old('barcode', $product->barcode ?? ($newBarcode ?? '')) }}"
                                         {{ isset($product) ? 'readonly' : '' }}>
                                     @error('barcode')
@@ -233,9 +233,9 @@
 
 
                                 <!-- Purity -->
-                                <div class="col-lg-4 mt-3">
+                                <div class="col-lg-4 mt-3" style="display:none">
                                     <label>Purity</label>
-                                    <select name="purity_id" id="purity_id" class="form-control select" required>
+                                    <select name="purity_id" id="purity_id" class="form-control select" >
                                         <option value="">Select Purity</option>
                                         @foreach ($purities as $purity)
                                             <option value="{{ $purity->id }}"
@@ -266,7 +266,7 @@
 
                                 <!-- Metal Rate -->
                                 <div class="col-lg-3 col-md-6">
-                                    <label>Metal Rate</label>
+                                    <label>Purity/Metal Rate</label>
                                     {{-- <select name="metal_rate_id" id="metal_rate" class="form-control select" required>
                                         <option value="">Select Metal Rate</option>
                                         @foreach ($metalRates as $rate)
@@ -278,7 +278,7 @@
                                         @endforeach
                                     </select> --}}
                                     <select name="metal_rate_id" id="metal_rate" class="form-control" required>
-                                        <option value="">Select Metal Rate</option>
+                                        <option value="">Select Purity/Metal Rate</option>
                                         @foreach ($metalRates as $rate)
                                             <option value="{{ $rate->id }}"
                                                 data-metal="{{ strtolower($rate->metal_type) }}"
@@ -287,7 +287,7 @@
                                                 data-purity-type="{{ $rate->purity_type }}"
                                                 {{ old('metal_rate', $product->metal_rate ?? '') == $rate->id ? 'selected' : '' }}>
                                                 {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm -
-                                                {{ $rate->karat }}{{ $rate->purity_type === 'karat' ? 'K' : '%' }}
+                                                {{ $rate->karat }}{{ $rate->purity_type === 'karat' ? 'KT' : '%' }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -315,7 +315,7 @@
                                 <!-- Quantity -->
                                 <div class="col-lg-3 col-md-6">
                                     <label>Quantity</label>
-                                    <input type="number" min="1" class="form-control" name="quantity"
+                                    <input type="text" min="1" class="form-control" name="quantity"
                                         value="{{ old('quantity', $product->quantity ?? 1) }}">
                                 </div>
 
@@ -323,7 +323,7 @@
                                 <div class="col-lg-3 col-md-6">
                                     <label>HSN Code</label>
                                     <input type="text" class="form-control" name="hsn_code"
-                                        value="{{ old('hsn_code', $product->hsn_code ?? '') }}" >
+                                        value="{{ old('hsn_code', $product->hsn_code ?? '711319') }}" >
                                 </div>
 
                             </div>
@@ -336,11 +336,11 @@
                                 <div class="col-lg-4 col-md-4">
                                     <label>Gross Weight (GS WT)</label>
                                     <div class="input-group">
-                                        <input type="number" step="0.001" class="form-control" name="gross_weight"
+                                        <input type="text" step="0.001" class="form-control" name="gross_weight"
                                             value="{{ old('gross_weight', $product->gross_weight ?? '') }}" required>
 
                                         <select class="form-control" name="gross_weight_unit"
-                                            style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                                            style="max-width: 90px; pointer-events:none; background:#e9ecef; display:none;">
                                             <option value="GM"
                                                 {{ old('gross_weight_unit', $product->gross_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
                                                 GM</option>
@@ -358,11 +358,11 @@
                                 <div class="col-lg-4 col-md-4">
                                     <label>Net Weight</label>
                                     <div class="input-group">
-                                        <input type="number" step="0.001" class="form-control" name="net_weight"
+                                        <input type="text" step="0.001" class="form-control" name="net_weight"
                                             value="{{ old('net_weight', $product->net_weight ?? '') }}" required>
 
                                         <select class="form-control" name="net_weight_unit"
-                                            style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                                            style="max-width: 90px; pointer-events:none; background:#e9ecef; display:none;">
                                             <option value="GM"
                                                 {{ old('net_weight_unit', $product->net_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
                                                 GM</option>
@@ -378,12 +378,12 @@
                                 <div class="col-lg-4 col-md-4">
                                     <label>Net Wt With Wastage</label>
                                     <div class="input-group">
-                                        <input type="number" step="0.001" class="form-control" name="final_fn_weight"
+                                        <input type="text" step="0.001" class="form-control" name="final_fn_weight"
                                             value="{{ old('final_fn_weight', $product->final_fn_weight ?? '') }}"
                                             required>
 
                                         <select class="form-control" name="final_fn_weight_unit"
-                                            style="max-width: 90px; pointer-events:none; background:#e9ecef;">
+                                            style="max-width: 90px; pointer-events:none; background:#e9ecef; display:none;">
                                             <option value="GM"
                                                 {{ old('final_fn_weight_unit', $product->final_fn_weight_unit ?? '') == 'GM' ? 'selected' : '' }}>
                                                 GM</option>
@@ -513,7 +513,7 @@
 
                     </div>
                     <!-- DIAMOND & STONES -->
-                    <div class="card glass-card mb-4 p-4">
+                    {{-- <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item mt-4">
                             <h4 class="section-header">Diamonds & Stones</h4>
 
@@ -552,7 +552,7 @@
 
                                                 <div class="col-lg-3">
                                                     <label>Pieces</label>
-                                                    <input type="number" name="diamond[pieces][]" class="form-control"
+                                                    <input type="text" name="diamond[pieces][]" class="form-control"
                                                         value="{{ $diamond->pieces }}">
                                                 </div>
 
@@ -660,7 +660,7 @@
 
                                         <div class="col-lg-3">
                                             <label>Pieces</label>
-                                            <input type="number" name="diamond[pieces][]" class="form-control">
+                                            <input type="text" name="diamond[pieces][]" class="form-control">
                                         </div>
 
                                         <div class="col-lg-3 mt-3">
@@ -718,7 +718,7 @@
 
                         </div>
 
-                    </div>
+                    </div> --}}
                     <!-- PACKETS -->
                     <div class="card glass-card mb-4 p-4">
                         <div class="form-group-item mt-4">
@@ -813,7 +813,7 @@
 
                                                 <div class="col-lg-3 col-md-6">
                                                     <label class="form-label">Pcs</label>
-                                                    <input type="number" name="packet[pcs][]"
+                                                    <input type="text" name="packet[pcs][]"
                                                         class="form-control packet-pcs" value="{{ $packet->pcs }}">
                                                 </div>
 
@@ -826,7 +826,7 @@
 
                                                 <div class="col-lg-3 col-md-6">
                                                     <label class="form-label">Wt (Gram)</label>
-                                                    <input type="number" step="0.001" name="packet[wt_in_gram][]"
+                                                    <input type="text" step="0.001" name="packet[wt_in_gram][]"
                                                         class="form-control packet-gram"
                                                         value="{{ $packet->wt_in_gram }}">
                                                 </div>
@@ -865,7 +865,7 @@
 
                                                 <div class="col-lg-3 col-md-6">
                                                     <label class="form-label">Amount</label>
-                                                    <input type="number" step="0.01" name="packet[amount][]"
+                                                    <input type="text" step="0.01" name="packet[amount][]"
                                                         class="form-control packet-amount" value="{{ $packet->amount }}"
                                                         readonly>
                                                 </div>
@@ -961,7 +961,7 @@
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Pcs</label>
-        <input type="number" name="packet[pcs][]" class="form-control packet-pcs">
+        <input type="text" name="packet[pcs][]" class="form-control packet-pcs">
     </div>
 
     <div class="col-lg-3 col-md-6">
@@ -971,7 +971,7 @@
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Wt (Gram)</label>
-        <input type="number" step="0.001" name="packet[wt_in_gram][]" class="form-control packet-gram">
+        <input type="text" step="0.001" name="packet[wt_in_gram][]" class="form-control packet-gram">
     </div>
 
     <div class="col-lg-3 col-md-6">
@@ -996,7 +996,7 @@
 
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Amount</label>
-        <input type="number" step="0.01" name="packet[amount][]" class="form-control packet-amount" readonly>
+        <input type="text" step="0.01" name="packet[amount][]" class="form-control packet-amount" readonly>
     </div>
 
     <div class="col-lg-3 col-md-6 d-flex align-items-center">
@@ -1151,7 +1151,7 @@
 
         });
     </script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
 
             function filterMetalRates(reset = true) {
@@ -1255,7 +1255,7 @@
                 .val('{{ old('metal_rate_id', $product->metal_rate ?? '') }}')
                 .trigger('change');
         });
-    </script>
+    </script> --}}
 
 
     <script>
@@ -1500,6 +1500,81 @@
         </script>
     @endif
 <script>
+$(document).ready(function() {
+    // Generate precode on typing product_name
+    $('#product_name').on('input', function() {
+        if ($('#pre_code').prop('readonly')) {
+            return;
+        }
+        let name = $(this).val();
+        let words = name.trim().split(/\s+/);
+        let initials = "";
+        if (words.length > 0 && words[0] !== "") {
+            initials = words.map(w => w[0]).join('').toUpperCase();
+        }
+
+        let oldVal = $('#pre_code').val();
+        if (initials !== oldVal) {
+            $('#pre_code').val(initials).trigger('change');
+        }
+    });
+
+    // Auto-uppercase manual input on pre_code
+    $('#pre_code').on('input', function() {
+        if ($(this).prop('readonly')) return;
+        $(this).val($(this).val().toUpperCase());
+    });
+
+    let preCodeTimeout = null;
+    // Fetch post_code on changing/typing pre_code
+    $('#pre_code').on('input change', function(e) {
+        if ($('#pre_code').prop('readonly')) {
+            return;
+        }
+
+        clearTimeout(preCodeTimeout);
+        let currentVal = $(this).val();
+
+        let delay = (e.type === 'change') ? 0 : 250;
+
+        preCodeTimeout = setTimeout(function() {
+            if (currentVal.trim() === '') {
+                $('#post_code').val('0001');
+                updateBarcode();
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('products.getNextPostCode') }}",
+                type: "GET",
+                data: {
+                    pre_code: currentVal
+                },
+                success: function(response) {
+                    if ($('#post_code').val() !== response.post_code) {
+                        $('#post_code').val(response.post_code);
+                    }
+                    updateBarcode();
+                }
+            });
+        }, delay);
+    });
+
+    // Update barcode on post_code change
+    $('#post_code').on('input change', function() {
+        if ($('#post_code').prop('readonly')) {
+            return;
+        }
+        updateBarcode();
+    });
+
+    function updateBarcode() {
+        let pre = $('#pre_code').val().trim();
+        let post = $('#post_code').val().trim();
+        $('#barcode').val(pre + post);
+    }
+});
+
 $(document).on('keydown', 'input, select, textarea', function(e) {
     if (e.key === 'Enter') {
         e.preventDefault();

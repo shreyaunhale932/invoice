@@ -70,10 +70,10 @@
                                     class="google"><i class="fab fa-google"></i></a>
                             </div> --}}
                             <!-- /Social Login -->
-                            {{-- <div class="text-center dont-have">Don't have an account yet?
+                            <div class="text-center dont-have">Don't have an account yet?
                                 <a
                                     href="{{ url('register') }}">Register</a>
-                                </div> --}}
+                                </div>
                         </form>
 
                     </div>

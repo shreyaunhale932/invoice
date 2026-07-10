@@ -101,8 +101,14 @@ class SellInvoiceItem extends Model
     {
         return $this->hasMany(SellStoneItem::class, 'sell_invoice_item_id');
     }
-       public function packets()
+
+    public function packets()
     {
         return $this->hasMany(SellPacketItem::class, 'sell_invoice_item_id');
+    }
+
+    public function getPostCodeAttribute($value)
+    {
+        return str_pad($value, 4, '0', STR_PAD_LEFT);
     }
 }

@@ -824,6 +824,91 @@
 
                         </div>
                     </div>
+
+                    {{-- EXCHANGE ITEMS (OLD METAL) --}}
+                    @if ($invoice->exchangeItems && $invoice->exchangeItems->count() > 0)
+                        <div class="mt-4">
+                            <h5>Old Metal Received</h5>
+                            <div class="invoice-table">
+                                <div class="table-responsive">
+                                    <table>
+                                        <thead>
+                                            <tr class="ecommercetable">
+                                                <th>#</th>
+                                                <th>Desc</th>
+                                                <th>Metal</th>
+                                                <th>GW</th>
+                                                <th>LW</th>
+                                                <th>NW</th>
+                                                <th>Purity</th>
+                                                <th>Fine Wt</th>
+                                                <th>Rate</th>
+                                                <th class="text-end">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($invoice->exchangeItems as $ex)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $ex->description }}</td>
+                                                    <td>{{ $ex->metal }}</td>
+                                                    <td>{{ number_format($ex->gross_weight, 3) }}</td>
+                                                    <td>{{ number_format($ex->less_weight, 3) }}</td>
+                                                    <td>{{ number_format($ex->net_weight, 3) }}</td>
+                                                    <td>{{ $ex->purity }}</td>
+                                                    <td>{{ number_format($ex->fine_weight, 3) }}</td>
+                                                    <td>{{ number_format($ex->rate, 2) }}</td>
+                                                    <td class="text-end">₹{{ number_format($ex->amount, 2) }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- EXCHANGE DIAMONDS --}}
+                    @if ($invoice->exchangeDiamonds && $invoice->exchangeDiamonds->count() > 0)
+                        <div class="mt-4">
+                            <h5>Old Diamonds Received</h5>
+                            <div class="invoice-table">
+                                <div class="table-responsive">
+                                    <table>
+                                        <thead>
+                                            <tr class="ecommercetable">
+                                                <th>#</th>
+                                                <th>Desc</th>
+                                                <th>Clarity</th>
+                                                <th>Cut</th>
+                                                <th>Color</th>
+                                                <th>Pieces</th>
+                                                <th>Weight (ct)</th>
+                                                <th>Rate/Carat</th>
+                                                <th class="text-end">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($invoice->exchangeDiamonds as $dia)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $dia->description }}</td>
+                                                    <td>{{ $dia->clarity }}</td>
+                                                    <td>{{ $dia->cut }}</td>
+                                                    <td>{{ $dia->color }}</td>
+                                                    <td>{{ $dia->pieces }}</td>
+                                                    <td>{{ number_format($dia->weight, 3) }}</td>
+                                                    <td>{{ number_format($dia->rate, 2) }}</td>
+                                                    <td class="text-end">₹{{ number_format($dia->amount, 2) }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     @php
                         /* ===============================
                  | BASIC AMOUNTS

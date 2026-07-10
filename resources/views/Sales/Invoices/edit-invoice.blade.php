@@ -695,7 +695,7 @@
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <h4 class="section-header mb-0">Exchange / Old Gold</h4>
                                         <button type="button" class="btn custom-btn-primary text-white btn-sm" id="addExchangeItem">
-                                            + Add Purchase
+                                            + Purchase Old Gold
                                         </button>
                                     </div>
                                     <div class="table-responsive">
@@ -761,7 +761,74 @@
                                             </tbody>
                                         </table>
                                     </div>
-</div>
+                                </div>
+
+                                <!-- Diamond Exchange Section -->
+                                <div class="card glass-card mb-4 p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <h4 class="section-header mb-0">Diamond Exchange</h4>
+                                        <button type="button" class="btn custom-btn-primary text-white btn-sm" id="addExchangeDiamond">
+                                            + Exchange Diamond
+                                        </button>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-0" id="exchangeDiamondTable">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th>Desc</th>
+                                                    <th>Clarity</th>
+                                                    <th>Cut</th>
+                                                    <th>Color</th>
+                                                    <th>Pieces</th>
+                                                    <th>Weight (carat)</th>
+                                                    <th>Rate/Carat</th>
+                                                    <th>Amount</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($invoice->exchangeDiamonds as $dia)
+                                                    <tr class="exchange-diamond-row">
+                                                        <td><input type="text" name="exchange_dia_description[]"
+                                                                class="form-control" value="{{ $dia->description }}"></td>
+                                                        <td>
+                                                            <select name="exchange_dia_clarity[]" class="form-control">
+                                                                <option value="">Select Clarity</option>
+                                                                @foreach ($clarities as $clarity)
+                                                                    <option value="{{ $clarity->name }}"
+                                                                        {{ $dia->clarity == $clarity->name ? 'selected' : '' }}>{{ $clarity->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select name="exchange_dia_cut[]" class="form-control">
+                                                                <option value="">Select Cut</option>
+                                                                @foreach ($cuts as $cut)
+                                                                    <option value="{{ $cut->name }}"
+                                                                        {{ $dia->cut == $cut->name ? 'selected' : '' }}>{{ $cut->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select name="exchange_dia_color[]" class="form-control">
+                                                                <option value="">Select Color</option>
+                                                                @foreach ($colors as $color)
+                                                                    <option value="{{ $color->name }}"
+                                                                        {{ $dia->color == $color->name ? 'selected' : '' }}>{{ $color->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="number" name="exchange_dia_pieces[]" class="form-control exchange-dia-pieces" value="{{ $dia->pieces }}"></td>
+                                                        <td><input type="number" step="0.001" name="exchange_dia_weight[]" class="form-control exchange-dia-weight" value="{{ $dia->weight }}"></td>
+                                                        <td><input type="number" step="0.01" name="exchange_dia_rate[]" class="form-control exchange-dia-rate" value="{{ $dia->rate }}"></td>
+                                                        <td><input type="number" step="0.01" name="exchange_dia_amount[]" class="form-control exchange-dia-amount exchange-amount" readonly style="background-color: #e9ecef;" value="{{ $dia->amount }}"></td>
+                                                        <td><button type="button" class="btn btn-danger btn-sm remove-exchange-diamond-row">X</button></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
                                 <!-- Unsettled Advances / Udhar Section -->
                                 <div class="card glass-card mb-4 p-4" id="unsettledEntriesSection" style="display: none;">
@@ -2451,6 +2518,22 @@
                 });
             });
 
+            // Collect Exchange Diamonds
+            const exchange_diamonds = [];
+            $('.exchange-diamond-row').each(function() {
+                const row = $(this);
+                exchange_diamonds.push({
+                    description: row.find('input[name="exchange_dia_description[]"]').val(),
+                    clarity: row.find('select[name="exchange_dia_clarity[]"]').val(),
+                    cut: row.find('select[name="exchange_dia_cut[]"]').val(),
+                    color: row.find('select[name="exchange_dia_color[]"]').val(),
+                    pieces: row.find('input[name="exchange_dia_pieces[]"]').val(),
+                    weight: row.find('input[name="exchange_dia_weight[]"]').val(),
+                    rate: row.find('input[name="exchange_dia_rate[]"]').val(),
+                    amount: row.find('input[name="exchange_dia_amount[]"]').val(),
+                });
+            });
+
             // Collect Invoice Level Data
             const payload = {
                 _token: '{{ csrf_token() }}',
@@ -2463,6 +2546,7 @@
 
                 total_exchange_amount: document.getElementById('totalExchangeAmountInput').value,
                 exchange_items: exchange_items,
+                exchange_diamonds: exchange_diamonds,
 
                 discount_percent: document.getElementById('discountPercent').value || 0,
                 cgst_percent: document.getElementById('cgstPercent').value || 0,
@@ -2506,7 +2590,7 @@
                 .then(res => res.json())
                 .then(res => {
                     if (res.success) {
-                        alert('Invoice Saved Successfully!');
+                        // alert('Invoice Saved Successfully!');
 
                         if (shouldPrint && res.print_url) {
                             let iframe = document.getElementById('invoicePrintIframe');
@@ -2780,6 +2864,58 @@
 
         $(document).on('click', '.remove-exchange-row', function() {
             $(this).closest('tr').remove();
+            calculateInvoiceTotals();
+        });
+
+        $(document).on('click', '#addExchangeDiamond', function() {
+            const tr = `
+                <tr class="exchange-diamond-row">
+                    <td><input type="text" name="exchange_dia_description[]" class="form-control" placeholder="Description"></td>
+                    <td>
+                        <select name="exchange_dia_clarity[]" class="form-control">
+                            <option value="">Select Clarity</option>
+                            @foreach ($clarities as $clarity)
+                                <option value="{{ $clarity->name }}">{{ $clarity->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select name="exchange_dia_cut[]" class="form-control">
+                            <option value="">Select Cut</option>
+                            @foreach ($cuts as $cut)
+                                <option value="{{ $cut->name }}">{{ $cut->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select name="exchange_dia_color[]" class="form-control">
+                            <option value="">Select Color</option>
+                            @foreach ($colors as $color)
+                                <option value="{{ $color->name }}">{{ $color->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td><input type="number" name="exchange_dia_pieces[]" class="form-control exchange-dia-pieces" placeholder="Pieces" value="0"></td>
+                    <td><input type="number" step="0.001" name="exchange_dia_weight[]" class="form-control exchange-dia-weight" placeholder="Weight" value="0"></td>
+                    <td><input type="number" step="0.01" name="exchange_dia_rate[]" class="form-control exchange-dia-rate" placeholder="Rate" value="0"></td>
+                    <td><input type="number" step="0.01" name="exchange_dia_amount[]" class="form-control exchange-dia-amount exchange-amount" readonly style="background-color: #e9ecef;" value="0"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-exchange-diamond-row">X</button></td>
+                </tr>
+            `;
+            $('#exchangeDiamondTable tbody').append(tr);
+        });
+
+        $(document).on('click', '.remove-exchange-diamond-row', function() {
+            $(this).closest('tr').remove();
+            calculateInvoiceTotals();
+        });
+
+        $(document).on('input', '.exchange-dia-weight, .exchange-dia-rate', function() {
+            let row = $(this).closest('tr');
+            let weight = parseFloat(row.find('.exchange-dia-weight').val()) || 0;
+            let rate = parseFloat(row.find('.exchange-dia-rate').val()) || 0;
+            let amount = weight * rate;
+            row.find('.exchange-dia-amount').val(amount.toFixed(2));
             calculateInvoiceTotals();
         });
 

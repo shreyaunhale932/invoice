@@ -400,10 +400,13 @@
                                 <div class="row mb-3">
                                     <div class="col-lg-6 col-md-8 col-sm-12">
                                         <label>Search Product Code</label>
-                                        <input type="text" id="productBarcodeSearch" list="productSearchSuggestions" class="form-control" placeholder="Enter Barcode / Product Code" autofocus>
+                                        <input type="text" id="productBarcodeSearch" list="productSearchSuggestions"
+                                            class="form-control" placeholder="Enter Barcode / Product Code" autofocus>
                                         <datalist id="productSearchSuggestions">
                                             @foreach ($products as $product)
-                                                <option value="{{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}">{{ $product->product_name }}</option>
+                                                <option
+                                                    value="{{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}">
+                                                    {{ $product->product_name }}</option>
                                             @endforeach
                                         </datalist>
                                         <select id="productSearch" style="display: none;">
@@ -724,7 +727,7 @@
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h5 class="mb-0">Exchange/Old Gold</h5>
                                     <button type="button" class="btn btn-warning btn-sm" id="addExchangeItem">
-                                        + Add Purchase
+                                        + Purchase Old Gold
                                     </button>
                                 </div>
                                 <div class="card-body p-0">
@@ -739,6 +742,36 @@
                                                 <th>Purity</th>
                                                 <th>Fine Wt</th>
                                                 <th>Rate</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Dynamic rows will be added here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Diamond Exchange Section -->
+                            <div class="card glass-card mt-4 p-4 border-0 shadow-none bg-transparent">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Diamond Exchange</h5>
+                                    <button type="button" class="btn btn-warning btn-sm" id="addExchangeDiamond">
+                                        + Exchange Diamond
+                                    </button>
+                                </div>
+                                <div class="card-body p-0">
+                                    <table class="table table-bordered mb-0" id="exchangeDiamondTable">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Desc</th>
+                                                <th>Clarity</th>
+                                                <th>Cut</th>
+                                                <th>Color</th>
+                                                <th>Pieces</th>
+                                                <th>Weight (carat)</th>
+                                                <th>Rate/Carat</th>
                                                 <th>Amount</th>
                                                 <th>Action</th>
                                             </tr>
@@ -820,14 +853,14 @@
                                                             <label>Total Making Charge</label>
                                                             <span id="totalMakingAmount">₹0.00</span>
                                                             <input type="hidden" id="totalMakingAmountInput"
-                                                                value="0">
+                                                                value="">
                                                         </div>
 
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Making Discount %</label>
                                                             <input type="number" id="makingDiscountPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="">
                                                             <span id="makingDiscountAmount">₹0.00</span>
                                                         </div>
 
@@ -839,14 +872,14 @@
                                                             <label>Total Wastage Charge</label>
                                                             <span id="totalWastageAmount">₹0.00</span>
                                                             <input type="hidden" id="totalWastageAmountInput"
-                                                                value="0">
+                                                                value="">
                                                         </div>
 
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Wastage Discount %</label>
                                                             <input type="number" id="wastageDiscountPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="">
                                                             <span id="wastageDiscountAmount">₹0.00</span>
                                                         </div>
 
@@ -858,14 +891,14 @@
                                                             <label>Total Diamond Price</label>
                                                             <span id="totalDiamondStonePacketAmount">₹0.00</span>
                                                             <input type="hidden" id="totalDiamondStonePacketAmountInput"
-                                                                value="0">
+                                                                value="">
                                                         </div>
 
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Diamond Discount %</label>
                                                             <input type="number" id="diamondDiscountPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="">
                                                             <span id="diamondDiscountAmount">₹0.00</span>
                                                         </div>
 
@@ -874,7 +907,7 @@
                                                         <p>
                                                             Taxable Amount
                                                             <span id="taxableAmount">₹0.00</span>
-                                                            <input type="hidden" id="taxableAmountInput" value="0">
+                                                            <input type="hidden" id="taxableAmountInput" value="">
                                                         </p>
 
 
@@ -883,13 +916,13 @@
                                                             <label>Total Exchange</label>
                                                             <span id="totalExchangeAmount">₹0.00</span>
                                                             <input type="hidden" id="totalExchangeAmountInput"
-                                                                value="0">
+                                                                value="">
                                                         </div>
 
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <label>Final Discount %</label>
                                                             <input type="number" id="discountPercent"
-                                                                class="form-control w-25" value="0">
+                                                                class="form-control w-25" value="">
                                                             <span id="discountAmount">₹0.00</span>
                                                         </div>
 
@@ -931,7 +964,7 @@
                                                             id="cgstdiv">
                                                             <label>CGST %</label>
                                                             <input type="number" id="cgstPercent"
-                                                                class="form-control w-25" value="" >
+                                                                class="form-control w-25" value="">
                                                             <span id="cgstAmount">₹0.00</span>
                                                         </div>
 
@@ -940,7 +973,7 @@
                                                             id="sgstdiv">
                                                             <label>SGST %</label>
                                                             <input type="number" id="sgstPercent"
-                                                                class="form-control w-25" value="" >
+                                                                class="form-control w-25" value="">
                                                             <span id="sgstAmount">₹0.00</span>
                                                         </div>
 
@@ -949,7 +982,7 @@
                                                             id="igstdiv">
                                                             <label>IGST %</label>
                                                             <input type="number" id="igstPercent"
-                                                                class="form-control w-25" value="" >
+                                                                class="form-control w-25" value="">
                                                             <span id="igstAmount">₹0.00</span>
                                                         </div>
 
@@ -1076,12 +1109,12 @@
                                                             </div>
 
                                                             <!-- Legacy hidden inputs for compatibility with other scripts -->
-                                                            <input type="hidden" id="cashReceived" value="0">
-                                                            <input type="hidden" id="bankReceived" value="0">
-                                                            <input type="hidden" id="onlineReceived" value="0">
-                                                            <input type="hidden" id="cardReceived" value="0">
+                                                            <input type="hidden" id="cashReceived" value="">
+                                                            <input type="hidden" id="bankReceived" value="">
+                                                            <input type="hidden" id="onlineReceived" value="">
+                                                            <input type="hidden" id="cardReceived" value="">
                                                             <input type="hidden" id="roundOffInput" name="round_off"
-                                                                value="0">
+                                                                value="">
                                                         </div>
                                                     </div>
 
@@ -1094,7 +1127,7 @@
                                                     <h5 class="text-danger">
                                                         Remaining Amount
                                                         <span id="remainingAmount">₹0.00</span>
-                                                        <input type="hidden" id="remainingamountInput" value="0">
+                                                        <input type="hidden" id="remainingamountInput" value="">
 
                                                     </h5>
                                                 </div>
@@ -1139,29 +1172,175 @@
                     <div class="modal-body">
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label>Name</label>
 
-                                <input type="text" name="name" class="form-control" required>
+                            <!-- Name -->
+                            <div class="col-md-6 mb-3">
+                                <label>Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control" placeholder="Enter Name"
+                                    required>
+                                @error('name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label>Phone</label>
-
-                                <input type="text" name="phone" class="form-control" required>
-                            </div>
-
+                            <!-- Email -->
                             <div class="col-md-6 mb-3">
                                 <label>Email</label>
-
-                                <input type="email" name="email" class="form-control">
+                                <input type="email" name="email" class="form-control"
+                                    placeholder="Enter Email Address">
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
+                            <!-- Phone -->
+                            <div class="col-md-6 mb-3">
+                                <label>Phone <span class="text-danger">*</span></label>
+                                <input type="text" name="phone" class="form-control" placeholder="Phone Number"
+                                    required>
+                                @error('phone')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- City -->
                             <div class="col-md-6 mb-3">
                                 <label>City</label>
-
-                                <input type="text" name="city" class="form-control">
+                                <input type="text" name="city" class="form-control" placeholder="Enter City">
                             </div>
+
+                            <!-- Date of Birth -->
+                            <div class="col-md-6 mb-3">
+                                <label>Date of Birth</label>
+                                <input type="date" name="dob" class="form-control">
+                                @error('dob')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <!-- Anniversary Date -->
+                            <div class="col-md-6 mb-3">
+                                <label>Anniversary Date</label>
+                                <input type="date" name="anniversary_date" class="form-control">
+                                @error('anniversary_date')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Billing Address -->
+<div class="row">
+
+    <div class="col-md-12 mb-2">
+        <h6 class="fw-bold">Billing Address</h6>
+    </div>
+
+    <!-- Address -->
+    <div class="col-md-6 mb-3">
+        <label>Address (Area)</label>
+        <input type="text" name="address" class="form-control" placeholder="Enter Address (Area)">
+    </div>
+
+    <!-- Country -->
+    <div class="col-md-6 mb-3">
+        <label>Country</label>
+        <input type="text" name="country" class="form-control" value="INDIA" placeholder="Enter Country">
+    </div>
+
+    <!-- State -->
+    <div class="col-md-6 mb-3">
+        <label>State <span class="text-danger">*</span></label>
+        <select class="form-control" name="state" required>
+            <option value="">Select State</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Ladakh">Ladakh</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Puducherry">Puducherry</option>
+        </select>
+        @error('state')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <!-- City -->
+    <div class="col-md-6 mb-3">
+        <label>City</label>
+        <input type="text" name="city" class="form-control" placeholder="Enter City">
+    </div>
+
+    <!-- Pincode -->
+    <div class="col-md-6 mb-3">
+        <label>Pincode</label>
+        <input type="text" name="pincode" class="form-control" placeholder="Enter Pincode">
+    </div>
+
+</div>
+
+<hr>
+
+<!-- Tax & Identity Details -->
+<div class="row">
+
+    <div class="col-md-12 mb-2">
+        <h6 class="fw-bold">Tax & Identity Details</h6>
+    </div>
+
+    <!-- GST -->
+    <div class="col-md-6 mb-3">
+        <label>GST No.</label>
+        <input type="text" name="gst_no" class="form-control" placeholder="Enter GST Number">
+    </div>
+
+    <!-- Aadhaar -->
+    <div class="col-md-6 mb-3">
+        <label>Aadhaar No.</label>
+        <input type="text" name="adhaar_no" class="form-control" placeholder="Enter Aadhaar Number">
+    </div>
+
+    <!-- PAN -->
+    <div class="col-md-6 mb-3">
+        <label>PAN No.</label>
+        <input type="text" name="pan_no" class="form-control" placeholder="Enter PAN Number">
+    </div>
+
+    <!-- TAN -->
+    <div class="col-md-6 mb-3">
+        <label>TAN</label>
+        <input type="text" name="tan" class="form-control" placeholder="Enter TAN">
+    </div>
+
+</div>
+
                         </div>
 
                     </div>
@@ -1566,6 +1745,7 @@
         $(document).ready(function() {
 
             let lastSearchedValue = '';
+
             function searchProductByBarcode(showAlertOnFailure = false) {
                 let searchValue = $('#productBarcodeSearch').val().trim();
                 if (!searchValue) {
@@ -1584,7 +1764,8 @@
                     let postCode = String(option.data('post_code')).trim();
                     let fullCode = (preCode + '-' + postCode + '-' + barcode).trim();
 
-                    if (barcode === searchValue || fullCode === searchValue || option.val() === searchValue) {
+                    if (barcode === searchValue || fullCode === searchValue || option.val() ===
+                        searchValue) {
                         matchedOption = option;
                         return false;
                     }
@@ -2601,6 +2782,22 @@
                 });
             });
 
+            // Collect Exchange Diamonds
+            const exchange_diamonds = [];
+            $('.exchange-diamond-row').each(function() {
+                const row = $(this);
+                exchange_diamonds.push({
+                    description: row.find('input[name="exchange_dia_description[]"]').val(),
+                    clarity: row.find('select[name="exchange_dia_clarity[]"]').val(),
+                    cut: row.find('select[name="exchange_dia_cut[]"]').val(),
+                    color: row.find('select[name="exchange_dia_color[]"]').val(),
+                    pieces: row.find('input[name="exchange_dia_pieces[]"]').val(),
+                    weight: row.find('input[name="exchange_dia_weight[]"]').val(),
+                    rate: row.find('input[name="exchange_dia_rate[]"]').val(),
+                    amount: row.find('input[name="exchange_dia_amount[]"]').val(),
+                });
+            });
+
             // Collect Invoice Level Data
             const payload = {
                 _token: '{{ csrf_token() }}',
@@ -2612,6 +2809,7 @@
 
                 total_exchange_amount: document.getElementById('totalExchangeAmountInput').value,
                 exchange_items: exchange_items,
+                exchange_diamonds: exchange_diamonds,
 
                 discount_percent: document.getElementById('discountPercent').value || 0,
                 cgst_percent: document.getElementById('cgstPercent').value || 0,
@@ -2659,7 +2857,7 @@
                 .then(res => res.json())
                 .then(res => {
                     if (res.success) {
-                        alert('Invoice Saved Successfully!');
+                        // alert('Invoice Saved Successfully!');
 
                         if (shouldPrint && res.print_url) {
                             let iframe = document.getElementById('invoicePrintIframe');
@@ -2921,6 +3119,58 @@
 
         $(document).on('click', '.remove-exchange-row', function() {
             $(this).closest('tr').remove();
+            calculateInvoiceTotals();
+        });
+
+        $('#addExchangeDiamond').on('click', function() {
+            const tr = `
+                <tr class="exchange-diamond-row">
+                    <td><input type="text" name="exchange_dia_description[]" class="form-control"></td>
+                    <td>
+                        <select name="exchange_dia_clarity[]" class="form-control">
+                            <option value="">Select Clarity</option>
+                            @foreach ($clarities as $clarity)
+                                <option value="{{ $clarity->name }}">{{ $clarity->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select name="exchange_dia_cut[]" class="form-control">
+                            <option value="">Select Cut</option>
+                            @foreach ($cuts as $cut)
+                                <option value="{{ $cut->name }}">{{ $cut->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select name="exchange_dia_color[]" class="form-control">
+                            <option value="">Select Color</option>
+                            @foreach ($colors as $color)
+                                <option value="{{ $color->name }}">{{ $color->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td><input type="number" name="exchange_dia_pieces[]" class="form-control exchange-dia-pieces" value="0"></td>
+                    <td><input type="number" step="0.001" name="exchange_dia_weight[]" class="form-control exchange-dia-weight" value="0"></td>
+                    <td><input type="number" step="0.01" name="exchange_dia_rate[]" class="form-control exchange-dia-rate" value="0"></td>
+                    <td><input type="number" step="0.01" name="exchange_dia_amount[]" class="form-control exchange-dia-amount exchange-amount" readonly style="background-color: #e9ecef;" value="0"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-exchange-diamond-row">X</button></td>
+                </tr>
+            `;
+            $('#exchangeDiamondTable tbody').append(tr);
+        });
+
+        $(document).on('click', '.remove-exchange-diamond-row', function() {
+            $(this).closest('tr').remove();
+            calculateInvoiceTotals();
+        });
+
+        $(document).on('input', '.exchange-dia-weight, .exchange-dia-rate', function() {
+            let row = $(this).closest('tr');
+            let weight = parseFloat(row.find('.exchange-dia-weight').val()) || 0;
+            let rate = parseFloat(row.find('.exchange-dia-rate').val()) || 0;
+            let amount = weight * rate;
+            row.find('.exchange-dia-amount').val(amount.toFixed(2));
             calculateInvoiceTotals();
         });
 
@@ -3417,7 +3667,8 @@
                     if (method === 'cash') {
                         const isAsset = acc.group && acc.group.type === 'Asset';
                         const isNormal = subType === 'normal';
-                        const isExcluded = name === 'stock' || name.includes('debtor') || name === 'old metal received';
+                        const isExcluded = name === 'stock' || name.includes('debtor') || name ===
+                            'old metal received';
                         if ((isAsset && isNormal && !isExcluded) || name.includes('cash')) {
                             matches = true;
                         }
@@ -3491,9 +3742,9 @@
                 let optionsHtml = '';
                 filtered.forEach(f => {
                     const acc = f.account;
-                    const isSel = (selectedAccountId !== null)
-                        ? (acc.id == selectedAccountId)
-                        : f.isDefault;
+                    const isSel = (selectedAccountId !== null) ?
+                        (acc.id == selectedAccountId) :
+                        f.isDefault;
                     optionsHtml += `<option value="${acc.id}" ${isSel ? 'selected' : ''}>${acc.name}</option>`;
                 });
 

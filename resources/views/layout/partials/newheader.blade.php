@@ -198,19 +198,38 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const rateInput = document.getElementById('rate_24k');
-        const karats = [24, 22, 20, 18, 14, 9];
-        
-        rateInput.addEventListener('input', function() {
-            const val = parseFloat(this.value) || 0;
-            karats.forEach(function(k) {
-                const price = (val * k) / 24;
-                const el = document.getElementById('preview_rate_' + k);
-                if (el) {
-                    el.textContent = '₹' + price.toFixed(2);
-                }
-            });
+ document.addEventListener('DOMContentLoaded', function () {
+
+    const rateInput = document.getElementById('rate_24k');
+
+    const purities = {
+        24: 100,
+        22: 91.6,
+        20: 83.3,
+        18: 75,
+        14: 58.5,
+        9: 37.5
+    };
+
+    rateInput.addEventListener('input', function () {
+
+        const val = parseFloat(this.value) || 0;
+
+        Object.keys(purities).forEach(function (karat) {
+
+            const percent = purities[karat];
+
+            const price = Math.round((val * percent) / 100);
+
+            const el = document.getElementById('preview_rate_' + karat);
+
+            if (el) {
+                el.textContent = '₹' + price;
+            }
+
         });
+
     });
+
+});
 </script>

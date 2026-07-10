@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Print Preview - {{ $template->name }}</title>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 
     @php
         $width = $template->canvas_width ?? 50;
         $height = $template->canvas_height ?? 25;
-        
+
         $mT = 0;
         $mB = 0;
         $mL = 0;
@@ -62,7 +62,7 @@
             position: absolute;
             box-sizing: border-box;
         }
-        
+
         .element-content {
             width: 100%;
             height: 100%;
@@ -114,7 +114,7 @@
                 'gross_weight' => $product->gross_weight ?? '',
                 'net_weight' => $product->net_weight ?? '',
                 'final_fn_weight' => $product->final_fn_weight ?? '',
-                'purity' => isset($product->purity) ? (is_object($product->purity) ? (($product->purity->purity_value ?? '') . ($product->purity->purity_type ?? '')) : $product->purity) : '',
+                'purity' => isset($product->metalRate) ? (is_object($product->metalRate) ? (($product->metalRate->karat ?? '') . ($product->metalRate->purity_type=='karat' ? 'KT':'%')) : $product->purity) : '',
                 'gold_color' => $product->gold_color ?? '',
                 'size' => $product->size ?? '',
                 'quantity' => $product->quantity ?? '',
@@ -147,7 +147,7 @@
             $placeholders['packet_wt_in_gram'] = $packets->sum('wt_in_gram') ?: '';
             $placeholders['packet_amount'] = $packets->sum('amount') ? number_format($packets->sum('amount'), 2) : '';
             $placeholders['packet_certificate_no'] = $packets->pluck('certificate_no')->filter()->implode(', ');
-            
+
             $placeholders['packet_stones'] = $packets->map(function($p) { return isset($p->stone) ? ($p->stone->name ?? '') : ($p->stone_name ?? ''); })->filter()->unique()->implode(', ');
             $placeholders['packet_clarities'] = $packets->map(function($p) { return isset($p->clarity) ? ($p->clarity->name ?? '') : ''; })->filter()->unique()->implode(', ');
             $placeholders['packet_colors'] = $packets->map(function($p) { return isset($p->color) ? ($p->color->name ?? '') : ''; })->filter()->unique()->implode(', ');
@@ -175,10 +175,10 @@
                 $fw = $el->styles['fontWeight'] ?? 'normal';
                 $ta = $el->styles['textAlign'] ?? 'left';
             @endphp
-            
+
             <div class="element" style="left: {{ $el->pos_x }}mm; top: {{ $el->pos_y }}mm; width: {{ $el->width }}mm; height: {{ $el->height }}mm;">
                 <div class="element-content" style="font-size: {{ $fs }}px; font-weight: {{ $fw }}; text-align: {{ $ta }}; justify-content: {{ $ta === 'center' ? 'center' : ($ta === 'right' ? 'flex-end' : 'flex-start') }};">
-                    
+
                     @if($el->type === 'text')
                         {{ ($el->settings['prefix'] ?? '') . $val . ($el->settings['postfix'] ?? '') }}
                     @elseif($el->type === 'barcode')
@@ -214,7 +214,7 @@
                             });
                         </script>
                     @endif
-                    
+
                 </div>
             </div>
         @endforeach

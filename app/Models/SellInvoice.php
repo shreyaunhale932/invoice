@@ -148,6 +148,11 @@ class SellInvoice extends Model
         return $this->hasMany(SellExchangeItem::class, 'sell_invoice_id');
     }
 
+    public function exchangeDiamonds()
+    {
+        return $this->hasMany(SellExchangeDiamond::class, 'sell_invoice_id');
+    }
+
     public function items()
     {
         return $this->hasMany(SellInvoiceItem::class, 'sell_invoice_id');

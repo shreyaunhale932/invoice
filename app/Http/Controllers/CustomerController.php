@@ -25,13 +25,14 @@ class CustomerController extends Controller
     }
     public function store(Request $request)
 {
+    // dd($request);
     $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'nullable|email',
         'phone' => 'required|string|max:20',
         'address' => 'nullable|string',
         'country' => 'nullable|string',
-        'state' => 'required|string',
+        'state' => 'nullable|string',
         'city' => 'nullable|string',
         'pincode' => 'nullable|string|max:10',
         'bank_name' => 'nullable|string|max:255',

@@ -33,7 +33,7 @@ class ProductController extends Controller
                 'pre_code' => 'required|string',
                 'post_code' => 'required|string',
             ]);
-            $preCode = trim($request->pre_code);
+            $preCode = strtoupper(trim($request->pre_code));
             $postCode = trim($request->post_code);
 
             /*
@@ -94,7 +94,7 @@ class ProductController extends Controller
             // Create or find item_product_data (shared data: product_name, pre_code, purity_id)
             $itemProductData = ItemProductData::firstOrCreate(
                 [
-                    'product_code' => $request->pre_code,
+                    'product_code' => $preCode,
                     'product_name' => $request->product_name,
 
                 ],
@@ -112,6 +112,7 @@ class ProductController extends Controller
                     'diamond_weight' => $request->diamond_weight ?? 0,
                     'stone_weight' => $request->stone_weight ?? 0,
                     'wastage_percent' => $request->wastage_percent,
+                     'wastage_amount' => $request->wastage_amount,
                     'making_price' => $request->making_price,
                     'gst_percent' => $request->gst_percent,
                     'gst_amount' => $request->gst_amount,
@@ -141,7 +142,7 @@ class ProductController extends Controller
                 'admin_id' => Auth::guard('admin')->id(),
                 'product_name' => $request->product_name,
                 'item_product_data_id' => $itemProductData->id,
-                'pre_code' => $request->pre_code,
+                'pre_code' => $preCode,
                 'post_code' => $postid,
                 'barcode' => $request->barcode,
                 'category_id' => $request->category_id,
@@ -153,6 +154,7 @@ class ProductController extends Controller
                 'hsn_code' => $request->hsn_code,
                 'gold_color' => $request->gold_color,
                 'wastage_percent' => $request->wastage_percent,
+                'wastage_amount' => $request->wastage_amount,
                 'making_price' => $request->making_price,
                 'gold_price' => $request->gold_price,
                 'gst_percent' => $request->gst_percent,
@@ -344,6 +346,25 @@ class ProductController extends Controller
         ]);
     }
 
+    public function getNextPostCode(Request $request)
+    {
+        $preCode = trim($request->input('pre_code'));
+        if (empty($preCode)) {
+            return response()->json(['post_code' => '0001']);
+        }
+
+        $maxPostCode = Product::withTrashed()
+            ->where('pre_code', $preCode)
+            ->max('post_code');
+
+        $nextPostCode = $maxPostCode ? ($maxPostCode + 1) : 1;
+        $padded = str_pad($nextPostCode, 4, '0', STR_PAD_LEFT);
+
+        return response()->json([
+            'post_code' => $padded
+        ]);
+    }
+
     public function edit($id)
     {
         $product = Product::with([
@@ -410,7 +431,7 @@ class ProductController extends Controller
                 ->where('admin_id', Auth::guard('admin')->id())
                 ->firstOrFail();
 
-            $preCode = trim($request->pre_code);
+            $preCode = strtoupper(trim($request->pre_code));
             $postCode = trim($request->post_code);
 
             /*
@@ -453,6 +474,7 @@ class ProductController extends Controller
                     'diamond_weight' => $request->diamond_weight ?? 0,
                     'stone_weight' => $request->stone_weight ?? 0,
                     'wastage_percent' => $request->wastage_percent,
+                    'wastage_amount' => $request->wastage_amount,
                     'making_price' => $request->making_price,
                     'making_type' => $request->making_type,
                     'making_final_amount' => $request->making_final_amount,
@@ -484,6 +506,7 @@ class ProductController extends Controller
                 'hsn_code' => $request->hsn_code,
                 'gold_color' => $request->gold_color,
                 'wastage_percent' => $request->wastage_percent,
+                'wastage_amount' => $request->wastage_amount,
                 'making_price' => $request->making_price,
                 'gold_price' => $request->gold_price,
                 'gst_percent' => $request->gst_percent,
@@ -709,8 +732,9 @@ class ProductController extends Controller
             //     \Log::error('Accounting Post failed for Stock In: '.$e->getMessage());
             // }
         });
+         return redirect()->route('product-list')
+            ->with('success', 'Product updated successfully');
 
-        return redirect()->back()->with('success', 'Product updated successfully');
     }
 
     public function destroy($id)
@@ -767,6 +791,12 @@ class ProductController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->whereRaw(
                     'LOWER(CONCAT(pre_code, post_code)) LIKE ?',
+                    ['%'.strtolower($search).'%']
+                )->orWhereRaw(
+                    'LOWER(CONCAT(pre_code, LPAD(post_code, 4, "0"))) LIKE ?',
+                    ['%'.strtolower($search).'%']
+                )->orWhereRaw(
+                    'LOWER(CONCAT(pre_code, "-", LPAD(post_code, 4, "0"))) LIKE ?',
                     ['%'.strtolower($search).'%']
                 );
             });

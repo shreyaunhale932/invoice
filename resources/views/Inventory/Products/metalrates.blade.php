@@ -8,7 +8,7 @@
             <!-- Page Header -->
             @component('components.page-header')
                 @slot('title')
-                    Metal Rates
+                    Purity/Metal Rates
                 @endslot
             @endcomponent
             <!-- /Page Header -->
@@ -62,7 +62,7 @@
                                                     @if ($rate->purity_type === 'percent')
                                                         %
                                                     @elseif($rate->purity_type === 'karat')
-                                                        K
+                                                        KT
                                                     @endif
                                                 </td>
 

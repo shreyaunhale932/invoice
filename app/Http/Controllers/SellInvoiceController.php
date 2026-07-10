@@ -443,7 +443,7 @@ class SellInvoiceController extends Controller
 
     public function getPendingInvoice($customerId)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems'])
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems', 'exchangeDiamonds'])
             ->where('user_id', $customerId)
             ->where('status', 'pending')
             ->first();
@@ -463,7 +463,7 @@ class SellInvoiceController extends Controller
 
     public function getInvoiceById($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems', 'payments'])
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems', 'exchangeDiamonds', 'payments'])
             ->findOrFail($id);
 
         return response()->json([
@@ -911,7 +911,7 @@ class SellInvoiceController extends Controller
                         'amount' => $amt,
                         'reference_no' => $p['reference_no'] ?? null,
                         'payment_details' => $p['payment_details'] ?? null,
-                        'transaction_date' => !empty($p['transaction_date']) ? Carbon::parse($p['transaction_date'])->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                        'transaction_date' => ! empty($p['transaction_date']) ? Carbon::parse($p['transaction_date'])->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                     ]);
                 }
             } else {
@@ -998,6 +998,28 @@ class SellInvoiceController extends Controller
                 }
             }
 
+            // Save Exchange Diamonds
+            $invoice->exchangeDiamonds()->delete();
+            if ($request->filled('exchange_diamonds') && is_array($request->exchange_diamonds)) {
+                foreach ($request->exchange_diamonds as $dia) {
+                    if (empty($dia['amount']) || $dia['amount'] == 0) {
+                        continue;
+                    }
+                    $invoice->exchangeDiamonds()->create([
+                        'admin_id' => Auth::id(),
+                        'firm_id' => $invoice->firm_id,
+                        'description' => $dia['description'] ?? null,
+                        'clarity' => $dia['clarity'] ?? null,
+                        'cut' => $dia['cut'] ?? null,
+                        'color' => $dia['color'] ?? null,
+                        'pieces' => $dia['pieces'] ?? 0,
+                        'weight' => $dia['weight'] ?? 0,
+                        'rate' => $dia['rate'] ?? 0,
+                        'amount' => $dia['amount'] ?? 0,
+                    ]);
+                }
+            }
+
             // Save settled transactions (Udhar/Advance)
             if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
                 foreach ($request->settled_transactions as $settlement) {
@@ -1074,9 +1096,18 @@ class SellInvoiceController extends Controller
 
             DB::commit();
 
+            // return response()->json([
+            //     'success' => true,
+            //     'message' => 'Invoice finalized successfully',
+            //     'redirect_url' => route('invoices'),
+            //     'print_url' => route('sell.invoice.view', $invoice->id),
+            // ]);
+
+            // Flash success message to session
+            session()->flash('success', 'Invoice finalized successfully.');
+
             return response()->json([
                 'success' => true,
-                'message' => 'Invoice finalized successfully',
                 'redirect_url' => route('invoices'),
                 'print_url' => route('sell.invoice.view', $invoice->id),
             ]);
@@ -1092,7 +1123,7 @@ class SellInvoiceController extends Controller
         DB::beginTransaction();
         try {
             $invoice = SellInvoice::findOrFail($id);
-             $usedInAnotherInvoice = \App\Models\PaymentTransaction::where('invoice_id', $id)
+            $usedInAnotherInvoice = \App\Models\PaymentTransaction::where('invoice_id', $id)
                 ->whereIn('transaction_type', ['advance', 'udhaar_get'])
                 ->whereHas('children', function ($q) {
                     $q->whereIn('transaction_type', ['refund', 'udhaar_return']);
@@ -1109,6 +1140,7 @@ class SellInvoiceController extends Controller
                 ], 400);
             }
             $invoice->exchangeItems()->delete();
+            $invoice->exchangeDiamonds()->delete();
             // Delete items (Cascading should ideally handle this, but manual is safer)
             $items = SellInvoiceItem::where('sell_invoice_id', $id)->get();
             foreach ($items as $item) {
@@ -1379,7 +1411,7 @@ class SellInvoiceController extends Controller
                         'amount' => $amt,
                         'reference_no' => $p['reference_no'] ?? null,
                         'payment_details' => $p['payment_details'] ?? null,
-                        'transaction_date' => !empty($p['transaction_date']) ? Carbon::parse($p['transaction_date'])->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
+                        'transaction_date' => ! empty($p['transaction_date']) ? Carbon::parse($p['transaction_date'])->format('Y-m-d') : Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d'),
                     ]);
                 }
             } else {
@@ -1468,6 +1500,28 @@ class SellInvoiceController extends Controller
                 }
             }
 
+            // Save Exchange Diamonds
+            $invoice->exchangeDiamonds()->delete();
+            if ($request->filled('exchange_diamonds') && is_array($request->exchange_diamonds)) {
+                foreach ($request->exchange_diamonds as $dia) {
+                    if (empty($dia['amount']) || $dia['amount'] == 0) {
+                        continue;
+                    }
+                    $invoice->exchangeDiamonds()->create([
+                        'admin_id' => Auth::id(),
+                        'firm_id' => $invoice->firm_id,
+                        'description' => $dia['description'] ?? null,
+                        'clarity' => $dia['clarity'] ?? null,
+                        'cut' => $dia['cut'] ?? null,
+                        'color' => $dia['color'] ?? null,
+                        'pieces' => $dia['pieces'] ?? 0,
+                        'weight' => $dia['weight'] ?? 0,
+                        'rate' => $dia['rate'] ?? 0,
+                        'amount' => $dia['amount'] ?? 0,
+                    ]);
+                }
+            }
+
             // Save settled transactions (Udhar/Advance)
             if ($request->filled('settled_transactions') && is_array($request->settled_transactions)) {
                 foreach ($request->settled_transactions as $settlement) {
@@ -1550,6 +1604,7 @@ class SellInvoiceController extends Controller
             }
 
             DB::commit();
+            session()->flash('success', 'Invoice finalized successfully.');
 
             return response()->json([
                 'success' => true,
@@ -1569,7 +1624,7 @@ class SellInvoiceController extends Controller
 
     public function edit($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems', 'payments'])->findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.product', 'items.packets', 'exchangeItems', 'exchangeDiamonds', 'payments'])->findOrFail($id);
         $adminId = Auth::id(); // Use Auth::id() for consistency
 
         $customers = \App\Models\Customer::where('admin_id', $adminId)->get();
@@ -1670,7 +1725,7 @@ class SellInvoiceController extends Controller
 
     public function show($id)
     {
-        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.packets',  'items.product', 'customer', 'paymentTransactions', 'exchangeItems'])->findOrFail($id);
+        $invoice = SellInvoice::with(['items.diamonds', 'items.stones', 'items.packets',  'items.product', 'customer', 'paymentTransactions', 'exchangeItems', 'exchangeDiamonds'])->findOrFail($id);
         $adminId = $invoice->admin_id;
         $customer = \App\Models\Customer::where('id', $invoice->user_id)->first();
 
@@ -1700,30 +1755,30 @@ class SellInvoiceController extends Controller
         return view('Sales.Invoices.invoice-one-a-dya', compact('invoice', 'business', 'bank', 'customer', 'templateSettings', 'customBlocks'));
     }
 
-        public function sendInvoiceMail($id, MailjetService $mailjet)
-        {
-            $invoice = SellInvoice::with('customer')->findOrFail($id);
+    public function sendInvoiceMail($id, MailjetService $mailjet)
+    {
+        $invoice = SellInvoice::with('customer')->findOrFail($id);
 
-            if (! $invoice->customer || ! $invoice->customer->email) {
-                return back()->with('error', 'Customer email not found.');
-            }
+        if (! $invoice->customer || ! $invoice->customer->email) {
+            return back()->with('error', 'Customer email not found.');
+        }
 
-            // Generate PDF
-            $html = view('pdf.invo', [
-                'invoice' => $invoice,
-                'customer' => $invoice->customer,
-            ])->render();
+        // Generate PDF
+        $html = view('pdf.invo', [
+            'invoice' => $invoice,
+            'customer' => $invoice->customer,
+        ])->render();
 
-            $pdf = Pdf::loadHTML($html)->setPaper('A4', 'portrait');
+        $pdf = Pdf::loadHTML($html)->setPaper('A4', 'portrait');
 
-            $attachments = [
-                [
-                    'ContentType' => 'application/pdf',
-                    'Filename' => 'Invoice-'.$invoice->invoice_no.'.pdf',
-                    'Base64Content' => base64_encode($pdf->output()),
-                ],
-            ];
-            $htmlContent = "
+        $attachments = [
+            [
+                'ContentType' => 'application/pdf',
+                'Filename' => 'Invoice-'.$invoice->invoice_no.'.pdf',
+                'Base64Content' => base64_encode($pdf->output()),
+            ],
+        ];
+        $htmlContent = "
         <h2>Invoice Details</h2>
 
         <p><strong>Invoice No:</strong> {$invoice->invoice_no}</p>
@@ -1734,21 +1789,21 @@ class SellInvoiceController extends Controller
 
         <p>Thank you for your business.</p>
     ';
-            $response = $mailjet->sendEmail(
-                $invoice->customer->email,
-                $invoice->customer->name ?? 'Customer',
-                'Invoice #'.$invoice->invoice_no,
-                'Please find your invoice attached.',
-                $attachments,
-                $htmlContent
-            );
+        $response = $mailjet->sendEmail(
+            $invoice->customer->email,
+            $invoice->customer->name ?? 'Customer',
+            'Invoice #'.$invoice->invoice_no,
+            'Please find your invoice attached.',
+            $attachments,
+            $htmlContent
+        );
 
-            if ($response->successful()) {
-                return back()->with('success', 'Invoice sent successfully.');
-            }
-
-            return back()->with('error', 'Mail failed: '.$response->body());
+        if ($response->successful()) {
+            return back()->with('success', 'Invoice sent successfully.');
         }
+
+        return back()->with('error', 'Mail failed: '.$response->body());
+    }
 
     // public function sendInvoiceMail($id)
     // {

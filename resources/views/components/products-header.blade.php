@@ -13,9 +13,9 @@
                             <li><a href="{{ url('subcategory') }}"
                                  class="{{ Request::is('subcategory') ? 'active' : '' }}">SubCategory</a></li>
                                  <li><a href="{{ url('metal-rates') }}"
-                                 class="{{ Request::is('metal-rates') ? 'active' : '' }}">Metal Rates</a></li>
-                                 <li><a href="{{ url('purity') }}"
-                                 class="{{ Request::is('purity') ? 'active' : '' }}">Purity</a></li>
+                                 class="{{ Request::is('metal-rates') ? 'active' : '' }}">Purity/Metal Rates</a></li>
+                                 {{-- <li><a href="{{ url('purity') }}"
+                                 class="{{ Request::is('purity') ? 'active' : '' }}">Purity</a></li> --}}
                          </li>
                      </ul>
                  </div>

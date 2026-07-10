@@ -121,6 +121,8 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
 
     Route::post('/check-product-code', [ProductController::class, 'checkProductCode'])
         ->name('check.product.code');
+    Route::get('/get-next-post-code', [ProductController::class, 'getNextPostCode'])
+        ->name('products.getNextPostCode');
     Route::get('/category', [HomeController::class, 'category'])->name('category');
     Route::post('/category', [CategoryController::class, 'addcategory'])->name('category');
     Route::put('/category{id}', [CategoryController::class, 'update'])->name('category.update');

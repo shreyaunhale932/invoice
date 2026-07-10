@@ -42,17 +42,13 @@
                                                 <th>#</th>
                                                 <th>Item</th>
                                                 <th>Image</th>
+                                                <th>Barcode</th>
                                                 <th>Code</th>
                                                 <th>Category</th>
                                                 <th>SubCategory</th>
                                                 <th>Gs Wt</th>
                                                 <th>Net Wt</th>
-                                                <th>final Wt</th>
-
-
-                                                <th>Selling Price</th>
-                                                {{-- <th>Purchase Price</th> --}}
-                                                <th>Availability</th>
+                                                {{-- <th>final Wt</th> --}}
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
@@ -66,7 +62,7 @@
 
         <div class="p-3">
 
-            <h5>Diamonds</h5>
+            {{-- <h5>Diamonds</h5>
 
             @if ($product->diamonds->count())
 <table class="table table-bordered">
@@ -113,7 +109,7 @@
                 </table>
 @else
 <p>No Stones</p>
-@endif
+@endif --}}
 
 
             <h5>Packets</h5>
@@ -157,6 +153,7 @@
                                                             <img src="{{ asset($product->image) }}" width="70">
                                                         @endif
                                                     </td>
+                                                    <td>{{ $product->barcode }}</td>
                                                     <td>{{ $product['pre_code'] . '-' . $product['post_code'] }}</td>
                                                     <td>
                                                         {{ $product->category->category_name ?? '-' }}
@@ -171,22 +168,14 @@
                                                         {{ $product->net_weight ?? '-' }}
                                                     </td>
 
-                                                    <td>
+                                                    {{-- <td>
 
                                                         {{ $product->final_fn_weight ?? '-' }}
-                                                    </td>
+                                                    </td> --}}
 
 
 
-                                                    <td>{{ $product['sale_price'] }}</td>
-                                                    {{-- <td>{{ $product['final_price'] }}</td> --}}
-                                                    <td>
-                                                        @if (($product->availability ?? 'available') == 'available')
-                                                            <span class="badge bg-success">Available</span>
-                                                        @else
-                                                            <span class="badge bg-danger">Sold</span>
-                                                        @endif
-                                                    </td>
+
                                                     <td class="d-flex align-items-center">
                                                         <div class="dropdown dropdown-action">
                                                             <a href="#" class=" btn-action-icon "
@@ -316,7 +305,7 @@
                 // Open print preview in a new window/tab
                 const url = `{{ url('/labels/print/preview') }}/${templateId}/${productId}`;
                 window.open(url, '_blank');
-                
+
                 // Hide modal using bootstrap
                 const modalInstance = bootstrap.Modal.getInstance(printTagModal);
                 if (modalInstance) {

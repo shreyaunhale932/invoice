@@ -104,19 +104,23 @@ class Product extends Model
         return $this->belongsTo(ItemProductData::class, 'item_product_data_id');
     }
 
-public function metalRate()
-{
-    return $this->belongsTo(MetalRate::class, 'metal_rate');
-}
-public function sellStoneItems()
-{
-    return $this->hasMany(SellStoneItem::class, 'product_id');
-}
-public function sellDiamondItems()
-{
-    return $this->hasMany(SellDiamondItem::class, 'product_id');
-}
+    public function metalRate()
+    {
+        return $this->belongsTo(MetalRate::class, 'metal_rate');
+    }
 
+    public function sellStoneItems()
+    {
+        return $this->hasMany(SellStoneItem::class, 'product_id');
+    }
 
+    public function sellDiamondItems()
+    {
+        return $this->hasMany(SellDiamondItem::class, 'product_id');
+    }
 
+    public function getPostCodeAttribute($value)
+    {
+        return str_pad($value, 4, '0', STR_PAD_LEFT);
+    }
 }
