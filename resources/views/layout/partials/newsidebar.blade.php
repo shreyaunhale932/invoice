@@ -33,6 +33,14 @@
                     </a>
                 </li>
             </ul>
+              <ul class="sidebar-new-menu">
+                <li class="">
+                    <a href="{{ route('visitor') }}">
+                       <i class="fe fe-globe"></i>
+                        <span>Visitors</span>
+                    </a>
+                </li>
+            </ul>
         @endif
 
         @if (Auth::guard('admin')->check())
@@ -176,6 +184,12 @@
                     <a href="{{ url('old-metal-received') }}">
                         <i class="fe fe-repeat"></i>
                         <span>Old Metal Received</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('old-diamond-received') ? 'active' : '' }}">
+                    <a href="{{ url('old-diamond-received') }}">
+                        <i class="fe fe-repeat"></i>
+                        <span>Old Diamond Received</span>
                     </a>
                 </li>
 

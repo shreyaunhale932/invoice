@@ -6,7 +6,7 @@
             <div class="inv-content invoice-two">
                 <div class="invoice-header">
                     <div class="inv-header-left">
-                        <h2>Invoice</h2>
+                        <h2>JewelERP</h2>
                     </div>
                     <div class="inv-header-right">
                         <a href="#">

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -48,9 +47,13 @@ class AuthController extends Controller
         // 1. Try Superadmin login (web guard)
         if (Auth::guard('web')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
-            return redirect('/superadmin/dashboard');
+
+            return response()->json([
+                'success' => true,
+                'redirect' => url('/superadmin/dashboard'),
+            ]);
         }
-// dd($credentials['username'].'-'.$credentials['password']);
+        // dd($credentials['username'].'-'.$credentials['password']);
 
         // 2. Try Admin login (admin guard)
         if (Auth::guard('admin')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
@@ -65,13 +68,21 @@ class AuthController extends Controller
                 \App\Services\DatabaseSwitcher::switch($admin->db_name);
             }
 
-            return redirect('/admin/dashboard/');
+            return response()->json([
+                'success' => true,
+                'redirect' => url('/admin/dashboard'),
+            ]);
         }
 
-        return back()->with('status', 'Invalid login credentials.');
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid username or password.',
+            ], 401);
+        }
+
+        return back()->with('status', 'Invalid username or password.');
     }
-
-
 
     public function logout(Request $request)
     {
@@ -79,6 +90,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
 }

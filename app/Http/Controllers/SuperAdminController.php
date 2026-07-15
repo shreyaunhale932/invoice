@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+   use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SuperAdminController extends Controller
 {
@@ -111,13 +113,42 @@ class SuperAdminController extends Controller
         return redirect()->back()->with('success', 'Admin updated successfully.');
     }
 
-    public function destroyAdmin($id)
-    {
-        $admin = \App\Models\Admin::findOrFail($id);
+
+public function destroyAdmin($id)
+{
+    $admin = \App\Models\Admin::findOrFail($id);
+
+    try {
+        DB::beginTransaction();
+
+        // Store database name before deleting admin
+        $dbName = $admin->db_name;
+
+        // Delete admin record
         $admin->delete();
 
-        return redirect()->back()->with('success', 'Admin deleted successfully.');
+        // Drop tenant database
+        if (!empty($dbName)) {
+            DB::statement("DROP DATABASE IF EXISTS `{$dbName}`");
+        }
+
+        DB::commit();
+
+        return redirect()->back()->with('success', 'Admin and tenant database deleted successfully.');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        Log::error('Failed to delete admin', [
+            'admin_id' => $id,
+            'database' => $admin->db_name,
+            'error' => $e->getMessage(),
+        ]);
+
+        return redirect()->back()->with('error', 'Failed to delete admin: '.$e->getMessage());
     }
+}
 
     public function settings()
     {

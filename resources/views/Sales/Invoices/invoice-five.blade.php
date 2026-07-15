@@ -12,7 +12,7 @@
                         </a>
                     </div>
                     <div class="inv-header-right">
-                        <h2>INVOICE</h2>
+                        <h2>JewelERP</h2>
                     </div>
                 </div>
                 <div class="invoice-five-details">

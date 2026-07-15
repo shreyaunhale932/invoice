@@ -391,4 +391,15 @@ class HomeController extends Controller
               return view( 'SuperAdmin/invoice-subscription' );
 
           }
+
+
+          public function invoiceFront(){
+            return view('invoice_front.index');
+          }
+          public function pricing(){
+            return view('invoice_front.pricing');
+          }
+          public function contact(){
+            return view('invoice_front.contact');
+          }
 }

@@ -7,7 +7,7 @@
                 <span class="line"></span>
                 <div class="invoice-header">
                     <div class="inv-header-left">
-                        <h4>Invoice</h4>
+                        <h4>JewelERP</h4>
                         <div class="company-details">
                             <div class="gst-details">
                                 <h6>Dreamguys Technologies Pvt Ltd</h6>

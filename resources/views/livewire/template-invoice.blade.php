@@ -3,7 +3,7 @@ tabindex="0">
 <div class="card template-invoice-card">
     <div class="card-body pb-0">
         <div class="invoice-card-title">
-            <h6>Invoice</h6>
+            <h6>JewelERP</h6>
         </div>
         <div class="row">
             <!-- Invoice List -->

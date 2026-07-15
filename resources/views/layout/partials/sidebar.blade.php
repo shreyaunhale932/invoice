@@ -327,6 +327,8 @@
                                     href="{{ url('stock-summary') }}">Stock Summary</a></li>
                             <li><a class="{{ Request::is('old-metal-received') ? 'active' : '' }}"
                                     href="{{ url('old-metal-received') }}">Old Metal Received</a></li>
+                            <li><a class="{{ Request::is('old-diamond-received') ? 'active' : '' }}"
+                                    href="{{ url('old-diamond-received') }}">Old Diamond Received</a></li>
 
                         </ul>
                     </li>

@@ -22,6 +22,7 @@ use Illuminate\Support\Str;
 use App\Models\Invoice;
 use App\Http\Controllers\LabelDesignerController;
 use App\Http\Controllers\PrintController;
+use App\Http\Controllers\VisitorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,13 @@ use App\Http\Controllers\PrintController;
 |
 */
 
-Route::get('/', [HomeController::class, 'login'])->name('login');
+Route::get('/login', [HomeController::class, 'login'])->name('login');
+
+Route::get('/',[HomeController::class,'invoiceFront'])->name('invoice-front');
+Route::get('/pricing',[HomeController::class,'pricing'])->name('pricing');
+Route::get('/contact',[HomeController::class,'contact'])->name('contact');
+Route::post('/contact/store', [VisitorController::class, 'store'])
+    ->name('contact.store');
 
 
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('admin.authenticate');
@@ -51,6 +58,7 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::post('/admin/store', [SuperAdminController::class, 'storeAdmin'])->name('admin.store');
     Route::put('/superadmin/admin/update/{id}', [SuperAdminController::class, 'updateAdmin'])->name('admin.update');
     Route::delete('/superadmin/admin/delete/{id}', [SuperAdminController::class, 'destroyAdmin'])->name('admin.destroy');
+    Route::get('/visitor',[VisitorController::class,'getvisitor'])->name('visitor');
 });
 
 // Admin Routes with Firm Management
@@ -312,6 +320,7 @@ Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWh
     Route::get('/sales-report', [PageController::class, 'sales_report'])->name('sales-report');
     Route::get('/stock-summary', [PageController::class, 'stock_summary'])->name('stock-summary');
     Route::get('/old-metal-received', [PageController::class, 'old_metal_received_report'])->name('old-metal-received');
+    Route::get('/old-diamond-received', [PageController::class, 'old_diamond_received_report'])->name('old-diamond-received');
 
     // Packet Master Routes
     Route::resource('packet-masters', \App\Http\Controllers\PacketMasterController::class);
@@ -334,7 +343,7 @@ Route::get('/invoices-refunded', [PageController::class, 'invoices_refunded'])->
 Route::get('/invoices-unpaid', [PageController::class, 'invoices_unpaid'])->name('invoices-unpaid');
 
     // Barcode & Label Printing Routes
-    
+
     Route::get('/labels/templates', [LabelDesignerController::class, 'index'])->name('labels.templates.index');
     Route::get('/labels/designer', [LabelDesignerController::class, 'create'])->name('labels.designer.create');
     Route::post('/labels/designer', [LabelDesignerController::class, 'store'])->name('labels.designer.store');
@@ -351,7 +360,7 @@ Route::get('/invoices-unpaid', [PageController::class, 'invoices_unpaid'])->name
 
 
 Route::get('Dashboard/index', [CustomAuthController::class, 'dashboard']);
-Route::get('Pages/Authentication/login', [CustomAuthController::class, 'index'])->name('login');
+// Route::get('Pages/Authentication/login', [CustomAuthController::class, 'index'])->name('login');
 Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
 Route::get('Pages/Authentication/register', [CustomAuthController::class, 'registration'])->name('register-user');
 Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
@@ -556,7 +565,7 @@ Route::get('/subscribers', [HomeController::class, 'subscribers'])->name('subscr
 Route::get('/transactions', [HomeController::class, 'transactions'])->name('transactions');
 Route::get('/forgot-password', [HomeController::class, 'forgotpassword'])->name('forgot-password');
 Route::get('/lock-screen', [HomeController::class, 'lockscreen'])->name('lock-screen');
-Route::get('/login', [HomeController::class, 'login'])->name('login');
+// Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::get('/blank-page', [HomeController::class, 'blankpage'])->name('blank-page');
 Route::get('/error-404', [HomeController::class, 'error'])->name('error-404');

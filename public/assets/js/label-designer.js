@@ -11,8 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCanvasSize();
         
         if (window.SavedTemplate && window.SavedTemplate.elements) {
-            elements = window.SavedTemplate.elements;
-            elementCounter = elements.length ? Math.max(...elements.map(e => parseInt(e.id) || 0)) : 0;
+            elements = window.SavedTemplate.elements.map((el, index) => {
+                return {
+                    ...el,
+                    id: 'el_' + (index + 1),
+                    pos_x: parseFloat(el.pos_x) || 0,
+                    pos_y: parseFloat(el.pos_y) || 0,
+                    width: parseFloat(el.width) || 0,
+                    height: parseFloat(el.height) || 0
+                };
+            });
+            elementCounter = elements.length;
             elements.forEach(el => renderElement(el));
         }
     }
@@ -121,7 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             node.addEventListener('mousedown', (e) => {
                 selectElement(el.id);
-                e.stopPropagation();
             });
         }
 
@@ -206,8 +214,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    canvas.addEventListener('mousedown', () => {
-        selectElement(null);
+    canvas.addEventListener('mousedown', (e) => {
+        if (e.target === canvas) {
+            selectElement(null);
+        }
     });
 
     // Properties Panel Updates

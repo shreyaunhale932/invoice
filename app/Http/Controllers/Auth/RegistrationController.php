@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\OTPMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class RegistrationController extends Controller
 {
@@ -44,9 +46,12 @@ class RegistrationController extends Controller
 
         try {
             $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            $tempId = (string) Str::uuid();
 
-            $admin = Admin::create([
-                'name' => $request->first_name.' '.$request->last_name,
+            // Store the data temporarily in the cache for 10 minutes (600 seconds)
+            Cache::put('pending_admin_' . $tempId, [
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'username' => $request->username,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -55,32 +60,23 @@ class RegistrationController extends Controller
                 'state' => $request->state,
                 'pincode' => $request->pincode,
                 'password' => Hash::make($request->password),
-                'status' => 'inactive',
                 'otp' => $otp,
                 'otp_expiry' => Carbon::now()->addMinutes(10),
-                'verification_status' => 'pending',
-            ]);
-            // $htmlContent = view('emails.otp', ['otp' => $otp])->render();
-             Mail::to($request->email)->send(new OTPMail($otp));
+            ], 600);
 
-            // ✅ Send OTP via Mailjet API (NO SMTP)
-            // $mailjet->sendEmail(
-            //     $request->email,
-            //     $admin->name,
-            //     'Your OTP Verification Code',
-            //     'Your OTP is: '.$otp."\nThis OTP will expire in 10 minutes."
-            // );
+            // Send OTP via Mail
+            Mail::to($request->email)->send(new OTPMail($otp));
 
             return response()->json([
                 'success' => true,
                 'message' => 'Registration successful. OTP sent to your email.',
-                'admin_id' => $admin->id,
+                'admin_id' => $tempId,
             ]);
 
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Registration failed: '.$e->getMessage(),
+                'message' => 'Registration failed: ' . $e->getMessage(),
             ], 500);
         }
     }
@@ -88,41 +84,65 @@ class RegistrationController extends Controller
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'admin_id' => 'required|exists:landlord.admins,id',
+            'admin_id' => 'required|string',
             'otp' => 'required|string|size:6',
         ]);
 
-        $admin = Admin::find($request->admin_id);
+        $tempId = $request->admin_id;
+        $pendingData = Cache::get('pending_admin_' . $tempId);
 
-        if (! $admin || $admin->otp !== $request->otp) {
+        if (!$pendingData || $pendingData['otp'] !== $request->otp) {
             return response()->json(['success' => false, 'message' => 'Invalid OTP.'], 422);
         }
 
-        if (Carbon::now()->isAfter($admin->otp_expiry)) {
+        if (Carbon::now()->isAfter($pendingData['otp_expiry'])) {
             return response()->json(['success' => false, 'message' => 'OTP has expired.'], 422);
         }
 
         try {
-            // Update status
-            $admin->update([
-                'verification_status' => 'verified',
+            // Re-verify that email/username are not taken by another completed signup
+            $existingEmail = Admin::where('email', $pendingData['email'])->exists();
+            if ($existingEmail) {
+                return response()->json(['success' => false, 'message' => 'The email has already been taken.'], 422);
+            }
+            $existingUsername = Admin::where('username', $pendingData['username'])->exists();
+            if ($existingUsername) {
+                return response()->json(['success' => false, 'message' => 'The username has already been taken.'], 422);
+            }
+
+            // Create admin
+            $admin = Admin::create([
+                'name' => $pendingData['first_name'] . ' ' . $pendingData['last_name'],
+                'username' => $pendingData['username'],
+                'email' => $pendingData['email'],
+                'phone' => $pendingData['phone'],
+                'address' => $pendingData['address'],
+                'city' => $pendingData['city'],
+                'state' => $pendingData['state'],
+                'pincode' => $pendingData['pincode'],
+                'password' => $pendingData['password'],
                 'status' => 'active',
                 'otp' => null,
                 'otp_expiry' => null,
+                'verification_status' => 'verified',
             ]);
 
             // Create tenant database
             $dbName = $this->tenantService->createTenant($admin);
             $admin->update(['db_name' => $dbName]);
 
+            // Remove registration data from cache
+            Cache::forget('pending_admin_' . $tempId);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Email verified and database created successfully!',
-                'redirect' => route('login'),
+                'redirect' => route('invoice-front'),
             ]);
 
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Verification successful but database creation failed: '.$e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Verification successful but database creation failed: ' . $e->getMessage()], 500);
         }
     }
 }
+
