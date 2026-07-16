@@ -2,6 +2,9 @@
 <header class="navbar">
 
 <!-- LOGO -->
+{{-- <a href="/" class="logo">
+    <img src="{{ asset('front_assets/img/fabicon.png') }}" class="">
+</a> --}}
 <a href="/" class="logo">
     <img src="{{ asset('front_assets/img/logo.png') }}" class="logoImg">
 </a>
