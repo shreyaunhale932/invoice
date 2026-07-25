@@ -192,7 +192,7 @@
 
 
 
-                                
+
                                 <!-- Barcode -->
                                 <div class="col-lg-4">
                                     <label>Barcode</label>
@@ -1763,7 +1763,7 @@ $(document).ready(function() {
         $('#preCodeSuggestions').hide();
     });
 
-    $('#pre_code').on('blur', function() {
+    $('#pre_code').on('change', function() {
         if ($(this).prop('readonly')) return;
         let preCode = $(this).val().trim();
         checkAndApplyPreCode(preCode);
