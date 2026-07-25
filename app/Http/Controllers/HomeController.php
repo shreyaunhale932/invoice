@@ -276,7 +276,7 @@ class HomeController extends Controller
 
     public function login()
  {
-        return view( 'Pages/Authentication/login' );
+        return view( 'invoice_front.index' );
     }
 
     public function register()

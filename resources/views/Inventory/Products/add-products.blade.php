@@ -147,24 +147,21 @@
                             <div class="row">
 
                                 <!-- Product Name -->
-                                <div class="col-lg-4">
-                                    <label>Product Name *</label>
-                                    <input type="text" class="form-control" name="product_name" id="product_name"
-                                        value="{{ old('product_name', $product->product_name ?? '') }}" required>
 
-                                    @error('product_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
 
                                 <!-- Product Code -->
-                                <div class="col-lg-4">
+                                <div class="col-lg-4" style="position: relative;">
                                     <label>Item Code</label>
-                                    <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
-                                        name="pre_code" id="pre_code"
-                                        value="{{ old('pre_code', $product->pre_code ?? '') }}"
-                                        {{ isset($product) ? 'readonly' : '' }}>
-
+                                    <div style="position: relative;">
+                                        <input type="text" class="form-control {{ isset($product) ? 'readonly-field' : '' }}"
+                                            name="pre_code" id="pre_code"
+                                            value="{{ old('pre_code', $product->pre_code ?? '') }}"
+                                            placeholder="Enter or select Item Code"
+                                            autocomplete="off"
+                                            {{ isset($product) ? 'readonly' : '' }}>
+                                        <div id="preCodeSuggestions" class="dropdown-menu shadow-lg w-100" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1050; max-height: 250px; overflow-y: auto;">
+                                        </div>
+                                    </div>
 
                                     <small id="productCodeMsg"></small>
                                     @error('pre_code')
@@ -183,9 +180,19 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                <div class="col-lg-4">
+                                    <label>Product Name *</label>
+                                    <input type="text" class="form-control" name="product_name" id="product_name"
+                                        value="{{ old('product_name', $product->product_name ?? '') }}" required>
+
+                                    @error('product_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
 
 
+                                
                                 <!-- Barcode -->
                                 <div class="col-lg-4">
                                     <label>Barcode</label>
@@ -201,34 +208,43 @@
                                 <!-- Category -->
                                 <div class="col-lg-4 mt-3">
                                     <label>Category*</label>
-                                    <select name="category_id" id="category_id"
-                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
-                                        <option value="">Select Category</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->category_id }}"
-                                                data-metal="{{ strtolower($category->category_name) }}"
-                                                {{ old('category_id', $product->category_id ?? '') == $category->category_id ? 'selected' : '' }}>
-                                                {{ $category->category_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
+                                    <div class="input-group">
+                                        <select name="category_id" id="category_id"
+                                            class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
+                                            <option value="">Select Category</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->category_id }}"
+                                                    data-metal="{{ strtolower($category->category_name) }}"
+                                                    {{ old('category_id', $product->category_id ?? '') == $category->category_id ? 'selected' : '' }}>
+                                                    {{ $category->category_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="btn custom-btn-primary text-white" data-bs-toggle="modal" data-bs-target="#addCategoryModal" title="Add Category">
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
 
 
                                 <!-- Subcategory -->
                                 <div class="col-lg-4 mt-3">
                                     <label>Subcategory *</label>
-                                    <select name="subcategory_id" id="subcategory_id"
-                                        class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
-                                        <option value="">Select Subcategory</option>
-                                        @foreach ($subcategories as $subcategory)
-                                            <option value="{{ $subcategory->subcategory_id }}"
-                                                {{ old('subcategory_id', $product->subcategory_id ?? '') == $subcategory->subcategory_id ? 'selected' : '' }}>
-                                                {{ $subcategory->subcategory_name }}
-                                            </option>
-                                        @endforeach>
-                                    </select>
+                                    <div class="input-group">
+                                        <select name="subcategory_id" id="subcategory_id"
+                                            class="form-control {{ isset($product) ? 'readonly-field' : '' }}" required>
+                                            <option value="">Select Subcategory</option>
+                                            @foreach ($subcategories as $subcategory)
+                                                <option value="{{ $subcategory->subcategory_id }}"
+                                                    {{ old('subcategory_id', $product->subcategory_id ?? '') == $subcategory->subcategory_id ? 'selected' : '' }}>
+                                                    {{ $subcategory->subcategory_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" class="btn custom-btn-primary text-white" data-bs-toggle="modal" data-bs-target="#addSubcategoryModal" title="Add Subcategory">
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
 
 
@@ -752,6 +768,14 @@
                                                 </div>
 
                                                 <div class="col-lg-3 col-md-6">
+                                                    <label class="form-label">Packet Type</label>
+                                                    <select name="packet[packet_type][]" class="form-control packet-type-select">
+                                                        <option value="Diamond" {{ ($packet->packet_type ?? 'Diamond') == 'Diamond' ? 'selected' : '' }}>Diamond</option>
+                                                        <option value="Stone/Other" {{ ($packet->packet_type ?? '') == 'Stone/Other' ? 'selected' : '' }}>Stone/Other</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-6">
                                                      <label class="form-label">Stone</label>
                                                      <select name="packet[stone_id][]" class="form-control packet-stone-select">
                                                          <option value="">Select Stone</option>
@@ -897,6 +921,14 @@
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Packet No *</label>
         <select name="packet[packet_no][]" class="form-control packet-select" required></select>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <label class="form-label">Packet Type</label>
+        <select name="packet[packet_type][]" class="form-control packet-type-select">
+            <option value="Diamond">Diamond</option>
+            <option value="Stone/Other">Stone/Other</option>
+        </select>
     </div>
 
     <div class="col-lg-3 col-md-6">
@@ -1312,6 +1344,10 @@
                     wrapper.find('.packet-rate').val(details.rate);
                     wrapper.find('.packet-cert').val(details.certificate_no);
 
+                    if (details.packet_type) {
+                        wrapper.find('.packet-type-select').val(details.packet_type).trigger('change');
+                    }
+
                     if (details.solitaire == 1) {
                         wrapper.find('.packet-solitaire').prop('checked', true);
                     } else {
@@ -1573,6 +1609,250 @@ $(document).ready(function() {
         let post = $('#post_code').val().trim();
         $('#barcode').val(pre + post);
     }
+
+    // --- Pre Code Product Suggestions & Auto Population ---
+    let preCodeSuggestTimeout = null;
+    let preCodeCheckTimeout = null;
+    let lastAutoPopulatedPreCode = '';
+
+    function clearPreCodeDetails() {
+        $('#product_name').val('');
+        $('#category_id').val('');
+        $('#subcategory_id').html('<option value="">Select Subcategory</option>');
+        lastAutoPopulatedPreCode = '';
+    }
+
+    function fetchPreCodeSuggestions(term) {
+        if ($('#pre_code').prop('readonly')) return;
+
+        clearTimeout(preCodeSuggestTimeout);
+        preCodeSuggestTimeout = setTimeout(function() {
+            $.ajax({
+                url: "{{ route('products.searchPreCode') }}",
+                type: "GET",
+                data: { term: term },
+                success: function(data) {
+                    let $box = $('#preCodeSuggestions');
+                    $box.empty();
+
+                    if (data && data.length > 0) {
+                        $.each(data, function(i, item) {
+                            let catSub = '';
+                            if (item.category_name) {
+                                catSub += item.category_name;
+                                if (item.subcategory_name) {
+                                    catSub += ' &gt; ' + item.subcategory_name;
+                                }
+                            }
+
+                            let html = '<a href="javascript:void(0)" class="dropdown-item pre-code-suggestion-item py-2 px-3 border-bottom" ' +
+                                'data-pre_code="' + (item.pre_code || '') + '" ' +
+                                'data-product_name="' + (item.product_name || '') + '" ' +
+                                'data-category_id="' + (item.category_id || '') + '" ' +
+                                'data-subcategory_id="' + (item.subcategory_id || '') + '">' +
+                                '<div><strong>' + (item.pre_code || '') + '</strong> - ' + (item.product_name || 'Unnamed Product') + '</div>' +
+                                (catSub ? '<small class="text-muted">' + catSub + '</small>' : '') +
+                                '</a>';
+
+                            $box.append(html);
+                        });
+                        $box.show();
+                    } else {
+                        $box.hide();
+                    }
+                }
+            });
+        }, 150);
+    }
+
+    function applyPreCodeDetails(details) {
+        if (!details) {
+            if (lastAutoPopulatedPreCode !== '') {
+                clearPreCodeDetails();
+            }
+            return;
+        }
+
+        lastAutoPopulatedPreCode = details.pre_code || '';
+
+        if (details.product_name) {
+            $('#product_name').val(details.product_name);
+        }
+
+        if (details.category_id) {
+            $('#category_id').val(details.category_id);
+
+            let categoryId = details.category_id;
+            let subcategoryId = details.subcategory_id;
+
+            $('#subcategory_id').html('<option value="">Loading...</option>');
+
+            $.ajax({
+                url: '{{ url('get-subcategories') }}/' + categoryId,
+                type: 'GET',
+                success: function(data) {
+                    $('#subcategory_id').html('<option value="">Select Subcategory</option>');
+                    if (data.length > 0) {
+                        $.each(data, function(key, subcategory) {
+                            let selected = (subcategory.subcategory_id == subcategoryId) ? 'selected' : '';
+                            $('#subcategory_id').append(
+                                '<option value="' + subcategory.subcategory_id + '" ' + selected + '>' +
+                                subcategory.subcategory_name +
+                                '</option>'
+                            );
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function checkAndApplyPreCode(preCode) {
+        if ($('#pre_code').prop('readonly')) return;
+
+        clearTimeout(preCodeCheckTimeout);
+        preCodeCheckTimeout = setTimeout(function() {
+            preCode = (preCode || '').trim();
+
+            if (!preCode) {
+                if (lastAutoPopulatedPreCode !== '') {
+                    clearPreCodeDetails();
+                }
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('products.getPreCodeDetails') }}",
+                type: "GET",
+                data: { pre_code: preCode },
+                success: function(details) {
+                    if (details && details.pre_code) {
+                        applyPreCodeDetails(details);
+                    } else {
+                        if (lastAutoPopulatedPreCode !== '') {
+                            clearPreCodeDetails();
+                        }
+                    }
+                }
+            });
+        }, 200);
+    }
+
+    $('#pre_code').on('focus input', function() {
+        if ($(this).prop('readonly')) return;
+        let val = $(this).val().trim();
+        fetchPreCodeSuggestions(val);
+        checkAndApplyPreCode(val);
+    });
+
+    $(document).on('click', '.pre-code-suggestion-item', function(e) {
+        e.preventDefault();
+        let preCode = $(this).data('pre_code');
+        let productName = $(this).data('product_name');
+        let categoryId = $(this).data('category_id');
+        let subcategoryId = $(this).data('subcategory_id');
+
+        $('#pre_code').val(preCode).trigger('change');
+        applyPreCodeDetails({
+            pre_code: preCode,
+            product_name: productName,
+            category_id: categoryId,
+            subcategory_id: subcategoryId
+        });
+
+        $('#preCodeSuggestions').hide();
+    });
+
+    $('#pre_code').on('blur', function() {
+        if ($(this).prop('readonly')) return;
+        let preCode = $(this).val().trim();
+        checkAndApplyPreCode(preCode);
+    });
+
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#pre_code, #preCodeSuggestions').length) {
+            $('#preCodeSuggestions').hide();
+        }
+    });
+
+    // --- AJAX Add Category ---
+    $('#ajaxAddCategoryForm').on('submit', function(e) {
+        e.preventDefault();
+        let form = $(this);
+        let categoryName = $('#modal_category_name').val().trim();
+
+        if (!categoryName) return;
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success && response.category) {
+                    let cat = response.category;
+                    let newOption = new Option(cat.category_name, cat.category_id, true, true);
+                    $(newOption).attr('data-metal', cat.category_name.toLowerCase());
+                    $('#category_id').append(newOption).trigger('change');
+
+                    $('#modal_subcat_category_id').append(new Option(cat.category_name, cat.category_id));
+
+                    form[0].reset();
+                    bootstrap.Modal.getInstance(document.getElementById('addCategoryModal')).hide();
+                }
+            },
+            error: function(xhr) {
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    alert(Object.values(xhr.responseJSON.errors).flat().join('\n'));
+                } else {
+                    alert('Failed to add category');
+                }
+            }
+        });
+    });
+
+    // --- AJAX Add Subcategory ---
+    $('#addSubcategoryModal').on('show.bs.modal', function() {
+        let currentCatId = $('#category_id').val();
+        if (currentCatId) {
+            $('#modal_subcat_category_id').val(currentCatId);
+        }
+    });
+
+    $('#ajaxAddSubcategoryForm').on('submit', function(e) {
+        e.preventDefault();
+        let form = $(this);
+        let subcatName = $('#modal_subcategory_name').val().trim();
+        let catId = $('#modal_subcat_category_id').val();
+
+        if (!subcatName || !catId) return;
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                if (response.success && response.subcategory) {
+                    let sub = response.subcategory;
+                    let selectedCatId = $('#category_id').val();
+
+                    if (selectedCatId == sub.category_id) {
+                        let newOption = new Option(sub.subcategory_name, sub.subcategory_id, true, true);
+                        $('#subcategory_id').append(newOption).val(sub.subcategory_id);
+                    }
+
+                    form[0].reset();
+                    bootstrap.Modal.getInstance(document.getElementById('addSubcategoryModal')).hide();
+                }
+            },
+            error: function(xhr) {
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    alert(Object.values(xhr.responseJSON.errors).flat().join('\n'));
+                } else {
+                    alert('Failed to add subcategory');
+                }
+            }
+        });
+    });
 });
 
 $(document).on('keydown', 'input, select, textarea', function(e) {
@@ -1592,4 +1872,65 @@ $(document).on('keydown', 'input, select, textarea', function(e) {
     }
 });
 </script>
+
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card border-0">
+            <div class="modal-header">
+                <h5 class="modal-title section-header mb-0" id="addCategoryModalLabel">Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="ajaxAddCategoryForm" action="{{ route('category') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="modal_category_name" class="form-label">Category Name *</label>
+                        <input type="text" class="form-control" id="modal_category_name" name="category_name" placeholder="Enter Category Name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn custom-btn-primary text-white">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Subcategory Modal -->
+<div class="modal fade" id="addSubcategoryModal" tabindex="-1" aria-labelledby="addSubcategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card border-0">
+            <div class="modal-header">
+                <h5 class="modal-title section-header mb-0" id="addSubcategoryModalLabel">Add Subcategory</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="ajaxAddSubcategoryForm" action="{{ route('subcategory') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="modal_subcat_category_id" class="form-label">Category *</label>
+                        <select class="form-select" id="modal_subcat_category_id" name="category_id" required>
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->category_id }}">
+                                    {{ $category->category_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal_subcategory_name" class="form-label">Subcategory Name *</label>
+                        <input type="text" class="form-control" id="modal_subcategory_name" name="subcategory_name" placeholder="Enter Subcategory Name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn custom-btn-primary text-white">Save Subcategory</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection

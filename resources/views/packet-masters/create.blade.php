@@ -24,7 +24,7 @@
                             <form action="{{ route('packet-masters.store') }}" method="POST">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Packet No <span class="text-danger">*</span></label>
                                             <input type="text" name="packet_no" class="form-control" required>
@@ -33,7 +33,16 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Packet Type</label>
+                                            <select name="packet_type" class="form-control">
+                                                <option value="Diamond" selected>Diamond</option>
+                                                <option value="Stone/Other">Stone/Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Solitaire</label>
                                             <div class="status-toggle">

@@ -199,6 +199,7 @@ class SellInvoiceController extends Controller
                             'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
                             'uom' => $packet['uom'] ?? null,
                             'certificate_no' => $packet['certificate_no'] ?? null,
+                            'packet_type' => $packet['packet_type'] ?? 'Diamond',
                         ]);
                     }
                 }
@@ -409,6 +410,7 @@ class SellInvoiceController extends Controller
                             'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
                             'uom' => $packet['uom'] ?? null,
                             'certificate_no' => $packet['certificate_no'] ?? null,
+                            'packet_type' => $packet['packet_type'] ?? 'Diamond',
                         ]);
                     }
                 }
@@ -701,6 +703,7 @@ class SellInvoiceController extends Controller
                         'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
                         'uom' => $packet['uom'] ?? null,
                         'certificate_no' => $packet['certificate_no'] ?? null,
+                        'packet_type' => $packet['packet_type'] ?? 'Diamond',
                     ]);
                 }
             }

@@ -16,10 +16,18 @@ class CategoryController extends Controller
         ]);
 
         // Save data to database
-        $metalRate = Category::create([
+        $category = Category::create([
             'admin_id' => Auth::guard('admin')->id(),
             'category_name'      => $request->category_name,
         ]);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'category' => $category,
+                'message' => 'Category added successfully!'
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Category added successfully!');
     }

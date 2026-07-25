@@ -118,19 +118,21 @@
 <table class="table table-bordered">
                     <tr>
                         <th>Packet No</th>
+                        <th>Type</th>
                         <th>Pcs</th>
                         <th>Weight</th>
                         <th>Amount</th>
                     </tr>
 
                     @foreach ($product->packets as $packet)
-<tr>
+                        <tr>
                             <td>{{ $packet->packet_no }}</td>
+                            <td>{{ $packet->packet_type ?? 'Diamond' }}</td>
                             <td>{{ $packet->pcs }}</td>
                             <td>{{ $packet->weight }}</td>
                             <td>{{ $packet->amount }}</td>
                         </tr>
-@endforeach
+                    @endforeach
                 </table>
 @else
 <p>No Packets</p>

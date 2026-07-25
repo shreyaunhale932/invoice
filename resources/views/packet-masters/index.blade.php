@@ -37,6 +37,7 @@
                                     <thead class="thead-light">
                                         <tr>
                                             <th>Packet No</th>
+                                            <th>Type</th>
                                             <th>Stone</th>
                                             <th>Shape</th>
                                             <th>Color</th>
@@ -50,6 +51,7 @@
                                         @foreach ($packets as $packet)
                                             <tr>
                                                 <td>{{ $packet->packet_no }}</td>
+                                                <td><span class="badge {{ ($packet->packet_type ?? 'Diamond') == 'Diamond' ? 'bg-primary' : 'bg-info' }}">{{ $packet->packet_type ?? 'Diamond' }}</span></td>
                                                 <td>{{ $packet->stone->name ?? '-' }}</td>
                                                 <td>{{ $packet->shape->name ?? '-' }}</td>
                                                 <td>{{ $packet->color->name ?? '-' }}</td>

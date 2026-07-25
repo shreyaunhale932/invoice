@@ -90,7 +90,7 @@
                 left: 0;
                 width: 210mm !important;
                 min-height: 297mm;
-                padding: 6mm !important;
+                padding: 4mm 5mm !important;
                 background: #fff !important;
             }
 
@@ -198,8 +198,8 @@
             }
 
             td {
-                font-size: 10px !important;
-                padding: 3px !important;
+                font-size: 9.5px !important;
+                padding: 2px 3px !important;
                 word-break: break-word;
             }
 
@@ -208,7 +208,7 @@
             }
 
             .invoice-one .invoice-table table tr td {
-                height: 30px !important;
+                height: auto !important;
             }
 
             .invoice-one .invoice-table {
@@ -219,7 +219,7 @@
             .invoice-one .inv-content {
                 border: 1px solid #BDBDBD;
                 margin: 0 !important;
-                padding: 10px !important;
+                padding: 8px !important;
             }
 
             /* -----------------------------
@@ -310,6 +310,48 @@
             margin: 0 !important;
             line-height: 1.2;
         }
+
+        .invoice-table table {
+            border-collapse: collapse !important;
+            width: 100% !important;
+        }
+
+        .invoice-table table thead tr {
+            background-color: #F2F2F2 !important;
+            color: #333333 !important;
+        }
+
+        .invoice-table table thead th {
+            background-color: #F2F2F2 !important;
+            color: #333333 !important;
+            border: 1px solid #cccccc !important;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 10px !important;
+            padding: 4px !important;
+        }
+
+        .invoice-table table tbody td {
+            border: 1px solid #e0e0e0 !important;
+            font-size: 10px !important;
+            padding: 4px !important;
+            vertical-align: middle;
+        }
+
+        /* Total row styling */
+        .invoice-table table tfoot tr.total-row td {
+            background-color: #F2F2F2 !important;
+            color: #333333 !important;
+            font-weight: bold;
+            border: 1px solid #cccccc !important;
+            padding: 4px !important;
+            text-align: center;
+            font-size: 10px !important;
+        }
+
+        .invoice-table table tfoot tr.total-row td.text-end {
+            text-align: right !important;
+        }
     </style>
 
 
@@ -394,22 +436,23 @@
 
 
                     {{-- ================= HEADER ================= --}}
+                    @if ($invoiceTitleVisible)
+                        <div class="invoice-title-centered" style="width: 100% !important; text-align: center !important; margin-bottom: 10px !important;">
+                            <h4 style="margin: 0 !important; font-size: 24px !important; font-weight: bold !important; color: #6e46e5 !important; text-align: center !important;">{{ $invoiceTitle }}</h4>
+                        </div>
+                    @endif
                     <div class="invoice-header">
 
                         {{-- LEFT --}}
-                        @if ($invoiceTitleVisible || $companyNameVisible || $companyAddressVisible)
+                        @if ($companyNameVisible || $companyAddressVisible)
                             <div class="inv-header-left">
-
-                                @if ($invoiceTitleVisible)
-                                    <h4>{{ $invoiceTitle }}</h4>
-                                @endif
 
                                 @if ($companyNameVisible || $companyAddressVisible)
                                     <div class="company-details">
                                         <div class="gst-details">
 
                                             @if ($companyNameVisible)
-                                                <h6>{{ $companyName }}</h6>
+                                                <h6 style="font-size: 15px !important; font-weight: bold !important; margin-bottom: 4px !important; color: #333 !important;">{{ $companyName }}</h6>
                                             @endif
 
                                             @if ($companyAddressVisible)
@@ -481,7 +524,7 @@
 
                                 {{-- CUSTOMER DETAILS --}}
                                 @if ($customerDetailsVisible)
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <div class="patient-detailed">
                                             <div class="bill-add">
                                                 {{ $customerDetailsLabel }} :
@@ -496,22 +539,29 @@
                                                     </p>
                                                 @endif
                                             </div>
+                                        </div>
+                                    </div>
+                                @endif
 
-                                            @if ($paymentStatusVisible)
-                                                <div class="payment-status">
-                                                    {{ $paymentStatusLabel }}
-                                                    <p>
-                                                        <span>{{ $invoice->status ?? 'Pending' }}</span>
-                                                    </p>
-                                                </div>
-                                            @endif
+                                {{-- PAYMENT STATUS --}}
+                                @if ($paymentStatusVisible)
+                                    <div class="col-sm-3">
+                                        <div class="patient-detailed">
+                                            <div class="bill-add">
+                                                {{ $paymentStatusLabel }} :
+                                            </div>
+                                            <div class="payment-status">
+                                                <p>
+                                                    <span class="badge bg-success-light" style="font-weight: bold; text-transform: uppercase;">{{ $invoice->status ?? 'Pending' }}</span>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 @endif
 
                                 {{-- BILLING ADDRESS --}}
                                 @if ($billingVisible)
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <div class="patient-detailed">
                                             <div class="bill-add">
                                                 {{ $billingAddressLabel }} :
@@ -525,7 +575,7 @@
 
                                 {{-- SHIPPING ADDRESS --}}
                                 @if ($shippingVisible)
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <div class="patient-detailed">
                                             <div class="bill-add">
                                                 {{ $shippingAddressLabel }} :
@@ -605,225 +655,452 @@
                         ];
                     @endphp
 
-                    <div class="invoice-table">
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
+                @php
+                    $totalGrossWt = 0;
+                    $totalNetWt = 0;
+                    $totalGoldAmount = 0;
+                    $totalStoneWt = 0;
+                    $totalDiamondPcs = 0;
+                    $totalDiamondCt = 0;
+                    $totalMaking = 0;
+                    $totalAmount = 0;
+
+                    foreach ($invoice->items as $item) {
+                        $totalGrossWt += $item->gross_weight;
+                        $totalNetWt += $item->net_weight;
+                        
+                        $goldAmt = (($item->gold_amount > 0) ? $item->gold_amount : ($item->net_weight * $item->metal_rate)) + ($item->wastage_amount ?? 0);
+                        $totalGoldAmount += $goldAmt;
+
+                        $totalStoneWt += ($item->gross_weight - $item->net_weight);
+
+                        if ($item->diamonds && $item->diamonds->count() > 0) {
+                            foreach ($item->diamonds as $diamond) {
+                                $totalDiamondPcs += $diamond->pieces;
+                                $totalDiamondCt += $diamond->diamond_weight;
+                            }
+                        }
+                        if ($item->packets && $item->packets->count() > 0) {
+                            foreach ($item->packets as $packet) {
+                                if ($packet->packet_type != 'Stone/Other') {
+                                    $totalDiamondPcs += $packet->pcs;
+                                    $totalDiamondCt += $packet->weight;
+                                }
+                            }
+                        }
+
+                        $totalMaking += $item->making_final_amount;
+                        $totalAmount += $item->final_price;
+                    }
+                @endphp
+
+                <div class="invoice-table">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr class="ecommercetable">
+                                    @if ($columnVisibility['sr_no'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">SL No.</th>
+                                    @endif
+                                    @if ($columnVisibility['item'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Item Description</th>
+                                    @endif
+                                    @if ($columnVisibility['qty'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Pcs</th>
+                                    @endif
+                                    @if ($columnVisibility['hsn_code'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">HSN</th>
+                                    @endif
+                                    @if ($columnVisibility['purity'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Purity</th>
+                                    @endif
+                                    @if ($columnVisibility['gross_wt'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Gr. wt. (Gm.)</th>
+                                    @endif
+                                    @if ($columnVisibility['net_wt'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Net. wt. (Gm.)</th>
+                                    @endif
+                                    @if ($columnVisibility['wastage'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Wastage (Gm)</th>
+                                    @endif
+                                    @if ($columnVisibility['metal_rate'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Gold Rate (Gm)</th>
+                                    @endif
+                                    @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Stone/Oth. wt. (Gm)</th>
+                                    @endif
+                                    @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                        <th colspan="3" style="text-align: center;">Diamond/Stone</th>
+                                    @endif
+                                    @if ($columnVisibility['making'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Making</th>
+                                    @endif
+                                    @if ($columnVisibility['amount'])
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center; text-align: right;">Amount</th>
+                                    @endif
+                                </tr>
+                                @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
                                     <tr class="ecommercetable">
+                                        <th style="text-align: center;">Pcs</th>
+                                        <th style="text-align: center;">Ct</th>
+                                        <th style="text-align: center;">Rate</th>
+                                    </tr>
+                                @endif
+                            </thead>
+
+                            <tbody>
+                                @foreach ($invoice->items as $item)
+                                    {{-- MAIN PRODUCT ROW --}}
+                                    <tr>
                                         @if ($columnVisibility['sr_no'])
-                                            <th>{{ $columnLabels['sr_no'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['category'])
-                                            <th>{{ $columnLabels['category'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['subcategory'])
-                                            <th>{{ $columnLabels['subcategory'] }}</th>
+                                            <td style="text-align: center;">{{ $loop->iteration }}</td>
                                         @endif
                                         @if ($columnVisibility['item'])
-                                            <th>{{ $columnLabels['item'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['pre_code'])
-                                            <th>{{ $columnLabels['pre_code'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['post_code'])
-                                            <th>{{ $columnLabels['post_code'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['barcode'])
-                                            <th>{{ $columnLabels['barcode'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['hsn_code'])
-                                            <th>{{ $columnLabels['hsn_code'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['purity'])
-                                            <th>{{ $columnLabels['purity'] }}</th>
+                                            <td style="text-align: center; font-weight: bold;">{{ strtoupper($item->item_name) }}</td>
                                         @endif
                                         @if ($columnVisibility['qty'])
-                                            <th>{{ $columnLabels['qty'] }}</th>
+                                            <td style="text-align: center;">{{ $item->quantity }}</td>
                                         @endif
-                                        @if ($columnVisibility['metal_rate'])
-                                            <th>{{ $columnLabels['metal_rate'] }}</th>
+                                        @if ($columnVisibility['hsn_code'])
+                                            <td style="text-align: center;">{{ $item->hsn_code }}</td>
+                                        @endif
+                                        @if ($columnVisibility['purity'])
+                                            <td style="text-align: center;">
+                                                @php
+                                                    $purityValue = '';
+                                                    if ($item->product && $item->product->metalRate) {
+                                                        $purityValue = ($item->product->metalRate->karat ?? '') . ($item->product->metalRate->purity_type == 'karat' ? 'KT' : '%');
+                                                    } else {
+                                                        $purityValue = $item->purity;
+                                                    }
+                                                @endphp
+                                                {{ $purityValue }}
+                                            </td>
                                         @endif
                                         @if ($columnVisibility['gross_wt'])
-                                            <th>{{ $columnLabels['gross_wt'] }}</th>
+                                            <td style="text-align: right;">{{ number_format($item->gross_weight, 3) }}</td>
                                         @endif
                                         @if ($columnVisibility['net_wt'])
-                                            <th>{{ $columnLabels['net_wt'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['fine_wt'])
-                                            <th>{{ $columnLabels['fine_wt'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['size'])
-                                            <th>{{ $columnLabels['size'] }}</th>
+                                            <td style="text-align: right;">{{ number_format($item->net_weight, 3) }}</td>
                                         @endif
                                         @if ($columnVisibility['wastage'])
-                                            <th>{{ $columnLabels['wastage'] }}</th>
+                                            <td style="text-align: right;">{{ number_format($item->wastage_amount ?? 0, 3) }}</td>
+                                        @endif
+                                        @if ($columnVisibility['metal_rate'])
+                                            <td style="text-align: right;">{{ number_format($item->metal_rate, 2) }}</td>
+                                        @endif
+                                        @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                            <td style="text-align: right;">{{ number_format($item->gross_weight - $item->net_weight, 3) }}</td>
+                                        @endif
+                                        @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         @endif
                                         @if ($columnVisibility['making'])
-                                            <th>{{ $columnLabels['making'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['gst_percent'])
-                                            <th>{{ $columnLabels['gst_percent'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['gst_amount'])
-                                            <th>{{ $columnLabels['gst_amount'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['other_charges'])
-                                            <th>{{ $columnLabels['other_charges'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['diamond_amount'])
-                                            <th>{{ $columnLabels['diamond_amount'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['stone_amount'])
-                                            <th>{{ $columnLabels['stone_amount'] }}</th>
-                                        @endif
-                                        @if ($columnVisibility['packet_amount'])
-                                            <th>{{ $columnLabels['packet_amount'] }}</th>
+                                            <td></td>
                                         @endif
                                         @if ($columnVisibility['amount'])
-                                            <th class="text-end">{{ $columnLabels['amount'] }}</th>
+                                            <td style="text-align: right;">
+                                                @php
+                                                    $goldAmt = (($item->gold_amount > 0) ? $item->gold_amount : ($item->net_weight * $item->metal_rate)) + ($item->wastage_amount ?? 0);
+                                                @endphp
+                                                {{ number_format($goldAmt, 2) }}
+                                            </td>
                                         @endif
                                     </tr>
-                                </thead>
 
-                                <tbody>
-                                    @foreach ($invoice->items as $item)
-                                        {{-- MAIN PRODUCT ROW --}}
+                                    {{-- DIAMOND DETAILS ROWS --}}
+                                    @if ($item->diamonds && $item->diamonds->count() > 0)
+                                        @foreach ($item->diamonds as $diamond)
+                                            <tr>
+                                                @if ($columnVisibility['sr_no'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['item'])
+                                                    <td style="padding-left: 20px;">Dia: {{ $diamond->clarity }}/{{ $diamond->color }} {{ $diamond->cut }}</td>
+                                                @endif
+                                                @if ($columnVisibility['qty'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['hsn_code'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['purity'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['gross_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['net_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['wastage'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['metal_rate'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                                    <td style="text-align: center;">{{ $diamond->pieces }}</td>
+                                                    <td style="text-align: right;">{{ number_format($diamond->diamond_weight, 3) }}</td>
+                                                    <td style="text-align: right;">{{ number_format($diamond->price_per_carat, 2) }}</td>
+                                                @endif
+                                                @if ($columnVisibility['making'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['amount'])
+                                                    <td style="text-align: right;">{{ number_format($diamond->diamond_final_price, 2) }}</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    @endif
+
+                                    {{-- STONE DETAILS ROWS --}}
+                                    @if ($item->stones && $item->stones->count() > 0)
+                                        @foreach ($item->stones as $stone)
+                                            <tr>
+                                                @if ($columnVisibility['sr_no'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['item'])
+                                                    <td style="padding-left: 20px;">St: {{ $stone->stone_name }}</td>
+                                                @endif
+                                                @if ($columnVisibility['qty'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['hsn_code'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['purity'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['gross_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['net_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['wastage'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['metal_rate'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                                    <td style="text-align: center;">{{ $stone->pieces }}</td>
+                                                    <td style="text-align: right;">{{ number_format($stone->stone_weight, 3) }}</td>
+                                                    <td style="text-align: right;">{{ number_format($stone->stone_price, 2) }}</td>
+                                                @endif
+                                                @if ($columnVisibility['making'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['amount'])
+                                                    <td style="text-align: right;">{{ number_format($stone->stone_final_price, 2) }}</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    @endif
+
+                                    {{-- PACKET DETAILS ROWS --}}
+                                    @if ($item->packets && $item->packets->count() > 0)
+                                        @foreach ($item->packets as $packet)
+                                            <tr>
+                                                @if ($columnVisibility['sr_no'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['item'])
+                                                    <td style="padding-left: 20px;">{{ $packet->stone ?: 'Pkt' }} [ {{ $packet->packet_no }} ]</td>
+                                                @endif
+                                                @if ($columnVisibility['qty'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['hsn_code'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['purity'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['gross_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['net_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['wastage'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['metal_rate'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                                    <td style="text-align: center;">{{ $packet->pcs ?: '' }}</td>
+                                                    <td style="text-align: right;">{{ number_format($packet->weight, 3) }}</td>
+                                                    <td style="text-align: right;">{{ number_format($packet->rate, 2) }}</td>
+                                                @endif
+                                                @if ($columnVisibility['making'])
+                                                    <td></td>
+                                                @endif
+                                                @if ($columnVisibility['amount'])
+                                                    <td style="text-align: right;">{{ number_format($packet->amount, 2) }}</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                    @endif
+
+                                    {{-- MAKING ROW --}}
+                                    @if (($item->making_final_amount > 0 || $item->making_charges > 0) && $columnVisibility['making'])
                                         <tr>
                                             @if ($columnVisibility['sr_no'])
-                                                <td>{{ $loop->iteration }}</td>
-                                            @endif
-                                            @if ($columnVisibility['category'])
-                                                <td>{{ $item->category }}</td>
-                                            @endif
-                                            @if ($columnVisibility['subcategory'])
-                                                <td>{{ $item->subcategory }}</td>
+                                                <td></td>
                                             @endif
                                             @if ($columnVisibility['item'])
-                                                <td>{{ $item->item_name }}</td>
-                                            @endif
-                                            @if ($columnVisibility['pre_code'])
-                                                <td>{{ $item->pre_code }}</td>
-                                            @endif
-                                            @if ($columnVisibility['post_code'])
-                                                <td>{{ $item->post_code }}</td>
-                                            @endif
-                                            @if ($columnVisibility['barcode'])
-                                                <td>{{ $item->barcode }}</td>
-                                            @endif
-                                            @if ($columnVisibility['hsn_code'])
-                                                <td>{{ $item->hsn_code }}</td>
-                                            @endif
-                                            @if ($columnVisibility['purity'])
-                                                <td>{{ $item->purity }}</td>
+                                                <td style="padding-left: 20px;">Making:</td>
                                             @endif
                                             @if ($columnVisibility['qty'])
-                                                <td>{{ $item->quantity }}</td>
+                                                <td></td>
                                             @endif
-                                            @if ($columnVisibility['metal_rate'])
-                                                <td>{{ number_format($item->metal_rate, 2) }}</td>
+                                            @if ($columnVisibility['hsn_code'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['purity'])
+                                                <td></td>
                                             @endif
                                             @if ($columnVisibility['gross_wt'])
-                                                <td>{{ number_format($item->gross_weight, 3) }}</td>
+                                                <td></td>
                                             @endif
                                             @if ($columnVisibility['net_wt'])
-                                                <td>{{ number_format($item->net_weight, 3) }}</td>
-                                            @endif
-                                            @if ($columnVisibility['fine_wt'])
-                                                <td>{{ number_format($item->final_fn_weight ?? 0, 3) }}</td>
-                                            @endif
-                                            @if ($columnVisibility['size'])
-                                                <td>{{ $item->size }}</td>
+                                                <td></td>
                                             @endif
                                             @if ($columnVisibility['wastage'])
-                                                <td>{{ $item->wastage_percent }}%</td>
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['metal_rate'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             @endif
                                             @if ($columnVisibility['making'])
-                                                <td>{{ number_format($item->making_final_amount ?? 0, 2) }}</td>
-                                            @endif
-                                            @if ($columnVisibility['gst_percent'])
-                                                <td>{{ $item->gst_percent }}%</td>
-                                            @endif
-                                            @if ($columnVisibility['gst_amount'])
-                                                <td>{{ number_format($item->gst_amount ?? 0, 2) }}</td>
-                                            @endif
-                                            @if ($columnVisibility['other_charges'])
-                                                <td>{{ number_format($item->other_charges ?? 0, 2) }}</td>
-                                            @endif
-                                            @if ($columnVisibility['diamond_amount'])
-                                                <td>{{ number_format($item->diamond_amount ?? 0, 2) }}</td>
-                                            @endif
-                                            @if ($columnVisibility['stone_amount'])
-                                                <td>{{ number_format($item->stone_amount ?? 0, 2) }}</td>
-                                            @endif
-                                            @if ($columnVisibility['packet_amount'])
-                                                <td>{{ number_format($item->packet_amount ?? 0, 2) }}</td>
+                                                <td style="text-align: right;">{{ number_format($item->making_price, 2) }}</td>
                                             @endif
                                             @if ($columnVisibility['amount'])
-                                                <td class="text-end">{{ number_format($item->final_price ?? 0, 2) }}</td>
+                                                <td style="text-align: right;">{{ number_format($item->making_final_amount, 2) }}</td>
                                             @endif
                                         </tr>
+                                    @endif
 
-                                        {{-- UNIFIED GEMS & PACKET DETAILS ROW --}}
-                                        @if (
-                                            ($item->diamonds && $item->diamonds->count() > 0) ||
-                                                ($item->stones && $item->stones->count() > 0) ||
-                                                ($item->packets && $item->packets->count() > 0))
-                                            <tr class="item-details-row">
-                                                <td colspan="{{ count(array_filter($columnVisibility)) }}"
-                                                    style="padding:4px 12px; border-top:none; background-color: #fcfcfc;">
+                                    {{-- OTHER CHARGES ROW --}}
+                                    @if ($item->other_charges > 0 && $columnVisibility['other_charges'])
+                                        <tr>
+                                            @if ($columnVisibility['sr_no'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['item'])
+                                                <td style="padding-left: 20px;">Other Charges:</td>
+                                            @endif
+                                            @if ($columnVisibility['qty'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['hsn_code'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['purity'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['gross_wt'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['net_wt'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['wastage'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['metal_rate'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['making'])
+                                                <td></td>
+                                            @endif
+                                            @if ($columnVisibility['amount'])
+                                                <td style="text-align: right;">{{ number_format($item->other_charges, 2) }}</td>
+                                            @endif
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
 
-                                                    {{-- Diamonds --}}
-                                                    @if ($item->diamonds && $item->diamonds->count() > 0)
-                                                        @foreach ($item->diamonds as $diamond)
-                                                            <div
-                                                                style="font-size:9.5px; margin:0; padding:1px 0; color: #444;">
-                                                                <strong>Dia:</strong> {{ $diamond->diamond_weight }}ct |
-                                                                {{ $diamond->pieces }}Pcs |
-                                                                {{ $diamond->clarity }}/{{ $diamond->color }} |
-                                                                {{ $diamond->cut }}
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
-
-                                                    {{-- Stones --}}
-                                                    @if ($item->stones && $item->stones->count() > 0)
-                                                        @foreach ($item->stones as $stone)
-                                                            <div
-                                                                style="font-size:9.5px; margin:0; padding:1px 0; color: #444;">
-                                                                <strong>St:</strong> {{ $stone->stone_name }} |
-                                                                {{ $stone->stone_weight }}ct |
-                                                                {{ $stone->pieces ?? 0 }}Pcs
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
-
-                                                    {{-- Packets --}}
-                                                    @if ($item->packets && $item->packets->count() > 0)
-                                                        @foreach ($item->packets as $packet)
-                                                            <div
-                                                                style="font-size:9.5px; margin:0; padding:1px 0; color: #444;">
-                                                                <strong>Pk:</strong> {{ $packet->packet_no }} |
-                                                                {{ $packet->stone }} |
-                                                                {{ $packet->weight }}CT |
-                                                                {{ $packet->pcs }} Pcs
-                                                                @if ($packet->clarity)
-                                                                    | {{ $packet->clarity }}
-                                                                @endif
-                                                                @if ($packet->color)
-                                                                    | {{ $packet->color }}
-                                                                @endif
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
+                            <tfoot>
+                                <tr class="total-row">
+                                    @if ($columnVisibility['sr_no'])
+                                        <td></td>
+                                    @endif
+                                    @if ($columnVisibility['item'])
+                                        <td></td>
+                                    @endif
+                                    @if ($columnVisibility['qty'])
+                                        <td></td>
+                                    @endif
+                                    @if ($columnVisibility['hsn_code'])
+                                        <td></td>
+                                    @endif
+                                    @if ($columnVisibility['purity'])
+                                        <td>Total</td>
+                                    @endif
+                                    @if ($columnVisibility['gross_wt'])
+                                        <td style="text-align: right;">{{ number_format($totalGrossWt, 3) }}</td>
+                                    @endif
+                                    @if ($columnVisibility['net_wt'])
+                                        <td style="text-align: right;">{{ number_format($totalNetWt, 3) }}</td>
+                                    @endif
+                                    @if ($columnVisibility['wastage'])
+                                        <td></td>
+                                    @endif
+                                    @if ($columnVisibility['metal_rate'])
+                                        <td class="text-end" style="text-align: right;">₹{{ number_format($totalGoldAmount, 2) }}</td>
+                                    @endif
+                                    @if ($columnVisibility['gross_wt'] || $columnVisibility['net_wt'])
+                                        <td style="text-align: right;">{{ number_format($totalStoneWt, 3) }}</td>
+                                    @endif
+                                    @if ($columnVisibility['diamond_amount'] || $columnVisibility['stone_amount'] || $columnVisibility['packet_amount'])
+                                        <td>{{ $totalDiamondPcs > 0 ? $totalDiamondPcs : '' }}</td>
+                                        <td style="text-align: right;">{{ number_format($totalDiamondCt, 3) }}</td>
+                                        <td></td>
+                                    @endif
+                                    @if ($columnVisibility['making'])
+                                        <td class="text-end" style="text-align: right;">{{ number_format($totalMaking, 2) }}</td>
+                                    @endif
+                                    @if ($columnVisibility['amount'])
+                                        <td class="text-end" style="text-align: right;">₹{{ number_format($totalAmount, 2) }}</td>
+                                    @endif
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
+                </div>
 
                     {{-- EXCHANGE ITEMS (OLD METAL) --}}
                     @if ($invoice->exchangeItems && $invoice->exchangeItems->count() > 0)
@@ -987,6 +1264,16 @@
                                 '/assets/img/paid.svg');
 
                         $paidLogoVisible = $templateSettings['visual_elements.paid_logo']->is_visible ?? true;
+
+                        $termsLabel =
+                            $templateSettings['text_elements.terms_label']->value ??
+                            ($templateSettings['text_elements.terms_label']->default_value ?? 'Terms & Conditions:');
+
+                        $termsValue =
+                            $templateSettings['text_elements.terms_value']->value ??
+                            ($templateSettings['text_elements.terms_value']->default_value ?? "Goods once sold cannot be taken back or exchanged.\nManufacturer warranty applies as per company policy.");
+
+                        $termsVisible = $templateSettings['text_elements.terms_label']->is_visible ?? true;
                     @endphp
 
 
@@ -1001,13 +1288,39 @@
                             ($discountVisible && $discountAmount > 0) ||
                             $roundOffVisible)
                         <div class="invoice-table-footer">
-                            <div class="table-footer-left notes">
+                            <div class="table-footer-left notes" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
                                 @if ($status === 'paid' && $paidLogoVisible)
-                                    <img src="{{ asset($paidLogo) }}" alt="Paid">
+                                    <div class="mb-3">
+                                        <img src="{{ asset($paidLogo) }}" alt="Paid" style="max-height: 85px;">
+                                    </div>
                                 @elseif($status === 'partial')
                                     <span class="badge bg-warning">Partially Paid</span>
                                 @else
                                     <span class="badge bg-danger">Unpaid</span>
+                                @endif
+
+                                {{-- TERMS AND CONDITIONS BELOW PAID LOGO --}}
+                                @if ($termsVisible)
+                                    <div class="terms-condition mt-3" style="max-width: 450px; text-align: left;">
+                                        <span style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 5px;">{{ $termsLabel }}</span>
+                                        @php
+                                            $rawTerms = preg_split('/(?=\d+\.)|\R/', $termsValue);
+                                            $termsList = [];
+                                            foreach ($rawTerms as $t) {
+                                                $trimmed = trim($t);
+                                                if (!empty($trimmed)) {
+                                                    $termsList[] = preg_replace('/^\s*(?:\d+\.|\-|\*)\s*/', '', $trimmed);
+                                                }
+                                            }
+                                        @endphp
+                                        @if (!empty($termsList))
+                                            <ol style="padding-left: 15px; margin: 0; font-size: 10px; line-height: 1.4;">
+                                                @foreach ($termsList as $term)
+                                                    <li>{{ $term }}</li>
+                                                @endforeach
+                                            </ol>
+                                        @endif
+                                    </div>
                                 @endif
                             </div>
 
@@ -1214,6 +1527,10 @@
                             $templateSettings['text_elements.terms_label']->value ??
                             ($templateSettings['text_elements.terms_label']->default_value ?? 'Terms & Conditions:');
 
+                        $termsValue =
+                            $templateSettings['text_elements.terms_value']->value ??
+                            ($templateSettings['text_elements.terms_value']->default_value ?? "Goods once sold cannot be taken back or exchanged.\nManufacturer warranty applies as per company policy.");
+
                         /* ===============================
  | VISIBILITY
  =============================== */
@@ -1226,62 +1543,30 @@
                             $templateSettings['visual_elements.signature_image']->label ?? 'Authorized Signature';
                     @endphp
 
-                    @if ($qrVisible || $paymentVisible || $signatureVisible || $termsVisible)
-                        <div class="bank-details">
-                            <div class="row align-items-start">
-
-                                {{-- QR COLUMN --}}
-                                @if ($qrVisible)
-                                    <div class="col-md-4 text-center">
-                                        <div class="qr">
-                                            <img src="{{ asset($qrCode) }}" alt="QR Code" style="max-width:120px;">
-                                            @if ($scanTextVisible)
-                                                <h6 class="scan-details mt-2">{{ $scanDetailsLabel }}</h6>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endif
-
-                                {{-- PAYMENT INFO COLUMN --}}
-                                @if ($paymentVisible)
-                                    <div class="col-md-4">
-                                        <div class="pay-details">
-                                            <span class="payment-title d-block mb-1">{{ $paymentInfoLabel }}</span>
-                                            <div><span>Debit Card :</span> 465 *************645</div>
-                                            <div><span>Amount :</span> $1,815</div>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                {{-- SIGNATURE COLUMN --}}
-                                @if ($signatureVisible)
-                                    <div class="col-md-4">
-                                        <div class="signature-box">
-                                            <img src="{{ asset($signatureImage) }}" alt="Signature"
-                                                style="max-width:150px;">
-                                            <div class="signature-label mt-1">{{ $signatureLabel }}</div>
-                                        </div>
-                                    </div>
-                                @endif
-
+                    <div class="bank-details" style="margin-top: 15px; margin-bottom: 10px; width: 100%;">
+                        <div class="row align-items-end" style="display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: flex-end !important; width: 100% !important; margin: 0 !important;">
+                            {{-- CUSTOMER SIGNATURE (LEFT SIDE) --}}
+                            <div style="width: 50% !important; float: left !important; text-align: left !important;">
+                                <div class="customer-signature-box" style="padding-left: 20px;">
+                                    <div style="height: 35px;"></div>
+                                    <div style="border-top: 1px solid #ccc; width: 180px; margin-bottom: 5px;"></div>
+                                    <div style="font-weight: bold; font-size: 11px; color: #555;">Customer Signature</div>
+                                </div>
                             </div>
 
-                            {{-- TERMS (FULL WIDTH) --}}
-                            @if ($termsVisible)
-                                <div class="row mt-3">
-                                    <div class="col-12">
-                                        <div class="terms-condition">
-                                            <span>{{ $termsLabel }}</span>
-                                            <ol>
-                                                <li>Goods once sold cannot be taken back or exchanged.</li>
-                                                <li>Manufacturer warranty applies as per company policy.</li>
-                                            </ol>
-                                        </div>
+                            {{-- AUTHORIZED SIGNATURE (RIGHT SIDE) --}}
+                            @if ($signatureVisible)
+                                <div style="width: 50% !important; float: right !important; text-align: right !important;">
+                                    <div class="signature-box" style="display: inline-block; text-align: right; padding-right: 20px;">
+                                        <img src="{{ asset($signatureImage) }}" alt="Signature" style="max-width: 130px; max-height: 50px;">
+                                        <div style="border-top: 1px solid #ccc; width: 180px; margin-top: 5px; margin-bottom: 5px; margin-left: auto;"></div>
+                                        <div class="signature-label" style="font-weight: bold; font-size: 11px; color: #555;">{{ $signatureLabel }}</div>
                                     </div>
                                 </div>
                             @endif
+                            <div style="clear: both !important;"></div>
                         </div>
-                    @endif
+                    </div>
 
 
 

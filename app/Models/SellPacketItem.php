@@ -30,6 +30,7 @@ class SellPacketItem extends Model
         'wt_in_gram',
         'uom',
         'certificate_no',
+        'packet_type',
     ];
 
     protected $casts = [

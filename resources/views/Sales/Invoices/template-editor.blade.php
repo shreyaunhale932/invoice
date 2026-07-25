@@ -72,6 +72,11 @@
                                                                        name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][value]"
                                                                        value="{{ $setting->value ?? $setting->default_value ?? '' }}"
                                                                        placeholder="Enter text value">
+                                                            @elseif($setting->field_type === 'textarea')
+                                                                <textarea class="form-control"
+                                                                          name="settings[{{ $loop->parent->index }}_{{ $loop->index }}][value]"
+                                                                          rows="4"
+                                                                          placeholder="Enter multi-line text">{{ $setting->value ?? $setting->default_value ?? '' }}</textarea>
                                                             @else
                                                                 <span class="text-muted">N/A</span>
                                                             @endif
@@ -205,7 +210,7 @@
                             };
 
                             // Handle value for text fields
-                            const valueInput = row.find('input[name*="[value]"]');
+                            const valueInput = row.find('input[name*="[value]"], textarea[name*="[value]"]');
                             if (valueInput.length) {
                                 setting.value = valueInput.val();
                             }

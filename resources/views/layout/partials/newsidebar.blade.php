@@ -123,7 +123,7 @@
                 <li class="submenu-trigger-new">
                     <a href="javascript:void(0);">
                         <i class="fe fe-layers"></i>
-                        <span>Packet Stock</span>
+                        <span>Diamond Setup</span>
                         <i class="fas fa-chevron-right menu-arrow-new"></i>
                     </a>
                     <ul class="submenu-new">

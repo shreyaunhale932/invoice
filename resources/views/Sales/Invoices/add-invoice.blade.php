@@ -425,6 +425,7 @@
                                                         ->map(function ($p) {
                                                             return [
                                                                 'packet_no' => $p->packet_no,
+                                                                'packet_type' => $p->packet_type ?? 'Diamond',
                                                                 'pcs' => $p->pcs,
                                                                 'certificate_no' => $p->certificate_no,
                                                                 'stone' => optional($p->stone)->name,
@@ -670,6 +671,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>Packet No</th>
+                                                    <th>Packet Type</th>
                                                     <th>Pieces</th>
                                                     <th>Cert.No.</th>
                                                     <th>Stone</th>
@@ -710,10 +712,10 @@
                                             <th>Metal Rate</th>
                                             <th>Wastage Amt</th>
                                             <th>Making</th>
-                                            {{-- <th>GST</th> --}}
-                                            <th>Diamond Amt</th> <!-- NEW -->
-                                            <th>Stone Amt</th>
-                                            <th>Pkt Amt</th>
+                                            {{-- <th>Diamond Amt</th>
+                                            <th>Stone Amt</th> --}}
+                                            <th>Pkt Diamond Amt</th>
+                                            <th>Pkt Stone Amt</th>
                                             <th>Final Amt</th>
                                             <th>Action</th>
                                         </tr>
@@ -888,7 +890,19 @@
                                                         <!-- Diamond/Stone/Packet Section -->
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
-                                                            <label>Total Diamond Price</label>
+                                                            <label>Total Diamond Amount </label>
+                                                            <span id="totalDiamondCombinedAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Stone/Other Amount</label>
+                                                            <span id="totalStoneCombinedAmount">₹0.00</span>
+                                                        </div>
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <label>Total Diamond & Stone Price</label>
                                                             <span id="totalDiamondStonePacketAmount">₹0.00</span>
                                                             <input type="hidden" id="totalDiamondStonePacketAmountInput"
                                                                 value="">
@@ -1993,7 +2007,7 @@
                 tbody.empty();
 
                 if (!Array.isArray(packets) || packets.length === 0) {
-                    tbody.append(`<tr><td colspan="14" class="text-center">No Packets</td></tr>`);
+                    tbody.append(`<tr><td colspan="15" class="text-center">No Packets</td></tr>`);
                     return;
                 }
 
@@ -2005,6 +2019,13 @@
                     name="packets[${index}][packet_no]"
                     value="${p.packet_no ?? ''}"
                     style="pointer-events: none; background-color: #e9ecef;">
+            </td>
+
+            <td>
+                <select class="form-control" name="packets[${index}][packet_type]">
+                    <option value="Diamond" ${p.packet_type === 'Stone/Other' ? '' : 'selected'}>Diamond</option>
+                    <option value="Stone/Other" ${p.packet_type === 'Stone/Other' ? 'selected' : ''}>Stone/Other</option>
+                </select>
             </td>
 
             <td>
@@ -2431,6 +2452,8 @@
 
                 // FIX: If we are specifically editing, we should fetch THAT invoice.
                 fetchInvoiceDetails(preloadedInvoiceId);
+            } else {
+                updateAvailableProducts([]);
             }
 
             $('#customerDropdown').on('change', function() {
@@ -2565,7 +2588,52 @@
 
         }
 
+        function ensureProductsInSearch(items) {
+            if (!Array.isArray(items)) return;
+            const productSearch = $('#productSearch');
+            items.forEach(item => {
+                if (item.product && item.product_id) {
+                    let exists = productSearch.find(`option[value="${item.product_id}"]`).length > 0;
+                    if (!exists) {
+                        let p = item.product;
+                        let option = $('<option>')
+                            .val(p.id)
+                            .attr('data-name', p.product_name || '')
+                            .attr('data-barcode', p.barcode || '')
+                            .attr('data-hsn', p.hsn_code || '')
+                            .attr('data-gross_weight', p.gross_weight || 0)
+                            .attr('data-net_weight', p.net_weight || 0)
+                            .attr('data-final_fn_weight', p.final_fn_weight || 0)
+                            .attr('data-size', p.size || '')
+                            .attr('data-quantity', p.quantity || 1)
+                            .attr('data-wastage_percent', p.wastage_percent || 0)
+                            .attr('data-wastage_amount', p.wastage_amount || 0)
+                            .attr('data-making_price', p.making_price || 0)
+                            .attr('data-making_type', p.making_type || 0)
+                            .attr('data-making_final_amount', p.making_final_amount || 0)
+                            .attr('data-category-id', p.category_id || '')
+                            .attr('data-category-name', p.category?.category_name || item.category_name || item.category || '')
+                            .attr('data-subcategory-id', p.subcategory_id || '')
+                            .attr('data-subcategory-name', p.subcategory?.subcategory_name || item.subcategory_name || item.subcategory || '')
+                            .attr('data-gst_percent', p.gst_percent || 0)
+                            .attr('data-gst_amount', p.gst_amount || 0)
+                            .attr('data-pre_code', p.pre_code || '')
+                            .attr('data-post_code', p.post_code || '')
+                            .attr('data-diamonds', JSON.stringify(p.diamonds || []))
+                            .attr('data-stones', JSON.stringify(p.stones || []))
+                            .attr('data-packets', JSON.stringify(p.packets || []))
+                            .text(`${p.pre_code || ''}-${p.post_code || ''}-${p.barcode || ''} (${p.product_name || ''})`);
+                        
+                        productSearch.append(option);
+                    }
+                }
+            });
+        }
+
         function loadInvoiceData(invoice) {
+            if (invoice && invoice.items) {
+                ensureProductsInSearch(invoice.items);
+            }
             globalInvoiceItems = invoice.items || [];
             globalInvoiceId = invoice.id;
 
@@ -2659,6 +2727,33 @@
             });
         }
 
+        function updateAvailableProducts(items) {
+            if (!items) {
+                items = globalInvoiceItems || [];
+            }
+            let addedProductIds = items.map(item => String(item.product_id));
+
+            const datalist = $('#productSearchSuggestions');
+            datalist.empty();
+
+            $('#productSearch option').each(function() {
+                let opt = $(this);
+                let val = opt.val();
+                if (!val) return;
+                let productId = String(val);
+
+                if (!addedProductIds.includes(productId)) {
+                    let barcode = (opt.data('barcode') || '').toString().trim();
+                    let preCode = (opt.data('pre_code') || '').toString().trim();
+                    let postCode = (opt.data('post_code') || '').toString().trim();
+                    let fullCode = (preCode + '-' + postCode + '-' + barcode).trim();
+                    let productName = opt.data('name') || '';
+
+                    datalist.append(`<option value="${fullCode}">${productName}</option>`);
+                }
+            });
+        }
+
         function renderItemsTable(items) {
             const tbody = $('#itemsTable tbody');
             tbody.empty();
@@ -2681,10 +2776,15 @@
                     });
                 }
 
-                let packetTotal = 0;
+                let packetDiamondTotal = 0;
+                let packetStoneTotal = 0;
                 if (Array.isArray(item.packets)) {
                     item.packets.forEach(p => {
-                        packetTotal += parseFloat(p.amount || 0);
+                        if (p.packet_type === 'Stone/Other') {
+                            packetStoneTotal += parseFloat(p.amount || 0);
+                        } else {
+                            packetDiamondTotal += parseFloat(p.amount || 0);
+                        }
                     });
                 }
 
@@ -2704,10 +2804,8 @@
                 <td>${item.wastage_amount || 0}</td>
                 <td>${item.making_final_amount || 0}</td>
 
-                <!-- NEW -->
-                <td>₹${diamondTotal.toFixed(2)}</td>
-                <td>₹${stoneTotal.toFixed(2)}</td>
-                 <td>₹${packetTotal.toFixed(2)}</td>
+                <td>₹${packetDiamondTotal.toFixed(2)}</td>
+                <td>₹${packetStoneTotal.toFixed(2)}</td>
 
                 <td>₹${parseFloat(item.final_price || 0).toFixed(2)}</td>
 
@@ -2728,6 +2826,7 @@
         `;
                 tbody.append(tr);
             });
+            updateAvailableProducts(items);
         }
 
         function renderExchangeTable(exchangeItems) {
@@ -2937,6 +3036,7 @@
             document.querySelectorAll('#packetTable tbody tr').forEach(row => {
                 packets.push({
                     packet_no: row.querySelector('[name*="[packet_no]"]')?.value,
+                    packet_type: row.querySelector('[name*="[packet_type]"]')?.value,
                     pcs: row.querySelector('[name*="[pcs]"]')?.value,
                     certificate_no: row.querySelector('[name*="[certificate_no]"]')?.value,
                     stone: row.querySelector('[name*="[stone]"]')?.value,
@@ -3285,7 +3385,10 @@
             let totalGold = 0;
             let totalWastage = 0;
             let totalMaking = 0;
-            let totalDiaStonePkt = 0;
+            let totalDiamondItem = 0;
+            let totalStoneItem = 0;
+            let totalPacketDiamond = 0;
+            let totalPacketStone = 0;
 
             globalInvoiceItems.forEach(item => {
 
@@ -3297,22 +3400,30 @@
 
                 if (Array.isArray(item.diamonds)) {
                     item.diamonds.forEach(d => {
-                        totalDiaStonePkt += parseFloat(d.diamond_final_price || 0);
+                        totalDiamondItem += parseFloat(d.diamond_final_price || 0);
                     });
                 }
 
                 if (Array.isArray(item.stones)) {
                     item.stones.forEach(s => {
-                        totalDiaStonePkt += parseFloat(s.stone_final_price || 0);
+                        totalStoneItem += parseFloat(s.stone_final_price || 0);
                     });
                 }
 
                 if (Array.isArray(item.packets)) {
                     item.packets.forEach(p => {
-                        totalDiaStonePkt += parseFloat(p.amount || 0);
+                        if (p.packet_type === 'Stone/Other') {
+                            totalPacketStone += parseFloat(p.amount || 0);
+                        } else {
+                            totalPacketDiamond += parseFloat(p.amount || 0);
+                        }
                     });
                 }
             });
+
+            let combinedDiamondTotal = totalDiamondItem + totalPacketDiamond;
+            let combinedStoneTotal = totalStoneItem + totalPacketStone;
+            let totalDiaStonePkt = combinedDiamondTotal + combinedStoneTotal;
 
             // -------------------------
             // 1️⃣ Discounts (Only Calculate, Don't Affect Taxable)
@@ -3324,7 +3435,7 @@
             const wastageDiscountAmount = (totalWastage * wastageDiscountPercent) / 100;
 
             const diamondDiscountPercent = parseFloat(document.getElementById('diamondDiscountPercent')?.value) || 0;
-            const diamondDiscountAmount = (totalDiaStonePkt * diamondDiscountPercent) / 100;
+            const diamondDiscountAmount = (combinedDiamondTotal * diamondDiscountPercent) / 100;
 
             setBoxText('totalMakingAmount', totalMaking);
             document.getElementById('totalMakingAmountInput').value = totalMaking.toFixed(2);
@@ -3334,6 +3445,8 @@
             document.getElementById('totalWastageAmountInput').value = totalWastage.toFixed(2);
             setBoxText('wastageDiscountAmount', wastageDiscountAmount);
 
+            setBoxText('totalDiamondCombinedAmount', combinedDiamondTotal);
+            setBoxText('totalStoneCombinedAmount', combinedStoneTotal);
             setBoxText('totalDiamondStonePacketAmount', totalDiaStonePkt);
             document.getElementById('totalDiamondStonePacketAmountInput').value = totalDiaStonePkt.toFixed(2);
             setBoxText('diamondDiscountAmount', diamondDiscountAmount);
@@ -3631,6 +3744,10 @@
                 // Add a default cash row if container is empty
                 if ($('.payment-row-item').length === 0) {
                     this.addPaymentRow('cash');
+                    this.addPaymentRow('card');
+                    this.addPaymentRow('cheque');
+                    this.addPaymentRow('upi');
+
                 }
             },
 
@@ -3757,6 +3874,7 @@
             addPaymentRow(method, data = null) {
                 const containerId = `#${method}PaymentsContainer`;
                 const container = $(containerId);
+                const today = new Date().toISOString().split('T')[0];
                 if (!container.length) return;
 
                 let selectedAccountId = data && data.account_id ? data.account_id : null;
@@ -3798,7 +3916,7 @@
                                 <input type="text" class="form-control form-control-sm payment-details-input" placeholder="Bank Name" style="font-size: 12px;" value="${data && data.payment_details ? data.payment_details : ''}">
                             </div>
                             <div style="width: 130px; flex-shrink: 0;">
-                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : ''}">
+                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : today}">
                             </div>
                         </div>
                     `;
@@ -3812,7 +3930,7 @@
                                 <input type="text" class="form-control form-control-sm payment-details-input" placeholder="Bank Name" style="font-size: 12px;" value="${data && data.payment_details ? data.payment_details : ''}">
                             </div>
                             <div style="width: 130px; flex-shrink: 0;">
-                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : ''}">
+                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : today}">
                             </div>
                         </div>
                     `;
@@ -3823,7 +3941,7 @@
                                 <input type="text" class="form-control form-control-sm payment-ref-input" placeholder="UPI Txn ID / Ref No." style="font-size: 12px;" value="${data && data.reference_no ? data.reference_no : ''}">
                             </div>
                             <div style="width: 130px; flex-shrink: 0;">
-                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : ''}">
+                                <input type="date" class="form-control form-control-sm payment-date-input" style="font-size: 12px;" value="${data && data.transaction_date ? data.transaction_date : today}">
                             </div>
                         </div>
                     `;

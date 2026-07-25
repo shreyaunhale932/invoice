@@ -17,11 +17,19 @@ class SubCategoryController extends Controller
         ]);
 
         // Save data to database
-        $metalRate = Subcategory::create([
+        $subcategory = Subcategory::create([
             'admin_id' => Auth::guard('admin')->id(),
             'category_id' => $request->category_id,
             'subcategory_name'  => $request->subcategory_name,
         ]);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'subcategory' => $subcategory,
+                'message' => 'SubCategory added successfully!'
+            ]);
+        }
 
         return redirect()->back()->with('success', 'SubCategory added successfully!');
     }

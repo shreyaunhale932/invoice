@@ -288,6 +288,7 @@ class ProductController extends Controller
                             'rate' => $request->packet['rate'][$index] ?? 0,
                             'solitaire' => isset($request->packet['solitaire'][$index]) ? 1 : 0,
                             'certificate_no' => $request->packet['certificate_no'][$index] ?? null,
+                            'packet_type' => $request->packet['packet_type'][$index] ?? 'Diamond',
                         ]);
                     }
                 }
@@ -363,6 +364,106 @@ class ProductController extends Controller
         return response()->json([
             'post_code' => $padded
         ]);
+    }
+
+    public function searchPreCode(Request $request)
+    {
+        $term = strtoupper(trim($request->input('term', '')));
+
+        // Query ItemProductData
+        $itemDataQuery = ItemProductData::with(['category', 'subcategory']);
+        if (!empty($term)) {
+            $itemDataQuery->where(function ($q) use ($term) {
+                $q->where('product_code', 'LIKE', '%' . $term . '%')
+                  ->orWhere('product_name', 'LIKE', '%' . $term . '%');
+            });
+        }
+        $items = $itemDataQuery->limit(15)->get()->unique('product_code');
+
+        $existingCodes = $items->pluck('product_code')->filter()->toArray();
+
+        // Query Product table for any pre_codes not in ItemProductData
+        $productQuery = Product::with(['category', 'subcategory']);
+        if (!empty($term)) {
+            $productQuery->where(function ($q) use ($term) {
+                $q->where('pre_code', 'LIKE', '%' . $term . '%')
+                  ->orWhere('product_name', 'LIKE', '%' . $term . '%');
+            });
+        }
+        if (!empty($existingCodes)) {
+            $productQuery->whereNotIn('pre_code', $existingCodes);
+        }
+        $products = $productQuery->limit(15)->get()->unique('pre_code');
+
+        $results = [];
+
+        foreach ($items as $item) {
+            if (!empty($item->product_code)) {
+                $results[] = [
+                    'pre_code' => $item->product_code,
+                    'product_name' => $item->product_name ?? '',
+                    'category_id' => $item->category_id ?? '',
+                    'category_name' => optional($item->category)->category_name ?? '',
+                    'subcategory_id' => $item->subcategory_id ?? '',
+                    'subcategory_name' => optional($item->subcategory)->subcategory_name ?? '',
+                ];
+            }
+        }
+
+        foreach ($products as $prod) {
+            if (!empty($prod->pre_code)) {
+                $results[] = [
+                    'pre_code' => $prod->pre_code,
+                    'product_name' => $prod->product_name ?? '',
+                    'category_id' => $prod->category_id ?? '',
+                    'category_name' => optional($prod->category)->category_name ?? '',
+                    'subcategory_id' => $prod->subcategory_id ?? '',
+                    'subcategory_name' => optional($prod->subcategory)->subcategory_name ?? '',
+                ];
+            }
+        }
+
+        return response()->json($results);
+    }
+
+    public function getPreCodeDetails(Request $request)
+    {
+        $preCode = strtoupper(trim($request->input('pre_code', '')));
+        if (empty($preCode)) {
+            return response()->json(null);
+        }
+
+        $item = ItemProductData::with(['category', 'subcategory'])
+            ->where('product_code', $preCode)
+            ->first();
+
+        if ($item) {
+            return response()->json([
+                'pre_code' => $item->product_code,
+                'product_name' => $item->product_name ?? '',
+                'category_id' => $item->category_id ?? '',
+                'category_name' => optional($item->category)->category_name ?? '',
+                'subcategory_id' => $item->subcategory_id ?? '',
+                'subcategory_name' => optional($item->subcategory)->subcategory_name ?? '',
+            ]);
+        }
+
+        $prod = Product::with(['category', 'subcategory'])
+            ->where('pre_code', $preCode)
+            ->first();
+
+        if ($prod) {
+            return response()->json([
+                'pre_code' => $prod->pre_code,
+                'product_name' => $prod->product_name ?? '',
+                'category_id' => $prod->category_id ?? '',
+                'category_name' => optional($prod->category)->category_name ?? '',
+                'subcategory_id' => $prod->subcategory_id ?? '',
+                'subcategory_name' => optional($prod->subcategory)->subcategory_name ?? '',
+            ]);
+        }
+
+        return response()->json(null);
     }
 
     public function edit($id)
@@ -681,6 +782,7 @@ class ProductController extends Controller
                             'wt_in_gram' => $request->packet['wt_in_gram'][$index] ?? null,
                             'uom' => $request->packet['uom'][$index] ?? null,
                             'amount' => $request->packet['amount'][$index] ?? 0,
+                            'packet_type' => $request->packet['packet_type'][$index] ?? 'Diamond',
                         ]);
                     }
                 }
@@ -850,6 +952,7 @@ class ProductController extends Controller
                     'rate' => $packet->rate_retail, // or appropriate rate
                     'solitaire' => $packet->solitaire,
                     'certificate_no' => $packet->certificate_no,
+                    'packet_type' => $packet->packet_type ?? 'Diamond',
                 ],
             ];
         }

@@ -131,6 +131,10 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
         ->name('check.product.code');
     Route::get('/get-next-post-code', [ProductController::class, 'getNextPostCode'])
         ->name('products.getNextPostCode');
+    Route::get('/products/search-precode', [ProductController::class, 'searchPreCode'])
+        ->name('products.searchPreCode');
+    Route::get('/products/get-precode-details', [ProductController::class, 'getPreCodeDetails'])
+        ->name('products.getPreCodeDetails');
     Route::get('/category', [HomeController::class, 'category'])->name('category');
     Route::post('/category', [CategoryController::class, 'addcategory'])->name('category');
     Route::put('/category{id}', [CategoryController::class, 'update'])->name('category.update');
