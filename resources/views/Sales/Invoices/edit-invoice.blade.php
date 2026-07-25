@@ -1030,7 +1030,7 @@
                                                             <label>CGST %</label>
                                                             <input type="number" id="cgstPercent"
                                                                 class="form-control w-25"
-                                                                value="{{ $invoice->cgst_percent ?? 0 }}" readonly>
+                                                                value="{{ $invoice->cgst_percent ?? 0 }}">
                                                             <span
                                                                 id="cgstAmount">₹{{ number_format($invoice->cgst_amount ?? 0, 2) }}</span>
                                                         </div>
@@ -1041,7 +1041,7 @@
                                                             <label>SGST %</label>
                                                             <input type="number" id="sgstPercent"
                                                                 class="form-control w-25"
-                                                                value="{{ $invoice->sgst_percent ?? 0 }}" readonly>
+                                                                value="{{ $invoice->sgst_percent ?? 0 }}" >
                                                             <span
                                                                 id="sgstAmount">₹{{ number_format($invoice->sgst_amount ?? 0, 2) }}</span>
                                                         </div>
@@ -1052,7 +1052,7 @@
                                                             <label>IGST %</label>
                                                             <input type="number" id="igstPercent"
                                                                 class="form-control w-25"
-                                                                value="{{ $invoice->igst_percent ?? 0 }}" readonly>
+                                                                value="{{ $invoice->igst_percent ?? 0 }}" >
                                                             <span
                                                                 id="igstAmount">₹{{ number_format($invoice->igst_amount ?? 0, 2) }}</span>
                                                         </div>
@@ -2335,7 +2335,7 @@
                             .attr('data-stones', JSON.stringify(p.stones || []))
                             .attr('data-packets', JSON.stringify(p.packets || []))
                             .text(`${p.pre_code || ''}-${p.post_code || ''}-${p.barcode || ''} (${p.product_name || ''})`);
-                        
+
                         productSearch.append(option);
                     }
                 }
@@ -2400,26 +2400,26 @@
             // Auto GST Logic
             if (AdminState.trim().toLowerCase() === CustomerState.trim().toLowerCase()) {
                 // ✅ SAME STATE → CGST + SGST
-                // $('#cgstPercent').val(1.5);
-                // $('#sgstPercent').val(1.5);
-                // $('#igstPercent').val(0);
+                $('#cgstPercent').val(1.5);
+                $('#sgstPercent').val(1.5);
+                $('#igstPercent').val(0);
 
                 // SHOW CGST + SGST
-                $('#cgstdiv').attr('style', 'display: flex !important;');
-                $('#sgstdiv').attr('style', 'display: flex !important;');
-                // HIDE IGST
-                $('#igstdiv').attr('style', 'display: none !important;');
+                // $('#cgstdiv').attr('style', 'display: flex !important;');
+                // $('#sgstdiv').attr('style', 'display: flex !important;');
+                // // HIDE IGST
+                // $('#igstdiv').attr('style', 'display: none !important;');
             } else {
                 // ✅ DIFFERENT STATE → IGST
-                // $('#cgstPercent').val(0);
-                // $('#sgstPercent').val(0);
-                // $('#igstPercent').val(3);
+                $('#cgstPercent').val(0);
+                $('#sgstPercent').val(0);
+                $('#igstPercent').val(3);
 
                 // HIDE CGST + SGST
-                $('#cgstdiv').attr('style', 'display: none !important;');
-                $('#sgstdiv').attr('style', 'display: none !important;');
-                // SHOW IGST
-                $('#igstdiv').attr('style', 'display: flex !important;');
+                // $('#cgstdiv').attr('style', 'display: none !important;');
+                // $('#sgstdiv').attr('style', 'display: none !important;');
+                // // SHOW IGST
+                // $('#igstdiv').attr('style', 'display: flex !important;');
             }
             calculateInvoiceTotals();
         }
