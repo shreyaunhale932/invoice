@@ -22628,7 +22628,7 @@ table tr td .status-toggle .checktoggle {
   padding: 20px 15px;
   font-size: 16px;
   font-weight: 450;
-  height: 82px;
+  /* height: 82px; */
   vertical-align: middle;
 }
 .invoice-one .invoice-table table tr td span {

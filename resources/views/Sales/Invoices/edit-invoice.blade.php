@@ -1910,7 +1910,7 @@
                 tbody.empty();
 
                 if (!Array.isArray(packets) || packets.length === 0) {
-                    tbody.append(`<tr><td colspan="14" class="text-center">No Packets</td></tr>`);
+                    tbody.append(`<tr><td colspan="15" class="text-center">No Packets</td></tr>`);
                     return;
                 }
 
@@ -1922,6 +1922,13 @@
                     name="packets[${index}][packet_no]"
                     value="${p.packet_no ?? ''}"
                     style="pointer-events: none; background-color: #e9ecef;">
+            </td>
+
+            <td>
+                <select class="form-control" name="packets[${index}][packet_type]">
+                    <option value="Diamond" ${p.packet_type === 'Stone/Other' ? '' : 'selected'}>Diamond</option>
+                    <option value="Stone/Other" ${p.packet_type === 'Stone/Other' ? 'selected' : ''}>Stone/Other</option>
+                </select>
             </td>
 
             <td>

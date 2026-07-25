@@ -3130,7 +3130,7 @@
             tbody.empty();
 
             if (!Array.isArray(packets) || packets.length === 0) {
-                tbody.append(`<tr><td colspan="14" class="text-center">No Packets</td></tr>`);
+                tbody.append(`<tr><td colspan="15" class="text-center">No Packets</td></tr>`);
                 return;
             }
 
@@ -3138,8 +3138,14 @@
                 tbody.append(`
             <tr data-index="${index}">
                 <td><input type="text" class="form-control" name="packets[${index}][packet_no]" value="${p.packet_no ?? ''}"></td>
+                <td>
+                    <select class="form-control" name="packets[${index}][packet_type]">
+                        <option value="Diamond" ${p.packet_type === 'Stone/Other' ? '' : 'selected'}>Diamond</option>
+                        <option value="Stone/Other" ${p.packet_type === 'Stone/Other' ? 'selected' : ''}>Stone/Other</option>
+                    </select>
+                </td>
                 <td><input type="number" class="form-control" name="packets[${index}][pcs]" value="${p.pcs ?? 0}"></td>
-                 <td><input type="text" class="form-control" name="packets[${index}][certificate_no]" value="${p.certificate_no ?? 0}"></td>
+                <td><input type="text" class="form-control" name="packets[${index}][certificate_no]" value="${p.certificate_no ?? 0}"></td>
                 <td>
                     <select class="form-control" name="packets[${index}][stone]">
                         ${generateSelectOptions(masterStones, p.stone)}
