@@ -301,7 +301,7 @@
 										<label class="form-label">Account Url </label>
 										<div class="url-text-box">
 											<input type="text" class="form-control" placeholder="Account URL">
-											<span class="url-text">kanakku.com</span>
+											<span class="url-text">jewelERP.com</span>
 										</div>
 
 									</div>
@@ -467,7 +467,7 @@
 										<label class="form-label">Account Url </label>
 										<div class="url-text-box">
 											<input type="text" class="form-control" placeholder="Account URL" value="www.hru.example.com">
-											<span class="url-text">kanakku.com</span>
+											<span class="url-text">jewelERP.com</span>
 										</div>
 
 									</div>

@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                         </form>
-                        
+
                     </div>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                                     </div>
                                 </div>
                             </form>
-                            
+
                             <div class="modal-footer">
                                 <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
                                 <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add New</button>
@@ -175,20 +175,20 @@
                                         <div class="input-block mb-3">
                                               <label class="form-control-label">Template Content</label>
                                               <textarea class="summernote form-control" placeholder="Type your message">Hi [User's Name],
-                                                Welcome to Kanakku ! We're thrilled to have you on board. Get ready to experience a seamless and efficient way.
+                                                Welcome to jewelERP ! We're thrilled to have you on board. Get ready to experience a seamless and efficient way.
                                                 To get started, Click here
                                                 If you have any questions or need assistance, feel free to reach out to our support team at [support@example.com].</textarea>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            
+
                             <div class="modal-footer">
                                 <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
                                 <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Save Changes</button>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

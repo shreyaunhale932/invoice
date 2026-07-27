@@ -11,26 +11,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Kanakku provides clean Admin Templates for managing Sales, Payment, Invoice, Accounts and Expenses in HTML, Bootstrap 5, ReactJs, Angular, VueJs and Laravel.">
+        content="jewelERP provides clean Admin Templates for managing Sales, Payment, Invoice, Accounts and Expenses in HTML, Bootstrap 5, ReactJs, Angular, VueJs and Laravel.">
     <meta name="keywords"
         content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     {{-- <meta name="twitter:site" content="@dreamstechnologies">
-    <meta name="twitter:title" content="Finance & Accounting Admin Website Templates | Kanakku">
+    <meta name="twitter:title" content="Finance & Accounting Admin Website Templates | jewelERP">
     <meta name="twitter:description"
-        content="Kanakku is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
-    <meta name="twitter:image" content="/assets/img/kanakku.jpg">
-    <meta name="twitter:image:alt" content="Kanakku">
+        content="jewelERP is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
+    <meta name="twitter:image" content="/assets/img/jewelERP.jpg">
+    <meta name="twitter:image:alt" content="jewelERP">
 
     <!-- Facebook -->
     <meta property="og:url" content="/">
-    <meta property="og:title" content="Finance & Accounting Admin Website Templates | Kanakku">
+    <meta property="og:title" content="Finance & Accounting Admin Website Templates | jewelERP">
     <meta property="og:description"
-        content="Kanakku is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
-    <meta property="og:image" content="/assets/img/kanakku.jpg">
-    <meta property="og:image:secure_url" content="/assets/img/kanakku.jpg">
+        content="jewelERP is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
+    <meta property="og:image" content="/assets/img/jewelERP.jpg">
+    <meta property="og:image:secure_url" content="/assets/img/jewelERP.jpg">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="600"> --}}
@@ -43,10 +43,10 @@
 
     <!-- Custom Redesign Stylesheet -->
     <link rel="stylesheet" href="{{ asset('assets/css/new-dashboard.css') }}">
-    
+
     <!-- Google Fonts Outfit and Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
         body {
             font-family: 'Inter', 'Outfit', sans-serif !important;
@@ -258,7 +258,7 @@
         // Dark Mode Theme Toggle Logic
         var themeBtn = document.getElementById('theme_toggle_btn');
         var themeIcon = document.getElementById('theme_icon');
-        
+
         // Check saved theme
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
@@ -271,7 +271,7 @@
             themeBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.body.classList.toggle('dark-mode');
-                
+
                 if (document.body.classList.contains('dark-mode')) {
                     localStorage.setItem('theme', 'dark');
                     if(themeIcon) themeIcon.classList.replace('fe-moon', 'fe-sun');

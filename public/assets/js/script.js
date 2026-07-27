@@ -1,6 +1,6 @@
 /*
 Author       : Dreamguys
-Template Name: Kanakku - Bootstrap Admin Template
+Template Name:  - Bootstrap Admin Template
 Version      : 1.0
 */
 

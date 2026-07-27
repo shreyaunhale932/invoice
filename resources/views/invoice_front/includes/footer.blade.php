@@ -115,7 +115,7 @@
 
                     <li>
                         <i class="fa-regular fa-envelope"></i>
-                        support@jewelbiz.com
+                       support@jewelerp.in
                     </li>
 
                     <li>

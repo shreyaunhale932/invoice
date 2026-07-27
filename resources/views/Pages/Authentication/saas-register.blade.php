@@ -52,7 +52,7 @@
                                 <label class="form-label">Domain Name  </label>
                                 <div class="url-text-box">
                                     <input type="text" name="domain" class="form-control" placeholder="Enter Domain Name" required>
-                                    <span class="url-text">kanakku.com</span>
+                                    <span class="url-text">jewelERP.com</span>
                                 </div>
                             </div>
                             <div class="input-block mb-3">

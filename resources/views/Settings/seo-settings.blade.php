@@ -163,7 +163,7 @@
                                         <div class="input-block mb-3">
                                               <label class="form-control-label">Template Content</label>
                                               <textarea class="summernote form-control" placeholder="Type your message">Hi [User's Name],
-                                                Welcome to Kanakku ! We're thrilled to have you on board. Get ready to experience a seamless and efficient way.
+                                                Welcome to jewelERP ! We're thrilled to have you on board. Get ready to experience a seamless and efficient way.
                                                 To get started, Click here
                                                 If you have any questions or need assistance, feel free to reach out to our support team at [support@example.com].</textarea>
                                         </div>

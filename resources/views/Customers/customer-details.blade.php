@@ -64,7 +64,7 @@
                                     </span>
                                     <div class="customer-details-cont">
                                         <h6>Company Name</h6>
-                                        <p>Kanakku Corporation</p>
+                                        <p> Corporation</p>
                                     </div>
                                 </div>
                             </div>

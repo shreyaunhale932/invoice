@@ -40,7 +40,7 @@
                                 <div class="col-sm-5">
                                     <div class="sub-invoive-detail">
                                         <h5>Pay To :</h5>
-                                        <p>Kanakku<br>
+                                        <p>jewelERP<br>
                                             84 Spilman Street, London<br>
                                             United King<br>
                                             domlowell@gmail.com<br>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="sub-invoive-detail detail-right">
-                                <h5>Kanakku</h5>
+                                <h5>jewelERP</h5>
                                 <ul>
                                     <li>
                                         GST IN :<br>22AABCU9603R1ZX
@@ -140,7 +140,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="company-sign">
-                                <span>For Kanakku</span>
+                                <span>For jewelERP</span>
                                 <img src="{{ asset('/assets/img/signature.png') }}" alt="signature-img">
                             </div>
                         </div>
