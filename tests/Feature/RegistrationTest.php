@@ -97,6 +97,7 @@ class RegistrationTest extends TestCase
             'username' => 'johndoe',
             'status' => 'active',
             'verification_status' => 'verified',
+            'company' => 'Doe Corp',
             'db_name' => 'tenant_doe_corp',
         ], 'landlord');
 

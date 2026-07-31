@@ -51,6 +51,12 @@ class TenantService
                 throw new Exception("Migration failed for tenant {$dbName}. Output: ".$output);
             }
 
+            // Update default firm name to company name if available
+            if (!empty($admin->company)) {
+                \App\Models\Firm::where('name', 'Default Firm')->update(['name' => $admin->company]);
+                Log::info("Updated default firm name to company name: {$admin->company} for database: {$dbName}");
+            }
+
             // 4. Reset to the main database
             DatabaseSwitcher::reset();
             Log::info('Reset connection to main database');

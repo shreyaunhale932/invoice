@@ -21,6 +21,7 @@ class Admin extends Authenticatable
         'name',
         'username',
         'email',
+        'company',
         'phone',
         'password',
         'db_name',

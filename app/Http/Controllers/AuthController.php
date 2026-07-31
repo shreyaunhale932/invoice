@@ -66,6 +66,11 @@ class AuthController extends Controller
             // Switch database
             if ($admin->db_name) {
                 \App\Services\DatabaseSwitcher::switch($admin->db_name);
+
+                // Update default firm name to company name if available
+                if (!empty($admin->company)) {
+                    \App\Models\Firm::where('name', 'Default Firm')->update(['name' => $admin->company]);
+                }
             }
 
             return response()->json([
