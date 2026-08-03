@@ -1,5 +1,3 @@
-
-
 <footer class="footer">
 
     <div class="footer-container">
@@ -12,8 +10,7 @@
 
                 <div class="footer-logo">
 
-                    <img src="{{ asset('front_assets\img\footer-logo.png') }}"
-                    alt="logo">
+                    <img src="{{ asset('front_assets\img\footer-logo.png') }}" alt="logo">
 
                 </div>
 
@@ -27,19 +24,19 @@
 
                 <div class="footer-social">
 
-                    <a href="#">
+                    <a href="https://www.facebook.com/jewelerpin" target="_blank">
                         <i class="fab fa-facebook-f"></i>
                     </a>
 
-                    <a href="#">
-                        <i class="fab fa-twitter"></i>
+                    <a href="https://www.youtube.com/@Jewelerp" target="_blank">
+                        <i class="fab fa-youtube"></i>
                     </a>
 
-                    <a href="#">
+                    <a href="https://www.instagram.com/jewelerpin/" target="_blank">
                         <i class="fab fa-instagram"></i>
                     </a>
 
-                    <a href="#">
+                    <a href="https://www.linkedin.com/company/jewelerp" target="_blank">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
 
@@ -115,7 +112,7 @@
 
                     <li>
                         <i class="fa-regular fa-envelope"></i>
-                       support@jewelerp.in
+                        support@jewelerp.in
                     </li>
 
                     <li>
@@ -145,4 +142,4 @@
     </div>
 
 
-<script src="{{ asset('front_assets/js/script.js') }}"></script>
+    <script src="{{ asset('front_assets/js/script.js') }}"></script>
