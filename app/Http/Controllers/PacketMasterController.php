@@ -29,8 +29,9 @@ class PacketMasterController extends Controller
         $mms = Mm::all();
         $chalnis = Chalni::all();
         $shapes = Shape::all();
+        $packet_types = \App\Models\PacketType::all();
 
-        return view('packet-masters.create', compact('stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes'));
+        return view('packet-masters.create', compact('stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes', 'packet_types'));
 
     }
 
@@ -57,8 +58,9 @@ class PacketMasterController extends Controller
         $mms = Mm::all();
         $chalnis = Chalni::all();
         $shapes = Shape::all();
+        $packet_types = \App\Models\PacketType::all();
 
-        return view('packet-masters.edit', compact('packetMaster', 'stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes'));
+        return view('packet-masters.edit', compact('packetMaster', 'stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes', 'packet_types'));
     }
 
     public function update(Request $request, $packetMaster)

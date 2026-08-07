@@ -152,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
             content.style.display = 'flex';
             content.style.alignItems = 'center';
             content.style.justifyContent = 'flex-start';
+            content.style.whiteSpace = 'pre-wrap';
         }
     }
 
@@ -363,6 +364,46 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         window.open('/labels/print/preview/' + window.SavedTemplate.id + '/0', '_blank', 'width=800,height=600');
+    });
+
+    // Keyboard nudge support
+    document.addEventListener('keydown', function(e) {
+        if (!selectedElementId) return;
+
+        // Ignore arrow keys when typing in input/textarea fields
+        const activeTag = document.activeElement ? document.activeElement.tagName : '';
+        if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable)) {
+            return;
+        }
+
+        const keys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+        if (!keys.includes(e.key)) return;
+
+        // Prevent default scrolling behavior
+        e.preventDefault();
+
+        const elData = elements.find(el => el.id === selectedElementId);
+        if (!elData) return;
+
+        const node = document.getElementById(selectedElementId);
+        if (!node) return;
+
+        const step = e.shiftKey ? 2.0 : 0.5;
+
+        if (e.key === 'ArrowUp') {
+            elData.pos_y = Math.max(0, elData.pos_y - step);
+        } else if (e.key === 'ArrowDown') {
+            const maxH = parseFloat(document.getElementById('canvasH').value) || 25;
+            elData.pos_y = Math.min(maxH - elData.height, elData.pos_y + step);
+        } else if (e.key === 'ArrowLeft') {
+            elData.pos_x = Math.max(0, elData.pos_x - step);
+        } else if (e.key === 'ArrowRight') {
+            const maxW = parseFloat(document.getElementById('canvasW').value) || 50;
+            elData.pos_x = Math.min(maxW - elData.width, elData.pos_x + step);
+        }
+
+        applyElementStyles(node, elData);
+        updatePropertiesPanel(elData);
     });
 
     initCanvas();

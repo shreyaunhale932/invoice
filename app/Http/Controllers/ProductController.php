@@ -498,6 +498,7 @@ class ProductController extends Controller
         $mms = \App\Models\Mm::all();
         $chalnis = \App\Models\Chalni::all();
         $shapes = \App\Models\Shape::all();
+        $packet_types = \App\Models\PacketType::all();
 
         return view(
             'Inventory.Products.add-products',
@@ -513,7 +514,8 @@ class ProductController extends Controller
                 'cuts',
                 'mms',
                 'chalnis',
-                'shapes'
+                'shapes',
+                'packet_types'
             )
         );
     }

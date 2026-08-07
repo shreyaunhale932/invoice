@@ -649,8 +649,9 @@
                                     <thead>
                                         <tr>
                                             <th>Product</th>
-                                            <th>Code</th>
+                                            {{-- <th>Code</th> --}}
                                             <th>Barcode</th>
+                                            <th>Gs Wt</th>
                                             <th>Net Wt</th>
                                             <th>Fn Wt</th>
                                             <th>Metal Rate</th>
@@ -667,13 +668,20 @@
                                     <tbody>
                                         @foreach ($invoice->items as $item)
                                             @php
-                                                $pktDiamond = $item->packets ? $item->packets->where('packet_type', '!=', 'Stone/Other')->sum('amount') : 0;
-                                                $pktStone = $item->packets ? $item->packets->where('packet_type', 'Stone/Other')->sum('amount') : 0;
+                                                $pktDiamond = $item->packets ? $item->packets->filter(function($p) {
+                                                    $type = $p->packet_type ?? '';
+                                                    return stripos($type, 'dia') !== false || stripos($type, 'diamond') !== false;
+                                                })->sum('amount') : 0;
+                                                $pktStone = $item->packets ? $item->packets->filter(function($p) {
+                                                    $type = $p->packet_type ?? '';
+                                                    return stripos($type, 'dia') === false && stripos($type, 'diamond') === false;
+                                                })->sum('amount') : 0;
                                             @endphp
                                             <tr>
                                                 <td>{{ $item->product->product_name }}</td>
-                                                <td>{{ $item->pre_code }}-{{ $item->post_code }}</td>
+                                                {{-- <td>{{ $item->pre_code }}-{{ $item->post_code }}</td> --}}
                                                 <td>{{ $item->barcode }}</td>
+                                                <td>{{ $item->gross_weight }}</td>
                                                 <td>{{ $item->net_weight }}</td>
                                                 <td>{{ $item->final_fn_weight }}</td>
                                                 <td>{{ $item->metal_rate }}</td>
@@ -1926,8 +1934,7 @@
 
             <td>
                 <select class="form-control" name="packets[${index}][packet_type]">
-                    <option value="Diamond" ${p.packet_type === 'Stone/Other' ? '' : 'selected'}>Diamond</option>
-                    <option value="Stone/Other" ${p.packet_type === 'Stone/Other' ? 'selected' : ''}>Stone/Other</option>
+                    ${generateSelectOptions(masterPacketTypes, p.packet_type || 'Diamond')}
                 </select>
             </td>
 
@@ -2562,10 +2569,11 @@
                 let packetStoneTotal = 0;
                 if (Array.isArray(item.packets)) {
                     item.packets.forEach(p => {
-                        if (p.packet_type === 'Stone/Other') {
-                            packetStoneTotal += parseFloat(p.amount || 0);
-                        } else {
+                        const pType = p.packet_type || '';
+                        if (/dia|diamond/i.test(pType)) {
                             packetDiamondTotal += parseFloat(p.amount || 0);
+                        } else {
+                            packetStoneTotal += parseFloat(p.amount || 0);
                         }
                     });
                 }
@@ -2814,6 +2822,7 @@
         const masterCuts = @json($cuts);
         const masterShapes = @json($shapes);
         const masterMms = @json($mms);
+        const masterPacketTypes = @json($packet_types);
 
         function generateSelectOptions(list, selectedValue) {
             let options = '<option value="">Select</option>';
@@ -2839,8 +2848,7 @@
                 <td><input type="text" class="form-control" name="packets[${index}][packet_no]" value="${p.packet_no ?? ''}"></td>
                 <td>
                     <select class="form-control" name="packets[${index}][packet_type]">
-                        <option value="Diamond" ${p.packet_type === 'Stone/Other' ? '' : 'selected'}>Diamond</option>
-                        <option value="Stone/Other" ${p.packet_type === 'Stone/Other' ? 'selected' : ''}>Stone/Other</option>
+                        ${generateSelectOptions(masterPacketTypes, p.packet_type || 'Diamond')}
                     </select>
                 </td>
                 <td><input type="number" class="form-control" name="packets[${index}][pcs]" value="${p.pcs ?? 0}"></td>
@@ -3162,10 +3170,11 @@
 
                 if (Array.isArray(item.packets)) {
                     item.packets.forEach(p => {
-                        if (p.packet_type === 'Stone/Other') {
-                            totalPacketStone += parseFloat(p.amount || 0);
-                        } else {
+                        const pType = p.packet_type || '';
+                        if (/dia|diamond/i.test(pType)) {
                             totalPacketDiamond += parseFloat(p.amount || 0);
+                        } else {
+                            totalPacketStone += parseFloat(p.amount || 0);
                         }
                     });
                 }
@@ -3364,6 +3373,7 @@
             },
 
             bindEvents() {
+                // alert('hii');
                 const self = this;
                 $(document).on('click', '.add-payment-row-btn', function(e) {
                     e.preventDefault();
@@ -3377,7 +3387,7 @@
                     self.recalculateTotals();
                 });
 
-                $(document).on('input change', '.payment-amount-input, .payment-account-select', function() {
+                 $(document).on('blur', '.payment-amount-input, .payment-account-select', function() {
                     self.recalculateTotals();
                 });
             },

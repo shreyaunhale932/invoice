@@ -206,8 +206,9 @@ class InvoiceController extends Controller
         $mms = \App\Models\Mm::all();
         $chalnis = \App\Models\Chalni::all();
         $shapes = \App\Models\Shape::all();
+        $packet_types = \App\Models\PacketType::all();
 
-        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'previewInvoiceNo', 'accounts', 'stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes'));
+        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'previewInvoiceNo', 'accounts', 'stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes', 'packet_types'));
     }
     public function updatecolumns(Request $request)
     {

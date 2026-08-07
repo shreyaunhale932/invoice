@@ -705,8 +705,9 @@
                                     <thead>
                                         <tr>
                                             <th>Product</th>
-                                            <th>Code</th>
+                                            {{-- <th>Code</th> --}}
                                             <th>Barcode</th>
+                                            <th>Gs Wt</th>
                                             <th>Net Wt</th>
                                             <th>Fn Wt</th>
                                             <th>Metal Rate</th>
@@ -1241,119 +1242,126 @@
                                 @enderror
                             </div>
                             <!-- Billing Address -->
-<div class="row">
+                            <div class="row">
 
-    <div class="col-md-12 mb-2">
-        <h6 class="fw-bold">Billing Address</h6>
-    </div>
+                                <div class="col-md-12 mb-2">
+                                    <h6 class="fw-bold">Billing Address</h6>
+                                </div>
 
-    <!-- Address -->
-    <div class="col-md-6 mb-3">
-        <label>Address (Area)</label>
-        <input type="text" name="address" class="form-control" placeholder="Enter Address (Area)">
-    </div>
+                                <!-- Address -->
+                                <div class="col-md-6 mb-3">
+                                    <label>Address (Area)</label>
+                                    <input type="text" name="address" class="form-control"
+                                        placeholder="Enter Address (Area)">
+                                </div>
 
-    <!-- Country -->
-    <div class="col-md-6 mb-3">
-        <label>Country</label>
-        <input type="text" name="country" class="form-control" value="INDIA" placeholder="Enter Country">
-    </div>
+                                <!-- Country -->
+                                <div class="col-md-6 mb-3">
+                                    <label>Country</label>
+                                    <input type="text" name="country" class="form-control" value="INDIA"
+                                        placeholder="Enter Country">
+                                </div>
 
-    <!-- State -->
-    <div class="col-md-6 mb-3">
-        <label>State <span class="text-danger">*</span></label>
-        <select class="form-control" name="state" required>
-            <option value="">Select State</option>
-            <option value="Andhra Pradesh">Andhra Pradesh</option>
-            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-            <option value="Assam">Assam</option>
-            <option value="Bihar">Bihar</option>
-            <option value="Chhattisgarh">Chhattisgarh</option>
-            <option value="Goa">Goa</option>
-            <option value="Gujarat">Gujarat</option>
-            <option value="Haryana">Haryana</option>
-            <option value="Himachal Pradesh">Himachal Pradesh</option>
-            <option value="Jharkhand">Jharkhand</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Kerala">Kerala</option>
-            <option value="Madhya Pradesh">Madhya Pradesh</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Manipur">Manipur</option>
-            <option value="Meghalaya">Meghalaya</option>
-            <option value="Mizoram">Mizoram</option>
-            <option value="Nagaland">Nagaland</option>
-            <option value="Odisha">Odisha</option>
-            <option value="Punjab">Punjab</option>
-            <option value="Rajasthan">Rajasthan</option>
-            <option value="Sikkim">Sikkim</option>
-            <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="Telangana">Telangana</option>
-            <option value="Tripura">Tripura</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>
-            <option value="Uttarakhand">Uttarakhand</option>
-            <option value="West Bengal">West Bengal</option>
-            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-            <option value="Chandigarh">Chandigarh</option>
-            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
-            <option value="Delhi">Delhi</option>
-            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-            <option value="Ladakh">Ladakh</option>
-            <option value="Lakshadweep">Lakshadweep</option>
-            <option value="Puducherry">Puducherry</option>
-        </select>
-        @error('state')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
-    </div>
+                                <!-- State -->
+                                <div class="col-md-6 mb-3">
+                                    <label>State <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="state" required>
+                                        <option value="">Select State</option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                        <option value="Jharkhand">Jharkhand</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Odisha">Odisha</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="Uttarakhand">Uttarakhand</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                        <option value="Chandigarh">Chandigarh</option>
+                                        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and
+                                            Daman and Diu</option>
+                                        <option value="Delhi">Delhi</option>
+                                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                        <option value="Ladakh">Ladakh</option>
+                                        <option value="Lakshadweep">Lakshadweep</option>
+                                        <option value="Puducherry">Puducherry</option>
+                                    </select>
+                                    @error('state')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
-    <!-- City -->
-    <div class="col-md-6 mb-3">
-        <label>City</label>
-        <input type="text" name="city" class="form-control" placeholder="Enter City">
-    </div>
+                                <!-- City -->
+                                <div class="col-md-6 mb-3">
+                                    <label>City</label>
+                                    <input type="text" name="city" class="form-control" placeholder="Enter City">
+                                </div>
 
-    <!-- Pincode -->
-    <div class="col-md-6 mb-3">
-        <label>Pincode</label>
-        <input type="text" name="pincode" class="form-control" placeholder="Enter Pincode">
-    </div>
+                                <!-- Pincode -->
+                                <div class="col-md-6 mb-3">
+                                    <label>Pincode</label>
+                                    <input type="text" name="pincode" class="form-control"
+                                        placeholder="Enter Pincode">
+                                </div>
 
-</div>
+                            </div>
 
-<hr>
+                            <hr>
 
-<!-- Tax & Identity Details -->
-<div class="row">
+                            <!-- Tax & Identity Details -->
+                            <div class="row">
 
-    <div class="col-md-12 mb-2">
-        <h6 class="fw-bold">Tax & Identity Details</h6>
-    </div>
+                                <div class="col-md-12 mb-2">
+                                    <h6 class="fw-bold">Tax & Identity Details</h6>
+                                </div>
 
-    <!-- GST -->
-    <div class="col-md-6 mb-3">
-        <label>GST No.</label>
-        <input type="text" name="gst_no" class="form-control" placeholder="Enter GST Number">
-    </div>
+                                <!-- GST -->
+                                <div class="col-md-6 mb-3">
+                                    <label>GST No.</label>
+                                    <input type="text" name="gst_no" class="form-control"
+                                        placeholder="Enter GST Number">
+                                </div>
 
-    <!-- Aadhaar -->
-    <div class="col-md-6 mb-3">
-        <label>Aadhaar No.</label>
-        <input type="text" name="adhaar_no" class="form-control" placeholder="Enter Aadhaar Number">
-    </div>
+                                <!-- Aadhaar -->
+                                <div class="col-md-6 mb-3">
+                                    <label>Aadhaar No.</label>
+                                    <input type="text" name="adhaar_no" class="form-control"
+                                        placeholder="Enter Aadhaar Number">
+                                </div>
 
-    <!-- PAN -->
-    <div class="col-md-6 mb-3">
-        <label>PAN No.</label>
-        <input type="text" name="pan_no" class="form-control" placeholder="Enter PAN Number">
-    </div>
+                                <!-- PAN -->
+                                <div class="col-md-6 mb-3">
+                                    <label>PAN No.</label>
+                                    <input type="text" name="pan_no" class="form-control"
+                                        placeholder="Enter PAN Number">
+                                </div>
 
-    <!-- TAN -->
-    <div class="col-md-6 mb-3">
-        <label>TAN</label>
-        <input type="text" name="tan" class="form-control" placeholder="Enter TAN">
-    </div>
+                                <!-- TAN -->
+                                <div class="col-md-6 mb-3">
+                                    <label>TAN</label>
+                                    <input type="text" name="tan" class="form-control" placeholder="Enter TAN">
+                                </div>
 
-</div>
+                            </div>
 
                         </div>
 
@@ -2023,8 +2031,7 @@
 
             <td>
                 <select class="form-control" name="packets[${index}][packet_type]">
-                    <option value="Diamond" ${p.packet_type === 'Stone/Other' ? '' : 'selected'}>Diamond</option>
-                    <option value="Stone/Other" ${p.packet_type === 'Stone/Other' ? 'selected' : ''}>Stone/Other</option>
+                    ${generateSelectOptions(masterPacketTypes, p.packet_type || 'Diamond')}
                 </select>
             </td>
 
@@ -2612,9 +2619,11 @@
                             .attr('data-making_type', p.making_type || 0)
                             .attr('data-making_final_amount', p.making_final_amount || 0)
                             .attr('data-category-id', p.category_id || '')
-                            .attr('data-category-name', p.category?.category_name || item.category_name || item.category || '')
+                            .attr('data-category-name', p.category?.category_name || item.category_name || item
+                                .category || '')
                             .attr('data-subcategory-id', p.subcategory_id || '')
-                            .attr('data-subcategory-name', p.subcategory?.subcategory_name || item.subcategory_name || item.subcategory || '')
+                            .attr('data-subcategory-name', p.subcategory?.subcategory_name || item
+                                .subcategory_name || item.subcategory || '')
                             .attr('data-gst_percent', p.gst_percent || 0)
                             .attr('data-gst_amount', p.gst_amount || 0)
                             .attr('data-pre_code', p.pre_code || '')
@@ -2622,8 +2631,10 @@
                             .attr('data-diamonds', JSON.stringify(p.diamonds || []))
                             .attr('data-stones', JSON.stringify(p.stones || []))
                             .attr('data-packets', JSON.stringify(p.packets || []))
-                            .text(`${p.pre_code || ''}-${p.post_code || ''}-${p.barcode || ''} (${p.product_name || ''})`);
-                        
+                            .text(
+                                `${p.pre_code || ''}-${p.post_code || ''}-${p.barcode || ''} (${p.product_name || ''})`
+                                );
+
                         productSearch.append(option);
                     }
                 }
@@ -2694,6 +2705,11 @@
                     !(parseFloat(invoice.card_received) > 0)
                 ) {
                     PaymentBreakdownManager.addPaymentRow('cash');
+                    PaymentBreakdownManager.addPaymentRow('cheque');
+                    PaymentBreakdownManager.addPaymentRow('upi');
+                    PaymentBreakdownManager.addPaymentRow('card');
+
+                    // alert('hii');
                 }
             }
 
@@ -2780,10 +2796,11 @@
                 let packetStoneTotal = 0;
                 if (Array.isArray(item.packets)) {
                     item.packets.forEach(p => {
-                        if (p.packet_type === 'Stone/Other') {
-                            packetStoneTotal += parseFloat(p.amount || 0);
-                        } else {
+                        const pType = p.packet_type || '';
+                        if (/dia|diamond/i.test(pType)) {
                             packetDiamondTotal += parseFloat(p.amount || 0);
+                        } else {
+                            packetStoneTotal += parseFloat(p.amount || 0);
                         }
                     });
                 }
@@ -2796,8 +2813,9 @@
                     <input type="hidden" name="total_amount[]" value="${item.final_price || 0}">
                 </td>
 
-                <td>${item.pre_code || ''}-${item.post_code || ''}</td>
+
                 <td>${item.barcode || ''}</td>
+                <td>${item.gross_weight || ''}</td>
                 <td>${item.net_weight || 0}</td>
                 <td>${item.final_fn_weight || 0}</td>
                 <td>${item.metal_rate || 0}</td>
@@ -3115,6 +3133,7 @@
         const masterCuts = @json($cuts);
         const masterShapes = @json($shapes);
         const masterMms = @json($mms);
+        const masterPacketTypes = @json($packet_types);
 
         function generateSelectOptions(list, selectedValue) {
             let options = '<option value="">Select</option>';
@@ -3140,8 +3159,7 @@
                 <td><input type="text" class="form-control" name="packets[${index}][packet_no]" value="${p.packet_no ?? ''}"></td>
                 <td>
                     <select class="form-control" name="packets[${index}][packet_type]">
-                        <option value="Diamond" ${p.packet_type === 'Stone/Other' ? '' : 'selected'}>Diamond</option>
-                        <option value="Stone/Other" ${p.packet_type === 'Stone/Other' ? 'selected' : ''}>Stone/Other</option>
+                        ${generateSelectOptions(masterPacketTypes, p.packet_type || 'Diamond')}
                     </select>
                 </td>
                 <td><input type="number" class="form-control" name="packets[${index}][pcs]" value="${p.pcs ?? 0}"></td>
@@ -3418,10 +3436,11 @@
 
                 if (Array.isArray(item.packets)) {
                     item.packets.forEach(p => {
-                        if (p.packet_type === 'Stone/Other') {
-                            totalPacketStone += parseFloat(p.amount || 0);
-                        } else {
+                        const pType = p.packet_type || '';
+                        if (/dia|diamond/i.test(pType)) {
                             totalPacketDiamond += parseFloat(p.amount || 0);
+                        } else {
+                            totalPacketStone += parseFloat(p.amount || 0);
                         }
                     });
                 }
@@ -3771,7 +3790,7 @@
                     self.recalculateTotals();
                 });
 
-                $(document).on('input change', '.payment-amount-input, .payment-account-select', function() {
+                $(document).on('blur', '.payment-amount-input, .payment-account-select', function() {
                     self.recalculateTotals();
                 });
             },

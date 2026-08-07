@@ -770,8 +770,11 @@
                                                 <div class="col-lg-3 col-md-6">
                                                     <label class="form-label">Packet Type</label>
                                                     <select name="packet[packet_type][]" class="form-control packet-type-select">
-                                                        <option value="Diamond" {{ ($packet->packet_type ?? 'Diamond') == 'Diamond' ? 'selected' : '' }}>Diamond</option>
-                                                        <option value="Stone/Other" {{ ($packet->packet_type ?? '') == 'Stone/Other' ? 'selected' : '' }}>Stone/Other</option>
+                                                        @foreach ($packet_types as $item)
+                                                            <option value="{{ $item->name }}" {{ ($packet->packet_type ?? 'Diamond') == $item->name ? 'selected' : '' }}>
+                                                                {{ $item->name }}
+                                                            </option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
 
@@ -926,8 +929,9 @@
     <div class="col-lg-3 col-md-6">
         <label class="form-label">Packet Type</label>
         <select name="packet[packet_type][]" class="form-control packet-type-select">
-            <option value="Diamond">Diamond</option>
-            <option value="Stone/Other">Stone/Other</option>
+            @foreach ($packet_types as $item)
+                <option value="{{ $item->name }}">{{ $item->name }}</option>
+            @endforeach
         </select>
     </div>
 

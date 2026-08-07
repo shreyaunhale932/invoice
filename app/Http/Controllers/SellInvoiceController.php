@@ -1702,6 +1702,7 @@ class SellInvoiceController extends Controller
         $mms = \App\Models\Mm::all();
         $chalnis = \App\Models\Chalni::all();
         $shapes = \App\Models\Shape::all();
+        $packet_types = \App\Models\PacketType::all();
 
         return view('Sales.Invoices.edit-invoice', compact(
             'invoice',
@@ -1722,7 +1723,8 @@ class SellInvoiceController extends Controller
             'cuts',
             'mms',
             'chalnis',
-            'shapes'
+            'shapes',
+            'packet_types'
         ) + ['customer_id' => $invoice->user_id]);
     }
 

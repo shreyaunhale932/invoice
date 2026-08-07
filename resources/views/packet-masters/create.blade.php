@@ -36,10 +36,24 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Packet Type</label>
-                                            <select name="packet_type" class="form-control">
-                                                <option value="Diamond" selected>Diamond</option>
-                                                <option value="Stone/Other">Stone/Other</option>
-                                            </select>
+                                            <div class="input-group attribute-group">
+                                                <div class="flex-grow-1">
+                                                    <select name="packet_type" id="packet_type"
+                                                        class="form-control select2"
+                                                        data-placeholder="Select Packet Type">
+                                                        <option value=""></option>
+                                                        @foreach ($packet_types as $item)
+                                                            <option value="{{ $item->name }}" {{ old('packet_type', 'Diamond') == $item->name ? 'selected' : '' }}>
+                                                                {{ $item->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <button type="button" class="btn btn-attribute-add btn btn-primary"
+                                                    onclick="openAddModal('packet_types')">
+                                                    +
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -174,7 +188,9 @@
 
         function openAddModal(type) {
             currentAttributeType = type;
-            document.getElementById('modal_title').innerText = 'Add ' + type.charAt(0).toUpperCase() + type.slice(1, -1);
+            let titleText = type.charAt(0).toUpperCase() + type.slice(1, -1);
+            titleText = titleText.replace('_', ' ');
+            document.getElementById('modal_title').innerText = 'Add ' + titleText;
             document.getElementById('attribute_type').value = type;
             document.getElementById('new_attribute_name').value = '';
             document.getElementById('new_attribute_code').value = '';
@@ -215,19 +231,26 @@
                         const modal = bootstrap.Modal.getInstance(modalEl);
                         modal.hide();
 
-                        let singular;
+                        let selectId;
+                        let optionValue;
 
-                        if (type.endsWith('ies')) {
-                            singular = type.slice(0, -3) + 'y';
+                        if (type === 'packet_types') {
+                            selectId = 'packet_type';
+                            optionValue = data.name;
                         } else {
-                            singular = type.slice(0, -1);
+                            let singular;
+                            if (type.endsWith('ies')) {
+                                singular = type.slice(0, -3) + 'y';
+                            } else {
+                                singular = type.slice(0, -1);
+                            }
+                            selectId = singular + '_id';
+                            optionValue = data.id;
                         }
-
-                        const selectId = singular + '_id';
 
                         const select = document.getElementById(selectId);
 
-                        const option = new Option(data.name, data.id, true, true);
+                        const option = new Option(data.name, optionValue, true, true);
                         select.add(option);
                         $(select).trigger('change');
 

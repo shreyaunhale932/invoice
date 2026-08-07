@@ -148,6 +148,9 @@
                         <li>
                             <a href="{{ route('packet-attributes.index', 'mms') }}">MMs Master</a>
                         </li>
+                        <li>
+                            <a href="{{ route('packet-attributes.index', 'packet_types') }}">Packet Types Master</a>
+                        </li>
                     </ul>
                 </li>
             </ul>

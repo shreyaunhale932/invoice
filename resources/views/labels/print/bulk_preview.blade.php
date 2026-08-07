@@ -73,6 +73,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
+            white-space: pre-wrap;
         }
 
         .element-content svg, .element-content img {
@@ -160,6 +161,15 @@
             $placeholders['packet_colors'] = $packets->map(function($p) { return isset($p->color) ? ($p->color->name ?? '') : ''; })->filter()->unique()->implode(', ');
             $placeholders['packet_cuts'] = $packets->map(function($p) { return isset($p->cut) ? ($p->cut->name ?? '') : ''; })->filter()->unique()->implode(', ');
             $placeholders['packet_shapes'] = $packets->map(function($p) { return isset($p->shape) ? ($p->shape->name ?? '') : ''; })->filter()->unique()->implode(', ');
+
+            $pktDetails = [];
+            foreach ($packets as $packet) {
+                $pType = $packet->packet_type ?? '';
+                $isDiamond = stripos($pType, 'dia') !== false || stripos($pType, 'diamond') !== false;
+                $prefix = $isDiamond ? 'DIA' : 'ST';
+                $pktDetails[] = $prefix . ' : ' . number_format($packet->weight ?? 0, 3) . '/' . ($packet->pcs ?? 0);
+            }
+            $placeholders['packet_details'] = implode("\n", $pktDetails);
         @endphp
         <div class="label-container" id="label_{{ $index }}">
             @foreach($template->elements as $el)

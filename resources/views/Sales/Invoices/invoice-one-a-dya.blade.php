@@ -689,7 +689,9 @@
                         }
                         if ($item->packets && $item->packets->count() > 0) {
                             foreach ($item->packets as $packet) {
-                                if ($packet->packet_type != 'Stone/Other') {
+                                $pType = $packet->packet_type ?? '';
+                                $isDiamond = stripos($pType, 'dia') !== false || stripos($pType, 'diamond') !== false;
+                                if ($isDiamond) {
                                     $totalDiamondPcs += $packet->pcs;
                                     $totalDiamondCt += $packet->weight;
                                 }

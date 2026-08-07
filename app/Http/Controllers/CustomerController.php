@@ -144,6 +144,7 @@ class CustomerController extends Controller
         $mms = \App\Models\Mm::all();
         $chalnis = \App\Models\Chalni::all();
         $shapes = \App\Models\Shape::all();
+        $packet_types = \App\Models\PacketType::all();
 
         return view('Inventory/Products/add-products', compact(
             'categories',
@@ -157,7 +158,8 @@ class CustomerController extends Controller
             'cuts',
             'mms',
             'chalnis',
-            'shapes'
+            'shapes',
+            'packet_types'
         ));
     }
     public function edit($id)

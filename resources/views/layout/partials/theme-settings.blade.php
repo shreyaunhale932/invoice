@@ -1,9 +1,9 @@
 <!-- Theme Setting -->
-<div class="settings-icon">
+{{-- <div class="settings-icon">
     <span data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas"
         aria-controls="theme-settings-offcanvas"><img src="{{ asset('/assets/img/icons/siderbar-icon2.svg') }}"
             class="feather-five" alt="layout"></span>
-</div>
+</div> --}}
 <div class="offcanvas offcanvas-end border-0 " tabindex="-1" id="theme-settings-offcanvas">
     <div class="sidebar-headerset">
         <div class="sidebar-headersets">

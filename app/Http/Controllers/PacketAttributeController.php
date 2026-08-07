@@ -10,6 +10,7 @@ use App\Models\Cut;
 use App\Models\Mm;
 use App\Models\Chalni;
 use App\Models\Shape;
+use App\Models\PacketType;
 
 class PacketAttributeController extends Controller
 {
@@ -23,6 +24,7 @@ class PacketAttributeController extends Controller
             'mms' => Mm::class,
             'chalnis' => Chalni::class,
             'shapes' => Shape::class,
+            'packet_types' => PacketType::class,
             default => null,
         };
     }

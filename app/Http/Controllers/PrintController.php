@@ -67,8 +67,9 @@ class PrintController extends Controller
                 'packets' => collect([
                     (object)[
                         'packet_no' => 'PK-001',
-                        'pcs' => 2,
-                        'weight' => 0.50,
+                        'packet_type' => 'Diamond',
+                        'pcs' => 114,
+                        'weight' => 0.570,
                         'wt_in_gram' => 0.10,
                         'amount' => 5000,
                         'certificate_no' => 'GIA-12345',
@@ -77,6 +78,20 @@ class PrintController extends Controller
                         'color' => (object)['name' => 'G'],
                         'cut' => (object)['name' => 'Excellent'],
                         'shape' => (object)['name' => 'Round'],
+                    ],
+                    (object)[
+                        'packet_no' => 'PK-002',
+                        'packet_type' => 'Stone',
+                        'pcs' => 3,
+                        'weight' => 1.145,
+                        'wt_in_gram' => 0.20,
+                        'amount' => 3000,
+                        'certificate_no' => '',
+                        'stone' => (object)['name' => 'Ruby'],
+                        'clarity' => (object)['name' => 'VVS2'],
+                        'color' => (object)['name' => 'Red'],
+                        'cut' => (object)['name' => 'Good'],
+                        'shape' => (object)['name' => 'Oval'],
                     ]
                 ])
             ];

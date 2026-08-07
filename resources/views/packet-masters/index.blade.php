@@ -51,7 +51,11 @@
                                         @foreach ($packets as $packet)
                                             <tr>
                                                 <td>{{ $packet->packet_no }}</td>
-                                                <td><span class="badge {{ ($packet->packet_type ?? 'Diamond') == 'Diamond' ? 'bg-primary' : 'bg-info' }}">{{ $packet->packet_type ?? 'Diamond' }}</span></td>
+                                                @php
+                                                     $type = $packet->packet_type ?? 'Diamond';
+                                                     $isDiamond = stripos($type, 'dia') !== false || stripos($type, 'diamond') !== false;
+                                                @endphp
+                                                <td><span class="badge {{ $isDiamond ? 'bg-primary' : 'bg-info' }}">{{ $type }}</span></td>
                                                 <td>{{ $packet->stone->name ?? '-' }}</td>
                                                 <td>{{ $packet->shape->name ?? '-' }}</td>
                                                 <td>{{ $packet->color->name ?? '-' }}</td>
