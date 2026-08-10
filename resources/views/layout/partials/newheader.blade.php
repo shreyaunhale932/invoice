@@ -20,10 +20,10 @@
             <a href="javascript:void(0);" id="toggle_btn_new" style="color: var(--text-main); font-size: 20px; transition: color 0.2s;">
                 <i class="fas fa-bars"></i>
             </a>
-            <div class="search-bar-new">
+            <!-- <div class="search-bar-new">
                 <i class="fe fe-search search-icon-new"></i>
                 <input type="text" placeholder="Search Customer, Invoice, Supplier...">
-            </div>
+            </div> -->
         </div>
 
         <!-- Central/Right Action Pills -->
