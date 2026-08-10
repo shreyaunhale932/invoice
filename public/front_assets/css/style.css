@@ -2198,7 +2198,7 @@ body {
 
 .aboutTitleExact {
   margin: 0 0 22px;
-  font-size: 54px;
+  font-size: 43px;
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -2px;
@@ -2686,7 +2686,7 @@ body {
 
 .featureTitlePremium {
   margin: 0;
-  font-size: 54px;
+  font-size: 43px;
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -2px;
@@ -3137,7 +3137,7 @@ body {
 }
 
 .section-header h2 {
-  font-size: 54px;
+  font-size: 43px;
   font-weight: 600;
   line-height: 1.15;
   color: #0f172a;
@@ -3444,7 +3444,7 @@ body {
 }
 
 .dashboard-header h2 {
-  font-size: 54px;
+  font-size: 43px;
   font-weight: 600;
   line-height: 1.1;
   color: #ffffff;
@@ -4127,7 +4127,7 @@ body {
 
 .benefits-header h2 {
   margin: 0 0 12px;
-  font-size: 54px;
+  font-size: 43px;
   font-weight: 600;
   line-height: 1.1;
   color: #0f172a;
@@ -6993,3 +6993,303 @@ textarea.form-control {
     display:block;
     margin-top:5px;
 }
+.price-offer-cust {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* padding: 0 10px; */
+}
+
+.price-offer-cust .old-price {
+    color: #a3afbf;
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: line-through;
+}
+
+.price-offer-cust .discount {
+    padding: 5px 14px;
+    text-align: center;
+    border: 1px solid #007bff;
+    border-radius: 30px;
+    color: #111;
+    font-size: 14px;
+    background: transparent;
+}
+
+/* pooja css */
+.privacy-section {
+  margin: 30px 0;
+}
+
+.privacy-banner {
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 15% 20%,
+      rgba(0, 204, 255, 0.35),
+      transparent 28%),
+    radial-gradient(circle at 85% 75%,
+      rgba(123, 92, 255, 0.35),
+      transparent 30%),
+    linear-gradient(120deg,
+      #041B52 0%,
+      #063B9F 42%,
+      #087CE5 72%,
+      #00B9F2 100%);
+}
+
+.privacy-banner::before {
+  content: "";
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  top: -220px;
+  left: -120px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  box-shadow:
+    0 0 80px rgba(0, 211, 255, 0.25),
+    inset 0 0 80px rgba(255, 255, 255, 0.05);
+
+  background: rgba(255, 255, 255, 0.03);
+}
+
+
+
+.privacy-banner::after {
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  right: -220px;
+  bottom: -300px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  box-shadow:
+    0 0 100px rgba(0, 217, 255, 0.3),
+    inset 0 0 80px rgba(255, 255, 255, 0.04);
+
+  background: rgba(255, 255, 255, 0.04);
+}
+
+
+.privacy-banner .container {
+  position: relative;
+  z-index: 3;
+
+  padding: 70px 20px;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px),
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px);
+
+  background-size: 45px 45px;
+}
+
+.privacy-banner .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 28px;
+
+  margin-bottom: 25px;
+
+  border-radius: 50px;
+
+  background: rgb(3 44 140);
+
+  border: 1px solid rgba(190, 125, 255, 0.6);
+
+
+  font-weight: 700;
+  letter-spacing: 1.5px;
+
+  box-shadow:
+    0 0 25px rgba(190, 90, 255, 0.25);
+
+  backdrop-filter: blur(10px);
+}
+
+.privacy-banner h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+
+  font-weight: 800;
+
+  line-height: 1.1;
+
+  letter-spacing: -1.5px;
+
+  text-shadow:
+    0 5px 25px rgba(0, 0, 0, 0.18);
+}
+
+
+.privacy-banner .date {
+  margin-top: 22px;
+
+  color: #fff;
+
+  font-size: 20px;
+
+  line-height: 1.7;
+
+  font-weight: 400;
+}
+
+.privacy-banner .glow-line {
+  width: 220px;
+  height: 2px;
+  margin: 28px auto 0;
+
+  border-radius: 50px;
+
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 15%,
+      #7DDFFF 50%,
+      rgba(255, 255, 255, 0.15) 85%,
+      transparent 100%);
+
+  box-shadow:
+    0 0 8px rgba(125, 223, 255, 0.45);
+}
+
+
+
+@media (max-width: 767px) {
+
+  .privacy-banner .date {
+    font-size: 16px;
+  }
+
+  .privacy-banner .container {
+    padding: 0px 10px;
+    background-size: 30px 30px;
+  }
+
+  .privacy-banner h1 {
+    letter-spacing: -0.8px;
+  }
+
+
+  .privacy-banner .glow-line {
+    width: 190px;
+  }
+}
+
+/* ================= FAQ ================= */
+
+.faq-section {
+  padding: 50px 0;
+}
+
+.section-title {
+  text-align: center;
+}
+
+.accordion-item {
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.accordion-button {
+  color: #222;
+  font-weight: 600;
+  padding: 20px;
+  padding-right: 65px;
+  box-shadow: none !important;
+  position: relative;
+  line-height: 1.5;
+  width: 100%;
+  text-align: left;
+}
+
+.accordion-button:not(.collapsed) {
+  background: #1c398e;
+  color: #fff;
+}
+
+.accordion-button::after {
+  display: none;
+}
+
+.accordion-button::before {
+  content: "+";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  transition: 0.3s;
+}
+
+.accordion-button:not(.collapsed)::before {
+  content: "−";
+}
+
+.accordion-body {
+  line-height: 1.8;
+  color: #555;
+  background: #fff;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 767px) {
+  .faq-section {
+    padding: 30px 0px;
+  }
+
+  .accordion-item {
+    margin-bottom: 15px;
+    border-radius: 12px;
+  }
+
+  .accordion-button {
+    line-height: 1.5;
+
+    padding: 20px 55px 20px 25px;
+
+    min-height: 80px;
+  }
+
+  .accordion-button::before {
+    right: 18px;
+  }
+
+  .accordion-body {
+    padding: 20px 25px;
+    line-height: 1.7;
+  }
+}
+/* end pooja css end */

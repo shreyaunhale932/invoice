@@ -402,4 +402,16 @@ class HomeController extends Controller
           public function contact(){
             return view('invoice_front.contact');
           }
+          public function faqs(){
+              return view('invoice_front.faqs');
+          }
+          public function privacypolicy(){
+              return view('invoice_front.privacy-policy');
+          }
+          public function refundpolicy(){
+              return view('invoice_front.refund-policy');
+          }
+          public function termsconditions(){
+              return view('invoice_front.terms-condition');
+          }
 }

@@ -19,7 +19,7 @@
 <!-- RIGHT -->
 <div class="navRight" id="navRight">
     <a href="javascript:void(0)" class="login" onclick="openAuthPopup()">Login</a>
-    <a href="javascript:void(0)" class="btn" onclick="openAuthPopup()">Start Free Trial</a>
+    <a href="{{ route('pricing') }}#plans" class="btn" >Start Free Trial</a>
 </div>
 
 

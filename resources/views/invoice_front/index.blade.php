@@ -28,7 +28,7 @@
             </p>
 
             <div class="btns">
-                <a href="#" class="btn btnPrimary" href="javascript:void(0)" class="login" onclick="openAuthPopup()">
+                <a href="{{ route('pricing') }}#plans" class="btn btnPrimary" href="javascript:void(0)" class="login" >
                   Start Free Trial
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M4.16602 10H15.8327" stroke="#101828" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -349,7 +349,7 @@
   <div class="container">
     <!-- Heading -->
     <div class="section-header">
-      <h2>A Day in the Life with Sirsonite</h2>
+      <h2>A Day in the Life with Jewelerp</h2>
       <p>See how Kumar Jewellers transformed their operations with our platform</p>
     </div>
 

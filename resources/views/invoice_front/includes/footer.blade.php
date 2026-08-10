@@ -83,19 +83,23 @@
                     <li>
                         <a href="#">Help Center</a>
                     </li>
-
-                    <li>
-                        <a href="#">Terms of Service</a>
+                      <li>
+                        <a href="{{ route('faqs') }}">FAQs</a>
                     </li>
 
                     <li>
-                        <a href="#">Privacy Policy</a>
+                        <a href="{{ route('privacy-policy') }}">Privacy Policy</a>
                     </li>
 
                     <li>
-                        <a href="#">FAQ</a>
+                        <a href="{{ route('refund-policy') }}">Refund & Cancellation</a>
                     </li>
 
+                     <li>
+                        <a href="{{ route('terms-conditions') }}">Terms & Conditions</a>
+                    </li>
+
+                  
                 </ul>
 
             </div>

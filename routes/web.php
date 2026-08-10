@@ -40,6 +40,10 @@ Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/',[HomeController::class,'invoiceFront'])->name('invoice-front');
 Route::get('/pricing',[HomeController::class,'pricing'])->name('pricing');
 Route::get('/contact',[HomeController::class,'contact'])->name('contact');
+Route::get('/privacy-policy',[HomeController::class,'privacypolicy'])->name('privacy-policy');
+Route::get('/refund-policy',[HomeController::class,'refundpolicy'])->name('refund-policy');
+Route::get('/terms-conditions',[HomeController::class,'termsconditions'])->name('terms-conditions');
+Route::get('/faqs',[HomeController::class,'faqs'])->name('faqs');
 Route::post('/contact/store', [VisitorController::class, 'store'])
     ->name('contact.store');
 
