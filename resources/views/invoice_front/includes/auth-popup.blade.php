@@ -64,9 +64,9 @@
         <span>or continue with email</span>
     </div> -->
             @if (session('status'))
-                <div class="alert alert-danger">
-                    {{ session('status') }}
-                </div>
+            <div class="alert alert-danger">
+                {{ session('status') }}
+            </div>
             @endif
             <!-- Form -->
             <form id="loginForm">
@@ -115,7 +115,7 @@
 
         <button class="auth-close" onclick="closeRegisterPopup()">&times;</button>
 
-        <h2>Create Your Account</h2>
+        <h3 class="text-center">Create Your Account</h3>
 
         <form id="registrationForm" class="register-form">
             @csrf
@@ -132,56 +132,52 @@
                 <div class="form-group">
                     <label>Last Name <span class="text-danger"> *</span></label>
                     <input type="text" name="last_name" placeholder="Enter last name" required>
-                      <span class="text-danger last_name_error"></span>
+                    <span class="text-danger last_name_error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Company Name <span class="text-danger"> *</span></label>
+                    <input type="text" name="company" placeholder="Enter company name" required>
+                    <span class="text-danger company_error"></span>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Company Name <span class="text-danger"> *</span></label>
-                <input type="text" name="company" placeholder="Enter company name" required>
-                <span class="text-danger company_error"></span>
-            </div>
+
 
             <div class="form-row">
 
                 <div class="form-group">
                     <label>Username <span class="text-danger"> *</span></label>
                     <input type="text" name="username" placeholder="Username" required>
-                     <span class="text-danger username_error"></span>
+                    <span class="text-danger username_error"></span>
                 </div>
 
                 <div class="form-group">
                     <label>Email <span class="text-danger"> *</span></label>
                     <input type="email" name="email" placeholder="Enter email" required>
-                     <span class="text-danger email_error"></span>
+                    <span class="text-danger email_error"></span>
                 </div>
-
-            </div>
-
-            <div class="form-row">
 
                 <div class="form-group">
                     <label>Phone</label>
                     <input type="text" name="phone" placeholder="Enter phone">
                 </div>
 
+            </div>
+
+            <div class="form-row">
                 <div class="form-group">
                     <label>City</label>
                     <input type="text" name="city" placeholder="Enter city">
                 </div>
-
-            </div>
-
-            <div class="form-row">
 
                 <div class="form-group">
                     <label>State</label>
 
                     <select name="state">
                         @foreach (['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'] as $stateName)
-                            <option value="{{ $stateName }}">
-                                {{ $stateName }}
-                            </option>
+                        <option value="{{ $stateName }}">
+                            {{ $stateName }}
+                        </option>
                         @endforeach
                     </select>
 
@@ -194,12 +190,20 @@
 
             </div>
 
-            <div class="form-group">
-                <label>Address</label>
-                <textarea placeholder="Enter address" name="address"></textarea>
-            </div>
+            <!-- <div class="form-row">
+
+                
+
+            </div> -->
+
+
 
             <div class="form-row">
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea placeholder="Enter address" name="address"></textarea>
+                </div>
 
                 <div class="form-group">
                     <label>Password <span class="text-danger"> *</span></label>

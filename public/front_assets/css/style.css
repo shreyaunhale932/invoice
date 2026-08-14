@@ -2201,7 +2201,7 @@ body {
   font-size: 43px;
   font-weight: 600;
   line-height: 1.05;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   color: #0f172a;
 }
 
@@ -2689,7 +2689,7 @@ body {
   font-size: 43px;
   font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   color: #ffffff;
 }
 
@@ -4560,7 +4560,7 @@ body {
 
 .compare-heading h2 {
   font-size: 36px;
-  font-weight: 800;
+  font-weight: 700;
   color: #111827;
   margin-bottom: 12px;
   letter-spacing: -1px;
@@ -4762,7 +4762,7 @@ body {
 
 .why-heading h2 {
   font-size: 36px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.1;
   color: #111827;
   letter-spacing: -2px;
@@ -5289,8 +5289,8 @@ body {
 }
 
 .faq-heading h2 {
-  font-size: 38px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 700;
   line-height: 1.1;
   color: #111827;
   letter-spacing: -2px;
@@ -6567,15 +6567,22 @@ textarea.form-control {
 }
 
 .register-modal {
-  width: 850px;
+  width: 750px;
   max-width: 95%;
   background: #fff;
   border-radius: 12px;
   padding: 30px;
   position: relative;
   overflow: auto;
-  max-height: 90vh;
+  max-height: 95vh;
 }
+
+.register-modal h3{
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: #1e55a1;
+}
+
 
 .register-modal h2 {
   text-align: center;
@@ -6589,18 +6596,18 @@ textarea.form-control {
 
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 }
 
 .register-form .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .register-form label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
+  margin-bottom: 2px;
+  font-size: 13px;
   font-weight: 200;
 }
 
@@ -6608,20 +6615,21 @@ textarea.form-control {
 .register-form select,
 .register-form textarea {
   width: 100%;
-  padding: 8px 14px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
+      padding: 8px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
 }
 
 .register-form textarea {
-  height: 60px;
+  height: 50px;
   resize: none;
 }
 
 .register-btn {
   width: 100%;
-  padding: 14px;
+  /* padding: 14px; */
+   padding: 10px;
   border: none;
   border-radius: 6px;
   background: linear-gradient(90deg,
@@ -6634,7 +6642,7 @@ textarea.form-control {
 
 .register-footer {
   text-align: center;
-  margin-top: 18px;
+  margin-top: 10px;
 }
 
 @media(max-width:768px) {

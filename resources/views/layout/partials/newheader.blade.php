@@ -35,7 +35,7 @@
                     <button class="pill-button-new pill-purple dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-building pill-icon-left"></i>
                         <span>{{ Session::get('selected_firm_name', 'Select Firm') }}</span>
-                        <i class="fas fa-chevron-down pill-icon-right"></i>
+                        <!-- <i class="fas fa-chevron-down pill-icon-right"></i> -->
                     </button>
                     <div class="dropdown-menu dropdown-menu-end shadow border-0">
                         <div class="dropdown-header font-weight-bold text-uppercase" style="font-size: 11px; letter-spacing: 0.5px; color: var(--text-muted);">Switch Firm</div>
@@ -75,7 +75,7 @@
                 <button class="pill-button-new pill-quick-add dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fe fe-plus pill-icon-left" style="color: var(--primary-color);"></i>
                     <span style="font-weight: 700;">Quick Add</span>
-                    <i class="fas fa-chevron-down pill-icon-right"></i>
+                    <!-- <i class="fas fa-chevron-down pill-icon-right"></i> -->
                 </button>
                 <div class="dropdown-menu dropdown-menu-end border-0 shadow" style="min-width: 180px;">
                     <a class="dropdown-item" href="{{ url('add-products') }}">
@@ -98,7 +98,7 @@
                 <button class="pill-button-new pill-purple dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fe fe-grid pill-icon-left"></i>
                     <span>Modules</span>
-                    <i class="fas fa-chevron-down pill-icon-right"></i>
+                    <!-- <i class="fas fa-chevron-down pill-icon-right"></i> -->
                 </button>
                 <div class="dropdown-menu dropdown-menu-end border-0 shadow">
                     <a class="dropdown-item" href="{{ url('product-list') }}">Inventory</a>

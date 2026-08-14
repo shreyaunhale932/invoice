@@ -271,7 +271,7 @@
             </li>
           </ul>
 
-          <button class="plan-btn">Get Started</button>
+          <button class="plan-btn" onclick="openAuthPopup()">Get Started</button>
         </div>
 
         <!-- PREMIUM -->
@@ -350,7 +350,7 @@
             </li>
           </ul>
 
-          <button class="plan-btn">Upgrade Now</button>
+          <button class="plan-btn" onclick="openAuthPopup()">Upgrade Now</button>
         </div>
       </div>
 

@@ -599,10 +599,11 @@ body {
 .dropdown-menu .dropdown-item {
     padding: 8px 12px;
     border-radius: 8px;
-    font-size: 13px;
-    font-weight: 550;
+    /* font-size: 13px; */
+    font-size: 12px;
+    /* font-weight: 550; */
     color: #4A5060;
-    display: flex;
+    /* display: flex; */
     align-items: center;
 }
 
