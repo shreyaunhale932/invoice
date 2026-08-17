@@ -94,6 +94,8 @@
                             <ul>
                                 <li><a class="{{ Request::is('product-list') ? 'active' : '' }}"
                                         href="{{ url('product-list') }}">Product List</a></li>
+                                <li><a class="{{ Request::is('direct-sell-products') ? 'active' : '' }}"
+                                        href="{{ url('direct-sell-products') }}">Direct Sell Products</a></li>
                                 <li><a class="{{ Request::is('category') ? 'active' : '' }}"
                                         href="{{ url('category') }}">Category</a></li>
 

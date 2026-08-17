@@ -72,6 +72,7 @@ class SellInvoice extends Model
         'total_exchange_amount',
         'status',
         'round_off',
+        'is_direct_sell',
     ];
 
     protected $casts = [

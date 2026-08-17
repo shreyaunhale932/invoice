@@ -7,6 +7,8 @@
                      <ul>
                          <li><a href="{{ url('product-list') }}"
                                  class="{{ Request::is('product-list') ? 'active' : '' }}">Product</a></li>
+                          <li><a href="{{ url('direct-sell-products') }}"
+                                  class="{{ Request::is('direct-sell-products') ? 'active' : '' }}">Direct Sell Products</a></li>
                          <li><a href="{{ url('category') }}"
                                  class="{{ Request::is('category') ? 'active' : '' }}">Category</a></li>
                          {{-- <li><a href="{{ url('units') }}" class="{{ Request::is('units') ? 'active' : '' }}">Units</a> --}}

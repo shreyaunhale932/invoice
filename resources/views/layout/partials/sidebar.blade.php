@@ -187,10 +187,12 @@
                         <a href="#"><i class="fe fe-package"></i> <span> Products</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
-                            <li><a class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}"
-                                    href="{{ url('product-list') }}">Product List</a></li>
-                            <li><a class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}"
-                                    href="{{ url('add-products') }}">Add Product</a></li>
+                             <li><a class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}"
+                                     href="{{ url('product-list') }}">Product List</a></li>
+                             <li><a class="{{ Request::is('direct-sell-products') ? 'active' : '' }}"
+                                     href="{{ url('direct-sell-products') }}">Direct Sell Products</a></li>
+                             <li><a class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}"
+                                     href="{{ url('add-products') }}">Add Product</a></li>
                             <li><a class="{{ Request::is('category') ? 'active' : '' }}"
                                     href="{{ url('category') }}">Category</a></li>
                             <li><a class="{{ Request::is('subcategory') ? 'active' : '' }}"
@@ -272,8 +274,8 @@
                         <a class="{{ Request::is('invoices*') ? 'active' : '' }}" href="#"><i
                                 class="fe fe-file"></i> <span>Invoices</span> <span class="menu-arrow"></span></a>
                         <ul>
-                            <li><a class="{{ Request::is('invoices', 'invoices-paid', 'invoices-overdue', 'invoices-cancelled', 'invoices-recurring', 'invoices-unpaid', 'invoices-refunded', 'invoices-draft') ? 'active' : '' }}"
-                                    href="{{ url('invoices') }}">Invoices List</a></li>
+                             <li><a class="{{ Request::is('invoices', 'invoices-paid', 'invoices-overdue', 'invoices-cancelled', 'invoices-recurring', 'invoices-unpaid', 'invoices-refunded', 'invoices-draft') ? 'active' : '' }}"
+                                     href="{{ url('invoices') }}">Invoices List</a></li>
                             {{-- <li><a class="{{ Request::is('invoice-details-admin') ? 'active' : '' }}"
                                     href="{{ url('invoice-details-admin') }}">Invoice Details (Admin)</a></li>
                             <li><a class="{{ Request::is('invoice-details') ? 'active' : '' }}"

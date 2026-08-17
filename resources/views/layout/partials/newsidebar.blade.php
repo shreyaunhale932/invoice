@@ -68,6 +68,9 @@
                         <li class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}">
                             <a href="{{ url('product-list') }}">Product List</a>
                         </li>
+                        <li class="{{ Request::is('direct-sell-products') ? 'active' : '' }}">
+                            <a href="{{ url('direct-sell-products') }}">Direct Sell Products</a>
+                        </li>
                         <li class="{{ Request::is('add-products') ? 'active' : '' }}">
                             <a href="{{ url('add-products') }}">Add Product</a>
                         </li>

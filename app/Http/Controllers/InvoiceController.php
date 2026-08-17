@@ -73,20 +73,6 @@ class InvoiceController extends Controller
 
                 'number_of_invoice' => $invoices->where('status', ['pending', 'partial'])->count(),
             ],
-            // [
-            //     'title' => 'Cancelled',
-            //     'class' => 'bg-primary-light',
-            //     'icon'  => 'clipboard-close.svg',
-            //     'amount' => $invoices->where('status', 'cancelled')->count(),
-            //     'number_of_invoice' => $invoices->where('status', 'cancelled')->count(),
-            // ],
-            // [
-            //     'title' => 'Draft',
-            //     'class' => 'bg-green-light',
-            //     'icon'  => 'message-edit.svg',
-            //     'amount' => $invoices->where('status', 'draft')->sum('grand_total'),
-            //     'number_of_invoice' => $invoices->where('status', 'draft')->count(),
-            // ],
             [
                 'title' => 'Recurring',
                 'class' => 'bg-danger-light',
@@ -207,8 +193,10 @@ class InvoiceController extends Controller
         $chalnis = \App\Models\Chalni::all();
         $shapes = \App\Models\Shape::all();
         $packet_types = \App\Models\PacketType::all();
+        $metalRates = \App\Models\MetalRate::where('admin_id', $adminId)->get();
+        $purities = \App\Models\PurityModel::where('admin_id', $adminId)->get();
 
-        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'previewInvoiceNo', 'accounts', 'stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes', 'packet_types'));
+        return view('Sales/Invoices/add-invoice', compact('customers', 'products', 'categories', 'subcategories', 'banks', 'business', 'notes', 'terms', 'customFields', 'previewInvoiceNo', 'accounts', 'stones', 'clarities', 'colors', 'cuts', 'mms', 'chalnis', 'shapes', 'packet_types', 'metalRates', 'purities'));
     }
     public function updatecolumns(Request $request)
     {

@@ -51,6 +51,8 @@ class SellInvoiceItem extends Model
         'admin_id',
         'final_price',
         'wastage_amount',
+        // 'gst_percent',
+        // 'gst_amount',
     ];
 
     protected $casts = [

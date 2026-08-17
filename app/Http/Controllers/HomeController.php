@@ -219,13 +219,27 @@ class HomeController extends Controller
 {
    $products = Product::with('category')   // Load category
     ->where('admin_id', Auth::id())
-    ->where('availability', 'available')   // 👈 Added condition
+    ->where('availability', 'available')
+    ->where('is_direct_sell', 0)
     ->orderBy('category_id', 'DESC')
     ->get();
 
    $templates = \App\Models\PrintTemplate::all();
 
     return view('Inventory/Products/product-list', compact('products', 'templates'));
+}
+
+  public function directSellProducts()
+{
+   $products = Product::with('category')   // Load category
+    ->where('admin_id', Auth::id())
+    ->where('is_direct_sell', 1)
+    ->orderBy('id', 'DESC')
+    ->get();
+
+   $templates = \App\Models\PrintTemplate::all();
+
+    return view('Inventory/Products/direct-sell-product-list', compact('products', 'templates'));
 }
 
 

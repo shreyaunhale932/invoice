@@ -341,15 +341,23 @@
 <!-- PRODUCT SEARCH & ENTRY -->
 <div class="card glass-card mb-4 p-4">
 <h4 class="section-header">Product Items</h4>
-                                <div class="row mb-3">
-                                     <div class="col-lg-6 col-md-8 col-sm-12">
-                                         <label>Search Product Code</label>
-                                         <input type="text" id="productBarcodeSearch" list="productSearchSuggestions" class="form-control" placeholder="Enter Barcode / Product Code" autofocus>
-                                         <datalist id="productSearchSuggestions">
-                                             @foreach ($products as $product)
-                                                 <option value="{{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}">{{ $product->product_name }}</option>
-                                             @endforeach
-                                         </datalist>
+                                 <div class="row mb-3">
+                                      <div class="col-lg-6 col-md-8 col-sm-12">
+                                          <label>Search Product Code</label>
+                                          <div class="d-flex gap-2">
+                                              <div class="position-relative flex-grow-1">
+                                                  <input type="text" id="productBarcodeSearch" list="productSearchSuggestions" class="form-control" placeholder="Enter Barcode / Product Code" autofocus>
+                                                  <datalist id="productSearchSuggestions">
+                                                      @foreach ($products as $product)
+                                                          <option value="{{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}">{{ $product->product_name }}</option>
+                                                      @endforeach
+                                                  </datalist>
+                                              </div>
+                                              <button type="button" class="btn btn-primary" style="white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#directSellModal">
+                                                  Add Direct Sell
+                                              </button>
+                                          </div>
+                                      </div>
                                          <select id="productSearch" style="display: none;">
                                              <option value="">Search by Product Code/Barcode</option>
 
@@ -575,7 +583,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div id="diamondSection">
+                                    <div id="diamondSection" style="display:none;">
                                         <h5 class="mt-4">Diamonds</h5>
                                         <table class="table table-bordered" id="diamondTable">
                                             <thead>
@@ -592,7 +600,7 @@
                                             <tbody></tbody>
                                         </table>
                                     </div>
-                                    <div id="stoneSection">
+                                    <div id="stoneSection" style="display:none;">
                                         <h5 class="mt-4">Stones</h5>
                                         <table class="table table-bordered" id="stoneTable">
                                             <thead>
@@ -1306,6 +1314,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="applyGstConfig">Apply</button>
+                </div>
+
+                </div>
         </div>
     </div>
 
@@ -3630,6 +3641,720 @@
 
         $(document).ready(function() {
             PaymentBreakdownManager.init(window.ledgerAccounts, window.initialPayments);
+        });
+
+        console.log("Bootstrap:", typeof bootstrap);
+console.log("Modal:", document.getElementById("directSellModal"));
+    </script>
+
+    <!-- Direct Sell Modal -->
+    <div class="modal fade" id="directSellModal" tabindex="-1" aria-labelledby="directSellModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 15px;">
+                <div class="modal-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <h5 class="modal-title" id="directSellModalLabel"><i class="feather-plus-circle me-2"></i>Add Direct Sell Product</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light" style="max-height: 80vh; overflow-y: auto;">
+                    <form id="directSellForm">
+                        <!-- PRODUCT INFO CARD -->
+                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
+                            <h5 class="text-primary mb-3 border-bottom pb-2">1. Product Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-3 position-relative">
+                                    <label class="form-label font-weight-bold">Pre Code <span class="text-danger">*</span></label>
+                                    <input type="text" id="direct_pre_code" class="form-control text-uppercase" placeholder="e.g. RING" required>
+                                    <div id="directPreCodeSuggestions" class="dropdown-menu shadow-lg w-100" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1050; max-height: 250px; overflow-y: auto;"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Post Code <span class="text-danger">*</span></label>
+                                    <input type="number" id="direct_post_code" class="form-control" placeholder="e.g. 1001" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Barcode (Pre + Post)</label>
+                                    <input type="text" id="direct_barcode" class="form-control bg-light" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Product Name <span class="text-danger">*</span></label>
+                                    <input type="text" id="direct_product_name" class="form-control" placeholder="Product Name" required>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Category <span class="text-danger">*</span></label>
+                                    <select id="direct_category_id" class="form-select" required>
+                                        <option value="">Select Category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Subcategory <span class="text-danger">*</span></label>
+                                    <select id="direct_subcategory_id" class="form-select" required>
+                                        <option value="">Select Subcategory</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Metal Rate/Purity <span class="text-danger">*</span></label>
+                                    <select id="direct_metal_rate" class="form-select" required>
+                                        <option value="" data-price="0">Select Metal Rate</option>
+                                        @foreach($metalRates as $rate)
+                                            <option value="{{ $rate->id }}" data-metal="{{ strtolower($rate->metal_type) }}" data-price="{{ $rate->price_per_gram }}">
+                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm ({{ $rate->karat }}{{ $rate->purity_type === 'karat' ? 'KT' : '%' }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Gold Color</label>
+                                    <select id="direct_gold_color" class="form-select">
+                                        <option value="Yellow">Yellow</option>
+                                        <option value="White">White</option>
+                                        <option value="Rose">Rose</option>
+                                        <option value="Two-Tone">Two-Tone</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Size</label>
+                                    <input type="text" id="direct_size" class="form-control" placeholder="Size">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" id="direct_quantity" class="form-control" value="1" min="1">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">HSN Code</label>
+                                    <input type="text" id="direct_hsn_code" class="form-control" placeholder="HSN Code">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- WEIGHTS & PRICING CARD -->
+                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
+                            <h5 class="text-primary mb-3 border-bottom pb-2">2. Weights & Pricing</h5>
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Gross Wt (Gram) <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.001" id="direct_gross_weight" class="form-control" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Net Wt (Gram)</label>
+                                    <input type="number" step="0.001" id="direct_net_weight" class="form-control bg-light" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Fine Wt (Gram)</label>
+                                    <input type="number" step="0.001" id="direct_final_fn_weight" class="form-control bg-light" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Wastage %</label>
+                                    <input type="number" step="0.01" id="direct_wastage_percent" class="form-control" value="0">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Wastage Amt (₹)</label>
+                                    <input type="number" step="0.01" id="direct_wastage_amount" class="form-control bg-light" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Making Price</label>
+                                    <input type="number" step="0.01" id="direct_making_price" class="form-control" value="0">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Making Type</label>
+                                    <select id="direct_making_type" class="form-select">
+                                        <option value="val">Fixed</option>
+                                        <option value="per_gld_val">% of Gold Value</option>
+                                        <option value="per_pcs">Per Piece</option>
+                                        <option value="per_gm_nw">Per Gram (NW)</option>
+                                        <option value="per_gm_gw">Per Gram (GW)</option>
+                                        <option value="per_gm_fine_wt">Per Gram (Fine Wt)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Making Final Amt (₹)</label>
+                                    <input type="number" step="0.01" id="direct_making_final_amount" class="form-control bg-light" readonly>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Gold Price (₹)</label>
+                                    <input type="number" step="0.01" id="direct_gold_price" class="form-control bg-light" readonly>
+                                </div>
+                                {{-- <div class="col-md-3">
+                                    <label class="form-label">GST %</label>
+                                    <input type="number" step="0.01" id="direct_gst_percent" class="form-control" value="3">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">GST Amt (₹)</label>
+                                    <input type="number" step="0.01" id="direct_gst_amount" class="form-control bg-light" readonly>
+                                </div> --}}
+                                <div class="col-md-3">
+                                    <label class="form-label text-success font-weight-bold">Final Product Price (₹)</label>
+                                    <input type="number" step="0.01" id="direct_final_price" class="form-control border-success text-success bg-light" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PACKETS CARD -->
+                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
+                            <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                                <h5 class="text-primary m-0">3. Packets</h5>
+                                <button type="button" id="directAddPacketBtn" class="btn btn-sm btn-outline-warning">+ Add Packet</button>
+                            </div>
+                            <div id="directPacketWrapper"></div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="submitDirectSellBtn" class="btn btn-success">Save Direct Sell</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Direct Sell Form JS -->
+    <script>
+        $(document).ready(function() {
+            // Category on change
+            $('#direct_category_id').on('change', function() {
+                let categoryId = $(this).val();
+                let subSelect = $('#direct_subcategory_id');
+                subSelect.html('<option value="">Select Subcategory</option>');
+                if (categoryId) {
+                    $.ajax({
+                        url: '{{ url('get-subcategories') }}/' + categoryId,
+                        type: 'GET',
+                        success: function(data) {
+                            if (data.length > 0) {
+                                $.each(data, function(key, subcategory) {
+                                    subSelect.append(
+                                        '<option value="' + subcategory.subcategory_id + '">' +
+                                        subcategory.subcategory_name +
+                                        '</option>'
+                                    );
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Autocomplete Pre Code
+            let directPreTimeout = null;
+
+            function fetchDirectPreCodeSuggestions(term) {
+                clearTimeout(directPreTimeout);
+                directPreTimeout = setTimeout(function() {
+                    $.ajax({
+                        url: "{{ route('products.searchPreCode') }}",
+                        type: "GET",
+                        data: { term: term },
+                        success: function(data) {
+                            let $box = $('#directPreCodeSuggestions');
+                            $box.empty();
+                            if (data && data.length > 0) {
+                                $.each(data, function(i, item) {
+                                    let html = '<a href="javascript:void(0)" class="dropdown-item direct-pre-code-suggestion-item py-2 px-3 border-bottom" ' +
+                                        'data-pre_code="' + (item.pre_code || '') + '" ' +
+                                        'data-product_name="' + (item.product_name || '') + '" ' +
+                                        'data-category_id="' + (item.category_id || '') + '" ' +
+                                        'data-subcategory_id="' + (item.subcategory_id || '') + '">' +
+                                        '<div><strong>' + (item.pre_code || '') + '</strong> - ' + (item.product_name || 'Unnamed Product') + '</div>' +
+                                        '</a>';
+                                    $box.append(html);
+                                });
+                                $box.show();
+                            } else {
+                                $box.hide();
+                            }
+                        }
+                    });
+                }, 150);
+            }
+
+            function fetchNextDirectPostCode(preCodeVal) {
+                if (!preCodeVal) {
+                    $('#direct_post_code').val('0001');
+                    updateDirectBarcode();
+                    return;
+                }
+                $.ajax({
+                    url: "{{ route('products.getNextPostCode') }}",
+                    type: "GET",
+                    data: {
+                        pre_code: preCodeVal
+                    },
+                    success: function(response) {
+                        if ($('#direct_post_code').val() !== response.post_code) {
+                            $('#direct_post_code').val(response.post_code);
+                        }
+                        updateDirectBarcode();
+                    }
+                });
+            }
+
+            let directPreCodeTimeout = null;
+            $('#direct_pre_code').on('input change', function(e) {
+                clearTimeout(directPreCodeTimeout);
+                let currentVal = $(this).val().trim();
+                let delay = (e.type === 'change') ? 0 : 250;
+
+                directPreCodeTimeout = setTimeout(function() {
+                    if (currentVal === '') {
+                        $('#direct_post_code').val('0001');
+                        updateDirectBarcode();
+                        return;
+                    }
+                    fetchNextDirectPostCode(currentVal);
+                }, delay);
+            });
+
+            $('#direct_pre_code').on('focus', function() {
+                let val = $(this).val().trim();
+                fetchDirectPreCodeSuggestions(val);
+            });
+
+            $(document).on('click', '.direct-pre-code-suggestion-item', function() {
+                let preCode = $(this).data('pre_code');
+                let name = $(this).data('product_name');
+                let catId = $(this).data('category_id');
+                let subId = $(this).data('subcategory_id');
+
+                $('#direct_pre_code').val(preCode);
+                $('#direct_product_name').val(name);
+                $('#direct_category_id').val(catId).trigger('change');
+
+                setTimeout(function() {
+                    $('#direct_subcategory_id').val(subId);
+                }, 400);
+
+                $('#directPreCodeSuggestions').hide();
+                fetchNextDirectPostCode(preCode);
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#direct_pre_code, #directPreCodeSuggestions').length) {
+                    $('#directPreCodeSuggestions').hide();
+                }
+            });
+
+            function updateDirectBarcode() {
+                let pre = $('#direct_pre_code').val().trim().toUpperCase();
+                let post = $('#direct_post_code').val().trim();
+                $('#direct_barcode').val(pre + post);
+            }
+
+            $('#direct_post_code').on('input', updateDirectBarcode);
+
+            // Add/Remove items
+
+            $('#directAddPacketBtn').on('click', function() {
+                let uniqueId = Date.now();
+                let html = `
+                <div class="card p-3 mb-3 bg-white border packet-item" style="border-radius: 8px;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-dark font-weight-bold">Packet Details</h6>
+                        <button type="button" class="btn btn-sm btn-link text-danger remove-packet-btn p-0"><i class="feather-trash-2"></i> Remove</button>
+                    </div>
+                    <input type="hidden" class="packet-master-id">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label small">Packet No *</label>
+                            <select class="form-control packet-select" required></select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Packet Type</label>
+                            <select class="form-select packet-type-select">
+                                @foreach ($packet_types as $pt)
+                                    <option value="{{ $pt->name }}">{{ $pt->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Stone</label>
+                            <select class="form-select packet-stone-select">
+                                <option value="">Select Stone</option>
+                                @foreach($stones as $st)
+                                    <option value="{{ $st->id }}">{{ $st->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Shape</label>
+                            <select class="form-select packet-shape-select">
+                                <option value="">Select Shape</option>
+                                @foreach($shapes as $sh)
+                                    <option value="{{ $sh->id }}">{{ $sh->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Clarity</label>
+                            <select class="form-select packet-clarity-select">
+                                <option value="">Select Clarity</option>
+                                @foreach($clarities as $cl)
+                                    <option value="{{ $cl->id }}">{{ $cl->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Color</label>
+                            <select class="form-select packet-color-select">
+                                <option value="">Select Color</option>
+                                @foreach($colors as $co)
+                                    <option value="{{ $co->id }}">{{ $co->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Cut</label>
+                            <select class="form-select packet-cut-select">
+                                <option value="">Select Cut</option>
+                                @foreach($cuts as $cu)
+                                    <option value="{{ $cu->id }}">{{ $cu->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">MM</label>
+                            <select class="form-select packet-mm-select">
+                                <option value="">Select MM</option>
+                                @foreach($mms as $mm)
+                                    <option value="{{ $mm->id }}">{{ $mm->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Pcs</label>
+                            <input type="number" class="form-control packet-pcs" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Carat (Wt)</label>
+                            <input type="number" step="0.001" class="form-control packet-weight" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Wt (Gram)</label>
+                            <input type="number" step="0.001" class="form-control packet-gram" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Rate</label>
+                            <input type="number" step="0.01" class="form-control packet-rate" value="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">UOM</label>
+                            <select class="form-select packet-uom">
+                                <option value="PCS">PCS</option>
+                                <option value="CT" selected>CT</option>
+                                <option value="WT">WT</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label small">Amount</label>
+                            <input type="number" step="0.01" class="form-control packet-amount" value="0" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small">Certificate No</label>
+                            <input type="text" class="form-control packet-cert" readonly>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-center mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input packet-solitaire" type="checkbox" id="packet_solitaire_check_${uniqueId}">
+                                <label class="form-check-label small" for="packet_solitaire_check_${uniqueId}">Solitaire</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+                let $row = $(html);
+                $('#directPacketWrapper').append($row);
+                initDirectPacketSelect2($row.find('.packet-select'));
+            });
+
+            $(document).on('click', '.remove-packet-btn', function() {
+                $(this).closest('.packet-item').remove();
+                calculateDirectSellForm();
+            });
+
+            function initDirectPacketSelect2(element) {
+                element.select2({
+                    placeholder: 'Search packet...',
+                    dropdownParent: $('#directSellModal'),
+                    allowClear: true,
+                    width: '100%',
+                    ajax: {
+                        url: "{{ route('products.searchPacket') }}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return { term: params.term };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data, function(item) {
+                                    return {
+                                        id: item.label,
+                                        text: item.label,
+                                        real_id: item.id,
+                                        details: item.details
+                                    }
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                }).on('select2:select', function(e) {
+                    var data = e.params.data;
+                    var details = data.details;
+                    var wrapper = $(this).closest('.packet-item');
+
+                    wrapper.find('.packet-master-id').val(data.real_id);
+                    wrapper.find('.packet-stone-select').val(details.stone_id).trigger('change');
+                    wrapper.find('.packet-shape-select').val(details.shape_id).trigger('change');
+                    wrapper.find('.packet-color-select').val(details.color_id).trigger('change');
+                    wrapper.find('.packet-clarity-select').val(details.clarity_id).trigger('change');
+                    wrapper.find('.packet-cut-select').val(details.cut_id).trigger('change');
+                    wrapper.find('.packet-mm-select').val(details.mm_id).trigger('change');
+                    wrapper.find('.packet-rate').val(details.rate);
+                    wrapper.find('.packet-cert').val(details.certificate_no);
+
+                    if (details.packet_type) {
+                        wrapper.find('.packet-type-select').val(details.packet_type).trigger('change');
+                    }
+                    calculateDirectSellForm();
+                });
+            }
+
+            // Calculations
+            function calculateDirectSellForm() {
+                let grossWeight = parseFloat($('#direct_gross_weight').val()) || 0;
+                let metalRate = parseFloat($('#direct_metal_rate option:selected').data('price')) || 0;
+                let wastagePerc = parseFloat($('#direct_wastage_percent').val()) || 0;
+                let makingInput = parseFloat($('#direct_making_price').val()) || 0;
+                let makingType = $('#direct_making_type').val();
+                let gstPerc = parseFloat($('#direct_gst_percent').val()) || 0;
+                let quantity = parseFloat($('#direct_quantity').val()) || 1;
+
+                // Packets calculations
+                let totalPacketGram = 0;
+                let packetTotal = 0;
+                $('#directPacketWrapper .packet-item').each(function() {
+                    let wrapper = $(this);
+                    let uom = wrapper.find('.packet-uom').val();
+                    let pcs = parseFloat(wrapper.find('.packet-pcs').val()) || 0;
+                    let ct = parseFloat(wrapper.find('.packet-weight').val()) || 0;
+                    let gm = parseFloat(wrapper.find('.packet-gram').val()) || 0;
+                    let rate = parseFloat(wrapper.find('.packet-rate').val()) || 0;
+                    let amount = 0;
+
+                    if (uom === 'CT') {
+                        gm = ct / 5;
+                        wrapper.find('.packet-gram').val(gm.toFixed(3));
+                        amount = ct * rate;
+                    } else if (uom === 'WT') {
+                        ct = gm * 5;
+                        wrapper.find('.packet-weight').val(ct.toFixed(3));
+                        amount = gm * rate;
+                    } else if (uom === 'PCS') {
+                        amount = pcs * rate;
+                    }
+
+                    wrapper.find('.packet-amount').val(amount.toFixed(2));
+                    totalPacketGram += gm;
+                    packetTotal += amount;
+                });
+
+                let netWeight = grossWeight - totalPacketGram;
+                if (netWeight < 0) netWeight = 0;
+
+                let wastageWeight = (netWeight * wastagePerc) / 100;
+                let fineWeight = netWeight + wastageWeight;
+
+                $('#direct_net_weight').val(netWeight.toFixed(3));
+                $('#direct_final_fn_weight').val(fineWeight.toFixed(3));
+
+                let goldValue = metalRate * netWeight;
+                let wastageAmount = wastageWeight * metalRate;
+                $('#direct_wastage_amount').val(wastageAmount.toFixed(2));
+
+                let makingFinal = 0;
+                switch (makingType) {
+                    case 'val':
+                        makingFinal = makingInput;
+                        break;
+                    case 'per_gld_val':
+                        makingFinal = (goldValue * makingInput) / 100;
+                        break;
+                    case 'per_pcs':
+                        makingFinal = makingInput * quantity;
+                        break;
+                    case 'per_gm_nw':
+                        makingFinal = makingInput * netWeight;
+                        break;
+                    case 'per_gm_gw':
+                        makingFinal = makingInput * grossWeight;
+                        break;
+                    case 'per_gm_fine_wt':
+                        makingFinal = makingInput * fineWeight;
+                        break;
+                }
+
+                $('#direct_making_final_amount').val(makingFinal.toFixed(2));
+                $('#direct_gold_price').val(goldValue.toFixed(2));
+
+                let subTotal = goldValue + wastageAmount + makingFinal + packetTotal;
+                let gstAmountFinal = (subTotal * gstPerc) / 100;
+                let finalPrice = subTotal; // In stock / invoices, final_price is subtotal before tax (tax is at invoice level)
+
+                $('#direct_gst_amount').val(gstAmountFinal.toFixed(2));
+                $('#direct_final_price').val(finalPrice.toFixed(2));
+            }
+
+            $(document).on('input change', `
+                #direct_gross_weight,
+                #direct_metal_rate,
+                #direct_wastage_percent,
+                #direct_making_price,
+                #direct_making_type,
+                #direct_quantity,
+                #directPacketWrapper input,
+                #directPacketWrapper select
+            `, function() {
+                calculateDirectSellForm();
+            });
+
+            // Submit direct sell
+            $('#submitDirectSellBtn').on('click', function(e) {
+                e.preventDefault();
+
+                let customerId = $('#customerDropdown').val();
+                if (!customerId) {
+                    alert('Please select a customer first');
+                    return;
+                }
+
+                let preCode = $('#direct_pre_code').val().trim();
+                let postCode = $('#direct_post_code').val().trim();
+                let name = $('#direct_product_name').val().trim();
+                let category = $('#direct_category_id').val();
+                let subcategory = $('#direct_subcategory_id').val();
+                let metalRateId = $('#direct_metal_rate').val();
+                let grossWeight = $('#direct_gross_weight').val();
+
+                if (!preCode || !postCode || !name || !category || !subcategory || !metalRateId || !grossWeight) {
+                    alert('Please fill in all required fields marked with *');
+                    return;
+                }
+
+
+
+                let packets = [];
+                $('#directPacketWrapper .packet-item').each(function() {
+                    let packet_no = $(this).find('.packet-select').val();
+                    let master_id = $(this).find('.packet-master-id').val();
+                    let type = $(this).find('.packet-type-select').val();
+                    let stone_id = $(this).find('.packet-stone-select').val();
+                    let shape_id = $(this).find('.packet-shape-select').val();
+                    let clarity_id = $(this).find('.packet-clarity-select').val();
+                    let color_id = $(this).find('.packet-color-select').val();
+                    let cut_id = $(this).find('.packet-cut-select').val();
+                    let mm_id = $(this).find('.packet-mm-select').val();
+                    let pcs = parseInt($(this).find('.packet-pcs').val()) || 0;
+                    let weight = parseFloat($(this).find('.packet-weight').val()) || 0;
+                    let wt_in_gram = parseFloat($(this).find('.packet-gram').val()) || 0;
+                    let rate = parseFloat($(this).find('.packet-rate').val()) || 0;
+                    let amount = parseFloat($(this).find('.packet-amount').val()) || 0;
+                    let certificate_no = $(this).find('.packet-cert').val();
+                    let solitaire = $(this).find('.packet-solitaire').is(':checked') ? 1 : 0;
+
+                    packets.push({
+                        packet_no,
+                        packet_master_id: master_id,
+                        packet_type: type,
+                        stone_id,
+                        shape_id,
+                        clarity_id,
+                        color_id,
+                        cut_id,
+                        mm_id,
+                        pcs,
+                        weight,
+                        wt_in_gram,
+                        rate,
+                        amount,
+                        certificate_no,
+                        solitaire,
+                        uom: $(this).find('.packet-uom').val()
+                    });
+                });
+
+                let payload = {
+                    _token: '{{ csrf_token() }}',
+                    sell_invoice_id: typeof globalInvoiceId !== 'undefined' ? globalInvoiceId : null,
+                    customer_id: customerId,
+                    invoice_no: $('input[name="invoice_no"]').val(),
+                    invoice_date: $('input[name="invoice_date"]').val(),
+                    due_date: $('input[name="due_date"]').val(),
+
+                    pre_code: preCode,
+                    post_code: postCode,
+                    barcode: $('#direct_barcode').val(),
+                    product_name: name,
+                    category_id: category,
+                    subcategory_id: subcategory,
+                    purity_id: null,
+                    metal_rate_id: metalRateId,
+                    gold_color: $('#direct_gold_color').val(),
+                    size: $('#direct_size').val(),
+                    quantity: $('#direct_quantity').val(),
+                    hsn_code: $('#direct_hsn_code').val(),
+
+                    gross_weight: grossWeight,
+                    net_weight: $('#direct_net_weight').val(),
+                    final_fn_weight: $('#direct_final_fn_weight').val(),
+                    wastage_percent: $('#direct_wastage_percent').val(),
+                    wastage_amount: $('#direct_wastage_amount').val(),
+                    making_price: $('#direct_making_price').val(),
+                    making_type: $('#direct_making_type').val(),
+                    making_final_amount: $('#direct_making_final_amount').val(),
+                    gold_price: $('#direct_gold_price').val(),
+                    gst_percent: $('#direct_gst_percent').val(),
+                    gst_amount: $('#direct_gst_amount').val(),
+                    total_amount: parseFloat($('#direct_gold_price').val()) + parseFloat($('#direct_wastage_amount').val()) + parseFloat($('#direct_making_final_amount').val()),
+                    final_price: $('#direct_final_price').val(),
+
+                    metal_rate: $('#direct_metal_rate option:selected').data('price') || 0,
+
+                    diamonds: [],
+                    stones: [],
+                    packets: packets
+                };
+
+                $.ajax({
+                    url: "{{ route('sell.invoice.addDirectSell') }}",
+                    type: "POST",
+                    data: JSON.stringify(payload),
+                    contentType: "application/json",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(res) {
+                        if (res.success) {
+                            $('#directSellModal').modal('hide');
+                            $('#directSellForm')[0].reset();
+                            $('#directPacketWrapper').empty();
+
+                            fetchPendingInvoice(customerId);
+                        } else {
+                            alert(res.message || 'Error saving direct sell');
+                        }
+                    },
+                    error: function(xhr) {
+                        let msg = xhr.responseJSON ? xhr.responseJSON.message : 'Error saving direct sell';
+                        alert(msg);
+                    }
+                });
+            });
         });
     </script>
 @endsection

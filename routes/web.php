@@ -172,6 +172,11 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
         [SellInvoiceController::class, 'addItem']
     )->name('sell.invoice.addItem');
 
+    Route::post(
+        '/sell-invoice/add-direct-sell',
+        [SellInvoiceController::class, 'addDirectSellItem']
+    )->name('sell.invoice.addDirectSell');
+
     Route::get('/sell-invoice/edit/{id}', function ($id) {
         // Determine if we need a controller method or just return the view
         // Since add_invoice view is powered by JS and customer-dropdown,
@@ -298,6 +303,7 @@ Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWh
     });
     Route::get('/edit-products', [HomeController::class, 'editproducts'])->name('edit-products');
     Route::get('/product-list', [HomeController::class, 'productlist'])->name('product-list');
+    Route::get('/direct-sell-products', [HomeController::class, 'directSellProducts'])->name('direct-sell-products');
     // Accounting Routes
     Route::get('/accounting/trial-balance', [\App\Http\Controllers\AccountingController::class, 'trialBalance'])->name('accounting.trial-balance');
     Route::get('/accounting/profit-loss', [\App\Http\Controllers\AccountingController::class, 'profitAndLoss'])->name('accounting.profit-loss');

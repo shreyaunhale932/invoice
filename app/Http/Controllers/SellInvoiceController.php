@@ -20,6 +20,359 @@ use Illuminate\Support\Facades\DB;
 
 class SellInvoiceController extends Controller
 {
+    public function addDirectSellItem(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $adminId = Auth::id();
+
+            // 1. Get or Create the SellInvoice
+            $invoiceId = $request->sell_invoice_id;
+            if (!$invoiceId) {
+                $UserInvoice = SellInvoice::where('user_id', $request->customer_id)
+                    ->whereIn('status', ['pending', 'draft'])
+                    ->first();
+
+                if (!$UserInvoice) {
+                    // Parse dates
+                    $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->invoice_date)->format('Y-m-d');
+                    $dueDate = $request->due_date ? Carbon::createFromFormat('d-m-Y', $request->due_date)->format('Y-m-d') : $invoiceDate;
+
+                    $UserInvoice = SellInvoice::create([
+                        'admin_id' => $adminId,
+                        'invoice_no' => $request->invoice_no,
+                        'user_id' => $request->customer_id,
+                        'invoice_date' => $invoiceDate,
+                        'invoice_due_date' => $dueDate,
+                        'status' => 'pending',
+                        'final_amount' => 0,
+                        'is_direct_sell' => 1,
+                    ]);
+                } else {
+                    $UserInvoice->update(['is_direct_sell' => 1]);
+                }
+                $invoiceId = $UserInvoice->id;
+            } else {
+                SellInvoice::where('id', $invoiceId)->update(['is_direct_sell' => 1]);
+            }
+
+            // 2. Add product in stock (similar to ProductController@store)
+            $preCode = strtoupper(trim($request->pre_code));
+            $postCode = trim($request->post_code);
+
+            // Check/Create ItemProductData
+            $itemProductData = \App\Models\ItemProductData::firstOrCreate(
+                [
+                    'product_code' => $preCode,
+                    'product_name' => $request->product_name,
+                ],
+                [
+                    'purity_id' => $request->purity_id,
+                    'barcode' => $request->barcode,
+                    'category_id' => $request->category_id,
+                    'subcategory_id' => $request->subcategory_id,
+                    'metal_rate' => $request->metal_rate_id,
+                    'hsn_code' => $request->hsn_code,
+                    'gold_purity' => $request->gold_color,
+                    'gross_weight' => $request->gross_weight,
+                    'net_weight' => $request->net_weight,
+                    'final_fn_weight' => $request->final_fn_weight,
+                    'diamond_weight' => $request->diamond_weight ?? 0,
+                    'stone_weight' => $request->stone_weight ?? 0,
+                    'wastage_percent' => $request->wastage_percent,
+                    'wastage_amount' => $request->wastage_amount,
+                    'making_price' => $request->making_price,
+                    // 'gst_percent' => $request->gst_percent,
+                    // 'gst_amount' => $request->gst_amount,
+                    'gold_price' => $request->gold_price,
+                    'final_price' => $request->final_price,
+                    'making_type' => $request->making_type,
+                    'making_final_amount' => $request->making_final_amount,
+                ]
+            );
+
+            $oldProduct = Product::withTrashed()
+                ->where('item_product_data_id', $itemProductData->id)
+                ->orderByDesc('post_code')
+                ->first();
+
+            $postid = $oldProduct ? ($oldProduct->post_code + 1) : $postCode;
+
+            // Create product in stock, immediately mark availability as sold since it is direct sell
+            $product = Product::create([
+                'admin_id' => $adminId,
+                'product_name' => $request->product_name,
+                'item_product_data_id' => $itemProductData->id,
+                'pre_code' => $preCode,
+                'post_code' => $postid,
+                'barcode' => $request->barcode ?: ($preCode . $postid),
+                'category_id' => $request->category_id,
+                'subcategory_id' => $request->subcategory_id,
+                'purity_id' => $request->purity_id,
+                'metal_rate' => $request->metal_rate_id,
+                'gross_weight' => $request->gross_weight,
+                'net_weight' => $request->net_weight,
+                'hsn_code' => $request->hsn_code,
+                'gold_color' => $request->gold_color,
+                'wastage_percent' => $request->wastage_percent,
+                'wastage_amount' => $request->wastage_amount,
+                'making_price' => $request->making_price,
+                'gold_price' => $request->gold_price,
+                // 'gst_percent' => $request->gst_percent,
+                // 'gst_amount' => $request->gst_amount,
+                'quantity' => $request->quantity ?? 1,
+                'final_fn_weight' => $request->final_fn_weight,
+                'size' => $request->size,
+                'final_price' => $request->final_price,
+                'making_type' => $request->making_type,
+                'making_final_amount' => $request->making_final_amount,
+                'availability' => 'sold', 
+                'is_direct_sell' => 1,
+            ]);
+
+            // Create product diamonds
+            if (!empty($request->diamonds) && is_array($request->diamonds)) {
+                foreach ($request->diamonds as $d) {
+                    if (empty($d['clarity']) && empty($d['pieces']) && empty($d['diamond_weight'])) continue;
+                    \App\Models\DiamondDetail::create([
+                        'admin_id' => $adminId,
+                        'product_id' => $product->id,
+                        'clarity' => $d['clarity'] ?? null,
+                        'cut' => $d['cut'] ?? null,
+                        'color' => $d['color'] ?? null,
+                        'pieces' => $d['pieces'] ?? 0,
+                        'diamond_weight' => $d['diamond_weight'] ?? 0,
+                        'price_per_carat' => $d['price_per_carat'] ?? 0,
+                        'diamond_final_price' => $d['diamond_final_price'] ?? 0,
+                    ]);
+                    \App\Models\ItemDiamondDetail::create([
+                        'item_product_data_id' => $itemProductData->id,
+                        'clarity' => $d['clarity'] ?? null,
+                        'cut' => $d['cut'] ?? null,
+                        'color' => $d['color'] ?? null,
+                        'pieces' => $d['pieces'] ?? 0,
+                        'diamond_weight' => $d['diamond_weight'] ?? 0,
+                        'price_per_carat' => $d['price_per_carat'] ?? 0,
+                        'diamond_final_price' => $d['diamond_final_price'] ?? 0,
+                    ]);
+                }
+            }
+
+            // Create product stones
+            if (!empty($request->stones) && is_array($request->stones)) {
+                foreach ($request->stones as $s) {
+                    if (empty($s['stone_name']) && empty($s['stone_weight'])) continue;
+                    \App\Models\StoneDetail::create([
+                        'admin_id' => $adminId,
+                        'product_id' => $product->id,
+                        'stone_name' => $s['stone_name'] ?? null,
+                        'stone_weight' => $s['stone_weight'] ?? 0,
+                        'stone_price' => $s['stone_price'] ?? 0,
+                        'stone_final_price' => $s['stone_final_price'] ?? 0,
+                    ]);
+                    \App\Models\ItemProductStone::create([
+                        'item_product_data_id' => $itemProductData->id,
+                        'admin_id' => $adminId,
+                        'stone_name' => $s['stone_name'] ?? null,
+                        'stone_weight' => $s['stone_weight'] ?? 0,
+                        'stone_price' => $s['stone_price'] ?? 0,
+                        'stone_final_price' => $s['stone_final_price'] ?? 0,
+                    ]);
+                }
+            }
+
+            // Create product packets
+            if (!empty($request->packets) && is_array($request->packets)) {
+                foreach ($request->packets as $packet) {
+                    if (empty($packet['packet_no']) && empty($packet['pcs']) && empty($packet['weight'])) continue;
+                    \App\Models\ProductPacket::create([
+                        'product_id' => $product->id,
+                        'packet_no' => $packet['packet_no'],
+                        'packet_master_id' => $packet['packet_master_id'] ?? null,
+                        'stone_id' => $packet['stone_id'] ?? null,
+                        'clarity_id' => $packet['clarity_id'] ?? null,
+                        'color_id' => $packet['color_id'] ?? null,
+                        'cut_id' => $packet['cut_id'] ?? null,
+                        'shape_id' => $packet['shape_id'] ?? null,
+                        'mm_id' => $packet['mm_id'] ?? null,
+                        'weight' => $packet['weight'] ?? 0,
+                        'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
+                        'pcs' => $packet['pcs'] ?? 0,
+                        'amount' => $packet['amount'] ?? 0,
+                        'uom' => $packet['uom'] ?? 'CT',
+                        'rate' => $packet['rate'] ?? 0,
+                        'solitaire' => !empty($packet['solitaire']) ? 1 : 0,
+                        'certificate_no' => $packet['certificate_no'] ?? null,
+                        'packet_type' => $packet['packet_type'] ?? 'Diamond',
+                    ]);
+                }
+            }
+
+            // 3. Create STOCK IN inventory transaction
+            InventoryTransaction::create([
+                'admin_id' => $adminId,
+                'item_product_data_id' => $product->item_product_data_id,
+                'product_id' => $product->id,
+                'type' => 'IN',
+                'gross_weight' => $request->gross_weight,
+                'net_weight' => $request->net_weight,
+                'final_fn_weight' => $request->final_fn_weight,
+                'quantity' => $request->quantity ?? 1,
+                'unit' => 'GM',
+                'remarks' => 'Initial stock added via Direct Sell',
+            ]);
+
+            // 4. Add to Sell Invoice
+            $catName = \App\Models\Category::find($request->category_id)->category_name ?? '';
+            $subcatName = \App\Models\Subcategory::find($request->subcategory_id)->subcategory_name ?? '';
+
+            $item = SellInvoiceItem::create([
+                'admin_id' => $adminId,
+                'sell_invoice_id' => $invoiceId,
+                'product_id' => $product->id,
+                'item_name' => $request->product_name,
+                'pre_code' => $preCode,
+                'post_code' => $postid,
+                'barcode' => $product->barcode,
+                'hsn_code' => $request->hsn_code,
+                'gross_weight' => $request->gross_weight,
+                'net_weight' => $request->net_weight,
+                'final_fn_weight' => $request->final_fn_weight,
+                'metal_rate' => $request->metal_rate,
+                'making_price' => $request->making_price,
+                'making_type' => $request->making_type,
+                'making_final_amount' => $request->making_final_amount,
+                'wastage_percent' => $request->wastage_percent,
+                'wastage_amount' => $request->wastage_amount,
+                // 'gst_percent' => $request->gst_percent,
+                // 'gst_amount' => $request->gst_amount,
+                'category' => $catName,
+                'subcategory' => $subcatName,
+                'size' => $request->size,
+                'quantity' => $request->quantity ?? 1,
+                'total_amount' => $request->total_amount, 
+                'final_price' => $request->final_price,
+            ]);
+
+            // 5. Create STOCK OUT inventory transaction
+            InventoryTransaction::create([
+                'admin_id' => $adminId,
+                'item_product_data_id' => $product->item_product_data_id,
+                'product_id' => $product->id,
+                'type' => 'OUT',
+                'gross_weight' => $request->gross_weight,
+                'net_weight' => $request->net_weight,
+                'final_fn_weight' => $request->final_fn_weight,
+                'size' => $request->size,
+                'quantity' => $request->quantity ?? 1,
+                'unit' => 'GM',
+                'remarks' => 'Reserved via Invoice #'.$invoiceId,
+                'sell_invoice_id' => $invoiceId,
+                'sell_invoice_item_id' => $item->id,
+            ]);
+
+            // 6. Create Sell Diamonds, Stones, and Packets
+            $diamondCharges = 0;
+            if (!empty($request->diamonds) && is_array($request->diamonds)) {
+                foreach ($request->diamonds as $d) {
+                    if (empty($d['clarity']) && empty($d['pieces']) && empty($d['diamond_weight'])) continue;
+                    $diamondCharges += $d['diamond_final_price'] ?? 0;
+                    SellDiamondItem::create([
+                        'admin_id' => $adminId,
+                        'sell_invoice_id' => $invoiceId,
+                        'sell_invoice_item_id' => $item->id,
+                        'clarity' => $d['clarity'] ?? null,
+                        'cut' => $d['cut'] ?? null,
+                        'color' => $d['color'] ?? null,
+                        'pieces' => $d['pieces'] ?? 0,
+                        'diamond_weight' => $d['diamond_weight'] ?? 0,
+                        'price_per_carat' => $d['price_per_carat'] ?? 0,
+                        'diamond_final_price' => $d['diamond_final_price'] ?? 0,
+                    ]);
+                }
+            }
+            $item->update(['diamond_amount' => $diamondCharges]);
+
+            $stoneCharges = 0;
+            if (!empty($request->stones) && is_array($request->stones)) {
+                foreach ($request->stones as $s) {
+                    if (empty($s['stone_name']) && empty($s['stone_weight'])) continue;
+                    $stoneCharges += $s['stone_final_price'] ?? 0;
+                    SellStoneItem::create([
+                        'admin_id' => $adminId,
+                        'sell_invoice_id' => $invoiceId,
+                        'sell_invoice_item_id' => $item->id,
+                        'stone_name' => $s['stone_name'] ?? null,
+                        'stone_weight' => $s['stone_weight'] ?? 0,
+                        'stone_price' => $s['stone_price'] ?? 0,
+                        'stone_final_price' => $s['stone_final_price'] ?? 0,
+                    ]);
+                }
+            }
+            $item->update(['stone_amount' => $stoneCharges]);
+
+            $packetAmount = 0;
+            if (!empty($request->packets) && is_array($request->packets)) {
+                foreach ($request->packets as $packet) {
+                    if (empty($packet['packet_no']) && empty($packet['pcs']) && empty($packet['weight'])) continue;
+                    $packetAmount += $packet['amount'] ?? 0;
+
+                    // Load names for related values
+                    $stoneName = \App\Models\Stone::find($packet['stone_id'])->name ?? null;
+                    $shapeName = \App\Models\Shape::find($packet['shape_id'])->name ?? null;
+                    $clarityName = \App\Models\Clarity::find($packet['clarity_id'])->name ?? null;
+                    $colorName = \App\Models\Color::find($packet['color_id'])->name ?? null;
+                    $cutNameAttribute = \App\Models\Cut::find($packet['cut_id'])->name ?? null;
+                    $mmName = \App\Models\Mm::find($packet['mm_id'])->name ?? null;
+
+                    SellPacketItem::create([
+                        'admin_id' => $adminId,
+                        'sell_invoice_id' => $invoiceId,
+                        'sell_invoice_item_id' => $item->id,
+                        'packet_no' => $packet['packet_no'],
+                        'pcs' => $packet['pcs'] ?? 0,
+                        'stone' => $stoneName,
+                        'clarity' => $clarityName,
+                        'color' => $colorName,
+                        'cut' => $cutNameAttribute,
+                        'shape' => $shapeName,
+                        'mm' => $mmName,
+                        'solitaire' => !empty($packet['solitaire']) ? 1 : 0,
+                        'rate' => $packet['rate'] ?? 0,
+                        'amount' => $packet['amount'] ?? 0,
+                        'weight' => $packet['weight'] ?? 0,
+                        'wt_in_gram' => $packet['wt_in_gram'] ?? 0,
+                        'uom' => $packet['uom'] ?? 'CT',
+                        'certificate_no' => $packet['certificate_no'] ?? null,
+                        'packet_type' => $packet['packet_type'] ?? 'Diamond',
+                    ]);
+                }
+            }
+            $item->update(['packet_amount' => $packetAmount]);
+
+            // 7. Update Invoice Total
+            $invoiceTotal = SellInvoiceItem::where('sell_invoice_id', $invoiceId)->sum('final_price');
+            SellInvoice::where('id', $invoiceId)->update([
+                'final_amount' => $invoiceTotal,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'invoice_id' => $invoiceId,
+                'item_id' => $item->id,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage() . ' on line ' . $e->getLine() . ' in file ' . $e->getFile(),
+            ], 500);
+        }
+    }
+
     public function addItem(Request $request)
     {
         DB::beginTransaction();
@@ -1703,6 +2056,9 @@ class SellInvoiceController extends Controller
         $chalnis = \App\Models\Chalni::all();
         $shapes = \App\Models\Shape::all();
         $packet_types = \App\Models\PacketType::all();
+        $metalRates = \App\Models\MetalRate::where('admin_id', $adminId)->get();
+        $purities = \App\Models\PurityModel::where('admin_id', $adminId)->get();
+        $categories = \App\Models\Category::where('admin_id', $adminId)->get();
 
         return view('Sales.Invoices.edit-invoice', compact(
             'invoice',
@@ -1724,7 +2080,10 @@ class SellInvoiceController extends Controller
             'mms',
             'chalnis',
             'shapes',
-            'packet_types'
+            'packet_types',
+            'metalRates',
+            'purities',
+            'categories'
         ) + ['customer_id' => $invoice->user_id]);
     }
 
