@@ -2770,7 +2770,7 @@
                     let barcode = (opt.data('barcode') || '').toString().trim();
                     let preCode = (opt.data('pre_code') || '').toString().trim();
                     let postCode = (opt.data('post_code') || '').toString().trim();
-                    let fullCode = (preCode + '-' + postCode + '-' + barcode).trim();
+                    let fullCode = (barcode).trim();
                     let productName = opt.data('name') || '';
 
                     datalist.append(`<option value="${fullCode}">${productName}</option>`);
@@ -4315,7 +4315,7 @@
                 clearTimeout(directPreCodeTimeout);
                 let currentVal = $(this).val().trim();
                 let delay = (e.type === 'change') ? 0 : 250;
-                
+
                 directPreCodeTimeout = setTimeout(function() {
                     if (currentVal === '') {
                         $('#direct_post_code').val('0001');
