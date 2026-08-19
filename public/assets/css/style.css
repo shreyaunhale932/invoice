@@ -6112,16 +6112,18 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 
 .card-table .card-body .table td {
-  color: #1F0066;
+  /* color: #1F0066; */
   font-weight: 400;
   border-top: 0;
   font-size: 14px;
   height: 46px;
   border-bottom: 1px solid #f5f5f5;
-  padding: 15px 25px;
+  padding: 5px 25px;
   white-space: nowrap;
   box-shadow: none;
   vertical-align: middle;
+  /* text-align: center; */
+      color: #515053;
 }
 
 .card-table .card-body .table td:first-child {
@@ -30099,7 +30101,8 @@ table tr td .status-toggle .checktoggle {
 }
 
 .card-table .companies-table .table td {
-  color: #1F0066;
+  /* color: #1F0066; */
+      color: #515053;
 }
 
 .companies-table .dropdown-item .far.fa-trash-alt {
@@ -32468,4 +32471,7 @@ td .invoice-detail i {
 
 .form-control {
   font-size: 13px ;
+}
+.collapse-btn-product-list{
+      padding: 3px 9px !important;
 }

@@ -57,10 +57,10 @@
                                             @foreach ($products as $product)
                                                 <tr>
                                                     <td class="details-control">
-                                                        <button type="button" class="btn btn-sm btn-primary show-details"
+                                                        <button type="button" class="btn btn-sm btn-primary show-details collapse-btn-product-list"
                                                             data-details='
 
-        <div class="p-3">
+        <div class="">
 
             {{-- <h5>Diamonds</h5>
 
@@ -112,7 +112,7 @@
 @endif --}}
 
 
-            <h5>Packets</h5>
+            <!-- <h6>Packets</h6> -->
 
             @if ($product->packets->count())
 <table class="table table-bordered">
@@ -135,7 +135,7 @@
                     @endforeach
                 </table>
 @else
-<p>No Packets</p>
+<p><small>No Packets</small></p>
 @endif
 
         </div>
