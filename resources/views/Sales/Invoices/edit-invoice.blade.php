@@ -13,6 +13,101 @@
     <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"> -->
 
 <style>
+    hr {
+    margin: 5px 0;
+}
+    .form-control:focus,
+        .form-select:focus,
+        .select:focus{
+            box-shadow: none !important;
+        }
+        .btn-cust-new{
+            font-size: 12px !important;
+            padding: 6px 10px
+        }
+        .add-payment-row-btn{
+            padding: 5px 10px;
+            font-size: 11px !important;
+
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-size: 12px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+        font-size: 12px !important;
+    }
+        .form-label{
+            margin-bottom: 0px;
+            color: #4a5568;
+        }
+        .form-select {
+          font-size: 12px;
+          color: #4a5568;
+        }
+        #itemsTable .btn{
+            font-size: 11px !important;
+        }
+        #packetTable tbody tr td{
+                min-width: 100px;
+        }
+        .table tbody tr td {
+    font-size: 12px;
+}
+        .select2-container .select2-selection--single {
+                height: 33px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 1px;
+                right: 1px;
+                width: 7px;
+                font-size: 12px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                margin-left: -7px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__placeholder {
+                color: #868080;
+                font-size: 12px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 31px;
+                right: 1px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                width: 16px;
+                padding: 7px;
+                border-radius: 10px;
+                background-color: #fff;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 30px;
+                padding-right: 0px;
+                padding-left: 4px;
+            }
+            .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+                color: #4a5568;
+                font-size: 12px;
+            }
+            .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
+                font-size: 12px !important;
+            }
+            .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field{
+                font-size: 12px !important;
+            }
+            .table thead tr th {
+    font-size: 12px;
+    font-weight: 500 !important;
+}
+.btn {
+    font-size: 13px;}
     .readonly-field {
         pointer-events: none;
         background-color: #e9ecef;
@@ -42,14 +137,13 @@
         padding: 0 !important;
     }
     .section-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        margin-bottom: 20px;
-        border-bottom: 2px solid rgba(118, 75, 162, 0.2);
-        padding-bottom: 10px;
-        display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-weight: 500;
+    font-size: 13px;
+    display: block;
+    color: #fff;
+    padding: 7px;
+    margin-bottom: 10px;
     }
     .dark .section-header {
         background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
@@ -60,7 +154,7 @@
     .form-control, .form-select, .select {
         border-radius: 8px;
         border: 1px solid #ced4da;
-        padding: 10px 15px;
+        padding: 7px 7px;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
     .form-control:focus, .form-select:focus {
@@ -76,21 +170,26 @@
         border-color: #a18cd1;
         box-shadow: 0 0 0 0.25rem rgba(161, 140, 209, 0.25);
     }
+    .direct-sell-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+}
     label {
-        font-weight: 600;
-        color: #4a5568;
-        margin-bottom: 8px;
+        font-weight: 500;
+                color: #4a5568;
+                margin-bottom: 1px;
+                font-size: 12px;
     }
     .dark label {
         color: #e2e8f0;
     }
     .custom-btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: none;
-        border-radius: 8px;
-        padding: 10px 25px;
-        font-weight: 600;
-        transition: all 0.3s ease;
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
     }
     .custom-btn-primary:hover {
         transform: translateY(-2px);
@@ -98,6 +197,9 @@
     }
     /* Invoice specific fixes */
     .invoice-total-box { background: transparent !important; border: none !important; }
+    .invoice-total-inner .form-control {
+    padding: 3px 10px !important;
+}
 
     .glass-card table {
         background: transparent !important;
@@ -147,12 +249,21 @@
         border: 1px solid rgba(255, 255, 255, 0.05);
     }
     #entryTable td {
-        display: block;
-        flex: 1 1 calc(25% - 15px); /* 4 columns */
-        min-width: 200px;
-        border: none !important;
-        padding: 0 !important;
-    }
+    display: block;
+    flex: 1 1 calc(16.666% - 15px);
+    border: none !important;
+    padding: 0 !important;
+}
+.remove-exchange-row{
+        border-radius: 8px;
+        padding: 6px 12px;
+    font-size: 12px;
+}
+.remove-exchange-diamond-row{
+     border-radius: 8px;
+        padding: 6px 12px;
+    font-size: 12px;
+}
     @media (max-width: 992px) {
         #entryTable td {
             flex: 1 1 calc(50% - 15px); /* 2 columns */
@@ -175,25 +286,25 @@
     }
     /* Payments breakdown styling */
     .payment-system-container {
-        background: rgba(255, 255, 255, 0.9) !important;
+        /* background: rgba(255, 255, 255, 0.9) !important;
         border: 1px solid rgba(0, 0, 0, 0.1) !important;
-        border-radius: 12px !important;
+        border-radius: 12px !important; */
     }
     .dark .payment-system-container {
         background: rgba(45, 45, 45, 0.9) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
     .payment-row-item {
-        transition: all 0.2s ease-in-out;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        /* transition: all 0.2s ease-in-out;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important; */
     }
     .dark .payment-row-item {
         background: #333 !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
     .payment-row-item:hover {
-        background-color: #f8f9fa !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        /* background-color: #f8f9fa !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05); */
     }
     .dark .payment-row-item:hover {
         background-color: #3d3d3d !important;
@@ -216,9 +327,9 @@
         <div class="content container-fluid">
             <div class="container-fluid p-0">
                     <div class="page-header mb-4">
-                        <h2 class="section-header fs-3 mb-0">
+                        <h5 class=" mb-0">
                             Edit Invoice
-                        </h2>
+                        </h5>
                     </div>
 
                     <form action="{{ route('sell.invoice.update') }}" method="POST"> <!-- AJAX handles it -->
@@ -229,7 +340,6 @@
 
 <!-- BASIC DETAILS -->
 <div class="card glass-card mb-4 p-4">
-<h4 class="section-header">Basic Details</h4>
                                 <div class="form-group-item border-0 mb-0">
                                     <div class="row align-items-center">
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -280,69 +390,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="due_date" value="{{ isset($invoice) && $invoice->invoice_due_date ? \Carbon\Carbon::parse($invoice->invoice_due_date)->format('d-m-Y') : '' }}">
-                                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>Status</label>
-                                            <select class="select" name="status">
-                                                <option>Choose a Status</option>
-                                                <option>Unpaid</option>
-                                                <option>Partially paid</option>
-                                                <option>Paid</option>
-                                                <option>Overdue</option>
-                                                <option>Cancelled</option>
-                                                <option>Refunded</option>
-                                                <option>Draft</option>
-                                            </select>
-                                        </div>
-                                    </div> --}}
+                                        <div class="col-lg-12">
 
-                                        <div id="custom-fields-container" class="input-block mb-3">
-                                            @foreach ($customFields as $field)
-                                                <label>{{ $field->field_label }}</label>
-                                                <input class="form-control" type="text"
-                                                    name="custom_fields_existing[{{ $field->id }}]" />
-                                            @endforeach
-
-
-                                        </div>
-                                        {{-- <div id="custom-fields-container" class="input-block mb-3">
-                                        <div class="row custom-field">
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <input
-                                                    type="text"
-                                                    name="custom_fields_new[0][label]"
-                                                    placeholder="Field Label"
-                                                    class="form-control" />
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <input
-                                                    type="text"
-                                                    name="custom_fields_new[0][value]"
-                                                    placeholder="Field Value"
-                                                    class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
-                                    </div>
-                                    {{-- <button class="btn btn-outline-primary" type="button" id="add-custom-field">Add Custom Field</button> --}}
-                                </div>
-</div>
-
-                                {{-- <button type="button" id="addItemBtn" class="btn btn-outline-primary">+ Add Item</button> --}}
-                                {{-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#gstConfigModal">
-                                Configure GST
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editColumnsModal">
-                                Customize Columns
-                            </button> --}}
-<!-- PRODUCT SEARCH & ENTRY -->
-<div class="card glass-card mb-4 p-4">
-<h4 class="section-header">Product Items</h4>
-                                 <div class="row mb-3">
-                                      <div class="col-lg-6 col-md-8 col-sm-12">
                                           <label>Search Product Code</label>
                                           <div class="d-flex gap-2">
                                               <div class="position-relative flex-grow-1">
@@ -353,11 +402,10 @@
                                                       @endforeach
                                                   </datalist>
                                               </div>
-                                              <button type="button" class="btn btn-primary" style="white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#directSellModal">
+                                              <button type="button" class="btn btn-primary direct-sell-btn" style="white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#directSellModal">
                                                   Add Direct Sell
                                               </button>
                                           </div>
-                                      </div>
                                          <select id="productSearch" style="display: none;">
                                              <option value="">Search by Product Code/Barcode</option>
 
@@ -428,14 +476,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-
-                                    </div>
-                                </div>
-
-
-
-
-                                <div id="productInfoSection" style="display: none;">
+                                         <div id="productInfoSection" style="display: none;">
                                     <table class="table table-bordered" id="entryTable">
                                         <thead>
                                             <tr>
@@ -615,7 +656,8 @@
                                         </table>
                                     </div>
                                     <div id="packetSection">
-                                        <h5 class="mt-4">Packets</h5>
+                                        <!-- <h5 class="mt-4">Packets</h5> -->
+                                        <div class="table-responsive no-pagination">
                                         <table class="table table-bordered" id="packetTable">
                                             <thead>
                                                 <tr>
@@ -639,6 +681,7 @@
                                             </thead>
                                             <tbody></tbody>
                                         </table>
+                                        </div>
                                     </div>
 
 
@@ -647,13 +690,12 @@
                                         + Add Item
                                     </button>
                                 </div>
-</div>
 
-<!-- ADDED ITEMS TABLE -->
-<div class="card glass-card mb-4 p-4">
-<h4 class="section-header">Added Items</h4>
-
-                                <table class="table table-bordered" id="itemsTable">
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <h6 class="mt-4">Added Items</h6>
+                                            <div class="table-responsive no-pagination">
+                                             <table class="table table-bordered" id="itemsTable">
                                     <thead>
                                         <tr>
                                             <th>Product</th>
@@ -702,21 +744,97 @@
                                                 <td>₹{{ number_format($item->final_price, 2) }}</td>
                                                 <td>
                                                     <button type="button" class="btn btn-warning btn-sm"
-                                                        onclick="editItem({{ $item->id }})">Edit</button>
+                                                        onclick="editItem({{ $item->id }})"><i class="fa fa-pencil"></i></button>
                                                     <button type="button" class="btn btn-danger btn-sm removeItem"
-                                                        data-id="{{ $item->id }}">X</button>
+                                                        data-id="{{ $item->id }}"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
 </div>
+                                        </div>
+                                        
+
+
+
+
+
+
+
+
+                                        <input type="hidden" name="due_date" value="{{ isset($invoice) && $invoice->invoice_due_date ? \Carbon\Carbon::parse($invoice->invoice_due_date)->format('d-m-Y') : '' }}">
+                                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>Status</label>
+                                            <select class="select" name="status">
+                                                <option>Choose a Status</option>
+                                                <option>Unpaid</option>
+                                                <option>Partially paid</option>
+                                                <option>Paid</option>
+                                                <option>Overdue</option>
+                                                <option>Cancelled</option>
+                                                <option>Refunded</option>
+                                                <option>Draft</option>
+                                            </select>
+                                        </div>
+                                    </div> --}}
+
+                                        <div id="custom-fields-container" class="input-block mb-3">
+                                            @foreach ($customFields as $field)
+                                                <label>{{ $field->field_label }}</label>
+                                                <input class="form-control" type="text"
+                                                    name="custom_fields_existing[{{ $field->id }}]" />
+                                            @endforeach
+
+
+                                        </div>
+                                        {{-- <div id="custom-fields-container" class="input-block mb-3">
+                                        <div class="row custom-field">
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <input
+                                                    type="text"
+                                                    name="custom_fields_new[0][label]"
+                                                    placeholder="Field Label"
+                                                    class="form-control" />
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <input
+                                                    type="text"
+                                                    name="custom_fields_new[0][value]"
+                                                    placeholder="Field Value"
+                                                    class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div> --}}
+
+                                    </div>
+                                    {{-- <button class="btn btn-outline-primary" type="button" id="add-custom-field">Add Custom Field</button> --}}
+                                </div>
+</div>
+
+                                {{-- <button type="button" id="addItemBtn" class="btn btn-outline-primary">+ Add Item</button> --}}
+                                {{-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#gstConfigModal">
+                                Configure GST
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editColumnsModal">
+                                Customize Columns
+                            </button> --}}
+
+
+
+
+                               
+</div>
+
+
 
                                 <!-- Exchange / Old Gold Section -->
                                 <div class="card glass-card mb-4 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <h4 class="section-header mb-0">Exchange / Old Gold</h4>
-                                        <button type="button" class="btn custom-btn-primary text-white btn-sm" id="addExchangeItem">
+                                        <h6 class="mb-0">Exchange / Old Gold</h6>
+                                        <button type="button" class="btn btn-primary btn-cust-new btn-sm" id="addExchangeItem">
                                             + Purchase Old Gold
                                         </button>
                                     </div>
@@ -788,8 +906,8 @@
                                 <!-- Diamond Exchange Section -->
                                 <div class="card glass-card mb-4 p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <h4 class="section-header mb-0">Diamond Exchange</h4>
-                                        <button type="button" class="btn custom-btn-primary text-white btn-sm" id="addExchangeDiamond">
+                                        <h6 class="mb-0">Diamond Exchange</h6>
+                                        <button type="button" class="btn btn-primary btn-cust-new  btn-sm" id="addExchangeDiamond">
                                             + Exchange Diamond
                                         </button>
                                     </div>
@@ -894,12 +1012,13 @@
 <!-- TOTALS & ADJUSTMENTS -->
 <div class="card glass-card mb-4 p-4">
 <h4 class="section-header">Totals & Adjustments</h4>
+ 
                                 <div class="form-group-item border-0 p-0">
                                     <div class="row">
 
 
 
-                                        <div class="col-xl-6 col-lg-12">
+                                        <div class="col-xl-5 col-lg-5">
                                             <div class="form-group-bank">
 
                                                 <!-- hidden states -->
@@ -911,21 +1030,21 @@
 
                                                         <!-- Making Charge Section -->
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Making Charge</label>
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="totalMakingAmount">₹{{ number_format($invoice->total_making_charge ?? 0, 2) }}</span>
                                                             <input type="hidden" id="totalMakingAmountInput"
                                                                 value="{{ $invoice->total_making_charge ?? 0 }}">
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Making Discount %</label>
                                                             <input type="number" id="makingDiscountPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->making_discount_percent ?? 0 }}">
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="makingDiscountAmount">₹{{ number_format($invoice->making_discount_amount ?? 0, 2) }}</span>
                                                         </div>
 
@@ -933,21 +1052,21 @@
 
                                                         <!-- Wastage Charge Section -->
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Wastage Charge</label>
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="totalWastageAmount">₹{{ number_format($invoice->total_wastage_charge ?? 0, 2) }}</span>
                                                             <input type="hidden" id="totalWastageAmountInput"
                                                                 value="{{ $invoice->total_wastage_charge ?? 0 }}">
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Wastage Discount %</label>
                                                             <input type="number" id="wastageDiscountPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->wastage_discount_percent ?? 0 }}">
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="wastageDiscountAmount">₹{{ number_format($invoice->wastage_discount_amount ?? 0, 2) }}</span>
                                                         </div>
 
@@ -955,35 +1074,35 @@
 
                                                         <!-- Diamond/Stone/Packet Section -->
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Diamond Amount</label>
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="totalDiamondCombinedAmount">₹0.00</span>
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Stone/Other Amount</label>
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="totalStoneCombinedAmount">₹0.00</span>
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Diamond & Stone Price</label>
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="totalDiamondStonePacketAmount">₹{{ number_format($invoice->total_diamond_stone_packet ?? 0, 2) }}</span>
                                                             <input type="hidden" id="totalDiamondStonePacketAmountInput"
                                                                 value="{{ $invoice->total_diamond_stone_packet ?? 0 }}">
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Diamond Discount %</label>
                                                             <input type="number" id="diamondDiscountPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->diamond_discount_percent ?? 0 }}">
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="diamondDiscountAmount">₹{{ number_format($invoice->diamond_discount_amount ?? 0, 2) }}</span>
                                                         </div>
 
@@ -999,9 +1118,9 @@
 
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Exchange</label>
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="totalExchangeAmount">₹{{ number_format($invoice->total_exchange_amount ?? 0, 2) }}</span>
                                                             <input type="hidden" id="totalExchangeAmountInput"
                                                                 value="{{ $invoice->total_exchange_amount ?? 0 }}">
@@ -1011,7 +1130,7 @@
                                                             <input type="number" id="discountPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->discount_percent ?? 0 }}">
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="discountAmount">₹{{ number_format($invoice->discount_amount ?? 0, 2) }}</span>
                                                         </div>
 
@@ -1019,19 +1138,19 @@
                                                          <div id="discountsUnderTaxable" style="display: none; padding: 10px; margin-top: 10px; margin-bottom: 12px; background-color: rgba(40, 167, 69, 0.05); border-radius: 8px; border: 1px dashed rgba(40, 167, 69, 0.25);">
                                                              <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.85rem; color: #555;">
                                                                  <span>Making Discount:</span>
-                                                                 <span id="displayMakingDiscount">₹0.00</span>
+                                                                 <span class="fs-12" id="displayMakingDiscount">₹0.00</span>
                                                              </div>
                                                              <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.85rem; color: #555;">
                                                                  <span>Wastage Discount:</span>
-                                                                 <span id="displayWastageDiscount">₹0.00</span>
+                                                                 <span class="fs-12" id="displayWastageDiscount">₹0.00</span>
                                                              </div>
                                                              <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.85rem; color: #555;">
                                                                  <span>Diamond Discount:</span>
-                                                                 <span id="displayDiamondDiscount">₹0.00</span>
+                                                                 <span class="fs-12" id="displayDiamondDiscount">₹0.00</span>
                                                              </div>
-                                                             <div class="d-flex justify-content-between align-items-center mb-2" style="font-size: 0.85rem; color: #555;">
+                                                             <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.85rem; color: #555;">
                                                                  <span>Final Discount:</span>
-                                                                 <span id="displayFinalDiscount">₹0.00</span>
+                                                                 <span class="fs-12" id="displayFinalDiscount">₹0.00</span>
                                                              </div>
                                                              <div class="d-flex justify-content-between align-items-center pt-2" style="border-top: 1px solid rgba(40, 167, 69, 0.15);">
                                                                  <span style="font-size: 0.85em; padding: 3px 6px; background-color: #28a745; color: white; border-radius: 4px; display: inline-block; font-weight: bold;">You Save</span>
@@ -1047,7 +1166,7 @@
                                                             <input type="number" id="cgstPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->cgst_percent ?? 0 }}">
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="cgstAmount">₹{{ number_format($invoice->cgst_amount ?? 0, 2) }}</span>
                                                         </div>
 
@@ -1058,7 +1177,7 @@
                                                             <input type="number" id="sgstPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->sgst_percent ?? 0 }}" >
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="sgstAmount">₹{{ number_format($invoice->sgst_amount ?? 0, 2) }}</span>
                                                         </div>
 
@@ -1069,43 +1188,43 @@
                                                             <input type="number" id="igstPercent"
                                                                 class="form-control w-25"
                                                                 value="{{ $invoice->igst_percent ?? 0 }}" >
-                                                            <span
+                                                            <span class="fs-12"
                                                                 id="igstAmount">₹{{ number_format($invoice->igst_amount ?? 0, 2) }}</span>
                                                         </div>
 
                                                                                                 <hr>
                                                          <div
-                                                             class="d-flex justify-content-between align-items-center mb-2">
+                                                             class="d-flex justify-content-between align-items-center mb-1">
                                                              <label>Total Amount</label>
-                                                             <span id="totalInvoiceAmount">₹{{ number_format($invoice->total_amount ?? 0, 2) }}</span>
+                                                             <span id="totalInvoiceAmount" class="fs-12">₹{{ number_format($invoice->total_amount ?? 0, 2) }}</span>
                                                          </div>
                                                          <div
-                                                             class="d-flex justify-content-between align-items-center mb-2">
+                                                             class="d-flex justify-content-between align-items-center mb-1">
                                                              <label>Round Off</label>
-                                                             <span id="roundOffAmount">₹{{ number_format($invoice->round_off ?? 0, 2) }}</span>
+                                                             <span id="roundOffAmount" class="fs-12">₹{{ number_format($invoice->round_off ?? 0, 2) }}</span>
                                                          </div>
                                                          <hr>
-                                                         <h4>
+                                                         <h6>
                                                              Payable Amount
-                                                             <span id="payableAmount">₹{{ number_format($invoice->final_amount ?? 0, 2) }}</span>
-                                                         </h4>
+                                                             <span id="payableAmount" >₹{{ number_format($invoice->final_amount ?? 0, 2) }}</span>
+                                                         </h6>
                                                         <hr>
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Settled (Udhar/Adv)</label>
                                                             <span id="totalSettledAmount">₹0.00</span>
                                                         </div>
                                                         <hr>
-                                                        <h4>
+                                                        <h6>
                                                             Remaining Amount
                                                             <span
                                                                 id="remainingAmountFooter">₹{{ number_format($invoice->amount_left ?? 0, 2) }}</span>
-                                                        </h4>
+                                                        </h6>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 col-lg-12">
+                                        <div class="col-xl-7 col-lg-7">
                                             <div class="form-group-bank">
 
                                                 <!-- hidden states -->
@@ -1114,17 +1233,17 @@
 
                                                 <div class="invoice-total-box">
                                                          <!-- Dynamic Multiple Payments System -->
-                                                         <div class="payment-system-container p-3 mb-3 border rounded bg-light shadow-sm">
-                                                             <h5 class="mb-3 d-flex align-items-center justify-content-between">
-                                                                 <span><i class="feather-credit-card me-2 text-primary"></i>Payment Breakdown</span>
-                                                                 <span class="badge bg-primary fs-6" id="totalPaymentsBadge">Total: ₹0.00</span>
-                                                             </h5>
+                                                         <div class="payment-system-container mb-3  bg-light ">
+                                                             <div class="mb-3 d-flex align-items-center justify-content-between">
+                                                                 <h6 class="fw-bold">Payment Breakdown</h6>
+                                                                 <span class="badge bg-primary" id="totalPaymentsBadge">Total: ₹0.00</span>
+                                                             </div>
 
                                                              <!-- Cash Payments -->
                                                              <div class="payment-method-section mb-3 p-2 border-bottom">
                                                                  <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                     <span class="fw-bold text-secondary"><i class="feather-dollar-sign me-1"></i>Cash Payments</span>
-                                                                     <button type="button" class="btn btn-sm btn-outline-success add-payment-row-btn" data-method="cash">
+                                                                     <span class="fw-bold">Cash Payments</span>
+                                                                     <button type="button" class="btn btn-sm btn-success add-payment-row-btn" data-method="cash">
                                                                          <i class="feather-plus"></i> + Cash Row
                                                                      </button>
                                                                  </div>
@@ -1134,8 +1253,8 @@
                                                              <!-- Card Payments -->
                                                              <div class="payment-method-section mb-3 p-2 border-bottom">
                                                                  <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                     <span class="fw-bold text-secondary"><i class="feather-credit-card me-1"></i>Card Payments</span>
-                                                                     <button type="button" class="btn btn-sm btn-outline-primary add-payment-row-btn" data-method="card">
+                                                                     <span class="fw-bold">Card Payments</span>
+                                                                     <button type="button" class="btn btn-sm btn-success add-payment-row-btn" data-method="card">
                                                                          <i class="feather-plus"></i> + Card Row
                                                                      </button>
                                                                  </div>
@@ -1145,8 +1264,8 @@
                                                              <!-- Cheque Payments -->
                                                              <div class="payment-method-section mb-3 p-2 border-bottom">
                                                                  <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                     <span class="fw-bold text-secondary"><i class="feather-file-text me-1"></i>Cheque Payments</span>
-                                                                     <button type="button" class="btn btn-sm btn-outline-info add-payment-row-btn" data-method="cheque">
+                                                                     <span class="fw-bold"><i class="feather-file-text me-1"></i>Cheque Payments</span>
+                                                                     <button type="button" class="btn btn-sm btn-success add-payment-row-btn" data-method="cheque">
                                                                          <i class="feather-plus"></i> + Cheque Row
                                                                      </button>
                                                                  </div>
@@ -1156,8 +1275,8 @@
                                                              <!-- UPI Payments -->
                                                              <div class="payment-method-section mb-3 p-2">
                                                                  <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                     <span class="fw-bold text-secondary"><i class="feather-smartphone me-1"></i>UPI Payments</span>
-                                                                     <button type="button" class="btn btn-sm btn-outline-warning add-payment-row-btn" data-method="upi">
+                                                                     <span class="fw-bold"><i class="feather-smartphone me-1"></i>UPI Payments</span>
+                                                                     <button type="button" class="btn btn-sm btn-success add-payment-row-btn" data-method="upi">
                                                                          <i class="feather-plus"></i> + UPI Row
                                                                      </button>
                                                                  </div>
@@ -1177,26 +1296,32 @@
                                                     <!-- Footer -->
                                                     <div class="invoice-total-footer">
 
-                                                        <h5 class="text-danger">
+                                                        <h6 class="text-danger">
                                                             Remaining Amount
                                                             <span id="remainingAmount">₹0.00</span>
                                                             <input type="hidden" id="remainingamountInput"
                                                                 value="0">
-                                                        </h5>
+                                                        </h6>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                     </div>
-                                </div>
-</div>
-
-                                <div class="d-flex justify-content-end align-items-center mt-3">
-                                    <a href="{{ route('invoices') }}" class="btn btn-outline-secondary me-2">Cancel</a>
+                                    <div class="d-flex justify-content-end align-items-center mt-3">
+                                    <a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
                                     <button type="button" id="saveInvoiceBtn" class="btn custom-btn-primary text-white me-2">Save</button>
                                     <button type="button" id="savePrintInvoiceBtn" class="btn custom-btn-primary text-white">Save & Print</button>
                                 </div>
+
+                                </div>
+
+                                
+                                
+                                
+</div>
+
+                               
 
                             </div>
                         </div>
@@ -2606,8 +2731,8 @@
                         <td>₹${packetStoneTotal.toFixed(2)}</td>
                         <td>₹${parseFloat(item.final_price || 0).toFixed(2)}</td>
                         <td>
-                            <button type="button" class="btn btn-warning btn-sm" onclick="editItem(${item.id})">Edit</button>
-                            <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${item.id}">X</button>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="editItem(${item.id})"><i class="fa fa-pencil"></i></button>
+                            <button type="button" class="btn btn-danger btn-sm removeItem" data-id="${item.id}"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -3521,7 +3646,7 @@
                     </select>`;
 
                 let rowHtml = `
-                    <div class="payment-row-item p-2 mb-2 bg-white rounded border" data-method="${method}">
+                    <div class="payment-row-item mb-2" data-method="${method}">
                         <!-- First line: Account Select, Amount, and Remove Button -->
                         <div class="d-flex align-items-center gap-2">
                             <div class="flex-grow-1">
@@ -3531,7 +3656,7 @@
                                 <input type="number" class="form-control form-control-sm payment-amount-input text-end" placeholder="Amount" style="font-size: 12px; width: 100px;" value="${data && data.amount ? data.amount : '0'}" min="0" step="0.01">
                             </div>
                             <div style="width: 25px; flex-shrink: 0; text-align: center;">
-                                <button type="button" class="btn btn-sm btn-link text-danger remove-payment-row-btn p-0 m-0" style="width: 25px; height: 25px; line-height: 1;"><i class="feather-trash-2"></i></button>
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-payment-row-btn p-0 m-0" style="width: 25px; height: 25px; line-height: 1;"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
                 `;
@@ -3652,34 +3777,33 @@ console.log("Modal:", document.getElementById("directSellModal"));
         <div class="modal-dialog modal-xl">
             <div class="modal-content shadow-lg border-0" style="border-radius: 15px;">
                 <div class="modal-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                    <h5 class="modal-title" id="directSellModalLabel"><i class="feather-plus-circle me-2"></i>Add Direct Sell Product</h5>
+                    <h6 class="modal-title text-white" id="directSellModalLabel">Add Direct Sell Product</h6>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 bg-light" style="max-height: 80vh; overflow-y: auto;">
                     <form id="directSellForm">
                         <!-- PRODUCT INFO CARD -->
-                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
-                            <h5 class="text-primary mb-3 border-bottom pb-2">1. Product Information</h5>
+                        <div class=" mb-4" style="border-radius: 10px;">
                             <div class="row g-3">
-                                <div class="col-md-3 position-relative">
+                                <div class="col-xl-2 col-lg-2 col-md-3 position-relative">
                                     <label class="form-label font-weight-bold">Pre Code <span class="text-danger">*</span></label>
                                     <input type="text" id="direct_pre_code" class="form-control text-uppercase" placeholder="e.g. RING" required>
                                     <div id="directPreCodeSuggestions" class="dropdown-menu shadow-lg w-100" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1050; max-height: 250px; overflow-y: auto;"></div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Post Code <span class="text-danger">*</span></label>
                                     <input type="number" id="direct_post_code" class="form-control" placeholder="e.g. 1001" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Barcode (Pre + Post)</label>
                                     <input type="text" id="direct_barcode" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Product Name <span class="text-danger">*</span></label>
                                     <input type="text" id="direct_product_name" class="form-control" placeholder="Product Name" required>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class=" col-xl-2 col-lg-2col-md-3">
                                     <label class="form-label">Category <span class="text-danger">*</span></label>
                                     <select id="direct_category_id" class="form-select" required>
                                         <option value="">Select Category</option>
@@ -3688,14 +3812,14 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Subcategory <span class="text-danger">*</span></label>
                                     <select id="direct_subcategory_id" class="form-select" required>
                                         <option value="">Select Subcategory</option>
                                     </select>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Metal Rate/Purity <span class="text-danger">*</span></label>
                                     <select id="direct_metal_rate" class="form-select" required>
                                         <option value="" data-price="0">Select Metal Rate</option>
@@ -3706,7 +3830,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gold Color</label>
                                     <select id="direct_gold_color" class="form-select">
                                         <option value="Yellow">Yellow</option>
@@ -3715,51 +3839,44 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                         <option value="Two-Tone">Two-Tone</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Size</label>
                                     <input type="text" id="direct_size" class="form-control" placeholder="Size">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Quantity</label>
                                     <input type="number" id="direct_quantity" class="form-control" value="1" min="1">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">HSN Code</label>
                                     <input type="text" id="direct_hsn_code" class="form-control" placeholder="HSN Code">
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- WEIGHTS & PRICING CARD -->
-                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
-                            <h5 class="text-primary mb-3 border-bottom pb-2">2. Weights & Pricing</h5>
-                            <div class="row g-3">
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gross Wt (Gram) <span class="text-danger">*</span></label>
                                     <input type="number" step="0.001" id="direct_gross_weight" class="form-control" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Net Wt (Gram)</label>
                                     <input type="number" step="0.001" id="direct_net_weight" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Fine Wt (Gram)</label>
                                     <input type="number" step="0.001" id="direct_final_fn_weight" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Wastage %</label>
                                     <input type="number" step="0.01" id="direct_wastage_percent" class="form-control" value="0">
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Wastage Amt (₹)</label>
                                     <input type="number" step="0.01" id="direct_wastage_amount" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Price</label>
                                     <input type="number" step="0.01" id="direct_making_price" class="form-control" value="0">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Type</label>
                                     <select id="direct_making_type" class="form-select">
                                         <option value="val">Fixed</option>
@@ -3770,46 +3887,46 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                         <option value="per_gm_fine_wt">Per Gram (Fine Wt)</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Final Amt (₹)</label>
                                     <input type="number" step="0.01" id="direct_making_final_amount" class="form-control bg-light" readonly>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gold Price (₹)</label>
                                     <input type="number" step="0.01" id="direct_gold_price" class="form-control bg-light" readonly>
                                 </div>
-                                {{-- <div class="col-md-3">
+                                {{-- <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">GST %</label>
                                     <input type="number" step="0.01" id="direct_gst_percent" class="form-control" value="3">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">GST Amt (₹)</label>
                                     <input type="number" step="0.01" id="direct_gst_amount" class="form-control bg-light" readonly>
                                 </div> --}}
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label text-success font-weight-bold">Final Product Price (₹)</label>
                                     <input type="number" step="0.01" id="direct_final_price" class="form-control border-success text-success bg-light" readonly>
+                                </div>
+                                <div class="col-lg-12">
+                                <button type="button" id="directAddPacketBtn" class="btn btn-sm btn-outline-warning mb-2">+ Add Packet</button>
+                                    <div id="directPacketWrapper"></div>  
+                                </div>
+                                <div class="col-lg-12">
+<div class="modal-footer bg-light gap-2" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="submitDirectSellBtn" class="btn btn-success">Save Direct Sell</button>
+                </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- PACKETS CARD -->
-                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
-                            <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                                <h5 class="text-primary m-0">3. Packets</h5>
-                                <button type="button" id="directAddPacketBtn" class="btn btn-sm btn-outline-warning">+ Add Packet</button>
-                            </div>
-                            <div id="directPacketWrapper"></div>
-                        </div>
+                       
 
 
                     </form>
                 </div>
-                <div class="modal-footer bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="submitDirectSellBtn" class="btn btn-success">Save Direct Sell</button>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -3953,18 +4070,18 @@ console.log("Modal:", document.getElementById("directSellModal"));
             $('#directAddPacketBtn').on('click', function() {
                 let uniqueId = Date.now();
                 let html = `
-                <div class="card p-3 mb-3 bg-white border packet-item" style="border-radius: 8px;">
+                <div class="card p-3 mb-2 bg-white border packet-item" style="border-radius: 8px;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="text-dark font-weight-bold">Packet Details</h6>
                         <button type="button" class="btn btn-sm btn-link text-danger remove-packet-btn p-0"><i class="feather-trash-2"></i> Remove</button>
                     </div>
                     <input type="hidden" class="packet-master-id">
                     <div class="row g-3">
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Packet No *</label>
                             <select class="form-control packet-select" required></select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Packet Type</label>
                             <select class="form-select packet-type-select">
                                 @foreach ($packet_types as $pt)
@@ -3972,7 +4089,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Stone</label>
                             <select class="form-select packet-stone-select">
                                 <option value="">Select Stone</option>
@@ -3981,7 +4098,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Shape</label>
                             <select class="form-select packet-shape-select">
                                 <option value="">Select Shape</option>
@@ -3990,7 +4107,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Clarity</label>
                             <select class="form-select packet-clarity-select">
                                 <option value="">Select Clarity</option>
@@ -3999,7 +4116,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Color</label>
                             <select class="form-select packet-color-select">
                                 <option value="">Select Color</option>
@@ -4008,7 +4125,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Cut</label>
                             <select class="form-select packet-cut-select">
                                 <option value="">Select Cut</option>
@@ -4017,7 +4134,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">MM</label>
                             <select class="form-select packet-mm-select">
                                 <option value="">Select MM</option>
@@ -4026,23 +4143,23 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Pcs</label>
                             <input type="number" class="form-control packet-pcs" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Carat (Wt)</label>
                             <input type="number" step="0.001" class="form-control packet-weight" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Wt (Gram)</label>
                             <input type="number" step="0.001" class="form-control packet-gram" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Rate</label>
                             <input type="number" step="0.01" class="form-control packet-rate" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2"> 
                             <label class="form-label small">UOM</label>
                             <select class="form-select packet-uom">
                                 <option value="PCS">PCS</option>
@@ -4050,15 +4167,15 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 <option value="WT">WT</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Amount</label>
                             <input type="number" step="0.01" class="form-control packet-amount" value="0" readonly>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Certificate No</label>
                             <input type="text" class="form-control packet-cert" readonly>
                         </div>
-                        <div class="col-md-3 d-flex align-items-center mt-4">
+                        <div class="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center mt-4">
                             <div class="form-check">
                                 <input class="form-check-input packet-solitaire" type="checkbox" id="packet_solitaire_check_${uniqueId}">
                                 <label class="form-check-label small" for="packet_solitaire_check_${uniqueId}">Solitaire</label>

@@ -7,6 +7,11 @@
         <script src="{{ url('/assets/js/functions.js') }}"></script>
 
         <style>
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-size: 12px !important;}
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        font-size: 12px !important;
+    }
             .form-label {
                 margin-bottom: 1px;
             }

@@ -12727,8 +12727,13 @@ table .badge {
 }
 
 .input-block input.form-control {
-  color: #3F4254;
-  font-size: 14px;
+  /* color: #3F4254;
+  font-size: 14px; */
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 7px 7px;
+    color: #707070;
+    font-size: 12px;
 }
 
 .description-box .note-fullscreen,
@@ -14231,7 +14236,7 @@ body[data-layout-mode=dark] .alertify .ajs-header {
 }
 
 .content-page-header h5 {
-  font-size: 24px;
+  /* font-size: 24px; */
   color: #0F0033;
   font-weight: 600;
   margin: 0;
@@ -14321,7 +14326,8 @@ body[data-layout-mode=dark] .alertify .ajs-header {
 .card .card-header {
   border-color: #f0f1f5;
   background-color: #fff;
-  padding: 1.5rem;
+  /* padding: 1.5rem; */
+  padding: 10px 15px;
 }
 
 .card .card-header:first-child {
@@ -14586,10 +14592,25 @@ body[data-layout-mode=dark] .alertify .ajs-header {
 }
 
 .input-block label {
-  margin: 0 0 8px 0;
+  margin: 0 0 0px 0;
   font-weight: 500;
-  font-size: 14px;
-  color: #282828;
+  /* font-size: 14px;
+  color: #282828; */
+  font-size: 12px;
+    color: #4a5568;
+  
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 .input-block .optional {
@@ -14599,14 +14620,18 @@ body[data-layout-mode=dark] .alertify .ajs-header {
 }
 
 .input-block .form-control {
-  border: 1px solid #E0E0E0;
+
   box-shadow: none;
-  border-radius: 4px;
+
   margin: 0;
-  padding: 9px 12px;
-  font-size: 14px;
+
   font-weight: 400;
   color: #3F4254;
+  border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 7px 7px;
+    color: #707070;
+    font-size: 12px;
 }
 
 .input-block .form-control ::placeholder,
@@ -14765,8 +14790,8 @@ body[data-layout-mode=dark] .alertify .ajs-header {
 
 .form-group-item .form-group-plus .form-plus-btn {
   padding: 8px 12px;
-  width: 42px;
-  height: 42px;
+  /* width: 42px;
+  height: 42px; */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -32470,8 +32495,23 @@ td .invoice-detail i {
 }
 
 .form-control {
-  font-size: 13px ;
+  font-size: 12px ;
 }
 .collapse-btn-product-list{
       padding: 3px 9px !important;
+}
+.fs-12{
+  font-size: 12px !important;
+}
+.dropdown-item.active, .dropdown-item:active {
+      color: #fff !important;
+}
+.dropdown-item.active i, .dropdown-item:active i {
+      color: #fff !important;
+}
+.dropdown-item.active:hover, .dropdown-item:active:hover {
+      color: #000 !important;
+}
+.dropdown-item.active:hover i, .dropdown-item:active:hover i {
+      color: #000 !important;
 }

@@ -14,7 +14,7 @@
 
             <!-- Content -->
             <div class="auth-left-content">
-                <h3>Welcome to Sirsonite</h3>
+                <h3>Welcome to Jewelerp</h3>
                 <p>Manage your jewellery business with ease</p>
 
                 <div class="auth-stats">

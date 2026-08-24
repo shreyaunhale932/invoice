@@ -24,9 +24,8 @@
                             <form action="{{ route('customers.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group-item">
-                                    <h5 class="form-title">Basic Details</h5>
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Name <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" name="name"
@@ -36,7 +35,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Email </label>
                                                 <input type="email" class="form-control" name="email"
@@ -46,7 +45,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Phone <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" name="phone"
@@ -56,37 +55,33 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Date of Birth</label>
                                                 <input type="date" class="form-control" name="dob">
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Anniversary Date</label>
                                                 <input type="date" class="form-control" name="anniversary_date">
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group-item">
-                                    <h5 class="form-title">Billing Address</h5>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12">
+                                        <div class="col-xl-3 col-lg-3 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>Address(Area)</label>
                                                 <input type="text" class="form-control" name="address"
                                                     placeholder="Enter Address(Area)">
                                             </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>Country</label>
                                                 <input type="text" class="form-control" name="country"
                                                     value="INDIA" placeholder="Enter Country">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-12">
+                                        <div class="col-xl-3 col-lg-3 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>State</label>
                                                 <select class="form-control" name="state" required>
@@ -132,53 +127,52 @@
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
-                                            <div class="input-block mb-3">
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12">
+<div class="input-block mb-3">
                                                 <label>City</label>
                                                 <input type="text" class="form-control" name="city"
                                                     placeholder="Enter City">
                                             </div>
-                                            <div class="input-block mb-3">
+                                        </div>
+                                        <div class="col-xl-3 col-lg-3 col-md-12">
+                                             <div class="input-block mb-3">
                                                 <label>Pincode</label>
                                                 <input type="text" class="form-control" name="pincode"
                                                     placeholder="Enter Pincode">
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group-item">
-                                    <h5 class="form-title">Tax & Identity Details</h5>
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                         <div class="col-xl-3 col-lg-3 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>GST No.</label>
                                                 <input type="text" class="form-control" name="gst_no"
                                                     placeholder="Enter GST Number">
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                         </div>
+                                         <div class="col-xl-3 col-lg-3 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>Aadhaar No.</label>
                                                 <input type="text" class="form-control" name="adhaar_no"
                                                     placeholder="Enter Aadhaar Number">
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                         </div>
+                                         <div class="col-xl-3 col-lg-3 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>PAN No.</label>
                                                 <input type="text" class="form-control" name="pan_no"
                                                     placeholder="Enter PAN Number">
                                             </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                         </div>
+                                         <div class="col-xl-3 col-lg-3 col-md-12">
                                             <div class="input-block mb-3">
                                                 <label>TAN</label>
                                                 <input type="text" class="form-control" name="tan"
                                                     placeholder="Enter TAN">
                                             </div>
-                                        </div>
+                                         </div>
                                     </div>
                                 </div>
+
 
                                 <div class="add-customer-btns text-end">
                                     <a href="{{ url('customers') }}" class="btn customer-btn-cancel">Cancel</a>

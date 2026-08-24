@@ -471,7 +471,7 @@
         </div>
 
         <div class="browser-address">
-          jeweltrack.com/dashboard
+          https://jewelerp.in/dashboard
         </div>
       </div>
 

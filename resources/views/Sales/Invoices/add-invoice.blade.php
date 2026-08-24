@@ -14,6 +14,97 @@
 
 
     <style>
+        .form-control:focus,
+        .form-select:focus{
+            box-shadow: none !important;
+        }
+        .btn-cust-new{
+            font-size: 12px !important;
+            padding: 6px 10px
+        }
+        .add-payment-row-btn{
+            padding: 5px 10px;
+            font-size: 11px !important;
+
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-size: 12px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+        font-size: 12px !important;
+    }
+        .form-label{
+            margin-bottom: 0px;
+            color: #4a5568;
+        }
+        .form-select {
+          font-size: 12px;
+          color: #4a5568;
+        }
+        #itemsTable .btn{
+            font-size: 11px !important;
+        }
+        #packetTable tbody tr td{
+                min-width: 100px;
+        }
+        .table tbody tr td {
+    font-size: 12px;
+}
+        .select2-container .select2-selection--single {
+                height: 33px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 1px;
+                right: 1px;
+                width: 7px;
+                font-size: 12px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                margin-left: -7px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__placeholder {
+                color: #868080;
+                font-size: 12px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 31px;
+                right: 1px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                width: 16px;
+                padding: 7px;
+                border-radius: 10px;
+                background-color: #fff;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 30px;
+                padding-right: 0px;
+                padding-left: 4px;
+            }
+            .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+                color: #4a5568;
+                font-size: 12px;
+            }
+            .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
+                font-size: 12px !important;
+            }
+            .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field{
+                font-size: 12px !important;
+            }
+            .table thead tr th {
+    font-size: 12px;
+    font-weight: 500 !important;
+}
+.btn {
+    font-size: 13px;}
         .readonly-field {
             pointer-events: none;
             background-color: #e9ecef;
@@ -28,6 +119,10 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
             border-radius: 15px;
             transition: all 0.3s ease;
+            z-index: 1;
+        }
+        .datetimepicker{
+            z-index: 9999;
         }
 
         .dark .glass-card {
@@ -48,14 +143,26 @@
         }
 
         .section-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
             margin-bottom: 20px;
             border-bottom: 2px solid rgba(118, 75, 162, 0.2);
             padding-bottom: 10px;
-            display: inline-block;
+            display: inline-block; */
+             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                font-weight: 500;
+                font-size: 13px;
+                display: block;
+                color: #fff;
+                padding: 7px;
+                margin-bottom: 10px;
+        }
+
+        .direct-sell-btn{
+                padding: 6px 12px;
+                    font-size: 12px;
         }
 
         .dark .section-header {
@@ -68,16 +175,16 @@
         .form-control,
         .form-select,
         .select {
-            border-radius: 8px;
+            /* border-radius: 8px;
             border: 1px solid #ced4da;
-            padding: 10px 15px;
+            padding: 10px 15px; */
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
         .form-control:focus,
         .form-select:focus {
             border-color: #764ba2;
-            box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25);
+            /* box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25); */
         }
 
         .dark .form-control,
@@ -91,13 +198,14 @@
         .dark .form-control:focus,
         .dark .form-select:focus {
             border-color: #a18cd1;
-            box-shadow: 0 0 0 0.25rem rgba(161, 140, 209, 0.25);
+            /* box-shadow: 0 0 0 0.25rem rgba(161, 140, 209, 0.25); */
         }
 
         label {
-            font-weight: 600;
+                font-size: 12px;
+    font-weight: 500;
             color: #4a5568;
-            margin-bottom: 8px;
+            margin-bottom: 0px;
         }
 
         .dark label {
@@ -108,7 +216,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
             border-radius: 8px;
-            padding: 10px 25px;
+                padding: 8px 15px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
@@ -127,6 +235,13 @@
         .glass-card table {
             background: transparent !important;
         }
+
+        hr {
+    margin: 5px 0;}
+
+    .invoice-total-inner .form-control{
+        padding: 3px 10px !important;
+    }
 
         .glass-card th {
             background: rgba(118, 75, 162, 0.1) !important;
@@ -182,13 +297,21 @@
         }
 
         #entryTable td {
-            display: block;
-            flex: 1 1 calc(25% - 15px);
-            /* 4 columns */
-            min-width: 200px;
-            border: none !important;
-            padding: 0 !important;
-        }
+    display: block;
+    flex: 1 1 calc(16.666% - 15px);
+    border: none !important;
+    padding: 0 !important;
+}
+.remove-exchange-row{
+        border-radius: 8px;
+        padding: 6px 12px;
+    font-size: 12px;
+}
+.remove-exchange-diamond-row{
+     border-radius: 8px;
+        padding: 6px 12px;
+    font-size: 12px;
+}
 
         @media (max-width: 992px) {
             #entryTable td {
@@ -206,9 +329,9 @@
 
         .entry-label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 12px;
+            font-weight: 500;
+            /* margin-bottom: 5px; */
             color: #4a5568;
         }
 
@@ -218,9 +341,9 @@
 
         /* Payments breakdown styling */
         .payment-system-container {
-            background: rgba(255, 255, 255, 0.9) !important;
+            /* background: rgba(255, 255, 255, 0.9) !important;
             border: 1px solid rgba(0, 0, 0, 0.1) !important;
-            border-radius: 12px !important;
+            border-radius: 12px !important; */
         }
 
         .dark .payment-system-container {
@@ -230,18 +353,18 @@
 
         .payment-row-item {
             transition: all 0.2s ease-in-out;
-            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            /* border: 1px solid rgba(0, 0, 0, 0.08) !important; */
         }
 
         .dark .payment-row-item {
             background: #333 !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            /* border: 1px solid rgba(255, 255, 255, 0.08) !important; */
         }
 
-        .payment-row-item:hover {
+        /* .payment-row-item:hover {
             background-color: #f8f9fa !important;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
+        } */
 
         .dark .payment-row-item:hover {
             background-color: #3d3d3d !important;
@@ -273,9 +396,10 @@
         <div class="content container-fluid">
             <div class="container-fluid p-0">
                 <div class="page-header mb-4">
-                    <h2 class="section-header fs-3 mb-0">
+                    <!-- <h2 class="section-header fs-3 mb-0">
                         Add Invoice
-                    </h2>
+                    </h2> -->
+                    <h5>Add Invoice</h5>
                 </div>
 
                 <form action="{{ route('invoices.store') }}" method="POST">
@@ -285,7 +409,7 @@
 
                             <!-- BASIC DETAILS -->
                             <div class="card glass-card mb-4 p-4">
-                                <h4 class="section-header">Basic Details</h4>
+                                <!-- <h4 class="section-header">Basic Details</h4> -->
                                 <div class="form-group-item border-0 mb-0">
                                     <div class="row align-items-center">
                                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -328,77 +452,15 @@
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Invoice Date</label>
-                                                <div class="cal-icon cal-icon-info">
-                                                    <input type="text" class="datetimepicker form-control"
+                                                <!-- <input type="date" class=" form-control"
+                                                        placeholder="Select Date" name="invoice_date"
+                                                        value="{{ date('Y-m-d') }}"> -->
+                                                        <input type="text" class="datetimepicker form-control"
                                                         placeholder="Select Date" name="invoice_date"
                                                         value="{{ date('d-m-Y') }}">
-                                                </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="due_date" value="">
-                                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <div class="input-block mb-3">
-                                            <label>Status</label>
-                                            <select class="select" name="status">
-                                                <option>Choose a Status</option>
-                                                <option>Unpaid</option>
-                                                <option>Partially paid</option>
-                                                <option>Paid</option>
-                                                <option>Overdue</option>
-                                                <option>Cancelled</option>
-                                                <option>Refunded</option>
-                                                <option>Draft</option>
-                                            </select>
-                                        </div>
-                                    </div> --}}
-
-                                        <div id="custom-fields-container" class="input-block mb-3">
-                                            @foreach ($customFields as $field)
-                                                <label>{{ $field->field_label }}</label>
-                                                <input class="form-control" type="text"
-                                                    name="custom_fields_existing[{{ $field->id }}]" />
-                                            @endforeach
-
-
-                                        </div>
-                                        {{-- <div id="custom-fields-container" class="input-block mb-3">
-                                        <div class="row custom-field">
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <input
-                                                    type="text"
-                                                    name="custom_fields_new[0][label]"
-                                                    placeholder="Field Label"
-                                                    class="form-control" />
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <input
-                                                    type="text"
-                                                    name="custom_fields_new[0][value]"
-                                                    placeholder="Field Value"
-                                                    class="form-control" />
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
-                                    </div>
-                                    {{-- <button class="btn btn-outline-primary" type="button" id="add-custom-field">Add Custom Field</button> --}}
-                                </div>
-
-                                {{-- <button type="button" id="addItemBtn" class="btn btn-outline-primary">+ Add Item</button> --}}
-                                {{-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#gstConfigModal">
-                                Configure GST
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editColumnsModal">
-                                Customize Columns
-                            </button> --}}
-                            </div>
-
-                            <!-- PRODUCT ITEMS -->
-                            <div class="card glass-card mb-4 p-4">
-                                <h4 class="section-header">Product Items</h4>
-                                <div class="row mb-3">
-                                    <div class="col-lg-6 col-md-8 col-sm-12">
+                                        <div class="col-lg-12 col-md-8 col-sm-12">
                                         <label>Search Product Code</label>
                                         <div class="d-flex gap-2">
                                             <div class="position-relative flex-grow-1">
@@ -412,12 +474,11 @@
                                                     @endforeach
                                                 </datalist>
                                             </div>
-                                            <button type="button" class="btn btn-primary" style="white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#directSellModal">
+                                            <button type="button" class="btn btn-primary direct-sell-btn" style="white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#directSellModal">
                                                 Add Direct Sell
                                             </button>
                                         </div>
-                                    </div>
-                                    <select id="productSearch" style="display: none;">
+                                        <select id="productSearch" style="display: none;">
                                             <option value="">Search by Product Code/Barcode</option>
 
                                             @foreach ($products as $product)
@@ -488,14 +549,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-
-                                    </div>
-                                </div>
-
-
-
-
-                                <div id="productInfoSection" style="display: none;">
+                                        <div id="productInfoSection" style="display: none;">
                                     <table class="table table-bordered" id="entryTable">
                                         <thead>
                                             <tr>
@@ -674,8 +728,9 @@
                                         </table>
                                     </div>
                                     <div id="packetSection">
-                                        <h5 class="mt-4">Packets</h5>
-                                        <table class="table table-bordered" id="packetTable">
+                                        <!-- <h5 class="mt-4">Packets</h5> -->
+                                         <div class="table-responsive no-pagination">
+                                        <table class="table table-bordered mt-2" id="packetTable">
                                             <thead>
                                                 <tr>
                                                     <th>Packet No</th>
@@ -698,18 +753,19 @@
                                             </thead>
                                             <tbody></tbody>
                                         </table>
+                                        </div>
                                     </div>
-
-
-
 
                                     <button type="button" id="addItemBtn" class="btn btn-success mt-2">
                                         + Add Item
                                     </button>
                                 </div>
-                                <h5 class="mt-4">Added Items</h5>
 
-                                <table class="table table-bordered" id="itemsTable">
+                                    </div>
+                                    <div class="col-lg-12">
+                                         <h6 class="mt-4">Added Items</h6>
+                                <div class="table-responsive no-pagination">
+                                <table class="table  table-hover " id="itemsTable">
                                     <thead>
                                         <tr>
                                             <th>Product</th>
@@ -731,13 +787,76 @@
                                     </thead>
                                     <tbody></tbody>
                                 </table>
+                                </div>
+                                    </div>
 
+
+
+                                        <input type="hidden" name="due_date" value="">
+                                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="input-block mb-3">
+                                            <label>Status</label>
+                                            <select class="select" name="status">
+                                                <option>Choose a Status</option>
+                                                <option>Unpaid</option>
+                                                <option>Partially paid</option>
+                                                <option>Paid</option>
+                                                <option>Overdue</option>
+                                                <option>Cancelled</option>
+                                                <option>Refunded</option>
+                                                <option>Draft</option>
+                                            </select>
+                                        </div>
+                                    </div> --}}
+
+                                        <div id="custom-fields-container" class="input-block mb-3">
+                                            @foreach ($customFields as $field)
+                                                <label>{{ $field->field_label }}</label>
+                                                <input class="form-control" type="text"
+                                                    name="custom_fields_existing[{{ $field->id }}]" />
+                                            @endforeach
+
+
+                                        </div>
+                                        {{-- <div id="custom-fields-container" class="input-block mb-3">
+                                        <div class="row custom-field">
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <input
+                                                    type="text"
+                                                    name="custom_fields_new[0][label]"
+                                                    placeholder="Field Label"
+                                                    class="form-control" />
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <input
+                                                    type="text"
+                                                    name="custom_fields_new[0][value]"
+                                                    placeholder="Field Value"
+                                                    class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div> --}}
+
+                                    </div>
+                                    {{-- <button class="btn btn-outline-primary" type="button" id="add-custom-field">Add Custom Field</button> --}}
+                                </div>
+
+                                {{-- <button type="button" id="addItemBtn" class="btn btn-outline-primary">+ Add Item</button> --}}
+                                {{-- <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#gstConfigModal">
+                                Configure GST
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editColumnsModal">
+                                Customize Columns
+                            </button> --}}
                             </div>
+
+                            
                             <!-- Exchange / Old Gold Section -->
-                            <div class="card glass-card mt-4 p-4 border-0 shadow-none bg-transparent">
+                            <div class="card glass-card border-0 shadow-none bg-transparent">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0">Exchange/Old Gold</h5>
-                                    <button type="button" class="btn btn-warning btn-sm" id="addExchangeItem">
+                                    <h6 class="mb-0">Exchange/Old Gold</h6>
+                                    <button type="button" class="btn btn-primary btn-cust-new btn-sm" id="addExchangeItem">
                                         + Purchase Old Gold
                                     </button>
                                 </div>
@@ -765,10 +884,10 @@
                             </div>
 
                             <!-- Diamond Exchange Section -->
-                            <div class="card glass-card mt-4 p-4 border-0 shadow-none bg-transparent">
+                            <div class="card glass-card border-0 shadow-none bg-transparent">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0">Diamond Exchange</h5>
-                                    <button type="button" class="btn btn-warning btn-sm" id="addExchangeDiamond">
+                                    <h6 class="mb-0">Diamond Exchange</h6>
+                                    <button type="button" class="btn btn-primary btn-sm btn-cust-new" id="addExchangeDiamond">
                                         + Exchange Diamond
                                     </button>
                                 </div>
@@ -797,7 +916,7 @@
                             <!-- Unsettled Advances / Udhar Section -->
                             <div class="card mt-4" id="unsettledEntriesSection" style="display: none;">
                                 <div class="card-header">
-                                    <h5 class="mb-0" style="color:red;">Customer Unsettled Advance/Udhar</h5>
+                                    <h6 class="mb-0" style="color:red;">Customer Unsettled Advance/Udhar</h6>
                                 </div>
                                 <div class="card-body p-0">
                                     <table class="table table-bordered mb-0" id="unsettledEntriesTable">
@@ -834,14 +953,14 @@
                             <button class="btn btn-outline-secondary" id="addContactBtn">+ Add Contact</button>
 
                             <button class="btn btn-outline-primary" id="addInfoBtn">+ Add Additional Info</button> --}}
-                            <div class="card glass-card mt-4 p-4">
+                            <div class="card glass-card mt-2 p-4">
                                 <h4 class="section-header">Totals & Adjustments</h4>
                                 <div class="form-group-item border-0 p-0">
                                     <div class="row">
 
 
 
-                                        <div class="col-xl-6 col-lg-12">
+                                        <div class="col-xl-5 col-lg-12">
                                             <div class="form-group-bank">
 
                                                 <!-- hidden states -->
@@ -854,82 +973,82 @@
                                                         <!-- Taxable Amount -->
                                                         {{-- <p>
                                                             Taxable Amount
-                                                            <span id="taxableAmount">₹0.00</span>
+                                                            <span class="fs-12" id="taxableAmount">₹0.00</span>
                                                             <input type="hidden" id="taxableAmountInput" value="0">
                                                         </p> --}}
 
                                                         <!-- Making Charge Section -->
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Making Charge</label>
-                                                            <span id="totalMakingAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalMakingAmount">₹0.00</span>
                                                             <input type="hidden" id="totalMakingAmountInput"
                                                                 value="">
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Making Discount %</label>
                                                             <input type="number" id="makingDiscountPercent"
                                                                 class="form-control w-25" value="">
-                                                            <span id="makingDiscountAmount">₹0.00</span>
+                                                            <span class="fs-12" id="makingDiscountAmount">₹0.00</span>
                                                         </div>
 
                                                         <hr>
 
                                                         <!-- Wastage Charge Section -->
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Wastage Charge</label>
-                                                            <span id="totalWastageAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalWastageAmount">₹0.00</span>
                                                             <input type="hidden" id="totalWastageAmountInput"
                                                                 value="">
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Wastage Discount %</label>
                                                             <input type="number" id="wastageDiscountPercent"
                                                                 class="form-control w-25" value="">
-                                                            <span id="wastageDiscountAmount">₹0.00</span>
+                                                            <span class="fs-12" id="wastageDiscountAmount">₹0.00</span>
                                                         </div>
 
                                                         <hr>
 
                                                         <!-- Diamond/Stone/Packet Section -->
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Diamond Amount </label>
-                                                            <span id="totalDiamondCombinedAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalDiamondCombinedAmount">₹0.00</span>
                                                         </div>
 
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Stone/Other Amount</label>
-                                                            <span id="totalStoneCombinedAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalStoneCombinedAmount">₹0.00</span>
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Diamond & Stone Price</label>
-                                                            <span id="totalDiamondStonePacketAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalDiamondStonePacketAmount">₹0.00</span>
                                                             <input type="hidden" id="totalDiamondStonePacketAmountInput"
                                                                 value="">
                                                         </div>
 
                                                         <div
-                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Diamond Discount %</label>
                                                             <input type="number" id="diamondDiscountPercent"
                                                                 class="form-control w-25" value="">
-                                                            <span id="diamondDiscountAmount">₹0.00</span>
+                                                            <span class="fs-12" id="diamondDiscountAmount">₹0.00</span>
                                                         </div>
 
                                                         <hr>
 
                                                         <p>
                                                             Taxable Amount
-                                                            <span id="taxableAmount">₹0.00</span>
+                                                            <span class="fs-12" id="taxableAmount">₹0.00</span>
                                                             <input type="hidden" id="taxableAmountInput" value="">
                                                         </p>
 
@@ -937,7 +1056,7 @@
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Exchange</label>
-                                                            <span id="totalExchangeAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalExchangeAmount">₹0.00</span>
                                                             <input type="hidden" id="totalExchangeAmountInput"
                                                                 value="">
                                                         </div>
@@ -946,7 +1065,7 @@
                                                             <label>Final Discount %</label>
                                                             <input type="number" id="discountPercent"
                                                                 class="form-control w-25" value="">
-                                                            <span id="discountAmount">₹0.00</span>
+                                                            <span class="fs-12" id="discountAmount">₹0.00</span>
                                                         </div>
 
                                                         <!-- Discounts breakdown and You Save badge -->
@@ -954,23 +1073,23 @@
                                                             style="display: none; padding: 10px; margin-top: 10px; margin-bottom: 12px; background-color: rgba(40, 167, 69, 0.05); border-radius: 8px; border: 1px dashed rgba(40, 167, 69, 0.25);">
                                                             <div class="d-flex justify-content-between align-items-center mb-1"
                                                                 style="font-size: 0.85rem; color: #555;">
-                                                                <span>Making Discount:</span>
-                                                                <span id="displayMakingDiscount">₹0.00</span>
+                                                                <span class="fs-12">Making Discount:</span>
+                                                                <span class="fs-12" id="displayMakingDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-1"
                                                                 style="font-size: 0.85rem; color: #555;">
-                                                                <span>Wastage Discount:</span>
-                                                                <span id="displayWastageDiscount">₹0.00</span>
+                                                                <span class="fs-12">Wastage Discount:</span>
+                                                                <span class="fs-12" id="displayWastageDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-1"
                                                                 style="font-size: 0.85rem; color: #555;">
-                                                                <span>Diamond Discount:</span>
-                                                                <span id="displayDiamondDiscount">₹0.00</span>
+                                                                <span class="fs-12">Diamond Discount:</span>
+                                                                <span class="fs-12" id="displayDiamondDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-2"
                                                                 style="font-size: 0.85rem; color: #555;">
-                                                                <span>Final Discount:</span>
-                                                                <span id="displayFinalDiscount">₹0.00</span>
+                                                                <span class="fs-12">Final Discount:</span>
+                                                                <span class="fs-12" id="displayFinalDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center pt-2"
                                                                 style="border-top: 1px solid rgba(40, 167, 69, 0.15);">
@@ -988,7 +1107,7 @@
                                                             <label>CGST %</label>
                                                             <input type="number" id="cgstPercent"
                                                                 class="form-control w-25" value="">
-                                                            <span id="cgstAmount">₹0.00</span>
+                                                            <span class="fs-12" id="cgstAmount">₹0.00</span>
                                                         </div>
 
                                                         <!-- SGST -->
@@ -997,7 +1116,7 @@
                                                             <label>SGST %</label>
                                                             <input type="number" id="sgstPercent"
                                                                 class="form-control w-25" value="">
-                                                            <span id="sgstAmount">₹0.00</span>
+                                                            <span class="fs-12" id="sgstAmount">₹0.00</span>
                                                         </div>
 
                                                         <!-- IGST -->
@@ -1006,7 +1125,7 @@
                                                             <label>IGST %</label>
                                                             <input type="number" id="igstPercent"
                                                                 class="form-control w-25" value="">
-                                                            <span id="igstAmount">₹0.00</span>
+                                                            <span class="fs-12" id="igstAmount">₹0.00</span>
                                                         </div>
 
                                                         <!-- Final Discount -->
@@ -1015,34 +1134,34 @@
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Amount</label>
-                                                            <span id="totalInvoiceAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalInvoiceAmount">₹0.00</span>
                                                         </div>
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Round Off</label>
-                                                            <span id="roundOffAmount">₹0.00</span>
+                                                            <span class="fs-12" id="roundOffAmount">₹0.00</span>
                                                         </div>
                                                         <hr>
-                                                        <h4>
+                                                        <h6>
                                                             Payable Amount
                                                             <span id="payableAmount">₹0.00</span>
-                                                        </h4>
+                                                        </h6>
                                                         <hr>
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Settled (Udhar/Adv)</label>
-                                                            <span id="totalSettledAmount">₹0.00</span>
+                                                            <span class="fs-12" id="totalSettledAmount">₹0.00</span>
                                                         </div>
                                                         <hr>
-                                                        <h4>
+                                                        <h6>
                                                             Remaining Amount
                                                             <span id="remainingAmountFooter">₹0.00</span>
-                                                        </h4>
+                                                        </h6>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 col-lg-12">
+                                        <div class="col-xl-7 col-lg-12">
                                             <div class="form-group-bank">
 
                                                 <!-- hidden states -->
@@ -1053,25 +1172,23 @@
                                                     <div class="invoice-total-inner">
                                                         <!-- Dynamic Multiple Payments System -->
                                                         <div
-                                                            class="payment-system-container p-3 mb-3 border rounded bg-light shadow-sm">
-                                                            <h5
+                                                            class="payment-system-container  mb-3  bg-light ">
+                                                            <div
                                                                 class="mb-3 d-flex align-items-center justify-content-between">
-                                                                <span><i
-                                                                        class="feather-credit-card me-2 text-primary"></i>Payment
-                                                                    Breakdown</span>
-                                                                <span class="badge bg-primary fs-6"
+                                                                <h6 class="fw-bold">Payment
+                                                                    Breakdown</h6>
+                                                                <span class="badge bg-primary fs-12"
                                                                     id="totalPaymentsBadge">Total: ₹0.00</span>
-                                                            </h5>
+                                                            </div>
 
                                                             <!-- Cash Payments -->
                                                             <div class="payment-method-section mb-3 p-2 border-bottom">
                                                                 <div
                                                                     class="d-flex justify-content-between align-items-center mb-2">
-                                                                    <span class="fw-bold text-secondary"><i
-                                                                            class="feather-dollar-sign me-1"></i>Cash
+                                                                    <span class="fw-bold ">Cash
                                                                         Payments</span>
                                                                     <button type="button"
-                                                                        class="btn btn-sm btn-outline-success add-payment-row-btn"
+                                                                        class="btn btn-sm btn-success add-payment-row-btn"
                                                                         data-method="cash">
                                                                         <i class="feather-plus"></i> + Cash Row
                                                                     </button>
@@ -1084,11 +1201,10 @@
                                                             <div class="payment-method-section mb-3 p-2 border-bottom">
                                                                 <div
                                                                     class="d-flex justify-content-between align-items-center mb-2">
-                                                                    <span class="fw-bold text-secondary"><i
-                                                                            class="feather-credit-card me-1"></i>Card
+                                                                    <span class="fw-bold">Card
                                                                         Payments</span>
                                                                     <button type="button"
-                                                                        class="btn btn-sm btn-outline-primary add-payment-row-btn"
+                                                                        class="btn btn-sm btn-success add-payment-row-btn"
                                                                         data-method="card">
                                                                         <i class="feather-plus"></i> + Card Row
                                                                     </button>
@@ -1101,11 +1217,10 @@
                                                             <div class="payment-method-section mb-3 p-2 border-bottom">
                                                                 <div
                                                                     class="d-flex justify-content-between align-items-center mb-2">
-                                                                    <span class="fw-bold text-secondary"><i
-                                                                            class="feather-file-text me-1"></i>Cheque
+                                                                    <span class="fw-bold">Cheque
                                                                         Payments</span>
                                                                     <button type="button"
-                                                                        class="btn btn-sm btn-outline-info add-payment-row-btn"
+                                                                        class="btn btn-sm btn-success add-payment-row-btn"
                                                                         data-method="cheque">
                                                                         <i class="feather-plus"></i> + Cheque Row
                                                                     </button>
@@ -1118,11 +1233,10 @@
                                                             <div class="payment-method-section mb-3 p-2">
                                                                 <div
                                                                     class="d-flex justify-content-between align-items-center mb-2">
-                                                                    <span class="fw-bold text-secondary"><i
-                                                                            class="feather-smartphone me-1"></i>UPI
+                                                                    <span class="fw-bold text-secondary">UPI
                                                                         Payments</span>
                                                                     <button type="button"
-                                                                        class="btn btn-sm btn-outline-warning add-payment-row-btn"
+                                                                        class="btn btn-sm btn-success add-payment-row-btn"
                                                                         data-method="upi">
                                                                         <i class="feather-plus"></i> + UPI Row
                                                                     </button>
@@ -1147,30 +1261,27 @@
                                                 <!-- Footer -->
                                                 <div class="invoice-total-footer">
 
-                                                    <h5 class="text-danger">
+                                                    <h6 class="text-danger">
                                                         Remaining Amount
                                                         <span id="remainingAmount">₹0.00</span>
                                                         <input type="hidden" id="remainingamountInput" value="">
 
-                                                    </h5>
+                                                    </h6>
                                                 </div>
-                                            </div>
+                                            </div>                                          
                                         </div>
+                                    </div>
+                                    <div class="mt-3 text-end">
+                                               <a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
+                                               <button type="button" id="saveInvoiceBtn" class="btn custom-btn-primary text-white me-2">Save</button>
+                                               <button type="button" id="savePrintInvoiceBtn" class="btn custom-btn-primary text-white">Save & Print</button>
                                     </div>
 
                                 </div>
                             </div>
 
                         </div>
-                        <div class="card glass-card mt-4 p-4 text-end">
-                            <div><a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
-                                <button type="button" id="saveInvoiceBtn"
-                                    class="btn custom-btn-primary text-white me-2">Save</button>
-                                <button type="button" id="savePrintInvoiceBtn"
-                                    class="btn custom-btn-primary text-white">Save & Print</button>
-
-                            </div>
-                        </div>
+                       
                 </form>
             </div>
         </div>
@@ -1197,7 +1308,7 @@
                         <div class="row">
 
                             <!-- Name -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                 <label>Name <span class="text-danger">*</span></label>
                                 <input type="text" name="name" class="form-control" placeholder="Enter Name"
                                     required>
@@ -1207,7 +1318,7 @@
                             </div>
 
                             <!-- Email -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                 <label>Email</label>
                                 <input type="email" name="email" class="form-control"
                                     placeholder="Enter Email Address">
@@ -1217,7 +1328,7 @@
                             </div>
 
                             <!-- Phone -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                 <label>Phone <span class="text-danger">*</span></label>
                                 <input type="text" name="phone" class="form-control" placeholder="Phone Number"
                                     required>
@@ -1227,13 +1338,13 @@
                             </div>
 
                             <!-- City -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                 <label>City</label>
                                 <input type="text" name="city" class="form-control" placeholder="Enter City">
                             </div>
 
                             <!-- Date of Birth -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                 <label>Date of Birth</label>
                                 <input type="date" name="dob" class="form-control">
                                 @error('dob')
@@ -1242,36 +1353,29 @@
                             </div>
 
                             <!-- Anniversary Date -->
-                            <div class="col-md-6 mb-3">
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                 <label>Anniversary Date</label>
                                 <input type="date" name="anniversary_date" class="form-control">
                                 @error('anniversary_date')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <!-- Billing Address -->
-                            <div class="row">
-
-                                <div class="col-md-12 mb-2">
-                                    <h6 class="fw-bold">Billing Address</h6>
-                                </div>
-
-                                <!-- Address -->
-                                <div class="col-md-6 mb-3">
+                                 <!-- Address -->
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                     <label>Address (Area)</label>
                                     <input type="text" name="address" class="form-control"
                                         placeholder="Enter Address (Area)">
                                 </div>
 
                                 <!-- Country -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                     <label>Country</label>
                                     <input type="text" name="country" class="form-control" value="INDIA"
                                         placeholder="Enter Country">
                                 </div>
 
                                 <!-- State -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                     <label>State <span class="text-danger">*</span></label>
                                     <select class="form-control" name="state" required>
                                         <option value="">Select State</option>
@@ -1319,57 +1423,46 @@
                                 </div>
 
                                 <!-- City -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                     <label>City</label>
                                     <input type="text" name="city" class="form-control" placeholder="Enter City">
                                 </div>
 
                                 <!-- Pincode -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
                                     <label>Pincode</label>
                                     <input type="text" name="pincode" class="form-control"
                                         placeholder="Enter Pincode">
                                 </div>
-
-                            </div>
-
-                            <hr>
-
-                            <!-- Tax & Identity Details -->
-                            <div class="row">
-
-                                <div class="col-md-12 mb-2">
-                                    <h6 class="fw-bold">Tax & Identity Details</h6>
-                                </div>
-
+                                   
                                 <!-- GST -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
                                     <label>GST No.</label>
                                     <input type="text" name="gst_no" class="form-control"
                                         placeholder="Enter GST Number">
                                 </div>
 
                                 <!-- Aadhaar -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
                                     <label>Aadhaar No.</label>
                                     <input type="text" name="adhaar_no" class="form-control"
                                         placeholder="Enter Aadhaar Number">
                                 </div>
 
                                 <!-- PAN -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
                                     <label>PAN No.</label>
                                     <input type="text" name="pan_no" class="form-control"
                                         placeholder="Enter PAN Number">
                                 </div>
 
                                 <!-- TAN -->
-                                <div class="col-md-6 mb-3">
+                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
                                     <label>TAN</label>
                                     <input type="text" name="tan" class="form-control" placeholder="Enter TAN">
                                 </div>
-
-                            </div>
+                         
+                           
 
                         </div>
 
@@ -2839,13 +2932,13 @@
                     <button type="button"
                             class="btn btn-warning btn-sm"
                             onclick="editItem(${item.id})">
-                        Edit
+                        <i class="fa fa-pencil"></i>
                     </button>
 
                     <button type="button"
                             class="btn btn-danger btn-sm removeItem"
                             data-id="${item.id}">
-                        X
+                        <i class="fa fa-trash"></i>
                     </button>
                 </td>
             </tr>
@@ -3923,7 +4016,7 @@
                     </select>`;
 
                 let rowHtml = `
-                    <div class="payment-row-item p-2 mb-2 bg-white rounded border" data-method="${method}">
+                    <div class="payment-row-item  mb-2" data-method="${method}">
                         <!-- First line: Account Select, Amount, and Remove Button -->
                         <div class="d-flex align-items-center gap-2">
                             <div class="flex-grow-1">
@@ -3933,7 +4026,7 @@
                                 <input type="number" class="form-control form-control-sm payment-amount-input text-end" placeholder="Amount" style="font-size: 12px; width: 100px;" value="${data && data.amount ? data.amount : '0'}" min="0" step="0.01">
                             </div>
                             <div style="width: 25px; flex-shrink: 0; text-align: center;">
-                                <button type="button" class="btn btn-sm btn-link text-danger remove-payment-row-btn p-0 m-0" style="width: 25px; height: 25px; line-height: 1;"><i class="feather-trash-2"></i></button>
+                                <button type="button" class="btn btn-outline-danger btn-sm  remove-payment-row-btn p-0 m-0" style="width: 25px; height: 25px; line-height: 1;"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
                 `;
@@ -4069,34 +4162,34 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content shadow-lg border-0" style="border-radius: 15px;">
                 <div class="modal-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                    <h5 class="modal-title" id="directSellModalLabel"><i class="feather-plus-circle me-2"></i>Add Direct Sell Product</h5>
+                    <h6 class="modal-title text-white" id="directSellModalLabel"><i class="feather-plus-circle me-2"></i>Add Direct Sell Product</h6>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body p-4 bg-light" style="max-height: 80vh; overflow-y: auto;">
+                <div class="modal-body " style="max-height: 80vh; overflow-y: auto;">
                     <form id="directSellForm">
                         <!-- PRODUCT INFO CARD -->
-                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
-                            <h5 class="text-primary mb-3 border-bottom pb-2">1. Product Information</h5>
+                        <div class="" >
+                            <!-- <h5 class="text-primary mb-3 border-bottom pb-2">1. Product Information</h5> -->
                             <div class="row g-3">
-                                <div class="col-md-3 position-relative">
+                                <div class="col-xl-2 col-lg-2 col-md-3 position-relative">
                                     <label class="form-label font-weight-bold">Pre Code <span class="text-danger">*</span></label>
                                     <input type="text" id="direct_pre_code" class="form-control text-uppercase" placeholder="e.g. RING" required>
                                     <div id="directPreCodeSuggestions" class="dropdown-menu shadow-lg w-100" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1050; max-height: 250px; overflow-y: auto;"></div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Post Code <span class="text-danger">*</span></label>
                                     <input type="number" id="direct_post_code" class="form-control" placeholder="e.g. 1001" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Barcode (Pre + Post)</label>
                                     <input type="text" id="direct_barcode" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Product Name <span class="text-danger">*</span></label>
                                     <input type="text" id="direct_product_name" class="form-control" placeholder="Product Name" required>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Category <span class="text-danger">*</span></label>
                                     <select id="direct_category_id" class="form-select" required>
                                         <option value="">Select Category</option>
@@ -4105,13 +4198,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Subcategory <span class="text-danger">*</span></label>
                                     <select id="direct_subcategory_id" class="form-select" required>
                                         <option value="">Select Subcategory</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Metal Rate/Purity <span class="text-danger">*</span></label>
                                     <select id="direct_metal_rate" class="form-select" required>
                                         <option value="" data-price="0">Select Metal Rate</option>
@@ -4122,7 +4215,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gold Color</label>
                                     <select id="direct_gold_color" class="form-select">
                                         <option value="Yellow">Yellow</option>
@@ -4131,51 +4224,44 @@
                                         <option value="Two-Tone">Two-Tone</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Size</label>
                                     <input type="text" id="direct_size" class="form-control" placeholder="Size">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Quantity</label>
                                     <input type="number" id="direct_quantity" class="form-control" value="1" min="1">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">HSN Code</label>
                                     <input type="text" id="direct_hsn_code" class="form-control" placeholder="HSN Code">
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- WEIGHTS & PRICING CARD -->
-                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
-                            <h5 class="text-primary mb-3 border-bottom pb-2">2. Weights & Pricing</h5>
-                            <div class="row g-3">
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gross Wt (Gram) <span class="text-danger">*</span></label>
                                     <input type="number" step="0.001" id="direct_gross_weight" class="form-control" required>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Net Wt (Gram)</label>
                                     <input type="number" step="0.001" id="direct_net_weight" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Fine Wt (Gram)</label>
                                     <input type="number" step="0.001" id="direct_final_fn_weight" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Wastage %</label>
                                     <input type="number" step="0.01" id="direct_wastage_percent" class="form-control" value="0">
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Wastage Amt (₹)</label>
                                     <input type="number" step="0.01" id="direct_wastage_amount" class="form-control bg-light" readonly>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Price</label>
                                     <input type="number" step="0.01" id="direct_making_price" class="form-control" value="0">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Type</label>
                                     <select id="direct_making_type" class="form-select">
                                         <option value="val">Fixed</option>
@@ -4186,12 +4272,12 @@
                                         <option value="per_gm_fine_wt">Per Gram (Fine Wt)</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Final Amt (₹)</label>
                                     <input type="number" step="0.01" id="direct_making_final_amount" class="form-control bg-light" readonly>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gold Price (₹)</label>
                                     <input type="number" step="0.01" id="direct_gold_price" class="form-control bg-light" readonly>
                                 </div>
@@ -4203,28 +4289,37 @@
                                     <label class="form-label">GST Amt (₹)</label>
                                     <input type="number" step="0.01" id="direct_gst_amount" class="form-control bg-light" readonly>
                                 </div> --}}
-                                <div class="col-md-3">
+                                <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label text-success font-weight-bold">Final Product Price (₹)</label>
                                     <input type="number" step="0.01" id="direct_final_price" class="form-control border-success text-success bg-light" readonly>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12">
+                                    <button type="button" id="directAddPacketBtn" class="btn btn-sm btn-outline-warning mb-2">+ Add Packet</button>
+                                     <div id="directPacketWrapper"></div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12">
+                                    <div class="modal-footer  gap-2" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="submitDirectSellBtn" class="btn btn-success">Save Direct Sell</button>
+                </div>
                                 </div>
                             </div>
                         </div>
 
+                        
+
                         <!-- PACKETS CARD -->
-                        <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
+                        <!-- <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
                             <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
                                 <h5 class="text-primary m-0">3. Packets</h5>
-                                <button type="button" id="directAddPacketBtn" class="btn btn-sm btn-outline-warning">+ Add Packet</button>
+                                
                             </div>
-                            <div id="directPacketWrapper"></div>
-                        </div>
+                           
+                        </div> -->
 
                     </form>
                 </div>
-                <div class="modal-footer bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="submitDirectSellBtn" class="btn btn-success">Save Direct Sell</button>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -4369,18 +4464,18 @@
             $('#directAddPacketBtn').on('click', function() {
                 let uniqueId = Date.now();
                 let html = `
-                <div class="card p-3 mb-3 bg-white border packet-item" style="border-radius: 8px;">
+                <div class="card p-3 mb-2 bg-white border packet-item" style="border-radius: 8px;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="text-dark font-weight-bold">Packet Details</h6>
                         <button type="button" class="btn btn-sm btn-link text-danger remove-packet-btn p-0"><i class="feather-trash-2"></i> Remove</button>
                     </div>
                     <input type="hidden" class="packet-master-id">
                     <div class="row g-3">
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Packet No *</label>
                             <select class="form-control packet-select" required></select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Packet Type</label>
                             <select class="form-select packet-type-select">
                                 @foreach ($packet_types as $pt)
@@ -4388,7 +4483,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Stone</label>
                             <select class="form-select packet-stone-select">
                                 <option value="">Select Stone</option>
@@ -4397,7 +4492,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Shape</label>
                             <select class="form-select packet-shape-select">
                                 <option value="">Select Shape</option>
@@ -4406,7 +4501,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Clarity</label>
                             <select class="form-select packet-clarity-select">
                                 <option value="">Select Clarity</option>
@@ -4415,7 +4510,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Color</label>
                             <select class="form-select packet-color-select">
                                 <option value="">Select Color</option>
@@ -4424,7 +4519,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Cut</label>
                             <select class="form-select packet-cut-select">
                                 <option value="">Select Cut</option>
@@ -4433,7 +4528,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">MM</label>
                             <select class="form-select packet-mm-select">
                                 <option value="">Select MM</option>
@@ -4442,23 +4537,23 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Pcs</label>
                             <input type="number" class="form-control packet-pcs" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Carat (Wt)</label>
                             <input type="number" step="0.001" class="form-control packet-weight" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Wt (Gram)</label>
                             <input type="number" step="0.001" class="form-control packet-gram" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Rate</label>
                             <input type="number" step="0.01" class="form-control packet-rate" value="0">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">UOM</label>
                             <select class="form-select packet-uom">
                                 <option value="PCS">PCS</option>
@@ -4466,15 +4561,15 @@
                                 <option value="WT">WT</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">Amount</label>
                             <input type="number" step="0.01" class="form-control packet-amount" value="0" readonly>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xl-2 col-lg-2 col-md-3">
                             <label class="form-label small">Certificate No</label>
                             <input type="text" class="form-control packet-cert" readonly>
                         </div>
-                        <div class="col-md-3 d-flex align-items-center mt-4">
+                        <div class="col-xl-2 col-lg-2 col-md-3 d-flex align-items-center mt-4">
                             <div class="form-check">
                                 <input class="form-check-input packet-solitaire" type="checkbox" id="packet_solitaire_check_${uniqueId}">
                                 <label class="form-check-label small" for="packet_solitaire_check_${uniqueId}">Solitaire</label>
