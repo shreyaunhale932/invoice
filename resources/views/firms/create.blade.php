@@ -1,5 +1,13 @@
 @extends('layout.mainlayout')
 @section('content')
+<style>
+    .form-label{
+        margin-bottom: 0px;
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 12px;
+    }
+    </style>
 <div class="page-wrapper">
     <div class="content container-fluid">
         <!-- Page Header -->
@@ -17,51 +25,51 @@
                         <form action="{{ route('firms.store') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">Firm Name <span class="text-danger">*</span></label>
+                                        <label class="form-label ">Firm Name <span class="text-danger">*</span></label>
                                         <input type="text" name="name" class="form-control" placeholder="Enter Firm Name" required style="border-radius: 8px;">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">Email Address</label>
+                                        <label class="form-label ">Email Address</label>
                                         <input type="email" name="email" class="form-control" placeholder="Enter Email" style="border-radius: 8px;">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">Phone Number</label>
+                                        <label class="form-label ">Phone Number</label>
                                         <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" style="border-radius: 8px;">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">GSTIN</label>
+                                        <label class="form-label ">GSTIN</label>
                                         <input type="text" name="gstin" class="form-control" placeholder="Enter GSTIN" style="border-radius: 8px;">
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-xl-3 col-lg-3">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">Address</label>
+                                        <label class="form-label ">Address</label>
                                         <textarea name="address" class="form-control" placeholder="Enter Address" rows="3" style="border-radius: 8px;"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">City</label>
+                                        <label class="form-label ">City</label>
                                         <input type="text" name="city" class="form-control" placeholder="Enter City" style="border-radius: 8px;">
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">State</label>
+                                        <label class="form-label ">State</label>
                                         <input type="text" name="state" class="form-control" placeholder="Enter State" style="border-radius: 8px;">
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group mb-3">
-                                        <label class="form-label fw-bold">Postal Code</label>
+                                        <label class="form-label ">Postal Code</label>
                                         <input type="text" name="postalcode" class="form-control" placeholder="Enter Postal Code" style="border-radius: 8px;">
                                     </div>
                                 </div>

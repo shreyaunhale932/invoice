@@ -19,61 +19,54 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group-item">
-                                    <h5 class="form-title">Basic Details</h5>
+                                    <!-- <h5 class="form-title">Basic Details</h5> -->
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Name <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" placeholder="Enter Name" name="name" value="{{ $customer->name }}" required>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Email </label>
                                                 <input type="email" class="form-control"
                                                     placeholder="Enter Email Address" name="email" value="{{ $customer->email }}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Phone <span class="text-danger">*</span></label>
                                                 <input type="text" id="mobile_code" class="form-control"
                                                     placeholder="Phone Number" name="phone" value="{{ $customer->phone }}" required>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Date of Birth</label>
                                                 <input type="date" class="form-control" name="dob" value="{{ $customer->dob }}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Anniversary Date</label>
                                                 <input type="date" class="form-control" name="anniversary_date" value="{{ $customer->anniversary_date }}">
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group-item">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="billing-btn mb-2">
-                                                <h5 class="form-title">Billing Address</h5>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-12">
+                                         <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label>Address(Area)</label>
                                                         <input type="text" class="form-control" placeholder="Enter Address(Area)" name="address" value="{{ $customer->address }}">
                                                     </div>
+                                         </div>
+                                         <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label>Country</label>
                                                         <input type="text" class="form-control"
                                                             placeholder="Enter Country" name="country" value="{{ $customer->country ?? 'INDIA' }}">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-12">
+                                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label>State</label>
                                                         <select class="form-control" name="state" required>
@@ -116,46 +109,42 @@
                                                             <option value="Puducherry" {{ $customer->state == 'Puducherry' ? 'selected' : '' }}>Puducherry</option>
                                                         </select>
                                                     </div>
+                                                </div>
+                                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label>City</label>
                                                         <input type="text" class="form-control" placeholder="Enter City" name="city" value="{{ $customer->city }}">
                                                     </div>
+                                                </div>
+                                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                                     <div class="input-block mb-3">
                                                         <label>Pincode</label>
                                                         <input type="text" class="form-control"
                                                             placeholder="Enter Pincode" name="pincode" value="{{ $customer->pincode }}">
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group-item">
-                                    <h5 class="form-title">Tax & Identity Details</h5>
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                                         <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>GST No.</label>
                                                 <input type="text" class="form-control" name="gst_no"
                                                     placeholder="Enter GST Number" value="{{ $customer->gst_no }}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>Aadhaar No.</label>
                                                 <input type="text" class="form-control" name="adhaar_no"
                                                     placeholder="Enter Aadhaar Number" value="{{ $customer->adhaar_no }}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>PAN No.</label>
                                                 <input type="text" class="form-control" name="pan_no"
                                                     placeholder="Enter PAN Number" value="{{ $customer->pan_no }}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
                                                 <label>TAN</label>
                                                 <input type="text" class="form-control" name="tan"
@@ -164,6 +153,7 @@
                                         </div>
                                     </div>
                                 </div>
+                             
 
                                 <div class="add-customer-btns text-end">
                                     <a href="{{ url('customers') }}" class="btn customer-btn-cancel">Cancel</a>

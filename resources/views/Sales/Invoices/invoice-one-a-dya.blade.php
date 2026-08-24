@@ -435,7 +435,7 @@
                                     <div class="gst-details">
 
                                         @if ($companyNameVisible)
-                                            <h6 style="font-size: 15px !important; font-weight: bold !important; margin-bottom: 4px !important; color: #333 !important;">{{ $companyName }}</h6>
+                                            <h6 style="font-size: 18px !important; font-weight: bold !important; margin-bottom: 4px !important; color: #333 !important;">{{ $companyName }}</h6>
                                         @endif
 
                                         @if ($companyAddressVisible)
@@ -493,14 +493,14 @@
                 </div>
 
                 @if ($invoiceTitleVisible || $companyNameVisible || $companyAddressVisible)
-                    <span class="line"></span>
+                    <!-- <span class="line"></span> -->
                 @endif
 
 
                 {{-- ================= CUSTOMER INFO ================= --}}
                 @if ($customerInfoVisible)
 
-                    <h5>{{ $sectionTitle }}</h5>
+                    <!-- <h5>{{ $sectionTitle }}</h5> -->
 
                     <div class="patient-infos">
                         <div class="row">
@@ -712,7 +712,7 @@
                                         <th rowspan="2" style="vertical-align: middle; text-align: center;">SL No.</th>
                                     @endif
                                     @if ($columnVisibility['item'])
-                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Item Description</th>
+                                        <th rowspan="2" style="vertical-align: middle; text-align: center;">Item Desc</th>
                                     @endif
                                     @if ($columnVisibility['qty'])
                                         <th rowspan="2" style="vertical-align: middle; text-align: center;">Pcs</th>
@@ -765,7 +765,7 @@
                                             <td style="text-align: center;">{{ $loop->iteration }}</td>
                                         @endif
                                         @if ($columnVisibility['item'])
-                                            <td style="text-align: center; font-weight: bold;">{{ strtoupper($item->item_name) }}</td>
+                                            <td style="font-weight: bold;">{{ strtoupper($item->item_name) }}</td>
                                         @endif
                                         @if ($columnVisibility['qty'])
                                             <td style="text-align: center;">{{ $item->quantity }}</td>
@@ -1471,33 +1471,14 @@
                                         </tr>
                                     @endif
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                @endif
-
-
-                {{-- ===============================
-                 | TOTAL AMOUNT
-                 =============================== --}}
-                @if ($totalVisible)
-                    <div class="invoice-table-footer totalamount-footer">
-                        <div class="table-footer-right">
-                            <table class="totalamt-table">
-                                <tbody>
-                                    <tr>
+                                      @if ($totalVisible)
+                                       <tr class="total-tr">
                                         <td><strong>{{ $totalLabel }}</strong></td>
                                         <td><strong>₹{{ number_format($finalAmount, 2) }}</strong></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                @endif
+                                        </tr>
+                                     @endif
 
-
-                {{-- ===============================
+                                       {{-- ===============================
  | AMOUNT RECEIVED
  =============================== --}}
                 @php
@@ -1551,11 +1532,7 @@
                         ($cardVisible && $card > 0) ||
                         $totalReceivedVisible ||
                         $balanceDueVisible)
-                    <div class="invoice-table-footer payment-footer">
-                        <div class="table-footer-right">
-                            <table class="totalamt-table">
-                                <tbody>
-                                    @if ($totalExchangeAmt > 0)
+                          @if ($totalExchangeAmt > 0)
                                         <tr>
                                             <td>Exchange Amount</td>
                                             <td>₹{{ number_format($totalExchangeAmt, 2) }}</td>
@@ -1624,6 +1601,7 @@
                                             </td>
                                         </tr>
                                     @endif
+                                @endif
 
                                 </tbody>
                             </table>
@@ -1632,8 +1610,9 @@
                 @endif
 
 
+        
                 <div class="total-amountdetails">
-                    <p>Total amount ( in words): <span>
+                    <p><strong>Total amount ( in words): </strong><span>
                             {{ NumberHelper::convertToWords((int) round(abs($finalAmount))) }}.</span></p>
                 </div>
                 @php
