@@ -24,8 +24,8 @@
                                             src="{{ asset('/assets/img/profiles/avatar-14.jpg') }}" alt="profile-img">
                                     </span>
                                     <div class="customer-details-cont">
-                                        <h6>John Smith1</h6>
-                                        <p>Cl-12345</p>
+                                        <h6>{{ $customer->name }}</h6>
+                                        <p>C-{{ str_pad($customer->id, 5, '0', STR_PAD_LEFT) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                     </span>
                                     <div class="customer-details-cont">
                                         <h6>Email Address</h6>
-                                        <p>john@example.com</p>
+                                        <p>{{ $customer->email ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                     </span>
                                     <div class="customer-details-cont">
                                         <h6>Phone Number</h6>
-                                        <p>585-785-4840</p>
+                                        <p>{{ $customer->phone ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -60,11 +60,11 @@
                             <div class="customer-details">
                                 <div class="d-flex align-items-center">
                                     <span class="customer-widget-icon d-inline-flex">
-                                        <i class="fe fe-airplay"></i>
+                                        <i class="fe fe-file-text"></i>
                                     </span>
                                     <div class="customer-details-cont">
-                                        <h6>Company Name</h6>
-                                        <p> Corporation</p>
+                                        <h6>GST Number</h6>
+                                        <p>{{ $customer->gst_no ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -73,11 +73,11 @@
                             <div class="customer-details">
                                 <div class="d-flex align-items-center">
                                     <span class="customer-widget-icon d-inline-flex">
-                                        <i class="fe fe-globe"></i>
+                                        <i class="fe fe-credit-card"></i>
                                     </span>
                                     <div class="customer-details-cont">
-                                        <h6>Website</h6>
-                                        <p class="customer-mail">www.example.com</p>
+                                        <h6>PAN / Aadhaar</h6>
+                                        <p>{{ $customer->pan_no ?? '-' }} / {{ $customer->adhaar_no ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -86,11 +86,11 @@
                             <div class="customer-details">
                                 <div class="d-flex align-items-center">
                                     <span class="customer-widget-icon d-inline-flex">
-                                        <i class="fe fe-briefcase"></i>
+                                        <i class="fe fe-map-pin"></i>
                                     </span>
                                     <div class="customer-details-cont">
-                                        <h6>Company Address</h6>
-                                        <p>4712 Cherry Ridge Drive Rochester, NY 14620.</p>
+                                        <h6>Address</h6>
+                                        <p>{{ $customer->address ? $customer->address . ', ' : '' }}{{ $customer->city ?? '' }}{{ $customer->state ? ', ' . $customer->state : '' }}{{ $customer->pincode ? ' - ' . $customer->pincode : '' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -104,10 +104,10 @@
             @endcomponent
             <!-- /Search Filter -->
 
-            <!-- Inovices card -->
-            @component('components.invoices-card')
+            <!-- Invoices card -->
+            @component('components.invoices-card', ['cards' => $cards])
             @endcomponent
-            <!-- /Inovices card -->
+            <!-- /Invoices card -->
 
             <!-- Table -->
             <div class="row">
@@ -118,17 +118,12 @@
                                 <table class="table table-stripped table-hover datatable">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th>
-                                                <label class="custom_check">
-                                                    <input type="checkbox" name="invoice">
-                                                    <span class="checkmark"></span>
-                                                </label>Invoice No
-                                            </th>
-                                            <th>Category</th>
+                                            <th>#</th>
+                                            <th>Invoice No</th>
+                                            <th>Type</th>
                                             <th>Created On</th>
                                             <th>Total Amount</th>
                                             <th>Paid Amount</th>
-                                            <th>Payment Mode</th>
                                             <th>Balance</th>
                                             <th>Due Date</th>
                                             <th>Status</th>
@@ -136,31 +131,28 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $json = file_get_contents(public_path('../assets/json/customer-details.json'));
-                                            $customers = json_decode($json, true);
-                                        @endphp
-                                        @foreach ($customers as $customer)
+                                        @foreach ($invoices as $invoice)
                                             <tr>
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td>
-                                                    <label class="custom_check">
-                                                        <input type="checkbox" name="invoice">
-                                                        <span class="checkmark"></span>
-                                                    </label>
-                                                    <a href="{{ url('invoice-details') }}"
-                                                        class="invoice-link">{{ $customer['InvoiceNo'] }}</a>
+                                                    <a href="{{ route('sell.invoice.view', $invoice->id) }}"
+                                                        class="invoice-link" target="_blank">{{ $invoice->invoice_no }}</a>
                                                 </td>
-                                                <td>{{ $customer['Category'] }}</td>
-                                                <td>{{ $customer['CreatedOn'] }}</td>
-                                                <td>{{ $customer['TotalAmount'] }}</td>
-                                                <td>{{ $customer['PaidAmount'] }}</td>
-                                                <td>{{ $customer['PaymentMode'] }}</td>
-                                                <td>{{ $customer['Balance'] }}</td>
-                                                <td>{{ $customer['DueDate'] }}</td>
-                                                <td><span
-                                                        class="{{ $customer['Class'] }}">{{ $customer['Status'] }}</span>
-                                                </td>
+                                                <td>{{ $invoice->is_direct_sell ? 'Direct Sell' : 'Normal Invoice' }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d-m-Y') }}</td>
+                                                <td>₹ {{ number_format($invoice->final_amount, 2) }}</td>
+                                                <td>₹ {{ number_format($invoice->total_received ?? 0, 2) }}</td>
+                                                <td>₹ {{ number_format($invoice->amount_left ?? 0, 2) }}</td>
+                                                <td>{{ $invoice->invoice_due_date }}</td>
                                                 <td>
+                                                    <span class="badge 
+                                                        @if ($invoice->status === 'paid') bg-success 
+                                                        @elseif($invoice->status === 'pending') bg-warning 
+                                                        @else bg-danger @endif">
+                                                        {{ ucfirst($invoice->status) }}
+                                                    </span>
+                                                </td>
+                                                <td class="text-end">
                                                     <div class="dropdown dropdown-action">
                                                         <a href="#" class=" btn-action-icon "
                                                             data-bs-toggle="dropdown" aria-expanded="false"><i
@@ -169,38 +161,17 @@
                                                             <ul>
                                                                 <li>
                                                                     <a class="dropdown-item"
-                                                                        href="{{ url('edit-customer') }}"><i
+                                                                        href="{{ route('sell.invoice.edit', $invoice->id) }}"><i
                                                                             class="far fa-edit me-2"></i>Edit</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#delete_modal"><i
-                                                                            class="far fa-trash-alt me-2"></i>Delete</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ url('customer-details') }}"><i
+                                                                    <a class="dropdown-item" href="{{ route('sell.invoice.view', $invoice->id) }}" target="_blank"><i
                                                                             class="far fa-eye me-2"></i>View</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="dropdown-item" href=""><i
-                                                                            class="fe fe-send me-2"></i>Send</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href=""><i
-                                                                            class="fe fe-download me-2"></i>Download</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ url('add-credit-notes') }}"><i
-                                                                            class="fe fe-file-text me-2"></i>Convert to
-                                                                        Sales Return</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href=""><i
-                                                                            class="fe fe-copy me-2"></i>Clone as
-                                                                        Invoice</a>
+                                                                    <a class="dropdown-item text-danger" href="#"
+                                                                        onclick="deleteInvoice(event, '{{ route('sell.invoice.destroy', $invoice->id) }}')"><i
+                                                                            class="far fa-trash-alt me-2"></i>Delete</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -219,4 +190,33 @@
         </div>
     </div>
     <!-- /Page Wrapper -->
+
+    <script>
+        function deleteInvoice(event, url) {
+            event.preventDefault();
+            if (!confirm('Are you sure you want to delete this invoice?')) {
+                return;
+            }
+            fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Something went wrong.');
+                    console.log(error);
+                });
+        }
+    </script>
 @endsection

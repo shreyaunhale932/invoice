@@ -170,13 +170,19 @@
                                 aria-expanded="false"><span><i class="fe fe-download"></i></span></a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <ul class="d-block">
+                                    {{-- <li>
+                                        @if (Route::is('customers'))
+                                            <a class="d-flex align-items-center download-item" href="{{ route('customers.export.pdf') }}"><i class="far fa-file-pdf me-2"></i>PDF</a>
+                                        @else
+                                            <a class="d-flex align-items-center download-item" href="javascript:void(0);" download><i class="far fa-file-pdf me-2"></i>PDF</a>
+                                        @endif
+                                    </li> --}}
                                     <li>
-                                        <a class="d-flex align-items-center download-item" href="javascript:void(0);"
-                                            download><i class="far fa-file-pdf me-2"></i>PDF</a>
-                                    </li>
-                                    <li>
-                                        <a class="d-flex align-items-center download-item" href="javascript:void(0);"
-                                            download><i class="far fa-file-text me-2"></i>CVS</a>
+                                        @if (Route::is('customers'))
+                                            <a class="d-flex align-items-center download-item" href="{{ route('customers.export.csv') }}"><i class="far fa-file-text me-2"></i>CVS</a>
+                                        @else
+                                            <a class="d-flex align-items-center download-item" href="javascript:void(0);" download><i class="far fa-file-text me-2"></i>CVS</a>
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -184,7 +190,7 @@
                     </li>
                     <li>
                         <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
-                            data-bs-placement="bottom" title="Print"><span><i class="fe fe-printer"></i></span> </a>
+                            data-bs-placement="bottom" title="Print" onclick="window.print()"><span><i class="fe fe-printer"></i></span> </a>
                     </li>
                     @endif
                     @if (Route::is(['customers']))

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\SellInvoice;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\PurityModel;
@@ -226,4 +228,92 @@ class CustomerController extends Controller
 
         return redirect()->route('customers')->with('success', 'Customer deleted successfully!');
     }
+
+    public function exportPdf()
+    {
+        $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+        $pdf = Pdf::loadView('pdf.customers', compact('customers'))->setPaper('A4', 'portrait');
+        return $pdf->download('customer-list.pdf');
+    }
+
+    public function exportCsv()
+    {
+        $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+        
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=customer-list.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['ID', 'Name', 'Phone', 'Email', 'City', 'Created At'];
+
+        $callback = function() use($customers, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($customers as $customer) {
+                fputcsv($file, [
+                    $customer->id,
+                    $customer->name,
+                    $customer->phone,
+                    $customer->email,
+                    $customer->city,
+                    $customer->created_at
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function details($id)
+    {
+        $customer = Customer::where('id', $id)->where('admin_id', Auth::guard('admin')->id())->firstOrFail();
+        
+        $invoices = SellInvoice::where('user_id', $id)
+            ->where('admin_id', Auth::guard('admin')->id())
+            ->orderBy('id', 'desc')
+            ->get();
+            
+        $cards = [
+            [
+                'title' => 'Total Invoice',
+                'class' => 'bg-info-light',
+                'icon'  => 'receipt-item.svg',
+                'amount' => $invoices->sum('final_amount'),
+                'number_of_invoice' => $invoices->count(),
+            ],
+            [
+                'title' => 'Outstanding',
+                'class' => 'bg-primary-light',
+                'icon'  => 'transaction-minus.svg',
+                'amount' => $invoices->where('amount_left', '>', 0)->sum('amount_left'),
+                'number_of_invoice' => $invoices->where('amount_left', '>', 0)->count(),
+            ],
+            [
+                'title' => 'Total Overdue',
+                'class' => 'bg-warning-light',
+                'icon'  => 'archive-book.svg',
+                'amount' => $invoices
+                    ->whereIn('status', ['pending', 'partial'])
+                    ->sum('amount_left'),
+                'number_of_invoice' => $invoices->whereIn('status', ['pending', 'partial'])->count(),
+            ],
+            [
+                'title' => 'Recurring',
+                'class' => 'bg-danger-light',
+                'icon'  => '3d-rotate.svg',
+                'amount' => $invoices->where('status', 'partial')->sum('final_amount'),
+                'number_of_invoice' => $invoices->where('status', 'partial')->count(),
+            ],
+        ];
+
+        return view('Customers/customer-details', compact('customer', 'invoices', 'cards'));
+    }
 }
+

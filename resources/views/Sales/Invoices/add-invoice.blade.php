@@ -15,96 +15,113 @@
 
     <style>
         .form-control:focus,
-        .form-select:focus{
+        .form-select:focus {
             box-shadow: none !important;
         }
-        .btn-cust-new{
+
+        .btn-cust-new {
             font-size: 12px !important;
             padding: 6px 10px
         }
-        .add-payment-row-btn{
+
+        .add-payment-row-btn {
             padding: 5px 10px;
             font-size: 11px !important;
 
         }
+
         .select2-container--default .select2-selection--single .select2-selection__rendered {
-    font-size: 12px !important;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-        font-size: 12px !important;
-    }
-        .form-label{
+            font-size: 12px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            font-size: 12px !important;
+        }
+
+        .form-label {
             margin-bottom: 0px;
             color: #4a5568;
         }
+
         .form-select {
-          font-size: 12px;
-          color: #4a5568;
+            font-size: 12px;
+            color: #4a5568;
         }
-        #itemsTable .btn{
+
+        #itemsTable .btn {
             font-size: 11px !important;
         }
-        #packetTable tbody tr td{
-                min-width: 100px;
+
+        #packetTable tbody tr td {
+            min-width: 100px;
         }
+
         .table tbody tr td {
-    font-size: 12px;
-}
+            font-size: 12px;
+        }
+
         .select2-container .select2-selection--single {
-                height: 33px;
-            }
+            height: 33px;
+        }
 
-            .select2-container--default .select2-selection--single .select2-selection__arrow {
-                height: 26px;
-                position: absolute;
-                top: 1px;
-                right: 1px;
-                width: 7px;
-                font-size: 12px;
-            }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            width: 7px;
+            font-size: 12px;
+        }
 
-            .select2-container--default .select2-selection--single .select2-selection__arrow b {
-                margin-left: -7px;
-            }
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            margin-left: -7px;
+        }
 
-            .select2-container--default .select2-selection--single .select2-selection__placeholder {
-                color: #868080;
-                font-size: 12px;
-            }
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #868080;
+            font-size: 12px;
+        }
 
-            .select2-container--default .select2-selection--single .select2-selection__arrow {
-                height: 31px;
-                right: 1px;
-            }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 31px;
+            right: 1px;
+        }
 
-            .select2-container--default .select2-selection--single .select2-selection__arrow {
-                width: 16px;
-                padding: 7px;
-                border-radius: 10px;
-                background-color: #fff;
-            }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            width: 16px;
+            padding: 7px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
 
-            .select2-container--default .select2-selection--single .select2-selection__rendered {
-                line-height: 30px;
-                padding-right: 0px;
-                padding-left: 4px;
-            }
-            .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
-                color: #4a5568;
-                font-size: 12px;
-            }
-            .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
-                font-size: 12px !important;
-            }
-            .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field{
-                font-size: 12px !important;
-            }
-            .table thead tr th {
-    font-size: 12px;
-    font-weight: 500 !important;
-}
-.btn {
-    font-size: 13px;}
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 30px;
+            padding-right: 0px;
+            padding-left: 4px;
+        }
+
+        .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+            color: #4a5568;
+            font-size: 12px;
+        }
+
+        .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option {
+            font-size: 12px !important;
+        }
+
+        .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
+            font-size: 12px !important;
+        }
+
+        .table thead tr th {
+            font-size: 12px;
+            font-weight: 500 !important;
+        }
+
+        .btn {
+            font-size: 13px;
+        }
+
         .readonly-field {
             pointer-events: none;
             background-color: #e9ecef;
@@ -121,7 +138,8 @@
             transition: all 0.3s ease;
             z-index: 1;
         }
-        .datetimepicker{
+
+        .datetimepicker {
             z-index: 9999;
         }
 
@@ -144,25 +162,25 @@
 
         .section-header {
             /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(118, 75, 162, 0.2);
-            padding-bottom: 10px;
-            display: inline-block; */
-             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                font-weight: 500;
-                font-size: 13px;
-                display: block;
-                color: #fff;
-                padding: 7px;
-                margin-bottom: 10px;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 700;
+                margin-bottom: 20px;
+                border-bottom: 2px solid rgba(118, 75, 162, 0.2);
+                padding-bottom: 10px;
+                display: inline-block; */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-weight: 500;
+            font-size: 13px;
+            display: block;
+            color: #fff;
+            padding: 7px;
+            margin-bottom: 10px;
         }
 
-        .direct-sell-btn{
-                padding: 6px 12px;
-                    font-size: 12px;
+        .direct-sell-btn {
+            padding: 6px 12px;
+            font-size: 12px;
         }
 
         .dark .section-header {
@@ -176,8 +194,8 @@
         .form-select,
         .select {
             /* border-radius: 8px;
-            border: 1px solid #ced4da;
-            padding: 10px 15px; */
+                border: 1px solid #ced4da;
+                padding: 10px 15px; */
             transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
@@ -202,8 +220,8 @@
         }
 
         label {
-                font-size: 12px;
-    font-weight: 500;
+            font-size: 12px;
+            font-weight: 500;
             color: #4a5568;
             margin-bottom: 0px;
         }
@@ -216,7 +234,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
             border-radius: 8px;
-                padding: 8px 15px;
+            padding: 8px 15px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
@@ -237,11 +255,12 @@
         }
 
         hr {
-    margin: 5px 0;}
+            margin: 5px 0;
+        }
 
-    .invoice-total-inner .form-control{
-        padding: 3px 10px !important;
-    }
+        .invoice-total-inner .form-control {
+            padding: 3px 10px !important;
+        }
 
         .glass-card th {
             background: rgba(118, 75, 162, 0.1) !important;
@@ -297,21 +316,23 @@
         }
 
         #entryTable td {
-    display: block;
-    flex: 1 1 calc(16.666% - 15px);
-    border: none !important;
-    padding: 0 !important;
-}
-.remove-exchange-row{
-        border-radius: 8px;
-        padding: 6px 12px;
-    font-size: 12px;
-}
-.remove-exchange-diamond-row{
-     border-radius: 8px;
-        padding: 6px 12px;
-    font-size: 12px;
-}
+            display: block;
+            flex: 1 1 calc(16.666% - 15px);
+            border: none !important;
+            padding: 0 !important;
+        }
+
+        .remove-exchange-row {
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .remove-exchange-diamond-row {
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
 
         @media (max-width: 992px) {
             #entryTable td {
@@ -342,8 +363,8 @@
         /* Payments breakdown styling */
         .payment-system-container {
             /* background: rgba(255, 255, 255, 0.9) !important;
-            border: 1px solid rgba(0, 0, 0, 0.1) !important;
-            border-radius: 12px !important; */
+                border: 1px solid rgba(0, 0, 0, 0.1) !important;
+                border-radius: 12px !important; */
         }
 
         .dark .payment-system-container {
@@ -362,9 +383,9 @@
         }
 
         /* .payment-row-item:hover {
-            background-color: #f8f9fa !important;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        } */
+                background-color: #f8f9fa !important;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            } */
 
         .dark .payment-row-item:hover {
             background-color: #3d3d3d !important;
@@ -397,8 +418,8 @@
             <div class="container-fluid p-0">
                 <div class="page-header mb-4">
                     <!-- <h2 class="section-header fs-3 mb-0">
-                        Add Invoice
-                    </h2> -->
+                            Add Invoice
+                        </h2> -->
                     <h5>Add Invoice</h5>
                 </div>
 
@@ -428,16 +449,19 @@
                                                     <li>
                                                         <select class="select" name="customer_id" id="customerDropdown"
                                                             required>
+
                                                             <option value="">Choose Customer</option>
+
                                                             @foreach ($customers as $customer)
                                                                 <option value="{{ $customer->id }}"
-                                                                    data-state="{{ $customer->state }}">
-                                                                    {{ $customer->name }}</option>
+                                                                    data-state="{{ $customer->state }}"
+                                                                    data-phone="{{ $customer->phone }}"
+                                                                    data-search="{{ $customer->name }} {{ $customer->phone }}">
+                                                                    {{ $customer->name }} - {{ $customer->phone }}
+                                                                </option>
                                                             @endforeach
+
                                                         </select>
-
-
-
                                                     </li>
                                                     <li>
                                                         <button type="button" class="btn custom-btn-primary text-white"
@@ -453,342 +477,354 @@
                                             <div class="input-block mb-3">
                                                 <label>Invoice Date</label>
                                                 <!-- <input type="date" class=" form-control"
-                                                        placeholder="Select Date" name="invoice_date"
-                                                        value="{{ date('Y-m-d') }}"> -->
-                                                        <input type="text" class="datetimepicker form-control"
-                                                        placeholder="Select Date" name="invoice_date"
-                                                        value="{{ date('d-m-Y') }}">
+                                                            placeholder="Select Date" name="invoice_date"
+                                                            value="{{ date('Y-m-d') }}"> -->
+                                                <input type="text" class="datetimepicker form-control"
+                                                    placeholder="Select Date" name="invoice_date"
+                                                    value="{{ date('d-m-Y') }}">
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-md-8 col-sm-12">
-                                        <label>Search Product Code</label>
-                                        <div class="d-flex gap-2">
-                                            <div class="position-relative flex-grow-1">
-                                                <input type="text" id="productBarcodeSearch" list="productSearchSuggestions"
-                                                    class="form-control" placeholder="Enter Barcode / Product Code" autofocus>
-                                                <datalist id="productSearchSuggestions">
-                                                    @foreach ($products as $product)
-                                                        <option
-                                                            value="{{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}">
-                                                            {{ $product->product_name }}</option>
-                                                    @endforeach
-                                                </datalist>
+                                            <label>Search Product Code</label>
+                                            <div class="d-flex gap-2">
+                                                <div class="position-relative flex-grow-1">
+                                                    <input type="text" id="productBarcodeSearch"
+                                                        list="productSearchSuggestions" class="form-control"
+                                                        placeholder="Enter Barcode / Product Code" autofocus>
+                                                    <datalist id="productSearchSuggestions">
+                                                        @foreach ($products as $product)
+                                                            <option
+                                                                value="{{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}">
+                                                                {{ $product->product_name }}</option>
+                                                        @endforeach
+                                                    </datalist>
+                                                </div>
+                                                <button type="button" class="btn btn-primary direct-sell-btn"
+                                                    style="white-space: nowrap;" data-bs-toggle="modal"
+                                                    data-bs-target="#directSellModal">
+                                                    Add Direct Sell
+                                                </button>
                                             </div>
-                                            <button type="button" class="btn btn-primary direct-sell-btn" style="white-space: nowrap;" data-bs-toggle="modal" data-bs-target="#directSellModal">
-                                                Add Direct Sell
-                                            </button>
+                                            <select id="productSearch" style="display: none;">
+                                                <option value="">Search by Product Code/Barcode</option>
+
+                                                @foreach ($products as $product)
+                                                    @php
+                                                        $gstAmount = $product->gst_amount ?? 0;
+                                                        $goldPrice = $product->gold_price ?? 0;
+                                                        $finalPrice = $product->final_price ?? 0;
+
+                                                        $goldWithoutGst = max(0, $goldPrice - $gstAmount);
+                                                        $finalWithoutGst = max(0, $finalPrice - $gstAmount);
+
+                                                        $packetsJson = $product->packets
+                                                            ->map(function ($p) {
+                                                                return [
+                                                                    'packet_no' => $p->packet_no,
+                                                                    'packet_type' => $p->packet_type ?? 'Diamond',
+                                                                    'pcs' => $p->pcs,
+                                                                    'certificate_no' => $p->certificate_no,
+                                                                    'stone' => optional($p->stone)->name,
+                                                                    'clarity' => optional($p->clarity)->name,
+                                                                    'color' => optional($p->color)->name,
+                                                                    'cut' => optional($p->cut)->name,
+                                                                    'shape' => optional($p->shape)->name,
+                                                                    // 'chalni' => optional($p->chalni)->name,
+                                                                    'mm' => optional($p->mm)->name,
+                                                                    'weight' => $p->weight,
+                                                                    'wt_in_gram' => $p->wt_in_gram,
+                                                                    'uom' => $p->uom,
+                                                                    'rate' => $p->rate,
+                                                                    'amount' => $p->amount,
+                                                                ];
+                                                            })
+                                                            ->values();
+                                                    @endphp
+
+                                                    <option value="{{ $product->id }}"
+                                                        data-name="{{ $product->product_name }}"
+                                                        data-barcode="{{ $product->barcode }}"
+                                                        data-hsn="{{ $product->hsn_code }}"
+                                                        data-gross_weight="{{ $product->gross_weight }}"
+                                                        data-net_weight="{{ $product->net_weight }}"
+                                                        data-final_fn_weight="{{ $product->final_fn_weight }}"
+                                                        data-size="{{ $product->size }}"
+                                                        data-quantity="{{ $product->quantity }}"
+                                                        data-wastage_percent="{{ $product->wastage_percent }}"
+                                                        data-wastage_amount="{{ $product->wastage_amount }}"
+                                                        data-making_price="{{ $product->making_price }}"
+                                                        {{-- CATEGORY --}}
+                                                        data-making_type="{{ $product->making_type }}"
+                                                        data-making_final_amount="{{ $product->making_final_amount }}"
+                                                        data-category-id="{{ $product->category_id }}"
+                                                        data-category-name="{{ optional($product->category)->category_name }}"
+                                                        {{-- SUBCATEGORY --}}
+                                                        data-subcategory-id="{{ $product->subcategory_id }}"
+                                                        data-subcategory-name="{{ optional($product->subcategory)->subcategory_name }}"
+                                                        data-gst_percent="{{ $product->gst_percent }}"
+                                                        data-gst_amount="{{ $gstAmount }}"
+                                                        data-metal_rate="{{ optional($product->metalRate)->price_per_gram }}"
+                                                        {{-- ✅ GST REMOVED VALUES --}}
+                                                        data-gold_price="{{ number_format($goldWithoutGst, 2, '.', '') }}"
+                                                        data-final_price="{{ number_format($finalWithoutGst, 2, '.', '') }}"
+                                                        data-pre_code="{{ $product->pre_code }}"
+                                                        data-post_code="{{ $product->post_code }}"
+                                                        data-diamonds='@json($product->diamonds)'
+                                                        data-stones='@json($product->stones)'
+                                                        data-packets='@json($packetsJson)'>
+                                                        {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}
+                                                        ({{ $product->product_name }})
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div id="productInfoSection" style="display: none;">
+                                                <table class="table table-bordered" id="entryTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Category</th>
+                                                            <th>SubCategory</th>
+                                                            <th>Product Name</th>
+                                                            <th>Item Code</th>
+                                                            <th>Post Code</th>
+                                                            {{-- <th>Prod Code</th> --}}
+                                                            {{-- <th>Barcode</th --}}
+                                                            {{-- <th>HSN Code</th> --}}
+                                                            <th>Metal Rate</th>
+                                                            <th>Qty</th>
+                                                            <th>GS Wt</th>
+                                                            <th>Net Wt</th>
+                                                            <th>Fn Wt</th>
+                                                            <th>Size</th>
+                                                            <th>Wastage %</th>
+                                                            <th>Mkg</th>
+                                                            <th>Mkg Type</th>
+                                                            <th>Mkg Amt</th>
+                                                            <th>Gold Price</th>
+                                                            <th>Final price</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="display:none">
+                                                                <input type="hidden" name="product_id[]"
+                                                                    id="entry_product_id">
+                                                            </td>
+
+                                                            <td>
+                                                                <span class="entry-label">Category</span>
+                                                                <input type="text" name="category[]"
+                                                                    class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">SubCategory</span>
+                                                                <input type="text" name="subcategory[]"
+                                                                    class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Product Name</span>
+                                                                <input type="text" name="product_name[]"
+                                                                    class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Item Code</span>
+                                                                <input type="text" name="pre_code[]"
+                                                                    class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Post Code</span>
+                                                                <input type="text" name="post_code[]"
+                                                                    class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <input type="hidden" name="barcode[]"
+                                                                class="form-control"style="pointer-events: none; background-color: #e9ecef;">
+
+                                                            <input type="hidden" name="hsn_code[]" class="form-control"
+                                                                style="pointer-events: none; background-color: #e9ecef;">
+                                                            <td>
+                                                                <span class="entry-label">Metal Rate</span>
+                                                                <input type="number" step="0.01" name="metal_rate[]"
+                                                                    class="form-control">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Qty</span>
+                                                                <input type="number" name="quantity[]"
+                                                                    class="form-control" value="1"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">GS Wt</span>
+                                                                <input type="number" step="0.001"
+                                                                    name="gross_weight[]" class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Net Wt</span>
+                                                                <input type="number" step="0.001" name="net_weight[]"
+                                                                    class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Fn Wt</span>
+                                                                <input type="number" step="0.001"
+                                                                    name="final_fn_weight[]" class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Size</span>
+                                                                <input type="text" name="size[]" class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Wastage %</span>
+                                                                <input type="number" step="0.01"
+                                                                    name="wastage_percent[]" class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Wastage Amt</span>
+                                                                <input type="number" step="0.01"
+                                                                    name="wastage_amount[]" class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Mkg</span>
+                                                                <input type="number" step="0.01"
+                                                                    name="making_price[]" class="form-control">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Mkg Type</span>
+                                                                <select name="making_type[]" class="form-control">
+                                                                    <option value="val">Value</option>
+                                                                    <option value="per_gld_val">% of Gold Value</option>
+                                                                    <option value="per_pcs">Per Pcs</option>
+                                                                    <option value="per_gm_nw" selected>Rate/Gm of Nw
+                                                                    </option>
+                                                                    <option value="per_gm_gw">Rate/Gm of Gw</option>
+                                                                    <option value="per_gm_fine_wt">Rate/Gm of Fine Wt
+                                                                    </option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Mkg Amt</span>
+                                                                <input type="number" step="0.01"
+                                                                    name="making_final_amount[]" class="form-control">
+                                                                <input type="hidden" name="gst_percent[]">
+                                                                <input type="hidden" name="gst_amount[]">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Gold Price</span>
+                                                                <input type="number" step="0.01"
+                                                                    name="total_amount[]" class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                            <td>
+                                                                <span class="entry-label">Final price</span>
+                                                                <input type="number" step="0.01" name="final_price[]"
+                                                                    class="form-control"
+                                                                    style="pointer-events: none; background-color: #e9ecef;">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div id="diamondSection" style="display:none;">
+                                                    <h5 class="mt-4">Diamonds</h5>
+                                                    <table class="table table-bordered" id="diamondTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Clarity</th>
+                                                                <th>Cut</th>
+                                                                <th>Color</th>
+                                                                <th>Pieces</th>
+                                                                <th>Diamond Weight (carat)</th>
+                                                                <th>Price Per Carat</th>
+                                                                <th>Final Price</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <div id="stoneSection" style="display:none;">
+                                                    <h5 class="mt-4">Stones</h5>
+                                                    <table class="table table-bordered" id="stoneTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Stone Name</th>
+                                                                <th>Weight</th>
+                                                                <th>Rate</th>
+                                                                <th>Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                                <div id="packetSection">
+                                                    <!-- <h5 class="mt-4">Packets</h5> -->
+                                                    <div class="table-responsive no-pagination">
+                                                        <table class="table table-bordered mt-2" id="packetTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Packet No</th>
+                                                                    <th>Packet Type</th>
+                                                                    <th>Pieces</th>
+                                                                    <th>Cert.No.</th>
+                                                                    <th>Stone</th>
+                                                                    <th>Clarity</th>
+                                                                    <th>Color</th>
+                                                                    <th>Cut</th>
+                                                                    <th>Shape</th>
+                                                                    {{-- <th>Chalni</th> --}}
+                                                                    <th>MM</th>
+                                                                    <th>Wt(CT)</th>
+                                                                    <th>Wt(GM)</th>
+                                                                    <th>UOM</th>
+                                                                    <th>Rate</th>
+                                                                    <th>Amount</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <button type="button" id="addItemBtn" class="btn btn-success mt-2">
+                                                    + Add Item
+                                                </button>
+                                            </div>
+
                                         </div>
-                                        <select id="productSearch" style="display: none;">
-                                            <option value="">Search by Product Code/Barcode</option>
-
-                                            @foreach ($products as $product)
-                                                @php
-                                                    $gstAmount = $product->gst_amount ?? 0;
-                                                    $goldPrice = $product->gold_price ?? 0;
-                                                    $finalPrice = $product->final_price ?? 0;
-
-                                                    $goldWithoutGst = max(0, $goldPrice - $gstAmount);
-                                                    $finalWithoutGst = max(0, $finalPrice - $gstAmount);
-
-                                                    $packetsJson = $product->packets
-                                                        ->map(function ($p) {
-                                                            return [
-                                                                'packet_no' => $p->packet_no,
-                                                                'packet_type' => $p->packet_type ?? 'Diamond',
-                                                                'pcs' => $p->pcs,
-                                                                'certificate_no' => $p->certificate_no,
-                                                                'stone' => optional($p->stone)->name,
-                                                                'clarity' => optional($p->clarity)->name,
-                                                                'color' => optional($p->color)->name,
-                                                                'cut' => optional($p->cut)->name,
-                                                                'shape' => optional($p->shape)->name,
-                                                                // 'chalni' => optional($p->chalni)->name,
-                                                                'mm' => optional($p->mm)->name,
-                                                                'weight' => $p->weight,
-                                                                'wt_in_gram' => $p->wt_in_gram,
-                                                                'uom' => $p->uom,
-                                                                'rate' => $p->rate,
-                                                                'amount' => $p->amount,
-                                                            ];
-                                                        })
-                                                        ->values();
-                                                @endphp
-
-                                                <option value="{{ $product->id }}"
-                                                    data-name="{{ $product->product_name }}"
-                                                    data-barcode="{{ $product->barcode }}"
-                                                    data-hsn="{{ $product->hsn_code }}"
-                                                    data-gross_weight="{{ $product->gross_weight }}"
-                                                    data-net_weight="{{ $product->net_weight }}"
-                                                    data-final_fn_weight="{{ $product->final_fn_weight }}"
-                                                    data-size="{{ $product->size }}"
-                                                    data-quantity="{{ $product->quantity }}"
-                                                    data-wastage_percent="{{ $product->wastage_percent }}"
-                                                    data-wastage_amount="{{ $product->wastage_amount }}"
-                                                    data-making_price="{{ $product->making_price }}" {{-- CATEGORY --}}
-                                                    data-making_type="{{ $product->making_type }}"
-                                                    data-making_final_amount="{{ $product->making_final_amount }}"
-                                                    data-category-id="{{ $product->category_id }}"
-                                                    data-category-name="{{ optional($product->category)->category_name }}"
-                                                    {{-- SUBCATEGORY --}}
-                                                    data-subcategory-id="{{ $product->subcategory_id }}"
-                                                    data-subcategory-name="{{ optional($product->subcategory)->subcategory_name }}"
-                                                    data-gst_percent="{{ $product->gst_percent }}"
-                                                    data-gst_amount="{{ $gstAmount }}"
-                                                    data-metal_rate="{{ optional($product->metalRate)->price_per_gram }}"
-                                                    {{-- ✅ GST REMOVED VALUES --}}
-                                                    data-gold_price="{{ number_format($goldWithoutGst, 2, '.', '') }}"
-                                                    data-final_price="{{ number_format($finalWithoutGst, 2, '.', '') }}"
-                                                    data-pre_code="{{ $product->pre_code }}"
-                                                    data-post_code="{{ $product->post_code }}"
-                                                    data-diamonds='@json($product->diamonds)'
-                                                    data-stones='@json($product->stones)'
-                                                    data-packets='@json($packetsJson)'>
-                                                    {{ $product->pre_code }}-{{ $product->post_code }}-{{ $product->barcode }}
-                                                    ({{ $product->product_name }})
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <div id="productInfoSection" style="display: none;">
-                                    <table class="table table-bordered" id="entryTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Category</th>
-                                                <th>SubCategory</th>
-                                                <th>Product Name</th>
-                                                <th>Item Code</th>
-                                                <th>Post Code</th>
-                                                {{-- <th>Prod Code</th> --}}
-                                                {{-- <th>Barcode</th --}}
-                                                {{-- <th>HSN Code</th> --}}
-                                                <th>Metal Rate</th>
-                                                <th>Qty</th>
-                                                <th>GS Wt</th>
-                                                <th>Net Wt</th>
-                                                <th>Fn Wt</th>
-                                                <th>Size</th>
-                                                <th>Wastage %</th>
-                                                <th>Mkg</th>
-                                                <th>Mkg Type</th>
-                                                <th>Mkg Amt</th>
-                                                <th>Gold Price</th>
-                                                <th>Final price</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <tr>
-                                                <td style="display:none">
-                                                    <input type="hidden" name="product_id[]" id="entry_product_id">
-                                                </td>
-
-                                                <td>
-                                                    <span class="entry-label">Category</span>
-                                                    <input type="text" name="category[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">SubCategory</span>
-                                                    <input type="text" name="subcategory[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Product Name</span>
-                                                    <input type="text" name="product_name[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Item Code</span>
-                                                    <input type="text" name="pre_code[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Post Code</span>
-                                                    <input type="text" name="post_code[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <input type="hidden" name="barcode[]"
-                                                    class="form-control"style="pointer-events: none; background-color: #e9ecef;">
-
-                                                <input type="hidden" name="hsn_code[]" class="form-control"
-                                                    style="pointer-events: none; background-color: #e9ecef;">
-                                                <td>
-                                                    <span class="entry-label">Metal Rate</span>
-                                                    <input type="number" step="0.01" name="metal_rate[]"
-                                                        class="form-control">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Qty</span>
-                                                    <input type="number" name="quantity[]" class="form-control"
-                                                        value="1"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">GS Wt</span>
-                                                    <input type="number" step="0.001" name="gross_weight[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Net Wt</span>
-                                                    <input type="number" step="0.001" name="net_weight[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Fn Wt</span>
-                                                    <input type="number" step="0.001" name="final_fn_weight[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Size</span>
-                                                    <input type="text" name="size[]" class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Wastage %</span>
-                                                    <input type="number" step="0.01" name="wastage_percent[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Wastage Amt</span>
-                                                    <input type="number" step="0.01" name="wastage_amount[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Mkg</span>
-                                                    <input type="number" step="0.01" name="making_price[]"
-                                                        class="form-control">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Mkg Type</span>
-                                                    <select name="making_type[]" class="form-control">
-                                                        <option value="val">Value</option>
-                                                        <option value="per_gld_val">% of Gold Value</option>
-                                                        <option value="per_pcs">Per Pcs</option>
-                                                        <option value="per_gm_nw" selected>Rate/Gm of Nw</option>
-                                                        <option value="per_gm_gw">Rate/Gm of Gw</option>
-                                                        <option value="per_gm_fine_wt">Rate/Gm of Fine Wt</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Mkg Amt</span>
-                                                    <input type="number" step="0.01" name="making_final_amount[]"
-                                                        class="form-control">
-                                                    <input type="hidden" name="gst_percent[]">
-                                                    <input type="hidden" name="gst_amount[]">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Gold Price</span>
-                                                    <input type="number" step="0.01" name="total_amount[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                                <td>
-                                                    <span class="entry-label">Final price</span>
-                                                    <input type="number" step="0.01" name="final_price[]"
-                                                        class="form-control"
-                                                        style="pointer-events: none; background-color: #e9ecef;">
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div id="diamondSection" style="display:none;">
-                                        <h5 class="mt-4">Diamonds</h5>
-                                        <table class="table table-bordered" id="diamondTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Clarity</th>
-                                                    <th>Cut</th>
-                                                    <th>Color</th>
-                                                    <th>Pieces</th>
-                                                    <th>Diamond Weight (carat)</th>
-                                                    <th>Price Per Carat</th>
-                                                    <th>Final Price</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                    <div id="stoneSection" style="display:none;">
-                                        <h5 class="mt-4">Stones</h5>
-                                        <table class="table table-bordered" id="stoneTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Stone Name</th>
-                                                    <th>Weight</th>
-                                                    <th>Rate</th>
-                                                    <th>Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                    <div id="packetSection">
-                                        <!-- <h5 class="mt-4">Packets</h5> -->
-                                         <div class="table-responsive no-pagination">
-                                        <table class="table table-bordered mt-2" id="packetTable">
-                                            <thead>
-                                                <tr>
-                                                    <th>Packet No</th>
-                                                    <th>Packet Type</th>
-                                                    <th>Pieces</th>
-                                                    <th>Cert.No.</th>
-                                                    <th>Stone</th>
-                                                    <th>Clarity</th>
-                                                    <th>Color</th>
-                                                    <th>Cut</th>
-                                                    <th>Shape</th>
-                                                    {{-- <th>Chalni</th> --}}
-                                                    <th>MM</th>
-                                                    <th>Wt(CT)</th>
-                                                    <th>Wt(GM)</th>
-                                                    <th>UOM</th>
-                                                    <th>Rate</th>
-                                                    <th>Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                        </div>
-                                    </div>
-
-                                    <button type="button" id="addItemBtn" class="btn btn-success mt-2">
-                                        + Add Item
-                                    </button>
-                                </div>
-
-                                    </div>
-                                    <div class="col-lg-12">
-                                         <h6 class="mt-4">Added Items</h6>
-                                <div class="table-responsive no-pagination">
-                                <table class="table  table-hover " id="itemsTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            {{-- <th>Code</th> --}}
-                                            <th>Barcode</th>
-                                            <th>Gs Wt</th>
-                                            <th>Net Wt</th>
-                                            <th>Fn Wt</th>
-                                            <th>Metal Rate</th>
-                                            <th>Wastage Amt</th>
-                                            <th>Making</th>
-                                            {{-- <th>Diamond Amt</th>
+                                        <div class="col-lg-12">
+                                            <h6 class="mt-4">Added Items</h6>
+                                            <div class="table-responsive no-pagination">
+                                                <table class="table  table-hover " id="itemsTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Product</th>
+                                                            {{-- <th>Code</th> --}}
+                                                            <th>Barcode</th>
+                                                            <th>Gs Wt</th>
+                                                            <th>Net Wt</th>
+                                                            <th>Fn Wt</th>
+                                                            <th>Metal Rate</th>
+                                                            <th>Wastage Amt</th>
+                                                            <th>Making</th>
+                                                            {{-- <th>Diamond Amt</th>
                                             <th>Stone Amt</th> --}}
-                                            <th>Pkt Diamond Amt</th>
-                                            <th>Pkt Stone Amt</th>
-                                            <th>Final Amt</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                                </div>
-                                    </div>
+                                                            <th>Pkt Diamond Amt</th>
+                                                            <th>Pkt Stone Amt</th>
+                                                            <th>Final Amt</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
 
 
 
@@ -851,12 +887,13 @@
                             </button> --}}
                             </div>
 
-                            
+
                             <!-- Exchange / Old Gold Section -->
                             <div class="card glass-card border-0 shadow-none bg-transparent">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h6 class="mb-0">Exchange/Old Gold</h6>
-                                    <button type="button" class="btn btn-primary btn-cust-new btn-sm" id="addExchangeItem">
+                                    <button type="button" class="btn btn-primary btn-cust-new btn-sm"
+                                        id="addExchangeItem">
                                         + Purchase Old Gold
                                     </button>
                                 </div>
@@ -887,7 +924,8 @@
                             <div class="card glass-card border-0 shadow-none bg-transparent">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h6 class="mb-0">Diamond Exchange</h6>
-                                    <button type="button" class="btn btn-primary btn-sm btn-cust-new" id="addExchangeDiamond">
+                                    <button type="button" class="btn btn-primary btn-sm btn-cust-new"
+                                        id="addExchangeDiamond">
                                         + Exchange Diamond
                                     </button>
                                 </div>
@@ -1019,19 +1057,22 @@
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Diamond Amount </label>
-                                                            <span class="fs-12" id="totalDiamondCombinedAmount">₹0.00</span>
+                                                            <span class="fs-12"
+                                                                id="totalDiamondCombinedAmount">₹0.00</span>
                                                         </div>
 
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-2">
                                                             <label>Total Stone/Other Amount</label>
-                                                            <span class="fs-12" id="totalStoneCombinedAmount">₹0.00</span>
+                                                            <span class="fs-12"
+                                                                id="totalStoneCombinedAmount">₹0.00</span>
                                                         </div>
 
                                                         <div
                                                             class="d-flex justify-content-between align-items-center mb-1">
                                                             <label>Total Diamond & Stone Price</label>
-                                                            <span class="fs-12" id="totalDiamondStonePacketAmount">₹0.00</span>
+                                                            <span class="fs-12"
+                                                                id="totalDiamondStonePacketAmount">₹0.00</span>
                                                             <input type="hidden" id="totalDiamondStonePacketAmountInput"
                                                                 value="">
                                                         </div>
@@ -1074,22 +1115,26 @@
                                                             <div class="d-flex justify-content-between align-items-center mb-1"
                                                                 style="font-size: 0.85rem; color: #555;">
                                                                 <span class="fs-12">Making Discount:</span>
-                                                                <span class="fs-12" id="displayMakingDiscount">₹0.00</span>
+                                                                <span class="fs-12"
+                                                                    id="displayMakingDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-1"
                                                                 style="font-size: 0.85rem; color: #555;">
                                                                 <span class="fs-12">Wastage Discount:</span>
-                                                                <span class="fs-12" id="displayWastageDiscount">₹0.00</span>
+                                                                <span class="fs-12"
+                                                                    id="displayWastageDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-1"
                                                                 style="font-size: 0.85rem; color: #555;">
                                                                 <span class="fs-12">Diamond Discount:</span>
-                                                                <span class="fs-12" id="displayDiamondDiscount">₹0.00</span>
+                                                                <span class="fs-12"
+                                                                    id="displayDiamondDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center mb-2"
                                                                 style="font-size: 0.85rem; color: #555;">
                                                                 <span class="fs-12">Final Discount:</span>
-                                                                <span class="fs-12" id="displayFinalDiscount">₹0.00</span>
+                                                                <span class="fs-12"
+                                                                    id="displayFinalDiscount">₹0.00</span>
                                                             </div>
                                                             <div class="d-flex justify-content-between align-items-center pt-2"
                                                                 style="border-top: 1px solid rgba(40, 167, 69, 0.15);">
@@ -1171,8 +1216,7 @@
                                                 <div class="invoice-total-box">
                                                     <div class="invoice-total-inner">
                                                         <!-- Dynamic Multiple Payments System -->
-                                                        <div
-                                                            class="payment-system-container  mb-3  bg-light ">
+                                                        <div class="payment-system-container  mb-3  bg-light ">
                                                             <div
                                                                 class="mb-3 d-flex align-items-center justify-content-between">
                                                                 <h6 class="fw-bold">Payment
@@ -1268,20 +1312,22 @@
 
                                                     </h6>
                                                 </div>
-                                            </div>                                          
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="mt-3 text-end">
-                                               <a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
-                                               <button type="button" id="saveInvoiceBtn" class="btn custom-btn-primary text-white me-2">Save</button>
-                                               <button type="button" id="savePrintInvoiceBtn" class="btn custom-btn-primary text-white">Save & Print</button>
+                                        <a href="{{ route('invoices') }}" class="btn btn-light me-2">Cancel</a>
+                                        <button type="button" id="saveInvoiceBtn"
+                                            class="btn custom-btn-primary text-white me-2">Save</button>
+                                        <button type="button" id="savePrintInvoiceBtn"
+                                            class="btn custom-btn-primary text-white">Save & Print</button>
                                     </div>
 
                                 </div>
                             </div>
 
                         </div>
-                       
+
                 </form>
             </div>
         </div>
@@ -1360,109 +1406,108 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                                 <!-- Address -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
-                                    <label>Address (Area)</label>
-                                    <input type="text" name="address" class="form-control"
-                                        placeholder="Enter Address (Area)">
-                                </div>
+                            <!-- Address -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
+                                <label>Address (Area)</label>
+                                <input type="text" name="address" class="form-control"
+                                    placeholder="Enter Address (Area)">
+                            </div>
 
-                                <!-- Country -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
-                                    <label>Country</label>
-                                    <input type="text" name="country" class="form-control" value="INDIA"
-                                        placeholder="Enter Country">
-                                </div>
+                            <!-- Country -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
+                                <label>Country</label>
+                                <input type="text" name="country" class="form-control" value="INDIA"
+                                    placeholder="Enter Country">
+                            </div>
 
-                                <!-- State -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
-                                    <label>State <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="state" required>
-                                        <option value="">Select State</option>
-                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                        <option value="Assam">Assam</option>
-                                        <option value="Bihar">Bihar</option>
-                                        <option value="Chhattisgarh">Chhattisgarh</option>
-                                        <option value="Goa">Goa</option>
-                                        <option value="Gujarat">Gujarat</option>
-                                        <option value="Haryana">Haryana</option>
-                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                        <option value="Jharkhand">Jharkhand</option>
-                                        <option value="Karnataka">Karnataka</option>
-                                        <option value="Kerala">Kerala</option>
-                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                        <option value="Maharashtra">Maharashtra</option>
-                                        <option value="Manipur">Manipur</option>
-                                        <option value="Meghalaya">Meghalaya</option>
-                                        <option value="Mizoram">Mizoram</option>
-                                        <option value="Nagaland">Nagaland</option>
-                                        <option value="Odisha">Odisha</option>
-                                        <option value="Punjab">Punjab</option>
-                                        <option value="Rajasthan">Rajasthan</option>
-                                        <option value="Sikkim">Sikkim</option>
-                                        <option value="Tamil Nadu">Tamil Nadu</option>
-                                        <option value="Telangana">Telangana</option>
-                                        <option value="Tripura">Tripura</option>
-                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                        <option value="Uttarakhand">Uttarakhand</option>
-                                        <option value="West Bengal">West Bengal</option>
-                                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                                        <option value="Chandigarh">Chandigarh</option>
-                                        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and
-                                            Daman and Diu</option>
-                                        <option value="Delhi">Delhi</option>
-                                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                                        <option value="Ladakh">Ladakh</option>
-                                        <option value="Lakshadweep">Lakshadweep</option>
-                                        <option value="Puducherry">Puducherry</option>
-                                    </select>
-                                    @error('state')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                            <!-- State -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
+                                <label>State <span class="text-danger">*</span></label>
+                                <select class="form-control" name="state" required>
+                                    <option value="">Select State</option>
+                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="Bihar">Bihar</option>
+                                    <option value="Chhattisgarh">Chhattisgarh</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Haryana">Haryana</option>
+                                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option value="Jharkhand">Jharkhand</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Manipur">Manipur</option>
+                                    <option value="Meghalaya">Meghalaya</option>
+                                    <option value="Mizoram">Mizoram</option>
+                                    <option value="Nagaland">Nagaland</option>
+                                    <option value="Odisha">Odisha</option>
+                                    <option value="Punjab">Punjab</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Sikkim">Sikkim</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Tripura">Tripura</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Uttarakhand">Uttarakhand</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                    <option value="Chandigarh">Chandigarh</option>
+                                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and
+                                        Daman and Diu</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    <option value="Ladakh">Ladakh</option>
+                                    <option value="Lakshadweep">Lakshadweep</option>
+                                    <option value="Puducherry">Puducherry</option>
+                                </select>
+                                @error('state')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
 
-                                <!-- City -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
-                                    <label>City</label>
-                                    <input type="text" name="city" class="form-control" placeholder="Enter City">
-                                </div>
+                            <!-- City -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
+                                <label>City</label>
+                                <input type="text" name="city" class="form-control" placeholder="Enter City">
+                            </div>
 
-                                <!-- Pincode -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
-                                    <label>Pincode</label>
-                                    <input type="text" name="pincode" class="form-control"
-                                        placeholder="Enter Pincode">
-                                </div>
-                                   
-                                <!-- GST -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
-                                    <label>GST No.</label>
-                                    <input type="text" name="gst_no" class="form-control"
-                                        placeholder="Enter GST Number">
-                                </div>
+                            <!-- Pincode -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-2">
+                                <label>Pincode</label>
+                                <input type="text" name="pincode" class="form-control" placeholder="Enter Pincode">
+                            </div>
 
-                                <!-- Aadhaar -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
-                                    <label>Aadhaar No.</label>
-                                    <input type="text" name="adhaar_no" class="form-control"
-                                        placeholder="Enter Aadhaar Number">
-                                </div>
+                            <!-- GST -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+                                <label>GST No.</label>
+                                <input type="text" name="gst_no" class="form-control"
+                                    placeholder="Enter GST Number">
+                            </div>
 
-                                <!-- PAN -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
-                                    <label>PAN No.</label>
-                                    <input type="text" name="pan_no" class="form-control"
-                                        placeholder="Enter PAN Number">
-                                </div>
+                            <!-- Aadhaar -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+                                <label>Aadhaar No.</label>
+                                <input type="text" name="adhaar_no" class="form-control"
+                                    placeholder="Enter Aadhaar Number">
+                            </div>
 
-                                <!-- TAN -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
-                                    <label>TAN</label>
-                                    <input type="text" name="tan" class="form-control" placeholder="Enter TAN">
-                                </div>
-                         
-                           
+                            <!-- PAN -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+                                <label>PAN No.</label>
+                                <input type="text" name="pan_no" class="form-control"
+                                    placeholder="Enter PAN Number">
+                            </div>
+
+                            <!-- TAN -->
+                            <div class="col-xl-3 col-lg-3 col-md-6 mb-3">
+                                <label>TAN</label>
+                                <input type="text" name="tan" class="form-control" placeholder="Enter TAN">
+                            </div>
+
+
 
                         </div>
 
@@ -1717,15 +1762,61 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
     <script>
-        $(document).ready(function() {
+      $(document).ready(function () {
 
-            $('.select').select2({
-                theme: 'bootstrap-5',
-                width: '100%'
-            });
+    $('#customerDropdown').select2({
+        theme: 'bootstrap-5',
+        width: '100%',
+        placeholder: 'Choose Customer',
+        allowClear: true,
 
+        matcher: function (params, data) {
 
-        });
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+
+            if (!data.element) {
+                return null;
+            }
+
+            let search = $.trim(params.term)
+                .toLowerCase()
+                .replace(/\s+/g, '');
+
+            let name = $(data.element)
+                .text()
+                .toLowerCase();
+
+            let phone = $(data.element)
+                .attr('data-phone') || '';
+
+            phone = phone
+                .toString()
+                .toLowerCase()
+                .replace(/\s+/g, '');
+
+            // Search by name
+            if (name.includes(search)) {
+                return data;
+            }
+
+            // Search by phone
+            if (phone.includes(search)) {
+                return data;
+            }
+
+            return null;
+        }
+    });
+
+    // Other select2 dropdowns
+    $('.select').not('#customerDropdown').select2({
+        theme: 'bootstrap-5',
+        width: '100%'
+    });
+
+});
     </script>
 
     <script>
@@ -2734,7 +2825,7 @@
                             .attr('data-packets', JSON.stringify(p.packets || []))
                             .text(
                                 `${p.pre_code || ''}-${p.post_code || ''}-${p.barcode || ''} (${p.product_name || ''})`
-                                );
+                            );
 
                         productSearch.append(option);
                     }
@@ -3800,61 +3891,80 @@
         });
     </script>
     <script>
-        $(document).ready(function() {
+      $(document).ready(function () {
 
-            // setup csrf token
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-            $('#saveCustomerBtn').click(function(e) {
+    $('#saveCustomerBtn').click(function (e) {
 
-                e.preventDefault();
-                e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
 
-                let formData = $('#customerForm').serialize();
+        let formData = $('#customerForm').serialize();
 
-                $.ajax({
-                    url: "{{ route('customers.store') }}",
-                    type: "POST",
-                    data: formData,
+        $.ajax({
+            url: "{{ route('customers.store') }}",
+            type: "POST",
+            data: formData,
 
-                    success: function(response) {
+            success: function (response) {
 
-                        if (response.success) {
+                if (response.success) {
 
-                            let option = new Option(
-                                response.customer.name,
-                                response.customer.id,
-                                true,
-                                true
-                            );
+                    // Get phone number from response
+                    let phone = response.customer.phone || '';
 
-                            $('#customerDropdown')
-                                .append(option)
-                                .trigger('change');
-
-                            $('#addCustomerModal').modal('hide');
-
-                            $('#customerForm')[0].reset();
-
-                            alert('Customer Added Successfully');
-                        }
-                    },
-
-                    error: function(xhr) {
-
-                        console.log(xhr.responseText);
-
-                        alert('Customer not saved');
+                    // If API does not return phone,
+                    // get it directly from the modal input
+                    if (!phone) {
+                        phone = $('#contactPhone').val() || '';
                     }
-                });
 
-            });
+                    let option = new Option(
+                        response.customer.name + ' - ' + phone,
+                        response.customer.id,
+                        true,
+                        true
+                    );
 
+                    // IMPORTANT
+                    $(option).attr('data-phone', phone);
+
+                    $(option).attr(
+                        'data-state',
+                        response.customer.state || ''
+                    );
+
+                    // Add customer to dropdown
+                    $('#customerDropdown')
+                        .append(option)
+                        .trigger('change');
+
+                    // Close modal
+                    $('#addCustomerModal').modal('hide');
+
+                    // Reset form
+                    $('#customerForm')[0].reset();
+
+                    alert('Customer Added Successfully');
+                }
+            },
+
+            error: function (xhr) {
+
+                console.log(xhr.responseText);
+
+                alert('Customer not saved');
+            }
         });
+
+    });
+
+});
     </script>
 
     <script>
@@ -4158,27 +4268,36 @@
     </script>
 
     <!-- Direct Sell Modal -->
-    <div class="modal fade" id="directSellModal" tabindex="-1" aria-labelledby="directSellModalLabel" aria-hidden="true">
+    <div class="modal fade" id="directSellModal" tabindex="-1" aria-labelledby="directSellModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content shadow-lg border-0" style="border-radius: 15px;">
-                <div class="modal-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                    <h6 class="modal-title text-white" id="directSellModalLabel"><i class="feather-plus-circle me-2"></i>Add Direct Sell Product</h6>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header text-white"
+                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <h6 class="modal-title text-white" id="directSellModalLabel"><i
+                            class="feather-plus-circle me-2"></i>Add Direct Sell Product</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body " style="max-height: 80vh; overflow-y: auto;">
                     <form id="directSellForm">
                         <!-- PRODUCT INFO CARD -->
-                        <div class="" >
+                        <div class="">
                             <!-- <h5 class="text-primary mb-3 border-bottom pb-2">1. Product Information</h5> -->
                             <div class="row g-3">
                                 <div class="col-xl-2 col-lg-2 col-md-3 position-relative">
-                                    <label class="form-label font-weight-bold">Pre Code <span class="text-danger">*</span></label>
-                                    <input type="text" id="direct_pre_code" class="form-control text-uppercase" placeholder="e.g. RING" required>
-                                    <div id="directPreCodeSuggestions" class="dropdown-menu shadow-lg w-100" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1050; max-height: 250px; overflow-y: auto;"></div>
+                                    <label class="form-label font-weight-bold">Pre Code <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" id="direct_pre_code" class="form-control text-uppercase"
+                                        placeholder="e.g. RING" required>
+                                    <div id="directPreCodeSuggestions" class="dropdown-menu shadow-lg w-100"
+                                        style="display: none; position: absolute; top: 100%; left: 0; z-index: 1050; max-height: 250px; overflow-y: auto;">
+                                    </div>
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Post Code <span class="text-danger">*</span></label>
-                                    <input type="number" id="direct_post_code" class="form-control" placeholder="e.g. 1001" required>
+                                    <input type="number" id="direct_post_code" class="form-control"
+                                        placeholder="e.g. 1001" required>
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Barcode (Pre + Post)</label>
@@ -4186,15 +4305,17 @@
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Product Name <span class="text-danger">*</span></label>
-                                    <input type="text" id="direct_product_name" class="form-control" placeholder="Product Name" required>
+                                    <input type="text" id="direct_product_name" class="form-control"
+                                        placeholder="Product Name" required>
                                 </div>
 
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Category <span class="text-danger">*</span></label>
                                     <select id="direct_category_id" class="form-select" required>
                                         <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->category_id }}">{{ $category->category_name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -4208,9 +4329,12 @@
                                     <label class="form-label">Metal Rate/Purity <span class="text-danger">*</span></label>
                                     <select id="direct_metal_rate" class="form-select" required>
                                         <option value="" data-price="0">Select Metal Rate</option>
-                                        @foreach($metalRates as $rate)
-                                            <option value="{{ $rate->id }}" data-metal="{{ strtolower($rate->metal_type) }}" data-price="{{ $rate->price_per_gram }}">
-                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm ({{ $rate->karat }}{{ $rate->purity_type === 'karat' ? 'KT' : '%' }})
+                                        @foreach ($metalRates as $rate)
+                                            <option value="{{ $rate->id }}"
+                                                data-metal="{{ strtolower($rate->metal_type) }}"
+                                                data-price="{{ $rate->price_per_gram }}">
+                                                {{ $rate->metal_type }} - ₹{{ $rate->price_per_gram }}/gm
+                                                ({{ $rate->karat }}{{ $rate->purity_type === 'karat' ? 'KT' : '%' }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -4230,36 +4354,44 @@
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Quantity</label>
-                                    <input type="number" id="direct_quantity" class="form-control" value="1" min="1">
+                                    <input type="number" id="direct_quantity" class="form-control" value="1"
+                                        min="1">
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">HSN Code</label>
-                                    <input type="text" id="direct_hsn_code" class="form-control" placeholder="HSN Code">
+                                    <input type="text" id="direct_hsn_code" class="form-control"
+                                        placeholder="HSN Code">
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gross Wt (Gram) <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.001" id="direct_gross_weight" class="form-control" required>
+                                    <input type="number" step="0.001" id="direct_gross_weight" class="form-control"
+                                        required>
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Net Wt (Gram)</label>
-                                    <input type="number" step="0.001" id="direct_net_weight" class="form-control bg-light" readonly>
+                                    <input type="number" step="0.001" id="direct_net_weight"
+                                        class="form-control bg-light" readonly>
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Fine Wt (Gram)</label>
-                                    <input type="number" step="0.001" id="direct_final_fn_weight" class="form-control bg-light" readonly>
+                                    <input type="number" step="0.001" id="direct_final_fn_weight"
+                                        class="form-control bg-light" readonly>
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Wastage %</label>
-                                    <input type="number" step="0.01" id="direct_wastage_percent" class="form-control" value="0">
+                                    <input type="number" step="0.01" id="direct_wastage_percent"
+                                        class="form-control" value="0">
                                 </div>
 
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Wastage Amt (₹)</label>
-                                    <input type="number" step="0.01" id="direct_wastage_amount" class="form-control bg-light" readonly>
+                                    <input type="number" step="0.01" id="direct_wastage_amount"
+                                        class="form-control bg-light" readonly>
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Price</label>
-                                    <input type="number" step="0.01" id="direct_making_price" class="form-control" value="0">
+                                    <input type="number" step="0.01" id="direct_making_price" class="form-control"
+                                        value="0">
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Type</label>
@@ -4274,12 +4406,14 @@
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Making Final Amt (₹)</label>
-                                    <input type="number" step="0.01" id="direct_making_final_amount" class="form-control bg-light" readonly>
+                                    <input type="number" step="0.01" id="direct_making_final_amount"
+                                        class="form-control bg-light" readonly>
                                 </div>
 
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label">Gold Price (₹)</label>
-                                    <input type="number" step="0.01" id="direct_gold_price" class="form-control bg-light" readonly>
+                                    <input type="number" step="0.01" id="direct_gold_price"
+                                        class="form-control bg-light" readonly>
                                 </div>
                                 {{-- <div class="col-md-3">
                                     <label class="form-label">GST %</label>
@@ -4291,35 +4425,40 @@
                                 </div> --}}
                                 <div class="col-xl-2 col-lg-2 col-md-3">
                                     <label class="form-label text-success font-weight-bold">Final Product Price (₹)</label>
-                                    <input type="number" step="0.01" id="direct_final_price" class="form-control border-success text-success bg-light" readonly>
+                                    <input type="number" step="0.01" id="direct_final_price"
+                                        class="form-control border-success text-success bg-light" readonly>
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-md-12">
-                                    <button type="button" id="directAddPacketBtn" class="btn btn-sm btn-outline-warning mb-2">+ Add Packet</button>
-                                     <div id="directPacketWrapper"></div>
+                                    <button type="button" id="directAddPacketBtn"
+                                        class="btn btn-sm btn-outline-warning mb-2">+ Add Packet</button>
+                                    <div id="directPacketWrapper"></div>
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-md-12">
-                                    <div class="modal-footer  gap-2" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="submitDirectSellBtn" class="btn btn-success">Save Direct Sell</button>
-                </div>
+                                    <div class="modal-footer  gap-2"
+                                        style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" id="submitDirectSellBtn" class="btn btn-success">Save
+                                            Direct Sell</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        
+
 
                         <!-- PACKETS CARD -->
                         <!-- <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 10px;">
-                            <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                                <h5 class="text-primary m-0">3. Packets</h5>
-                                
-                            </div>
-                           
-                        </div> -->
+                                <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                                    <h5 class="text-primary m-0">3. Packets</h5>
+
+                                </div>
+
+                            </div> -->
 
                     </form>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -4340,7 +4479,8 @@
                             if (data.length > 0) {
                                 $.each(data, function(key, subcategory) {
                                     subSelect.append(
-                                        '<option value="' + subcategory.subcategory_id + '">' +
+                                        '<option value="' + subcategory
+                                        .subcategory_id + '">' +
                                         subcategory.subcategory_name +
                                         '</option>'
                                     );
@@ -4360,18 +4500,27 @@
                     $.ajax({
                         url: "{{ route('products.searchPreCode') }}",
                         type: "GET",
-                        data: { term: term },
+                        data: {
+                            term: term
+                        },
                         success: function(data) {
                             let $box = $('#directPreCodeSuggestions');
                             $box.empty();
                             if (data && data.length > 0) {
                                 $.each(data, function(i, item) {
-                                    let html = '<a href="javascript:void(0)" class="dropdown-item direct-pre-code-suggestion-item py-2 px-3 border-bottom" ' +
-                                        'data-pre_code="' + (item.pre_code || '') + '" ' +
-                                        'data-product_name="' + (item.product_name || '') + '" ' +
-                                        'data-category_id="' + (item.category_id || '') + '" ' +
-                                        'data-subcategory_id="' + (item.subcategory_id || '') + '">' +
-                                        '<div><strong>' + (item.pre_code || '') + '</strong> - ' + (item.product_name || 'Unnamed Product') + '</div>' +
+                                    let html =
+                                        '<a href="javascript:void(0)" class="dropdown-item direct-pre-code-suggestion-item py-2 px-3 border-bottom" ' +
+                                        'data-pre_code="' + (item.pre_code || '') +
+                                        '" ' +
+                                        'data-product_name="' + (item.product_name ||
+                                            '') + '" ' +
+                                        'data-category_id="' + (item.category_id ||
+                                        '') + '" ' +
+                                        'data-subcategory_id="' + (item
+                                            .subcategory_id || '') + '">' +
+                                        '<div><strong>' + (item.pre_code || '') +
+                                        '</strong> - ' + (item.product_name ||
+                                            'Unnamed Product') + '</div>' +
                                         '</a>';
                                     $box.append(html);
                                 });
@@ -4487,7 +4636,7 @@
                             <label class="form-label small">Stone</label>
                             <select class="form-select packet-stone-select">
                                 <option value="">Select Stone</option>
-                                @foreach($stones as $st)
+                                @foreach ($stones as $st)
                                     <option value="{{ $st->id }}">{{ $st->name }}</option>
                                 @endforeach
                             </select>
@@ -4496,7 +4645,7 @@
                             <label class="form-label small">Shape</label>
                             <select class="form-select packet-shape-select">
                                 <option value="">Select Shape</option>
-                                @foreach($shapes as $sh)
+                                @foreach ($shapes as $sh)
                                     <option value="{{ $sh->id }}">{{ $sh->name }}</option>
                                 @endforeach
                             </select>
@@ -4505,7 +4654,7 @@
                             <label class="form-label small">Clarity</label>
                             <select class="form-select packet-clarity-select">
                                 <option value="">Select Clarity</option>
-                                @foreach($clarities as $cl)
+                                @foreach ($clarities as $cl)
                                     <option value="{{ $cl->id }}">{{ $cl->name }}</option>
                                 @endforeach
                             </select>
@@ -4514,7 +4663,7 @@
                             <label class="form-label small">Color</label>
                             <select class="form-select packet-color-select">
                                 <option value="">Select Color</option>
-                                @foreach($colors as $co)
+                                @foreach ($colors as $co)
                                     <option value="{{ $co->id }}">{{ $co->name }}</option>
                                 @endforeach
                             </select>
@@ -4523,7 +4672,7 @@
                             <label class="form-label small">Cut</label>
                             <select class="form-select packet-cut-select">
                                 <option value="">Select Cut</option>
-                                @foreach($cuts as $cu)
+                                @foreach ($cuts as $cu)
                                     <option value="{{ $cu->id }}">{{ $cu->name }}</option>
                                 @endforeach
                             </select>
@@ -4532,7 +4681,7 @@
                             <label class="form-label small">MM</label>
                             <select class="form-select packet-mm-select">
                                 <option value="">Select MM</option>
-                                @foreach($mms as $mm)
+                                @foreach ($mms as $mm)
                                     <option value="{{ $mm->id }}">{{ $mm->name }}</option>
                                 @endforeach
                             </select>
@@ -4598,7 +4747,9 @@
                         dataType: 'json',
                         delay: 250,
                         data: function(params) {
-                            return { term: params.term };
+                            return {
+                                term: params.term
+                            };
                         },
                         processResults: function(data) {
                             return {
@@ -4715,7 +4866,8 @@
 
                 let subTotal = goldValue + wastageAmount + makingFinal + packetTotal;
                 let gstAmountFinal = (subTotal * gstPerc) / 100;
-                let finalPrice = subTotal; // In stock / invoices, final_price is subtotal before tax (tax is at invoice level)
+                let finalPrice =
+                subTotal; // In stock / invoices, final_price is subtotal before tax (tax is at invoice level)
 
                 $('#direct_gst_amount').val(gstAmountFinal.toFixed(2));
                 $('#direct_final_price').val(finalPrice.toFixed(2));
@@ -4760,7 +4912,8 @@
                 // console.log('metalRateId='+metalRateId);
                 //  console.log('grossWeight='+grossWeight);
 
-                if (!preCode || !postCode || !name || !category || !subcategory || !metalRateId || !grossWeight) {
+                if (!preCode || !postCode || !name || !category || !subcategory || !metalRateId || !
+                    grossWeight) {
                     alert('Please fill in all required fields marked with *');
                     return;
                 }
@@ -4837,7 +4990,9 @@
                     gold_price: $('#direct_gold_price').val(),
                     gst_percent: $('#direct_gst_percent').val(),
                     gst_amount: $('#direct_gst_amount').val(),
-                    total_amount: parseFloat($('#direct_gold_price').val()) + parseFloat($('#direct_wastage_amount').val()) + parseFloat($('#direct_making_final_amount').val()),
+                    total_amount: parseFloat($('#direct_gold_price').val()) + parseFloat($(
+                        '#direct_wastage_amount').val()) + parseFloat($(
+                        '#direct_making_final_amount').val()),
                     final_price: $('#direct_final_price').val(),
 
                     metal_rate: $('#direct_metal_rate option:selected').data('price') || 0,
@@ -4867,7 +5022,8 @@
                         }
                     },
                     error: function(xhr) {
-                        let msg = xhr.responseJSON ? xhr.responseJSON.message : 'Error saving direct sell';
+                        let msg = xhr.responseJSON ? xhr.responseJSON.message :
+                            'Error saving direct sell';
                         alert(msg);
                     }
                 });

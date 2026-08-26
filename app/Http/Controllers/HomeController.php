@@ -8,6 +8,7 @@ use App\Models\MetalRate;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Product;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -94,8 +95,14 @@ class HomeController extends Controller
     }
 
     public function customerdetails()
- {
-        return view( 'Customers/customer-details' );
+    {
+        if (Auth::guard('admin')->check()) {
+            $customer = Customer::where('admin_id', Auth::guard('admin')->id())->first();
+            if ($customer) {
+                return redirect()->route('customers.details', $customer->id);
+            }
+        }
+        return redirect()->route('customers');
     }
 
     public function customers()

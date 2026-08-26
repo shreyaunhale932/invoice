@@ -33,6 +33,8 @@
                                             <th>#</th>
                                             <th>Name</th>
                                             <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>City</th>
                                             {{-- <th>Balance </th> --}}
                                             {{-- <th>Total Invoice </th> --}}
                                             <th>Created</th>
@@ -48,13 +50,13 @@
                                                 <td>
                                                     <h2 class="table-avatar">
 
-                                                        <a href="{{ url('profile') }}">{{ $customer['name'] }}
-                                                            <span>{{ $customer['email'] }}</span></a>
+                                                        <a href="{{ route('customers.details', $customer->id) }}">{{ $customer['name'] }}
+                                                            {{-- <span>{{ $customer['email'] }}</span></a> --}}
                                                     </h2>
                                                 </td>
                                                 <td>{{ $customer['phone'] }}</td>
-                                                {{-- <td>{{ $customer['Balance'] }}</td> --}}
-                                                {{-- <td>{{ $customer['TotalInvoice'] }}</td> --}}
+                                                <td>{{ $customer['email'] }}</td>
+                                                <td>{{ $customer['city'] }}</td>
                                                 <td>{{ $customer['created_at'] }}</td>
                                                 {{-- <td><span class="{{ $customer['Class'] }}">{{ $customer['Status'] }}</span>
                                                 </td> --}}

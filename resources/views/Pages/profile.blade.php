@@ -59,7 +59,7 @@
                         </ul>
                     </div>
 
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-lg-4">
                             <div class="card card-body">
                                 <h5>Complete your profile</h5>
@@ -176,7 +176,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

@@ -354,7 +354,7 @@
 
                                         <div class="col-lg-4 col-md-6 col-sm-12">
                                             <div class="input-block mb-3">
-                                                <label>Customer Name</label>
+                                                <label>Customer Names</label>
                                                 <ul class="form-group-plus css-equal-heights">
                                                     <li>
                                                         <select class="select" name="customer_id" id="customerDropdown"
@@ -363,8 +363,9 @@
                                                             @foreach ($customers as $customer)
                                                                 <option value="{{ $customer->id }}"
                                                                     data-state="{{ $customer->state }}"
+                                                                    data-phone="{{ $customer->phone }}"
                                                                     {{ isset($invoice) && $invoice->user_id == $customer->id ? 'selected' : '' }}>
-                                                                    {{ $customer->name }}</option>
+                                                                    {{ $customer->name }}-{{ $customer->phone }}</option>
                                                             @endforeach
                                                         </select>
 
@@ -754,7 +755,7 @@
                                 </table>
 </div>
                                         </div>
-                                        
+
 
 
 
@@ -825,7 +826,7 @@
 
 
 
-                               
+
 </div>
 
 
@@ -1012,7 +1013,7 @@
 <!-- TOTALS & ADJUSTMENTS -->
 <div class="card glass-card mb-4 p-4">
 <h4 class="section-header">Totals & Adjustments</h4>
- 
+
                                 <div class="form-group-item border-0 p-0">
                                     <div class="row">
 
@@ -1316,12 +1317,12 @@
 
                                 </div>
 
-                                
-                                
-                                
+
+
+
 </div>
 
-                               
+
 
                             </div>
                         </div>
@@ -3910,7 +3911,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                                 </div>
                                 <div class="col-lg-12">
                                 <button type="button" id="directAddPacketBtn" class="btn btn-sm btn-outline-warning mb-2">+ Add Packet</button>
-                                    <div id="directPacketWrapper"></div>  
+                                    <div id="directPacketWrapper"></div>
                                 </div>
                                 <div class="col-lg-12">
 <div class="modal-footer bg-light gap-2" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
@@ -3921,12 +3922,12 @@ console.log("Modal:", document.getElementById("directSellModal"));
                             </div>
                         </div>
 
-                       
+
 
 
                     </form>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -4159,7 +4160,7 @@ console.log("Modal:", document.getElementById("directSellModal"));
                             <label class="form-label small">Rate</label>
                             <input type="number" step="0.01" class="form-control packet-rate" value="0">
                         </div>
-                        <div class="col-xl-2 col-lg-2 col-md-2"> 
+                        <div class="col-xl-2 col-lg-2 col-md-2">
                             <label class="form-label small">UOM</label>
                             <select class="form-select packet-uom">
                                 <option value="PCS">PCS</option>

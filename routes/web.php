@@ -98,6 +98,9 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
     Route::get('/customers', [CustomerController::class, 'customers'])->name('customers');
+    Route::get('/customers/{id}', [CustomerController::class, 'details'])->name('customers.details');
+    Route::get('/customers/export/pdf', [CustomerController::class, 'exportPdf'])->name('customers.export.pdf');
+    Route::get('/customers/export/csv', [CustomerController::class, 'exportCsv'])->name('customers.export.csv');
     Route::get('/add-products', [CustomerController::class, 'addproducts'])->name('add-products');
     Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
     Route::post('/invoices/store', [InvoiceController::class, 'store'])->name('invoices.store');
