@@ -178,10 +178,11 @@ body {
 /* ================= LOGO ================= */
 
 .footer-logo {
-  width: 150px;
-  height: 80px;
+  /* width: 150px; */
+  width: 170px;
+  height: auto;
 
-  background: #020b25;
+  /* background: #020b25; */
 
   border-radius: 2px;
 

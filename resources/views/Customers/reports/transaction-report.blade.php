@@ -53,32 +53,32 @@
                 <div class="col-md-3">
                     <div class="card bg-success-light">
                         <div class="card-body text-center">
-                            <h5>Total Advance Receipt</h5>
-                            <h3 class="text-success">₹{{ number_format($totalAdvance, 2) }}</h3>
+                            <h6 class="mb-3">Total Advance Receipt</h6>
+                            <h5 class="text-success">₹{{ number_format($totalAdvance, 2) }}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card bg-primary-light">
                         <div class="card-body text-center">
-                            <h5>Total Udhaar Get</h5>
-                            <h3 class="text-primary">₹{{ number_format($totalUdhaarPaid, 2) }}</h3>
+                            <h6 class="mb-3">Total Udhaar Get</h6>
+                            <h5 class="text-primary">₹{{ number_format($totalUdhaarPaid, 2) }}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card bg-danger-light">
                         <div class="card-body text-center">
-                            <h5>Total Advance Refund</h5>
-                            <h3 class="text-danger">₹{{ number_format($totalRefund, 2) }}</h3>
+                            <h6 class="mb-3">Total Advance Refund</h6>
+                            <h5 class="text-danger">₹{{ number_format($totalRefund, 2) }}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card bg-warning-light">
                         <div class="card-body text-center">
-                            <h5>Total Udhaar Return</h5>
-                            <h3 class="text-warning">₹{{ number_format($totalUdhaarReturn, 2) }}</h3>
+                            <h6 class="mb-3">Total Udhaar Return</h6>
+                            <h5 class="text-warning">₹{{ number_format($totalUdhaarReturn, 2) }}</h5>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card card-table">
+                    <div class="card card-table p-2">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-center table-hover datatable">
@@ -108,19 +108,19 @@
                                                 <td>
                                                     @php
                                                         $label = 'Transaction';
-                                                        $badge = 'bg-info-light';
+                                                        $badge = 'bg-info';
                                                         if($transaction->transaction_type == 'advance') {
                                                             $label = 'Advance Receipt';
-                                                            $badge = 'bg-success-light';
+                                                            $badge = 'bg-success';
                                                         } elseif($transaction->transaction_type == 'udhaar_payment') {
                                                             $label = 'Udhaar Get';
-                                                            $badge = 'bg-primary-light';
+                                                            $badge = 'bg-primary';
                                                         } elseif($transaction->transaction_type == 'refund') {
                                                             $label = 'Advance Refund';
-                                                            $badge = 'bg-danger-light';
+                                                            $badge = 'bg-danger';
                                                         } elseif($transaction->transaction_type == 'udhaar_return') {
                                                             $label = 'Udhaar Return';
-                                                            $badge = 'bg-warning-light';
+                                                            $badge = 'bg-warning';
                                                         }
                                                     @endphp
                                                     <span class="badge {{ $badge }}">

@@ -45,6 +45,7 @@
             <!-- /All Invoice -->
 
             <!-- Table -->
+             <div class="card p-3">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card-table">
@@ -147,6 +148,7 @@
                     </div>
                 </div>
             </div>
+             </div>
             <!-- /Table -->
 
         </div>

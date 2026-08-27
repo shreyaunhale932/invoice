@@ -1,13 +1,13 @@
 @extends('layout.mainlayout')
 @section('content')
-<div class="page-wrapper" style="margin-left: 0; padding-top: 50px;">
+<div class="page-wrapper" >
     <div class="content container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-lg-12">
                 <div class="card shadow-lg border-0" style="border-radius: 20px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);">
                     <div class="card-body p-5">
                         <div class="text-center mb-5">
-                            <h2 class="fw-bold text-primary">Choose Your Firm</h2>
+                            <h4 class="fw-bold text-primary">Choose Your Firm</h4>
                             <p class="text-muted">Select an active firm to manage your business</p>
                         </div>
 
@@ -25,28 +25,31 @@
                             </div>
                         @endif
 
-                        <div class="row g-4">
+                        
+
+                         <div class="row">
                             @foreach($firms as $firm)
-                                <div class="col-12">
-                                    <form action="{{ route('firms.switch') }}" method="POST">
+                                <div class="col-lg-4">
+                                     <form action="{{ route('firms.switch') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="firm_id" value="{{ $firm->id }}">
-                                        <button type="submit" class="btn btn-outline-primary w-100 p-4 text-start d-flex align-items-center justify-content-between shadow-sm hover-elevate" style="border-radius: 15px; border: 2px solid #eef2f7; transition: all 0.3s ease;">
-                                            <div class="d-flex align-items-center">
-                                                <div class="bg-primary-light rounded-circle p-3 me-3">
-                                                    <i class="fas fa-building text-primary fa-lg"></i>
-                                                </div>
-                                                <div>
-                                                    <h5 class="mb-0 fw-bold">{{ $firm->name }}</h5>
-                                                    <small class="text-muted">{{ $firm->city ?? 'Main Branch' }}</small>
-                                                </div>
+                                         <button type="submit" class="firm-button">
+                                            <div class="firm-main-div">
+                                            <div class="firm-icon">
+                                                <i class="fas fa-building text-primary fa-lg"></i>
                                             </div>
-                                            <i class="fas fa-chevron-right text-muted"></i>
-                                        </button>
-                                    </form>
+                                            <div class="firm-data">
+                                                    <h5 class="mb-0 fw-bold">{{ $firm->name }}</h5>
+                                                    <!-- <small class="text-muted">{{ $firm->city ?? 'Main Branch' }}</small> -->
+                                                </div>
+                                        </div>
+                                         </button>
+                                     </form>
                                 </div>
-                            @endforeach
+                                @endforeach
+                         </div>
 
+                        <div class="row g-4">
                             <div class="col-12 mt-4 text-center">
                                 <a href="{{ route('firms.create') }}" class="btn btn-link text-decoration-none">
                                     <i class="fas fa-plus-circle me-1"></i> Create a new firm

@@ -23,7 +23,8 @@
                 </div>
             @endif
             <!-- Table -->
-            <div class="row">
+             <div class="card p-3">
+            <div class="row ">
                 <div class="col-sm-12">
                     <div class="card-table">
                         <div class="card-body">
@@ -99,6 +100,7 @@
                     </div>
                 </div>
             </div>
+             </div>
             <!-- /Table -->
 
         </div>

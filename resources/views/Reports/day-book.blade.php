@@ -23,25 +23,25 @@
             <!-- P&L Summary Card -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card bg-light border-0 shadow-sm mb-4">
+                    <div class="card border-0 shadow-sm mb-4">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-md-3">
-                                    <h6 class="text-muted mb-1">Total Income</h6>
-                                    <h4 class="text-success">{{ number_format($plData['totalIncome'], 2) }}</h4>
+                                    <h6 class=" mb-1">Total Income</h6>
+                                    <h5 class="text-success">{{ number_format($plData['totalIncome'], 2) }}</h5>
                                 </div>
                                 <div class="col-md-3">
-                                    <h6 class="text-muted mb-1">Total Expenses</h6>
-                                    <h4 class="text-danger">{{ number_format($plData['totalExpense'], 2) }}</h4>
+                                    <h6 class=" mb-1">Total Expenses</h6>
+                                    <h5 class="text-danger">{{ number_format($plData['totalExpense'], 2) }}</h5>
                                 </div>
                                 <div class="col-md-3 border-start">
-                                    <h5 class="mb-1">Net {{ $plData['netProfit'] >= 0 ? 'Profit' : 'Loss' }}</h5>
-                                    <h3 class="{{ $plData['netProfit'] >= 0 ? 'text-success' : 'text-danger' }}">
+                                    <h6 class="mb-1">Net {{ $plData['netProfit'] >= 0 ? 'Profit' : 'Loss' }}</h6>
+                                    <h5 class="{{ $plData['netProfit'] >= 0 ? 'text-success' : 'text-danger' }}">
                                         {{ number_format($plData['netProfit'], 2) }}
-                                    </h3>
+                                    </h5>
                                 </div>
                                 <div class="col-md-3 text-end">
-                                    <span class="badge bg-info-light">Date: {{ \Carbon\Carbon::parse($date)->format('d M, Y') }}</span>
+                                    <span class="badge bg-info">Date: {{ \Carbon\Carbon::parse($date)->format('d M, Y') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0 pb-0">
-                            <h5 class="card-title">Stock Activity (Add/Delete/Inventory)</h5>
+                            <h6 class="card-title">Stock Activity (Add/Delete/Inventory)</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -99,7 +99,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0 pb-0">
-                            <h5 class="card-title">Sales Activity</h5>
+                            <h6 class="card-title">Sales Activity</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -148,7 +148,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0 pb-0">
-                            <h5 class="card-title">Expense Activity</h5>
+                            <h6 class="card-title">Expense Activity</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -191,7 +191,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-0 pb-0">
-                            <h5 class="card-title">Accounts & Expense Activity (Journal Entries)</h5>
+                            <h6 class="card-title">Accounts & Expense Activity (Journal Entries)</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

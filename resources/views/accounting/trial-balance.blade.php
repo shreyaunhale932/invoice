@@ -2,9 +2,9 @@
 @section('content')
     <div class="page-wrapper">
         <div class="content container-fluid">
-            <div class="container mt-5">
+            <div class="container">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2>Trial Balance</h2>
+                    <h5>Trial Balance</h5>
                     <form action="{{ route('accounting.trial-balance') }}" method="GET" class="d-flex gap-2 align-items-end">
                         <div>
                             <label class="form-label small mb-1">From Date</label>

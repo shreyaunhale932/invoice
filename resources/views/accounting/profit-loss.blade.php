@@ -2,9 +2,9 @@
 @section('content')
 <div class="page-wrapper">
         <div class="content container-fluid">
-<div class="container mt-5">
+<div class="container mt-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Profit & Loss Statement</h2>
+        <h5 class="fw-bold">Profit & Loss Statement</h5>
         <form action="{{ route('accounting.profit-loss') }}" method="GET" class="d-flex gap-2 align-items-end">
             <div>
                 <label class="form-label small mb-1">From Date</label>
@@ -72,12 +72,12 @@
     </div>
 
     <div class="card mt-4 shadow-sm">
-        <div class="card-body bg-light">
+        <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">Net Profit / (Loss)</h4>
-                <h3 class="mb-0 {{ $netProfit >= 0 ? 'text-success' : 'text-danger' }}">
+                <h5 class="mb-0">Net Profit / (Loss)</h5>
+                <h5 class="mb-0 {{ $netProfit >= 0 ? 'text-success' : 'text-danger' }}">
                     {{ number_format($netProfit, 2) }}
-                </h3>
+                </h5>
             </div>
         </div>
     </div>

@@ -1,12 +1,17 @@
 @extends('layout.mainlayout')
 @section('content')
+<style>
+.input-group .btn {
+    padding: 0px 6px;
+}
+</style>
     <div class="page-wrapper">
         <div class="content container-fluid">
             <!-- Page Header -->
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Create Packet</h3>
+                        <h5 class="page-title fw-bold">Create Packet</h5>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('packet-masters.index') }}">Packet Masters</a></li>
@@ -23,8 +28,8 @@
                         <div class="card-body">
                             <form action="{{ route('packet-masters.store') }}" method="POST">
                                 @csrf
-                                <div class="row">
-                                    <div class="col-md-4">
+                                <div class="row g-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Packet No <span class="text-danger">*</span></label>
                                             <input type="text" name="packet_no" class="form-control" required>
@@ -33,7 +38,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Packet Type</label>
                                             <div class="input-group attribute-group">
@@ -49,27 +54,18 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <button type="button" class="btn btn-attribute-add btn btn-primary"
+                                                <button type="button" class="btn btn-attribute-add btn custom-btn-primary"
                                                     onclick="openAddModal('packet_types')">
                                                     +
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Solitaire</label>
-                                            <div class="status-toggle">
-                                                <input type="checkbox" id="solitaire" name="solitaire" class="check"
-                                                    value="1">
-                                                <label for="solitaire" class="checktoggle">checkbox</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
 
                                     <!-- Helper function for Dropdown with Add Button -->
                                     @foreach (['stone', 'clarity', 'color', 'cut', 'shape', 'mm'] as $attr)
-                                        <div class="col-md-4">
+                                        <div class="col-xl-2 col-lg-2 col-md-4">
                                             <div class="form-group">
                                                 <label>{{ ucfirst($attr) }}</label>
 
@@ -88,7 +84,7 @@
                                                         </select>
                                                     </div>
 
-                                                    <button type="button" class="btn btn-attribute-add btn btn-primary"
+                                                    <button type="button" class="btn btn-attribute-add btn custom-btn-primary"
                                                         onclick="openAddModal('{{ \Illuminate\Support\Str::plural($attr) }}')">
                                                         +
                                                     </button>
@@ -100,46 +96,57 @@
                                     @endforeach
 
 
-                                    <div class="col-md-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Certificate No</label>
                                             <input type="text" name="certificate_no" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Rate Retail</label>
                                             <input type="number" step="0.01" name="rate_retail" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Rate Wholesale</label>
                                             <input type="number" step="0.01" name="rate_wholesale" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Cost</label>
                                             <input type="number" step="0.01" name="cost" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Average Pcs</label>
                                             <input type="number" step="0.01" name="average_pcs" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
                                         <div class="form-group">
                                             <label>Average Wt</label>
                                             <input type="number" step="0.001" name="average_wt" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    
+                                    <div class="col-xl-6 col-lg-6 col-md-12">
                                         <div class="form-group">
                                             <label>Remarks</label>
                                             <textarea name="remarks" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-4">
+                                        <div class="form-group">
+                                            <label>Solitaire</label>
+                                            <div class="status-toggle">
+                                                <input type="checkbox" id="solitaire" name="solitaire" class="check"
+                                                    value="1">
+                                                <label for="solitaire" class="checktoggle">checkbox</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -166,15 +173,15 @@
                     <form id="add_attribute_form">
                         @csrf
                         <input type="hidden" id="attribute_type" name="type">
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Name <span class="text-danger">*</span></label>
                             <input type="text" id="new_attribute_name" name="name" class="form-control" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Short Code</label>
                             <input type="text" id="new_attribute_code" name="short_code" class="form-control">
                         </div>
-                        <div class="submit-section text-center">
+                        <div class="submit-section text-end">
                             <button type="submit" class="btn btn-primary submit-btn">Add</button>
                         </div>
                     </form>

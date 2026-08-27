@@ -2,14 +2,14 @@
 @section('content')
 <div class="page-wrapper">
     <div class="content container-fluid">
-        <div class="container mt-5">
+        <div class="container">
             <!-- Header Block -->
             <div class="d-flex justify-content-between align-items-center mb-4 p-4 rounded-4 shadow-sm bg-white" style="border-left: 5px solid #4f46e5;">
                 <div>
-                    <h2 class="fw-bold mb-1 text-dark" style="font-family: 'Outfit', sans-serif;">Chart of Accounts</h2>
+                    <h5 class="fw-bold mb-1">Chart of Accounts</h5>
                     <p class="text-muted mb-0 small">Create and manage your system and user-defined accounts</p>
                 </div>
-                <button type="button" class="btn btn-primary px-4 py-2 rounded-3 shadow" data-bs-toggle="modal" data-bs-target="#addAccountModal" style="background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); border: none; font-weight: 500; transition: all 0.3s ease;">
+                <button type="button" class="btn btn-primary px-4 py-2 rounded-3 shadow" data-bs-toggle="modal" data-bs-target="#addAccountModal" >
                     <i class="fas fa-plus-circle me-2"></i> Add Account
                 </button>
             </div>
@@ -67,14 +67,14 @@
                                             {{ $account->opening_balance_type }}
                                         </span>
                                     </td>
-                                    <td class="text-center pe-4">
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a href="{{ route('accounting.ledger', $account->id) }}" class="btn btn-sm btn-outline-primary px-3 rounded-3" style="font-weight: 500;">
-                                                <i class="fas fa-book me-1"></i> Ledger
+                                    <td class="text-center pe-2">
+                                        <div class="d-flex justify-content-center gap-1">
+                                            <a href="{{ route('accounting.ledger', $account->id) }}" class="btn" style="font-weight: 500;">
+                                                <i class="fas fa-book"></i>
                                             </a>
                                             
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline-secondary edit-account-btn px-3 rounded-3"
+                                                    class="btn edit-account-btn text-primary"
                                                     data-id="{{ $account->id }}"
                                                     data-name="{{ $account->name }}"
                                                     data-type="{{ $account->group->type }}"
@@ -83,12 +83,12 @@
                                                     data-baltype="{{ $account->opening_balance_type }}"
                                                     data-issystem="{{ $account->is_system ? 1 : 0 }}"
                                                     style="font-weight: 500;">
-                                                <i class="fas fa-edit me-1"></i> Edit
+                                                <i class="fas fa-edit"></i>
                                             </button>
 
                                             @if(!$account->is_system)
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline-danger delete-account-btn px-3 rounded-3"
+                                                    class="btn text-danger delete-account-btn"
                                                     data-id="{{ $account->id }}"
                                                     data-name="{{ $account->name }}"
                                                     style="font-weight: 500;">
@@ -124,14 +124,14 @@
                 @csrf
                 <div class="modal-body p-4">
                     <div class="mb-3">
-                        <label class="form-label fw-semibold text-secondary">Account Name</label>
+                        <label class="form-label ">Account Name</label>
                         <input type="text" name="name" class="form-control rounded-3" placeholder="e.g. HDFC Current Account" required>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold text-secondary">Account Type</label>
-                            <select name="account_type" class="form-select rounded-3" required>
+                            <label class="form-label ">Account Type</label>
+                            <select name="account_type" class="form-select form-control rounded-3" required>
                                 <option value="Asset">Asset</option>
                                 <option value="Liability">Liability</option>
                                 <option value="Expense">Expense</option>
@@ -139,8 +139,8 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-semibold text-secondary">Sub-Type</label>
-                            <select name="sub_type" class="form-select rounded-3" required>
+                            <label class="form-label ">Sub-Type</label>
+                            <select name="sub_type" class="form-select form-control rounded-3" required>
                                 <option value="normal">Normal</option>
                                 <option value="bank">Bank</option>
                                 <option value="card">Card</option>
@@ -151,21 +151,21 @@
 
                     <div class="row">
                         <div class="col-md-7 mb-3">
-                            <label class="form-label fw-semibold text-secondary">Opening Balance</label>
+                            <label class="form-label ">Opening Balance</label>
                             <input type="number" step="0.01" name="opening_balance" class="form-control rounded-3" value="0.00" required>
                         </div>
                         <div class="col-md-5 mb-3">
-                            <label class="form-label fw-semibold text-secondary">Balance Type</label>
-                            <select name="opening_balance_type" class="form-select rounded-3" required>
+                            <label class="form-label ">Balance Type</label>
+                            <select name="opening_balance_type" class="form-select form-control rounded-3" required>
                                 <option value="dr">Debit (DR)</option>
                                 <option value="cr">Credit (CR)</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 p-4 pt-0">
+                <div class="modal-footer border-0 p-4 pt-0 gap-2">
                     <button type="button" class="btn btn-light px-4 py-2 rounded-3" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-3" style="background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); border: none;">Save Account</button>
+                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-3">Save Account</button>
                 </div>
             </form>
         </div>
@@ -192,7 +192,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold text-secondary">Account Type</label>
-                            <select name="account_type" class="form-select rounded-3" required>
+                            <select name="account_type" class="form-select form-control  rounded-3" required>
                                 <option value="Asset">Asset</option>
                                 <option value="Liability">Liability</option>
                                 <option value="Expense">Expense</option>
@@ -204,7 +204,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold text-secondary">Sub-Type</label>
-                            <select name="sub_type" class="form-select rounded-3" required>
+                            <select name="sub_type" class="form-select form-control rounded-3" required>
                                 <option value="normal">Normal</option>
                                 <option value="bank">Bank</option>
                                 <option value="card">Card</option>
@@ -220,16 +220,16 @@
                         </div>
                         <div class="col-md-5 mb-3">
                             <label class="form-label fw-semibold text-secondary">Balance Type</label>
-                            <select name="opening_balance_type" class="form-select rounded-3" required>
+                            <select name="opening_balance_type" class="form-select form-control rounded-3" required>
                                 <option value="dr">Debit (DR)</option>
                                 <option value="cr">Credit (CR)</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 p-4 pt-0">
-                    <button type="button" class="btn btn-light px-4 py-2 rounded-3" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary px-4 py-2 rounded-3" style="background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); border: none;">Update Account</button>
+                <div class="modal-footer b gap-2">
+                    <button type="button" class="btn btn-light " data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary " >Update Account</button>
                 </div>
             </form>
         </div>

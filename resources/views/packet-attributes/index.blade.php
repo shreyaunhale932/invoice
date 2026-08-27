@@ -6,7 +6,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">{{ ucfirst($type) }} Master</h3>
+                        <h5 class="page-title fw-bold">{{ ucfirst($type) }} Master</h5>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">{{ ucfirst($type) }}</li>
@@ -31,7 +31,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card card-table">
+                    <div class="card card-table p-2">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-stripped table-hover datatable">
@@ -97,15 +97,15 @@
                 <div class="modal-body">
                     <form action="{{ route('packet-attributes.store', $type) }}" method="POST">
                         @csrf
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" class="form-control" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Short Code</label>
                             <input type="text" name="short_code" class="form-control">
                         </div>
-                        <div class="submit-section text-center">
+                        <div class="submit-section text-end">
                             <button type="submit" class="btn btn-primary submit-btn">Submit</button>
                         </div>
                     </form>
@@ -126,15 +126,15 @@
                     <form id="edit_form" method="POST">
                         @csrf
                         @method('PUT')
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Name <span class="text-danger">*</span></label>
                             <input type="text" name="name" id="edit_name" class="form-control" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Short Code</label>
                             <input type="text" name="short_code" id="edit_short_code" class="form-control">
                         </div>
-                        <div class="submit-section text-center">
+                        <div class="submit-section text-end">
                             <button type="submit" class="btn btn-primary submit-btn">Update</button>
                         </div>
                     </form>

@@ -188,7 +188,7 @@
                         <input type="number" step="0.01" class="form-control" id="silver_rate" name="silver_rate" placeholder="e.g. 95" style="border-radius: 8px; padding: 10px 14px; border: 1px solid var(--border-color);">
                     </div>
                 </div>
-                <div class="modal-footer" style="border-top: 1px solid var(--border-color); padding: 16px 24px;">
+                <div class="modal-footer gap-2" style="border-top: 1px solid var(--border-color); padding: 16px 24px;">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 8px;">Cancel</button>
                     <button type="submit" class="btn btn-primary" style="background: var(--primary-color); border-color: var(--primary-color); border-radius: 8px; font-weight: 600;">Update Rates</button>
                 </div>

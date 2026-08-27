@@ -24,7 +24,7 @@
             @endif
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card-table">
+                    <div class="card-table card p-3">
                         <div class="card-body">
                             <style>
                                 #tableSearch {
@@ -51,7 +51,7 @@
                                 }
                             </style>
                             <div id="tableSearch" class="mb-3">
-                                <div class="customers-date-filter">
+                                <div class="customers-date-filter ">
                                     <div class="d-flex align-items-center">
                                         <span class="text-muted me-2" style="font-size: 13px; font-weight: 500; white-space: nowrap;">From:</span>
                                         <input type="date" id="from_date" class="form-control form-control-sm" style="width: 140px; height: 38px; border-radius: 5px;" value="{{ request('from_date') }}">

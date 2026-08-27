@@ -1402,26 +1402,26 @@
                                     @if ($totalSaved > 0)
                                         @if ($makingDiscount > 0)
                                             <tr style="font-size: 0.85em; color: #555;">
-                                                <td style="padding-left: 20px; border-top: none;">- Making Discount({{ $makingDiscountPercent }}%)</td>
-                                                <td style="border-top: none;">-₹{{ number_format($makingDiscount, 2) }}</td>
+                                                <td style="padding-left: 20px; border-top: none;">Making Discount({{ $makingDiscountPercent }}%)</td>
+                                                <td style="border-top: none;">₹{{ number_format($makingDiscount, 2) }}</td>
                                             </tr>
                                         @endif
                                         @if ($wastageDiscount > 0)
                                             <tr style="font-size: 0.85em; color: #555;">
-                                                <td style="padding-left: 20px; border-top: none;">- Wastage Discount({{ $wastageDiscountPercent }}%)</td>
-                                                <td style="border-top: none;">-₹{{ number_format($wastageDiscount, 2) }}</td>
+                                                <td style="padding-left: 20px; border-top: none;">Wastage Discount({{ $wastageDiscountPercent }}%)</td>
+                                                <td style="border-top: none;">₹{{ number_format($wastageDiscount, 2) }}</td>
                                             </tr>
                                         @endif
                                         @if ($diamondDiscount > 0)
                                             <tr style="font-size: 0.85em; color: #555;">
-                                                <td style="padding-left: 20px; border-top: none;">- Diamond Discount ({{$diamondDiscountPercent}}%)</td>
-                                                <td style="border-top: none;">-₹{{ number_format($diamondDiscount, 2) }}</td>
+                                                <td style="padding-left: 20px; border-top: none;">Diamond Discount ({{$diamondDiscountPercent}}%)</td>
+                                                <td style="border-top: none;">₹{{ number_format($diamondDiscount, 2) }}</td>
                                             </tr>
                                         @endif
                                         @if ($discountAmount > 0)
                                             <tr style="font-size: 0.85em; color: #555;">
-                                                <td style="padding-left: 20px; border-top: none;">- Final Discount ({{ $discountPercent }}%)</td>
-                                                <td style="border-top: none;">-₹{{ number_format($discountAmount, 2) }}</td>
+                                                <td style="padding-left: 20px; border-top: none;">Final Discount ({{ $discountPercent }}%)</td>
+                                                <td style="border-top: none;">₹{{ number_format($discountAmount, 2) }}</td>
                                             </tr>
                                         @endif
                                         <tr style="border-top: 1px dashed #28a745;">
@@ -1435,7 +1435,7 @@
                                        @if ($discountVisible && $discountAmount > 0)
                                         <tr>
                                             <td>{{ $discountLabel }} ({{ $discountPercent }}%)</td>
-                                            <td>-₹{{ number_format($discountAmount, 2) }}</td>
+                                            <td>₹{{ number_format($discountAmount, 2) }}</td>
                                         </tr>
                                     @endif
 

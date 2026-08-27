@@ -14,7 +14,7 @@
 
             <!-- Search Filter -->
             <div class="card">
-                <div class="card-body">
+                <div class="card-body p-3">
                     <form action="{{ url('old-diamond-received') }}" method="GET">
                         <div class="row">
                             <div class="col-md-4">
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <!-- /Search Filter -->
-
+            <div class="card p-3">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card-table">
@@ -92,6 +92,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

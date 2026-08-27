@@ -2,9 +2,9 @@
 @section('content')
 <div class="page-wrapper">
         <div class="content container-fluid">
-<div class="container mt-5">
+<div class="container mt-3">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Balance Sheet</h2>
+        <h5 class="fw-bold">Balance Sheet</h5>
         <form action="{{ route('accounting.balance-sheet') }}" method="GET" class="d-flex gap-2 align-items-end">
             <div>
                 <label class="form-label small mb-1">From Date</label>
@@ -87,17 +87,17 @@
 
    @if(abs($totalAssets - $totalLiabilities) <= 1)
     <div class="alert alert-success mt-4 shadow-sm text-center">
-        <h4>
+        <h6>
             <i class="fas fa-balance-scale me-2"></i>
             Balance Sheet is Balanced!
-        </h4>
+        </h6>
     </div>
 @else
     <div class="alert alert-danger mt-4 shadow-sm text-center">
-        <h4>
+        <h6>
             <i class="fas fa-exclamation-circle me-2"></i>
             Balance Sheet is OUT by {{ number_format(abs($totalAssets - $totalLiabilities), 2) }}
-        </h4>
+        </h6>
     </div>
 @endif
 </div>

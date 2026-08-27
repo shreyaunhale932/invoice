@@ -2875,7 +2875,7 @@
                                             <div class="col-lg-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Metal Type <span class="text-danger">*</span></label>
-                                                    <select class="form-control select" name="metal_type" required>
+                                                    <select class="form-control form-select" name="metal_type" required>
                                                         <option value="">Select Metal</option>
                                                         <option value="Gold">Gold</option>
                                                         <option value="Silver">Silver</option>
@@ -2905,7 +2905,7 @@
                                             <div class="col-lg-12 col-sm-12">
                                                 <div class="input-block mb-3">
                                                     <label>Purity Type <span class="text-danger">*</span></label>
-                                                    <select class="form-control select" name="purity_type" required>
+                                                    <select class="form-control form-select" name="purity_type" required>
                                                         <option value="">Select Type</option>
                                                         <option value="karat">Karat</option>
                                                         <option value="percent">Percent</option>

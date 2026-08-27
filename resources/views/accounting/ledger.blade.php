@@ -2,10 +2,10 @@
 @section('content')
 <div class="page-wrapper">
         <div class="content container-fluid">
-<div class="container mt-5">
+<div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="mb-0">Ledger: {{ $account->name }}</h2>
+            <h5 class="mb-0">Ledger: {{ $account->name }}</h5>
             <p class="text-muted mb-0">Group: {{ $account->group->name }} ({{ $account->group->type }})</p>
         </div>
         <form action="{{ route('accounting.ledger', $account->id) }}" method="GET" class="d-flex gap-2 align-items-end">

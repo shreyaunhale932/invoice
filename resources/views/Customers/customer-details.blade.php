@@ -15,21 +15,22 @@
 
             <div class="card customer-details-group">
                 <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                            <div class="customer-details">
-                                <div class="d-flex align-items-center">
-                                    <span class="customer-widget-img d-inline-flex">
-                                        <img class="rounded-circle"
+                    <div class="text-center mb-5">
+                        <label class="avatar avatar-xxl profile-cover-avatar" for="avatar_upload">
+                                  <img class="avatar-img"
                                             src="{{ asset('/assets/img/profiles/avatar-14.jpg') }}" alt="profile-img">
-                                    </span>
-                                    <div class="customer-details-cont">
-                                        <h6>{{ $customer->name }}</h6>
-                                        <p>C-{{ str_pad($customer->id, 5, '0', STR_PAD_LEFT) }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- <input type="file" id="avatar_upload">
+                            <span class="avatar-edit">
+                                <i class="fe fe-edit avatar-uploader-icon shadow-soft"></i>
+                            </span> -->
+                        </label>
+                      
+                                 <h6>{{ $customer->name }}</h6>
+                                 <p>C-{{ str_pad($customer->id, 5, '0', STR_PAD_LEFT) }}</p>
+                       
+                    </div>
+                    <div class="row align-items-center">
+                        
                         <div class="col-xl-3 col-lg-4 col-md-6 col-12">
                             <div class="customer-details">
                                 <div class="d-flex align-items-center">
@@ -112,6 +113,7 @@
             <!-- Table -->
             <div class="row">
                 <div class="col-sm-12">
+                    <div class="card p-3">
                     <div class="card-table">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -183,6 +185,7 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

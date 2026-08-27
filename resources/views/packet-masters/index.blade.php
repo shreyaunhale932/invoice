@@ -6,7 +6,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Packet Masters</h3>
+                        <h5 class="page-title fw-bold">Packet Masters</h5>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="breadcrumb-item active">Packet Masters</li>
@@ -30,7 +30,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card card-table">
+                    <div class="card card-table p-2">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-stripped table-hover datatable">
