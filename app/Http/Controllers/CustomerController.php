@@ -15,9 +15,18 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
-    public function customers()
+    public function customers(Request $request)
     {
-        $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+        $query = Customer::where('admin_id', Auth::guard('admin')->id());
+        
+        if ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        }
+        if ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->to_date);
+        }
+        
+        $customers = $query->get();
         return view('Customers/customers', compact('customers'));
     }
     public function addcustomer()
@@ -236,9 +245,18 @@ class CustomerController extends Controller
         return $pdf->download('customer-list.pdf');
     }
 
-    public function exportCsv()
+    public function exportCsv(Request $request)
     {
-        $customers = Customer::where('admin_id', Auth::guard('admin')->id())->get();
+        $query = Customer::where('admin_id', Auth::guard('admin')->id());
+        
+        if ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        }
+        if ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->to_date);
+        }
+        
+        $customers = $query->get();
         
         $headers = [
             "Content-type"        => "text/csv",

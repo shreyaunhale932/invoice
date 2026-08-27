@@ -26,6 +26,45 @@
                 <div class="col-sm-12">
                     <div class="card-table">
                         <div class="card-body">
+                            <style>
+                                #tableSearch {
+                                    justify-content: flex-start !important;
+                                    gap: 20px !important;
+                                }
+                                .dataTables_filter {
+                                    order: 1 !important;
+                                    margin: 0 !important;
+                                }
+                                .customers-date-filter {
+                                    order: 2 !important;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 15px;
+                                }
+                                @media (max-width: 767.98px) {
+                                    .customers-date-filter {
+                                        flex-direction: column;
+                                        align-items: stretch;
+                                        width: 100%;
+                                        gap: 10px;
+                                    }
+                                }
+                            </style>
+                            <div id="tableSearch" class="mb-3">
+                                <div class="customers-date-filter">
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted me-2" style="font-size: 13px; font-weight: 500; white-space: nowrap;">From:</span>
+                                        <input type="date" id="from_date" class="form-control form-control-sm" style="width: 140px; height: 38px; border-radius: 5px;" value="{{ request('from_date') }}">
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted me-2" style="font-size: 13px; font-weight: 500; white-space: nowrap;">To:</span>
+                                        <input type="date" id="to_date" class="form-control form-control-sm" style="width: 140px; height: 38px; border-radius: 5px;" value="{{ request('to_date') }}">
+                                    </div>
+                                    <button type="button" id="btn_clear_dates" class="btn btn-light d-flex align-items-center justify-content-center" style="height: 38px; border-radius: 5px; padding: 0 15px; background-color: #f3f3f9; border-color: #f3f3f9; color: #333; font-size: 13px; font-weight: 500;">
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-center table-hover datatable">
                                     <thead class="thead-light">
@@ -147,5 +186,107 @@
         function setDeleteAction(action) {
             document.getElementById('delete_form').action = action;
         }
+    </script>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            var table = $('.datatable').DataTable();
+            
+            // Custom DataTable search filter for Date Range
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    // Apply this filter only to the current table
+                    if (!settings.nTable.classList.contains('datatable')) {
+                        return true;
+                    }
+                    
+                    var fromDate = $('#from_date').val(); // YYYY-MM-DD
+                    var toDate = $('#to_date').val();     // YYYY-MM-DD
+                    
+                    // The "Created" column is index 5
+                    var dateStr = data[5] || "";
+                    if (!dateStr) return true;
+                    
+                    // Extract date part (YYYY-MM-DD) from the table string
+                    var createdDate = dateStr.replace(/<[^>]*>/g, '').trim().substring(0, 10);
+                    
+                    if (fromDate && createdDate < fromDate) {
+                        return false;
+                    }
+                    if (toDate && createdDate > toDate) {
+                        return false;
+                    }
+                    return true;
+                }
+            );
+
+            // Redraw table when dates change
+            $('#from_date, #to_date').on('change', function() {
+                table.draw();
+            });
+
+            // Clear date filter
+            $('#btn_clear_dates').on('click', function() {
+                $('#from_date').val('');
+                $('#to_date').val('');
+                table.draw();
+            });
+
+            // Intercept click on the CVS download item
+            $(document).on('click', '.download-item', function(e) {
+                var href = $(this).attr('href');
+                if (href && href.indexOf('customers/export/csv') !== -1) {
+                    e.preventDefault();
+                    exportFilteredCustomersToCSV();
+                }
+            });
+
+            function exportFilteredCustomersToCSV() {
+                var csv = [];
+                
+                // Get table headers (ignoring Actions)
+                var headers = [];
+                $('.datatable thead tr th').each(function(index) {
+                    var text = $(this).text().trim();
+                    if (text && text !== 'Actions') {
+                        headers.push('"' + text.replace(/"/g, '""') + '"');
+                    }
+                });
+                csv.push(headers.join(','));
+
+                // Get only filtered/visible rows (across all pages)
+                table.rows({ search: 'applied' }).every(function(rowIdx, tableLoop, rowLoop) {
+                    var node = this.node();
+                    var row = [];
+                    $(node).find('td').each(function(colIdx) {
+                        // We have 7 columns total: #:0, Name:1, Phone:2, Email:3, City:4, Created:5, Actions:6
+                        // Ignore Actions column
+                        if (colIdx < 6) {
+                            var text = $(this).text().trim();
+                            // Clean up spacing and double quotes
+                            text = text.replace(/\s+/g, ' ').replace(/"/g, '""');
+                            row.push('"' + text + '"');
+                        }
+                    });
+                    csv.push(row.join(','));
+                });
+
+                // Trigger file download
+                var csvContent = csv.join('\n');
+                var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                var filename = "customer_list_" + new Date().toISOString().slice(0, 10) + ".csv";
+                
+                var link = document.createElement("a");
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
     </script>
 @endsection
