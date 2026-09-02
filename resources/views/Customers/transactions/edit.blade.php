@@ -16,7 +16,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Customer <span class="text-danger">*</span></label>
                                             <select name="customer_id" class="form-control select2" required>
@@ -28,13 +28,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Transaction Date <span class="text-danger">*</span></label>
                                             <input type="date" name="transaction_date" class="form-control" value="{{ $transaction->transaction_date }}" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Transaction Type <span class="text-danger">*</span></label>
                                             <select name="transaction_type" class="form-control" required>
@@ -44,7 +44,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Payment Method <span class="text-danger">*</span></label>
                                             <select name="payment_method" class="form-control" required>
@@ -54,7 +54,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class=" col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Amount <span class="text-danger">*</span></label>
                                             <input type="number" step="0.01" name="amount" class="form-control" value="{{ $transaction->amount }}" required>

@@ -19,6 +19,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
+                    <div class="card p-3">
                     <div class="card-table">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -72,6 +73,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

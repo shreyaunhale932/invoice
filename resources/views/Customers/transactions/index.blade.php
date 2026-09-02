@@ -24,7 +24,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card card-table">
+                    <div class="card card-table p-3">
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -94,17 +94,17 @@
                                                         @php
                                                             $btnLabel = $transaction->transaction_type == 'udhaar_payment' ? 'Return' : 'Refund';
                                                         @endphp
-                                                        <a href="{{ route('customer.transactions.refund', $transaction->id) }}" class="btn btn-sm btn-white text-danger me-2" title="{{ $btnLabel }}">
+                                                        <a href="{{ route('customer.transactions.refund', $transaction->id) }}" class="btn btn-sm text-danger me-2" title="{{ $btnLabel }}">
                                                             <i class="fe fe-corner-up-left"></i> {{ $btnLabel }}
                                                         </a>
                                                     @endif
                                                     @if(!in_array($transaction->transaction_type, ['refund', 'udhaar_return']))
-                                                        <a href="{{ route('customer.transactions.edit', $transaction->id) }}" class="btn btn-sm btn-white text-info me-2" title="Edit">
-                                                            <i class="fe fe-edit"></i> Edit
+                                                        <a href="{{ route('customer.transactions.edit', $transaction->id) }}" class="btn btn-sm text-info me-2" title="Edit">
+                                                            <i class="fe fe-edit"></i> 
                                                         </a>
                                                     @endif
-                                                    <a href="javascript:void(0);" class="btn btn-sm btn-white text-danger" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="setDeleteAction('{{ route('customer.transactions.destroy', $transaction->id) }}')">
-                                                        <i class="far fa-trash-alt me-1"></i> Delete
+                                                    <a href="javascript:void(0);" class="btn btn-sm  text-danger" data-bs-toggle="modal" data-bs-target="#delete_modal" onclick="setDeleteAction('{{ route('customer.transactions.destroy', $transaction->id) }}')">
+                                                        <i class="far fa-trash-alt me-1"></i> 
                                                     </a>
                                                 </td>
                                             </tr>

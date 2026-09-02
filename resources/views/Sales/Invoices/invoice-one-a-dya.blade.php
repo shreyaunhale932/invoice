@@ -1723,6 +1723,10 @@
                 <div class="thanks-msg text-center">
                     {{ $thanksMessage }}
                 </div>
+                <div class="text-center mt-1">
+                    <small style="font-size: 10px;">This is an electronically generated document, no signature is required.
+Powered by Sirsonite.com</small>
+                </div>
             </div>
         </div>
         <div class="file-link">

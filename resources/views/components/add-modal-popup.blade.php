@@ -17163,7 +17163,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <!-- Address -->
-    <div class="col-lg-8 col-md-12 col-sm-12">
+    <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="input-block mb-3">
             <label>Address</label>
             <textarea class="form-control @error('address') is-invalid @enderror"

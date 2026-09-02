@@ -17,7 +17,7 @@
                                 <input type="hidden" name="parent_id" value="{{ $parent_id ?? '' }}">
                                 <input type="hidden" name="invoice_id" value="{{ $invoice_id ?? ($original->invoice_id ?? '') }}">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Customer <span class="text-danger">*</span></label>
                                             @if(isset($parent_id) || isset($invoice_id))
@@ -42,14 +42,14 @@
                                             @error('customer_id') <span class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Transaction Date <span class="text-danger">*</span></label>
                                             <input type="date" name="transaction_date" class="form-control" value="{{ old('transaction_date', date('Y-m-d')) }}" required>
                                             @error('transaction_date') <span class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Transaction Type <span class="text-danger">*</span></label>
                                             @if(isset($parent_id) || isset($invoice_id))
@@ -72,7 +72,7 @@
                                             @error('transaction_type') <span class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-xl-3 col-lg-3 col-md-6">
                                         <div class="form-group mb-3">
                                             <label>Payment Method <span class="text-danger">*</span></label>
                                             <select name="payment_method" class="form-control" required>

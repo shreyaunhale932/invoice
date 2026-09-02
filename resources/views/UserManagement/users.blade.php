@@ -7,7 +7,7 @@
         <!-- Page Header -->
         @component('components.page-header')
         @slot('title')
-        Usersr
+        User
         @endslot
         @endcomponent
          @if (session('success'))
@@ -20,6 +20,7 @@
         @if (Route::is(['createAdmin']))
         <div class="row">
             <div class="col-sm-12">
+                <div class="card p-3">
                 <div class="card-table">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -97,6 +98,7 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
         </div>
         @endif
@@ -137,7 +139,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit User22</h5>
+                <h5 class="modal-title">Edit User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -147,8 +149,8 @@
                     <div class="row">
 
     <!-- Name -->
-    <div class="col-md-6">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>Name</label>
             <input type="text" class="form-control" name="name" id="edit_name">
             @error('name')
@@ -158,8 +160,8 @@
     </div>
 
     <!-- Email -->
-    <div class="col-md-6">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>Email</label>
             <input type="email" class="form-control" name="email" id="edit_email">
             @error('email')
@@ -169,8 +171,8 @@
     </div>
 
     <!-- Phone -->
-    <div class="col-md-6">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>Phone</label>
             <input type="text" class="form-control" name="phone" id="edit_phone">
             @error('phone')
@@ -180,8 +182,8 @@
     </div>
 
     <!-- Password -->
-    <div class="col-md-6">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>Password (Leave blank to keep current)</label>
             <input type="password" class="form-control" name="password">
             @error('password')
@@ -191,8 +193,8 @@
     </div>
 
     <!-- Address -->
-    <div class="col-md-12">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>Address</label>
             <textarea class="form-control" name="address" id="edit_address"></textarea>
             @error('address')
@@ -202,8 +204,8 @@
     </div>
 
     <!-- City -->
-    <div class="col-md-4">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>City</label>
             <input type="text" class="form-control" name="city" id="edit_city">
             @error('city')
@@ -213,8 +215,8 @@
     </div>
 
     <!-- State -->
-    <div class="col-md-4">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>State</label>
            <select class="form-control searchable-select" name="state" id="edit_state"> <option value="">Select State</option> @foreach(['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry'] as $stateName) <option value="{{ $stateName }}">{{ $stateName }}</option> @endforeach </select>
             @error('state')
@@ -224,8 +226,8 @@
     </div>
 
     <!-- Pincode -->
-    <div class="col-md-4">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>Pincode</label>
             <input type="text" class="form-control" name="pincode" id="edit_pincode">
             @error('pincode')
@@ -235,8 +237,8 @@
     </div>
 
     <!-- Status -->
-    <div class="col-md-6">
-        <div class="form-group">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group mb-3">
             <label>Status</label>
             <select class="select" name="status" id="edit_status">
                 <option value="active">Active</option>
