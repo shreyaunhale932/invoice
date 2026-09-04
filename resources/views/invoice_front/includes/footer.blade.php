@@ -53,15 +53,19 @@
                 <ul class="footer-links">
 
                     <li>
-                        <a href="#">About Us</a>
+                        <a href="{{ route('contact') }}">Inventory Management</a>
                     </li>
 
                     <li>
-                        <a href="#">Features</a>
+                        <a href="{{ route('contact') }}">Sales Management</a>
                     </li>
 
                     <li>
-                        <a href="{{ route('contact') }}">Contact</a>
+                        <a href="{{ route('contact') }}">Barcode Management</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('contact') }}">Accounting</a>
                     </li>
 
                 </ul>
