@@ -16,9 +16,7 @@
 
                 <p class="footer-address">
 
-                    5th Floor, Tech Centre, Rajiv Gandhi MIDC Rd,
-                    Phase 1, Hinjawadi Rajiv Gandhi Infotech Park,
-                    Hinjawadi, Pune, Hinjawadi Maharashtra 411057.
+                    India’s trusted Jewellery ERP software, built to simplify Billing, Inventory, and Business Management for Jewellery Retailers, Wholesalers, and Manufacturers.
 
                 </p>
 
@@ -145,5 +143,38 @@
 
     </div>
 
+    <!-- WhatsApp Button -->
+<a href="https://wa.me/919021747534"
+   class="whatsapp-btn"
+   target="_blank"
+   aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+    const backToTop = document.getElementById("backToTop");
+
+    // Show button after scrolling
+    window.addEventListener("scroll", function () {
+        if (window.scrollY > 300) {
+            backToTop.style.display = "flex";
+        } else {
+            backToTop.style.display = "none";
+        }
+    });
+
+    // Scroll to top
+    backToTop.addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+</script>
 
     <script src="{{ asset('front_assets/js/script.js') }}"></script>

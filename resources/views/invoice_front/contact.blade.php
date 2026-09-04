@@ -40,11 +40,11 @@
                     </svg>
                 </div>
 
-                <div class="office-info">
+                <!-- <div class="office-info">
                     <h4>Mumbai Office</h4>
 
                     <span> 123 Zaveri Bazaar, Fort, Mumbai - 400001 </span>
-                </div>
+                </div> -->
             </div>
 
             <!-- WHY BOX -->
