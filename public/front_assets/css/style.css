@@ -2199,7 +2199,7 @@ body {
 
 .aboutTitleExact {
   margin: 0 0 22px;
-  font-size: 43px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.05;
   letter-spacing: -1px;
@@ -2256,7 +2256,7 @@ body {
 
 .featureCardExact h4 {
   margin: 0 0 6px;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
   color: #0f172a;
 }
@@ -2687,7 +2687,7 @@ body {
 
 .featureTitlePremium {
   margin: 0;
-  font-size: 43px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -1px;
@@ -3138,7 +3138,7 @@ body {
 }
 
 .section-header h2 {
-  font-size: 43px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.15;
   color: #0f172a;
@@ -3146,7 +3146,7 @@ body {
 }
 
 .section-header p {
-  font-size: 18px;
+  font-size: 16px;
   color: #64748b;
   max-width: 700px;
   margin: 0 auto;
@@ -3314,7 +3314,7 @@ body {
 }
 
 .timeline-card h3 {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
   color: #0f172a;
   margin-bottom: 14px;
@@ -3445,7 +3445,7 @@ body {
 }
 
 .dashboard-header h2 {
-  font-size: 43px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.1;
   color: #ffffff;
@@ -3459,7 +3459,7 @@ body {
 }
 
 .dashboard-header p {
-  font-size: 20px;
+  font-size: 16px;
   color: rgba(226, 232, 240, 0.85);
   margin: 0;
 }
@@ -3802,7 +3802,7 @@ body {
 }
 
 .dashboard-header p {
-  font-size: 20px;
+  font-size: 16px;
   color: rgba(226, 232, 240, 0.85);
   margin: 0;
 }
@@ -4128,7 +4128,7 @@ body {
 
 .benefits-header h2 {
   margin: 0 0 12px;
-  font-size: 43px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.1;
   color: #0f172a;
@@ -4136,7 +4136,7 @@ body {
 
 .benefits-header p {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   color: #64748b;
 }
 
@@ -4182,7 +4182,7 @@ body {
 
 .benefit-card h3 {
   margin: 0 0 10px;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.35;
   color: #0f172a;
@@ -6326,11 +6326,11 @@ body {
 /* ================= FORM TITLE ================= */
 
 .contact-card h3 {
-  font-size: 30px;
-  font-weight: 700;
-  color: #111827;
-
-  margin-bottom: 30px;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    color: #003295;
+    margin-bottom: 30px;
 }
 
 /* ================= FORM GROUP ================= */
@@ -6341,13 +6341,10 @@ body {
 
 .form-group label {
   display: block;
-
-  font-size: 17px;
-  font-weight: 700;
-
-  color: #111827;
-
-  margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 2px;
 }
 
 /* INPUT BOX */
@@ -6375,13 +6372,13 @@ body {
 .form-control {
   width: 100%;
 
-  height: 64px;
+  /* height: 64px; */
 
   border: 1px solid #d1d5db;
 
-  border-radius: 16px;
+  border-radius: 12px;
 
-  padding: 0 20px 0 54px;
+  padding: 10px 20px 10px 54px;
 
   font-size: 16px;
   font-weight: 500;
@@ -6397,7 +6394,7 @@ body {
 .form-control:focus {
   border-color: #2563eb;
 
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  box-shadow: none;
 }
 
 .form-control::placeholder {
@@ -6407,7 +6404,7 @@ body {
 /* TEXTAREA */
 
 textarea.form-control {
-  height: 150px;
+  height: 80px;
 
   padding-top: 20px;
 
@@ -6419,12 +6416,13 @@ textarea.form-control {
 .submit-btn {
   width: 100%;
 
-  height: 68px;
+  /* height: 68px; */
+  padding : 10px;
 
   border: none;
   outline: none;
 
-  border-radius: 18px;
+  border-radius: 12px;
 
   cursor: pointer;
 
@@ -6432,7 +6430,7 @@ textarea.form-control {
 
   color: #fff;
 
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 
   display: flex;
@@ -6527,7 +6525,7 @@ textarea.form-control {
   }
 
   .contact-card h3 {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .form-group label {
@@ -6535,16 +6533,16 @@ textarea.form-control {
   }
 
   .form-control {
-    height: 58px;
+    /* height: 58px; */
     font-size: 15px;
   }
 
   textarea.form-control {
-    height: 130px;
+    height: 70px;
   }
 
   .submit-btn {
-    height: 60px;
+    /* height: 60px; */
     font-size: 16px;
   }
 

@@ -30,7 +30,7 @@
 
             <!-- OFFICE -->
 
-            <div class="office-box">
+            <!-- <div class="office-box">
                 <div class="office-icon">
                     <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -40,12 +40,12 @@
                     </svg>
                 </div>
 
-                <!-- <div class="office-info">
+                <div class="office-info">
                     <h4>Mumbai Office</h4>
 
                     <span> 123 Zaveri Bazaar, Fort, Mumbai - 400001 </span>
-                </div> -->
-            </div>
+                </div>
+            </div> -->
 
             <!-- WHY BOX -->
 
