@@ -1,5 +1,14 @@
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
+@section('title', 'Contact Jewelerp | Jewellery ERP Software & Demo')
+
+@section('meta_description', 'Contact Jewelerp for enquiries, product information, and a demo of our jewellery ERP software for billing, inventory, accounting and business management.')
+
+@section('meta_keywords', 'contact Jewelerp, jewellery ERP software, jewellery software, jewellery ERP demo, jewellery management software, jewellery billing software, jewellery inventory software India, online jewellery ERP software, jewellery accounting software')
+
+@section('canonical_url', 'https://jewelerp.in/contact')
+
+@include('invoice_front.includes.header')
 <section class="contact-hero">
     <div class="contact-content contact-reveal">
         <h1 class="contact-title">

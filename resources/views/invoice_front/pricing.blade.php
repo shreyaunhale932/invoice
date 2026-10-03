@@ -1,5 +1,14 @@
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
+@section('title', 'Jewellery ERP Software Pricing | Jewelerp Plans')
+
+@section('meta_description', 'Explore Jewelerp pricing plans for jewellery ERP software, including billing, inventory, accounting, POS and business management features.')
+
+@section('meta_keywords', 'jewellery ERP software pricing, jewellery ERP pricing, jewellery software pricing, jewellery billing software pricing, jewellery POS software in Pune, jewellery ERP software in Nagpur, jewellery software in Nashik, jewellery inventory software pricing, online jewellery ERP software, jewellery accounting software')
+
+@section('canonical_url', 'https://jewelerp.in/pricing')
+
+@include('invoice_front.includes.header')
 <!doctype html>
 <html lang="en">
 
