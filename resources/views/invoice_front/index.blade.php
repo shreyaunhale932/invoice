@@ -1,14 +1,10 @@
+@section('title', 'Jewellery ERP Software in India | Billing, Inventory & Purchase Management')
+@section('meta_description', 'Manage your jewellery business with powerful ERP software for billing, inventory, accounting, manufacturing, POS and karigar management.')
+@section('meta_keywords', 'jewellery ERP software, Jewellery ERP Software in India, jewellery software, jewellery billing software, jewellery inventory software, jewellery management software, jewellery business software, jewellery ERP software India, jewellery software India, jewellery billing software India, jewellery ERP software in Mumbai, jewellery accounting software, jewellery shop software, jewellery manufacturing software, jewellery GST billing software, jewellery barcode software, online jewellery ERP software, jewellery POS software, jewellery inventory management, jewellery inventory ERP, diamond inventory software, jewellery inventory tracking software, jewellery karigar management software, signup for free trial, jewellery accounting software in Ahmedabad, jewellery ERP software in Surat, jewellery ERP software in Jaipur, jewellery software in Delhi, jewellery POS software in Delhi, jewellery ERP software in Gurgaon')
+@section('canonical', 'https://jewelerp.in/')
+
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
-@section('title', 'Jewellery ERP Software in India | Billing, Inventory & Purchase Management')
-
-@section('meta_description', 'Manage your jewellery business with powerful ERP software for billing, inventory, accounting, manufacturing, POS and karigar management.')
-
-@section('meta_keywords', 'jewellery ERP software, Jewellery ERP Software in India, jewellery software, jewellery billing software, jewellery inventory software, jewellery management software, jewellery business software, jewellery ERP software India, jewellery software India, jewellery billing software India, jewellery ERP software in Mumbai, jewellery accounting software, jewellery shop software, jewellery manufacturing software, jewellery GST billing software, jewellery barcode software, online jewellery ERP software, jewellery POS software, jewellery inventory management, diamond inventory software, jewellery karigar management software')
-
-@section('canonical_url', 'https://jewelerp.in/')
-
-@include('invoice_front.includes.header')
 <section class="hero">
 
     <!-- <div class="leftOverlay"></div> -->

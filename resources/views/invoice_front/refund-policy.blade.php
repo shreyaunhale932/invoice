@@ -1,3 +1,6 @@
+@section('title', 'Refund & Cancellation Policy | Jewelerp')
+@section('canonical', 'https://jewelerp.in/refund-policy')
+
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
 

@@ -1,3 +1,6 @@
+@section('title', 'Terms & Conditions | Jewelerp')
+@section('canonical', 'https://jewelerp.in/terms-conditions')
+
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
 <section class="privacy-banner">

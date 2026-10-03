@@ -1,26 +1,10 @@
+@section('title', 'Jewellery ERP Software Pricing | Jewelerp Plans')
+@section('meta_description', 'Explore Jewelerp pricing plans for jewellery ERP software, including billing, inventory, accounting, POS and business management features.')
+@section('meta_keywords', 'jewellery ERP software pricing, jewellery ERP pricing, jewellery software pricing, jewellery billing software pricing, jewellery billing software in Pune, jewellery POS software in Pune, jewellery ERP software in Nagpur, jewellery software in Nashik, jewellery inventory software pricing, jewellery billing software in Bangalore, jewellery ERP software in Mysore, jewellery software in Chennai, jewellery management software pricing, jewellery business software, jewellery ERP software, online jewellery ERP software, jewellery accounting software, jewellery POS software, jewellery shop software, jewellery ERP software in Ahmedabad, jewellery software in Ahmedabad, Get Your Free Demo, Sign Up for Free Trial')
+@section('canonical', 'https://jewelerp.in/pricing')
+
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
-@section('title', 'Jewellery ERP Software Pricing | Jewelerp Plans')
-
-@section('meta_description', 'Explore Jewelerp pricing plans for jewellery ERP software, including billing, inventory, accounting, POS and business management features.')
-
-@section('meta_keywords', 'jewellery ERP software pricing, jewellery ERP pricing, jewellery software pricing, jewellery billing software pricing, jewellery POS software in Pune, jewellery ERP software in Nagpur, jewellery software in Nashik, jewellery inventory software pricing, online jewellery ERP software, jewellery accounting software')
-
-@section('canonical_url', 'https://jewelerp.in/pricing')
-
-@include('invoice_front.includes.header')
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Compare Features Table</title>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet" />
 
   <section class="pricing-hero">
     <div class="pricing-container">

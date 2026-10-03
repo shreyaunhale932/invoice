@@ -1,3 +1,6 @@
+@section('title', 'Privacy Policy | Jewelerp')
+@section('canonical', 'https://jewelerp.in/privacy-policy')
+
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
 

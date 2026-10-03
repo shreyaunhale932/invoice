@@ -182,3 +182,5 @@
 </script>
 
     <script src="{{ asset('front_assets/js/script.js') }}"></script>
+</body>
+</html>

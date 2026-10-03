@@ -1,3 +1,6 @@
+@section('title', 'FAQs | Jewelerp')
+@section('canonical', 'https://jewelerp.in/faqs')
+
 @include('invoice_front.includes.header')
 @include('invoice_front.includes.menu')
 
