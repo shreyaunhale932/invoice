@@ -158,7 +158,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Phone</label>
+                    <label>Phone<span class="text-danger"> *</span></label>
                     <input type="text" name="phone" placeholder="Enter phone" required>
                 </div>
 
@@ -166,8 +166,8 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label>City</label>
-                    <input type="text" name="city" placeholder="Enter city">
+                    <label>City<span class="text-danger"> *</span></label>
+                    <input type="text" name="city" placeholder="Enter city" required>
                 </div>
 
                 <div class="form-group">
