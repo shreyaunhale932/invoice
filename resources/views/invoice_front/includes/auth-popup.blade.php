@@ -159,7 +159,7 @@
 
                 <div class="form-group">
                     <label>Phone</label>
-                    <input type="text" name="phone" placeholder="Enter phone">
+                    <input type="text" name="phone" placeholder="Enter phone" required>
                 </div>
 
             </div>
@@ -192,7 +192,7 @@
 
             <!-- <div class="form-row">
 
-                
+
 
             </div> -->
 
