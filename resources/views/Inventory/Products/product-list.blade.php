@@ -43,12 +43,12 @@
                                                 <th>Item</th>
                                                 <th>Image</th>
                                                 <th>Barcode</th>
-                                                <th>Code</th>
+                                                <th>Code (Tag #)</th>
+                                                <th>Source Supplier / Purchase</th>
                                                 <th>Category</th>
                                                 <th>SubCategory</th>
                                                 <th>Gs Wt</th>
                                                 <th>Net Wt</th>
-                                                {{-- <th>final Wt</th> --}}
                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
@@ -61,59 +61,6 @@
                                                             data-details='
 
         <div class="">
-
-            {{-- <h5>Diamonds</h5>
-
-            @if ($product->diamonds->count())
-<table class="table table-bordered">
-                    <tr>
-                        <th>Clarity</th>
-                        <th>Color</th>
-                        <th>Cut</th>
-                        <th>Weight</th>
-                        <th>Price</th>
-                    </tr>
-
-                    @foreach ($product->diamonds as $diamond)
-<tr>
-                            <td>{{ $diamond->clarity }}</td>
-                            <td>{{ $diamond->color }}</td>
-                            <td>{{ $diamond->cut }}</td>
-                            <td>{{ $diamond->diamond_weight }}</td>
-                            <td>{{ $diamond->diamond_final_price }}</td>
-                        </tr>
-@endforeach
-                </table>
-@else
-<p>No Diamonds</p>
-@endif
-
-
-            <h5>Stones</h5>
-
-            @if ($product->stones->count())
-<table class="table table-bordered">
-                    <tr>
-                        <th>Name</th>
-                        <th>Weight</th>
-                        <th>Amount</th>
-                    </tr>
-
-                    @foreach ($product->stones as $stone)
-<tr>
-                            <td>{{ $stone->stone_name }}</td>
-                            <td>{{ $stone->stone_weight }}</td>
-                            <td>{{ $stone->stone_final_price }}</td>
-                        </tr>
-@endforeach
-                </table>
-@else
-<p>No Stones</p>
-@endif --}}
-
-
-            <!-- <h6>Packets</h6> -->
-
             @if ($product->packets->count())
 <table class="table table-bordered">
                     <tr>
@@ -155,8 +102,18 @@
                                                             <img src="{{ asset($product->image) }}" width="70">
                                                         @endif
                                                     </td>
-                                                    <td>{{ $product->barcode }}</td>
-                                                    <td>{{ $product['pre_code'] . '-' . $product['post_code'] }}</td>
+                                                    <td><code>{{ $product->barcode }}</code></td>
+                                                    <td><span class="badge bg-primary">{{ $product['pre_code'] . '-' . $product['post_code'] }}</span></td>
+                                                    <td>
+                                                        @if($product->supplier)
+                                                            <div class="font-weight-bold text-dark">{{ $product->supplier->name }}</div>
+                                                        @endif
+                                                        @if($product->retailPurchase)
+                                                            <span class="badge bg-soft-info text-info">Purch #{{ $product->retailPurchase->purchase_no }}</span>
+                                                        @else
+                                                            <span class="badge bg-light text-muted">Direct / Initial</span>
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         {{ $product->category->category_name ?? '-' }}
                                                     </td>

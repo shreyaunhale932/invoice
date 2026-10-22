@@ -902,6 +902,125 @@ class AccountingService
     }
 
     /**
+     * Post a Retail Purchase Entry.
+     * Dr Stock / Purchase, Dr GST Input CGST/SGST/IGST
+     * Cr Sundry Creditors (Supplier Payable) / Cash / Bank
+     */
+    public function postRetailPurchase($purchase)
+    {
+        if (!$purchase instanceof \App\Models\RetailPurchase) {
+            $purchase = \App\Models\RetailPurchase::with(['payments', 'supplier'])->findOrFail($purchase);
+        }
+
+        $this->deleteRetailPurchaseEntry($purchase);
+
+        $lines = [];
+
+        $purchaseAccount = $this->getOrCreateAccountId('Purchase Account', 'Expenses');
+        $lines[] = [
+            'account_id' => $purchaseAccount,
+            'debit'      => $purchase->taxable_amount > 0 ? $purchase->taxable_amount : $purchase->subtotal,
+            'credit'     => 0,
+            'memo'       => "Purchase #{$purchase->purchase_no}",
+        ];
+
+        if ($purchase->cgst_amount > 0) {
+            $cgstAccount = $this->getOrCreateAccountId('GST Input CGST', 'Assets');
+            $lines[] = [
+                'account_id' => $cgstAccount,
+                'debit'      => $purchase->cgst_amount,
+                'credit'     => 0,
+                'memo'       => "Input CGST for Purchase #{$purchase->purchase_no}",
+            ];
+        }
+        if ($purchase->sgst_amount > 0) {
+            $sgstAccount = $this->getOrCreateAccountId('GST Input SGST', 'Assets');
+            $lines[] = [
+                'account_id' => $sgstAccount,
+                'debit'      => $purchase->sgst_amount,
+                'credit'     => 0,
+                'memo'       => "Input SGST for Purchase #{$purchase->purchase_no}",
+            ];
+        }
+        if ($purchase->igst_amount > 0) {
+            $igstAccount = $this->getOrCreateAccountId('GST Input IGST', 'Assets');
+            $lines[] = [
+                'account_id' => $igstAccount,
+                'debit'      => $purchase->igst_amount,
+                'credit'     => 0,
+                'memo'       => "Input IGST for Purchase #{$purchase->purchase_no}",
+            ];
+        }
+
+        if ($purchase->round_off != 0) {
+            $lines[] = [
+                'account_id' => $this->getOrCreateAccountId('Round Off', $purchase->round_off > 0 ? 'Income' : 'Expenses'),
+                'debit'      => $purchase->round_off < 0 ? abs($purchase->round_off) : 0,
+                'credit'     => $purchase->round_off > 0 ? $purchase->round_off : 0,
+                'memo'       => "Round off on Purchase #{$purchase->purchase_no}",
+            ];
+        }
+
+        $totalPaid = 0;
+        if ($purchase->payments && $purchase->payments->count() > 0) {
+            foreach ($purchase->payments as $pmt) {
+                if ($pmt->amount > 0 && $pmt->account_id) {
+                    $lines[] = [
+                        'account_id' => $pmt->account_id,
+                        'debit'      => 0,
+                        'credit'     => $pmt->amount,
+                        'memo'       => ucfirst($pmt->payment_method) . " payment for Purchase #{$purchase->purchase_no}",
+                    ];
+                    $totalPaid += $pmt->amount;
+                }
+            }
+        } else if (($purchase->paid_amount ?? 0) > 0) {
+            $paidAmount = $purchase->paid_amount;
+            $paymentAccount = $this->getOrCreateAccountId('Cash in Hand', 'Assets');
+            if ($purchase->payment_method === 'bank') {
+                $paymentAccount = $this->getOrCreateAccountId('Bank', 'Assets');
+            } elseif ($purchase->payment_method === 'upi') {
+                $paymentAccount = $this->getOrCreateAccountId('UPI Clearing', 'Assets');
+            }
+
+            $lines[] = [
+                'account_id' => $paymentAccount,
+                'debit'      => 0,
+                'credit'     => $paidAmount,
+                'memo'       => "Payment for Purchase #{$purchase->purchase_no}",
+            ];
+            $totalPaid = $paidAmount;
+        }
+
+        $unpaidBalance = round($purchase->grand_total - $totalPaid, 2);
+        if ($unpaidBalance > 0) {
+            $creditorsAccount = $this->getOrCreateAccountId('Sundry Creditors', 'Liabilities');
+            $supplierName = $purchase->supplier ? $purchase->supplier->name : 'Supplier';
+            $lines[] = [
+                'account_id' => $creditorsAccount,
+                'debit'      => 0,
+                'credit'     => $unpaidBalance,
+                'memo'       => "Payable to {$supplierName} for Purchase #{$purchase->purchase_no}",
+            ];
+        }
+
+        return $this->postJournalEntry(
+            $purchase->purchase_date ?? now(),
+            "Wholesale Purchase #{$purchase->purchase_no}",
+            $lines,
+            get_class($purchase),
+            $purchase->id
+        );
+    }
+
+    public function deleteRetailPurchaseEntry($purchase)
+    {
+        JournalEntry::where('reference_type', get_class($purchase))
+            ->where('reference_id', $purchase->id)
+            ->delete();
+    }
+
+    /**
      * Recreate all journal entries from scratch.
      * WARNING: Deletes all existing journal entries that have a reference!
      */

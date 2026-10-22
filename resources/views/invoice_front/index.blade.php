@@ -826,7 +826,7 @@
         <div class="contact-card contact-card-reveal">
             <h3>Request a Free Demo</h3>
 
-            <form action="{{ route('contact.store') }}" method="POST">
+            <form action="{{ route('demo-request.store') }}" method="POST">
                 @csrf
                 <!-- NAME -->
 
@@ -968,3 +968,14 @@
 </section>
 
 @include('invoice_front.includes.footer')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session("success") }}',
+    confirmButtonColor: '#3085d6'
+});
+</script>
+@endif

@@ -60,6 +60,7 @@
             'student-billing',
             'train-ticket-booking',
             'sell.invoice.view',
+            'purchases.show',
         ]))
         <link rel="stylesheet" href="{{ url('/assets/css/feather.css') }}">
     @endif

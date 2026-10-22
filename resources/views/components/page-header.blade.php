@@ -203,6 +203,12 @@
                                 aria-hidden="true"></i>Add Customer</a>
                     </li>
                     @endif
+                    @if (Route::is(['suppliers.index']))
+                    <li>
+                        <a class="btn btn-primary" href="{{ route('suppliers.create') }}"><i class="fa fa-plus-circle me-2"
+                                aria-hidden="true"></i>Add Supplier</a>
+                    </li>
+                    @endif
                     @if (Route::is(['vendors']))
                     <li>
                         <a class="btn btn-import" href="javascript:void(0);"><span><i

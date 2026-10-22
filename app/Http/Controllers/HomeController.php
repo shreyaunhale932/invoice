@@ -224,11 +224,11 @@ class HomeController extends Controller
 
   public function productlist()
 {
-   $products = Product::with('category')   // Load category
+   $products = Product::with(['category', 'subcategory', 'supplier', 'retailPurchase', 'wholesaleStock'])
     ->where('admin_id', Auth::id())
     ->where('availability', 'available')
     ->where('is_direct_sell', 0)
-    ->orderBy('category_id', 'DESC')
+    ->orderBy('id', 'DESC')
     ->get();
 
    $templates = \App\Models\PrintTemplate::all();

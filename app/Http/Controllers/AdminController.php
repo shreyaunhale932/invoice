@@ -51,18 +51,21 @@ class AdminController extends Controller
         $expenses = 0;
 
         // Fetch dynamic statistics mirroring the Livewire components safely
-        try { $invoicesCount = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->count(); } catch (\Exception $e) {}
-        try { $customersCount = $applyFilter(\App\Models\Customer::where('admin_id', $adminId))->count(); } catch (\Exception $e) {}
-        try { $amountDue = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->sum('amount_left'); } catch (\Exception $e) {}
+        try { $invoicesCount = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->count(); } catch (\Throwable $e) {}
+        try { $customersCount = $applyFilter(\App\Models\Customer::where('admin_id', $adminId))->count(); } catch (\Throwable $e) {}
+        try { $amountDue = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->sum('amount_left'); } catch (\Throwable $e) {}
         
         // Removed Invoice query as it causes table not found error in tenant DBs
         
-        try { $totalSales = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->sum('final_amount'); } catch (\Exception $e) {}
-        try { $receipts = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->sum('total_received'); } catch (\Exception $e) {}
-        try { $expenses = $applyFilter(\App\Models\Expense::where('admin_id', $adminId))->sum('amount'); } catch (\Exception $e) {}
+        try { $totalSales = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->sum('final_amount'); } catch (\Throwable $e) {}
+        try { $receipts = $applyFilter(\App\Models\SellInvoice::where('admin_id', $adminId))->sum('total_received'); } catch (\Throwable $e) {}
+        try { $expenses = $applyFilter(\App\Models\Expense::where('admin_id', $adminId))->sum('amount'); } catch (\Throwable $e) {}
         
-        // As we discovered, no Purchase model exists yet, so we will use a dummy totalPurchases or sum from expenses for now.
-        $totalPurchases = 349410.68; // Based on mockup numbers for now, or you could sum it from the JSON if needed.
+        try { 
+            $totalPurchases = $applyFilter(\App\Models\RetailPurchase::where('admin_id', $adminId))->sum('grand_total'); 
+        } catch (\Throwable $e) {
+            $totalPurchases = 0;
+        }
 
         // Graphical Chart Data based on filter
         $salesLabels = [];

@@ -172,9 +172,75 @@ class PageController extends Controller
     {
         return view('Reports/Reports/payment-report');
     }
-    public function purchase_report()
+    public function purchase_report(Request $request)
     {
-        return view('Reports/Reports/purchase-report');
+        $adminId = \Illuminate\Support\Facades\Auth::guard('admin')->id();
+        $query = \App\Models\RetailPurchaseItem::with(['purchase.supplier', 'product', 'category', 'purity'])
+            ->whereHas('purchase', function ($q) use ($adminId) {
+                $q->where('admin_id', $adminId);
+            });
+
+        if ($request->filled('supplier_id')) {
+            $query->whereHas('purchase', function ($q) use ($request) {
+                $q->where('supplier_id', $request->supplier_id);
+            });
+        }
+        if ($request->filled('from_date')) {
+            $query->whereHas('purchase', function ($q) use ($request) {
+                $q->whereDate('purchase_date', '>=', $request->from_date);
+            });
+        }
+        if ($request->filled('to_date')) {
+            $query->whereHas('purchase', function ($q) use ($request) {
+                $q->whereDate('purchase_date', '<=', $request->to_date);
+            });
+        }
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('item_name', 'like', "%{$search}%")
+                  ->orWhereHas('purchase', function ($pq) use ($search) {
+                      $pq->where('purchase_no', 'like', "%{$search}%")
+                         ->orWhereHas('supplier', function ($sq) use ($search) {
+                             $sq->where('name', 'like', "%{$search}%");
+                         });
+                  });
+            });
+        }
+
+        $items = $query->latest()->get();
+        $suppliers = \App\Models\Supplier::where('admin_id', $adminId)->get();
+
+        $totalGrossWeight = $items->sum('gross_weight');
+        $totalNetWeight = $items->sum('net_weight');
+        $totalFineWeight = $items->sum('final_fn_weight');
+        $totalQuantity = $items->sum('quantity');
+        $totalAmount = $items->sum('total_amount');
+
+        // Product-wise grams summary aggregation
+        $productSummary = $items->groupBy(function ($item) {
+            return trim($item->item_name ?: ($item->product->product_name ?? 'Unspecified Item'));
+        })->map(function ($group, $productName) {
+            return [
+                'product_name'       => $productName,
+                'total_qty'          => $group->sum('quantity'),
+                'total_gross_weight' => $group->sum('gross_weight'),
+                'total_net_weight'   => $group->sum('net_weight'),
+                'total_fine_weight'  => $group->sum('final_fn_weight'),
+                'total_amount'       => $group->sum('total_amount'),
+            ];
+        })->values();
+
+        return view('Reports/Reports/purchase-report', compact(
+            'items',
+            'suppliers',
+            'totalGrossWeight',
+            'totalNetWeight',
+            'totalFineWeight',
+            'totalQuantity',
+            'totalAmount',
+            'productSummary'
+        ));
     }
     public function quotation_report()
     {

@@ -23,6 +23,9 @@ use App\Models\Invoice;
 use App\Http\Controllers\LabelDesignerController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\RetailPurchaseController;
+use App\Http\Controllers\WholesaleStockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +49,8 @@ Route::get('/terms-conditions',[HomeController::class,'termsconditions'])->name(
 Route::get('/faqs',[HomeController::class,'faqs'])->name('faqs');
 Route::post('/contact/store', [VisitorController::class, 'store'])
     ->name('contact.store');
+Route::post('/demo-request/store', [\App\Http\Controllers\DemoRequestController::class, 'store'])
+    ->name('demo-request.store');
 
 
 Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('admin.authenticate');
@@ -63,6 +68,9 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::put('/superadmin/admin/update/{id}', [SuperAdminController::class, 'updateAdmin'])->name('admin.update');
     Route::delete('/superadmin/admin/delete/{id}', [SuperAdminController::class, 'destroyAdmin'])->name('admin.destroy');
     Route::get('/visitor',[VisitorController::class,'getvisitor'])->name('visitor');
+    Route::get('/demo-requests', [\App\Http\Controllers\DemoRequestController::class, 'index'])->name('superadmin.demo-requests');
+    Route::patch('/demo-requests/{id}/status', [\App\Http\Controllers\DemoRequestController::class, 'updateStatus'])->name('superadmin.demo-requests.update-status');
+    Route::delete('/demo-requests/{id}', [\App\Http\Controllers\DemoRequestController::class, 'destroy'])->name('superadmin.demo-requests.destroy');
 });
 
 // Admin Routes with Firm Management
@@ -101,6 +109,31 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('/customers/{id}', [CustomerController::class, 'details'])->name('customers.details');
     Route::get('/customers/export/pdf', [CustomerController::class, 'exportPdf'])->name('customers.export.pdf');
     Route::get('/customers/export/csv', [CustomerController::class, 'exportCsv'])->name('customers.export.csv');
+
+    // Supplier Routes
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::get('/suppliers/create', [SupplierController::class, 'create'])->name('suppliers.create');
+    Route::post('/suppliers/store', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::get('/suppliers/{id}', [SupplierController::class, 'show'])->name('suppliers.show');
+    Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+    Route::put('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+
+    // Wholesale Purchase Routes
+    Route::get('/purchases', [RetailPurchaseController::class, 'index'])->name('purchases.index');
+    Route::get('/purchases/create', [RetailPurchaseController::class, 'create'])->name('purchases.create');
+    Route::post('/purchases/store', [RetailPurchaseController::class, 'store'])->name('purchases.store');
+    Route::get('/purchases/{id}', [RetailPurchaseController::class, 'show'])->name('purchases.show');
+    Route::get('/purchases/{id}/edit', [RetailPurchaseController::class, 'edit'])->name('purchases.edit');
+    Route::put('/purchases/{id}', [RetailPurchaseController::class, 'update'])->name('purchases.update');
+    Route::delete('/purchases/{id}', [RetailPurchaseController::class, 'destroy'])->name('purchases.destroy');
+
+    // Wholesale Stock & Lot to Tag Routes
+    Route::get('/wholesale-stock', [WholesaleStockController::class, 'index'])->name('wholesale-stock.index');
+    Route::get('/lot-to-tag', [WholesaleStockController::class, 'index'])->name('lot-to-tag.index');
+    Route::get('/wholesale-stock/{id}/batches', [WholesaleStockController::class, 'getBatches'])->name('wholesale-stock.batches');
+    Route::post('/wholesale-stock/{id}/tag', [WholesaleStockController::class, 'processTagging'])->name('wholesale-stock.tag');
+    Route::post('/wholesale-stock/convert-tag', [WholesaleStockController::class, 'convertTag'])->name('wholesale-stock.convert-tag');
     Route::get('/add-products', [CustomerController::class, 'addproducts'])->name('add-products');
     Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
     Route::post('/invoices/store', [InvoiceController::class, 'store'])->name('invoices.store');
@@ -599,7 +632,7 @@ Route::get('/edit-purchases-order', [HomeController::class, 'editpurchasesorder'
 Route::get('/edit-purchases', [HomeController::class, 'editpurchases'])->name('edit-purchases');
 Route::get('/purchase-orders', [HomeController::class, 'purchaseorders'])->name('purchase-orders');
 Route::get('/purchase-details', [HomeController::class, 'purchasedetails'])->name('purchase-details');
-Route::get('/purchases', [HomeController::class, 'purchases'])->name('purchases');
+// Route::get('/purchases', [HomeController::class, 'purchases'])->name('purchases');
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 

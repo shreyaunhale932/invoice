@@ -34,10 +34,18 @@
                 </li>
             </ul>
               <ul class="sidebar-new-menu">
-                <li class="">
+                <li class="{{ Request::is('visitor*') ? 'active' : '' }}">
                     <a href="{{ route('visitor') }}">
                        <i class="fe fe-globe"></i>
                         <span>Visitors</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="sidebar-new-menu">
+                <li class="{{ Request::is('demo-requests*') ? 'active' : '' }}">
+                    <a href="{{ route('superadmin.demo-requests') }}">
+                       <i class="fe fe-monitor"></i>
+                        <span>Demo Requests</span>
                     </a>
                 </li>
             </ul>
@@ -65,8 +73,11 @@
                         <i class="fas fa-chevron-right menu-arrow-new"></i>
                     </a>
                     <ul class="submenu-new">
+                        <li class="{{ Request::is('wholesale-stock*', 'lot-to-tag*') ? 'active' : '' }}">
+                            <a href="{{ route('wholesale-stock.index') }}">Lot to Tag</a>
+                        </li>
                         <li class="{{ Request::is('product-list', 'add-products', 'edit-products') ? 'active' : '' }}">
-                            <a href="{{ url('product-list') }}">Product List</a>
+                            <a href="{{ url('product-list') }}">Retail Product List</a>
                         </li>
                         <li class="{{ Request::is('direct-sell-products') ? 'active' : '' }}">
                             <a href="{{ url('direct-sell-products') }}">Direct Sell Products</a>
@@ -217,6 +228,41 @@
                     <a href="{{ route('add-customer') }}">
                         <i class="fe fe-user-plus"></i>
                         <span>Add Customer</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Suppliers Section -->
+            <div class="menu-section-title">Suppliers & Purchase</div>
+            <ul class="sidebar-new-menu">
+                <li class="{{ Request::is('suppliers') ? 'active' : '' }}">
+                    <a href="{{ route('suppliers.index') }}">
+                        <i class="fe fe-truck"></i>
+                        <span>Suppliers List</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('suppliers/create') ? 'active' : '' }}">
+                    <a href="{{ route('suppliers.create') }}">
+                        <i class="fe fe-user-plus"></i>
+                        <span>Add Supplier</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('purchases') ? 'active' : '' }}">
+                    <a href="{{ route('purchases.index') }}">
+                        <i class="fe fe-shopping-bag"></i>
+                        <span> Purchases Invoice</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('purchases/create') ? 'active' : '' }}">
+                    <a href="{{ route('purchases.create') }}">
+                        <i class="fe fe-plus-square"></i>
+                        <span>Add  Purchase</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('wholesale-stock*', 'lot-to-tag*') ? 'active' : '' }}">
+                    <a href="{{ route('wholesale-stock.index') }}">
+                        <i class="fe fe-layers"></i>
+                        <span>Lot to Tag</span>
                     </a>
                 </li>
             </ul>

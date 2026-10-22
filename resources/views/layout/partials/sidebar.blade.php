@@ -41,6 +41,14 @@
                         <a class="{{ Request::is('createAdmin') ? 'active' : '' }}" href="{{ url('createAdmin') }}"><i
                                 class="fe fe-user"></i> <span>Users</span></a>
                     </li>
+                    <li>
+                        <a class="{{ Request::is('visitor*') ? 'active' : '' }}" href="{{ route('visitor') }}"><i
+                                class="fe fe-globe"></i> <span>Visitors</span></a>
+                    </li>
+                    <li>
+                        <a class="{{ Request::is('demo-requests*') ? 'active' : '' }}" href="{{ route('superadmin.demo-requests') }}"><i
+                                class="fe fe-monitor"></i> <span>Demo Requests</span></a>
+                    </li>
                     {{-- <li>
                         <a class="{{ Request::is('roles-permission', 'permission') ? 'active' : '' }}"
                             href="{{ url('roles-permission') }}"><i class="fe fe-clipboard"></i> <span>Roles &
@@ -161,24 +169,32 @@
                 </ul>
                 <!-- /Firm Management -->
 
-                <!-- Customers -->
+                <!-- Customers & Suppliers -->
                 <ul>
-                    <li class="menu-title"><span>Customers</span></li>
+                    <li class="menu-title"><span>Parties</span></li>
                     <li>
                         <a class="{{ Request::is('customers', 'add-customer', 'edit-customer', 'active-customers', 'deactive-customers') ? 'active' : '' }}"
                             href="{{ url('customers') }}"><i class="fe fe-users"></i> <span>Customers</span></a>
                     </li>
-                    <!-- <li>
-                        <a class="{{ Request::is('customer-details') ? 'active' : '' }}"
-                            href="{{ url('customer-details') }}"><i class="fe fe-file"></i> <span>Customer
-                                Details</span></a>
-                    </li>
                     <li>
-                        <a class="{{ Request::is('vendors', 'ledger', 'customers-ledger') ? 'active' : '' }}"
-                            href="{{ url('vendors') }}"><i class="fe fe-user"></i> <span>Vendors</span></a>
-                    </li> -->
+                        <a class="{{ Request::is('suppliers*') ? 'active' : '' }}"
+                            href="{{ route('suppliers.index') }}"><i class="fe fe-truck"></i> <span>Suppliers</span></a>
+                    </li>
                 </ul>
-                <!-- /Customers -->
+                <!-- /Customers & Suppliers -->
+
+                <!-- Purchases -->
+                <ul>
+                    <li class="menu-title"><span>Purchases</span></li>
+                    <li class="submenu">
+                        <a href="#" class="{{ Request::is('purchases*') ? 'active' : '' }}"><i class="fe fe-shopping-bag"></i> <span> Wholesale Purchases</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a class="{{ Request::is('purchases') ? 'active' : '' }}" href="{{ route('purchases.index') }}">Purchases List</a></li>
+                            <li><a class="{{ Request::is('purchases/create') ? 'active' : '' }}" href="{{ route('purchases.create') }}">Add Purchase</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /Purchases -->
 
                 <!-- Inventory -->
                 <ul>

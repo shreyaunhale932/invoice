@@ -1,0 +1,12 @@
+<?php
+require 'vendor/autoload.php';
+$app = require_once 'bootstrap/app.php';
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
+
+use Illuminate\Support\Facades\DB;
+
+$dbs = DB::select('SHOW DATABASES');
+foreach ($dbs as $db) {
+    echo array_values((array)$db)[0] . "\n";
+}

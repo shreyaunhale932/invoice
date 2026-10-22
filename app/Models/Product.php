@@ -17,6 +17,11 @@ class Product extends Model
     protected $fillable = [
         'admin_id',
         'item_product_data_id',
+        'wholesale_stock_id',
+        'wholesale_stock_batch_id',
+        'retail_purchase_id',
+        'retail_purchase_item_id',
+        'supplier_id',
         'product_name',
         'product_code',
         'pre_code',
@@ -44,12 +49,39 @@ class Product extends Model
         'size',
         'final_price',
         'availability',
-         'making_type',
+        'tagged_at',
+        'tagged_by',
+        'making_type',
         'making_final_amount',
         'hallmarking',
         'wastage_amount',
         'is_direct_sell',
     ];
+
+    public function wholesaleStock()
+    {
+        return $this->belongsTo(WholesaleStock::class, 'wholesale_stock_id');
+    }
+
+    public function wholesaleStockBatch()
+    {
+        return $this->belongsTo(WholesaleStockBatch::class, 'wholesale_stock_batch_id');
+    }
+
+    public function retailPurchase()
+    {
+        return $this->belongsTo(RetailPurchase::class, 'retail_purchase_id');
+    }
+
+    public function retailPurchaseItem()
+    {
+        return $this->belongsTo(RetailPurchaseItem::class, 'retail_purchase_item_id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id');
+    }
 
     // One product has many diamonds
     public function diamonds()
