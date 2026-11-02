@@ -461,16 +461,8 @@ class RetailPurchaseController extends Controller
         $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
         $bank = \App\Models\bankdetails::where('user_id', $adminId)->first();
 
-        // Get template settings
-        $templateSettings = \App\Models\InvoiceTemplateSetting::where(function ($query) use ($adminId) {
-            $query->where('admin_id', $adminId)
-                ->orWhereNull('admin_id');
-        })
-            ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
-            ->get()
-            ->keyBy(function ($item) {
-                return $item->section_key.'.'.$item->field_key;
-            });
+        // Get purchase template settings
+        $templateSettings = \App\Models\PurchaseTemplateSetting::getSettingsForAdmin($adminId);
 
         // Get custom blocks
         $customBlocks = \App\Models\InvoiceTemplateCustomBlock::where('admin_id', $adminId)

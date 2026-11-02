@@ -71,6 +71,10 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::get('/demo-requests', [\App\Http\Controllers\DemoRequestController::class, 'index'])->name('superadmin.demo-requests');
     Route::patch('/demo-requests/{id}/status', [\App\Http\Controllers\DemoRequestController::class, 'updateStatus'])->name('superadmin.demo-requests.update-status');
     Route::delete('/demo-requests/{id}', [\App\Http\Controllers\DemoRequestController::class, 'destroy'])->name('superadmin.demo-requests.destroy');
+
+    Route::get('/cms', [\App\Http\Controllers\CMSController::class, 'index'])->name('superadmin.cms');
+    Route::get('/cms/home/edit', [\App\Http\Controllers\CMSController::class, 'editBanners'])->name('superadmin.cms.home.edit');
+    Route::put('/cms/home', [\App\Http\Controllers\CMSController::class, 'updateBanners'])->name('superadmin.cms.home.update');
 });
 
 // Admin Routes with Firm Management
@@ -303,6 +307,37 @@ Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWh
         '/invoice-template/blocks/{id}/delete',
         [App\Http\Controllers\InvoiceTemplateController::class, 'deleteBlock']
     )->name('invoice.template.block.delete');
+
+    // Purchase Invoice Template Routes
+    Route::get(
+        '/purchase-template/editor',
+        [App\Http\Controllers\PurchaseTemplateController::class, 'index']
+    )->name('purchase.template.index');
+
+    Route::post(
+        '/purchase-template/update',
+        [App\Http\Controllers\PurchaseTemplateController::class, 'update']
+    )->name('purchase.template.update');
+
+    Route::post(
+        '/purchase-template/reset',
+        [App\Http\Controllers\PurchaseTemplateController::class, 'reset']
+    )->name('purchase.template.reset');
+
+    Route::post(
+        '/purchase-template/blocks/store',
+        [App\Http\Controllers\PurchaseTemplateController::class, 'storeBlock']
+    )->name('purchase.template.block.store');
+
+    Route::post(
+        '/purchase-template/blocks/{id}/update',
+        [App\Http\Controllers\PurchaseTemplateController::class, 'updateBlock']
+    )->name('purchase.template.block.update');
+
+    Route::delete(
+        '/purchase-template/blocks/{id}/delete',
+        [App\Http\Controllers\PurchaseTemplateController::class, 'deleteBlock']
+    )->name('purchase.template.block.delete');
 
     Route::get('/generate-uuid-for-old-invoices', function () {
         $invoices = Invoice::whereNull('uuid')->get();

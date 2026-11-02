@@ -312,22 +312,24 @@
                     /* =====================================================
                      | HEADER / COMPANY TEXT VALUES
                      ===================================================== */
-                    $invoiceTitle = 'PURCHASE INVOICE';
+                    $invoiceTitle =
+                        $templateSettings['purchase_header.title']->value ??
+                        ($templateSettings['purchase_header.title']->label ?? 'PURCHASE INVOICE');
 
                     $companyName =
-                        $templateSettings['text_elements.company_name']->value ??
-                        ($templateSettings['text_elements.company_name']->default_value ?? ($business->company_name ?? ''));
+                        $templateSettings['purchase_header.company_name']->value ??
+                        ($templateSettings['purchase_header.company_name']->default_value ?? ($business->company_name ?? ''));
 
                     $companyAddress =
-                        $templateSettings['text_elements.company_address']->value ??
-                        ($templateSettings['text_elements.company_address']->default_value ?? ($business->address ?? ''));
+                        $templateSettings['purchase_header.company_address']->value ??
+                        ($templateSettings['purchase_header.company_address']->default_value ?? ($business->address ?? ''));
 
                     /* =====================================================
                      | HEADER VISIBILITY FLAGS
                      ===================================================== */
-                    $invoiceTitleVisible = true;
-                    $companyNameVisible = true;
-                    $companyAddressVisible = true;
+                    $invoiceTitleVisible = $templateSettings['purchase_header.title']->is_visible ?? true;
+                    $companyNameVisible = $templateSettings['purchase_header.company_name']->is_visible ?? true;
+                    $companyAddressVisible = $templateSettings['purchase_header.company_address']->is_visible ?? true;
 
                     $logoLightVisible = $templateSettings['visual_elements.logo_light']->is_visible ?? true;
                     $logoDarkVisible = $templateSettings['visual_elements.logo_dark']->is_visible ?? true;
@@ -392,24 +394,30 @@
                             </a>
                         @endif
 
-                        <h6>Purchase No : <span>#{{ $purchase->purchase_no }}</span></h6>
-                        <h6>Purchase Date : <span>{{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d-m-Y') }}</span></h6>
-                        @if ($purchase->reference_no)
-                            <h6>Supplier Ref : <span>{{ $purchase->reference_no }}</span></h6>
+                        @if ($templateSettings['purchase_meta.purchase_no']->is_visible ?? true)
+                            <h6>{{ $templateSettings['purchase_meta.purchase_no']->label ?? 'Purchase No' }} : <span>#{{ $purchase->purchase_no }}</span></h6>
                         @endif
-                        @if ($purchase->due_date)
-                            <h6>Due Date : <span>{{ \Carbon\Carbon::parse($purchase->due_date)->format('d-m-Y') }}</span></h6>
+                        @if ($templateSettings['purchase_meta.purchase_date']->is_visible ?? true)
+                            <h6>{{ $templateSettings['purchase_meta.purchase_date']->label ?? 'Purchase Date' }} : <span>{{ \Carbon\Carbon::parse($purchase->purchase_date)->format('d-m-Y') }}</span></h6>
+                        @endif
+                        @if ($purchase->reference_no && ($templateSettings['purchase_meta.supplier_ref']->is_visible ?? true))
+                            <h6>{{ $templateSettings['purchase_meta.supplier_ref']->label ?? 'Supplier Ref' }} : <span>{{ $purchase->reference_no }}</span></h6>
+                        @endif
+                        @if ($purchase->due_date && ($templateSettings['purchase_meta.due_date']->is_visible ?? true))
+                            <h6>{{ $templateSettings['purchase_meta.due_date']->label ?? 'Due Date' }} : <span>{{ \Carbon\Carbon::parse($purchase->due_date)->format('d-m-Y') }}</span></h6>
                         @endif
                     </div>
                 </div>
 
                 {{-- ================= SUPPLIER / VENDOR INFO ================= --}}
+                @if ($templateSettings['supplier_info.section_title']->is_visible ?? true)
                 <div class="patient-infos">
                     <div class="row">
                         {{-- SUPPLIER DETAILS --}}
+                        @if ($templateSettings['supplier_info.supplier_details_label']->is_visible ?? true)
                         <div class="col-sm-3">
                             <div class="patient-detailed">
-                                <div class="bill-add">Supplier Details :</div>
+                                <div class="bill-add">{{ $templateSettings['supplier_info.supplier_details_label']->label ?? 'Supplier Details :' }}</div>
                                 <div class="customer-name">
                                     <strong>{{ $supplierName }}</strong>
                                     @if ($shopName)
@@ -424,11 +432,13 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
 
                         {{-- PAYMENT STATUS --}}
+                        @if ($templateSettings['supplier_info.payment_status_label']->is_visible ?? true)
                         <div class="col-sm-3">
                             <div class="patient-detailed">
-                                <div class="bill-add">Payment Status :</div>
+                                <div class="bill-add">{{ $templateSettings['supplier_info.payment_status_label']->label ?? 'Payment Status :' }}</div>
                                 <div class="payment-status">
                                     <p>
                                         @if($purchase->payment_status === 'paid')
@@ -442,28 +452,34 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
 
                         {{-- SUPPLIER ADDRESS --}}
+                        @if ($templateSettings['supplier_info.address_label']->is_visible ?? true)
                         <div class="col-sm-3">
                             <div class="patient-detailed">
-                                <div class="bill-add">Address :</div>
+                                <div class="bill-add">{{ $templateSettings['supplier_info.address_label']->label ?? 'Address :' }}</div>
                                 <div class="add-details">
                                     {{ $supplierAddress ?: 'N/A' }}
                                 </div>
                             </div>
                         </div>
+                        @endif
 
                         {{-- PAYMENT METHOD --}}
+                        @if ($templateSettings['supplier_info.payment_method_label']->is_visible ?? true)
                         <div class="col-sm-3">
                             <div class="patient-detailed">
-                                <div class="bill-add">Payment Method :</div>
+                                <div class="bill-add">{{ $templateSettings['supplier_info.payment_method_label']->label ?? 'Payment Method :' }}</div>
                                 <div class="add-details fw-bold text-uppercase">
                                     {{ $purchase->payment_method ?? 'CASH' }}
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
+                @endif
 
                 {{-- ================= ITEMS TABLE ================= --}}
                 @php
@@ -503,24 +519,24 @@
                         <table>
                             <thead>
                                 <tr class="ecommercetable">
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">SL No.</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Item Desc</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Pcs</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">HSN</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Purity</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Gr. wt. (Gm.)</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Net. wt. (Gm.)</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Wastage %</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Gold Rate (Gm)</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Stone/Oth. wt. (Gm)</th>
-                                    <th colspan="3" style="text-align: center;">Diamond/Stone</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Making</th>
-                                    <th rowspan="2" style="vertical-align: middle; text-align: center; text-align: right;">Amount</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_sr_no']->label ?? 'SL No.' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_item_desc']->label ?? 'Item Desc' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_pcs']->label ?? 'Pcs' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_hsn']->label ?? 'HSN' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_purity']->label ?? 'Purity' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_gross_wt']->label ?? 'Gr. wt. (Gm.)' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_net_wt']->label ?? 'Net. wt. (Gm.)' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_wastage_percent']->label ?? 'Wastage %' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_gold_rate']->label ?? 'Gold Rate (Gm)' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_stone_weight']->label ?? 'Stone/Oth. wt. (Gm)' }}</th>
+                                    <th colspan="3" style="text-align: center;">{{ $templateSettings['purchase_item_table.column_diamond_stone']->label ?? 'Diamond/Stone' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">{{ $templateSettings['purchase_item_table.column_making']->label ?? 'Making' }}</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center; text-align: right;">{{ $templateSettings['purchase_item_table.column_amount']->label ?? 'Amount' }}</th>
                                 </tr>
                                 <tr class="ecommercetable">
-                                    <th style="text-align: center;">Pcs</th>
-                                    <th style="text-align: center;">Ct</th>
-                                    <th style="text-align: center;">Rate</th>
+                                    <th style="text-align: center;">{{ $templateSettings['purchase_item_table.column_diamond_pcs']->label ?? 'Pcs' }}</th>
+                                    <th style="text-align: center;">{{ $templateSettings['purchase_item_table.column_diamond_ct']->label ?? 'Ct' }}</th>
+                                    <th style="text-align: center;">{{ $templateSettings['purchase_item_table.column_diamond_rate']->label ?? 'Rate' }}</th>
                                 </tr>
                             </thead>
 
@@ -654,31 +670,39 @@
 
                 <div class="invoice-table-footer">
                     <div class="table-footer-left notes" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
-                        @if ($purchase->gold_payment_grams > 0 || $purchase->gold_payment_amount > 0)
+                        @if (($purchase->gold_payment_grams > 0 || $purchase->gold_payment_amount > 0) && ($templateSettings['metal_payment.section_title']->is_visible ?? true))
                             <div class="terms-condition mt-3 p-2 rounded" style="background: rgba(255, 243, 205, 0.7); border: 1px solid #ffeba7; max-width: 450px; text-align: left;">
                                 <span style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 4px; color: #856404;">
-                                    Gold / Metal Payment Summary:
+                                    {{ $templateSettings['metal_payment.section_title']->label ?? 'Gold / Metal Payment Summary:' }}
                                 </span>
                                 <table style="width: 100%; font-size: 9.5px; border-collapse: collapse;">
+                                    @if ($templateSettings['metal_payment.metal_given_label']->is_visible ?? true)
                                     <tr>
-                                        <td>Metal Given:</td>
+                                        <td>{{ $templateSettings['metal_payment.metal_given_label']->label ?? 'Metal Given:' }}</td>
                                         <td style="text-align: right; font-weight: bold;">{{ number_format($purchase->gold_payment_grams, 3) }} g ({{ number_format($purchase->gold_payment_purity, 2) }}%)</td>
                                     </tr>
+                                    @endif
+                                    @if ($templateSettings['metal_payment.fine_wt_given_label']->is_visible ?? true)
                                     <tr>
-                                        <td>Fine Wt Given:</td>
+                                        <td>{{ $templateSettings['metal_payment.fine_wt_given_label']->label ?? 'Fine Wt Given:' }}</td>
                                         <td style="text-align: right; font-weight: bold;">{{ number_format($purchase->gold_payment_fine_wt, 3) }} g</td>
                                     </tr>
+                                    @endif
+                                    @if ($templateSettings['metal_payment.metal_rate_label']->is_visible ?? true)
                                     <tr>
-                                        <td>Metal Rate Applied:</td>
+                                        <td>{{ $templateSettings['metal_payment.metal_rate_label']->label ?? 'Metal Rate Applied:' }}</td>
                                         <td style="text-align: right;">₹{{ number_format($purchase->gold_payment_rate, 2) }} / g</td>
                                     </tr>
+                                    @endif
+                                    @if ($templateSettings['metal_payment.gold_value_settled_label']->is_visible ?? true)
                                     <tr style="border-top: 1px solid #e0c975;">
-                                        <td style="font-weight: bold;">Gold Value Settled:</td>
+                                        <td style="font-weight: bold;">{{ $templateSettings['metal_payment.gold_value_settled_label']->label ?? 'Gold Value Settled:' }}</td>
                                         <td style="text-align: right; font-weight: bold; color: #28a745;">₹{{ number_format($purchase->gold_payment_amount, 2) }}</td>
                                     </tr>
-                                    @if($purchase->remaining_metal_wt > 0)
+                                    @endif
+                                    @if($purchase->remaining_metal_wt > 0 && ($templateSettings['metal_payment.remaining_metal_wt_label']->is_visible ?? true))
                                         <tr>
-                                            <td style="font-weight: bold; color: #dc3545;">Remaining Metal Wt:</td>
+                                            <td style="font-weight: bold; color: #dc3545;">{{ $templateSettings['metal_payment.remaining_metal_wt_label']->label ?? 'Remaining Metal Wt:' }}</td>
                                             <td style="text-align: right; font-weight: bold; color: #dc3545;">{{ number_format($purchase->remaining_metal_wt, 3) }} g</td>
                                         </tr>
                                     @endif
@@ -686,108 +710,123 @@
                             </div>
                         @endif
 
-                        @if ($purchase->notes)
+                        @if ($purchase->notes && ($templateSettings['terms_and_notes.purchase_notes_label']->is_visible ?? true))
                             <div class="terms-condition mt-3" style="max-width: 450px; text-align: left;">
-                                <span style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 5px;">Purchase Notes:</span>
+                                <span style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 5px;">{{ $templateSettings['terms_and_notes.purchase_notes_label']->label ?? ($templateSettings['terms_and_notes.purchase_notes_label']->default_value ?? 'Purchase Notes:') }}</span>
                                 <p style="font-size: 10px; margin: 0;">{{ $purchase->notes }}</p>
                             </div>
                         @endif
 
-                        <div class="terms-condition mt-3" style="max-width: 450px; text-align: left;">
-                            <span style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 5px;">Terms & Conditions:</span>
-                            <ol style="padding-left: 15px; margin: 0; font-size: 10px; line-height: 1.4;">
-                                <li>All items received subject to inspection and quality check.</li>
-                                <li>Payment as per agreed terms and credit period.</li>
-                                <li>Disputes subject to local jurisdiction only.</li>
-                            </ol>
-                        </div>
+                        @if ($templateSettings['terms_and_notes.terms_label']->is_visible ?? true)
+                            <div class="terms-condition mt-3" style="max-width: 450px; text-align: left;">
+                                <span style="font-weight: bold; font-size: 11px; display: block; margin-bottom: 5px;">{{ $templateSettings['terms_and_notes.terms_label']->label ?? ($templateSettings['terms_and_notes.terms_label']->default_value ?? 'Terms & Conditions:') }}</span>
+                                @php
+                                    $termsVal = $templateSettings['terms_and_notes.terms_value']->value ?? ($templateSettings['terms_and_notes.terms_value']->default_value ?? "1. All items received subject to inspection and quality check.\n2. Payment as per agreed terms and credit period.\n3. Disputes subject to local jurisdiction only.");
+                                @endphp
+                                <div style="font-size: 10px; line-height: 1.4; white-space: pre-line;">{!! nl2br(e($termsVal)) !!}</div>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="table-footer-right text-end">
                         <table>
                             <tbody>
+                                @if ($templateSettings['purchase_footer.subtotal_label']->is_visible ?? true)
                                 <tr>
-                                    <td>Subtotal</td>
+                                    <td>{{ $templateSettings['purchase_footer.subtotal_label']->label ?? 'Subtotal' }}</td>
                                     <td>₹{{ number_format($purchase->subtotal, 2) }}</td>
                                 </tr>
+                                @endif
 
-                                @if ($discountAmount > 0)
+                                @if ($discountAmount > 0 && ($templateSettings['purchase_footer.discount_label']->is_visible ?? true))
                                     <tr>
-                                        <td>Discount {{ $discountPercent > 0 ? '('.$discountPercent.'%)' : '' }}</td>
+                                        <td>{{ $templateSettings['purchase_footer.discount_label']->label ?? 'Discount' }} {{ $discountPercent > 0 ? '('.$discountPercent.'%)' : '' }}</td>
                                         <td class="text-danger">-₹{{ number_format($discountAmount, 2) }}</td>
                                     </tr>
                                 @endif
 
+                                @if ($templateSettings['purchase_footer.taxable_amount_label']->is_visible ?? true)
                                 <tr>
-                                    <td>Taxable Amount</td>
+                                    <td>{{ $templateSettings['purchase_footer.taxable_amount_label']->label ?? 'Taxable Amount' }}</td>
                                     <td>₹{{ number_format($taxableAmount, 2) }}</td>
                                 </tr>
+                                @endif
 
                                 @if ($igstAmount > 0)
+                                    @if ($templateSettings['purchase_footer.igst_label']->is_visible ?? true)
                                     <tr>
-                                        <td>IGST {{ $igstPercent }}%</td>
+                                        <td>{{ $templateSettings['purchase_footer.igst_label']->label ?? 'IGST' }} {{ $igstPercent }}%</td>
                                         <td>+₹{{ number_format($igstAmount, 2) }}</td>
                                     </tr>
+                                    @endif
                                 @else
-                                    @if ($cgstAmount > 0)
+                                    @if ($cgstAmount > 0 && ($templateSettings['purchase_footer.cgst_label']->is_visible ?? true))
                                         <tr>
-                                            <td>CGST {{ $cgstPercent }}%</td>
+                                            <td>{{ $templateSettings['purchase_footer.cgst_label']->label ?? 'CGST' }} {{ $cgstPercent }}%</td>
                                             <td>+₹{{ number_format($cgstAmount, 2) }}</td>
                                         </tr>
                                     @endif
-                                    @if ($sgstAmount > 0)
+                                    @if ($sgstAmount > 0 && ($templateSettings['purchase_footer.sgst_label']->is_visible ?? true))
                                         <tr>
-                                            <td>SGST {{ $sgstPercent }}%</td>
+                                            <td>{{ $templateSettings['purchase_footer.sgst_label']->label ?? 'SGST' }} {{ $sgstPercent }}%</td>
                                             <td>+₹{{ number_format($sgstAmount, 2) }}</td>
                                         </tr>
                                     @endif
                                 @endif
 
-                                @if ($otherCharges > 0)
+                                @if ($otherCharges > 0 && ($templateSettings['purchase_footer.other_charges_label']->is_visible ?? true))
                                     <tr>
-                                        <td>Other Charges</td>
+                                        <td>{{ $templateSettings['purchase_footer.other_charges_label']->label ?? 'Other Charges' }}</td>
                                         <td>+₹{{ number_format($otherCharges, 2) }}</td>
                                     </tr>
                                 @endif
 
-                                @if ($roundOff != 0)
+                                @if ($roundOff != 0 && ($templateSettings['purchase_footer.round_off_label']->is_visible ?? true))
                                     <tr>
-                                        <td>Round Off</td>
+                                        <td>{{ $templateSettings['purchase_footer.round_off_label']->label ?? 'Round Off' }}</td>
                                         <td>{{ $roundOff >= 0 ? '+' : '' }}₹{{ number_format($roundOff, 2) }}</td>
                                     </tr>
                                 @endif
 
+                                @if ($templateSettings['purchase_footer.grand_total_label']->is_visible ?? true)
                                 <tr class="total-tr">
-                                    <td><strong>Grand Total</strong></td>
+                                    <td><strong>{{ $templateSettings['purchase_footer.grand_total_label']->label ?? 'Grand Total' }}</strong></td>
                                     <td><strong>₹{{ number_format($grandTotal, 2) }}</strong></td>
                                 </tr>
+                                @endif
 
-                                @if ($purchase->gold_payment_amount > 0)
+                                @if ($purchase->gold_payment_amount > 0 && ($templateSettings['purchase_footer.gold_payment_settled_label']->is_visible ?? true))
                                     <tr>
-                                        <td><strong>Gold Payment Settled</strong></td>
+                                        <td><strong>{{ $templateSettings['purchase_footer.gold_payment_settled_label']->label ?? 'Gold Payment Settled' }}</strong></td>
                                         <td><strong class="text-success">₹{{ number_format($purchase->gold_payment_amount, 2) }}</strong></td>
                                     </tr>
                                 @endif
 
+                                @if ($templateSettings['purchase_footer.amount_paid_label']->is_visible ?? true)
                                 <tr>
-                                    <td><strong>Amount Paid</strong></td>
+                                    <td><strong>{{ $templateSettings['purchase_footer.amount_paid_label']->label ?? 'Amount Paid' }}</strong></td>
                                     <td><strong class="text-success">₹{{ number_format($paidAmount, 2) }}</strong></td>
                                 </tr>
+                                @endif
 
+                                @if ($templateSettings['purchase_footer.balance_due_label']->is_visible ?? true)
                                 <tr>
-                                    <td><strong>Balance Due</strong></td>
+                                    <td><strong>{{ $templateSettings['purchase_footer.balance_due_label']->label ?? 'Balance Due' }}</strong></td>
                                     <td><strong class="{{ $balanceDue > 0 ? 'text-danger' : 'text-success' }}">₹{{ number_format($balanceDue, 2) }}</strong></td>
                                 </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 {{-- TOTAL IN WORDS --}}
+                @if ($templateSettings['purchase_footer.total_in_words_label']->is_visible ?? true)
                 <div class="total-amountdetails" style="margin-top: 15px;">
-                    <p><strong>Total amount (in words): </strong><span>
+                    <p><strong>{{ $templateSettings['purchase_footer.total_in_words_label']->label ?? 'Total amount (in words):' }} </strong><span>
                         {{ NumberHelper::convertToWords((int) round(abs($grandTotal))) }}.</span></p>
                 </div>
+                @endif
 
                 {{-- SIGNATURES --}}
                 @php
@@ -795,19 +834,23 @@
                         $templateSettings['visual_elements.signature_image']->value ??
                         ($templateSettings['visual_elements.signature_image']->default_value ?? '/assets/img/signature.png');
                     $signatureVisible = $templateSettings['visual_elements.signature_image']->is_visible ?? true;
-                    $signatureLabel = $templateSettings['visual_elements.signature_image']->label ?? 'Authorized Signature';
+                    $signatureLabel = $templateSettings['visual_elements.signature_label']->label ?? ($templateSettings['visual_elements.signature_image']->label ?? 'Authorized Signature');
+                    $supplierSigVisible = $templateSettings['visual_elements.supplier_signature_label']->is_visible ?? true;
+                    $supplierSigLabel = $templateSettings['visual_elements.supplier_signature_label']->label ?? 'Supplier / Vendor Signature';
                 @endphp
 
                 <div class="bank-details" style="margin-top: 25px; margin-bottom: 10px; width: 100%;">
                     <div class="row align-items-end" style="display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: flex-end !important; width: 100% !important; margin: 0 !important;">
                         {{-- SUPPLIER / VENDOR SIGNATURE --}}
+                        @if ($supplierSigVisible)
                         <div style="width: 50% !important; float: left !important; text-align: left !important;">
                             <div class="customer-signature-box" style="padding-left: 20px;">
                                 <div style="height: 35px;"></div>
                                 <div style="border-top: 1px solid #ccc; width: 180px; margin-bottom: 5px;"></div>
-                                <div style="font-weight: bold; font-size: 11px; color: #555;">Supplier / Vendor Signature</div>
+                                <div style="font-weight: bold; font-size: 11px; color: #555;">{{ $supplierSigLabel }}</div>
                             </div>
                         </div>
+                        @endif
 
                         {{-- AUTHORIZED SIGNATURE --}}
                         @if ($signatureVisible)
@@ -823,17 +866,24 @@
                     </div>
                 </div>
 
+                @if ($templateSettings['terms_and_notes.thanks_message']->is_visible ?? true)
                 <div class="thanks-msg text-center mt-3">
-                    Thank you for your business!
+                    {{ $templateSettings['terms_and_notes.thanks_message']->value ?? ($templateSettings['terms_and_notes.thanks_message']->default_value ?? 'Thank you for your business!') }}
                 </div>
+                @endif
+                @if ($templateSettings['terms_and_notes.disclaimer_text']->is_visible ?? true)
                 <div class="text-center mt-1">
-                    <small style="font-size: 10px;">This is an electronically generated document. Powered by Sirsonite.com</small>
+                    <small style="font-size: 10px;">{{ $templateSettings['terms_and_notes.disclaimer_text']->value ?? ($templateSettings['terms_and_notes.disclaimer_text']->default_value ?? 'This is an electronically generated document. Powered by Sirsonite.com') }}</small>
                 </div>
+                @endif
             </div>
         </div>
 
         {{-- ACTION BUTTONS --}}
         <div class="file-link d-flex justify-content-center gap-2 mt-4">
+            <a href="{{ route('purchase.template.index') }}" class="btn btn-outline-primary">
+                <i class="fe fe-settings me-1"></i> <span>Edit Invoice Template</span>
+            </a>
             <a href="{{ route('purchases.index') }}" class="btn btn-outline-secondary">
                 <i class="feather-arrow-left me-1"></i> <span>Back to Wholesale Purchases</span>
             </a>

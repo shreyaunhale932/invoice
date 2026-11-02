@@ -15,6 +15,9 @@
                     </ul>
                 </div>
                 <div class="col-auto">
+                    <a href="{{ route('purchase.template.index') }}" class="btn btn-outline-primary me-2">
+                        <i class="fe fe-settings me-2"></i>Edit Invoice Template
+                    </a>
                     <a href="{{ route('purchases.create') }}" class="btn btn-primary">
                         <i class="fa fa-plus-circle me-1"></i> Add  Purchase
                     </a>
