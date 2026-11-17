@@ -38,25 +38,49 @@ class AuthController extends Controller
     // }
     public function authenticate(Request $request)
     {
-        // dd($request->username.'-'.$request->password);
-        $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $loginInput = $request->input('email') ?? $request->input('username') ?? $request->input('login');
+        $password = $request->input('password');
+
+        if (!$loginInput || !$password) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email/Username and password are required.',
+                ], 422);
+            }
+            return back()->with('status', 'Email/Username and password are required.');
+        }
+
+        $isEmail = filter_var($loginInput, FILTER_VALIDATE_EMAIL);
+        $primaryField = $isEmail ? 'email' : 'username';
 
         // 1. Try Superadmin login (web guard)
-        if (Auth::guard('web')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+        $webAttempt = Auth::guard('web')->attempt([$primaryField => $loginInput, 'password' => $password]);
+        if (!$webAttempt) {
+            $fallbackField = $isEmail ? 'username' : 'email';
+            $webAttempt = Auth::guard('web')->attempt([$fallbackField => $loginInput, 'password' => $password]);
+        }
+
+        if ($webAttempt) {
             $request->session()->regenerate();
 
-            return response()->json([
-                'success' => true,
-                'redirect' => url('/superadmin/dashboard'),
-            ]);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => url('/superadmin/dashboard'),
+                ]);
+            }
+            return redirect('/superadmin/dashboard');
         }
-        // dd($credentials['username'].'-'.$credentials['password']);
 
         // 2. Try Admin login (admin guard)
-        if (Auth::guard('admin')->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+        $adminAttempt = Auth::guard('admin')->attempt([$primaryField => $loginInput, 'password' => $password]);
+        if (!$adminAttempt) {
+            $fallbackField = $isEmail ? 'username' : 'email';
+            $adminAttempt = Auth::guard('admin')->attempt([$fallbackField => $loginInput, 'password' => $password]);
+        }
+
+        if ($adminAttempt) {
             $request->session()->regenerate();
             $admin = Auth::guard('admin')->user();
 
@@ -73,20 +97,23 @@ class AuthController extends Controller
                 }
             }
 
-            return response()->json([
-                'success' => true,
-                'redirect' => url('/admin/dashboard'),
-            ]);
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => url('/admin/dashboard'),
+                ]);
+            }
+            return redirect('/admin/dashboard');
         }
 
         if ($request->ajax()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid username or password.',
+                'message' => 'Invalid credentials. Please check your email and password.',
             ], 401);
         }
 
-        return back()->with('status', 'Invalid username or password.');
+        return back()->with('status', 'Invalid credentials. Please check your email and password.');
     }
 
     public function logout(Request $request)

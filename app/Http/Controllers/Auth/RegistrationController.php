@@ -27,9 +27,18 @@ class RegistrationController extends Controller
 
     public function register(Request $request, MailjetService $mailjet)
     {
-        $validator = Validator::make($request->all(), [
+        $fullName = trim($request->input('name', ''));
+        $nameParts = preg_split('/\s+/', $fullName, 2);
+        $firstName = $request->input('first_name', $nameParts[0] ?? '');
+        $lastName = $request->input('last_name', $nameParts[1] ?? ($nameParts[0] ?? ''));
+
+        $data = $request->all();
+        $data['first_name'] = $firstName;
+        $data['last_name'] = $lastName;
+
+        $validator = Validator::make($data, [
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'email' => 'required|email|unique:landlord.admins,email',
             'username' => 'required|string|max:255|unique:landlord.admins,username',
             'company' => 'required|string|max:255',
@@ -49,17 +58,19 @@ class RegistrationController extends Controller
             $tempId = (string) Str::uuid();
 
             // Store the data temporarily in the cache for 10 minutes (600 seconds)
+            // Fields not present in UI are set to null as requested
             Cache::put('pending_admin_' . $tempId, [
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
+                'name' => $fullName ?: trim($firstName . ' ' . $lastName),
+                'first_name' => $firstName,
+                'last_name' => $lastName,
                 'username' => $request->username,
                 'email' => $request->email,
-                'phone' => $request->phone,
+                'phone' => $request->phone ?? null,
                 'company' => $request->company,
-                'address' => $request->address,
-                'city' => $request->city,
-                'state' => $request->state,
-                'pincode' => $request->pincode,
+                'address' => $request->address ?? null,
+                'city' => $request->city ?? null,
+                'state' => $request->state ?? null,
+                'pincode' => $request->pincode ?? null,
                 'password' => Hash::make($request->password),
                 'otp' => $otp,
                 'otp_expiry' => Carbon::now()->addMinutes(10),
@@ -112,16 +123,20 @@ class RegistrationController extends Controller
             }
 
             // Create admin
+            $adminName = !empty($pendingData['name'])
+                ? $pendingData['name']
+                : trim(($pendingData['first_name'] ?? '') . ' ' . ($pendingData['last_name'] ?? ''));
+
             $admin = Admin::create([
-                'name' => $pendingData['first_name'] . ' ' . $pendingData['last_name'],
+                'name' => $adminName,
                 'username' => $pendingData['username'],
                 'email' => $pendingData['email'],
-                'phone' => $pendingData['phone'],
+                'phone' => $pendingData['phone'] ?? null,
                 'company' => $pendingData['company'],
-                'address' => $pendingData['address'],
-                'city' => $pendingData['city'],
-                'state' => $pendingData['state'],
-                'pincode' => $pendingData['pincode'],
+                'address' => $pendingData['address'] ?? null,
+                'city' => $pendingData['city'] ?? null,
+                'state' => $pendingData['state'] ?? null,
+                'pincode' => $pendingData['pincode'] ?? null,
                 'password' => $pendingData['password'],
                 'status' => 'active',
                 'otp' => null,

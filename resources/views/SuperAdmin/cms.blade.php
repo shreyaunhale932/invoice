@@ -1,0 +1,51 @@
+<?php $page = 'cms'; ?>
+@extends('layout.mainlayout')
+
+@section('content')
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="content-page-header">
+                    <h5>Home Page</h5>
+                </div>
+            </div>
+
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
+            <div class="card bg-white">
+                <div class="card-header">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="card-title mb-0">Home Images</h5>
+                        <a href="{{ route('superadmin.cms.home.edit') }}" class="btn btn-primary btn-sm">
+                            <i class="fe fe-edit me-1"></i>Edit
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach ([1, 2, 3] as $position)
+                            <div class="col-xl-4 col-md-6">
+                                <div class="card border">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h6 class="mb-0">Image {{ $position }}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        @if ($banners->{'image' . $position})
+                                            <img class="img-fluid rounded mb-3"
+                                                src="{{ asset($banners->{'image' . $position}) }}"
+                                                alt="Home image {{ $position }}">
+                                        @else
+                                            <div class="text-muted mb-3">No image uploaded.</div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

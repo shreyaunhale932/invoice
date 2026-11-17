@@ -69,10 +69,10 @@
             </div>
             @endif
             <!-- Form -->
-            <form id="loginForm">
+            <form id="loginForm11">
                 @csrf
 
-                <div id="loginErrors" class="alert alert-danger" style="display:none;"></div>
+                <div id="loginErrors11" class="alert alert-danger" style="display:none;"></div>
 
                 <!-- Username -->
                 <div class="form-group">
@@ -93,7 +93,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="auth-btn" id="loginBtn">
+                <button type="submit" class="auth-btn" id="loginBtn11">
                     Sign In
                 </button>
 
@@ -108,7 +108,7 @@
 </div>
 
 <!-- =================================== sign-up modal=========================  -->
-<div class="register-popup" id="registerPopup">
+<div class="register-popup11" id="registerPopup11">
     <div class="auth-overlay" onclick="closeRegisterPopup()"></div>
 
     <div class="register-modal">
@@ -117,10 +117,10 @@
 
         <h3 class="text-center">Create Your Account</h3>
 
-        <form id="registrationForm" class="register-form">
+        <form id="registrationForm11" class="register-form">
             @csrf
 
-            <div id="registrationErrors" class="alert alert-danger" style="display:none;"></div>
+            <div id="registrationErrors11" class="alert alert-danger" style="display:none;"></div>
 
             <div class="form-row">
                 <div class="form-group">
@@ -220,7 +220,7 @@
             </div>
 
 
-            <button type="submit" class="register-btn" id="registerBtn">
+            <button type="submit" class="register-btn" id="registerBtn11">
                 Register Account
             </button>
 
@@ -256,7 +256,7 @@
             registered email address.
         </p>
 
-        <form id="otpForm">
+        <form id="otpForm11">
 
             @csrf
 
@@ -286,7 +286,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+<!-- <script>
     $('#registrationForm').submit(function(e) {
 
         e.preventDefault();
@@ -449,4 +449,4 @@
         });
 
     });
-</script>
+</script> -->

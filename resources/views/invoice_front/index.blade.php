@@ -1,981 +1,938 @@
-@section('title', 'Jewellery ERP Software in India | Billing, Inventory & Purchase Management')
-@section('meta_description', 'Manage your jewellery business with powerful ERP software for billing, inventory, accounting, manufacturing, POS and karigar management.')
-@section('meta_keywords', 'jewellery ERP software, Jewellery ERP Software in India, jewellery software, jewellery billing software, jewellery inventory software, jewellery management software, jewellery business software, jewellery ERP software India, jewellery software India, jewellery billing software India, jewellery ERP software in Mumbai, jewellery accounting software, jewellery shop software, jewellery manufacturing software, jewellery GST billing software, jewellery barcode software, online jewellery ERP software, jewellery POS software, jewellery inventory management, jewellery inventory ERP, diamond inventory software, jewellery inventory tracking software, jewellery karigar management software, signup for free trial, jewellery accounting software in Ahmedabad, jewellery ERP software in Surat, jewellery ERP software in Jaipur, jewellery software in Delhi, jewellery POS software in Delhi, jewellery ERP software in Gurgaon')
-@section('canonical', 'https://jewelerp.in/')
+@extends('invoice_front.includes.app')
 
-@include('invoice_front.includes.header')
-@include('invoice_front.includes.menu')
-<section class="hero">
+@section('content')
+<!-- 
+<section class="jewellery-hero" data-reveal>
+    <div class="container-fluid px-0">
+        <div class="row g-0 align-items-stretch">
 
-    <!-- <div class="leftOverlay"></div> -->
+            {{-- Left content --}}
+            <div class="col-12 col-lg-7 jewellery-hero-content">
+                <div class="jewellery-hero-inner">
 
-    <div class="heroWrap">
+                    <h1>
+                        All-in-One for Your<br class="desktop-break">
+                        Entire <span>Jewellery</span><br class="desktop-break">
+                        <span>Business</span>
+                    </h1>
 
-        <!-- LEFT -->
-        <div class="heroLeft">
-            <div class="heroBadge">
-                <span class="heroBadgeDot"></span>
-                Trusted by 500+ Jewellery Businesses
+                    <p>
+                        AI-driven and omnichannel—take your
+                        purchase, inventory &amp; sales to one
+                        dashboard.
+                    </p>
+
+                    <div class="jewellery-hero-buttons">
+                        <a href="#jewelSignupModal"
+                           class="btn jewellery-btn-primary"
+                           data-bs-toggle="modal"
+                           data-bs-target="#jewelSignupModal">
+                            Sign Up For Free*
+                        </a>
+
+                        <a href="#demo" class="btn jewellery-btn-outline">
+                            <span class="play-icon">&#9655;</span>
+                            Watch Demo
+                        </a>
+                    </div>
+
+                </div>
             </div>
 
-           <h1 class="heroTitle">
-    The Future of<br>
-
-    <span class="gradientLine ">Jewellery</span><br>
-
-    <span class="gradientLine underline">Business</span><br>
-
-    Management
-</h1>
-
-            <p>
-                Revolutionary software that transforms how you manage billing, inventory, and customers. Built exclusively for modern jewellery businesses.
-            </p>
-
-            <div class="btns">
-                <a href="{{ route('pricing') }}#plans" class="btn btnPrimary" href="javascript:void(0)" class="login" >
-                  Start Free Trial
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M4.16602 10H15.8327" stroke="#101828" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10 4.16797L15.8333 10.0013L10 15.8346" stroke="#101828" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-</a>
-                <a href="#" class="btn btnSecondary">▶ Watch Demo</a>
-            </div>
-
-            <div class="heroStats">
-                <div><strong>500+</strong><br><small>Active Users</small></div>
-                <div><strong>50K+</strong><br><small>Transactions Processed</small></div>
-                <div><strong>99.9%</strong><br><small>Uptime</small></div>
+            {{-- Right image --}}
+            <div class="col-12 col-lg-5 jewellery-hero-image">
+                <img
+                    src="{{ asset('front_assets/img/index-banner.jpg') }}"
+                    alt="Jewellery display with necklace, rings and business dashboard"
+                >
             </div>
 
         </div>
+    </div>
+</section> -->
+<div id="carouselExampleIndicators"
+    class="carousel slide mt-3"
+    data-bs-ride="carousel"
+    data-bs-interval="3000">
 
-        <!-- HERO RIGHT DASHBOARD (No Image Required) -->
-        <div class="heroRight">
+    <div class="carousel-indicators">
+        <button type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="0"
+            class="active"
+            aria-current="true"
+            aria-label="Slide 1"></button>
 
-            <!-- Floating Paid Badge -->
-            <div class="paidBadge">
-                <span class="paidIcon">✓</span>
-                Invoice #1250 Paid
-            </div>
+        <button type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
 
-            <!-- Main Dashboard Card -->
-            <div class="dashboardCard">
+        <button type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+    </div>
 
-                <!-- Top Stats -->
-                <div class="statsGrid">
+    <div class="carousel-inner">
 
-                    <div class="statBox sales">
-                        <div class="statLabel"><img src="{{ asset('front_assets/img/icons/i1.svg') }}"> Total Sales</div>
-                        <h3>₹12.5L</h3>
-                        <p>+23% this month</p>
-                    </div>
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <picture>
+                <source media="(max-width: 767px)"
+                    srcset="{{ asset('front_assets/img/mob2.png') }}">
 
-                    <div class="statBox stock">
-                        <div class="statLabel"><img src="{{  asset('front_assets/img/icons/i2.svg') }}"> Gold Stock</div>
-                        <h3>2.4kg</h3>
-                        <p>Available</p>
-                    </div>
+                <img src="{{ asset('front_assets/img/11.jpg') }}"
+                    class="d-block w-100 jewel-banner-img"
+                    alt="Jewelry Banner 1">
+            </picture>
 
-                    <div class="statBox invoices">
-                        <div class="statLabel"><img src="{{ asset('front_assets/img/icons/i3.svg') }}"> Invoices</div>
-                        <h3>1,249</h3>
-                        <p>This year</p>
-                    </div>
+            <a href="#jewelSignupModal"
+                class="jewel-banner-cta"
+                data-bs-toggle="modal"
+                data-bs-target="#jewelSignupModal">
+                <span>Sign Up for Free*</span>
+                <span class="jewel-banner-cta-icon">
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+            </a>
+        </div>
 
-                </div>
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <picture>
+                <source media="(max-width: 767px)"
+                    srcset="{{ asset('front_assets/img/index-m-vanner2.jpg') }}">
 
-                <!-- Recent Invoices -->
-                <h4 class="invoiceTitle">Recent Invoices</h4>
+                <img src="{{ asset('front_assets/img/banner2.jpg') }}"
+                    class="d-block w-100 jewel-banner-img"
+                    alt="Jewelry Banner 2">
+            </picture>
 
-                <div class="invoiceList">
+            <a href="#jewelSignupModal"
+                class="jewel-banner-cta"
+                data-bs-toggle="modal"
+                data-bs-target="#jewelSignupModal">
+                <span>Sign Up for Free*</span>
+                <span class="jewel-banner-cta-icon">
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+            </a>
+        </div>
 
-                    <div class="invoiceItem">
-                        <div class="invoiceLeft">
-                            <div class="invoiceIcon"><img src="{{ asset('front_assets/img/icons/file.svg') }}"></div>
-                            <div>
-                                <h5>INV-1247</h5>
-                                <span>Rajesh Kumar</span>
-                            </div>
-                        </div>
-                        <div class="invoiceRight">
-                            <strong>₹45,670</strong>
-                            <span class="paid">paid</span>
-                        </div>
-                    </div>
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <picture>
+                <source media="(max-width: 767px)"
+                    srcset="{{ asset('front_assets/img/mob3.png') }}">
 
-                    <div class="invoiceItem">
-                        <div class="invoiceLeft">
-                            <div class="invoiceIcon"><img src="{{ asset('front_assets/img/icons/file.svg') }}"></div>
-                            <div>
-                                <h5>INV-1248</h5>
-                                <span>Priya Sharma</span>
-                            </div>
-                        </div>
-                        <div class="invoiceRight">
-                            <strong>₹89,240</strong>
-                            <span class="pending">pending</span>
-                        </div>
-                    </div>
+                <img src="{{ asset('front_assets/img/banner3.png') }}"
+                    class="d-block w-100 jewel-banner-img"
+                    alt="Jewelry Banner 3">
+            </picture>
 
-                    <div class="invoiceItem">
-                        <div class="invoiceLeft">
-                            <div class="invoiceIcon"><img src="{{ asset('front_assets/img/icons/file.svg') }}"></div>
-                            <div>
-                                <h5>INV-1249</h5>
-                                <span>Amit Patel</span>
-                            </div>
-                        </div>
-                        <div class="invoiceRight">
-                            <strong>₹1,23,500</strong>
-                            <span class="paid">paid</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            <a href="#jewelSignupModal"
+                class="jewel-banner-cta"
+                data-bs-toggle="modal"
+                data-bs-target="#jewelSignupModal">
+                <span>Sign Up for Free*</span>
+                <span class="jewel-banner-cta-icon">
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+            </a>
         </div>
 
     </div>
 
-</section>
+    <button class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"
+            aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
 
-<section class="aboutSectionExact">
-    <div class="aboutContainer">
+    <button class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon"
+            aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 
-        <!-- LEFT SIDE -->
-        <div class="aboutLeftExact">
+</div><br>
 
-            <!-- Main Illustration Card -->
-            <div class="aboutImageCardExact">
-                <img src="{{ asset('front_assets/img/aboutimg.png') }}" alt="Jewellery Business">
+
+
+
+
+
+
+
+
+<!-- Business Section -->
+<!-- Business Section -->
+<section class="business-section" data-reveal>
+
+    <div class="container-fluid p-0">
+        <div class="row g-0 business-row">
+
+            <!-- Left Image Column -->
+            <div class="col-12 col-md-5 business-image-col">
+                <div class="business-image">
+                    <img
+                        src="{{ asset('front_assets/img/image copy.png') }}"
+
+                        alt="Jewellery business management dashboard">
+                </div>
             </div>
 
-            <!-- Floating Testimonial Card -->
-            <div class="aboutQuoteCardExact">
-                <div class="quoteMark"><img src="{{ asset('front_assets/img/icons/quama.svg') }}"></div>
+            <!-- Right Content Column -->
+            <div class="col-12 col-md-7 business-content-col">
 
-                <p class="quoteText">
-                    "This software transformed how we manage our
-                    inventory. We save 10+ hours every week!"
+                <div class="business-content">
+
+                    <h1 class="business-title">
+                        We Understand Your<br class="desktop-break">
+                        Business
+                    </h1>
+
+                    <p class="business-description">
+                        Running a jewellery business comes with unique
+                        challenges – from tracking precious metals and
+                        gemstones to managing complex invoicing with
+                        making charges and purity calculations. We've
+                        built a solution that understands these
+                        intricacies and makes your daily operations
+                        seamless.
+                    </p>
+
+                </div>
+
+                <!-- Decorative Shape -->
+
+
+                <div class="business-decoration" aria-hidden="true">
+                    <img
+                        src="{{ asset('front_assets/img/icons/shape1.svg') }}"
+                        alt=""
+                        class="business-decoration-img">
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- Bootstrap JS -->
+<!-- <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script> -->
+
+
+<section id="solutions" class="features-section" data-reveal>
+
+    <!-- Decorative Shape -->
+
+    <!-- Decorative SVG Image -->
+    <div class="features-decoration" aria-hidden="true">
+        <img
+            src="{{ asset('front_assets/img/icons/blueshap.svg') }}"
+            alt=""
+            class="features-decoration-img">
+    </div>
+
+
+    <div class="container-fluid">
+
+        <!-- Section Heading -->
+        <div class="features-header text-center">
+            <h1 class="features-title">
+                Everything You Need to
+                Manage <span>Your Business</span>
+            </h1>
+
+            <p class="features-subtitle">
+                Powerful features designed specifically for the unique
+                needs of jewellery businesses
+            </p>
+        </div>
+
+        <!-- Features -->
+        <div class="features-grid">
+
+            <!-- Feature 1 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-receipt-cutoff"></i>
+                </div>
+                <h3>Invoice &amp; Sell Management</h3>
+                <p class="paragraph">
+                    Create jewellery-specific invoices with making charges,
+                    stone values, GST and fast POS billing.
+                </p>
+                <span class="feature-badge">1,280+ invoices/day</span>
+            </a>
+
+
+            <!-- Feature 2 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-bag-check"></i>
+                </div>
+                <h3>Purchase Management</h3>
+                <p>
+                    Record vendor purchases, metal receipts and inward
+                    stock with full traceability.
+                </p>
+                <span class="feature-badge">Full vendor tracking</span>
+
+            </a>
+            <!-- Feature 3 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-person-gear"></i>
+                </div>
+                <h3>Karigar &amp; Job Work</h3>
+                <p>
+                    Issue raw gold to karigars, track job work progress,
+                    and record receipts with weight reconciliation.
+                </p>
+                <span class="feature-badge">Gold issue &amp; receipt</span>
+
+            </a>
+            <!-- Feature 4 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-upc-scan"></i>
+                </div>
+                <h3>Barcode &amp; RFID Tagging</h3>
+                <p>
+                    Tag every jewellery piece with barcode or RFID for
+                    instant identification and stock accuracy.
+                </p>
+                <span class="feature-badge">Instant item ID</span>
+
+            </a>
+            <!-- Feature 5 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-gear"></i>
+                </div>
+                <h3>Discount &amp; Scheme Management</h3>
+                <p>
+                    Configure seasonal offers, loyalty discounts and
+                    jewellery scheme plans for customers.
+                </p>
+                <span class="feature-badge">Smart pricing rules</span>
+            </a>
+
+            <!-- Feature 6 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <h3>Real-Time MIS Reports</h3>
+                <p>
+                    Access live sales, inventory, profitability and
+                    business performance reports at any time.
+                </p>
+                <span class="feature-badge">Live data, always</span>
+
+            </a>
+            <!-- Feature 7 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-diagram-3"></i>
+                </div>
+                <h3>Multi-Branch Management</h3>
+                <p>
+                    Run multiple store locations from one dashboard with
+                    centralized inventory and reporting.
+                </p>
+                <span class="feature-badge">All branches, one view</span>
+
+            </a>
+            <!-- Feature 8 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-arrow-left-right"></i>
+                </div>
+                <h3>Old Gold Exchange</h3>
+                <p>
+                    Evaluate, weigh and process old gold or jewellery
+                    exchange with accurate valuations.
+                </p>
+                <span class="feature-badge">Exchange &amp; valuation</span>
+
+            </a>
+            <!-- Feature 9 -->
+            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-grid"></i>
+                </div>
+                <h3>Inventory Management</h3>
+                <p>
+                    Track jewellery stock by weight, purity, category
+                    and location across your entire business.
+                </p>
+                <span class="feature-badge">100% stock accuracy</span>
+
+            </a>
+
+            <!-- CTA Card -->
+            <div class="feature-card feature-cta">
+                <h3>One Platform for the Complete Jewellery Business</h3>
+
+                <p>
+                    All modules work together, sharing live data across
+                    every function.
                 </p>
 
-                <div class="quoteUserExact">
-                    <div class="quoteAvatarExact">MK</div>
-                    <div>
-                        <h5>Manoj Kumar</h5>
-                        <span>Gold House, Mumbai</span>
-                    </div>
-                </div>
+                <a href="{{ url('/pricing') }}" class="feature-cta-link">
+                    Explore JewelERP
+                    <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
+
+
         </div>
 
-        <!-- RIGHT SIDE -->
-        <div class="aboutRightExact">
+    </div>
 
-            <!-- Top Badge -->
-            <div class="aboutBadgeExact">
-                <span class="badgeStar"><img src="{{ asset('front_assets/img/icons/heart.svg') }}"></span>
-                Built with Care for Jewellers
+</section>
+
+
+<section class="jewelerp-life-section" data-reveal>
+    <div class="container-fluid">
+
+        <!-- Section Heading -->
+        <div class="jewelerp-life-heading">
+            <h1>
+                A Day in the Life with
+                <span>JewelERP</span>
+            </h1>
+
+            <p>
+                See how Kumar Jewellers transformed their operations with
+
+                our platform
+            </p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row g-0 jewelerp-life-row align-items-center">
+
+            <!-- Left Image -->
+            <div class="col-12 col-md-6 jewelerp-life-image-col">
+                <div class="jewelerp-life-image">
+                    <img
+                        src="{{ asset('front_assets/img/image copy 2.png') }}"
+                        alt="Elegant gold and blue gemstone jewellery">
+                </div>
             </div>
 
-            <!-- Main Heading -->
-            <h2 class="aboutTitleExact">
-                We Understand<br>
-                Your Business
-            </h2>
+            <!-- Right Feature Cards -->
+            <div class="col-12 col-md-6 jewelerp-life-cards-col">
 
-            <!-- Description -->
-            <p class="aboutTextExact">
-                Running a jewellery business comes with unique challenges –
-                from tracking precious metals and gemstones to managing
-                complex invoicing with making charges and purity
-                calculations. We've built a solution that understands these
-                intricacies and makes your daily operations seamless.
+                <div class="jewelerp-life-cards">
+
+                    <!-- Card 1 -->
+                    <article class="life-card life-card-one" data-number="1">
+                        <div class="life-card-icon">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                        <div class="life-card-glow"></div>
+                        <h4>Review Inventory</h4>
+                        <p>
+                            Start your day by checking gold and silver stock
+                            levels, reviewing pending orders, and receiving
+                            instant low-stock alerts. Stay ahead with real-time
+                            inventory updates.
+                        </p>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="life-card life-card-two" data-number="2">
+                        <div class="life-card-icon">
+                            <i class="bi bi-receipt"></i>
+                        </div>
+                        <div class="life-card-glow"></div>
+                        <h4>Customer Push</h4>
+                        <p>
+                            Create professional invoices in seconds with
+                            automatic calculations for making charges, stone
+                            costs, and GST. Error-free billing that impresses
+                            customers every time.
+                        </p>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="life-card life-card-three" data-number="3">
+                        <div class="life-card-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <div class="life-card-glow"></div>
+                        <h4>End-of-Day Reports</h4>
+                        <p>
+                            Review comprehensive daily sales reports, track
+                            stock changes, and analyze profit margins.
+                            Complete visibility into your business performance
+                            at a glance.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Decorative SVG image -->
+    <!-- <div class="life-decoration life-decoration-middle" aria-hidden="true">
+    <img
+        src="{{ asset('front_assets/img/icons/3.svg') }}"
+        alt=""
+        class="life-decoration-img"
+    >
+</div>
+
+    </div>
+
+    <div class="life-decoration life-decoration-bottom" aria-hidden="true">
+        <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill="#012E8F"
+                d="M80 20 C62 16 52 7 38 15
+                   C24 23 30 36 42 43
+                   C53 50 41 63 32 76
+                   C24 88 34 98 47 91
+                   C62 83 61 63 71 55
+                   L80 54Z"
+            />
+        </svg>
+    </div> -->
+</section>
+
+
+<section class="dashboard-section" data-reveal>
+    <div class="container-fluid px-3 px-md-4">
+
+        <!-- Section Heading -->
+        <div class="dashboard-heading text-center">
+            <h1>Powerful Dashboard, Simple Interface</h1>
+            <p>
+                Every feature you need, designed for clarity and speed
             </p>
+        </div>
 
-            <!-- Feature Card 1 -->
-            <div class="featureCardExact featureBlue">
-                <div class="featureIconExact iconBlue"><img src="{{ asset('front_assets/img/icons/a1.svg') }}"></div>
-                <div>
-                    <h4>Purpose-Built Technology</h4>
+        <!-- Dashboard Image -->
+        <div class="dashboard-image-wrapper">
+            <img
+                src="{{ asset('front_assets/img/dashbord.png') }}"
+                alt="JewelERP business management dashboard"
+                class="dashboard-image">
+        </div>
+
+    </div>
+</section>
+
+<section class="benefits-section" data-reveal>
+    <div class="container-fluid">
+
+        <!-- Section Heading -->
+        <div class="benefits-header text-center">
+            <h1>Real Benefits, Real Results</h1>
+            <p>See the impact on your business from day one</p>
+        </div>
+
+        <!-- Benefits Cards -->
+        <div class="row g-4  benefits-row">
+
+            <!-- Card 1 -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="benefit-card h-100">
+                    <div class="benefit-icon">
+                        <i class="bi bi-clock"></i>
+                    </div>
+
+                    <h3>Save Time</h3>
+                    <span class="benefit-line"></span>
+
                     <p>
-                        Designed exclusively for jewellery businesses with
-                        features like karat calculations, stone tracking,
-                        and hallmarking compliance.
+                        Automate repetitive tasks and reduce invoice creation
+                        time from 10 minutes to just 2 minutes. Focus on
+                        growing your business, not paperwork.
                     </p>
                 </div>
             </div>
 
-            <!-- Feature Card 2 -->
-            <div class="featureCardExact featureGold">
-                <div class="featureIconExact iconGold"><img src="{{ asset('front_assets/img/icons/a2.svg') }}"></div>
-                <div>
-                    <h4>Trusted & Secure</h4>
+            <!-- Card 2 -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="benefit-card h-100">
+                    <div class="benefit-icon">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+
+                    <h3>Reduce Manual Errors</h3>
+                    <span class="benefit-line"></span>
+
                     <p>
-                        Bank-grade encryption and daily backups ensure
-                        your valuable business data is always protected
-                        and accessible.
+                        Eliminate calculation mistakes with automated GST,
+                        making charges, and stone cost calculations.
+                        100% accuracy guaranteed.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="benefit-card h-100">
+                    <div class="benefit-icon">
+                        <i class="bi bi-folder2-open"></i>
+                    </div>
+
+                    <h3>Stay Organized</h3>
+                    <span class="benefit-line"></span>
+
+                    <p>
+                        Keep all your invoices, inventory records, and
+                        customer data in one secure, searchable place.
+                        Never lose track of important information.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="benefit-card h-100">
+                    <div class="benefit-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <h3>Improve Daily Operations</h3>
+                    <span class="benefit-line"></span>
+
+                    <p>
+                        Get real-time insights into sales, stock levels,
+                        and profitability. Make data-driven decisions to
+                        grow your jewellery business.
                     </p>
                 </div>
             </div>
 
         </div>
-    </div>
-</section>
 
-<!-------------3rd section------------------------->
-<!-- ================= PREMIUM FEATURES SECTION ================= -->
-<section class="featureSectionPremium">
+        <!-- Statistics Pill -->
+        <div class="benefits-stats">
 
-    <!-- Section Header -->
-    <div class="featureHeader">
-        <h2 class="featureTitlePremium">
-            Everything You Need to<br>
-            <span>Manage Your Business</span>
-        </h2>
-
-        <p class="featureSubtitlePremium">
-            Powerful features designed specifically for the unique needs of jewellery businesses
-        </p>
-    </div>
-
-    <!-- Features Grid -->
-    <div class="featureGridPremium">
-
-        <!-- Card 1 -->
-        <div class="featureCardPremium">
-            <div class="featureIconPremium">
-                           <img src="{{ asset('front_assets/img/icons/img1.png') }}" alt="Data Security">
-   </div>
-            <h3>Smart Invoice Management</h3>
-            <p>
-                Create professional invoices with automatic calculations
-                for making charges, GST, and customizations.
-            </p>
-            <ul>
-                <li>Auto GST calculations</li>
-                <li>Custom templates</li>
-                <li>Digital signatures</li>
-            </ul>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="featureCardPremium">
-            <div class="featureIconPremium">
-                <img src="{{ asset('front_assets/img/icons/img2.png') }}" alt="Real-Time Inventory Tracking">
+            <div class="benefit-stat">
+                <h5>5 hours</h5>
+                <p>Saved per week</p>
             </div>
-            <h3>Real-Time Inventory Tracking</h3>
-            <p>
-                Monitor stock levels and get instant updates with
-                precision weight tracking.
-            </p>
-            <ul>
-                <li>22K and 24K tracking</li>
-                <li>Low stock alerts</li>
-                <li>Multi-branch sync</li>
-            </ul>
-        </div>
 
-        <!-- Card 3 -->
-        <div class="featureCardPremium">
-            <div class="featureIconPremium">
-                <img src="{{ asset('front_assets/img/icons/img3.png') }}" alt="Customer Management">
+            <div class="benefit-stat">
+                <h5>100%</h5>
+                <p>Calculation accuracy</p>
             </div>
-            <h3>Customer Management</h3>
-            <p>
-                Build detailed customer profiles and maintain
-                complete purchase history.
-            </p>
-            <ul>
-                <li>Customer database</li>
-                <li>Purchase history</li>
-                <li>Loyalty tracking</li>
-            </ul>
-        </div>
 
-        <!-- Card 4 -->
-        <div class="featureCardPremium">
-            <div class="featureIconPremium">
-                <img src="{{ asset('front_assets/img/icons/img4.png') }}" alt="Business Analytics">
+            <div class="benefit-stat">
+                <h5>24/7</h5>
+                <p>Access anywhere</p>
             </div>
-            <h3>Business Analytics</h3>
-            <p>
-                Detailed dashboards and reports for better
-                business decisions.
-            </p>
-            <ul>
-                <li>Sales reports</li>
-                <li>Profit analysis</li>
-                <li>Custom report builder</li>
-            </ul>
-        </div>
 
-        <!-- Card 5 -->
-        <div class="featureCardPremium">
-            <div class="featureIconPremium">
-                <img src="{{ asset('front_assets/img/icons/img5.png') }}" alt="Smart Notifications">
-            </div>
-            <h3>Smart Notifications</h3>
-            <p>
-                Receive important alerts and reminders
-                for critical business events.
-            </p>
-            <ul>
-                <li>Low stock alerts</li>
-                <li>Payment reminders</li>
-                <li>Custom notifications</li>
-            </ul>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="featureCardPremium">
-            <div class="featureIconPremium">
-                <img src="{{ asset('front_assets/img/icons/img6.png') }}" alt="Data Security">
-            </div>
-            <h3>Data Security</h3>
-            <p>
-                Enterprise-grade protection with encrypted storage
-                and secure backups.
-            </p>
-            <ul>
-                <li>Encrypted storage</li>
-                <li>Daily backups</li>
-                <li>Role-based access</li>
-            </ul>
         </div>
 
     </div>
 </section>
-<!-- ================================4rth section======================== -->
 
-<section class="day-life-section">
-  <div class="container">
-    <!-- Heading -->
-    <div class="section-header">
-      <h2>A Day in the Life with Jewelerp</h2>
-      <p>See how Kumar Jewellers transformed their operations with our platform</p>
-    </div>
 
-    <!-- Main Content -->
-    <div class="day-life-wrapper">
+<section class="testimonials-section" data-reveal>
+    <div class="container">
 
-      <!-- Left Image Card -->
-      <div class="image-card">
-        <span class="time-badge">🕘 9:00 AM - 8:00 PM</span>
-
-        <img src="{{ asset('front_assets/img/index-day.png') }}" alt="Jewellery Shop">
-
-        <div class="image-stats">
-          <div class="stat">
-            <h4>2min</h4>
-            <span>Per Invoice</span>
-          </div>
-          <div class="stat">
-            <h4>100%</h4>
-            <span>Accurate</span>
-          </div>
-          <div class="stat">
-            <h4>5hrs</h4>
-            <span>Saved/Week</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right Timeline -->
-      <div class="timeline">
-
-        <!-- Timeline Item 1 -->
-        <div class="timeline-item">
-          <div class="timeline-number">1</div>
-          <div class="timeline-card">
-            <span class="timeline-label"><img src="{{ asset('front_assets/img/icons/morning.svg') }}" alt="Morning"> MORNING</span>
-            <h3>Review Inventory</h3>
-            <p>
-              Start your day by checking gold and silver stock levels,
-              reviewing pending orders, and receiving instant low-stock
-              alerts. Stay ahead with real-time inventory updates.
-            </p>
-          </div>
+        <div class="testimonial-heading">
+            <span class="heading-line"></span>
+            <h1>Testimonials</h1>
+            <span class="heading-line"></span>
         </div>
 
-        <!-- Timeline Item 2 -->
-        <div class="timeline-item">
-          <div class="timeline-number">2</div>
-          <div class="timeline-card">
-            <span class="timeline-label"><img src="{{ asset('front_assets/img/icons/afternoone.svg') }}" alt="Afternoon"> AFTERNOON</span>
-            <h3>Customer Rush</h3>
-            <p>
-              Create professional invoices in seconds with automatic
-              calculations for making charges, stone costs, and GST.
-              Error-free billing that impresses customers every time.
-            </p>
-          </div>
-        </div>
+        <div id="testimonialCarousel"
+            class="carousel slide testimonial-carousel"
+            data-bs-ride="carousel"
+            data-bs-interval="3000"
+            data-bs-pause="hover"
+            data-bs-touch="true">
 
-        <!-- Timeline Item 3 -->
-        <div class="timeline-item">
-          <div class="timeline-number">3</div>
-          <div class="timeline-card">
-            <span class="timeline-label"><img src="{{ asset('front_assets/img/icons/evening.svg') }}" alt="Evening"> EVENING</span>
-            <h3>End-of-Day Reports</h3>
-            <p>
-              Review comprehensive daily sales reports, track stock
-              changes, and analyze profit margins. Complete visibility
-              into your business performance at a glance.
-            </p>
-          </div>
-        </div>
+            <div class="carousel-inner">
 
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ========================5th section=============================== -->
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <div class="row g-4 testimonial-row">
 
-<section class="dashboard-showcase">
-  <div class="container">
+                        <div class="col-12 col-lg-6">
+                            <article class="testimonial-card h-100">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
 
-    <!-- Section Heading -->
-    <div class="dashboard-header">
-      <h2>
-        Powerful Dashboard,
-        <span>Simple Interface</span>
-      </h2>
-      <p>Every feature you need, designed for clarity and speed</p>
-    </div>
+                                <p class="testimonial-text">
+                                    "Jewelerp has completely transformed how we manage our business. The automated invoice system saves us hours every day, and the inventory tracking is incredibly accurate. Our customers love the professional invoices!"
+                                </p>
 
-    <!-- Feature Tabs -->
-    <div class="dashboard-tabs">
-      <button class="dashboard-tab active">
-        <i class="fas fa-file-invoice"></i>
-        Invoice Management
-      </button>
+                                <div class="testimonial-stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
 
-      <button class="dashboard-tab">
-        <i class="fas fa-cube"></i>
-        Inventory Dashboard
-      </button>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">RK</div>
+                                    <div class="author-details">
+                                        <h3>Srinivas Chary</h3>
+                                        <p>Nikaara Jewellers, Hyderabad</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
 
-      <button class="dashboard-tab">
-        <i class="fas fa-chart-bar"></i>
-        Business Analytics
-      </button>
-    </div>
+                        <div class="col-12 col-lg-6">
+                            <article class="testimonial-card h-100">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
 
-    <!-- Browser Mockup -->
-    <div class="dashboard-browser">
+                                <p class="testimonial-text">
+                                    "We were skeptical at first, but after using Jewelerp for just a month, we can't imagine going back. The real-time stock alerts have prevented stockouts, and the analytics help us make better purchasing decisions."
+                                </p>
 
-      <!-- Browser Top Bar -->
-      <div class="browser-top">
-        <div class="browser-dots">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-        </div>
+                                <div class="testimonial-stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
 
-        <div class="browser-address">
-          https://jewelerp.in/dashboard
-        </div>
-      </div>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">PS</div>
+                                    <div class="author-details">
+                                        <h3>Rahul Deshmukh</h3>
+                                        <p>New Era Diamonds, Mumbai</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
 
-      <!-- Browser Content -->
-      <div class="browser-content">
-        <!-- Header -->
-        <div class="content-header">
-          <div>
-            <h3>Invoice Management</h3>
-            <p>Manage all your customer invoices</p>
-          </div>
-
-          <a href="#" class="new-invoice-btn">
-            <i class="fas fa-file-alt"></i>
-            New Invoice
-          </a>
-        </div>
-
-        <!-- Table -->
-        <div class="invoice-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Invoice ID</th>
-                <th>Customer</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="invoice-id">INV-1247</td>
-                <td>Rajesh Kumar</td>
-                <td class="amount">₹45,670</td>
-                <td>Today, 2:30 PM</td>
-                <td><span class="status paid">Paid</span></td>
-              </tr>
-
-              <tr>
-                <td class="invoice-id">INV-1248</td>
-                <td>Priya Sharma</td>
-                <td class="amount">₹89,240</td>
-                <td>Today, 1:15 PM</td>
-                <td><span class="status pending">Pending</span></td>
-              </tr>
-
-              <tr>
-                <td class="invoice-id">INV-1249</td>
-                <td>Amit Patel</td>
-                <td class="amount">₹1,23,500</td>
-                <td>Today, 11:45 AM</td>
-                <td><span class="status paid">Paid</span></td>
-              </tr>
-
-              <tr>
-                <td class="invoice-id">INV-1250</td>
-                <td>Neha Singh</td>
-                <td class="amount">₹67,890</td>
-                <td>Today, 10:20 AM</td>
-                <td><span class="status paid">Paid</span></td>
-              </tr>
-
-              <tr>
-                <td class="invoice-id">INV-1251</td>
-                <td>Vikram Malhotra</td>
-                <td class="amount">₹2,14,300</td>
-                <td>Yesterday, 6:45 PM</td>
-                <td><span class="status paid">Paid</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Bottom Note -->
-        <p class="dashboard-note">
-          Create professional, GST-compliant invoices with automatic calculations
-        </p>
-      </div>
-
-      <!-- Navigation Arrows -->
-      <button class="slider-arrow left">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-
-      <button class="slider-arrow right">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-</section>
-
-
-<section class="benefits-section">
-  <div class="container">
-
-    <div class="benefits-header">
-      <h2>Real Benefits, Real Results</h2>
-      <p>See the impact on your business from day one</p>
-    </div>
-
-    <div class="benefits-grid">
-
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <img src="{{ asset('front_assets/img/icons/clock.svg') }}" alt="Save Time">
-        </div>
-        <h3>Save Time</h3>
-        <span class="benefit-line"></span>
-        <p>
-          Automate repetitive tasks and reduce invoice creation time
-          from 10 minutes to just 2 minutes. Focus on growing your
-          business, not paperwork.
-        </p>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <img src="{{ asset('front_assets/img/icons/check-circle.svg') }}" alt="Reduce Manual Errors">
-        </div>
-        <h3>Reduce Manual Errors</h3>
-        <span class="benefit-line"></span>
-        <p>
-          Eliminate calculation mistakes with automated GST, making
-          charges, and stone cost calculations. 100% accuracy
-          guaranteed.
-        </p>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <img src="{{ asset('front_assets/img/icons/trending-up.svg') }}" alt="Stay Organized">
-        </div>
-        <h3>Stay Organized</h3>
-        <span class="benefit-line"></span>
-        <p>
-          Keep all your invoices, inventory records, and customer data
-          in one secure, searchable place. Never lose track of
-          important information.
-        </p>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="benefit-card">
-        <div class="benefit-icon">
-          <img src="{{ asset('front_assets/img/icons/folder.svg') }}" alt="Improve Daily Operations">
-        </div>
-        <h3>Improve Daily Operations</h3>
-        <span class="benefit-line"></span>
-        <p>
-          Get real-time insights into sales, stock levels, and
-          profitability. Make data-driven decisions to grow your
-          jewellery business.
-        </p>
-      </div>
-
-    </div>
-
-    <!-- Bottom Stats Card -->
-    <div class="benefits-stats">
-      <div class="stat-box">
-        <h4>5 hours</h4>
-        <p>Saved per week</p>
-      </div>
-
-      <div class="stat-box">
-        <h4>100%</h4>
-        <p>Calculation accuracy</p>
-      </div>
-
-      <div class="stat-box">
-        <h4>24/7</h4>
-        <p>Access anywhere</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="tmx-testimonial-section">
-  <div class="tmx-container">
-
-    <!-- Top Badge -->
-    <div class="tmx-badge">
-      ⭐ Trusted by 500+ Jewellery Businesses
-    </div>
-
-    <!-- Testimonial Grid -->
-    <div class="tmx-testimonial-grid">
-
-      <!-- Testimonial Card 1 -->
-      <div class="tmx-testimonial-card">
-        <div class="tmx-quote-icon">
-          <img src="{{ asset('front_assets/img/icons/t1.svg') }}" alt="Quote">
-        </div>
-
-        <p class="tmx-testimonial-text">
-          "JewelTrack has completely transformed how we manage our business. The automated invoice system saves us hours every day, and the inventory tracking is incredibly accurate. Our customers love the professional invoices!"
-        </p>
-
-        <div class="tmx-testimonial-stars">
-           <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-        </div>
-
-        <div class="tmx-testimonial-user">
-          <div class="tmx-user-avatar">RK</div>
-          <div class="tmx-user-info">
-            <h4>Rajesh Kumar</h4>
-            <p>Kumar Jewellers, Mumbai</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="tmx-testimonial-card">
-        <div class="tmx-quote-icon">
-          <img src="{{ asset('front_assets/img/icons/t1.svg') }}" alt="Quote">
-        </div>
-
-        <p class="tmx-testimonial-text">
-         "We were skeptical at first, but after using JewelTrack for just a month, we can't imagine going back. The real-time stock alerts have prevented stockouts, and the analytics help us make better purchasing decisions."
-        </p>
-
-        <div class="tmx-testimonial-stars">
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-          <i class="fa-solid fa-star"></i>
-        </div>
-
-        <div class="tmx-testimonial-user">
-          <div class="tmx-user-avatar">PS</div>
-          <div class="tmx-user-info">
-            <h4>Pooja Shah</h4>
-            <p>Shah & Sons, Delhi</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="tmx-stats-grid">
-
-      <div class="tmx-stat-card">
-        <div class="tmx-stat-icon">
-          <img src="{{ asset('front_assets/img/icons/t2.svg') }}" alt="Users">
-        </div>
-        <h3>500+</h3>
-        <p>Happy Customers</p>
-      </div>
-
-      <div class="tmx-stat-card">
-        <div class="tmx-stat-icon">
-          <img src="{{ asset('front_assets/img/icons/t3.svg') }}" alt="Invoices">
-        </div>
-        <h3>50K+</h3>
-        <p>Invoices Generated</p>
-      </div>
-
-      <div class="tmx-stat-card">
-        <div class="tmx-stat-icon">
-          <img src="{{ asset('front_assets/img/icons/t5.svg') }}" alt="Rating">
-        </div>
-        <h3>4.9/5</h3>
-        <p>Customer Rating</p>
-      </div>
-
-      <div class="tmx-stat-card">
-        <div class="tmx-stat-icon">
-          <img src="{{ asset('front_assets/img/icons/t4.svg') }}" alt="Support">
-        </div>
-        <h3>24/7</h3>
-        <p>Support Available</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="contact-section">
-    <div class="contact-wrapper">
-        <!-- LEFT -->
-
-        <div class="contact-left contact-left-reveal">
-            <h2>
-                Let's Start a<br />
-                Conversation
-            </h2>
-
-            <p>
-                Fill out the form and our team will get back to you within 24
-                hours. We're excited to learn about your business!
-            </p>
-
-            <!-- OFFICE -->
-
-            <!-- <div class="office-box">
-                <div class="office-icon">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z" />
-
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+                    </div>
                 </div>
 
-                <div class="office-info">
-                    <h4>Mumbai Office</h4>
+                <!-- Slide 2: Add more testimonials here -->
+                <div class="carousel-item">
+                    <div class="row g-4 testimonial-row">
 
-                    <span> 123 Zaveri Bazaar, Fort, Mumbai - 400001 </span>
+                        <div class="col-12 col-lg-6">
+                            <article class="testimonial-card h-100">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+
+                                <p class="testimonial-text">
+                                    "Jewelerp has completely transformed how we manage our business. The automated invoice system saves us hours every day, and the inventory tracking is incredibly accurate. Our customers love the professional invoices!"
+                                </p>
+
+                                <div class="testimonial-stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">RK</div>
+                                    <div class="author-details">
+                                        <h3>Srinivas Chary</h3>
+                                        <p>Nikaara Jewellers, Hyderabad</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <div class="col-12 col-lg-6">
+                            <article class="testimonial-card h-100">
+                                <div class="quote-icon">
+                                    <i class="bi bi-quote"></i>
+                                </div>
+
+                                <p class="testimonial-text">
+                                    "We were skeptical at first, but after using Jewelerp for just a month, we can't imagine going back. The real-time stock alerts have prevented stockouts, and the analytics help us make better purchasing decisions."
+                                </p>
+
+                                <div class="testimonial-stars">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">PS</div>
+                                    <div class="author-details">
+                                        <h3>Rahul Deshmukh</h3>
+                                        <p>New Era Diamonds, Mumbai</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                    </div>
                 </div>
-            </div> -->
 
-            <!-- WHY BOX -->
+            </div>
 
-            <div class="why-box">
-                <h3>Why Choose Us?</h3>
+            <!-- Carousel indicators -->
 
-                <div class="why-list">
-                    <div class="why-item">
-                        <div class="dot"></div>
-                        <span>Dedicated support team available 6 days a week</span>
+
+        </div>
+    </div>
+</section>
+<!-- FAQ Section -->
+<section class="jewel-faq-section" data-reveal>
+    <div class="container-fluid jewel-faq-container">
+
+        <!-- Heading -->
+        <h1 class="jewel-faq-title" data-reveal>
+            Frequently
+            asked questions (FAQ)
+        </h1>
+
+        <div class="row g-4 align-items-start">
+
+            <!-- FAQ Accordion -->
+            <div class="col-12 col-lg-12">
+                <div class="accordion jewel-faq-accordion" id="jewelFaqAccordion">
+
+                    <div class="accordion-item jewel-faq-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq1">
+
+                                What is JEWELERP?
+                            </button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse show"
+                            data-bs-parent="#jewelFaqAccordion">
+                            <div class="accordion-body">
+                                JEWELERP is a specialised enterprise resource planning software designed specifically for the jewellery industry. It helps jewellers, wholesalers, manufacturers, multi-branch businesses, and money lenders streamline their operations, manage inventory, billing, customer relationships, and compliance efficiently.
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="why-item">
-                        <div class="dot"></div>
-                        <span>Free personalized demo for your business</span>
+                    <div class="accordion-item jewel-faq-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq2">
+
+                                Who can use JEWELERP?
+
+                            </button>
+                        </h3>
+                        <div id="faq2" class="accordion-collapse collapse"
+                            data-bs-parent="#jewelFaqAccordion">
+                            <div class="accordion-body">
+                                JEWELERP offers different versions to serve a variety of jewellery businesses, including retail jewellers, wholesalers, manufacturers, multi-branch owners, and money lenders dealing with gold loans. Each version is tailored to meet the specific needs of that segment. </div>
+                        </div>
                     </div>
 
-                    <div class="why-item">
-                        <div class="dot"></div>
-                        <span>7-day free trial with no credit card required</span>
+                    <div class="accordion-item jewel-faq-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq3">
+
+                                Is JEWELERP suitable for small businesses?
+                            </button>
+                        </h3>
+                        <div id="faq3" class="accordion-collapse collapse"
+                            data-bs-parent="#jewelFaqAccordion">
+                            <div class="accordion-body">
+                                Yes! JEWELERP is scalable and can be customised to fit the requirements of small, medium, and large jewellery businesses. Whether you operate a single showroom or multiple branches, we have a version that fits your needs.
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="accordion-item jewel-faq-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#faq4">
+
+
+                                Does JEWELERP support GST compliance? </button>
+                        </h3>
+                        <div id="faq4" class="accordion-collapse collapse"
+                            data-bs-parent="#jewelFaqAccordion">
+                            <div class="accordion-body">
+                                Absolutely. Our software is designed to handle GST billing, filing, and reporting seamlessly, ensuring your business stays compliant with the latest tax regulations.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Read More Link -->
+                <div class="jewel-faq-read-more">
+                    <a href="{{ url('/FAQS') }}" class="jewel-faq-read-more-link">
+                        Read More FAQs
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-        </div>
 
-        <!-- RIGHT -->
 
-        <div class="contact-card contact-card-reveal">
-            <h3>Request a Free Demo</h3>
 
-            <form action="{{ route('demo-request.store') }}" method="POST">
-                @csrf
-                <!-- NAME -->
-
-                <div class="form-group">
-                    <label>Full Name *</label>
-
-                    <div class="input-box">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M15.8327 17.5V15.8333C15.8327 14.9493 15.4815 14.1014 14.8564 13.4763C14.2312 12.8512 13.3834 12.5 12.4993 12.5H7.49935C6.61529 12.5 5.76745 12.8512 5.14233 13.4763C4.5172 14.1014 4.16602 14.9493 4.16602 15.8333V17.5"
-                                stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M9.99935 9.16667C11.8403 9.16667 13.3327 7.67428 13.3327 5.83333C13.3327 3.99238 11.8403 2.5 9.99935 2.5C8.1584 2.5 6.66602 3.99238 6.66602 5.83333C6.66602 7.67428 8.1584 9.16667 9.99935 9.16667Z"
-                                stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-
-                        <input type="text" name="full_name" class="form-control" required>
-                    </div>
-                </div>
-
-                <!-- EMAIL -->
-
-                <div class="form-group">
-                    <label>Email Address *</label>
-
-                    <div class="input-box">
-                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 9h18V7H3v10z" />
-                        </svg>
-
-                        <input type="email" name="email" class="form-control" required>
-                    </div>
-                </div>
-
-                <!-- PHONE -->
-
-                <div class="form-group">
-                    <label>Phone Number *</label>
-
-                    <div class="input-box">
-                        <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M17.4074 13.2654V15.7654C17.4084 15.9975 17.3608 16.2273 17.2678 16.4399C17.1749 16.6525 17.0385 16.8434 16.8675 17.0003C16.6965 17.1572 16.4946 17.2767 16.2747 17.351C16.0549 17.4254 15.8219 17.453 15.5907 17.4321C13.0264 17.1535 10.5632 16.2772 8.39908 14.8738C6.3856 13.5943 4.67853 11.8873 3.39908 9.87378C1.99073 7.69978 1.11428 5.22461 0.840748 2.64878C0.819924 2.41833 0.847311 2.18608 0.921165 1.9668C0.99502 1.74752 1.11372 1.54602 1.26972 1.37513C1.42572 1.20424 1.61559 1.0677 1.82724 0.974214C2.0389 0.880724 2.2677 0.83233 2.49908 0.832112H4.99908C5.4035 0.828132 5.79557 0.971344 6.10222 1.23506C6.40886 1.49877 6.60915 1.86498 6.66575 2.26545C6.77127 3.0655 6.96696 3.85105 7.24908 4.60711C7.3612 4.90538 7.38547 5.22954 7.319 5.54118C7.25254 5.85282 7.09813 6.13887 6.87408 6.36545L5.81575 7.42378C7.00204 9.51007 8.72946 11.2375 10.8157 12.4238L11.8741 11.3654C12.1007 11.1414 12.3867 10.987 12.6983 10.9205C13.01 10.8541 13.3341 10.8783 13.6324 10.9904C14.3885 11.2726 15.174 11.4683 15.9741 11.5738C16.3789 11.6309 16.7486 11.8348 17.0129 12.1467C17.2771 12.4586 17.4176 12.8568 17.4074 13.2654Z"
-                                stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-
-                        <input type="text" name="phone" class="form-control" required>
-                    </div>
-                </div>
-
-                <!-- BUSINESS -->
-
-                <div class="form-group">
-                    <label>Business Name</label>
-
-                    <div class="input-box">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M15.0007 1.66797H5.00065C4.08018 1.66797 3.33398 2.41416 3.33398 3.33464V16.668C3.33398 17.5884 4.08018 18.3346 5.00065 18.3346H15.0007C15.9211 18.3346 16.6673 17.5884 16.6673 16.668V3.33464C16.6673 2.41416 15.9211 1.66797 15.0007 1.66797Z"
-                                stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M7.5 18.3333V15H12.5V18.3333" stroke="#99A1AF" stroke-width="1.66667"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M6.66602 5H6.67435" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M13.334 5H13.3423" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 5H10.0083" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 8.33203H10.0083" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M10 11.668H10.0083" stroke="#99A1AF" stroke-width="1.66667"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M13.334 8.33203H13.3423" stroke="#99A1AF" stroke-width="1.66667"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M13.334 11.668H13.3423" stroke="#99A1AF" stroke-width="1.66667"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M6.66602 8.33203H6.67435" stroke="#99A1AF" stroke-width="1.66667"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M6.66602 11.668H6.67435" stroke="#99A1AF" stroke-width="1.66667"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-
-                        <input type="text" class="form-control" name="business_name" placeholder="Kumar Jewellers" />
-                    </div>
-                </div>
-
-                <!-- MESSAGE -->
-
-                <div class="form-group">
-                    <label>Message *</label>
-
-                    <div class="input-box">
-                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" style="top: 24px; transform: none">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M8 10h8m-8 4h5m7 5l-3.586-3.586A2 2 0 0115.586 14H6a2 2 0 01-2-2V6a2 2 0 012-2h12a2 2 0 012 2v12z" />
-                        </svg>
-
-                        <textarea name="message" class="form-control" required></textarea>
-                    </div>
-                </div>
-
-                <!-- BUTTON -->
-
-                <button type="submit" class="submit-btn">
-                    Send Message
-
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#clip0_920_956)">
-                            <path
-                                d="M12.1125 18.0711C12.1442 18.15 12.1992 18.2174 12.2702 18.2641C12.3413 18.3108 12.4249 18.3347 12.5099 18.3325C12.5949 18.3303 12.6772 18.3022 12.7457 18.2519C12.8143 18.2016 12.8658 18.1316 12.8934 18.0511L18.31 2.21781C18.3367 2.14397 18.3418 2.06406 18.3247 1.98744C18.3076 1.91081 18.2691 1.84064 18.2135 1.78513C18.158 1.72961 18.0879 1.69106 18.0112 1.67397C17.9346 1.65688 17.8547 1.66197 17.7809 1.68864L1.94752 7.10531C1.8671 7.13289 1.79704 7.18441 1.74675 7.25295C1.69645 7.3215 1.66833 7.40379 1.66615 7.48878C1.66398 7.57377 1.68785 7.65739 1.73457 7.72842C1.78129 7.79945 1.84862 7.85448 1.92752 7.88614L8.53585 10.5361C8.74476 10.6198 8.93456 10.7449 9.09382 10.9038C9.25309 11.0628 9.3785 11.2524 9.46252 11.4611L12.1125 18.0711Z"
-                                stroke="white" stroke-width="1.66667" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M18.2124 1.78906L9.0957 10.9049" stroke="white" stroke-width="1.66667"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_920_956">
-                                <rect width="20" height="20" fill="white" />
-                            </clipPath>
-                        </defs>
-                    </svg>
-                </button>
-
-                <div class="reply-note">
-                    We typically respond within 24 hours
-                </div>
-            </form>
         </div>
     </div>
 </section>
 
-@include('invoice_front.includes.footer')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if(session('success'))
-<script>
-Swal.fire({
-    icon: 'success',
-    title: 'Success!',
-    text: '{{ session("success") }}',
-    confirmButtonColor: '#3085d6'
-});
-</script>
-@endif
+
+<section class="jewel-support-banner mt-4">
+    <div class="container jewel-support-container">
+        <div class="row jewel-support-row">
+
+            <!-- Support Icon -->
+            <div class="col-auto jewel-support-icon-wrap">
+                <div class="jewel-support-icon">
+                    <i class="bi bi-envelope"></i>
+                </div>
+            </div>
+
+            <!-- Support Content -->
+            <div class="col jewel-support-content">
+                <span class="jewel-support-label">PERSONAL SUPPORT</span>
+
+                <h2>Need Help? Our Support Team Is Here for You</h2>
+
+                <p>
+                    Have a question about JewelERP or need help finding the
+                    right information? Let's talk.
+                </p>
+
+                <a href="{{ url('/contact') }}" class="jewel-support-btn">
+                    <span>Contact Support</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+@include('invoice_front.includes.ai-tools')
+
+@endsection

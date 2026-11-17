@@ -41,12 +41,29 @@ use App\Http\Controllers\WholesaleStockController;
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 
 Route::get('/',[HomeController::class,'invoiceFront'])->name('invoice-front');
-Route::get('/pricing',[HomeController::class,'pricing'])->name('pricing');
-Route::get('/contact',[HomeController::class,'contact'])->name('contact');
-Route::get('/privacy-policy',[HomeController::class,'privacypolicy'])->name('privacy-policy');
-Route::get('/refund-policy',[HomeController::class,'refundpolicy'])->name('refund-policy');
-Route::get('/terms-conditions',[HomeController::class,'termsconditions'])->name('terms-conditions');
-Route::get('/faqs',[HomeController::class,'faqs'])->name('faqs');
+Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/blog-details', [HomeController::class, 'blogdetails'])->name('blogdetails');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
+Route::get('/buyNow', [HomeController::class, 'buyNow'])->name('buyNow');
+Route::get('/FAQS', [HomeController::class, 'FAQS'])->name('FAQS');
+
+
+
+Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacypolicy');
+Route::get('/terms-conditions', [HomeController::class, 'termsconditions'])->name('termsconditions');
+Route::get('/help', [HomeController::class, 'help'])->name('help');
+Route::get('/refund-and-cancellation', [HomeController::class, 'refundandcancellation'])->name('refundandcancellation');
+
+Route::get('/invoice-and-solution', [HomeController::class, 'invoiceandsolution'])->name('invoiceandsolution');
+Route::get('/integration', [HomeController::class, 'integration'])->name('integration');
+Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
+// Route::get('/pricing',[HomeController::class,'pricing'])->name('pricing');
+// Route::get('/contact',[HomeController::class,'contact'])->name('contact');
+// Route::get('/privacy-policy',[HomeController::class,'privacypolicy'])->name('privacy-policy');
+// Route::get('/refund-policy',[HomeController::class,'refundpolicy'])->name('refund-policy');
+// Route::get('/terms-conditions',[HomeController::class,'termsconditions'])->name('terms-conditions');
+// Route::get('/faqs',[HomeController::class,'faqs'])->name('faqs');
 Route::post('/contact/store', [VisitorController::class, 'store'])
     ->name('contact.store');
 Route::post('/demo-request/store', [\App\Http\Controllers\DemoRequestController::class, 'store'])
@@ -678,6 +695,10 @@ Route::get('/saas-login', [HomeController::class, 'saaslogin'])->name('saas-logi
 Route::get('/saas-register', [HomeController::class, 'saasregister'])->name('saas-register');
 Route::post('/saas-register-submit', [\App\Http\Controllers\Auth\RegistrationController::class, 'register'])->name('saas.register.submit');
 Route::post('/saas-verify-otp', [\App\Http\Controllers\Auth\RegistrationController::class, 'verifyOtp'])->name('saas.verify.otp');
+
+Route::post('/forgot-password/send-otp', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendOtp'])->name('forgot.password.send.otp');
+Route::post('/forgot-password/verify-otp', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'verifyOtp'])->name('forgot.password.verify.otp');
+Route::post('/reset-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'resetPassword'])->name('password.reset.submit');
 
 
 

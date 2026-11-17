@@ -417,22 +417,82 @@ class HomeController extends Controller
           public function invoiceFront(){
             return view('invoice_front.index');
           }
-          public function pricing(){
-            return view('invoice_front.pricing');
-          }
-          public function contact(){
-            return view('invoice_front.contact');
-          }
-          public function faqs(){
-              return view('invoice_front.faqs');
-          }
-          public function privacypolicy(){
-              return view('invoice_front.privacy-policy');
-          }
-          public function refundpolicy(){
-              return view('invoice_front.refund-policy');
-          }
-          public function termsconditions(){
-              return view('invoice_front.terms-condition');
-          }
+           public function blog(Request $request)
+    {
+        return view('invoice_front.blog');
+    }
+    public function blogdetails(Request $request)
+    {
+        return view('invoice_front.blog-details');
+    }
+     public function contact(Request $request)
+    {
+        return view('invoice_front.contact');
+    }
+       public function pricing(Request $request)
+    {
+        return view('invoice_front.pricing');
+    }
+          public function buyNow(Request $request)
+    {
+        return view('invoice_front.buyNow');
+    }
+
+    
+           public function FAQS(Request $request)
+    {
+        return view('invoice_front.FAQS');
+    }
+            public function privacypolicy(Request $request)
+    {
+        return view('invoice_front.privacy-policy');
+    }
+             public function termsconditions(Request $request)
+    {
+        return view('invoice_front.terms-conditions');
+    }
+
+               public function help(Request $request)
+    {
+        return view('invoice_front.help');
+    }
+    
+               public function refundandcancellation(Request $request)
+    {
+        return view('invoice_front.refund-and-cancellation');
+    }
+
+
+
+               public function invoiceandsolution(Request $request)
+    {
+        return view('invoice_front.invoice-and-solution');
+    }
+
+               public function integration(Request $request)
+    {
+        return view('invoice_front.integration');
+    }
+                public function videos(Request $request)
+    {
+        return view('invoice_front.videos');
+    }
+        //   public function pricing(){
+        //     return view('invoice_front.pricing');
+        //   }
+        //   public function contact(){
+        //     return view('invoice_front.contact');
+        //   }
+        //   public function faqs(){
+        //       return view('invoice_front.faqs');
+        //   }
+        //   public function privacypolicy(){
+        //       return view('invoice_front.privacy-policy');
+        //   }
+        //   public function refundpolicy(){
+        //       return view('invoice_front.refund-policy');
+        //   }
+        //   public function termsconditions(){
+        //       return view('invoice_front.terms-condition');
+        //   }
 }

@@ -1,0 +1,37 @@
+
+<svg
+    viewBox="0 0 150 180"
+    xmlns="http://www.w3.org/2000/svg"
+    preserveAspectRatio="none"
+>
+    <!-- White shape -->
+    <path
+        fill="#FFFFFF"
+        class="decoration-shape"
+        d="M150 8
+           C125 8 100 0 70 2
+           C40 3 15 13 8 34
+           C0 52 14 67 36 78
+           C52 86 70 91 70 105
+           C69 119 55 141 51 153
+           C45 169 58 180 77 178
+           C103 176 116 153 129 132
+           C138 117 144 110 150 111
+           Z"
+    />
+
+    <!-- Blue decorative lines -->
+    <path
+        fill="none"
+        stroke="#012E8F"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="decoration-detail"
+        d="M23 28 L29 23
+           M15 53 L20 57
+           M31 62 L38 66
+           M67 145 L65 155
+           M72 164 L77 169"
+    />
+</svg>
