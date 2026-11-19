@@ -124,20 +124,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
                     <div class="jewel-pricing-price-area">
-                        <!-- <div class="jewel-pricing-old-price">
-                            <del data-monthly="₹1,499" data-yearly="₹1,499">
-                                ₹1,499
-                            </del>
-                        </div> -->
+                        <div class="jewel-pricing-old-price">
+                            <del data-monthly="₹3,000" data-yearly="₹50,000">₹3,000</del>
+                        </div>
 
                         <div class="jewel-pricing-price">
                             <span class="jewel-pricing-currency">₹</span><span
-                                data-monthly="1,499"
-                                data-yearly="14,999"
-                                class="jewel-pricing-price-value">1,499</span>
+                                data-monthly="2,520"
+                                data-yearly="25,000"
+                                class="jewel-pricing-price-value">2,520</span>
 
                             <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
                         </div>
+
+                        <p class="jewel-pricing-savings" data-monthly="You Save ₹480" data-yearly="You Save ₹25,000">You Save ₹480</p>
 
                         <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
                             Billed annually
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </a>
 
                     <p class="jewel-pricing-trial-note">
-                        14 days free · Cancel anytime
+                        30 days free · Cancel anytime
                     </p>
 
                     <div class="jewel-pricing-divider"></div>
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     <ul class="jewel-pricing-features">
                         <li><i class="bi bi-check-lg"></i> Inventory & tag management</li>
-                        <li><i class="bi bi-check-lg"></i> GST and POS billing</li>
+                        <li><i class="bi bi-check-lg"></i> GST billing</li>
                         <li><i class="bi bi-check-lg"></i> Barcode printing</li>
                         
                     </ul>
@@ -195,20 +195,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
                     <div class="jewel-pricing-price-area">
-                        <!-- <div class="jewel-pricing-old-price">
-                            <del data-monthly="₹2,999" data-yearly="₹29,999">
-                                ₹2,999
-                            </del>
-                        </div> -->
+                        <div class="jewel-pricing-old-price">
+                            <del data-monthly="₹5,000" data-yearly="₹70,000">₹5,000</del>
+                        </div>
 
                         <div class="jewel-pricing-price">
                             <span class="jewel-pricing-currency">₹</span><span
-                                data-monthly="2,999"
-                                data-yearly="29,999"
-                                class="jewel-pricing-price-value">2,999</span>
+                                data-monthly="4,200"
+                                data-yearly="46,900"
+                                class="jewel-pricing-price-value">4,200</span>
 
                             <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
                         </div>
+
+                        <p class="jewel-pricing-savings" data-monthly="You Save ₹800" data-yearly="You Save ₹23,100">You Save ₹800</p>
 
                         <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
                             Billed annually
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </a>
 
                     <p class="jewel-pricing-trial-note">
-                        14 days free · Cancel anytime
+                        30 days free · Cancel anytime
                     </p>
 
                     <div class="jewel-pricing-divider"></div>
@@ -262,20 +262,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
                     <div class="jewel-pricing-price-area">
-                         <!-- <div class="jewel-pricing-old-price">
-                            <del data-monthly="₹5,999" data-yearly="59,999">
-                                ₹5,999
-                            </del>
-                        </div> -->
+                        <div class="jewel-pricing-old-price">
+                            <del data-monthly="₹7,000" data-yearly="₹90,000">₹7,000</del>
+                        </div>
 
                         <div class="jewel-pricing-price">
                             <span class="jewel-pricing-currency">₹</span><span
-                                data-monthly="5,999"
-                                data-yearly="59,999"
-                                class="jewel-pricing-price-value">5,999</span>
+                                data-monthly="6,250"
+                                data-yearly="45,000"
+                                class="jewel-pricing-price-value">6,250</span>
 
                             <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
                         </div>
+
+                        <p class="jewel-pricing-savings" data-monthly="You Save ₹750" data-yearly="You Save ₹45,000">You Save ₹750</p>
 
                         <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
                             Billed annually
@@ -295,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </a>
 
                     <p class="jewel-pricing-trial-note">
-                        14 days free · Cancel anytime
+                        30 days free · Cancel anytime
                     </p>
 
                     <div class="jewel-pricing-divider"></div>
@@ -331,11 +331,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </section>
 
-
-
-
-
-
 <section class="pricing" data-reveal>
     <div class="container-fluid jewel-trial-container jewel-trial-banner">
         <div class="row align-items-center jewel-trial-row">
@@ -355,7 +350,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </span>
 
                     <h2 class="jewel-trial-title" data-reveal>
-                        Meet JewelERP for 14 days.
+                        Meet JewelERP for 30 days.
                     </h2>
 
                     <p class="jewel-trial-description" data-reveal>
