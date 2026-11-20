@@ -180,8 +180,32 @@
                         <a class="{{ Request::is('suppliers*') ? 'active' : '' }}"
                             href="{{ route('suppliers.index') }}"><i class="fe fe-truck"></i> <span>Suppliers</span></a>
                     </li>
+                    <li>
+                        <a class="{{ Request::is('karigars*') ? 'active' : '' }}"
+                            href="{{ route('karigars.index') }}"><i class="fe fe-tool"></i> <span>Karigars</span></a>
+                    </li>
                 </ul>
                 <!-- /Customers & Suppliers -->
+
+                <!-- Orders & Manufacturing -->
+                <ul>
+                    <li class="menu-title"><span>Manufacturing</span></li>
+                    <li class="submenu">
+                        <a href="#" class="{{ Request::is('orders*') ? 'active' : '' }}"><i class="fe fe-clipboard"></i> <span> Customer Orders</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a class="{{ Request::is('orders') ? 'active' : '' }}" href="{{ route('orders.index') }}">Orders List</a></li>
+                            <li><a class="{{ Request::is('orders/create') ? 'active' : '' }}" href="{{ route('orders.create') }}">Create Order</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#" class="{{ Request::is('karigars*') ? 'active' : '' }}"><i class="fe fe-tool"></i> <span> Karigars</span> <span class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a class="{{ Request::is('karigars') ? 'active' : '' }}" href="{{ route('karigars.index') }}">Karigars List</a></li>
+                            <li><a class="{{ Request::is('karigars/create') ? 'active' : '' }}" href="{{ route('karigars.create') }}">Add Karigar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /Orders & Manufacturing -->
 
                 <!-- Purchases -->
                 <ul>

@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JewelERP Enterprise Documentation & Workflow Manual</title>
+
+    <style>
+        @page {
+            size: A4;
+            margin: 14mm 12mm 14mm 12mm;
+            @bottom-right {
+                content: "Page " counter(page);
+                font-family: 'Segoe UI', Arial, sans-serif;
+                font-size: 9pt;
+                color: #64748b;
+            }
+            @bottom-left {
+                content: "JewelERP Enterprise Documentation & Workflow Manual";
+                font-family: 'Segoe UI', Arial, sans-serif;
+                font-size: 8pt;
+                color: #94a3b8;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            line-height: 1.5;
+            font-size: 10.5pt;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            min-height: 980px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px 30px;
+            box-sizing: border-box;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: 8px;
+            page-break-after: always;
+        }
+
+        .cover-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cover-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.4);
+        }
+
+        .cover-title-container {
+            margin-top: 140px;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid #f59e0b;
+            color: #fbbf24;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11pt;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .cover-title {
+            font-size: 34pt;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .cover-title span {
+            color: #fbbf24;
+            background: linear-gradient(to right, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cover-subtitle {
+            font-size: 15pt;
+            color: #94a3b8;
+            max-width: 650px;
+            margin: 0 0 25px 0;
+            font-weight: 400;
+        }
+
+        .cover-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 40px;
+            max-width: 750px;
+        }
+
+        .cover-feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 10pt;
+            color: #e2e8f0;
+        }
+
+        .cover-feature-item strong {
+            color: #fbbf24;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .cover-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9.5pt;
+            color: #94a3b8;
+        }
+
+        /* Typography & Layout */
+        .page-break {
+            page-break-before: always;
+        }
+
+        h1 {
+            color: #0f172a;
+            font-size: 20pt;
+            font-weight: 800;
+            border-bottom: 2.5px solid #0284c7;
+            padding-bottom: 8px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            page-break-after: avoid;
+        }
+
+        h2 {
+            color: #1e3a8a;
+            font-size: 14.5pt;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-left: 4px solid #f59e0b;
+            padding-left: 10px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            color: #334155;
+            font-size: 12pt;
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 0 0 12px 0;
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 9.5pt;
+            page-break-inside: avoid;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: left;
+            padding: 8px 10px;
+            border: 1px solid #0f172a;
+        }
+
+        td {
+            padding: 7px 10px;
+            border: 1px solid #cbd5e1;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Callouts */
+        .callout {
+            padding: 12px 16px;
+            margin: 14px 0;
+            border-radius: 6px;
+            border-left: 4px solid;
+            font-size: 10pt;
+            page-break-inside: avoid;
+        }
+
+        .callout-info {
+            background-color: #f0f9ff;
+            border-color: #0284c7;
+            color: #0369a1;
+        }
+
+        .callout-warning {
+            background-color: #fffbeb;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+
+        .callout-success {
+            background-color: #f0fdf4;
+            border-color: #16a34a;
+            color: #15803d;
+        }
+
+        .callout-formula {
+            background-color: #faf5ff;
+            border-color: #9333ea;
+            color: #581c87;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 8.5pt;
+            font-weight: 600;
+        }
+
+        .badge-blue { background: #e0f2fe; color: #0369a1; }
+        .badge-gold { background: #fef3c7; color: #b45309; }
+        .badge-green { background: #dcfce7; color: #15803d; }
+        .badge-purple { background: #f3e8ff; color: #7e22ce; }
+
+        code {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 9pt;
+        }
+
+        pre {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            padding: 12px 14px;
+            border-radius: 6px;
+            overflow-x: hidden;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 9pt;
+            line-height: 1.4;
+            margin: 12px 0;
+            page-break-inside: avoid;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 12px 0;
+            page-break-inside: avoid;
+        }
+
+        .card {
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px 14px;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 4px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted #cbd5e1;
+            padding: 6px 0;
+            font-size: 10pt;
+        }
+
+        .toc-item a {
+            color: #0f172a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .toc-item .dots {
+            flex-grow: 1;
+            border-bottom: 1px dotted #94a3b8;
+            margin: 0 8px 4px 8px;
+        }
+
+        .toc-item .chapter-num {
+            font-weight: bold;
+            color: #0284c7;
+            margin-right: 8px;
+        }
+    </style>
+    </head>
+<body>
+
+    <!-- FRONT COVER PAGE -->
+    <div class="cover-page">
+        <div class="cover-header">
+            <div class="cover-logo-icon">&#9830;</div>
+            <div>
+                <div style="font-size: 16pt; font-weight: 800; letter-spacing: 1px; color: #ffffff;">JEWELERP</div>
+                <div style="font-size: 8.5pt; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px;">Enterprise Jewelry Management Suite</div>
+            </div>
+        </div>
+
+        <div class="cover-title-container">
+            <div class="cover-badge">Complete Architectural &amp; Workflow Manual</div>
+            <div class="cover-title">JewelERP <span>Enterprise</span><br>Software Documentation</div>
+            <div class="cover-subtitle">
+                An exhaustive, end-to-end technical specification, system architecture reference, and step-by-step business flow manual for modern jewelry retail, wholesale, manufacturing, and bullion enterprises.
+            </div>
+
+            <div class="cover-features">
+                <div class="cover-feature-item">
+                    <strong>Multi-Tenant &amp; Multi-Firm</strong>
+                    Complete database-per-tenant isolation with multi-branch firm scoping.
+                </div>
+                <div class="cover-feature-item">
+                    <strong>Dynamic Metal Valuation</strong>
+                    Instant real-time inventory revaluation upon live gold &amp; silver rate changes.
+                </div>
+                <div class="cover-feature-item">
+                    <strong>Karigar Metal Ledger</strong>
+                    Pure metal gram-level tracking for artisan job assignments, scrap &amp; wastage.
+                </div>
+                <div class="cover-feature-item">
+                    <strong>Automated Accounting</strong>
+                    Instant double-entry journal postings for sales, purchases, and metal settlements.
+                </div>
+            </div>
+        </div>
+
+        <div class="cover-footer">
+            <div>
+                <strong>Platform Version:</strong> 2.5 Enterprise (Laravel 11.x / PHP 8.2+)<br>
+                <strong>System Database:</strong> MySQL Enterprise / Dedicated Tenant Schemas
+            </div>
+            <div style="text-align: right;">
+                <strong>Publication Date:</strong> November 2026<br>
+                <strong>Document Classification:</strong> Confidential / Technical &amp; Operational Manual
+            </div>
+        </div>
+    </div>
+
+    <!-- EXECUTIVE SUMMARY & TABLE OF CONTENTS -->
+    <div class="page-break"></div>
+    <h1>Executive Summary</h1>
+    <p>
+        <strong>JewelERP</strong> is an enterprise-grade Enterprise Resource Planning (ERP) platform meticulously designed and engineered to address the intricate, high-precision demands of the jewelry industry. Unlike generic retail POS or inventory software, jewelry enterprise management involves physical weight conservation across gross, net, and fine pure metal weights, high-frequency price volatility governed by international bullion spot rates, loose and mounted gemstone grading (the 4Cs, sieve sizes, and millimeter dimensions), outsourced manufacturing through goldsmith artisans (<em>Karigars</em>) with strict metal loss/wastage tolerances, and statutory GST and Hallmarking compliance.
+    </p>
+
+    <div class="callout callout-info">
+        <strong>Mission-Critical Architecture:</strong> JewelERP combines a robust Laravel 11.x backend, a dynamic database-per-tenant multi-tenant architecture, multi-firm (branch) isolation, a real-time double-entry financial accounting engine, and an interactive drag-and-drop jewelry tag designer into a unified, high-performance operational cockpit.
+    </div>
+
+    <h2>Key Enterprise Capabilities</h2>
+    <ul>
+        <li><strong>Dynamic Daily Metal Rates &amp; Automated Stock Revaluation:</strong> Automatically updates the retail and fine value of all available barcoded inventory whenever morning market rates (24K, 22K, 18K, 14K, Silver, Platinum) fluctuate, eliminating manual repricing.</li>
+        <li><strong>Physical Weight Physics &amp; Loss Conservation:</strong> Enforces mathematical precision across Gross Weight, Net Weight, Fine Metal Weight, Stone/Diamond Carats, and Wastage/Tunch percentages down to three decimal places (0.001g).</li>
+        <li><strong>Omnichannel POS Invoicing &amp; Old Gold Exchange:</strong> Executes complex retail counter transactions including mounted diamond calculations, 6 distinct making charge models, old gold exchange deductions, multi-tier line discounts, split-tender payments, and instant tax invoice generation.</li>
+        <li><strong>Artisan (Karigar) Metal Accounting:</strong> Features a dedicated Karigar Metal Ledger that tracks physical pure metal issued, finished pieces received, scrap metal returned, and actual vs. allowable wastage, settling labor charges in cash and metal dues in pure grams.</li>
+        <li><strong>Wholesale Bulk Inward &amp; Lot-to-Tag Conversion:</strong> Streamlines the intake of bulk jewelry lots (e.g., 1000g of gold chains) and facilitates rapid, error-free conversion into individually barcoded retail SKUs.</li>
+        <li><strong>Autonomous Double-Entry Accounting:</strong> Employs an automated financial posting service that translates POS sales, purchases, old metal buybacks, and expenses into balanced debits and credits across assets, liabilities, equity, revenues, and expenses in real-time.</li>
+    </ul>
+
+    <div class="page-break"></div>
+    <h1>Table of Contents</h1>
+    <ul class="toc-list">
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 1</span> <a href="#ch1">System Architecture, Multi-Tenancy &amp; Security</a></span>
+            <span class="dots"></span>
+            <span>Page 4</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 2</span> <a href="#ch2">Master Data Setup &amp; Valuation Engine</a></span>
+            <span class="dots"></span>
+            <span>Page 7</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 3</span> <a href="#ch3">Inventory &amp; Jewelry Stock Lifecycle</a></span>
+            <span class="dots"></span>
+            <span>Page 10</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 4</span> <a href="#ch4">Visual Label Designer &amp; Barcode Tag Printing</a></span>
+            <span class="dots"></span>
+            <span>Page 13</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 5</span> <a href="#ch5">Sales POS &amp; Invoicing (10-Step Detailed Flow)</a></span>
+            <span class="dots"></span>
+            <span>Page 15</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 6</span> <a href="#ch6">Sales Returns, Refunds &amp; Credit Notes</a></span>
+            <span class="dots"></span>
+            <span>Page 19</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 7</span> <a href="#ch7">Procurement &amp; Retail Purchases (Cash &amp; Metal Settlements)</a></span>
+            <span class="dots"></span>
+            <span>Page 20</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 8</span> <a href="#ch8">Karigar (Goldsmith / Artisan) &amp; Custom Orders Lifecycle</a></span>
+            <span class="dots"></span>
+            <span>Page 21</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 9</span> <a href="#ch9">Double-Entry Financial Accounting System</a></span>
+            <span class="dots"></span>
+            <span>Page 24</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 10</span> <a href="#ch10">Store CRM, Visitor Footfall &amp; Instant Quotations</a></span>
+            <span class="dots"></span>
+            <span>Page 28</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 11</span> <a href="#ch11">Multi-Tenant SaaS Administration &amp; SuperAdmin</a></span>
+            <span class="dots"></span>
+            <span>Page 30</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 12</span> <a href="#ch12">Business Intelligence, Audit Trails &amp; Compliance Reports</a></span>
+            <span class="dots"></span>
+            <span>Page 31</span>
+        </li>
+        <li class="toc-item">
+            <span><span class="chapter-num">Chapter 13</span> <a href="#ch13">Technical Specifications, Database Dictionary &amp; Deployment Manual</a></span>
+            <span class="dots"></span>
+            <span>Page 32</span>
+        </li>
+    </ul>
+    
+    <!-- CHAPTER 1 -->
+    <div class="page-break" id="ch1"></div>
+    <h1>Chapter 1: System Architecture, Multi-Tenancy &amp; Security</h1>
+    
+    <h2>1.1 Architectural Philosophy &amp; High-Level Stack</h2>
+    <p>
+        JewelERP is engineered on the modern <strong>Laravel 11.x</strong> framework running on <strong>PHP 8.2+</strong> and <strong>MySQL 8.0+</strong>. The application uses a modular service-oriented architecture (SOA) where business-critical calculations (valuations, tag conversions, double-entry ledger postings, tenant provisioning) are encapsulated in dedicated service classes located in <code>app/Services/</code> rather than bloated controllers.
+    </p>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">Backend Technology Stack</div>
+            <ul>
+                <li><strong>Framework:</strong> Laravel 11.35.1 (Robust MVC, Eloquent ORM, Transactions)</li>
+                <li><strong>Runtime Environment:</strong> PHP 8.2+ (Typed properties, Match expressions)</li>
+                <li><strong>Database Engine:</strong> MySQL 8.0 / MariaDB (InnoDB, ACID transactions)</li>
+                <li><strong>Dynamic UI:</strong> Livewire 3.5 &amp; Blade Component Templates</li>
+                <li><strong>Barcode Generation:</strong> Picqer Barcode &amp; Milon Barcode Engines</li>
+                <li><strong>Image Processing:</strong> Intervention Image 3.11 with GD Driver</li>
+                <li><strong>Document Rendering:</strong> Barryvdh Laravel DomPDF &amp; Headless Chromium</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="card-header">Enterprise Security &amp; Compliance</div>
+            <ul>
+                <li><strong>Database Isolation:</strong> Isolated MySQL database per tenant schema</li>
+                <li><strong>Multi-Branch Scoping:</strong> FirmMiddleware enforcing firm-level isolation</li>
+                <li><strong>Role-Based Access:</strong> Granular permissions (SuperAdmin, Admin, Staff)</li>
+                <li><strong>Audit Trails:</strong> Immutable InventoryTransaction &amp; JournalEntry logs</li>
+                <li><strong>Authentication:</strong> Guarded multi-auth (Admin guard, Web user guard)</li>
+                <li><strong>Tax Compliance:</strong> Indian GST (CGST, SGST, IGST) &amp; PAN threshold rules</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>1.2 Multi-Tenant Database Isolation Architecture</h2>
+    <p>
+        Security and data privacy are paramount in the jewelry industry where client databases, proprietary design catalogs, supplier rates, and financial balances represent immense financial value. JewelERP implements a true <strong>Database-per-Tenant</strong> architecture for its enterprise clients:
+    </p>
+
+    
+    <svg width="100%" height="280" viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; margin:15px 0;">
+        <defs>
+            <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e3a8a"/>
+                <stop offset="100%" stop-color="#3b82f6"/>
+            </linearGradient>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#b45309"/>
+                <stop offset="100%" stop-color="#f59e0b"/>
+            </linearGradient>
+            <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4c1d95"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+            <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#064e3b"/>
+                <stop offset="100%" stop-color="#10b981"/>
+            </linearGradient>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+            </marker>
+        </defs>
+
+        <!-- Top Layer: Client & Entry -->
+        <rect x="30" y="20" width="220" height="60" rx="8" fill="url(#blueGrad)"/>
+        <text x="140" y="45" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Client Browsers & POS Terminals</text>
+        <text x="140" y="65" fill="#e0e7ff" font-family="'Segoe UI', Arial, sans-serif" font-size="11" text-anchor="middle">Desktop / Tablet / Barcode Scanners</text>
+
+        <!-- Middleware Layer -->
+        <rect x="340" y="20" width="230" height="60" rx="8" fill="url(#purpleGrad)"/>
+        <text x="455" y="45" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">Routing & Tenant Middleware</text>
+        <text x="455" y="65" fill="#ede9fe" font-family="'Segoe UI', Arial, sans-serif" font-size="11" text-anchor="middle">TenantMiddleware & FirmMiddleware</text>
+
+        <!-- Dynamic DB Switcher -->
+        <rect x="660" y="20" width="210" height="60" rx="8" fill="url(#goldGrad)"/>
+        <text x="765" y="45" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle">DatabaseSwitcher Service</text>
+        <text x="765" y="65" fill="#fef3c7" font-family="'Segoe UI', Arial, sans-serif" font-size="11" text-anchor="middle">Dynamic Connection Switch</text>
+
+        <!-- Connecting Lines Top -->
+        <line x1="250" y1="50" x2="330" y2="50" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="570" y1="50" x2="650" y2="50" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <!-- Core Business Engines Layer -->
+        <rect x="30" y="115" width="840" height="75" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <text x="450" y="135" fill="#0f172a" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Core ERP Application Subsystems (Laravel 11.x)</text>
+
+        <!-- Subsystems Chips -->
+        <rect x="45" y="145" width="125" height="32" rx="5" fill="#e0f2fe"/>
+        <text x="107" y="165" fill="#0369a1" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Sales & POS Engine</text>
+
+        <rect x="180" y="145" width="125" height="32" rx="5" fill="#fef3c7"/>
+        <text x="242" y="165" fill="#b45309" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Inventory & Valuations</text>
+
+        <rect x="315" y="145" width="130" height="32" rx="5" fill="#dcfce7"/>
+        <text x="380" y="165" fill="#15803d" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Karigar & Custom Orders</text>
+
+        <rect x="455" y="145" width="125" height="32" rx="5" fill="#fae8ff"/>
+        <text x="517" y="165" fill="#86198f" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Retail Purchases</text>
+
+        <rect x="590" y="145" width="130" height="32" rx="5" fill="#fee2e2"/>
+        <text x="655" y="165" fill="#b91c1c" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Double-Entry Ledger</text>
+
+        <rect x="730" y="145" width="125" height="32" rx="5" fill="#f1f5f9"/>
+        <text x="792" y="165" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Barcode & Designer</text>
+
+        <!-- Vertical Connectors to DB -->
+        <line x1="765" y1="80" x2="765" y2="115" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="450" y1="190" x2="450" y2="215" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <!-- Isolated Tenant Databases -->
+        <rect x="50" y="215" width="230" height="50" rx="6" fill="#1e293b"/>
+        <text x="165" y="237" fill="#f8fafc" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Central Platform DB</text>
+        <text x="165" y="253" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Admins, Banners, Subscriptions, Demo</text>
+
+        <rect x="330" y="215" width="240" height="50" rx="6" fill="url(#emeraldGrad)"/>
+        <text x="450" y="237" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Tenant DB: invoice_admin_1</text>
+        <text x="450" y="253" fill="#d1fae5" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Firm 1 & 2: Products, Sales, Accounts</text>
+
+        <rect x="620" y="215" width="240" height="50" rx="6" fill="url(#emeraldGrad)"/>
+        <text x="740" y="237" fill="#ffffff" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Tenant DB: invoice_admin_N</text>
+        <text x="740" y="253" fill="#d1fae5" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Isolated Data: Complete Security</text>
+    </svg>
+    
+
+    <p>
+        When a new jewelry merchant registers on the platform or is provisioned by the SuperAdmin, the <code>TenantService</code> executes the following automated workflow:
+    </p>
+    <ol>
+        <li>Generates a dedicated database schema: <code>invoice_admin_{admin_id}</code>.</li>
+        <li>Invokes <code>DatabaseSwitcher::switch($dbName)</code> to redirect Laravel's default connection dynamically.</li>
+        <li>Runs isolated migrations (<code>Artisan::call('migrate:fresh', ['--database' => 'mysql'])</code>) and seeds default account groups, chart of accounts, purity definitions, and standard diamond/stone attributes.</li>
+        <li>Establishes an initial default <code>Firm</code> record mapped to the merchant's trade name.</li>
+        <li>Resets the central connection via <code>DatabaseSwitcher::reset()</code>.</li>
+    </ol>
+
+    <div class="callout callout-success">
+        <strong>Runtime Database Switching:</strong> The <code>TenantMiddleware</code> intercepts every incoming HTTP request. If the authenticated user belongs to the <code>admin</code> guard and has an assigned <code>db_name</code>, the middleware executes <code>DatabaseSwitcher::switch($admin->db_name)</code>. All subsequent Eloquent models, raw SQL queries, and transactions automatically execute against the tenant's private database.
+    </div>
+
+    <h2>1.3 Multi-Firm &amp; Branch Scoping Engine</h2>
+    <p>
+        Jewelry businesses frequently operate multiple retail showrooms, a wholesale manufacturing unit, and a separate corporate office under a single parent entity. JewelERP incorporates first-class support for multiple <strong>Firms</strong> within each tenant database:
+    </p>
+    <ul>
+        <li><strong>Firm Entity (<code>Firm.php</code>):</strong> Stores branch legal name, address, GSTIN, State Code, CIN, bank accounts, logo, and invoice letterheads.</li>
+        <li><strong>Session-Based Context:</strong> When an administrator or staff member logs in, <code>FirmMiddleware</code> verifies whether a valid <code>selected_firm_id</code> is present in the session. If not, the user is redirected to the Firm Selector interface.</li>
+        <li><strong>BelongsToFirm Trait:</strong> Eloquent models such as <code>Product</code>, <code>PacketMaster</code>, <code>RetailPurchase</code>, <code>SellInvoice</code>, and <code>CustomerOrder</code> utilize the <code>BelongsToFirm</code> trait, automatically scoping queries, foreign keys, and unique constraints (e.g. unique barcodes per firm).</li>
+    </ul>
+
+    <h2>1.4 User Roles &amp; Permissions Matrix</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Access Scope</th>
+                <th>Permitted Operations</th>
+                <th>Restricted Boundaries</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Super Admin</strong></td>
+                <td>Central Platform DB</td>
+                <td>Manage SaaS Tenants, Provision Databases, Set Subscriptions, Review Demo Requests, Manage CMS Landing Page &amp; Banners.</td>
+                <td>Cannot view or alter private commercial inventory, customer data, or sales of individual tenants.</td>
+            </tr>
+            <tr>
+                <td><strong>Tenant Admin (Store Owner)</strong></td>
+                <td>Tenant DB (All Firms)</td>
+                <td>Create/Edit Firms, Manage Staff Accounts, Set Daily Metal Rates, Configure Accounting Chart of Accounts, Design Barcode Labels &amp; Invoices.</td>
+                <td>Cannot access central platform configuration or other tenant databases.</td>
+            </tr>
+            <tr>
+                <td><strong>Store Manager / Billing Staff</strong></td>
+                <td>Active Selected Firm</td>
+                <td>POS Invoicing, Add/Scan Products, Process Old Gold Exchange, Record Customer Orders, Issue Karigar Jobs, Print Labels.</td>
+                <td>Cannot alter Chart of Accounts, delete finalized historical invoices, or switch database settings.</td>
+            </tr>
+            <tr>
+                <td><strong>Goldsmith Coordinator</strong></td>
+                <td>Workshop / Production</td>
+                <td>Issue raw metal to Karigars, record Karigar receipts, weigh scrap, verify wastage percentages, print job cards.</td>
+                <td>Restricted from viewing retail profit margins, POS cash drawers, and general financial statements.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- CHAPTER 2 -->
+    <div class="page-break" id="ch2"></div>
+    <h1>Chapter 2: Master Data Setup &amp; Valuation Engine</h1>
+
+    <h2>2.1 Daily Metal Rates Engine &amp; Hallmark Standards</h2>
+    <p>
+        Precious metal pricing changes daily—and frequently multiple times per day—based on spot bullion trading on international exchanges (MCX, LBMA). JewelERP features a dynamic <strong>Metal Rate Master</strong> that serves as the price anchor for all inventory valuations, cost computations, and retail billing:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Metal Type</th>
+                <th>Standard Karats</th>
+                <th>Hallmark Fineness</th>
+                <th>Purity Type</th>
+                <th>Application in ERP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Gold</strong></td>
+                <td>24 Karat</td>
+                <td>999 (99.9% Pure)</td>
+                <td>Karat / Percent</td>
+                <td>Raw bullion, coins, bars, pure metal conversion base.</td>
+            </tr>
+            <tr>
+                <td><strong>Gold</strong></td>
+                <td>22 Karat</td>
+                <td>916 (91.6% Pure)</td>
+                <td>Karat / Percent</td>
+                <td>Standard yellow gold jewelry, bridal ornaments, necklaces.</td>
+            </tr>
+            <tr>
+                <td><strong>Gold</strong></td>
+                <td>18 Karat</td>
+                <td>750 (75.0% Pure)</td>
+                <td>Karat / Percent</td>
+                <td>Diamond studded jewelry, rose gold, white gold designer rings.</td>
+            </tr>
+            <tr>
+                <td><strong>Gold</strong></td>
+                <td>14 Karat</td>
+                <td>585 (58.5% Pure)</td>
+                <td>Karat / Percent</td>
+                <td>Modern lightweight jewelry, daily wear diamond earrings.</td>
+            </tr>
+            <tr>
+                <td><strong>Gold</strong></td>
+                <td>9 Karat</td>
+                <td>375 (37.5% Pure)</td>
+                <td>Karat / Percent</td>
+                <td>Export-grade budget jewelry.</td>
+            </tr>
+            <tr>
+                <td><strong>Silver</strong></td>
+                <td>Fine Silver / Sterling</td>
+                <td>999 / 925 (92.5%)</td>
+                <td>Percent</td>
+                <td>Silver utensils, pooja articles, sterling silver jewelry.</td>
+            </tr>
+            <tr>
+                <td><strong>Platinum</strong></td>
+                <td>Pt 950</td>
+                <td>950 (95.0% Pure)</td>
+                <td>Percent</td>
+                <td>Platinum wedding bands, couple rings, luxury pendants.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-formula">
+        <strong>Fine Metal Conversion Formula:</strong><br>
+        Fine Weight (grams) = Net Weight &times; (Purity Percentage / 100)<br>
+        <em>Example:</em> An 18K ring with Net Weight = 10.000g &rarr; Fine Weight = 10.000 &times; (75.0 / 100) = <strong>7.500g pure 24K gold</strong>.
+    </div>
+
+    <h2>2.2 Dynamic Product Valuation Service (Automated Market Revaluation)</h2>
+    <p>
+        In traditional legacy software, when the market price of gold surges (e.g. from ₹7,000/g to ₹7,250/g), staff must manually recalculate the selling price of thousands of tagged items or calculate prices manually during billing. JewelERP solves this via its autonomous <code>ProductValuationService</code>:
+    </p>
+
+    <pre><code>// App\Services\ProductValuationService::updateProductValuations
+public function updateProductValuations(MetalRate $metalRate)
+{
+    // Retrieve all 'available' unsold products bound to this metal rate
+    $products = Product::where('metal_rate', $metalRate->id)
+        ->where(function($query) {
+            $query->where('availability', 'available')->orWhereNull('availability');
+        })->get();
+
+    foreach ($products as $product) {
+        $this->recalculateProduct($product, $metalRate);
+    }
+}</code></pre>
+
+    <p>
+        Whenever an administrator updates the price per gram in the <strong>Metal Rates</strong> interface, the system initiates a background recalculation for every active item in inventory:
+    </p>
+    <ol>
+        <li><strong>Base Metal Value:</strong> Recomputes <code>Gold Value = Fine Weight &times; Current Metal Rate</code>.</li>
+        <li><strong>Making Charges:</strong> Dynamically recalculates making charges based on the product's configured making charge type (Percentage of Gold Value, Per Gram, Flat, etc.).</li>
+        <li><strong>Precious Attachments:</strong> Aggregates live diamond sums (<code>$product->diamonds()->sum('diamond_final_price')</code>), stone sums, and packet stone values.</li>
+        <li><strong>GST Recalculation:</strong> Updates subtotal and GST amount.</li>
+        <li><strong>Inventory &amp; Pre-Code Sync:</strong> Updates the <code>final_price</code> on the <code>Product</code> record and cascades updates to the parent <code>ItemProductData</code> master.</li>
+    </ol>
+
+    <h2>2.3 Diamond &amp; Gemstone Attribute Masters</h2>
+    <p>
+        Diamond jewelry valuation requires capturing the international 4C attributes along with traditional Indian sieve and millimeter gradings. The <code>PacketAttributeController</code> provides a unified, extensible architecture supporting eight attribute categories:
+    </p>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">Diamond 4Cs &amp; Geometry</div>
+            <ul>
+                <li><strong>Clarity:</strong> FL (Flawless), IF (Internally Flawless), VVS1, VVS2, VS1, VS2, SI1, SI2, I1, I2, I3.</li>
+                <li><strong>Color:</strong> D, E, F (Colorless), G, H, I, J (Near Colorless), K-M (Faint), Fancy Yellow, Pink, Blue.</li>
+                <li><strong>Cut:</strong> Ideal, Excellent, Very Good, Good, Fair, Poor.</li>
+                <li><strong>Shapes:</strong> Round Brilliant (RBC), Princess, Cushion, Oval, Emerald, Pear, Marquise, Heart, Radiant, Asscher.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="card-header">Sieve, MM &amp; Packet Types</div>
+            <ul>
+                <li><strong>Chalni (Sieve Size):</strong> Traditional Indian sizing plates: -2 (stars), +2 to -6 (melee), +6.5 to -11 (pointers), +11 to -14.</li>
+                <li><strong>MM Dimensions:</strong> Calibrated sizes: 0.8mm, 1.0mm, 1.2mm, 1.5mm, 2.0mm, 3.0mm, 5.0mm.</li>
+                <li><strong>Precious Stones:</strong> Natural Emerald, Ruby, Blue Sapphire, Yellow Sapphire, Tanzanite, Navratna gems.</li>
+                <li><strong>Packet Types:</strong> Certified Solitaire, Loose Parcel, Melee Stars, Calibrated Gemstones.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>2.4 Packet Master Engine (Loose Diamond &amp; Parcel Tracking)</h2>
+    <p>
+        Jewelry manufacturers purchase diamonds in bulk parcels called <strong>Packets</strong>. The <code>PacketMaster</code> model tracks these parcels prior to mounting into finished ornaments:
+    </p>
+    <ul>
+        <li><strong>Packet Identifier:</strong> Unique internal parcel code (e.g. <code>PKT-DIA-VVS-001</code>).</li>
+        <li><strong>Attributes Binding:</strong> Foreign key links to Stone, Clarity, Color, Cut, Shape, MM, and Chalni.</li>
+        <li><strong>Dual Pricing Matrix:</strong> Tracks <code>rate_wholesale</code> (cost/manufacturing rate per carat) and <code>rate_retail</code> (selling rate per carat).</li>
+        <li><strong>Weight &amp; Count Averages:</strong> Records <code>average_pcs</code> and <code>average_wt</code> (carats per stone) to detect stone loss or substitution during workshop operations.</li>
+        <li><strong>Certification Number:</strong> Captures GIA, IGI, or SGL laboratory certificate numbers for solitaire parcels.</li>
+    </ul>
+    
+    <!-- CHAPTER 3 -->
+    <div class="page-break" id="ch3"></div>
+    <h1>Chapter 3: Inventory &amp; Jewelry Stock Lifecycle</h1>
+
+    <h2>3.1 Jewelry Product Identification: Pre-Code &amp; Post-Code Schema</h2>
+    <p>
+        Jewelry retail demands a hybrid catalog structure: merchants have recurring design patterns (e.g., a specific peacock-motif ring), but every manufactured physical piece has unique physical weights, stone counts, and serial numbers. JewelERP solves this via a two-tier identification schema:
+    </p>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">Tier 1: Pre-Code (Design Model / Series)</div>
+            <p>
+                Stored in <code>ItemProductData</code>. Defines the design prototype:
+            </p>
+            <ul>
+                <li><strong>Product Name:</strong> e.g., "Floral Diamond Solitaire Ring".</li>
+                <li><strong>Pre-Code:</strong> Short alphanumeric design prefix (e.g., <code>RNG-SOL</code>).</li>
+                <li><strong>Base Category &amp; Subcategory:</strong> Rings &rarr; Solitaire Rings.</li>
+                <li><strong>Standard Purity:</strong> 18K Yellow Gold (750).</li>
+                <li><strong>Standard Making Charge &amp; Wastage Rules.</strong></li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="card-header">Tier 2: Post-Code &amp; Unique Barcode</div>
+            <p>
+                Stored in <code>Product</code>. Represents the distinct physical piece:
+            </p>
+            <ul>
+                <li><strong>Post-Code:</strong> Auto-incrementing serial number (e.g., <code>1001</code>, <code>1002</code>).</li>
+                <li><strong>Full SKU:</strong> <code>Pre-Code + Post-Code</code> (e.g., <code>RNG-SOL-1001</code>).</li>
+                <li><strong>Unique Barcode:</strong> Scannable Code128 / QR code.</li>
+                <li><strong>Actual Physical Weights:</strong> Exact scale weights measured to 0.001g.</li>
+                <li><strong>Specific Mounted Stones:</strong> Distinct diamond carats and certifications.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>3.2 Physical Weight Physics in Jewelry</h2>
+    <p>
+        In precious metal inventory, standard unit counts (pieces) are insufficient; inventory valuation and loss auditing are strictly based on weight conservation:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Weight Classification</th>
+                <th>Measurement Unit</th>
+                <th>Physical Definition &amp; Mathematical Calculation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Gross Weight (GW)</strong></td>
+                <td>Grams (0.001g precision)</td>
+                <td>The total weight of the finished jewelry item placed on the certified scale, including gold, alloy, diamonds, enamel, wax, and gemstones.</td>
+            </tr>
+            <tr>
+                <td><strong>Diamond Weight</strong></td>
+                <td>Carats (1 Carat = 0.200g)</td>
+                <td>Total weight of all mounted diamonds. Converted to grams via: <code>Weight (g) = Carats &times; 0.200</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>Stone Weight</strong></td>
+                <td>Carats / Grams</td>
+                <td>Total weight of colored gemstones, cubic zirconia, beads, or pearls mounted in the piece.</td>
+            </tr>
+            <tr>
+                <td><strong>Net Weight (NW)</strong></td>
+                <td>Grams (0.001g precision)</td>
+                <td>The actual weight of the gold/precious metal alloy:<br><code>Net Weight = Gross Weight - (Diamond Weight in g + Stone Weight in g)</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>Fine Weight (FN)</strong></td>
+                <td>Grams (0.001g precision)</td>
+                <td>The weight of 100% pure 24K metal contained in the piece:<br><code>Fine Weight = Net Weight &times; (Purity % / 100)</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3.3 Advanced Making Charge Engine (6 Calculation Models)</h2>
+    <p>
+        Making charges (craftsmanship labor) represent a significant portion of jewelry pricing. Different manufacturers, wholesalers, and retail categories use distinct pricing conventions. JewelERP provides six distinct making charge calculation algorithms implemented in <code>ProductValuationService</code> and <code>SellInvoiceController</code>:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Key Code</th>
+                <th>Making Charge Model</th>
+                <th>Mathematical Formula</th>
+                <th>Typical Industry Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>val</code></td>
+                <td>Flat Value</td>
+                <td><code>Making Amount = Fixed Value</code></td>
+                <td>Exclusive designer jewelry, antique heritage articles with fixed artisan price.</td>
+            </tr>
+            <tr>
+                <td><code>per_gld_val</code></td>
+                <td>% of Gold Value</td>
+                <td><code>Making Amount = (Gold Value &times; Rate %) / 100</code></td>
+                <td>Traditional retail jewelry stores (e.g. 12% or 15% making charge on gold).</td>
+            </tr>
+            <tr>
+                <td><code>per_pcs</code></td>
+                <td>Per Piece Fixed</td>
+                <td><code>Making Amount = Rate &times; Quantity</code></td>
+                <td>Machine-made chains, plain rings, nose pins, silver coins.</td>
+            </tr>
+            <tr>
+                <td><code>per_gm_nw</code></td>
+                <td>Per Gram on Net Weight</td>
+                <td><code>Making Amount = Rate &times; Net Weight (g)</code></td>
+                <td>Standard gold necklaces, bangles, where stones are excluded from labor.</td>
+            </tr>
+            <tr>
+                <td><code>per_gm_gw</code></td>
+                <td>Per Gram on Gross Weight</td>
+                <td><code>Making Amount = Rate &times; Gross Weight (g)</code></td>
+                <td>Wholesale casting jewelry where labor is charged on the total mold weight.</td>
+            </tr>
+            <tr>
+                <td><code>per_gm_fine_wt</code></td>
+                <td>Per Gram on Fine Weight</td>
+                <td><code>Making Amount = Rate &times; Fine Weight (g)</code></td>
+                <td>Bullion conversion, pure gold trading, institutional corporate orders.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3.4 Wastage (Loss / Tunch) Dynamics</h2>
+    <p>
+        During jewelry fabrication (melting, filing, polishing), gold particles are lost. Wholesalers and retailers account for this as <strong>Wastage %</strong> (also referred to as <em>Tunch</em> or <em>Kada</em> in Indian markets):
+    </p>
+    <div class="callout callout-formula">
+        Wastage Weight (g) = Net Weight &times; (Wastage % / 100)<br>
+        Wastage Charge (₹) = Wastage Weight &times; Current Metal Rate per Gram
+    </div>
+    <p>
+        In JewelERP, wastage can either be added as a financial surcharge on the invoice or factored into the pure gold conversion weight during wholesale settlements.
+    </p>
+
+    <h2>3.5 Wholesale Bulk Stock &amp; Lot-to-Tag Conversion Engine</h2>
+    <p>
+        Retail jewelers regularly purchase bulk stock from wholesale manufacturing hubs (e.g., 500 grams of assorted gold chains in a single parcel). The retailer cannot sell this parcel as a single SKU; it must be divided into individual, tagged, barcoded retail products.
+    </p>
+
+    
+    <svg width="100%" height="240" viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; margin:15px 0;">
+        <defs>
+            <marker id="arr4" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#0284c7"/>
+            </marker>
+        </defs>
+
+        <!-- Step 1: Wholesale Inward -->
+        <rect x="30" y="30" width="180" height="75" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+        <text x="120" y="55" fill="#1d4ed8" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">1. Wholesale Inward Lot</text>
+        <text x="120" y="73" fill="#1e293b" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Bulk Purchase (e.g. 500g Lot)</text>
+        <text x="120" y="88" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Recorded in WholesaleStock</text>
+
+        <line x1="210" y1="67" x2="250" y2="67" stroke="#0284c7" stroke-width="2" marker-end="url(#arr4)"/>
+
+        <!-- Step 2: Batch Assignment -->
+        <rect x="250" y="30" width="190" height="75" rx="8" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+        <text x="345" y="55" fill="#15803d" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">2. Wholesale Batch Tracking</text>
+        <text x="345" y="73" fill="#1e293b" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Purity, Supplier, Cost Rate</text>
+        <text x="345" y="88" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Initial Batch Gross/Net Wt</text>
+
+        <line x1="440" y1="67" x2="480" y2="67" stroke="#0284c7" stroke-width="2" marker-end="url(#arr4)"/>
+
+        <!-- Step 3: Lot to Tag Conversion -->
+        <rect x="480" y="30" width="190" height="75" rx="8" fill="#fefce8" stroke="#eab308" stroke-width="2"/>
+        <text x="575" y="55" fill="#a16207" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">3. Lot-to-Tag Conversion</text>
+        <text x="575" y="73" fill="#1e293b" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Weigh individual ornaments</text>
+        <text x="575" y="88" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Attach Pre-Code & Post-Code</text>
+
+        <line x1="670" y1="67" x2="710" y2="67" stroke="#0284c7" stroke-width="2" marker-end="url(#arr4)"/>
+
+        <!-- Step 4: Tag Generation & Deduct -->
+        <rect x="710" y="30" width="165" height="75" rx="8" fill="#fdf4ff" stroke="#d946ef" stroke-width="2"/>
+        <text x="792" y="55" fill="#a21caf" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">4. Barcoded Retail Stock</text>
+        <text x="792" y="73" fill="#1e293b" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Product SKU Created</text>
+        <text x="792" y="88" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Batch Balance Auto-Deducted</text>
+
+        <!-- Bottom Reconciliation Bar -->
+        <rect x="30" y="135" width="845" height="80" rx="6" fill="#0f172a"/>
+        <text x="450" y="160" fill="#38bdf8" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Automated Reconciliation via TaggingService</text>
+        <text x="450" y="180" fill="#e2e8f0" font-family="'Courier New', Courier, monospace" font-size="11" text-anchor="middle">
+            Remaining Batch Balance = Original Batch Gross Wt - &sum;(Converted Retail Products Gross Wt)
+        </text>
+        <text x="450" y="198" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">
+            * WholesaleStock::reconcileStock() prevents fractional weight drift and ensures exact inventory balance
+        </text>
+    </svg>
+    
+
+    <p>
+        JewelERP handles this through the <code>WholesaleStockController</code> and <code>TaggingService</code>:
+    </p>
+    <ol>
+        <li><strong>Inward Lot Receipt:</strong> The parcel is entered as a <code>WholesaleStockBatch</code> with total gross weight, net weight, purity, supplier ID, and purchase rate.</li>
+        <li><strong>Lot-to-Tag Conversion Screen:</strong> The store operator opens the batch, places an individual chain on the digital scale, enters its gross weight (e.g., 14.250g), selects or auto-generates the Post-Code, and clicks <em>Generate Tag</em>.</li>
+        <li><strong>Atomic Balance Deduction:</strong> The system automatically creates a new <code>Product</code> record with status <code>available</code>, generates a unique barcode, and atomically decrements the batch's remaining balance:
+        <br><code>Batch Balance = Batch Balance - Item Gross Weight</code>.</li>
+        <li><strong>Reconciliation Lock:</strong> <code>WholesaleStockService::reconcileStock()</code> prevents negative balance anomalies and ensures that total converted product weights plus remaining batch weight match the original supplier invoice exactly.</li>
+    </ol>
+
+    <h2>3.6 Inventory Transactions Audit Trail</h2>
+    <p>
+        Every gram of metal movement is permanently recorded in the immutable <code>inventory_transactions</code> table:
+    </p>
+    <ul>
+        <li><code>IN</code>: Stock inward from Retail Purchase, Wholesale Lot conversion, or Karigar finished receipt.</li>
+        <li><code>OUT</code>: Stock outward from POS Sell Invoice finalization.</li>
+        <li><code>RESERVED</code>: Item locked in an unfinalized POS pending cart or customer custom order.</li>
+        <li><code>ADJUSTMENT</code>: Authorized weight calibration or stock audit variance.</li>
+        <li><code>RETURN</code>: Customer sales return or supplier purchase return.</li>
+    </ul>
+
+    <!-- CHAPTER 4 -->
+    <div class="page-break" id="ch4"></div>
+    <h1>Chapter 4: Visual Label Designer &amp; Barcode Tag Printing</h1>
+
+    <h2>4.1 Drag-and-Drop Canvas Architecture</h2>
+    <p>
+        Jewelry items are physically small and require specialized tags (such as butterfly dumbbell tags for rings and rat-tail tags for necklaces). Standard rectangular paper labels cannot be affixed without damaging delicate craftsmanship or leaving sticky residue on gemstones.
+    </p>
+    <p>
+        JewelERP features a built-in visual <strong>Label Designer</strong> (<code>LabelDesignerController.php</code>, <code>PrintTemplate</code>, <code>TemplateElement</code>) that empowers jewelers to build custom label templates without writing code:
+    </p>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">PrintTemplate Entity</div>
+            <ul>
+                <li><strong>Canvas Dimensions:</strong> Configurable width &amp; height in millimeters (e.g. 68mm &times; 12mm dumbbell, 50mm &times; 10mm rat-tail).</li>
+                <li><strong>Category Scoping:</strong> Assign distinct label layouts for Rings, Chains, Necklaces, or Bangles.</li>
+                <li><strong>Printer Calibration:</strong> Settings for thermal transfer printers (TSC, Zebra, Citizen, Godex) with gap sensing and darkness controls.</li>
+                <li><strong>Default Flag:</strong> Marks primary fallback template.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="card-header">Dynamic Drag-and-Drop Elements</div>
+            <ul>
+                <li><strong>Barcode Element:</strong> Code128, Code39, or 2D QR Code with configurable bar height and module width.</li>
+                <li><strong>Dynamic Text Tokens:</strong> Product Name, SKU, Purity (22K 916), Gross Wt (GW: 14.500), Net Wt (NW: 12.200), Fine Wt.</li>
+                <li><strong>Stone &amp; Diamond Details:</strong> Dia Wt (0.45ct), Stone Wt, Color/Clarity (G-H/VVS).</li>
+                <li><strong>Statutory Tokens:</strong> Hallmark logo, HSN code, MRP/Price, Certificate No.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>4.2 Supported Jewelry Tag Formats</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Tag Format</th>
+                <th>Physical Structure</th>
+                <th>Recommended Application</th>
+                <th>Key Printable Fields</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Dumbbell Tag</strong></td>
+                <td>Two printable rectangular flaps connected by a narrow non-adhesive center bridge that folds through the jewelry shank.</td>
+                <td>Rings, Earrings, Brooches, Pendants.</td>
+                <td>Flap 1: Barcode, SKU, Purity.<br>Flap 2: GW, NW, Dia Carats, MRP.</td>
+            </tr>
+            <tr>
+                <td><strong>Rat-Tail Tag</strong></td>
+                <td>One printable rectangular tag head with a long, flexible adhesive tail that loops around heavy ornaments.</td>
+                <td>Bangles, Heavy Bridal Necklaces, Chains, Bracelets.</td>
+                <td>Front: Barcode, Product Name, Purity.<br>Back: GW, NW, Making Type, HSN.</td>
+            </tr>
+            <tr>
+                <td><strong>Box / Pouch Label</strong></td>
+                <td>Standard thermal transfer rectangular label (e.g., 50mm &times; 30mm).</td>
+                <td>Jewelry gift boxes, bullion coin pouches, certificate jackets.</td>
+                <td>Complete specification breakdown, laboratory certification seal, QR code linking to digital authenticity certificate.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4.3 Single &amp; Bulk Tag Printing Flow</h2>
+    <p>
+        The printing engine (<code>PrintController.php</code>) supports two operational workflows:
+    </p>
+    <ol>
+        <li><strong>On-the-Fly Tag Printing:</strong> Triggered immediately upon saving a new product or converting a wholesale lot piece. The system renders the active template populated with product data and dispatches it directly to the local thermal label printer.</li>
+        <li><strong>Bulk Batch Tag Printing:</strong> Operators filter inventory by date added, category, or purchase batch, select multiple items via checkboxes, and generate a continuous printing stream formatted with exact label gap specifications.</li>
+        <li><strong>Audit Logging (<code>PrintLog</code>):</strong> Every print action records timestamp, user ID, product ID, template used, and reprint count to prevent duplicate tagging or unauthorized stock substitution.</li>
+    </ol>
+    
+    <!-- CHAPTER 5 -->
+    <div class="page-break" id="ch5"></div>
+    <h1>Chapter 5: Sales POS &amp; Invoicing (10-Step Detailed Flow)</h1>
+
+    <h2>5.1 End-to-End POS Transaction Architecture</h2>
+    <p>
+        The Point-of-Sale (POS) counter in a jewelry showroom is one of the most operationally demanding retail environments in commerce. A single bill may incorporate certified diamond rings, machine-made gold chains, custom bridal pieces with gemstone attachments, an old gold necklace trade-in with melting loss deductions, multi-tier promotional discounts on making charges, customer loyalty credit balances, and split-tender payment across cash, cards, and UPI.
+    </p>
+
+    
+    <svg width="100%" height="320" viewBox="0 0 920 320" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; margin:15px 0;">
+        <defs>
+            <marker id="arr2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569"/>
+            </marker>
+        </defs>
+        
+        <!-- Step 1 -->
+        <rect x="20" y="30" width="150" height="70" rx="8" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+        <text x="95" y="55" fill="#0369a1" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">1. Customer KYC</text>
+        <text x="95" y="73" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Walk-in / Reg / PAN / GST</text>
+        <text x="95" y="87" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Prev Balance & Adv Check</text>
+
+        <line x1="170" y1="65" x2="200" y2="65" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 2 -->
+        <rect x="200" y="30" width="160" height="70" rx="8" fill="#fefce8" stroke="#ca8a04" stroke-width="2"/>
+        <text x="280" y="55" fill="#a16207" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">2. Item Selection</text>
+        <text x="280" y="73" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Barcode Scan / Pre-Code</text>
+        <text x="280" y="87" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Gross / Net / Fine Weight</text>
+
+        <line x1="360" y1="65" x2="390" y2="65" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 3 -->
+        <rect x="390" y="30" width="160" height="70" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+        <text x="470" y="55" fill="#6d28d9" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">3. Calculation Engine</text>
+        <text x="470" y="73" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Rate * Fine Wt + Making</text>
+        <text x="470" y="87" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">+ Wastage + Dia + Stones</text>
+
+        <line x1="550" y1="65" x2="580" y2="65" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 4 -->
+        <rect x="580" y="30" width="150" height="70" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+        <text x="655" y="55" fill="#047857" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">4. Old Gold Exchange</text>
+        <text x="655" y="73" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Gross Wt - Melting Loss</text>
+        <text x="655" y="87" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Net Value Credit Deducted</text>
+
+        <line x1="730" y1="65" x2="760" y2="65" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 5 -->
+        <rect x="760" y="30" width="140" height="70" rx="8" fill="#fff1f2" stroke="#e11d48" stroke-width="2"/>
+        <text x="830" y="55" fill="#be123c" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">5. Discounts & GST</text>
+        <text x="830" y="73" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Making / Dia Discounts</text>
+        <text x="830" y="87" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">CGST + SGST (3%) / IGST</text>
+
+        <!-- Downward arrow to row 2 -->
+        <path d="M 830 100 L 830 150 L 80 150 L 80 170" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 6 -->
+        <rect x="20" y="170" width="150" height="70" rx="8" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+        <text x="95" y="195" fill="#1e293b" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">6. Udhaar / Advance</text>
+        <text x="95" y="213" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Settle Prior Advance /</text>
+        <text x="95" y="227" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Prior Credit (Udhaar)</text>
+
+        <line x1="170" y1="205" x2="200" y2="205" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 7 -->
+        <rect x="200" y="170" width="160" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+        <text x="280" y="195" fill="#1d4ed8" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">7. Split Tender Payment</text>
+        <text x="280" y="213" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Cash + UPI + Card + Cheque</text>
+        <text x="280" y="227" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Balance -> Sundry Debtors</text>
+
+        <line x1="360" y1="205" x2="390" y2="205" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 8 -->
+        <rect x="390" y="170" width="160" height="70" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+        <text x="470" y="195" fill="#b91c1c" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">8. Inventory Lock</text>
+        <text x="470" y="213" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Availability -> 'sold'</text>
+        <text x="470" y="227" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">InventoryTransaction: OUT</text>
+
+        <line x1="550" y1="205" x2="580" y2="205" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 9 -->
+        <rect x="580" y="170" width="150" height="70" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+        <text x="655" y="195" fill="#15803d" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">9. Auto Accounting</text>
+        <text x="655" y="213" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">JournalEntry & Lines</text>
+        <text x="655" y="227" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Cash/Bank Dr, Sales Cr</text>
+
+        <line x1="730" y1="205" x2="760" y2="205" stroke="#475569" stroke-width="2" marker-end="url(#arr2)"/>
+
+        <!-- Step 10 -->
+        <rect x="760" y="170" width="140" height="70" rx="8" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+        <text x="830" y="195" fill="#7e22ce" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">10. Delivery & Print</text>
+        <text x="830" y="213" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">A4 / A5 / Thermal POS</text>
+        <text x="830" y="227" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Email PDF / SMS / WhatsApp</text>
+
+        <!-- Status Bottom Legend -->
+        <rect x="20" y="260" width="880" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="460" y="285" fill="#334155" font-family="'Segoe UI', Arial, sans-serif" font-size="11" text-anchor="middle">
+            <tspan font-weight="bold" fill="#0284c7">Invoice Lifecycle:</tspan> Draft / Pending &rarr; Item Validation &rarr; Payment Captured &rarr; Finalized &rarr; Accounting Reconciled &rarr; Delivered
+        </text>
+    </svg>
+    
+
+    <h2>5.2 Step-by-Step POS Invoicing Workflow Walkthrough</h2>
+
+    <h3>Step 1: Customer Identification &amp; Statutory KYC Verification</h3>
+    <p>
+        The sales cashier begins by selecting an existing customer or rapidly creating a new walk-in profile:
+    </p>
+    <ul>
+        <li><strong>Customer Master Lookup:</strong> Searches by Mobile Number, Customer ID, or Name via autocomplete.</li>
+        <li><strong>Tax &amp; Identity Compliance:</strong> For high-value jewelry transactions (under Indian Income Tax regulations, transactions exceeding ₹200,000 in cash or ₹500,000 total), the system validates the customer's <strong>Permanent Account Number (PAN)</strong> or Aadhaar/Passport identity.</li>
+        <li><strong>GSTIN &amp; State Verification:</strong> If the customer possesses a registered GSTIN, the system checks the state code to determine whether the sale qualifies for Intra-State GST (CGST + SGST) or Inter-State GST (IGST).</li>
+        <li><strong>Live Ledger Balance Detection:</strong> The interface dynamically queries <code>PaymentTransaction</code> to determine if the customer has an unsettled credit balance (<em>Udhaar</em>) or an unutilized advance deposit.</li>
+    </ul>
+
+    <h3>Step 2: Product Addition (Barcode Scanning vs. Direct OTC Sale)</h3>
+    <p>
+        Items can be added to the invoice via two distinct workflows:
+    </p>
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">Workflow A: Barcode Scan / SKU Lookup</div>
+            <p>
+                The cashier scans the physical jewelry tag using a handheld barcode scanner. The system matches the barcode against <code>Product</code> where <code>availability = 'available'</code>, immediately populating the invoice row with pre-calibrated gross weight, net weight, fine weight, purity, making type, mounted diamonds, and stones.
+            </p>
+        </div>
+        <div class="card">
+            <div class="card-header">Workflow B: Direct Non-Barcoded Item (Fast OTC)</div>
+            <p>
+                Used for bullion coins, raw silver articles, or fast counter adjustments without pre-tagging. The operator enters Category, Net Weight, Metal Rate, and Making Charges directly using <code>SellInvoiceController::addDirectSellItem</code>.
+            </p>
+        </div>
+    </div>
+
+    <h3>Step 3: Dynamic Real-Time Item Pricing Engine</h3>
+    <p>
+        For each added item, the controller computes the gross line price through an exact multi-component hierarchy:
+    </p>
+
+    <div class="callout callout-formula">
+        <strong>Item Line Total Formula:</strong><br>
+        Line Total = Base Metal Value + Wastage Charge + Making Charge + Diamond Total + Stone Total + Packet Total<br><br>
+        Where:<br>
+        &bull; Base Metal Value = Net Weight (g) &times; Metal Rate per Gram<br>
+        &bull; Wastage Charge = (Net Weight &times; Wastage % / 100) &times; Metal Rate per Gram<br>
+        &bull; Making Charge = Evaluated per configured model (e.g., Per Gram NW &times; Rate, or % of Gold Value)<br>
+        &bull; Diamond Total = &sum; (Mounted Diamond Carats &times; Rate per Carat)<br>
+        &bull; Stone Total = &sum; (Mounted Gemstone Carats/Pcs &times; Rate)
+    </div>
+
+    <h3>Step 4: Old Gold &amp; Precious Metal Exchange System</h3>
+    <p>
+        Jewelry consumers routinely trade in old ornaments to offset the purchase price of new jewelry. The <code>SellExchangeItem</code> and <code>SellExchangeDiamond</code> subsystems govern this workflow:
+    </p>
+    <ul>
+        <li><strong>Old Ornament Assessment:</strong> The cashier enters Description (e.g. "Old 22K Bangle"), Gross Weight on scale (e.g. 24.500g), and applies a <em>Melting / Dust Loss %</em> (e.g. 2.0% for solder/wax).</li>
+        <li><strong>Melting Fine Weight:</strong> The net melted weight is multiplied by tested purity to determine fine pure gold grams.</li>
+        <li><strong>Exchange Valuation Credit:</strong> The net pure metal is multiplied by the prevailing Old Gold Buyback Rate to calculate <code>total_exchange_amount</code>.</li>
+        <li><strong>Automatic Invoice Offset:</strong> The exchange credit is deducted directly from the invoice payable:
+        <br><code>Grand Total = Total Invoice Amount - Total Exchange Amount</code>.</li>
+    </ul>
+
+    <h3>Step 5: Multi-Tier Granular Discount Engine</h3>
+    <p>
+        Unlike generic retail systems that offer only a flat invoice discount, jewelry retail involves complex negotiation across craftsmanship, precious stones, and metal wastage. JewelERP implements four isolated discount controls:
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Discount Tier</th>
+                <th>Target Component</th>
+                <th>Calculation Logic</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Making Charge Discount</strong></td>
+                <td>Craftsmanship Labor</td>
+                <td>Deducted as a percentage (<code>making_discount_percent</code>) or fixed cash reduction (<code>making_discount_amount</code>) strictly against total making charges.</td>
+            </tr>
+            <tr>
+                <td><strong>Diamond / Stone Discount</strong></td>
+                <td>Mounted Gemstones</td>
+                <td>Percentage or cash reduction applied strictly against total diamond/stone charges.</td>
+            </tr>
+            <tr>
+                <td><strong>Wastage Discount</strong></td>
+                <td>Metal Loss Surcharge</td>
+                <td>Waiver or reduction on the computed metal wastage surcharge.</td>
+            </tr>
+            <tr>
+                <td><strong>Special Overall Discount</strong></td>
+                <td>Taxable Subtotal</td>
+                <td>Final bill discount percentage applied across the remaining taxable invoice value.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Step 6: Statutory GST Compliance &amp; Mathematical Round-Off</h3>
+    <p>
+        Tax calculation in <code>SellInvoiceController::finalize</code> enforces Indian GST statutes:
+    </p>
+    <ul>
+        <li><strong>Intra-State Supply:</strong> Applies CGST (1.5%) + SGST (1.5%) = 3.0% on Taxable Value (HSN 7113).</li>
+        <li><strong>Inter-State Supply:</strong> Applies IGST (3.0%) on Taxable Value.</li>
+        <li><strong>Round-Off Adjustment:</strong> Due to decimal splits across grams and percentages, the exact total may contain paise fractions (e.g. ₹124,562.43). The system calculates:
+        <br><code>Final Payable = round(Grand Total)</code> and <code>Round Off = Final Payable - Grand Total</code> (e.g. -₹0.43), ensuring flawless currency settlement.</li>
+    </ul>
+
+    <h3>Step 7: Customer Udhaar (Credit) &amp; Advance Deposit Settlement</h3>
+    <p>
+        The finalizing modal presents an automated settlement ledger:
+    </p>
+    <ul>
+        <li><strong>Unutilized Advance Deposit:</strong> If the customer previously paid a cash advance (e.g. ₹20,000 for a custom order), the cashier checks the advance entry; this amount acts as a direct payment credit, reducing the remaining balance to collect.</li>
+        <li><strong>Outstanding Udhaar (Prior Credit):</strong> If the customer owes ₹15,000 from a previous purchase, the cashier can settle that debit onto the current invoice, consolidating the customer's total outstanding obligation.</li>
+    </ul>
+
+    <h3>Step 8: Multi-Payment Split-Tender Settlement</h3>
+    <p>
+        Jewelry invoices frequently involve large sums paid across multiple payment instruments. The system records itemized rows in <code>sell_invoice_payments</code>:
+    </p>
+    <ul>
+        <li><code>cash</code>: Physical cash drawer collection (monitored for tax threshold compliance).</li>
+        <li><code>cheque</code>: Bank cheque details (Bank Name, Cheque Number, Clearance Date).</li>
+        <li><code>upi</code>: Digital payment via UPI QR code / instant transfer with transaction reference ID.</li>
+        <li><code>card</code>: Credit/Debit card POS terminal authorization with card last-4 digits.</li>
+        <li><strong>Credit Balance (Udhaar):</strong> If <code>Total Received &lt; Final Payable</code>, the remaining unpaid balance (<code>amount_left</code>) is automatically posted to <strong>Sundry Debtors</strong> against the customer's account.</li>
+    </ul>
+
+    <h3>Step 9: Atomic Inventory Depletion &amp; Availability Lock</h3>
+    <p>
+        To prevent double-selling across multiple POS terminals, the product availability is updated inside a database transaction:
+    </p>
+    <pre><code>// SellInvoiceController::addItem
+$product->update(['availability' => 'sold']);
+
+InventoryTransaction::create([
+    'type' => 'OUT',
+    'product_id' => $product->id,
+    'quantity' => $request->quantity ?? 1,
+    'gross_weight' => $request->gross_weight,
+    'net_weight' => $request->net_weight,
+    'final_fn_weight' => $request->final_fn_weight,
+    'remarks' => 'Reserved via Invoice #' . $invoiceId,
+    'admin_id' => Auth::id(),
+    'sell_invoice_id' => $invoiceId,
+]);</code></pre>
+
+    <h3>Step 10: Multi-Channel Invoice Generation &amp; Delivery</h3>
+    <p>
+        Upon transaction commit, the invoice is rendered and distributed through multiple media:
+    </p>
+    <ul>
+        <li><strong>A4 Tax Invoice:</strong> Formal legal tax invoice featuring company logo, hallmark accreditation number, HSN codes, detailed itemized metal and stone weights, terms &amp; conditions, bank QR for payments, and digital signature.</li>
+        <li><strong>A5 Compact Invoice:</strong> Optimized for rapid counter printers to conserve paper while meeting all legal requirements.</li>
+        <li><strong>Thermal POS Receipt:</strong> Supported via <code>cashreceipt-1.blade.php</code> through <code>cashreceipt-4.blade.php</code> for high-speed 80mm thermal receipt printers.</li>
+        <li><strong>Digital Delivery:</strong> Automated email dispatch of PDF invoices via <code>MailjetService</code> and instant WhatsApp / SMS delivery via Twilio API integration.</li>
+    </ul>
+    
+    <!-- CHAPTER 6 -->
+    <div class="page-break" id="ch6"></div>
+    <h1>Chapter 6: Sales Returns, Refunds &amp; Credit Notes</h1>
+
+    <h2>6.1 Sales Return Mechanics &amp; Item Status</h2>
+    <p>
+        Customers may return purchased jewelry for exchange, resize, or refund. JewelERP provides item-level sales return tracking via <code>is_returned</code> flags on <code>SellInvoiceItem</code>:
+    </p>
+    <ul>
+        <li><strong>Itemized Return Selection:</strong> Operators select the specific item(s) being returned rather than voiding the entire invoice.</li>
+        <li><strong>Physical Inspection &amp; Stock Disposition:</strong>
+            <ul>
+                <li><strong>Restockable Condition:</strong> The item is returned to active inventory; its <code>Product::availability</code> is restored to <code>'available'</code> and an <code>InventoryTransaction</code> of type <code>RETURN</code> is logged.</li>
+                <li><strong>Scrap / Damaged Condition:</strong> The item is routed to the Old Metal Scrap bucket for subsequent refining or melting.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>6.2 Financial Refunds &amp; Credit Notes</h2>
+    <p>
+        Financial adjustments following a sales return are processed through <code>CustomerTransactionController::refund</code>:
+    </p>
+    <ul>
+        <li><strong>Credit Note Issuance:</strong> Generates a legal Credit Note documenting original invoice reference, returned item details, and GST credit adjustments.</li>
+        <li><strong>Customer Account Credit:</strong> The refund amount can be retained as a Customer Advance balance to be applied against future purchases.</li>
+        <li><strong>Cash / Bank Payout:</strong> If paid out, a refund voucher is recorded, crediting Cash or Bank and debiting Customer Advance / Sales Return.</li>
+    </ul>
+
+    <!-- CHAPTER 7 -->
+    <div class="page-break" id="ch7"></div>
+    <h1>Chapter 7: Procurement &amp; Retail Purchases (Cash &amp; Metal Settlements)</h1>
+
+    <h2>7.1 Vendor &amp; Supplier Management</h2>
+    <p>
+        The <code>Supplier</code> model maintains comprehensive vendor profiles including trade name, contact person, mobile number, GSTIN, PAN, bank details, and opening metal and cash balances.
+    </p>
+
+    <h2>7.2 Inward Purchase Invoice Creation (IP001...)</h2>
+    <p>
+        Retail purchases from manufacturers, bullion dealers, or wholesale casting houses are recorded in <code>RetailPurchaseController::store</code>:
+    </p>
+    <ul>
+        <li><strong>Automated Sequencing:</strong> Generates standardized inward identifiers: <code>IP001</code>, <code>IP002</code>, scoped by firm.</li>
+        <li><strong>Itemized Line Components:</strong> Item Name, Quantity, Gross Weight, Net Weight, Metal Purchase Rate per gram, Making Charges, Mounted Stone Amount, Mounted Diamond Amount, Loose Packet Amount, Item Discount, and Wastage %.</li>
+        <li><strong>Statutory Tax Breakdown:</strong> Computes Input Tax Credit (ITC) across CGST, SGST, and IGST for GSTR-2 / GSTR-3B filings.</li>
+    </ul>
+
+    <h2>7.3 Dual Settlement Architecture: Financial vs. Pure Metal Settlement</h2>
+    <p>
+        In bullion and wholesale jewelry markets, transactions between jewelers and manufacturers are frequently settled in physical metal rather than cash currency. JewelERP provides dual settlement modes:
+    </p>
+
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">Mode 1: Financial Settlement (Currency)</div>
+            <p>
+                Standard commercial settlement via Cash, Bank Transfer (RTGS / NEFT), or Post-Dated Cheques recorded in <code>retail_purchase_payments</code>. Debits <em>Stock in Hand / Purchases</em> and Credits <em>Cash / Bank / Sundry Creditors</em>.
+            </p>
+        </div>
+        <div class="card">
+            <div class="card-header">Mode 2: Metal Settlement (Pure Gold Grams)</div>
+            <p>
+                The jeweler pays the supplier in physical 24K pure gold bars/bullion (e.g. paying 250.000 grams of fine gold). The system records pure metal grams transferred, debits Supplier Metal Account, and credits Bullion Inventory without cash movement.
+            </p>
+        </div>
+    </div>
+
+    <h2>7.4 Wholesale Lot Inward &amp; Tagging Integration</h2>
+    <p>
+        Bulk purchases recorded in Retail Purchases can be directly channeled into <code>WholesaleStock</code>. A single purchase line for "500g 22K Assorted Casting Rings" immediately generates a wholesale batch ready for the Lot-to-Tag conversion process detailed in Chapter 3.
+    </p>
+    
+    <!-- CHAPTER 8 -->
+    <div class="page-break" id="ch8"></div>
+    <h1>Chapter 8: Karigar (Goldsmith / Artisan) &amp; Custom Orders Lifecycle</h1>
+
+    <h2>8.1 The Artisan Manufacturing Ecosystem in Jewelry</h2>
+    <p>
+        In fine jewelry, a significant portion of high-value inventory and bridal ornaments is fabricated by skilled artisanal goldsmiths known as <strong>Karigars</strong>. Unlike standard manufacturing where raw materials are consumed internally, jewelers issue high-purity gold bars, casting alloys, calibrated diamonds, and precious gemstones to external Karigar workshops.
+    </p>
+    <p>
+        The core operational challenge is <strong>Metal Accountability</strong>: every milligram of precious metal must be accounted for upon return, strictly regulating physical scrap and metal loss (wastage).
+    </p>
+
+    
+    <svg width="100%" height="240" viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg" style="background:#fdfcfb; border:1px solid #e2e8f0; border-radius:8px; margin:15px 0;">
+        <defs>
+            <marker id="arr3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#b45309"/>
+            </marker>
+        </defs>
+
+        <!-- Stage 1: Customer Order -->
+        <rect x="30" y="30" width="170" height="80" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+        <text x="115" y="55" fill="#92400e" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Customer Order (ORD)</text>
+        <text x="115" y="75" fill="#451a03" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Design Photo / Sketch</text>
+        <text x="115" y="90" fill="#78350f" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Est Wt, Purity, Advance</text>
+
+        <line x1="200" y1="70" x2="240" y2="70" stroke="#b45309" stroke-width="2" marker-end="url(#arr3)"/>
+
+        <!-- Stage 2: Karigar Assignment -->
+        <rect x="240" y="30" width="190" height="80" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+        <text x="335" y="55" fill="#b45309" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Karigar Assignment</text>
+        <text x="335" y="75" fill="#78350f" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Metal Issued: Exact Grams</text>
+        <text x="335" y="90" fill="#78350f" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Dia / Stones Issued + Job Card</text>
+
+        <line x1="430" y1="70" x2="470" y2="70" stroke="#b45309" stroke-width="2" marker-end="url(#arr3)"/>
+
+        <!-- Stage 3: Karigar Receipt -->
+        <rect x="470" y="30" width="190" height="80" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="565" y="55" fill="#065f46" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Karigar Finished Receipt</text>
+        <text x="565" y="75" fill="#047857" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Finished Gross & Net Wt</text>
+        <text x="565" y="90" fill="#047857" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Scrap Metal Returned + Loss</text>
+
+        <line x1="660" y1="70" x2="700" y2="70" stroke="#b45309" stroke-width="2" marker-end="url(#arr3)"/>
+
+        <!-- Stage 4: Ready for Delivery -->
+        <rect x="700" y="30" width="170" height="80" rx="8" fill="#f0fdf4" stroke="#059669" stroke-width="2"/>
+        <text x="785" y="55" fill="#065f46" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Delivery & POS Billing</text>
+        <text x="785" y="75" fill="#047857" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Notify Customer</text>
+        <text x="785" y="90" fill="#047857" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Convert to Sell Invoice</text>
+
+        <!-- Bottom Reconciliation Bar -->
+        <rect x="30" y="140" width="840" height="75" rx="6" fill="#1e293b"/>
+        <text x="450" y="165" fill="#fbbf24" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Karigar Metal Reconciliation Formula</text>
+        <text x="450" y="188" fill="#ffffff" font-family="'Courier New', Courier, monospace" font-size="12" text-anchor="middle">
+            Metal Issued = Finished Net Wt + Scrap Returned + Allowed Wastage &plusmn; Variance
+        </text>
+        <text x="450" y="204" fill="#94a3b8" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">
+            * Recorded automatically in Karigar Metal Ledger (in pure metal grams) and Making Labor Account
+        </text>
+    </svg>
+    
+
+    <h2>8.2 Customer Custom Order Intake (CustomerOrder)</h2>
+    <p>
+        When a patron commissions a bespoke ornament (e.g. custom bridal necklace or engagement ring), the transaction is recorded in <code>CustomerOrderController::store</code>:
+    </p>
+    <ul>
+        <li><strong>Order Identification:</strong> Auto-generated job sequence: <code>ORD-001</code>, <code>ORD-002</code>.</li>
+        <li><strong>Customer &amp; Delivery Timeline:</strong> Customer ID, order creation date, promised delivery due date, and urgent priority flags.</li>
+        <li><strong>Design Specifications &amp; Visual Artifacts:</strong> Item Name, Metal Preference (22K Yellow, 18K Rose Gold, Platinum), Ring Size / Bangle Diameter, Estimated Gross Weight, and upload of design sketches, CAD renders, or reference photographs.</li>
+        <li><strong>Order Advance Deposit:</strong>
+            <ul>
+                <li><strong>Cash / Digital Advance:</strong> Advance currency deposit recorded via <code>PaymentTransaction</code> with status <code>advance</code>.</li>
+                <li><strong>Metal Advance:</strong> Customer deposits old gold or bullion as advance metal, recorded with gross weight, melting loss %, and fine weight.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>8.3 Karigar Job Card &amp; Metal Assignment (KarigarAssignment)</h2>
+    <p>
+        When the workshop coordinator assigns the custom order to an artisan (<code>CustomerOrderController::assignStore</code>):
+    </p>
+    <ol>
+        <li><strong>Job Assignment Card:</strong> Generates an official tracking voucher (<code>ASG-001</code>) linking the Karigar ID to the Customer Order.</li>
+        <li><strong>Metal Weighing &amp; Issue:</strong>
+            <ul>
+                <li>The coordinator places raw 24K pure gold granules, 22K alloy, or casting metal on a high-precision scale.</li>
+                <li>Records <code>metal_issued_weight</code> (e.g., 50.000g) and metal purity.</li>
+            </ul>
+        </li>
+        <li><strong>Gemstone &amp; Packet Issue:</strong> Issues specific loose diamonds and colored gemstones from <code>PacketMaster</code> parcels (exact carats, pieces, and certificate numbers).</li>
+        <li><strong>Contractual Terms:</strong> Agrees upon Making Labor Rate per gram (or per piece), Expected Completion Date, and <em>Maximum Allowable Wastage %</em> (e.g. 2.5%).</li>
+        <li><strong>Printed Assignment Voucher:</strong> Dispatches <code>printAssignment</code> slip containing detailed artisan instructions, CAD dimensions, and issued material weights.</li>
+    </ol>
+
+    <h2>8.4 Finished Receipt &amp; Metal Reconciliation (KarigarReceipt)</h2>
+    <p>
+        Upon order completion, the Karigar delivers the finished ornament along with leftover metal remnants to the showroom workshop (<code>CustomerOrderController::receiveStore</code>):
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Physical Verification Field</th>
+                <th>Measurement (Example)</th>
+                <th>Operational Reconciliation Function</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Metal Issued (Initial)</strong></td>
+                <td>50.000g (22K)</td>
+                <td>Total raw metal originally dispatched to Karigar.</td>
+            </tr>
+            <tr>
+                <td><strong>Finished Gross Weight</strong></td>
+                <td>42.500g</td>
+                <td>Total scale weight of the finished ornament.</td>
+            </tr>
+            <tr>
+                <td><strong>Mounted Diamond / Stones</strong></td>
+                <td>1.500g (7.50ct)</td>
+                <td>Weight of diamonds/stones mounted into the piece.</td>
+            </tr>
+            <tr>
+                <td><strong>Finished Net Weight</strong></td>
+                <td>41.000g</td>
+                <td>Actual precious metal contained in the finished piece:<br><code>42.500g - 1.500g = 41.000g</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>Scrap Metal Returned</strong></td>
+                <td>7.800g</td>
+                <td>Unused gold sprues, runners, filings, and cuttings returned by artisan.</td>
+            </tr>
+            <tr>
+                <td><strong>Total Accounted Metal</strong></td>
+                <td>48.800g</td>
+                <td><code>Finished Net Weight (41.000g) + Scrap Metal (7.800g) = 48.800g</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>Actual Metal Loss (Wastage)</strong></td>
+                <td>1.200g</td>
+                <td>Metal lost in polishing, filing, and melting:<br><code>50.000g - 48.800g = 1.200g (2.4%)</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>Allowable Wastage Limit</strong></td>
+                <td>1.250g (2.5%)</td>
+                <td>Allowable loss benchmark. Since 1.200g &le; 1.250g, full wastage is approved.</td>
+            </tr>
+            <tr>
+                <td><strong>Artisan Making Labor Due</strong></td>
+                <td>₹16,400</td>
+                <td>Craftsmanship fee payable to Karigar: <code>41.000g &times; ₹400/g</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>8.5 The Karigar Metal Ledger (Pure Grams Audit Engine)</h2>
+    <p>
+        Unlike commercial trading software where vendor accounts are maintained solely in currency, the <strong>Karigar Ledger</strong> (<code>KarigarController::ledger</code>) tracks physical metal in grams alongside making labor balances:
+    </p>
+
+    <div class="callout callout-accounting">
+        <strong>Karigar Metal Ledger Balancing Rules:</strong><br>
+        &bull; <strong>Metal Debit (Metal Out):</strong> Raw metal issued to Karigar &rarr; Increases Karigar's physical metal liability.<br>
+        &bull; <strong>Metal Credit (Metal In):</strong> Finished net weight + Scrap metal returned + Approved wastage &rarr; Decreases Karigar's physical metal liability.<br>
+        &bull; <strong>Net Metal Due:</strong> <code>&sum;(Metal Out) - &sum;(Metal In)</code> represents pure metal grams currently held by the artisan.<br>
+        &bull; <strong>Labor Dues:</strong> Making charges credited to Karigar's cash labor account upon receipt approval, settled via cash or bank payments.
+    </div>
+    
+    <!-- CHAPTER 9 -->
+    <div class="page-break" id="ch9"></div>
+    <h1>Chapter 9: Double-Entry Financial Accounting System</h1>
+
+    <h2>9.1 Automated Double-Entry Posting Engine</h2>
+    <p>
+        JewelERP embeds a complete, autonomous double-entry financial accounting system managed by <code>App\Services\AccountingService</code>. In standard retail software, accounting is treated as an external afterthought requiring periodic export to third-party tools. In JewelERP, every commercial event (POS billing, purchase inward, customer advance settlement, expense voucher, and old metal exchange) automatically triggers balanced double-entry journal postings in real-time.
+    </p>
+
+    
+    <svg width="100%" height="260" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; margin:15px 0;">
+        <defs>
+            <marker id="arr5" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
+            </marker>
+        </defs>
+
+        <!-- Transaction Trigger -->
+        <rect x="30" y="30" width="220" height="75" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+        <text x="140" y="55" fill="#15803d" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Sales Invoice Finalization</text>
+        <text x="140" y="73" fill="#1e293b" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">Total: $100,000 | Tax: $3,000</text>
+        <text x="140" y="88" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Old Gold: $20,000 | Cash: $83,000</text>
+
+        <line x1="250" y1="67" x2="310" y2="67" stroke="#059669" stroke-width="2" marker-end="url(#arr5)"/>
+
+        <!-- Accounting Service -->
+        <rect x="310" y="30" width="240" height="75" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+        <text x="430" y="55" fill="#1d4ed8" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">AccountingService Engine</text>
+        <text x="430" y="73" fill="#1e293b" font-family="'Segoe UI', Arial, sans-serif" font-size="10" text-anchor="middle">postSellInvoice($invoice)</text>
+        <text x="430" y="88" fill="#64748b" font-family="'Segoe UI', Arial, sans-serif" font-size="9" text-anchor="middle">Creates JournalEntry & Balanced Lines</text>
+
+        <line x1="550" y1="67" x2="610" y2="67" stroke="#059669" stroke-width="2" marker-end="url(#arr5)"/>
+
+        <!-- Balanced Double Entry -->
+        <rect x="610" y="20" width="260" height="95" rx="8" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+        <text x="740" y="42" fill="#0f172a" font-family="'Segoe UI', Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Balanced Journal Entry</text>
+        <text x="740" y="60" fill="#15803d" font-family="'Courier New', Courier, monospace" font-size="10" text-anchor="middle">DR: Cash in Hand: $83,000</text>
+        <text x="740" y="74" fill="#15803d" font-family="'Courier New', Courier, monospace" font-size="10" text-anchor="middle">DR: Old Metal Stock: $20,000</text>
+        <text x="740" y="88" fill="#b91c1c" font-family="'Courier New', Courier, monospace" font-size="10" text-anchor="middle">CR: Sales Revenue: $100,000</text>
+        <text x="740" y="102" fill="#b91c1c" font-family="'Courier New', Courier, monospace" font-size="10" text-anchor="middle">CR: Output GST (3%): $3,000</text>
+
+        <!-- Downward Connectors -->
+        <path d="M 740 115 L 740 145 L 450 145 L 450 160" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arr5)"/>
+
+        <!-- Real-Time Reports -->
+        <rect x="30" y="160" width="840" height="75" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <text x="450" y="180" fill="#0f172a" font-family="'Segoe UI', Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Instant Real-Time Financial Reports Generation</text>
+
+        <rect x="50" y="192" width="170" height="30" rx="4" fill="#e0f2fe"/>
+        <text x="135" y="212" fill="#0369a1" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">General Ledger (Account-wise)</text>
+
+        <rect x="250" y="192" width="170" height="30" rx="4" fill="#fef3c7"/>
+        <text x="335" y="212" fill="#b45309" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Trial Balance (Dr = Cr)</text>
+
+        <rect x="450" y="192" width="170" height="30" rx="4" fill="#dcfce7"/>
+        <text x="535" y="212" fill="#15803d" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Profit & Loss Statement</text>
+
+        <rect x="650" y="192" width="170" height="30" rx="4" fill="#fee2e2"/>
+        <text x="735" y="212" fill="#b91c1c" font-family="'Segoe UI', Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Balance Sheet (Assets = Liab)</text>
+    </svg>
+    
+
+    <h2>9.2 Chart of Accounts Structure (COA)</h2>
+    <p>
+        The Chart of Accounts (<code>Account</code>, <code>AccountGroup</code>) is organized into five standard financial classes with specialized jewelry extensions:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Account Group</th>
+                <th>Standard Account Name</th>
+                <th>Subtype</th>
+                <th>Role in Jewelry ERP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Current Assets</strong></td>
+                <td>Cash in Hand</td>
+                <td>Cash Drawer</td>
+                <td>Physical currency held in showroom POS cash counters.</td>
+            </tr>
+            <tr>
+                <td><strong>Current Assets</strong></td>
+                <td>Bank Account(s)</td>
+                <td>Bank / Cheque</td>
+                <td>Showroom commercial checking accounts (NEFT/RTGS/Cheques).</td>
+            </tr>
+            <tr>
+                <td><strong>Current Assets</strong></td>
+                <td>UPI Clearing</td>
+                <td>Digital Payments</td>
+                <td>Instant QR code payments awaiting daily bank batch settlement.</td>
+            </tr>
+            <tr>
+                <td><strong>Current Assets</strong></td>
+                <td>Card Receivable</td>
+                <td>POS Terminal</td>
+                <td>Card swipe receipts awaiting merchant acquiring settlement.</td>
+            </tr>
+            <tr>
+                <td><strong>Current Assets</strong></td>
+                <td>Sundry Debtors</td>
+                <td>Accounts Receivable</td>
+                <td>Outstanding credit balances owed by customers (<em>Udhaar</em>).</td>
+            </tr>
+            <tr>
+                <td><strong>Current Assets</strong></td>
+                <td>Stock in Hand</td>
+                <td>Inventory Asset</td>
+                <td>Total valuation of raw bullion, wholesale lots, and finished jewelry.</td>
+            </tr>
+            <tr>
+                <td><strong>Current Assets</strong></td>
+                <td>Old Metal Received</td>
+                <td>Exchange Stock</td>
+                <td>Valuation of old gold/silver ornaments acquired via trade-in exchange.</td>
+            </tr>
+            <tr>
+                <td><strong>Current Liabilities</strong></td>
+                <td>Sundry Creditors</td>
+                <td>Accounts Payable</td>
+                <td>Outstanding balances owed to bullion dealers and jewelry manufacturers.</td>
+            </tr>
+            <tr>
+                <td><strong>Current Liabilities</strong></td>
+                <td>Customer Advance</td>
+                <td>Deferred Liability</td>
+                <td>Advance cash or metal deposits collected for custom orders.</td>
+            </tr>
+            <tr>
+                <td><strong>Current Liabilities</strong></td>
+                <td>Output CGST / SGST / IGST</td>
+                <td>Tax Liability</td>
+                <td>Statutory Goods &amp; Services Tax collected on retail sales.</td>
+            </tr>
+            <tr>
+                <td><strong>Income / Revenue</strong></td>
+                <td>Sales Revenue</td>
+                <td>Operating Revenue</td>
+                <td>Net taxable revenue from precious metals, diamonds, and stones.</td>
+            </tr>
+            <tr>
+                <td><strong>Income / Revenue</strong></td>
+                <td>Making Charges Income</td>
+                <td>Labor Revenue</td>
+                <td>Revenue earned from jewelry craftsmanship and fabrication labor.</td>
+            </tr>
+            <tr>
+                <td><strong>Expenses</strong></td>
+                <td>Discount Allowed</td>
+                <td>Operating Expense</td>
+                <td>Price concessions granted on making charges, diamonds, and bills.</td>
+            </tr>
+            <tr>
+                <td><strong>Expenses</strong></td>
+                <td>Round Off Adjustment</td>
+                <td>Financial Expense</td>
+                <td>Fractional paise rounding balancing journal debits and credits.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>9.3 Transaction-to-Journal Posting Rules Matrix</h2>
+    <p>
+        The table below details the exact accounting entries generated by <code>AccountingService</code> for key operational transactions:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Operational Event</th>
+                <th>Debit Accounts (DR)</th>
+                <th>Credit Accounts (CR)</th>
+                <th>Trigger Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>POS Sales Invoice (Full Cash)</strong></td>
+                <td>DR: Cash in Hand (Total Received)</td>
+                <td>CR: Sales Revenue (Taxable Amount)<br>CR: Output CGST (1.5%)<br>CR: Output SGST (1.5%)</td>
+                <td><code>postSellInvoice($invoice)</code></td>
+            </tr>
+            <tr>
+                <td><strong>POS Sale with Old Gold Exchange</strong></td>
+                <td>DR: Cash in Hand (Net Cash)<br>DR: Old Metal Received (Exchange Value)</td>
+                <td>CR: Sales Revenue (Taxable Amount)<br>CR: Output CGST + SGST (3%)</td>
+                <td><code>postSellInvoice($invoice)</code></td>
+            </tr>
+            <tr>
+                <td><strong>POS Sale on Customer Credit (Udhaar)</strong></td>
+                <td>DR: Sundry Debtors (Unpaid Balance)<br>DR: Cash in Hand (Partial Paid)</td>
+                <td>CR: Sales Revenue (Taxable Amount)<br>CR: Output CGST + SGST (3%)</td>
+                <td><code>postSellInvoice($invoice)</code></td>
+            </tr>
+            <tr>
+                <td><strong>Customer Advance Deposit</strong></td>
+                <td>DR: Cash in Hand / Bank</td>
+                <td>CR: Customer Advance (Liability)</td>
+                <td><code>postCustomerTransaction()</code></td>
+            </tr>
+            <tr>
+                <td><strong>Settlement of Advance on Bill</strong></td>
+                <td>DR: Customer Advance (Liability reduction)</td>
+                <td>CR: Sales Revenue / Tax Payable</td>
+                <td><code>postSellInvoice($invoice)</code></td>
+            </tr>
+            <tr>
+                <td><strong>Retail Purchase from Supplier</strong></td>
+                <td>DR: Stock in Hand (Purchases)<br>DR: Input CGST + SGST (ITC)</td>
+                <td>CR: Cash / Bank (Paid Amount)<br>CR: Sundry Creditors (Supplier Due)</td>
+                <td><code>postRetailPurchase($purchase)</code></td>
+            </tr>
+            <tr>
+                <td><strong>Card / UPI Settlement Batch</strong></td>
+                <td>DR: Bank Account (Net Deposited)<br>DR: Bank Charges (MDR Fee)</td>
+                <td>CR: Card Receivable / UPI Clearing</td>
+                <td><code>postCardSettlement()</code></td>
+            </tr>
+            <tr>
+                <td><strong>Showroom Expense Voucher</strong></td>
+                <td>DR: Store Expense (Rent, Power, Marketing)</td>
+                <td>CR: Cash in Hand / Bank Account</td>
+                <td><code>postExpense($expense)</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>9.4 Day Book &amp; Real-Time Financial Statements</h2>
+    <ul>
+        <li><strong>Day Book (<code>DayBookController::index</code>):</strong> Generates an immutable chronological register of all cash and bank inflows and outflows for any selected trading date, enabling store managers to reconcile physical cash drawers with recorded receipts at showroom closing.</li>
+        <li><strong>General Ledger (<code>AccountingController::ledger</code>):</strong> Detailed audit trail of all posted debits, credits, running balances, and narrations for any selected account in the Chart of Accounts.</li>
+        <li><strong>Trial Balance (<code>AccountingController::trialBalance</code>):</strong> Real-time summary verifying that total debits equal total credits across all asset, liability, equity, income, and expense accounts.</li>
+        <li><strong>Profit &amp; Loss Statement (P&amp;L):</strong> Calculates Gross Profit (Sales Revenue minus Cost of Goods Sold), Operating Expenses, and Net Profit for any custom reporting period.</li>
+        <li><strong>Balance Sheet:</strong> Financial snapshot certifying that <code>Total Assets = Total Liabilities + Owner Equity</code>.</li>
+        <li><strong>Accounting Resync Engine (<code>syncAll</code>):</strong> A fail-safe maintenance utility that can reconstruct the entire double-entry journal database from raw inventory transactions and invoices if historical data drift occurs.</li>
+    </ul>
+    
+    <!-- CHAPTER 10 -->
+    <div class="page-break" id="ch10"></div>
+    <h1>Chapter 10: Store CRM, Visitor Footfall &amp; Instant Quotations</h1>
+
+    <h2>10.1 Customer 360-Degree Profile &amp; KYC Ledger</h2>
+    <p>
+        Customer relationships in the jewelry sector span decades and generations. The <code>Customer</code> entity maintains a unified 360-degree commercial profile:
+    </p>
+    <ul>
+        <li><strong>Statutory Tax Data:</strong> Permanent Account Number (PAN), Aadhaar, GSTIN, and State identification codes.</li>
+        <li><strong>Personalized Relationship Data:</strong> Birthday, Wedding Anniversary, Spouse details, and family preferences used for automated VIP anniversary greetings and loyalty rewards.</li>
+        <li><strong>Financial Ledger (<code>customers-ledger.blade.php</code>):</strong> Complete chronological transaction history showing invoices, credit balances (<em>Udhaar</em>), cash advances deposited, returns, and net outstanding balance.</li>
+        <li><strong>Credit Limit &amp; Terms:</strong> Configurable maximum credit thresholds and payment terms in days.</li>
+    </ul>
+
+    <h2>10.2 Visitor Logging &amp; Showroom Footfall Management</h2>
+    <p>
+        Understanding showroom footfall conversion is vital for luxury retail. The <code>VisitorController</code> and <code>Visitor</code> model capture walk-in prospects before they make a purchase:
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Capture Field</th>
+                <th>Data Captured</th>
+                <th>Business Intelligence Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Visitor Identity</strong></td>
+                <td>Name, Mobile Number, City.</td>
+                <td>Builds the showroom prospect pipeline for remarketing campaigns.</td>
+            </tr>
+            <tr>
+                <td><strong>Purpose of Visit</strong></td>
+                <td>Bridal Shopping, Daily Wear, Gift, Exchange, Repair, Bullion Investment.</td>
+                <td>Categorizes consumer intent to optimize showroom display inventory.</td>
+            </tr>
+            <tr>
+                <td><strong>Product Interest</strong></td>
+                <td>Diamond Necklaces, 22K Bangles, Antique Chokers, Solitaire Rings.</td>
+                <td>Enables targeted WhatsApp catalogs and price alert alerts.</td>
+            </tr>
+            <tr>
+                <td><strong>Sales Executive Assigned</strong></td>
+                <td>Internal Staff ID / Salesperson Name.</td>
+                <td>Measures sales associate consultation efficacy and conversion rate.</td>
+            </tr>
+            <tr>
+                <td><strong>Follow-Up Status</strong></td>
+                <td>Pending, Contacted, Converted, Lost.</td>
+                <td>Drives automated reminder alerts for upcoming wedding dates.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>10.3 Quotation &amp; Estimate Management</h2>
+    <p>
+        High-value jewelry patrons frequently request formal price estimates before finalizing major bridal purchases:
+    </p>
+    <ul>
+        <li><strong>Live Rate Dynamic Quotations:</strong> Generates itemized estimates (metal weight &times; daily rate + making + stones + estimated GST) without locking or deducting physical inventory stock.</li>
+        <li><strong>Printable PDF Quotations:</strong> Renders elegant branded quotation sheets containing product photographs, purity specifications, payment bank details, and an explicit validity clause (e.g., "Estimate valid for 24 hours based on prevailing gold rate").</li>
+        <li><strong>One-Click POS Conversion:</strong> When the patron accepts the proposal, the quotation is converted directly into an active POS Sell Invoice without manual re-entry.</li>
+    </ul>
+
+    <!-- CHAPTER 11 -->
+    <div class="page-break" id="ch11"></div>
+    <h1>Chapter 11: Multi-Tenant SaaS Administration &amp; SuperAdmin</h1>
+
+    <h2>11.1 SuperAdmin Control Panel</h2>
+    <p>
+        The SuperAdmin module (<code>SuperAdminController.php</code>) serves as the centralized SaaS cockpit governing the commercial platform:
+    </p>
+    <ul>
+        <li><strong>Tenant Provisioning &amp; Management:</strong> Register, configure, activate, or suspend jewelry merchant accounts (<code>Admin</code> model).</li>
+        <li><strong>Subscription Packages:</strong> Configure tenant subscription tiers (Starter, Professional, Multi-Branch Enterprise) with user limits, firm quotas, and billing renewal cycles.</li>
+        <li><strong>Automated Database Engine:</strong> Triggers <code>TenantService::createTenant</code> to instantiate new MySQL databases and execute clean migrations.</li>
+    </ul>
+
+    <h2>11.2 Demo Request &amp; Lead Pipeline</h2>
+    <p>
+        Prospective jewelry merchants can submit demonstration requests on the public website. The <code>DemoRequestController</code> manages this inbound sales funnel:
+    </p>
+    <ul>
+        <li>Captures company name, jewelry business type (Retail showroom, Wholesaler, Karigar workshop), contact details, city, and expected user count.</li>
+        <li>Provides a dashboard interface for SaaS sales executives to update lead status: <code>new</code> &rarr; <code>contacted</code> &rarr; <code>demo_scheduled</code> &rarr; <code>converted</code>.</li>
+    </ul>
+
+    <h2>11.3 Public CMS &amp; Marketing Banner Engine</h2>
+    <p>
+        The <code>CMSController</code> and <code>CmsBanner</code> model allow platform administrators to maintain the public-facing portal without modifying code:
+    </p>
+    <ul>
+        <li><strong>Hero Banners &amp; Feature Carousels:</strong> Manage dynamic marketing sliders, promotional campaigns, and feature announcements.</li>
+        <li><strong>Interactive Landing Pages:</strong> Present module breakdowns (POS, Karigar, Inventory, Accounting), pricing tables, client testimonials, and FAQ accordions.</li>
+    </ul>
+    
+    <!-- CHAPTER 12 -->
+    <div class="page-break" id="ch12"></div>
+    <h1>Chapter 12: Business Intelligence, Audit Trails &amp; Compliance Reports</h1>
+
+    <h2>12.1 Statutory GST Compliance &amp; Tax Registers</h2>
+    <p>
+        Jewelry transactions in India are governed by strict GST reporting requirements (HSN 7113 for articles of jewelry, HSN 7108 for gold bullion). JewelERP provides dedicated compliance reports:
+    </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Compliance Report</th>
+                <th>Statutory Requirement</th>
+                <th>Key Columns &amp; Reconciled Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>GSTR-1 Outward Supplies (<code>tax-sales</code>)</strong></td>
+                <td>Monthly / Quarterly filing of all outward taxable supplies to consumers and B2B clients.</td>
+                <td>Invoice Number, Date, Customer GSTIN, State Code, Taxable Amount, CGST (1.5%), SGST (1.5%), IGST (3%), Total Invoice Value.</td>
+            </tr>
+            <tr>
+                <td><strong>GSTR-2 / 3B Inward Supplies (<code>tax-purchase</code>)</strong></td>
+                <td>Claiming Input Tax Credit (ITC) on bullion, finished stock, and making labor purchases.</td>
+                <td>Purchase Number, Vendor GSTIN, Supplier Invoice Ref, Purchase Net Amount, Input CGST, Input SGST, Input IGST, Total Paid.</td>
+            </tr>
+            <tr>
+                <td><strong>High-Value Cash Register</strong></td>
+                <td>Income Tax Section 269ST compliance prohibiting cash receipts &ge; ₹200,000.</td>
+                <td>Customer PAN, Aadhaar, Total Cash Collected, Invoice Reference, Verification Timestamp.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>12.2 Precious Metal Recycling &amp; Old Metal Buyback Register</h2>
+    <p>
+        Under Anti-Money Laundering (AML) and Hallmarking guidelines, jewelers must maintain an audit trail for old gold acquired from retail consumers:
+    </p>
+    <ul>
+        <li><strong>Old Metal Received Register (<code>old-metal-received.blade.php</code>):</strong> Detailed log of customer identity, invoice reference, declared karat, gross weight, melting loss deduction, net fine pure weight, and exchange credit granted.</li>
+        <li><strong>Old Diamond Received Register (<code>old-diamond-received.blade.php</code>):</strong> Documents loose diamonds extracted from exchanged jewelry, carats, estimated clarity/color, and valuation.</li>
+    </ul>
+
+    <h2>12.3 Inventory Valuation &amp; Stock Summary Reports</h2>
+    <ul>
+        <li><strong>Stock Summary (<code>stock-summary.blade.php</code>):</strong> Category-wise, subcategory-wise, and purity-wise valuation showing Total Pieces, Total Gross Weight (g), Total Net Weight (g), Total Diamond Carats, and Total Inventory Value computed at current metal rates.</li>
+        <li><strong>Low Stock &amp; Reorder Alerts (<code>low-stock-report.blade.php</code>):</strong> Identifies fast-moving jewelry lines falling below safety stock thresholds (e.g. lightweight daily-wear gold chains).</li>
+        <li><strong>Inventory Movement Audit (<code>inventory-history.blade.php</code>):</strong> Traceable chronological log tracking every piece from supplier inward &rarr; barcode tagging &rarr; POS sale or workshop return.</li>
+    </ul>
+
+    <!-- CHAPTER 13 -->
+    <div class="page-break" id="ch13"></div>
+    <h1>Chapter 13: Technical Specifications, Database Dictionary &amp; Deployment Manual</h1>
+
+    <h2>13.1 Core Database Entity Dictionary</h2>
+    <p>
+        The table below provides a comprehensive reference of primary database tables across the platform:
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Table Name</th>
+                <th>Eloquent Model</th>
+                <th>Primary Purpose &amp; Critical Columns</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>admins</code></td>
+                <td><code>Admin</code></td>
+                <td>Central tenant accounts: <code>name</code>, <code>email</code>, <code>password</code>, <code>db_name</code> (isolated tenant database identifier), <code>company</code>, <code>phone</code>.</td>
+            </tr>
+            <tr>
+                <td><code>firms</code></td>
+                <td><code>Firm</code></td>
+                <td>Showroom branches: <code>admin_id</code>, <code>name</code>, <code>gst_number</code>, <code>address</code>, <code>phone</code>, <code>bank_name</code>, <code>account_number</code>, <code>ifsc_code</code>.</td>
+            </tr>
+            <tr>
+                <td><code>products</code></td>
+                <td><code>Product</code></td>
+                <td>Physical barcoded jewelry items: <code>firm_id</code>, <code>pre_code</code>, <code>post_code</code>, <code>barcode</code>, <code>gross_weight</code>, <code>net_weight</code>, <code>final_fn_weight</code>, <code>making_price</code>, <code>making_type</code>, <code>final_price</code>, <code>availability</code> ('available', 'sold').</td>
+            </tr>
+            <tr>
+                <td><code>item_product_data</code></td>
+                <td><code>ItemProductData</code></td>
+                <td>Master design catalog: <code>product_code</code> (Pre-Code), <code>product_name</code>, <code>category_id</code>, <code>subcategory_id</code>, <code>purity_id</code>, <code>metal_rate</code>.</td>
+            </tr>
+            <tr>
+                <td><code>metal_rates</code></td>
+                <td><code>MetalRate</code></td>
+                <td>Daily bullion rate board: <code>firm_id</code>, <code>metal_type</code>, <code>price_per_gram</code>, <code>karat</code>, <code>purity_type</code> ('karat', 'percent').</td>
+            </tr>
+            <tr>
+                <td><code>sell_invoices</code></td>
+                <td><code>SellInvoice</code></td>
+                <td>POS sales invoices: <code>firm_id</code>, <code>customer_id</code>, <code>invoice_no</code>, <code>invoice_date</code>, <code>taxable_amount</code>, <code>cgst_amount</code>, <code>sgst_amount</code>, <code>igst_amount</code>, <code>total_exchange_amount</code>, <code>final_amount</code>, <code>amount_left</code>, <code>status</code> ('paid', 'partial', 'unpaid').</td>
+            </tr>
+            <tr>
+                <td><code>sell_invoice_items</code></td>
+                <td><code>SellInvoiceItem</code></td>
+                <td>Line items on sales invoice: <code>sell_invoice_id</code>, <code>product_id</code>, <code>gross_weight</code>, <code>net_weight</code>, <code>metal_rate</code>, <code>making_final_amount</code>, <code>wastage_amount</code>, <code>final_price</code>, <code>is_returned</code>.</td>
+            </tr>
+            <tr>
+                <td><code>sell_exchange_items</code></td>
+                <td><code>SellExchangeItem</code></td>
+                <td>Old metal exchange items: <code>sell_invoice_id</code>, <code>item_name</code>, <code>gross_weight</code>, <code>melting_loss</code>, <code>net_weight</code>, <code>purity</code>, <code>exchange_rate</code>, <code>exchange_amount</code>.</td>
+            </tr>
+            <tr>
+                <td><code>sell_invoice_payments</code></td>
+                <td><code>SellInvoicePayment</code></td>
+                <td>Multi-tender payment splits: <code>sell_invoice_id</code>, <code>payment_method</code> ('cash', 'cheque', 'upi', 'card'), <code>amount</code>, <code>reference_no</code>.</td>
+            </tr>
+            <tr>
+                <td><code>retail_purchases</code></td>
+                <td><code>RetailPurchase</code></td>
+                <td>Supplier inward purchase bills: <code>firm_id</code>, <code>supplier_id</code>, <code>purchase_no</code> ('IP001'), <code>purchase_date</code>, <code>taxable_amount</code>, <code>grand_total</code>, <code>paid_amount</code>, <code>metal_payment_weight</code>.</td>
+            </tr>
+            <tr>
+                <td><code>wholesale_stocks</code></td>
+                <td><code>WholesaleStock</code></td>
+                <td>Wholesale bulk lots: <code>firm_id</code>, <code>category_id</code>, <code>purity_id</code>, <code>total_gross_weight</code>, <code>total_net_weight</code>, <code>remaining_weight</code>.</td>
+            </tr>
+            <tr>
+                <td><code>customer_orders</code></td>
+                <td><code>CustomerOrder</code></td>
+                <td>Bespoke patron orders: <code>order_no</code> ('ORD-001'), <code>customer_id</code>, <code>item_name</code>, <code>estimated_weight</code>, <code>purity</code>, <code>advance_amount</code>, <code>status</code>.</td>
+            </tr>
+            <tr>
+                <td><code>karigars</code></td>
+                <td><code>Karigar</code></td>
+                <td>Artisan master profiles: <code>firm_id</code>, <code>name</code>, <code>phone</code>, <code>opening_metal_balance</code>, <code>opening_cash_balance</code>.</td>
+            </tr>
+            <tr>
+                <td><code>karigar_assignments</code></td>
+                <td><code>KarigarAssignment</code></td>
+                <td>Artisan job assignment slips: <code>assignment_no</code>, <code>karigar_id</code>, <code>order_id</code>, <code>metal_issued_weight</code>, <code>allowable_wastage_percent</code>.</td>
+            </tr>
+            <tr>
+                <td><code>karigar_receipts</code></td>
+                <td><code>KarigarReceipt</code></td>
+                <td>Artisan finished receipt vouchers: <code>receipt_no</code>, <code>karigar_id</code>, <code>finished_net_weight</code>, <code>scrap_metal_returned</code>, <code>actual_wastage</code>, <code>total_making_charges</code>.</td>
+            </tr>
+            <tr>
+                <td><code>journal_entries</code></td>
+                <td><code>JournalEntry</code></td>
+                <td>Double-entry accounting journal headers: <code>entry_number</code>, <code>entry_date</code>, <code>narration</code>, <code>reference_type</code>, <code>reference_id</code>.</td>
+            </tr>
+            <tr>
+                <td><code>journal_entry_lines</code></td>
+                <td><code>JournalEntryLine</code></td>
+                <td>Balanced debits and credits: <code>journal_entry_id</code>, <code>account_id</code>, <code>debit</code>, <code>credit</code>, <code>memo</code>.</td>
+            </tr>
+            <tr>
+                <td><code>print_templates</code></td>
+                <td><code>PrintTemplate</code></td>
+                <td>Jewelry tag templates: <code>name</code>, <code>canvas_width</code>, <code>canvas_height</code>, <code>is_default</code>, <code>settings</code>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>13.2 Environment Configuration (.env Reference)</h2>
+    <pre><code>APP_NAME="JewelERP Enterprise"
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=http://localhost/invoice
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=invoice
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Mailjet Transactional Email Service
+MAILJET_APIKEY=your_mailjet_public_key
+MAILJET_SECRETKEY=your_mailjet_secret_key
+MAIL_FROM_ADDRESS="invoices@jewelerp.com"
+MAIL_FROM_NAME="JewelERP Showroom"
+
+# Twilio SMS / WhatsApp Gateway
+TWILIO_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_WHATSAPP_FROM="+14155238886"</code></pre>
+
+    <h2>13.3 Production Deployment Checklist (XAMPP / Apache / Nginx)</h2>
+    <ol>
+        <li><strong>PHP Extension Requirements:</strong> Verify that <code>php-gd</code> (for Intervention Image barcode scaling), <code>php-intl</code>, <code>php-pdo_mysql</code>, <code>php-bcmath</code> (for arbitrary-precision weight arithmetic), and <code>php-zip</code> are enabled in <code>php.ini</code>.</li>
+        <li><strong>Storage Link:</strong> Execute <code>php artisan storage:link</code> to map public disk storage for product photographs, CAD renders, and company logos.</li>
+        <li><strong>Database Privileges:</strong> Ensure the MySQL database user possesses <code>CREATE DATABASE</code> and <code>GRANT</code> privileges so that <code>TenantService</code> can instantiate isolated tenant schemas automatically.</li>
+        <li><strong>Thermal Printer Integration:</strong> Install manufacturer-certified Windows spooler drivers (TSC Bartender, Zebra ZDesigner) and configure label dimensions matching the active <code>PrintTemplate</code> canvas (e.g. 68mm &times; 12mm).</li>
+    </ol>
+
+    <h2>13.4 Essential Artisan Maintenance Commands</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Command Routine</th>
+                <th>Operational Function</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>php artisan migrate --force</code></td>
+                <td>Applies structural schema updates and migrations to the active database.</td>
+            </tr>
+            <tr>
+                <td><code>php artisan config:cache &amp;&amp; php artisan route:cache</code></td>
+                <td>Optimizes Laravel configuration and routing maps for sub-millisecond POS response times.</td>
+            </tr>
+            <tr>
+                <td><code>php artisan view:clear &amp;&amp; php artisan cache:clear</code></td>
+                <td>Flushes cached Blade views, print templates, and application cache after updates.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 50px; padding: 20px; border-top: 2px solid #0284c7; text-align: center; color: #64748b; font-size: 9pt;">
+        <strong>JewelERP Enterprise Documentation &amp; Workflow Manual</strong> &bull; Version 2.5<br>
+        &copy; 2026 JewelERP Software Systems. All Rights Reserved. Engineered for Precision Jewelry Enterprises.
+    </div>
+    
+</body>
+</html>

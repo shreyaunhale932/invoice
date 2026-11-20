@@ -44,6 +44,7 @@ class SuperAdminController extends Controller
             'username' => 'required|string|max:255|unique:admins,username',
             'email' => 'required|email|unique:admins,email',
             'phone' => 'required|string|max:15',
+            'company' => 'nullable|string|max:255',
             'password' => 'required|min:6|confirmed',
             'status' => 'required|in:active,inactive',
             'address' => 'nullable|string',
@@ -56,6 +57,7 @@ class SuperAdminController extends Controller
             'name' => $request->first_name . ' ' . $request->last_name,
             'username' => $request->username,
             'email' => $request->email,
+            'company' => $request->company,
             'phone' => $request->phone,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
             'status' => $request->status,
@@ -63,7 +65,7 @@ class SuperAdminController extends Controller
             'city' => $request->city,
             'state' => $request->state,
             'pincode' => $request->pincode,
-            'is_verified' => true, // Automatically verify admins created by Super Admin
+            'verification_status' => 'verified', // Automatically verify admins created by Super Admin
         ]);
 
         try {
@@ -85,6 +87,7 @@ class SuperAdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email,' . $id,
             'phone' => 'required|string|max:15',
+            'company' => 'nullable|string|max:255',
             'status' => 'required|in:active,inactive',
             'address' => 'nullable|string',
             'city' => 'nullable|string',
@@ -97,6 +100,7 @@ class SuperAdminController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'company' => $request->company,
             'status' => $request->status,
             'address' => $request->address,
             'city' => $request->city,

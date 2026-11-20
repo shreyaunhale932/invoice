@@ -17162,6 +17162,18 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
     </div>
 
+    <!-- Company -->
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="input-block mb-3">
+            <label>Company</label>
+            <input type="text" class="form-control @error('company') is-invalid @enderror"
+                   name="company" placeholder="Enter Company Name">
+            @error('company')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
     <!-- Address -->
     <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="input-block mb-3">

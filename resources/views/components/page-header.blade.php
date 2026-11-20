@@ -209,6 +209,18 @@
                                 aria-hidden="true"></i>Add Supplier</a>
                     </li>
                     @endif
+                    @if (Route::is(['karigars.index']))
+                    <li>
+                        <a class="btn btn-primary" href="{{ route('karigars.create') }}"><i class="fa fa-plus-circle me-2"
+                                aria-hidden="true"></i>Add Karigar</a>
+                    </li>
+                    @endif
+                    @if (Route::is(['orders.index']))
+                    <li>
+                        <a class="btn btn-primary" href="{{ route('orders.create') }}"><i class="fa fa-plus-circle me-2"
+                                aria-hidden="true"></i>Create Order</a>
+                    </li>
+                    @endif
                     @if (Route::is(['vendors']))
                     <li>
                         <a class="btn btn-import" href="javascript:void(0);"><span><i
@@ -439,8 +451,7 @@
                     @if (Auth::check() && Auth::user()->role === 'superadmin' && request()->routeIs('createAdmin'))
                     <li>
                         <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal"
-                            data-bs-target="#add_user"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add
-                            usersss</a>
+                            data-bs-target="#add_user"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add User</a>
                     </li>
                     @endif
                     <!-- my code -->

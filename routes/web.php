@@ -26,6 +26,8 @@ use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\RetailPurchaseController;
 use App\Http\Controllers\WholesaleStockController;
+use App\Http\Controllers\KarigarController;
+use App\Http\Controllers\CustomerOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +142,39 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     Route::get('/suppliers/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::put('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
     Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+
+    // Karigar Management Routes
+    Route::get('/karigars', [KarigarController::class, 'index'])->name('karigars.index');
+    Route::get('/karigars/create', [KarigarController::class, 'create'])->name('karigars.create');
+    Route::post('/karigars', [KarigarController::class, 'store'])->name('karigars.store');
+    Route::get('/karigars/{id}', [KarigarController::class, 'show'])->name('karigars.show');
+    Route::get('/karigars/{id}/edit', [KarigarController::class, 'edit'])->name('karigars.edit');
+    Route::put('/karigars/{id}', [KarigarController::class, 'update'])->name('karigars.update');
+    Route::delete('/karigars/{id}', [KarigarController::class, 'destroy'])->name('karigars.destroy');
+    Route::get('/karigars/{id}/ledger', [KarigarController::class, 'ledger'])->name('karigars.ledger');
+
+    // Customer Order Management & Karigar Workflow Routes
+    Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/create', [CustomerOrderController::class, 'create'])->name('orders.create');
+    Route::post('/orders', [CustomerOrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/{id}', [CustomerOrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{id}/edit', [CustomerOrderController::class, 'edit'])->name('orders.edit');
+    Route::put('/orders/{id}', [CustomerOrderController::class, 'update'])->name('orders.update');
+    Route::delete('/orders/{id}', [CustomerOrderController::class, 'destroy'])->name('orders.destroy');
+    Route::get('/orders/{id}/print', [CustomerOrderController::class, 'printOrder'])->name('orders.print');
+
+    // Assign Order to Karigar
+    Route::get('/orders/{id}/assign', [CustomerOrderController::class, 'assignForm'])->name('orders.assign.create');
+    Route::post('/orders/{id}/assign', [CustomerOrderController::class, 'assignStore'])->name('orders.assign.store');
+    Route::get('/orders/assignments/{id}/print', [CustomerOrderController::class, 'printAssignment'])->name('orders.assignments.print');
+
+    // Receive Finished Jewellery from Karigar
+    Route::get('/orders/{id}/receive', [CustomerOrderController::class, 'receiveForm'])->name('orders.receive.create');
+    Route::post('/orders/{id}/receive', [CustomerOrderController::class, 'receiveStore'])->name('orders.receive.store');
+    Route::get('/orders/receipts/{id}/print', [CustomerOrderController::class, 'printReceipt'])->name('orders.receipts.print');
+
+    // Order status update
+    Route::post('/orders/{id}/status', [CustomerOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
     // Wholesale Purchase Routes
     Route::get('/purchases', [RetailPurchaseController::class, 'index'])->name('purchases.index');
