@@ -2124,146 +2124,146 @@ class SellInvoiceController extends Controller
         return view('Sales.Invoices.invoice-one-a-dya', compact('invoice', 'business', 'bank', 'customer', 'templateSettings', 'customBlocks'));
     }
 
-    // public function sendInvoiceWhatsApp($id, WhatsAppService $whatsapp)
-    // {
-    //     $invoice = SellInvoice::with([
-    //         'items.diamonds',
-    //         'items.stones',
-    //         'items.packets',
-    //         'items.product.metalRate',
-    //         'customer',
-    //         'paymentTransactions',
-    //         'exchangeItems',
-    //         'exchangeDiamonds',
-    //     ])->findOrFail($id);
+    public function sendInvoiceWhatsApp($id, WhatsAppService $whatsapp)
+    {
+        $invoice = SellInvoice::with([
+            'items.diamonds',
+            'items.stones',
+            'items.packets',
+            'items.product.metalRate',
+            'customer',
+            'paymentTransactions',
+            'exchangeItems',
+            'exchangeDiamonds',
+        ])->findOrFail($id);
 
-    //     $adminId = $invoice->admin_id;
+        $adminId = $invoice->admin_id;
 
-    //     // Use the same customer query as your existing show() method
-    //     $customer = Customer::where('id', $invoice->user_id)->first();
-    //     $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
-    //     $bank = \App\Models\bankdetails::where('user_id', $adminId)->first();
-    //     if (!$customer || empty($customer->phone)) {
-    //         return back()->with(
-    //             'error',
-    //             'Customer WhatsApp number not found.'
-    //         );
-    //     }
+        // Use the same customer query as your existing show() method
+        $customer = Customer::where('id', $invoice->user_id)->first();
+        $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
+        $bank = \App\Models\bankdetails::where('user_id', $adminId)->first();
+        if (!$customer || empty($customer->phone)) {
+            return back()->with(
+                'error',
+                'Customer WhatsApp number not found.'
+            );
+        }
 
-    //     // Load invoice template settings
-    //     $templateSettings = InvoiceTemplateSetting::where(function ($query) use ($adminId) {
-    //         $query->where('admin_id', $adminId)
-    //             ->orWhereNull('admin_id');
-    //     })
-    //         ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
-    //         ->get()
-    //         ->keyBy(function ($item) {
-    //             return $item->section_key . '.' . $item->field_key;
-    //         });
+        // Load invoice template settings
+        $templateSettings = InvoiceTemplateSetting::where(function ($query) use ($adminId) {
+            $query->where('admin_id', $adminId)
+                ->orWhereNull('admin_id');
+        })
+            ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->section_key . '.' . $item->field_key;
+            });
 
-    //     // Format Indian phone number
-    //     $phone = preg_replace('/\D/', '', $customer->phone);
+        // Format Indian phone number
+        $phone = preg_replace('/\D/', '', $customer->phone);
 
-    //     if (strlen($phone) === 10) {
-    //         $phone = '91' . $phone;
-    //     }
+        if (strlen($phone) === 10) {
+            $phone = '91' . $phone;
+        }
 
-    //     if (!preg_match('/^91[6-9]\d{9}$/', $phone)) {
-    //         return back()->with(
-    //             'error',
-    //             'Invalid customer WhatsApp number.'
-    //         );
-    //     }
+        if (!preg_match('/^91[6-9]\d{9}$/', $phone)) {
+            return back()->with(
+                'error',
+                'Invalid customer WhatsApp number.'
+            );
+        }
 
-    //     try {
+        try {
 
-    //         // Generate independent WhatsApp invoice PDF
-    //         $html = view('pdf.whatsapp-invoice', compact(
-    //             'invoice',
-    //             'customer',
-    //             'templateSettings',
-    //             'bank',
-    //             'business',
-    //         ))->render();
+            // Generate independent WhatsApp invoice PDF
+            $html = view('pdf.whatsapp-invoice', compact(
+                'invoice',
+                'customer',
+                'templateSettings',
+                'bank',
+                'business',
+            ))->render();
 
-    //         $pdf = Pdf::loadHTML($html)
-    //             ->setPaper('A4', 'portrait');
+            $pdf = Pdf::loadHTML($html)
+                ->setPaper('A4', 'portrait');
 
-    //         $pdfContent = $pdf->output();
+            $pdfContent = $pdf->output();
 
-    //         $fileName = 'Invoice-' .
-    //             preg_replace('/[^A-Za-z0-9_-]/', '-', $invoice->invoice_no) .
-    //             '.pdf';
+            $fileName = 'Invoice-' .
+                preg_replace('/[^A-Za-z0-9_-]/', '-', $invoice->invoice_no) .
+                '.pdf';
 
-    //         // Upload PDF to WhatsApp
-    //         $uploadResponse = $whatsapp->uploadDocument(
-    //             $pdfContent,
-    //             $fileName
-    //         );
+            // Upload PDF to WhatsApp
+            $uploadResponse = $whatsapp->uploadDocument(
+                $pdfContent,
+                $fileName
+            );
 
-    //         if (empty($uploadResponse['id'])) {
+            if (empty($uploadResponse['id'])) {
 
-    //             Log::error('WhatsApp PDF upload failed', [
-    //                 'invoice_id' => $invoice->id,
-    //                 'response' => $uploadResponse,
-    //             ]);
+                Log::error('WhatsApp PDF upload failed', [
+                    'invoice_id' => $invoice->id,
+                    'response' => $uploadResponse,
+                ]);
 
-    //             return back()->with(
-    //                 'error',
-    //                 $uploadResponse['error']['message']
-    //                     ?? 'WhatsApp PDF upload failed.'
-    //             );
-    //         }
+                return back()->with(
+                    'error',
+                    $uploadResponse['error']['message']
+                        ?? 'WhatsApp PDF upload failed.'
+                );
+            }
 
-    //         // Send approved invoice_with_pdf template
-    //         $response = $whatsapp->sendInvoicePdfTemplate(
-    //             $phone,
-    //             $uploadResponse['id'],
-    //             $fileName,
-    //             $customer->name ?? 'Customer',
-    //             $invoice->invoice_no,
-    //             number_format((float) $invoice->final_amount, 2)
-    //         );
+            // Send approved invoice_with_pdf template
+            $response = $whatsapp->sendInvoicePdfTemplate(
+                $phone,
+                $uploadResponse['id'],
+                $fileName,
+                $customer->name ?? 'Customer',
+                $invoice->invoice_no,
+                number_format((float) $invoice->final_amount, 2)
+            );
 
-    //         if (!empty($response['messages'][0]['id'])) {
+            if (!empty($response['messages'][0]['id'])) {
 
-    //             Log::info('WhatsApp invoice PDF accepted', [
-    //                 'invoice_id' => $invoice->id,
-    //                 'customer_phone' => $phone,
-    //                 'message_id' => $response['messages'][0]['id'],
-    //             ]);
+                Log::info('WhatsApp invoice PDF accepted', [
+                    'invoice_id' => $invoice->id,
+                    'customer_phone' => $phone,
+                    'message_id' => $response['messages'][0]['id'],
+                ]);
 
-    //             return back()->with(
-    //                 'success',
-    //                 'Invoice PDF submitted successfully to WhatsApp.'
-    //             );
-    //         }
+                return back()->with(
+                    'success',
+                    'Invoice PDF submitted successfully to WhatsApp.'
+                );
+            }
 
-    //         Log::error('WhatsApp invoice PDF send failed', [
-    //             'invoice_id' => $invoice->id,
-    //             'response' => $response,
-    //         ]);
+            Log::error('WhatsApp invoice PDF send failed', [
+                'invoice_id' => $invoice->id,
+                'response' => $response,
+            ]);
 
-    //         return back()->with(
-    //             'error',
-    //             $response['error']['message']
-    //                 ?? 'WhatsApp invoice PDF sending failed.'
-    //         );
-    //     } catch (\Throwable $e) {
+            return back()->with(
+                'error',
+                $response['error']['message']
+                    ?? 'WhatsApp invoice PDF sending failed.'
+            );
+        } catch (\Throwable $e) {
 
-    //         Log::error('WhatsApp invoice PDF exception', [
-    //             'invoice_id' => $invoice->id,
-    //             'error' => $e->getMessage(),
-    //             'file' => $e->getFile(),
-    //             'line' => $e->getLine(),
-    //         ]);
+            Log::error('WhatsApp invoice PDF exception', [
+                'invoice_id' => $invoice->id,
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
 
-    //         return back()->with(
-    //             'error',
-    //             'Unable to send invoice PDF on WhatsApp.'
-    //         );
-    //     }
-    // }
+            return back()->with(
+                'error',
+                'Unable to send invoice PDF on WhatsApp.'
+            );
+        }
+    }
 
     public function sendInvoiceMail($id, MailjetService $mailjet)
     {
