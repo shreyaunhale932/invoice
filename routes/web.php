@@ -38,6 +38,7 @@ use App\Http\Controllers\WholesaleStockController;
 |
 */
 
+
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 
 Route::get('/',[HomeController::class,'invoiceFront'])->name('invoice-front');
@@ -287,13 +288,16 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
         [SellInvoiceController::class, 'show']
     )->name('sell.invoice.view');
 
+
+
     Route::get('/sell-invoice/send-mail/{id}',
     [SellInvoiceController::class, 'sendInvoiceMail'])
     ->name('sell.invoice.sendMail');
     Route::get('/invoice/pdf/{id}', [SellInvoiceController::class, 'generatePDF'])
         ->name('invoice.pdf');
-Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWhatsApp'])
-    ->name('sell.invoice.sendWhatsapp');
+// Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWhatsApp'])
+//     ->name('sell.invoice.sendWhatsapp');
+Route::post('/sell-invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendInvoiceWhatsApp'])->name('sell-invoice.sendWhatsApp');
     // Invoice Template Routes
     Route::get(
         '/invoice-template/editor',
@@ -434,7 +438,7 @@ Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWh
     Route::put('packet-attributes/{type}/{id}', [\App\Http\Controllers\PacketAttributeController::class, 'update'])->name('packet-attributes.update');
     Route::delete('packet-attributes/{type}/{id}', [\App\Http\Controllers\PacketAttributeController::class, 'destroy'])->name('packet-attributes.destroy');
 
-    Route::get('/invoice/{id}/whatsapp',[SellInvoiceController::class,'sendWhatsAppInvoice'])->name('invoice.whatsapp');
+    // Route::get('/invoice/{id}/whatsapp',[SellInvoiceController::class,'sendWhatsAppInvoice'])->name('invoice.whatsapp');
 Route::get('/invoice/{id}/email',[SellInvoiceController::class,'sendInvoiceEmail'])->name('invoice.email');
 Route::get('/invoice/{id}/sms',[SellInvoiceController::class,'sendInvoiceSMS'])->name('invoice.sms');
 

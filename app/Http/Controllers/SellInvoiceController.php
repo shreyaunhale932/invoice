@@ -16,10 +16,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use App\Services\WhatsAppService;
+use Illuminate\Support\Facades\Log;
+use App\Models\Customer;
+use App\Models\InvoiceTemplateSetting;
+
 // use App\Http\Controllers\Pdf;
 
 class SellInvoiceController extends Controller
 {
+
     public function addDirectSellItem(Request $request)
     {
         DB::beginTransaction();
@@ -126,7 +132,7 @@ class SellInvoiceController extends Controller
                 'final_price' => $request->final_price,
                 'making_type' => $request->making_type,
                 'making_final_amount' => $request->making_final_amount,
-                'availability' => 'sold', 
+                'availability' => 'sold',
                 'is_direct_sell' => 1,
             ]);
 
@@ -250,7 +256,7 @@ class SellInvoiceController extends Controller
                 'subcategory' => $subcatName,
                 'size' => $request->size,
                 'quantity' => $request->quantity ?? 1,
-                'total_amount' => $request->total_amount, 
+                'total_amount' => $request->total_amount,
                 'final_price' => $request->final_price,
             ]);
 
@@ -266,7 +272,7 @@ class SellInvoiceController extends Controller
                 'size' => $request->size,
                 'quantity' => $request->quantity ?? 1,
                 'unit' => 'GM',
-                'remarks' => 'Reserved via Invoice #'.$invoiceId,
+                'remarks' => 'Reserved via Invoice #' . $invoiceId,
                 'sell_invoice_id' => $invoiceId,
                 'sell_invoice_item_id' => $item->id,
             ]);
@@ -363,7 +369,6 @@ class SellInvoiceController extends Controller
                 'invoice_id' => $invoiceId,
                 'item_id' => $item->id,
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
@@ -439,7 +444,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $request->final_fn_weight,
                             'size' => $request->size,
                             'unit' => 'GM',
-                            'remarks' => 'Reserved via Invoice #'.$invoiceId,
+                            'remarks' => 'Reserved via Invoice #' . $invoiceId,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
                             'sell_invoice_item_id' => $item->id,
@@ -655,7 +660,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $request->final_fn_weight,
                             'size' => $request->size,
                             'unit' => 'GM',
-                            'remarks' => 'Reserved via Invoice #'.$invoiceId,
+                            'remarks' => 'Reserved via Invoice #' . $invoiceId,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoiceId,
                             'sell_invoice_item_id' => $item->id,
@@ -1411,7 +1416,7 @@ class SellInvoiceController extends Controller
                     try {
                         app(\App\Services\AccountingService::class)->postCustomerTransaction($newTx);
                     } catch (\Exception $e) {
-                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: ".$e->getMessage());
+                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: " . $e->getMessage());
                     }
                 }
             }
@@ -1435,7 +1440,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
-                            'remarks' => 'Sold via Invoice #'.$invoice->invoice_no,
+                            'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoice->id,
                             'sell_invoice_item_id' => $item->id,
@@ -1447,7 +1452,7 @@ class SellInvoiceController extends Controller
             try {
                 app(\App\Services\AccountingService::class)->postSellInvoice($invoice);
             } catch (\Exception $e) {
-                \Log::error("Accounting Post failed for Invoice Finalize #{$invoice->invoice_no}: ".$e->getMessage());
+                \Log::error("Accounting Post failed for Invoice Finalize #{$invoice->invoice_no}: " . $e->getMessage());
             }
 
             DB::commit();
@@ -1913,7 +1918,7 @@ class SellInvoiceController extends Controller
                     try {
                         app(\App\Services\AccountingService::class)->postCustomerTransaction($newTx);
                     } catch (\Exception $e) {
-                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: ".$e->getMessage());
+                        \Log::error("Accounting Post failed for Settlement Tx #{$newTx->id}: " . $e->getMessage());
                     }
                 }
             }
@@ -1937,7 +1942,7 @@ class SellInvoiceController extends Controller
                             'final_fn_weight' => $item->final_fn_weight,
                             'size' => $item->size,
                             'unit' => 'GM', // Default unit
-                            'remarks' => 'Sold via Invoice #'.$invoice->invoice_no,
+                            'remarks' => 'Sold via Invoice #' . $invoice->invoice_no,
                             'admin_id' => Auth::id(),
                             'sell_invoice_id' => $invoice->id,
                             'sell_invoice_item_id' => $item->id,
@@ -1956,7 +1961,7 @@ class SellInvoiceController extends Controller
 
                 app(\App\Services\AccountingService::class)->postSellInvoice($invoice);
             } catch (\Exception $e) {
-                \Log::error("Accounting Post failed for Invoice Update #{$invoice->invoice_no}: ".$e->getMessage());
+                \Log::error("Accounting Post failed for Invoice Update #{$invoice->invoice_no}: " . $e->getMessage());
             }
 
             DB::commit();
@@ -2104,7 +2109,7 @@ class SellInvoiceController extends Controller
             ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
             ->get()
             ->keyBy(function ($item) {
-                return $item->section_key.'.'.$item->field_key;
+                return $item->section_key . '.' . $item->field_key;
             });
 
         // Get custom blocks
@@ -2119,8 +2124,151 @@ class SellInvoiceController extends Controller
         return view('Sales.Invoices.invoice-one-a-dya', compact('invoice', 'business', 'bank', 'customer', 'templateSettings', 'customBlocks'));
     }
 
+    // public function sendInvoiceWhatsApp($id, WhatsAppService $whatsapp)
+    // {
+    //     $invoice = SellInvoice::with([
+    //         'items.diamonds',
+    //         'items.stones',
+    //         'items.packets',
+    //         'items.product.metalRate',
+    //         'customer',
+    //         'paymentTransactions',
+    //         'exchangeItems',
+    //         'exchangeDiamonds',
+    //     ])->findOrFail($id);
+
+    //     $adminId = $invoice->admin_id;
+
+    //     // Use the same customer query as your existing show() method
+    //     $customer = Customer::where('id', $invoice->user_id)->first();
+    //     $business = \App\Models\BusinessDetail::where('user_id', $adminId)->first();
+    //     $bank = \App\Models\bankdetails::where('user_id', $adminId)->first();
+    //     if (!$customer || empty($customer->phone)) {
+    //         return back()->with(
+    //             'error',
+    //             'Customer WhatsApp number not found.'
+    //         );
+    //     }
+
+    //     // Load invoice template settings
+    //     $templateSettings = InvoiceTemplateSetting::where(function ($query) use ($adminId) {
+    //         $query->where('admin_id', $adminId)
+    //             ->orWhereNull('admin_id');
+    //     })
+    //         ->orderByRaw('CASE WHEN admin_id IS NOT NULL THEN 0 ELSE 1 END')
+    //         ->get()
+    //         ->keyBy(function ($item) {
+    //             return $item->section_key . '.' . $item->field_key;
+    //         });
+
+    //     // Format Indian phone number
+    //     $phone = preg_replace('/\D/', '', $customer->phone);
+
+    //     if (strlen($phone) === 10) {
+    //         $phone = '91' . $phone;
+    //     }
+
+    //     if (!preg_match('/^91[6-9]\d{9}$/', $phone)) {
+    //         return back()->with(
+    //             'error',
+    //             'Invalid customer WhatsApp number.'
+    //         );
+    //     }
+
+    //     try {
+
+    //         // Generate independent WhatsApp invoice PDF
+    //         $html = view('pdf.whatsapp-invoice', compact(
+    //             'invoice',
+    //             'customer',
+    //             'templateSettings',
+    //             'bank',
+    //             'business',
+    //         ))->render();
+
+    //         $pdf = Pdf::loadHTML($html)
+    //             ->setPaper('A4', 'portrait');
+
+    //         $pdfContent = $pdf->output();
+
+    //         $fileName = 'Invoice-' .
+    //             preg_replace('/[^A-Za-z0-9_-]/', '-', $invoice->invoice_no) .
+    //             '.pdf';
+
+    //         // Upload PDF to WhatsApp
+    //         $uploadResponse = $whatsapp->uploadDocument(
+    //             $pdfContent,
+    //             $fileName
+    //         );
+
+    //         if (empty($uploadResponse['id'])) {
+
+    //             Log::error('WhatsApp PDF upload failed', [
+    //                 'invoice_id' => $invoice->id,
+    //                 'response' => $uploadResponse,
+    //             ]);
+
+    //             return back()->with(
+    //                 'error',
+    //                 $uploadResponse['error']['message']
+    //                     ?? 'WhatsApp PDF upload failed.'
+    //             );
+    //         }
+
+    //         // Send approved invoice_with_pdf template
+    //         $response = $whatsapp->sendInvoicePdfTemplate(
+    //             $phone,
+    //             $uploadResponse['id'],
+    //             $fileName,
+    //             $customer->name ?? 'Customer',
+    //             $invoice->invoice_no,
+    //             number_format((float) $invoice->final_amount, 2)
+    //         );
+
+    //         if (!empty($response['messages'][0]['id'])) {
+
+    //             Log::info('WhatsApp invoice PDF accepted', [
+    //                 'invoice_id' => $invoice->id,
+    //                 'customer_phone' => $phone,
+    //                 'message_id' => $response['messages'][0]['id'],
+    //             ]);
+
+    //             return back()->with(
+    //                 'success',
+    //                 'Invoice PDF submitted successfully to WhatsApp.'
+    //             );
+    //         }
+
+    //         Log::error('WhatsApp invoice PDF send failed', [
+    //             'invoice_id' => $invoice->id,
+    //             'response' => $response,
+    //         ]);
+
+    //         return back()->with(
+    //             'error',
+    //             $response['error']['message']
+    //                 ?? 'WhatsApp invoice PDF sending failed.'
+    //         );
+    //     } catch (\Throwable $e) {
+
+    //         Log::error('WhatsApp invoice PDF exception', [
+    //             'invoice_id' => $invoice->id,
+    //             'error' => $e->getMessage(),
+    //             'file' => $e->getFile(),
+    //             'line' => $e->getLine(),
+    //         ]);
+
+    //         return back()->with(
+    //             'error',
+    //             'Unable to send invoice PDF on WhatsApp.'
+    //         );
+    //     }
+    // }
+
     public function sendInvoiceMail($id, MailjetService $mailjet)
     {
+
+        dd('POST route working', $id);
         $invoice = SellInvoice::with('customer')->findOrFail($id);
 
         if (! $invoice->customer || ! $invoice->customer->email) {
@@ -2138,7 +2286,7 @@ class SellInvoiceController extends Controller
         $attachments = [
             [
                 'ContentType' => 'application/pdf',
-                'Filename' => 'Invoice-'.$invoice->invoice_no.'.pdf',
+                'Filename' => 'Invoice-' . $invoice->invoice_no . '.pdf',
                 'Base64Content' => base64_encode($pdf->output()),
             ],
         ];
@@ -2147,16 +2295,16 @@ class SellInvoiceController extends Controller
 
         <p><strong>Invoice No:</strong> {$invoice->invoice_no}</p>
         <p><strong>Date:</strong> {$invoice->invoice_date}</p>
-        <p><strong>Total:</strong> ₹ ".number_format($invoice->final_amount, 2).'</p>
-        <p><strong>Paid:</strong> ₹ '.number_format($invoice->total_received ?? 0, 2).'</p>
-        <p><strong>Balance:</strong> ₹ '.number_format($invoice->amount_left ?? 0, 2).'</p>
+        <p><strong>Total:</strong> ₹ " . number_format($invoice->final_amount, 2) . '</p>
+        <p><strong>Paid:</strong> ₹ ' . number_format($invoice->total_received ?? 0, 2) . '</p>
+        <p><strong>Balance:</strong> ₹ ' . number_format($invoice->amount_left ?? 0, 2) . '</p>
 
         <p>Thank you for your business.</p>
-    ';
+        ';
         $response = $mailjet->sendEmail(
             $invoice->customer->email,
             $invoice->customer->name ?? 'Customer',
-            'Invoice #'.$invoice->invoice_no,
+            'Invoice #' . $invoice->invoice_no,
             'Please find your invoice attached.',
             $attachments,
             $htmlContent
@@ -2166,7 +2314,7 @@ class SellInvoiceController extends Controller
             return back()->with('success', 'Invoice sent successfully.');
         }
 
-        return back()->with('error', 'Mail failed: '.$response->body());
+        return back()->with('error', 'Mail failed: ' . $response->body());
     }
 
     // public function sendInvoiceMail($id)
