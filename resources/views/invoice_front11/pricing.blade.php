@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="#jewelSignupModal"
                        class="jewel-pricing-cta jewel-pricing-cta-primary" data-bs-toggle="modal"
                    data-bs-target="#jewelSignupModal">
-                        Start 14-day free trial
+                        Start 30-day free trial
                         <i class="bi bi-arrow-right"></i>
                     </a>
 

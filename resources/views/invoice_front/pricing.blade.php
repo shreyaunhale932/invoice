@@ -63,6 +63,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+<style>
+.jewel-pricing-savings {
+    display: inline-block !important;
+    margin: 8px 0 4px !important;
+    padding: 4px 10px !important;
+    background: #e8f7ee !important;
+    color: #0f7b3e !important;
+    border: 1px solid #c3e6cb !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.3 !important;
+}
+.jewel-pricing-discount {
+    visibility: visible !important;
+    display: inline-block !important;
+}
+</style>
+
 <section id="plans" class="jewel-pricing-section">
 
     <div class="container jewel-pricing-container">
@@ -97,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data-period="yearly"
             aria-pressed="false">
         Yearly
-        <small>Save up to 50%</small>
+        <small>Save up to 41%</small>
     </button>
 
 </div>
@@ -120,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <h3>Basic</h3>
                         </div>
 
-                        <span class="jewel-pricing-discount">50% OFF</span>
+                        <span class="jewel-pricing-discount" data-monthly="16% OFF" data-yearly="41% OFF">16% OFF</span>
                     </div>
 
                     <div class="jewel-pricing-price-area">
@@ -131,16 +150,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="jewel-pricing-price">
                             <span class="jewel-pricing-currency">₹</span><span
                                 data-monthly="2,520"
-                                data-yearly="25,000"
+                                data-yearly="29,500"
                                 class="jewel-pricing-price-value">2,520</span>
 
                             <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
                         </div>
 
-                        <p class="jewel-pricing-savings" data-monthly="You Save ₹480" data-yearly="You Save ₹25,000">You Save ₹480</p>
+                        <p class="jewel-pricing-savings" data-monthly="You Save ₹480 " data-yearly="You Save ₹20,500/- ">You Save ₹480 </p>
 
                         <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
-                            Billed annually
+                            Billed monthly
                         </p>
                     </div>
 
@@ -191,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <h3>Pro</h3>
                         </div>
 
-                        <span class="jewel-pricing-discount">SAVE 33%</span>
+                        <span class="jewel-pricing-discount" data-monthly="16% OFF" data-yearly="29% OFF">16% OFF</span>
                     </div>
 
                     <div class="jewel-pricing-price-area">
@@ -202,16 +221,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="jewel-pricing-price">
                             <span class="jewel-pricing-currency">₹</span><span
                                 data-monthly="4,200"
-                                data-yearly="46,900"
+                                data-yearly="49,700"
                                 class="jewel-pricing-price-value">4,200</span>
 
                             <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
                         </div>
 
-                        <p class="jewel-pricing-savings" data-monthly="You Save ₹800" data-yearly="You Save ₹23,100">You Save ₹800</p>
+                        <p class="jewel-pricing-savings" data-monthly="You Save ₹800/-" data-yearly="You Save ₹20,300/-">You Save ₹800/- with 16% Off</p>
 
                         <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
-                            Billed annually
+                            Billed monthly
                         </p>
                     </div>
 
@@ -223,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <a href="#jewelSignupModal"
                        class="jewel-pricing-cta jewel-pricing-cta-primary" data-bs-toggle="modal"
                    data-bs-target="#jewelSignupModal">
-                        Start 14-day free trial
+                        Start 30-day free trial
                         <i class="bi bi-arrow-right"></i>
                     </a>
 
@@ -258,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <h3>Premium</h3>
                         </div>
 
-                        <span class="jewel-pricing-discount">50% OFF</span>
+                        <span class="jewel-pricing-discount" data-monthly="11% OFF" data-yearly="23% OFF">11% OFF</span>
                     </div>
 
                     <div class="jewel-pricing-price-area">
@@ -268,17 +287,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         <div class="jewel-pricing-price">
                             <span class="jewel-pricing-currency">₹</span><span
-                                data-monthly="6,250"
-                                data-yearly="45,000"
-                                class="jewel-pricing-price-value">6,250</span>
+                                data-monthly="6,230"
+                                data-yearly="69,300"
+                                class="jewel-pricing-price-value">6,230</span>
 
                             <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
                         </div>
 
-                        <p class="jewel-pricing-savings" data-monthly="You Save ₹750" data-yearly="You Save ₹45,000">You Save ₹750</p>
+                        <p class="jewel-pricing-savings" data-monthly="You Save ₹770/-" data-yearly="You Save ₹20,700/-">You Save ₹770/-</p>
 
                         <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
-                            Billed annually
+                            Billed monthly
                         </p>
                     </div>
 
@@ -512,5 +531,46 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtns = document.querySelectorAll(".jewel-pricing-toggle-btn");
+    if (!toggleBtns.length) return;
+
+    function setBillingPeriod(period) {
+        toggleBtns.forEach(btn => {
+            const isMatch = btn.getAttribute("data-period") === period;
+            btn.classList.toggle("active", isMatch);
+            btn.setAttribute("aria-pressed", isMatch ? "true" : "false");
+        });
+
+        const cards = document.querySelectorAll(".jewel-pricing-card");
+        cards.forEach(card => {
+            const dynamicEls = card.querySelectorAll("[data-monthly][data-yearly]");
+            dynamicEls.forEach(el => {
+                const targetValue = el.getAttribute("data-" + period);
+                if (targetValue !== null) {
+                    el.textContent = targetValue;
+                }
+            });
+        });
+    }
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const period = this.getAttribute("data-period");
+            if (period) {
+                setBillingPeriod(period);
+            }
+        });
+    });
+
+    // Ensure default active state applies correctly on load
+    const activeBtn = document.querySelector(".jewel-pricing-toggle-btn.active");
+    setBillingPeriod(activeBtn ? activeBtn.getAttribute("data-period") : "monthly");
+});
+</script>
+
 @include('invoice_front.includes.ai-tools')
 @endsection

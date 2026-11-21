@@ -9348,6 +9348,19 @@ select.jewel-form-control {
     line-height: 1.5;
 }
 
+.jewel-pricing-savings {
+    display: inline-block;
+    margin: 8px 0 4px;
+    padding: 4px 10px;
+    background: #e8f7ee;
+    color: #0f7b3e;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
 /* Description */
 
 .jewel-pricing-description {

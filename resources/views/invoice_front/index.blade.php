@@ -77,7 +77,7 @@
     <div class="carousel-inner">
 
         <!-- Slide 1 -->
-        <div class="carousel-item active">
+        <!-- <div class="carousel-item active">
             <picture>
                 <source media="(max-width: 767px)"
                     srcset="{{ asset('front_assets/img/mob2.png') }}">
@@ -96,10 +96,10 @@
                     <i class="bi bi-arrow-up-right"></i>
                 </span>
             </a>
-        </div>
+        </div> -->
 
         <!-- Slide 2 -->
-        <div class="carousel-item">
+        <div class="carousel-item active">
             <picture>
                 <source media="(max-width: 767px)"
                     srcset="{{ asset('front_assets/img/index-m-vanner2.jpg') }}">

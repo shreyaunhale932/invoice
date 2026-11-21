@@ -194,7 +194,9 @@ document.addEventListener('DOMContentLoaded', function () {
     '.jewel-pricing-discount'
   )
 
-  const yearlyDiscounts = ['50% OFF', 'SAVE 33%', '50% OFF']
+  const savingsLabels = pricingSection.querySelectorAll(
+    '.jewel-pricing-savings'
+  )
 
   // Monthly / Yearly pricing update
   function updatePricing (period) {
@@ -244,13 +246,21 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     // Discount badges
-    discountBadges.forEach(function (badge, index) {
-      if (period === 'yearly') {
-        badge.textContent = yearlyDiscounts[index] || ''
+    discountBadges.forEach(function (badge) {
+      const value = badge.dataset[period]
+      if (value !== undefined && value !== '') {
+        badge.textContent = value
         badge.style.visibility = 'visible'
-      } else {
-        badge.textContent = ''
-        badge.style.visibility = 'hidden'
+        badge.style.display = ''
+      }
+    })
+
+    // Savings labels (You Save ... with ...% Off)
+    savingsLabels.forEach(function (label) {
+      const value = label.dataset[period]
+      if (value !== undefined && value !== '') {
+        label.textContent = value
+        label.style.display = ''
       }
     })
   }
