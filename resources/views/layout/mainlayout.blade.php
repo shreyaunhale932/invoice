@@ -55,6 +55,8 @@
             font-family: 'Outfit', sans-serif !important;
         }
     </style>
+
+    <script src="{{ asset('assets/js/image_validations.js') }}?v={{ file_exists(public_path('assets/js/image_validations.js')) ? filemtime(public_path('assets/js/image_validations.js')) : '1' }}" defer></script>
 </head>
 @if (
     !Route::is([

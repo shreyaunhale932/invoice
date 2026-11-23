@@ -59,10 +59,61 @@
                 </a>
 
                 <ul class="submenu-new">
-                    <li class="{{ Request::is('cms*') ? 'active' : '' }}">
-                        <a href="{{ route('superadmin.cms') }}">
+                    <li class="submenu-trigger-new {{ Request::is('cms') || Request::is('cms/home*') || Request::is('cms/dashboard*') ? 'active' : '' }}">
+                        <a href="#">
                             <i class="fe fe-circle"></i>
                             <span>Home</span>
+                            <i class="fas fa-chevron-right menu-arrow-new"></i>
+                        </a>
+                        <ul class="submenu-new">
+                            <li class="{{ Request::is('cms') || Request::is('cms/home*') ? 'active' : '' }}">
+                                <a href="{{ route('superadmin.cms.home.edit') }}">
+                                    <i class="fe fe-image"></i>
+                                    <span>Home Banner</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('cms/home/benefits*') ? 'active' : '' }}">
+                                <a href="{{ route('superadmin.cms.home.benefits.edit') }}">
+                                    <i class="fe fe-award"></i>
+                                    <span>Home Benefits</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('cms/dashboard*') ? 'active' : '' }}">
+                                <a href="{{ route('superadmin.cms.dashboard.edit') }}">
+                                    <i class="fe fe-monitor"></i>
+                                    <span>Dashboard Image</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="{{ Request::is('cms/solutions*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.solutions.index') }}">
+                            <i class="fe fe-layers"></i>
+                            <span>Our Solutions</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('cms/ai-tools*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.ai-tools.edit') }}">
+                            <i class="fe fe-zap"></i>
+                            <span>AI Tools</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('cms/faq*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.faq.index') }}">
+                            <i class="fe fe-help-circle"></i>
+                            <span>FAQ</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('cms/testimonials*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.testimonials.index') }}">
+                            <i class="fe fe-message-square"></i>
+                            <span>Testimonials</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('cms/videos*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.videos.index') }}">
+                            <i class="fe fe-video"></i>
+                            <span>Videos</span>
                         </a>
                     </li>
                 </ul>
@@ -437,16 +488,17 @@
             });
         });
 
-        // Auto-expand submenus for active routes
+        // Auto-expand all parent menus for active routes
         var activeSubmenuItems = document.querySelectorAll(".submenu-new li.active");
         activeSubmenuItems.forEach(function(item) {
             var parentLi = item.closest(".submenu-trigger-new");
-            if (parentLi) {
+            while (parentLi) {
                 parentLi.classList.add("active");
                 var sub = parentLi.querySelector(".submenu-new");
                 if (sub) sub.style.display = "block";
                 var arr = parentLi.querySelector(".menu-arrow-new");
                 if (arr) arr.className = "fas fa-chevron-down menu-arrow-new";
+                parentLi = parentLi.parentElement.closest(".submenu-trigger-new");
             }
         });
     });

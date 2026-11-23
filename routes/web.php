@@ -95,6 +95,26 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::get('/cms', [\App\Http\Controllers\CMSController::class, 'index'])->name('superadmin.cms');
     Route::get('/cms/home/edit', [\App\Http\Controllers\CMSController::class, 'editBanners'])->name('superadmin.cms.home.edit');
     Route::put('/cms/home', [\App\Http\Controllers\CMSController::class, 'updateBanners'])->name('superadmin.cms.home.update');
+    Route::get('/cms/home/benefits', [\App\Http\Controllers\CMSController::class, 'editHomeBenefits'])->name('superadmin.cms.home.benefits.edit');
+    Route::put('/cms/home/benefits', [\App\Http\Controllers\CMSController::class, 'updateHomeBenefits'])->name('superadmin.cms.home.benefits.update');
+    Route::get('/cms/ai-tools', [\App\Http\Controllers\CMSController::class, 'editAiTools'])->name('superadmin.cms.ai-tools.edit');
+    Route::put('/cms/ai-tools', [\App\Http\Controllers\CMSController::class, 'updateAiTools'])->name('superadmin.cms.ai-tools.update');
+    Route::resource('/cms/solutions', \App\Http\Controllers\CmsSolutionController::class)
+        ->names('superadmin.cms.solutions')
+        ->except(['show']);
+    Route::get('/cms/dashboard', [\App\Http\Controllers\CMSController::class, 'dashboard'])->name('superadmin.cms.dashboard');
+    Route::get('/cms/dashboard/edit', [\App\Http\Controllers\CMSController::class, 'editDashboard'])->name('superadmin.cms.dashboard.edit');
+    Route::put('/cms/dashboard', [\App\Http\Controllers\CMSController::class, 'updateDashboard'])->name('superadmin.cms.dashboard.update');
+    Route::resource('/cms/testimonials', \App\Http\Controllers\TestimonialController::class)
+        ->names('superadmin.cms.testimonials')
+        ->except(['show']);
+    Route::resource('/cms/videos', \App\Http\Controllers\TutorialVideoController::class)
+        ->names('superadmin.cms.videos')
+        ->except(['show']);
+    Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'index'])->name('testimonials');
+    Route::resource('/cms/faq', \App\Http\Controllers\FaqController::class)
+        ->names('superadmin.cms.faq')
+        ->except(['show']);
 });
 
 // Admin Routes with Firm Management
@@ -678,7 +698,6 @@ Route::get('/countries', [HomeController::class, 'countries'])->name('countries'
 Route::get('/states', [HomeController::class, 'states'])->name('states');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/pages', [HomeController::class, 'pages'])->name('pages');
-Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('testimonials');
 Route::get('/active-customers', [HomeController::class, 'activecustomers'])->name('active-customers');
 // Route::get('/add-customer', [HomeController::class, 'addcustomer'])->name('add-customer');
 Route::get('/customer-details', [HomeController::class, 'customerdetails'])->name('customer-details');

@@ -157,6 +157,9 @@
     ]))
     <script src="{{ asset('/assets/plugins/summernote/summernote-lite.min.js') }}"></script>
 @endif
+@if (Route::is(['superadmin.cms.ai-tools.edit']))
+    <script src="{{ asset('/assets/plugins/summernote/summernote-lite.min.js') }}"></script>
+@endif
 
 @if (Route::is(['form-mask']))
     <!-- Mask JS -->
@@ -173,6 +176,8 @@
     <!-- Form Validation JS -->
     <script src="{{ asset('/assets/js/form-validation.js') }}"></script>
 @endif
+
+
 
 @if (Route::is(['maps-vector']))
     <!-- Map JS -->

@@ -11,7 +11,10 @@
             </div>
 
             @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             @endif
 
             <div class="card bg-white">
@@ -46,6 +49,16 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card bg-white mt-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title mb-0">Homepage Dashboard Image</h5>
+                    <a href="{{ route('superadmin.cms.dashboard') }}" class="btn btn-primary btn-sm">
+                        <i class="fe fe-eye me-1"></i>Manage
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
 @endsection

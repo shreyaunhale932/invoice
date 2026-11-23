@@ -182,6 +182,10 @@ document.addEventListener('DOMContentLoaded', function () {
     '.jewel-pricing-old-price del'
   )
 
+  const savingsLabels = pricingSection.querySelectorAll(
+    '.jewel-pricing-savings'
+  )
+
   const billingLabels = pricingSection.querySelectorAll(
     '.jewel-pricing-billing'
   )
@@ -227,6 +231,12 @@ document.addEventListener('DOMContentLoaded', function () {
       if (value !== undefined) {
         price.textContent = value
       }
+    })
+
+    savingsLabels.forEach(function (label) {
+      const value = label.dataset[period] || ''
+      label.textContent = value
+      label.hidden = value === ''
     })
 
     // Billing text

@@ -32,9 +32,12 @@ class CMSController extends Controller
         $banners = CmsBanner::firstOrCreate([]);
 
         $data = $request->validate([
-            'image1' => ['nullable', 'image', 'max:5120'],
-            'image2' => ['nullable', 'image', 'max:5120'],
-            'image3' => ['nullable', 'image', 'max:5120'],
+            'image1' => ['nullable', 'image', 'max:5120', 'dimensions:width=1400,height=600'],
+            'image2' => ['nullable', 'image', 'max:5120', 'dimensions:width=1400,height=600'],
+            'image3' => ['nullable', 'image', 'max:5120', 'dimensions:width=1400,height=600'],
+            'mob_img1' => ['nullable', 'image', 'max:5120', 'dimensions:width=768,height=1000'],
+            'mob_img2' => ['nullable', 'image', 'max:5120', 'dimensions:width=768,height=1000'],
+            'mob_img3' => ['nullable', 'image', 'max:5120', 'dimensions:width=768,height=1000'],
         ]);
 
         foreach ([1, 2, 3] as $image) {
@@ -57,9 +60,129 @@ class CMSController extends Controller
             }
         }
 
+        foreach ([1, 2, 3] as $image) {
+            $field = 'mob_img' . $image;
+
+            if ($request->hasFile($field)) {
+                $file = $request->file($field);
+                $directory = public_path('front_assets/img/cms');
+                File::ensureDirectoryExists($directory);
+
+                $filename = $field . '.jpg';
+                $path = $directory . DIRECTORY_SEPARATOR . $filename;
+                $manager = new ImageManager(new GdDriver());
+                $manager->read($file->getPathname())
+                    ->resize(768, 1000)
+                    ->toJpeg(90)
+                    ->save($path);
+
+                $data[$field] = 'front_assets/img/cms/' . $filename;
+            } else {
+                unset($data[$field]);
+            }
+        }
+
         $banners->update($data);
 
-        return redirect()->route('superadmin.cms')->with('success', 'Banner updated successfully.');
+        return redirect()->route('superadmin.cms.home.edit')->with('success', 'Banner updated successfully.');
+    }
+
+    public function dashboard()
+    {
+        $banners = CmsBanner::firstOrCreate([]);
+
+        return view('SuperAdmin.cms.dashboard.index', compact('banners'));
+    }
+
+    public function editDashboard()
+    {
+        $banners = CmsBanner::firstOrCreate([]);
+
+        return view('SuperAdmin.cms.dashboard.edit', compact('banners'));
+    }
+
+    public function updateDashboard(Request $request)
+    {
+        $banners = CmsBanner::firstOrCreate([]);
+
+        $data = $request->validate([
+            'dashboard_image' => ['nullable', 'image', 'max:5120'],
+        ]);
+
+        if ($request->hasFile('dashboard_image')) {
+            $file = $request->file('dashboard_image');
+            $directory = public_path('front_assets/img/cms');
+            File::ensureDirectoryExists($directory);
+
+            $filename = 'dashboard.jpg';
+            $path = $directory . DIRECTORY_SEPARATOR . $filename;
+
+            $manager = new ImageManager(new GdDriver());
+            $manager->read($file->getPathname())
+                ->toJpeg(90)
+                ->save($path);
+
+            $data['dashboard_image'] = 'front_assets/img/cms/' . $filename;
+        } else {
+            unset($data['dashboard_image']);
+        }
+
+        $banners->update($data);
+
+        return redirect()->route('superadmin.cms.dashboard')
+            ->with('success', 'Dashboard image updated successfully.');
+    }
+
+    public function editHomeBenefits()
+    {
+        $banners = CmsBanner::firstOrCreate([]);
+
+        return view('SuperAdmin.cms.home-benefits-edit', compact('banners'));
+    }
+
+    public function updateHomeBenefits(Request $request)
+    {
+        $data = $request->validate([
+            'benefit_h1' => ['nullable', 'string', 'max:255'],
+            'benefit_t1' => ['nullable', 'string', 'max:2000'],
+            'benefit_h2' => ['nullable', 'string', 'max:255'],
+            'benefit_t2' => ['nullable', 'string', 'max:2000'],
+            'benefit_h3' => ['nullable', 'string', 'max:255'],
+            'benefit_t3' => ['nullable', 'string', 'max:2000'],
+            'benefit_h4' => ['nullable', 'string', 'max:255'],
+            'benefit_t4' => ['nullable', 'string', 'max:2000'],
+            'benefit_stat1_value' => ['nullable', 'string', 'max:100'],
+            'benefit_stat1_label' => ['nullable', 'string', 'max:255'],
+            'benefit_stat2_value' => ['nullable', 'string', 'max:100'],
+            'benefit_stat2_label' => ['nullable', 'string', 'max:255'],
+            'benefit_stat3_value' => ['nullable', 'string', 'max:100'],
+            'benefit_stat3_label' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        CmsBanner::firstOrCreate([])->update($data);
+
+        return redirect()->route('superadmin.cms.home.benefits.edit')
+            ->with('success', 'Home benefits updated successfully.');
+    }
+
+    public function editAiTools()
+    {
+        $banners = CmsBanner::firstOrCreate([]);
+
+        return view('SuperAdmin.cms.ai-tools.edit', compact('banners'));
+    }
+
+    public function updateAiTools(Request $request)
+    {
+        $data = $request->validate([
+            'ai_tools_title' => ['required', 'string', 'max:255'],
+            'ai_tools_content' => ['required', 'string'],
+        ]);
+
+        CmsBanner::firstOrCreate([])->update($data);
+
+        return redirect()->route('superadmin.cms.ai-tools.edit')
+            ->with('success', 'AI Tools section updated successfully.');
     }
 
     // public function createAdmin()

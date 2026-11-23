@@ -268,123 +268,15 @@
         <!-- Features -->
         <div class="features-grid">
 
-            <!-- Feature 1 -->
-            <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-receipt-cutoff"></i>
-                </div>
-                <h3>Invoice &amp; Sell Management</h3>
-                <p>
-                    Create jewellery-specific invoices with making charges,
-                    stone values, GST and fast POS billing.
-                </p>
-                <span class="feature-badge">1,280+ invoices/day</span>
-             </a>
-
-            <!-- Feature 2 -->
-                 <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-bag-check"></i>
-                </div>
-                <h3>Purchase Management</h3>
-                <p>
-                    Record vendor purchases, metal receipts and inward
-                    stock with full traceability.
-                </p>
-                <span class="feature-badge">Full vendor tracking</span>
-          
-</a>
-            <!-- Feature 3 -->
-                <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-person-gear"></i>
-                </div>
-                <h3>Karigar &amp; Job Work</h3>
-                <p>
-                    Issue raw gold to karigars, track job work progress,
-                    and record receipts with weight reconciliation.
-                </p>
-                <span class="feature-badge">Gold issue &amp; receipt</span>
-            
-</a>
-            <!-- Feature 4 -->
-                <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-upc-scan"></i>
-                </div>
-                <h3>Barcode &amp; RFID Tagging</h3>
-                <p>
-                    Tag every jewellery piece with barcode or RFID for
-                    instant identification and stock accuracy.
-                </p>
-                <span class="feature-badge">Instant item ID</span>
-            
-</a>
-            <!-- Feature 5 -->
-                <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-gear"></i>
-                </div>
-                <h3>Discount &amp; Scheme Management</h3>
-                <p>
-                    Configure seasonal offers, loyalty discounts and
-                    jewellery scheme plans for customers.
-                </p>
-                <span class="feature-badge">Smart pricing rules</span>
-            </a>
-
-            <!-- Feature 6 -->
-                 <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-graph-up-arrow"></i>
-                </div>
-                <h3>Real-Time MIS Reports</h3>
-                <p>
-                    Access live sales, inventory, profitability and
-                    business performance reports at any time.
-                </p>
-                <span class="feature-badge">Live data, always</span>
-            
-</a>
-            <!-- Feature 7 -->
-                 <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-diagram-3"></i>
-                </div>
-                <h3>Multi-Branch Management</h3>
-                <p>
-                    Run multiple store locations from one dashboard with
-                    centralized inventory and reporting.
-                </p>
-                <span class="feature-badge">All branches, one view</span>
-          
-</a>
-            <!-- Feature 8 -->
-                <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-arrow-left-right"></i>
-                </div>
-                <h3>Old Gold Exchange</h3>
-                <p>
-                    Evaluate, weigh and process old gold or jewellery
-                    exchange with accurate valuations.
-                </p>
-                <span class="feature-badge">Exchange &amp; valuation</span>
-           
-</a>
-            <!-- Feature 9 -->
-              <a href="{{ url('/invoice-and-solution') }}" class="feature-card">
-                <div class="feature-icon">
-                    <i class="bi bi-grid"></i>
-                </div>
-                <h3>Inventory Management</h3>
-                <p>
-                    Track jewellery stock by weight, purity, category
-                    and location across your entire business.
-                </p>
-                <span class="feature-badge">100% stock accuracy</span>
-            
-</a>
+           @foreach ($cmsSolutions as $solution)
+              <a href="{{ $solution->url }}" class="feature-card">
+                  <h3>{{ $solution->title }}</h3>
+                  <p>{{ $solution->home_description ?? $solution->description }}</p>
+                  @if ($solution->tagline)
+                      <span class="feature-badge">{{ $solution->tagline }}</span>
+                  @endif
+              </a>
+           @endforeach
 
             <!-- CTA Card -->
             <div class="feature-card feature-cta">
@@ -813,86 +705,63 @@
 <!-- FAQ Section -->
 <section class="jewel-faq-section" data-reveal>
     <div class="container-fluid jewel-faq-container">
-
-        <!-- Heading -->
         <h1 class="jewel-faq-title" data-reveal>
             Frequently
             asked questions (FAQ)
         </h1>
 
         <div class="row g-4 align-items-start">
-
-            <!-- FAQ Accordion -->
             <div class="col-12 col-lg-12">
                 <div class="accordion jewel-faq-accordion" id="jewelFaqAccordion">
-
-                 <div class="accordion-item jewel-faq-item">
+                    <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq1">
-
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
                                 What is JEWELERP?
                             </button>
                         </h3>
-                        <div id="faq1" class="accordion-collapse collapse show"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
                                 JEWELERP is a specialised enterprise resource planning software designed specifically for the jewellery industry. It helps jewellers, wholesalers, manufacturers, multi-branch businesses, and money lenders streamline their operations, manage inventory, billing, customer relationships, and compliance efficiently.
                             </div>
                         </div>
                     </div>
-
                     <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq2">
-
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
                                 Who can use JEWELERP?
-
                             </button>
                         </h3>
-                        <div id="faq2" class="accordion-collapse collapse"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
-                                JEWELERP offers different versions to serve a variety of jewellery businesses, including retail jewellers, wholesalers, manufacturers, multi-branch owners, and money lenders dealing with gold loans. Each version is tailored to meet the specific needs of that segment. </div>
+                                JEWELERP offers different versions to serve a variety of jewellery businesses, including retail jewellers, wholesalers, manufacturers, multi-branch owners, and money lenders dealing with gold loans. Each version is tailored to meet the specific needs of that segment.
+                            </div>
                         </div>
                     </div>
-
                     <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq3">
-
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
                                 Is JEWELERP suitable for small businesses?
                             </button>
                         </h3>
-                        <div id="faq3" class="accordion-collapse collapse"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
                                 Yes! JEWELERP is scalable and can be customised to fit the requirements of small, medium, and large jewellery businesses. Whether you operate a single showroom or multiple branches, we have a version that fits your needs.
                             </div>
                         </div>
                     </div>
-
-                     <div class="accordion-item jewel-faq-item">
+                    <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq4">
-
-
-                                Does JEWELERP support GST compliance? </button>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Does JEWELERP support GST compliance?
+                            </button>
                         </h3>
-                        <div id="faq4" class="accordion-collapse collapse"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
                                 Absolutely. Our software is designed to handle GST billing, filing, and reporting seamlessly, ensuring your business stays compliant with the latest tax regulations.
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-                <!-- Read More Link -->
                 <div class="jewel-faq-read-more">
                     <a href="{{ url('/FAQS') }}" class="jewel-faq-read-more-link">
                         Read More FAQs
@@ -900,13 +769,9 @@
                     </a>
                 </div>
             </div>
-
-            
-
         </div>
     </div>
 </section>
-
 
 <section class="jewel-support-banner mt-4">
     <div class="container jewel-support-container">

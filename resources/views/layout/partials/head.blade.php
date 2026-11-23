@@ -133,6 +133,9 @@
         ]))
         <link rel="stylesheet" href="{{ url('/assets/plugins/summernote/summernote-lite.min.css') }}">
     @endif
+    @if (Route::is(['superadmin.cms.ai-tools.edit']))
+        <link rel="stylesheet" href="{{ url('/assets/plugins/summernote/summernote-lite.min.css') }}">
+    @endif
 
     @if (Route::is(['icon-ionic']))
         <!-- Ionic CSS -->

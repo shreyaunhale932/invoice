@@ -21,18 +21,14 @@
 
 
             <h1 class="jsai-title">
-
                 Ask AI About
                 <span> JewelERP</span>
-
             </h1>
 
 
-            <p class="jsai-description">
-
-              Have questions about this solution? Explore how JewelERP can help your jewellery business with AI assistance or connect with our team for expert guidance.
-
-            </p>
+            <div class="jsai-description">
+                {{ $aiToolsContent->ai_tools_title ?? 'Have questions about this solution? Explore how JewelERP can help your jewellery business with AI assistance or connect with our team for expert guidance.' }}
+            </div>
 
         </div>
 
@@ -49,18 +45,9 @@
 
             <div class="jsai-prompt-content">
 
-                <p id="jsaiPromptText">
-
-                    I'm evaluating JewelERP's Purchase Management
-                    solution for a jewellery business. Explain how it
-                    could help with unclear landed cost, receipt
-                    mismatches, vendor reconciliation delays, what
-                    workflows I should evaluate in a demo, and what
-                    questions I should ask the JewelERP team. Please
-                    use only public information and do not assume
-                    access to private JewelERP data.
-
-                </p>
+                <div id="jsaiPromptText">
+                    {!! $aiToolsContent->ai_tools_content ?? "I'm evaluating JewelERP's Purchase Management solution for a jewellery business. Explain how it could help with unclear landed cost, receipt mismatches, vendor reconciliation delays, what workflows I should evaluate in a demo, and what questions I should ask the JewelERP team. Please use only public information and do not assume access to private JewelERP data." !!}
+                </div>
 
             </div>
 

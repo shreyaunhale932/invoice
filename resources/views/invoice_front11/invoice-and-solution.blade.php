@@ -741,86 +741,63 @@
 
 <section class="jewel-faq-section" data-reveal>
     <div class="container-fluid jewel-faq-container">
-
-        <!-- Heading -->
         <h1 class="jewel-faq-title" data-reveal>
             Frequently
             asked questions (FAQ)
         </h1>
 
         <div class="row g-4 align-items-start">
-
-            <!-- FAQ Accordion -->
             <div class="col-12 col-lg-12">
                 <div class="accordion jewel-faq-accordion" id="jewelFaqAccordion">
-
                     <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq1">
-
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
                                 What is JEWELERP?
                             </button>
                         </h3>
-                        <div id="faq1" class="accordion-collapse collapse show"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
                                 JEWELERP is a specialised enterprise resource planning software designed specifically for the jewellery industry. It helps jewellers, wholesalers, manufacturers, multi-branch businesses, and money lenders streamline their operations, manage inventory, billing, customer relationships, and compliance efficiently.
                             </div>
                         </div>
                     </div>
-
                     <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq2">
-
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
                                 Who can use JEWELERP?
-
                             </button>
                         </h3>
-                        <div id="faq2" class="accordion-collapse collapse"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
-                                JEWELERP offers different versions to serve a variety of jewellery businesses, including retail jewellers, wholesalers, manufacturers, multi-branch owners, and money lenders dealing with gold loans. Each version is tailored to meet the specific needs of that segment. </div>
+                                JEWELERP offers different versions to serve a variety of jewellery businesses, including retail jewellers, wholesalers, manufacturers, multi-branch owners, and money lenders dealing with gold loans. Each version is tailored to meet the specific needs of that segment.
+                            </div>
                         </div>
                     </div>
-
                     <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq3">
-
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
                                 Is JEWELERP suitable for small businesses?
                             </button>
                         </h3>
-                        <div id="faq3" class="accordion-collapse collapse"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
                                 Yes! JEWELERP is scalable and can be customised to fit the requirements of small, medium, and large jewellery businesses. Whether you operate a single showroom or multiple branches, we have a version that fits your needs.
                             </div>
                         </div>
                     </div>
-
                     <div class="accordion-item jewel-faq-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq4">
-
-
-                                Does JEWELERP support GST compliance? </button>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Does JEWELERP support GST compliance?
+                            </button>
                         </h3>
-                        <div id="faq4" class="accordion-collapse collapse"
-                            data-bs-parent="#jewelFaqAccordion">
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#jewelFaqAccordion">
                             <div class="accordion-body">
                                 Absolutely. Our software is designed to handle GST billing, filing, and reporting seamlessly, ensuring your business stays compliant with the latest tax regulations.
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-                <!-- Read More Link -->
                 <div class="jewel-faq-read-more">
                     <a href="{{ url('/FAQS') }}" class="jewel-faq-read-more-link">
                         Read More FAQs
@@ -828,9 +805,6 @@
                     </a>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </section>

@@ -163,138 +163,16 @@
                                 <!-- Right solution cards -->
                                 <div class="col-12 col-lg-9">
                                     <div class="row g-2 solutions-grid">
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon">
-                                                    <i class="bi bi-cloud"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Invoice & Sell Management</strong>
-                                                    <small>Create invoices with GST, charges, and fast billing.</small>
-                                                </span>
-                                            </a>
-                                        </div>
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon">
-                                                    <i class="bi bi-grid"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Purchase Management</strong>
-                                                    <small>Track vendor purchases, receipts, and stock.</small>
-                                                </span>
-                                            </a>
-                                        </div>
-
-
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon">
-                                                    <i class="bi bi-credit-card"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Karigar & Job Work</strong>
-                                                    <small>Manage artisan jobs, production, and weight reconciliation.
-
-                                                    </small>
-                                                </span>
-                                            </a>
-                                        </div>
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon">
-                                                    <i class="bi bi-people"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Barcode & RFID Tagging</strong>
-                                                    <small>Identify jewellery and track stock accurately.</small>
-                                                </span>
-                                            </a>
-                                        </div>
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon">
-                                                    <i class="bi bi-upc-scan"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Discount & Scheme Management
-                                                    </strong>
-                                                    <small>Manage offers, loyalty rewards, and discounts.</small>
-                                                </span>
-                                            </a>
-                                        </div>
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon">
-                                                    <i class="bi bi-book"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Real-Time MIS Reports
-                                                    </strong>
-                                                    <small>Monitor sales, inventory, and business performance.</small>
-                                                </span>
-                                            </a>
-                                        </div>
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon">
-                                                    <i class="bi bi-tag"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Multi-Branch Management
-                                                    </strong>
-                                                    <small>Manage multiple stores from one dashboard.
-
-                                                    </small>
-                                                </span>
-                                            </a>
-                                        </div>
-
-
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon solution-icon-gold">
-                                                    <i class="bi bi-box"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Old Gold Exchange</strong>
-                                                    <small>Evaluate, weigh, and process old gold exchanges.
-                                                    </small>
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div class="col-12 col-md-6 col-xl-3">
-                                            <a href="{{ url('/invoice-and-solution') }}"
-                                                class="solution-card">
-                                                <span class="solution-icon solution-icon-gold">
-                                                    <i class="bi bi-box"></i>
-                                                </span>
-                                                <span class="solution-content">
-                                                    <strong>Inventory Management
-                                                    </strong>
-                                                    <small>Track jewellery stock by weight, purity, category, and location.
-
-
-                                                    </small>
-                                                </span>
-                                            </a>
-                                        </div>
-                                        
+                                        @foreach ($cmsSolutions as $solution)
+                                            <div class="col-12 col-md-6 col-xl-3">
+                                                <a href="{{ $solution->url }}" class="solution-card">
+                                                    <span class="solution-content">
+                                                        <strong>{{ $solution->title }}</strong>
+                                                        <small>{{ $solution->description }}</small>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
 

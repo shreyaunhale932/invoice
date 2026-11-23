@@ -9,7 +9,11 @@ use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Product;
 use App\Models\Customer;
+use App\Models\Faq;
+use App\Models\Testimonial;
+use App\Models\TutorialVideo;
 use Illuminate\Support\Facades\Auth;
+use App\Models\CmsBanner;
 
 class HomeController extends Controller
  {
@@ -77,11 +81,6 @@ class HomeController extends Controller
     public function pages()
  {
         return view( 'Content/pages' );
-    }
-
-    public function testimonials()
- {
-        return view( 'Content/testimonials' );
     }
 
     public function activecustomers()
@@ -297,7 +296,11 @@ class HomeController extends Controller
 
     public function login()
  {
-        return view( 'invoice_front.index' );
+        $banners = CmsBanner::firstOrCreate([]);
+        $faqs = Faq::orderBy('id')->limit(4)->get();
+        $testimonials = Testimonial::orderBy('id')->get();
+
+        return view('invoice_front.index', compact('banners', 'faqs', 'testimonials'));
     }
 
     public function register()
@@ -415,7 +418,10 @@ class HomeController extends Controller
 
 
           public function invoiceFront(){
-            return view('invoice_front.index');
+            $banners = CmsBanner::firstOrCreate([]);
+            $faqs = Faq::orderBy('id')->limit(4)->get();
+            $testimonials = Testimonial::orderBy('id')->get();
+            return view('invoice_front.index', compact('banners', 'faqs', 'testimonials'));
           }
            public function blog(Request $request)
     {
@@ -441,7 +447,9 @@ class HomeController extends Controller
     
            public function FAQS(Request $request)
     {
-        return view('invoice_front.FAQS');
+        $faqs = Faq::orderBy('id')->get();
+
+        return view('invoice_front.FAQS', compact('faqs'));
     }
             public function privacypolicy(Request $request)
     {
@@ -466,7 +474,9 @@ class HomeController extends Controller
 
                public function invoiceandsolution(Request $request)
     {
-        return view('invoice_front.invoice-and-solution');
+        $faqs = Faq::orderBy('id')->limit(4)->get();
+
+        return view('invoice_front.invoice-and-solution', compact('faqs'));
     }
 
                public function integration(Request $request)
@@ -475,7 +485,12 @@ class HomeController extends Controller
     }
                 public function videos(Request $request)
     {
-        return view('invoice_front.videos');
+        $videos = TutorialVideo::orderBy('id')->get();
+
+        return view('invoice_front.videos', [
+            'videos' => $videos,
+            'categories' => TutorialVideo::CATEGORIES,
+        ]);
     }
         //   public function pricing(){
         //     return view('invoice_front.pricing');

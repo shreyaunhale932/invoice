@@ -35,41 +35,62 @@
             See how everything works in real-world scenarios.
         </p>
 
+        @php
+            $displayVideos = $videos->isNotEmpty()
+                ? $videos
+                : collect([
+                    (object) [
+                        'category' => 'software',
+                        'video_id' => 'M7lc1UVf-VE',
+                        'title' => 'How To Create New Customers Bill In jewelerp Software',
+                        't2_label' => 'Tutorial',
+                    ],
+                    (object) [
+                        'category' => 'software',
+                        'video_id' => 'aqz-KE-bpKQ',
+                        'title' => 'How Sales Person Dashboard Works In jewelerp Cloud-Based Software',
+                        't2_label' => 'Dashboard',
+                    ],
+                    (object) [
+                        'category' => 'manufacturing',
+                        'video_id' => 'ScMzIvxBSi4',
+                        'title' => 'How To Add Products In jewelerp jewelerp ERP Software',
+                        't2_label' => 'ERP',
+                    ],
+                    (object) [
+                        'category' => 'pos',
+                        'video_id' => 'ysz5S6PUM-U',
+                        'title' => 'How To Create A Sales Invoice From jewelerp Mobile App',
+                        't2_label' => 'Mobile',
+                    ],
+                    (object) [
+                        'category' => 'pos',
+                        'video_id' => 'jNQXAC9IVRw',
+                        'title' => 'How To Create A Sales Invoice From jewelerp iOS App',
+                        't2_label' => 'iOS',
+                    ],
+                    (object) [
+                        'category' => 'rfid',
+                        'video_id' => 'dQw4w9WgXcQ',
+                        'title' => 'jewelerp RFID & Hardware Complete Walkthrough',
+                        't2_label' => 'Hardware',
+                    ],
+                ]);
+        @endphp
 
         <!-- =================================================
              CATEGORY TABS
         ================================================== -->
 
         <div class="jxv-tabs">
-
-            <button
-                type="button"
-                class="jxv-tab jxv-active"
-                data-category="software">
-                jewelerp Software
-            </button>
-
-            <button
-                type="button"
-                class="jxv-tab"
-                data-category="manufacturing">
-                jewelerp Manufacturing Software
-            </button>
-
-            <button
-                type="button"
-                class="jxv-tab"
-                data-category="pos">
-                jewelerp POS
-            </button>
-
-            <button
-                type="button"
-                class="jxv-tab"
-                data-category="rfid">
-                RFID &amp; Hardware
-            </button>
-
+            @foreach ($categories as $category => $label)
+                <button
+                    type="button"
+                    class="jxv-tab @if ($loop->first) jxv-active @endif"
+                    data-category="{{ $category }}">
+                    {{ $label }}
+                </button>
+            @endforeach
         </div>
 
 
@@ -78,260 +99,31 @@
         ================================================== -->
 
         <div class="jxv-grid">
-
-
-            <!-- =================================================
-                 VIDEO 01
-            ================================================== -->
-
-            <article
-                class="jxv-card"
-                data-category="software"
-                data-video="M7lc1UVf-VE">
-
-                <div class="jxv-thumbnail">
-
-                    <img
-                        src="https://img.youtube.com/vi/M7lc1UVf-VE/maxresdefault.jpg"
-                        onerror="this.onerror=null;this.src='https://img.youtube.com/vi/M7lc1UVf-VE/hqdefault.jpg';"
-                        alt="jewelerp Customer Billing">
-
-                    <span class="jxv-number">
-                        VIDEO 01
-                    </span>
-
-                    <span class="jxv-play"></span>
-
-                </div>
-
-                <div class="jxv-content">
-
-                    <h3 class="jxv-title">
-                        How To Create New Customers Bill
-                        In jewelerp Software
-                    </h3>
-
-                    <div class="jxv-meta">
-                        jewelerp Software
-                        <span class="jxv-meta-dot"></span>
-                        Tutorial
+            @forelse ($displayVideos as $video)
+                <article
+                    class="jxv-card"
+                    data-category="{{ $video->category }}"
+                    data-video="{{ $video->video_id }}">
+                    <div class="jxv-thumbnail">
+                        <img
+                            src="https://img.youtube.com/vi/{{ $video->video_id }}/maxresdefault.jpg"
+                            onerror="this.onerror=null;this.src='https://img.youtube.com/vi/{{ $video->video_id }}/hqdefault.jpg';"
+                            alt="{{ $video->title }}">
+                        <span class="jxv-number">VIDEO {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        <span class="jxv-play"></span>
                     </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- =================================================
-                 VIDEO 02
-            ================================================== -->
-
-            <article
-                class="jxv-card"
-                data-category="software"
-                data-video="aqz-KE-bpKQ">
-
-                <div class="jxv-thumbnail">
-
-                    <img
-                        src="https://img.youtube.com/vi/aqz-KE-bpKQ/maxresdefault.jpg"
-                        onerror="this.onerror=null;this.src='https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg';"
-                        alt="Sales Person Dashboard">
-
-                    <span class="jxv-number">
-                        VIDEO 02
-                    </span>
-
-                    <span class="jxv-play"></span>
-
-                </div>
-
-                <div class="jxv-content">
-
-                    <h3 class="jxv-title">
-                        How Sales Person Dashboard Works
-                        In jewelerp Cloud-Based Software
-                    </h3>
-
-                    <div class="jxv-meta">
-                        jewelerp Software
-                        <span class="jxv-meta-dot"></span>
-                        Dashboard
+                    <div class="jxv-content">
+                        <h3 class="jxv-title">{{ $video->title }}</h3>
+                        <div class="jxv-meta">
+                            {{ $categories[$video->category] }}
+                            <span class="jxv-meta-dot"></span>
+                            {{ $video->t2_label }}
+                        </div>
                     </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- =================================================
-                 VIDEO 03
-            ================================================== -->
-
-            <article
-                class="jxv-card"
-                data-category="manufacturing"
-                data-video="ScMzIvxBSi4">
-
-                <div class="jxv-thumbnail">
-
-                    <img
-                        src="https://img.youtube.com/vi/ScMzIvxBSi4/maxresdefault.jpg"
-                        onerror="this.onerror=null;this.src='https://img.youtube.com/vi/ScMzIvxBSi4/hqdefault.jpg';"
-                        alt="jewelerp Products">
-
-                    <span class="jxv-number">
-                        VIDEO 03
-                    </span>
-
-                    <span class="jxv-play"></span>
-
-                </div>
-
-                <div class="jxv-content">
-
-                    <h3 class="jxv-title">
-                        How To Add Products In jewelerp
-                        jewelerp ERP Software
-                    </h3>
-
-                    <div class="jxv-meta">
-                        Manufacturing
-                        <span class="jxv-meta-dot"></span>
-                        ERP
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- =================================================
-                 VIDEO 04
-            ================================================== -->
-
-            <article
-                class="jxv-card"
-                data-category="pos"
-                data-video="ysz5S6PUM-U">
-
-                <div class="jxv-thumbnail">
-
-                    <img
-                        src="https://img.youtube.com/vi/ysz5S6PUM-U/maxresdefault.jpg"
-                        onerror="this.onerror=null;this.src='https://img.youtube.com/vi/ysz5S6PUM-U/hqdefault.jpg';"
-                        alt="jewelerp Sales Invoice">
-
-                    <span class="jxv-number">
-                        VIDEO 04
-                    </span>
-
-                    <span class="jxv-play"></span>
-
-                </div>
-
-                <div class="jxv-content">
-
-                    <h3 class="jxv-title">
-                        How To Create A Sales Invoice
-                        From jewelerp Mobile App
-                    </h3>
-
-                    <div class="jxv-meta">
-                        jewelerp POS
-                        <span class="jxv-meta-dot"></span>
-                        Mobile
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- =================================================
-                 VIDEO 05
-            ================================================== -->
-
-            <article
-                class="jxv-card"
-                data-category="pos"
-                data-video="jNQXAC9IVRw">
-
-                <div class="jxv-thumbnail">
-
-                    <img
-                        src="https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg"
-                        onerror="this.onerror=null;this.src='https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg';"
-                        alt="jewelerp iOS App">
-
-                    <span class="jxv-number">
-                        VIDEO 05
-                    </span>
-
-                    <span class="jxv-play"></span>
-
-                </div>
-
-                <div class="jxv-content">
-
-                    <h3 class="jxv-title">
-                        How To Create A Sales Invoice
-                        From jewelerp iOS App
-                    </h3>
-
-                    <div class="jxv-meta">
-                        jewelerp POS
-                        <span class="jxv-meta-dot"></span>
-                        iOS
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- =================================================
-                 VIDEO 06
-            ================================================== -->
-
-            <article
-                class="jxv-card"
-                data-category="rfid"
-                data-video="dQw4w9WgXcQ">
-
-                <div class="jxv-thumbnail">
-
-                    <img
-                        src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
-                        onerror="this.onerror=null;this.src='https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg';"
-                        alt="jewelerp RFID">
-
-                    <span class="jxv-number">
-                        VIDEO 06
-                    </span>
-
-                    <span class="jxv-play"></span>
-
-                </div>
-
-                <div class="jxv-content">
-
-                    <h3 class="jxv-title">
-                        jewelerp RFID &amp; Hardware
-                        Complete Walkthrough
-                    </h3>
-
-                    <div class="jxv-meta">
-                        RFID &amp; Hardware
-                        <span class="jxv-meta-dot"></span>
-                        Hardware
-                    </div>
-
-                </div>
-
-            </article>
-
-
+                </article>
+            @empty
+                <p class="jxv-empty">No videos have been added yet.</p>
+            @endforelse
         </div>
 
     </div>

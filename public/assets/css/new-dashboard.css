@@ -195,7 +195,7 @@ body {
     color: #6C757D;
 }
 
-.submenu-new li.active a {
+.submenu-new li.active > a {
     color: var(--primary-color);
     font-weight: 600;
 }
