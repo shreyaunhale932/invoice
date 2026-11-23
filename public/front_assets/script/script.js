@@ -198,10 +198,6 @@ document.addEventListener('DOMContentLoaded', function () {
     '.jewel-pricing-discount'
   )
 
-  const savingsLabels = pricingSection.querySelectorAll(
-    '.jewel-pricing-savings'
-  )
-
   // Monthly / Yearly pricing update
   function updatePricing (period) {
     // Active button
