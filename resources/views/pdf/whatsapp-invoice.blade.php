@@ -460,6 +460,15 @@
         $invoiceDateLabel = $setting('invoice_meta.invoice_date', 'label', 'Date');
         $dueDateLabel = $setting('invoice_meta.due_date', 'label', 'Due Date');
 
+        $cashReceivedLabel = $setting('invoice_footer.cash_received_label', 'label', 'Cash Received');
+        $onlineReceivedLabel = $setting('invoice_footer.online_received_label', 'label', 'Online Received');
+        $bankReceivedLabel = $setting('invoice_footer.bank_received_label', 'label', 'Bank Received');
+        $cardReceivedLabel = $setting('invoice_footer.card_received_label', 'label', 'Card Received');
+        $totalReceivedLabel = $setting('invoice_footer.total_received_label', 'label', 'Total Received');
+        $balanceDueLabel = $setting('invoice_footer.balance_due_label', 'label', 'Balance Due');
+        $advSettledLabel = $setting('invoice_footer.adv_settled_label', 'label', 'Advance Settled');
+        $udharSettledLabel = $setting('invoice_footer.udhar_settled_label', 'label', 'Udhar Settled');
+
         $customerName = data_get($customer ?? null, 'name', '');
         $customerPhone = data_get($customer ?? null, 'phone', '');
         $customerEmail = data_get($customer ?? null, 'email', '');
@@ -494,13 +503,17 @@
         $grossTotal = $taxableAmount + $cgstAmount + $sgstAmount + $igstAmount - $discountAmount;
         $finalAmount = (float) ($invoice->final_amount ?? $grossTotal);
         $roundOff = (float) ($invoice->round_off ?? 0);
+        $advSettled = (float) ($invoice->paymentTransactions ? $invoice->paymentTransactions->where('transaction_type', 'refund')->sum('amount') : 0);
+        $udharSettled = (float) ($invoice->paymentTransactions ? $invoice->paymentTransactions->where('transaction_type', 'udhaar_return')->sum('amount') : 0);
+        $totalExchangeAmt = (float) ($invoice->total_exchange_amount ?? 0);
         $cash = (float) ($invoice->cash_received ?? 0);
         $online = (float) ($invoice->online_received ?? 0);
         $bankReceived = (float) ($invoice->bank_received ?? 0);
         $card = (float) ($invoice->card_received ?? 0);
-        $totalReceived = $cash + $online + $bankReceived + $card;
-        $balanceAmount = (float) ($invoice->amount_left ?? $finalAmount - $totalReceived);
-        $status = $balanceAmount <= 0 ? 'Paid' : ($totalReceived > 0 ? 'Partially Paid' : 'Pending');
+        $totalReceived = $cash + $online + $bankReceived + $card + $totalExchangeAmt;
+        $balanceAmount = (float) ($invoice->amount_left ?? ($finalAmount - $totalReceived - $advSettled + $udharSettled));
+        $balanceAmount = round($balanceAmount);
+        $status = $balanceAmount <= 0 ? 'Paid' : (($totalReceived > 0 || $advSettled > 0) ? 'Partially Paid' : 'Pending');
 
         $termsValue = $setting(
             'text_elements.terms_value',
@@ -900,36 +913,54 @@
                             <td>Grand Total</td>
                             <td>₹{{ number_format($finalAmount, 2) }}</td>
                         </tr>
+                        @if ($totalExchangeAmt > 0)
+                            <tr>
+                                <td>Exchange Amount</td>
+                                <td>₹{{ number_format($totalExchangeAmt, 2) }}</td>
+                            </tr>
+                        @endif
+                        @if ($advSettled > 0)
+                            <tr>
+                                <td>{{ $advSettledLabel }}</td>
+                                <td>₹{{ number_format($advSettled, 2) }}</td>
+                            </tr>
+                        @endif
+                        @if ($udharSettled > 0)
+                            <tr>
+                                <td>{{ $udharSettledLabel }}</td>
+                                <td>₹{{ number_format($udharSettled, 2) }}</td>
+                            </tr>
+                        @endif
                         @if ($cash > 0)
                             <tr>
-                                <td>Cash Received</td>
+                                <td>{{ $cashReceivedLabel }}</td>
                                 <td>₹{{ number_format($cash, 2) }}</td>
                             </tr>
                         @endif
                         @if ($online > 0)
                             <tr>
-                                <td>Online Received</td>
+                                <td>{{ $onlineReceivedLabel }}</td>
                                 <td>₹{{ number_format($online, 2) }}</td>
                             </tr>
                         @endif
                         @if ($bankReceived > 0)
                             <tr>
-                                <td>Bank Received</td>
+                                <td>{{ $bankReceivedLabel }}</td>
                                 <td>₹{{ number_format($bankReceived, 2) }}</td>
                             </tr>
                         @endif
                         @if ($card > 0)
                             <tr>
-                                <td>Card Received</td>
+                                <td>{{ $cardReceivedLabel }}</td>
                                 <td>₹{{ number_format($card, 2) }}</td>
                             </tr>
                         @endif
                         <tr>
-                            <td>Total Paid</td>
+                            <td>{{ $totalReceivedLabel ?: 'Total Received' }}</td>
                             <td>₹{{ number_format($totalReceived, 2) }}</td>
                         </tr>
                         <tr class="balance">
-                            <td>{{ $balanceAmount > 0 ? 'Balance Due' : 'Change Return' }}</td>
+                            <td>{{ $balanceAmount > 0 ? ($balanceDueLabel ?: 'Balance Due') : 'Change Return' }}</td>
                             <td>₹{{ number_format(abs($balanceAmount), 2) }}</td>
                         </tr>
                     </table>
