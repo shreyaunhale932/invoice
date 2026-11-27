@@ -7,8 +7,18 @@
       type="image/x-icon"
       href="{{ asset('front_assets/img/favicon.jpg') }}">
 
-    <title>@yield('title', 'Jewelerp')</title>
-    <meta name="description" content="">
+    <title>{{ $pageSeo?->title ?? trim($__env->yieldContent('title', 'Jewelerp')) }}</title>
+    @if ($pageSeo?->description)
+        <meta name="description" content="{{ $pageSeo->description }}">
+    @else
+        <meta name="description" content="">
+    @endif
+    @if ($pageSeo?->keywords)
+        <meta name="keywords" content="{{ $pageSeo->keywords }}">
+    @endif
+    @if ($pageSeo?->canonical_url)
+        <link rel="canonical" href="{{ $pageSeo->canonical_url }}">
+    @endif
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 

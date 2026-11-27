@@ -42,6 +42,15 @@
             </li>
         </ul>
         <ul class="sidebar-new-menu">
+            <li class="{{ Request::is('cms/pricing*') ? 'active' : '' }}">
+                <a href="{{ route('superadmin.cms.pricing.index') }}">
+                    <i class="fe fe-dollar-sign"></i>
+                    <span>Pricing Plans</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="sidebar-new-menu">
             <li class="{{ Request::is('contact-messages*') ? 'active' : '' }}">
                 <a href="{{ route('contact-messages') }}">
                     <i class="fe fe-mail"></i>
@@ -112,6 +121,12 @@
                             <span>AI Tools</span>
                         </a>
                     </li>
+                    <li class="{{ Request::is('cms/seo*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.seo.index') }}">
+                            <i class="fe fe-search"></i>
+                            <span>SEO Settings</span>
+                        </a>
+                    </li>
                     <li class="{{ Request::is('cms/faq*') ? 'active' : '' }}">
                         <a href="{{ route('superadmin.cms.faq.index') }}">
                             <i class="fe fe-help-circle"></i>
@@ -136,16 +151,11 @@
                             <span>Blog</span>
                         </a>
                     </li>
-                    <li class="{{ Request::is('cms/pricing*') ? 'active' : '' }}">
-                        <a href="{{ route('superadmin.cms.pricing.index') }}">
-                            <i class="fe fe-dollar-sign"></i>
-                            <span>Pricing Plans</span>
-                        </a>
-                    </li>
 
 
 
-                     <!-- <li class="submenu-trigger-new {{ Request::is('cms/pricing*') || Request::is('cms/pricing*') || Request::is('cms/pricing*') ? 'active' : '' }}">
+
+                    <!-- <li class="submenu-trigger-new {{ Request::is('cms/pricing*') || Request::is('cms/pricing*') || Request::is('cms/pricing*') ? 'active' : '' }}">
                         <a href="#">
                              <i class="fe fe-dollar-sign"></i>
                             <span>Pricing Plans</span>
@@ -331,40 +341,40 @@
         </ul>
 
 
-            <!-- Orders & Karigar Section -->
-            <div class="menu-section-title">Orders & Karigar</div>
-            <ul class="sidebar-new-menu">
-                <li class="submenu-trigger-new {{ Request::is('orders*') ? 'active' : '' }}">
-                    <a href="javascript:void(0);">
-                        <i class="fe fe-clipboard"></i>
-                        <span>Customer Orders</span>
-                        <i class="fas fa-chevron-right menu-arrow-new"></i>
-                    </a>
-                    <ul class="submenu-new">
-                        <li class="{{ Request::is('orders') ? 'active' : '' }}">
-                            <a href="{{ route('orders.index') }}">Orders List</a>
-                        </li>
-                        <li class="{{ Request::is('orders/create') ? 'active' : '' }}">
-                            <a href="{{ route('orders.create') }}">Create Order</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="submenu-trigger-new {{ Request::is('karigars*') ? 'active' : '' }}">
-                    <a href="javascript:void(0);">
-                        <i class="fe fe-tool"></i>
-                        <span>Karigar Management</span>
-                        <i class="fas fa-chevron-right menu-arrow-new"></i>
-                    </a>
-                    <ul class="submenu-new">
-                        <li class="{{ Request::is('karigars') ? 'active' : '' }}">
-                            <a href="{{ route('karigars.index') }}">Karigars List</a>
-                        </li>
-                        <li class="{{ Request::is('karigars/create') ? 'active' : '' }}">
-                            <a href="{{ route('karigars.create') }}">Add Karigar</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+        <!-- Orders & Karigar Section -->
+        <div class="menu-section-title">Orders & Karigar</div>
+        <ul class="sidebar-new-menu">
+            <li class="submenu-trigger-new {{ Request::is('orders*') ? 'active' : '' }}">
+                <a href="javascript:void(0);">
+                    <i class="fe fe-clipboard"></i>
+                    <span>Customer Orders</span>
+                    <i class="fas fa-chevron-right menu-arrow-new"></i>
+                </a>
+                <ul class="submenu-new">
+                    <li class="{{ Request::is('orders') ? 'active' : '' }}">
+                        <a href="{{ route('orders.index') }}">Orders List</a>
+                    </li>
+                    <li class="{{ Request::is('orders/create') ? 'active' : '' }}">
+                        <a href="{{ route('orders.create') }}">Create Order</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="submenu-trigger-new {{ Request::is('karigars*') ? 'active' : '' }}">
+                <a href="javascript:void(0);">
+                    <i class="fe fe-tool"></i>
+                    <span>Karigar Management</span>
+                    <i class="fas fa-chevron-right menu-arrow-new"></i>
+                </a>
+                <ul class="submenu-new">
+                    <li class="{{ Request::is('karigars') ? 'active' : '' }}">
+                        <a href="{{ route('karigars.index') }}">Karigars List</a>
+                    </li>
+                    <li class="{{ Request::is('karigars/create') ? 'active' : '' }}">
+                        <a href="{{ route('karigars.create') }}">Add Karigar</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
 
         <!-- Customers Section -->
         <div class="menu-section-title">Customers</div>

@@ -85,6 +85,50 @@
                 @enderror
             </div>
 
+            <hr>
+            <h5 class="mb-3">SEO Settings</h5>
+            <div class="input-block mb-3">
+                <label for="seo_title" class="form-label">SEO title</label>
+                <input id="seo_title" name="seo_title" type="text"
+                    class="form-control @error('seo_title') is-invalid @enderror"
+                    value="{{ old('seo_title', $blog?->seo_title) }}" maxlength="255">
+                @error('seo_title')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                <div class="form-text">Leave blank to use the blog heading.</div>
+            </div>
+
+            <div class="input-block mb-3">
+                <label for="seo_description" class="form-label">Meta description</label>
+                <textarea id="seo_description" name="seo_description" rows="3"
+                    class="form-control @error('seo_description') is-invalid @enderror"
+                    maxlength="5000">{{ old('seo_description', $blog?->seo_description) }}</textarea>
+                @error('seo_description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="input-block mb-3">
+                <label for="seo_keywords" class="form-label">Meta keywords</label>
+                <textarea id="seo_keywords" name="seo_keywords" rows="3"
+                    class="form-control @error('seo_keywords') is-invalid @enderror"
+                    maxlength="10000">{{ old('seo_keywords', $blog?->seo_keywords) }}</textarea>
+                @error('seo_keywords')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="input-block mb-3">
+                <label for="seo_canonical_url" class="form-label">Canonical URL</label>
+                <input id="seo_canonical_url" name="seo_canonical_url" type="url"
+                    class="form-control @error('seo_canonical_url') is-invalid @enderror"
+                    value="{{ old('seo_canonical_url', $blog?->seo_canonical_url) }}" maxlength="255">
+                @error('seo_canonical_url')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                <div class="form-text">Leave blank to use this blog post's public URL.</div>
+            </div>
+
             <button type="submit" class="btn btn-primary">Save Blog</button>
             <a href="{{ route('superadmin.cms.blogs.index') }}" class="btn btn-light ms-2">Cancel</a>
         </form>

@@ -91,6 +91,10 @@ class BlogPostController extends Controller
             'content1' => ['required', 'string', 'max:100000'],
             'content2' => ['nullable', 'string', 'max:100000'],
             'conclusion' => ['nullable', 'string', 'max:100000'],
+            'seo_title' => ['nullable', 'string', 'max:255'],
+            'seo_description' => ['nullable', 'string', 'max:5000'],
+            'seo_keywords' => ['nullable', 'string', 'max:10000'],
+            'seo_canonical_url' => ['nullable', 'url', 'max:255'],
             'image' => [
                 $isUpdate ? 'nullable' : 'required',
                 'image',

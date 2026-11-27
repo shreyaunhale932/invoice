@@ -10,7 +10,7 @@
                 <label for="title" class="form-label">Menu short title</label>
                 <input id="title" name="title" type="text"
                     class="form-control @error('title') is-invalid @enderror"
-                    value="{{ old('title', $solution->title ?? '') }}" maxlength="255" required>
+                    value="{{ old('title', $solution->title ?? '') }}" maxlength="255" required readonly>
                 @error('title')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

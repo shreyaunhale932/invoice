@@ -14,6 +14,10 @@ class BlogPost extends Model
         'content1',
         'content2',
         'conclusion',
+        'seo_title',
+        'seo_description',
+        'seo_keywords',
+        'seo_canonical_url',
     ];
 
     protected function casts(): array

@@ -111,6 +111,8 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::delete('/demo-requests/{id}', [\App\Http\Controllers\DemoRequestController::class, 'destroy'])->name('superadmin.demo-requests.destroy');
 
     Route::get('/cms', [\App\Http\Controllers\CMSController::class, 'index'])->name('superadmin.cms');
+    Route::get('/cms/seo', [\App\Http\Controllers\CmsSeoPageController::class, 'index'])->name('superadmin.cms.seo.index');
+    Route::put('/cms/seo/{page}', [\App\Http\Controllers\CmsSeoPageController::class, 'update'])->name('superadmin.cms.seo.update');
     Route::get('/cms/home/edit', [\App\Http\Controllers\CMSController::class, 'editBanners'])->name('superadmin.cms.home.edit');
     Route::put('/cms/home', [\App\Http\Controllers\CMSController::class, 'updateBanners'])->name('superadmin.cms.home.update');
     Route::get('/cms/home/benefits', [\App\Http\Controllers\CMSController::class, 'editHomeBenefits'])->name('superadmin.cms.home.benefits.edit');
