@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Admin extends Authenticatable
 {
     use HasFactory, Notifiable;
-    
+
     protected $connection = 'landlord';
 
     /**
@@ -33,6 +33,8 @@ class Admin extends Authenticatable
         'otp',
         'otp_expiry',
         'verification_status',
+        'gstin',
+        'state_code',
     ];
 
     /**
@@ -55,5 +57,17 @@ class Admin extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+
+    public function subscriptions()
+    {
+        return $this->hasMany(AdminSubscription::class);
+    }
+
+    public function activeSubscription()
+    {
+        return $this->hasOne(AdminSubscription::class)
+            ->where('status', 'active');
     }
 }

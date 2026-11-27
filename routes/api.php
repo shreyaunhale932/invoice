@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\CashfreeWebhookController;
+
+Route::post('/cashfree/webhook', [CashfreeWebhookController::class, 'handle']);
+
 /*
 |--------------------------------------------------------------------------
 | API Routes

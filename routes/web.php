@@ -155,7 +155,10 @@ Route::middleware(['auth:admin', 'tenant'])->group(function () {
     Route::post('/firms/switch', [\App\Http\Controllers\FirmController::class, 'switch'])->name('firms.switch');
     Route::resource('firms', \App\Http\Controllers\FirmController::class);
 });
-
+Route::match(['GET', 'POST'], '/admin/subscription/return', function () {
+    return redirect()->route('admin.subscription.index')
+        ->with('success', 'Cashfree subscription authorization completed. Your subscription status will be updated shortly.');
+})->name('admin.subscription.return');
 // Admin can add Clients (Now with Firm Isolation)
 Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
     // Expense Routes
@@ -385,7 +388,11 @@ Route::middleware(['auth:admin', 'tenant', 'firm'])->group(function () {
 // Route::get('/invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendWhatsApp'])
 //     ->name('sell.invoice.sendWhatsapp');
 Route::post('/sell-invoice/send-whatsapp/{id}', [SellInvoiceController::class, 'sendInvoiceWhatsApp'])->name('sell-invoice.sendWhatsApp');
-    // Invoice Template Routes
+  Route::post('/subscription/create', [\App\Http\Controllers\Admin\SubscriptionController::class,'create'])->name('admin.subscription.create'); 
+Route::get('/subscription/verify/{id}',[\App\Http\Controllers\Admin\SubscriptionController::class, 'verify'])->name('admin.subscription.verify');
+Route::get('/plan-subscription', [\App\Http\Controllers\Admin\SubscriptionController::class,'index'])->name('admin.subscription.index');
+
+// Invoice Template Routes
     Route::get(
         '/invoice-template/editor',
         [App\Http\Controllers\InvoiceTemplateController::class, 'index']
