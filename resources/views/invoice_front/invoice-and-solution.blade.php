@@ -16,17 +16,15 @@
                 </a>
 
                 <div class="jewel-billing-eyebrow">
-                    FASTER JEWELLERY BILLING
+                    {{ $pageContent['hero']['eyebrow'] }}
                 </div>
 
                 <h1 class="jewel-billing-title">
-                    Turn every counter sale into an accurate, effortless experience.
+                    {{ $pageContent['hero']['title'] }}
                 </h1>
 
                 <p class="jewel-billing-description">
-                    Bring metal rates, making charges, stones, taxes, discounts
-                    and customer details into one guided billing flow built for
-                    jewellery retail.
+                    {{ $pageContent['hero']['description'] }}
                 </p>
 
                 <!-- Buttons -->
@@ -49,12 +47,12 @@
 
                     <span>
                         <i class="bi bi-check2"></i>
-                        Jewellery-specific workflows
+                        {{ $pageContent['hero']['benefits'][0] }}
                     </span>
 
                     <span>
                         <i class="bi bi-check2"></i>
-                        Live connected data
+                        {{ $pageContent['hero']['benefits'][1] }}
                     </span>
 
                 </div>
@@ -67,14 +65,14 @@
                 <!-- Floating Label -->
                 <div class="jewel-billing-floating-label">
                     <i class="bi bi-receipt-cutoff"></i>
-                    <span>Invoice &amp; Sell Management</span>
+                    <span>{{ $pageContent['hero']['floating_label'] }}</span>
                 </div>
 
                 <div class="jewel-billing-image-wrap">
 
                     <img
-                        src="{{ asset('front_assets/img/p3.png') }}"
-                        alt="Jewellery billing and invoice management dashboard"
+                        src="{{ asset($pageContent['hero']['image']) }}"
+                        alt="{{ $pageContent['hero']['image_alt'] }}"
                         class="jewel-billing-image"
                         loading="eager">
 
@@ -95,19 +93,15 @@
         <div class="jc-challenges-heading reveal">
 
             <span class="jc-eyebrow">
-                BUSINESS CHALLENGES
+                {{ $pageContent['challenges']['eyebrow'] }}
             </span>
 
             <h1>
-                Replace uncertainty with control in invoice &
-                <br>
-                sell management.
+                {{ $pageContent['challenges']['title'] }}
             </h1>
 
             <p>
-                JewelERP brings the critical information and actions for this workflow into one connected
-                <br class="jc-desktop-break">
-                system.
+                {{ $pageContent['challenges']['description'] }}
             </p>
 
         </div>
@@ -118,69 +112,20 @@
 
 
             <!-- CARD 01 -->
-            <div class="jc-challenge-card reveal">
+            @foreach ($pageContent['challenges']['items'] as $challenge)
+                <div class="jc-challenge-card reveal">
 
-                <span class="jc-number">
-                    01
-                </span>
+                    <span class="jc-number">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
 
-                <div class="jc-card-content">
+                    <div class="jc-card-content">
 
-                    <h4>
-                        Complex price calculations
-                    </h4>
+                        <h4>{{ $challenge['title'] }}</h4>
 
-                    <p>
-                        Manual metal, stone and making-charge calculations slow down the counter.
-                    </p>
+                        <p>{{ $challenge['description'] }}</p>
 
+                    </div>
                 </div>
-
-            </div>
-
-
-            <!-- CARD 02 -->
-            <div class="jc-challenge-card reveal">
-
-                <span class="jc-number">
-                    02
-                </span>
-
-                <div class="jc-card-content">
-
-                    <h4>
-                        Billing errors
-                    </h4>
-
-                    <p>
-                        Tax, rate and discount mistakes create rework and reduce customer trust.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- CARD 03 -->
-            <div class="jc-challenge-card reveal">
-
-                <span class="jc-number">
-                    03
-                </span>
-
-                <div class="jc-card-content">
-
-                    <h4>
-                        Disconnected customer history
-                    </h4>
-
-                    <p>
-                        Past purchases and preferences are hard to find when they matter most.
-                    </p>
-
-                </div>
-
-            </div>
+            @endforeach
 
 
         </div>
@@ -204,18 +149,12 @@
 
             <span
                 class="jn-key-features-eyebrow">
-                KEY FEATURES
+                {{ $pageContent['features']['eyebrow'] }}
             </span>
 
 
             <h1>
-
-                Everything your team needs for invoice &amp; sell
-
-                <br>
-
-                management.
-
+                {{ $pageContent['features']['title'] }}
             </h1>
 
         </div>
@@ -305,12 +244,11 @@
                     class="jn-feature-content">
 
                     <h4>
-                        Jewellery-ready POS
+                        {{ $pageContent['features']['items'][0]['title'] }}
                     </h4>
 
                     <p>
-                        Bill by weight, piece, purity, stone
-                        value and making method.
+                        {{ $pageContent['features']['items'][0]['description'] }}
                     </p>
 
                 </div>
@@ -371,12 +309,11 @@
                     class="jn-feature-content">
 
                     <h4>
-                        Live rate application
+                        {{ $pageContent['features']['items'][1]['title'] }}
                     </h4>
 
                     <p>
-                        Apply the right metal rate
-                        consistently across every counter.
+                        {{ $pageContent['features']['items'][1]['description'] }}
                     </p>
 
                 </div>
@@ -431,12 +368,11 @@
                     class="jn-feature-content">
 
                     <h4>
-                        Flexible payments
+                        {{ $pageContent['features']['items'][2]['title'] }}
                     </h4>
 
                     <p>
-                        Support split tenders, advances,
-                        schemes and exchange adjustments.
+                        {{ $pageContent['features']['items'][2]['description'] }}
                     </p>
 
                 </div>
@@ -492,13 +428,11 @@
                     class="jn-feature-content">
 
                     <h4>
-                        Customer purchase history
+                        {{ $pageContent['features']['items'][3]['title'] }}
                     </h4>
 
                     <p>
-                        See preferences and prior
-                        transactions while serving
-                        customers.
+                        {{ $pageContent['features']['items'][3]['description'] }}
                     </p>
 
                 </div>
@@ -514,39 +448,20 @@
 <section id="how-it-works" class="jn-how-section ">
     <div class="jn-how-container">
         <div class="jn-how-left jn-reveal-up">
-            <span class="jn-how-eyebrow">HOW IT WORKS</span>
-            <h1 class="jn-how-title">A clear workflow from start to finish.</h1>
-            <p class="jn-how-description">Keep your team aligned with a structured process that updates connected records along the way.</p>
+            <span class="jn-how-eyebrow">{{ $pageContent['workflow']['eyebrow'] }}</span>
+            <h1 class="jn-how-title">{{ $pageContent['workflow']['title'] }}</h1>
+            <p class="jn-how-description">{{ $pageContent['workflow']['description'] }}</p>
         </div>
-        <div class="jn-how-timeline" aria-label="Sales workflow">
-            <article class="jn-how-step jn-reveal-up">
-                <div class="jn-how-number">1</div>
-                <div>
-                    <h3 class="jn-how-step-title">Scan or select</h3>
-                    <p class="jn-how-step-description">Add tagged jewellery to the bill in seconds.</p>
-                </div>
-            </article>
-            <article class="jn-how-step jn-reveal-up">
-                <div class="jn-how-number">2</div>
-                <div>
-                    <h3 class="jn-how-step-title">Calculate</h3>
-                    <p class="jn-how-step-description">JewelERP applies rates, charges, discounts and taxes.</p>
-                </div>
-            </article>
-            <article class="jn-how-step jn-reveal-up">
-                <div class="jn-how-number">3</div>
-                <div>
-                    <h3 class="jn-how-step-title">Collect payment</h3>
-                    <p class="jn-how-step-description">Record the payment mix, advance or exchange value.</p>
-                </div>
-            </article>
-            <article class="jn-how-step jn-reveal-up">
-                <div class="jn-how-number">4</div>
-                <div>
-                    <h3 class="jn-how-step-title">Complete the sale</h3>
-                    <p class="jn-how-step-description">Print or share the invoice and update stock instantly.</p>
-                </div>
-            </article>
+        <div class="jn-how-timeline" aria-label="{{ $pageContent['workflow']['title'] }}">
+            @foreach ($pageContent['workflow']['items'] as $step)
+                <article class="jn-how-step jn-reveal-up">
+                    <div class="jn-how-number">{{ $loop->iteration }}</div>
+                    <div>
+                        <h3 class="jn-how-step-title">{{ $step['title'] }}</h3>
+                        <p class="jn-how-step-description">{{ $step['description'] }}</p>
+                    </div>
+                </article>
+            @endforeach
         </div>
     </div>
 </section>
@@ -559,45 +474,30 @@
             <div class="col-lg-7 col-12 business-benefits-content">
 
                 <span class="business-benefits-label">
-                    BUSINESS BENEFITS
+                    {{ $pageContent['benefits']['eyebrow'] }}
                 </span>
 
                 <h1 class="business-benefits-title">
-                    Less manual effort. More<br class="d-none d-xl-block">
-                    confident decisions.
+                    {{ $pageContent['benefits']['title'] }}
                 </h1>
 
                 <p class="business-benefits-description">
-                    Improve the accuracy and pace of everyday work while keeping
-                    management in control.
+                    {{ $pageContent['benefits']['description'] }}
                 </p>
 
                 <!-- Benefits List -->
                 <div class="row business-benefits-list">
 
-                    <div class="col-md-6 col-12">
-                        <div class="business-benefit-item">
-                            <i class="bi bi-check2"></i>
-                            <span>Shorter checkout times</span>
+                    @foreach (array_chunk($pageContent['benefits']['items'], 2) as $benefitColumn)
+                        <div class="col-md-6 col-12">
+                            @foreach ($benefitColumn as $benefit)
+                                <div class="business-benefit-item">
+                                    <i class="bi bi-check2"></i>
+                                    <span>{{ $benefit }}</span>
+                                </div>
+                            @endforeach
                         </div>
-
-                        <div class="business-benefit-item">
-                            <i class="bi bi-check2"></i>
-                            <span>Accurate GST-ready invoices</span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-12">
-                        <div class="business-benefit-item">
-                            <i class="bi bi-check2"></i>
-                            <span>Consistent pricing across counters</span>
-                        </div>
-
-                        <div class="business-benefit-item">
-                            <i class="bi bi-check2"></i>
-                            <span>Instant stock and ledger updates</span>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -608,12 +508,10 @@
 
                     <i class="bi bi-exclamation-circle business-benefits-icon"></i>
 
-                    <h5>Built around jewellery operations</h5>
+                    <h5>{{ $pageContent['benefits']['card_title'] }}</h5>
 
                     <p>
-                        JewelERP connects transaction detail with the weight,
-                        purity, value, item and customer context your business
-                        depends on.
+                        {{ $pageContent['benefits']['card_description'] }}
                     </p>
 
                 </div>
@@ -628,20 +526,18 @@
 
         <!-- Section Heading -->
         <div class="dashboard-heading text-center">
-            <h6 class="small-heading">Your Small Heading</h6>
-            <h1>The right information, ready when your team needs it.</h1>
+            <h6 class="small-heading">{{ $pageContent['dashboard']['eyebrow'] }}</h6>
+            <h1>{{ $pageContent['dashboard']['title'] }}</h1>
             <p>
-                A focused sales invoice workspace keeps transactions, exceptions and results easy to understand.
-
-
+                {{ $pageContent['dashboard']['description'] }}
             </p>
         </div>
 
         <!-- Dashboard Image -->
         <div class="dashboard-image-wrapper">
             <img
-                src="{{ asset('front_assets/img/dashbord.png') }}"
-                alt="JewelERP business management dashboard"
+                src="{{ asset($pageContent['dashboard']['image']) }}"
+                alt="{{ $pageContent['dashboard']['image_alt'] }}"
                 class="dashboard-image">
         </div>
 
@@ -650,7 +546,7 @@
 
 
 <section class="jewel-related-section">
-    <div class="container">
+    <div class="container-fluid">
 
         <!-- Section Heading -->
         <div class="jewel-related-header">
@@ -667,145 +563,66 @@
 
         <!-- Related Solutions -->
         <div class="jewel-related-list">
-
-            <!-- Item 1 -->
-            <a href="{{ url('/invoice-and-solution') }}"
-                class="jewel-related-card">
-
-                <div class="jewel-related-icon">
-                    <i class="bi bi-upc-scan"></i>
-                </div>
-
-                <div class="jewel-related-content">
-                    <h3>Barcode &amp; RFID Tagging</h3>
-                    <p>
-                        Tag every jewellery piece with barcode or RFID for instant
-                        identification and stock accuracy.
-                    </p>
-                </div>
-
-                <div class="jewel-related-arrow">
-                    <i class="bi bi-arrow-right"></i>
-                </div>
-
-            </a>
-
-            <!-- Item 2 -->
-            <a href="{{ url('/invoice-and-solution') }}"
-                class="jewel-related-card">
-
-                <div class="jewel-related-icon">
-                    <i class="bi bi-arrow-left-right"></i>
-                </div>
-
-                <div class="jewel-related-content">
-                    <h3>Old Gold Exchange</h3>
-                    <p>
-                        Evaluate, weigh and process old gold or jewellery exchange
-                        with accurate valuations.
-                    </p>
-                </div>
-
-                <div class="jewel-related-arrow">
-                    <i class="bi bi-arrow-right"></i>
-                </div>
-
-            </a>
-
-            <!-- Item 3 -->
-            <a href="{{ url('/invoice-and-solution') }}"
-                class="jewel-related-card">
-
-                <div class="jewel-related-icon">
-                    <i class="bi bi-percent"></i>
-                </div>
-
-                <div class="jewel-related-content">
-                    <h3>Discount &amp; Scheme Management</h3>
-                    <p>
-                        Configure seasonal offers, loyalty discounts and jewellery
-                        scheme plans for customers.
-                    </p>
-                </div>
-
-                <div class="jewel-related-arrow">
-                    <i class="bi bi-arrow-right"></i>
-                </div>
-
-            </a>
-
+            @foreach ($relatedSolutions as $relatedSolution)
+                <a href="{{ url($relatedSolution->page_url) }}" class="jewel-related-card">
+                    <div class="jewel-related-icon">
+                        <i class="{{ $relatedSolution->page_icon }}"></i>
+                    </div>
+                    <div class="jewel-related-content">
+                        <h3>{{ $relatedSolution->title }}</h3>
+                        <p>{{ $relatedSolution->description }}</p>
+                    </div>
+                    <div class="jewel-related-arrow">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
 </section>
 
 
-<section class="jewel-faq-section" data-reveal>
-    <div class="container-fluid jewel-faq-container">
-        <h1 class="jewel-faq-title" data-reveal>
-            Frequently
-            asked questions (FAQ)
-        </h1>
+@if ($faqs->isNotEmpty())
+    <section class="jewel-faq-section" data-reveal>
+        <div class="container-fluid jewel-faq-container">
+            <h1 class="jewel-faq-title" data-reveal>
+                Frequently asked questions (FAQ)
+            </h1>
 
-        @php
-            $displayFaqs = $faqs->isNotEmpty()
-                ? $faqs
-                : collect([
-                    (object) [
-                        'id' => 'default-1',
-                        'question' => 'What is JEWELERP?',
-                        'answer' => 'JEWELERP is a specialised enterprise resource planning software designed specifically for the jewellery industry. It helps jewellers, wholesalers, manufacturers, multi-branch businesses, and money lenders streamline their operations, manage inventory, billing, customer relationships, and compliance efficiently.',
-                    ],
-                    (object) [
-                        'id' => 'default-2',
-                        'question' => 'Who can use JEWELERP?',
-                        'answer' => 'JEWELERP offers different versions to serve a variety of jewellery businesses, including retail jewellers, wholesalers, manufacturers, multi-branch owners, and money lenders dealing with gold loans. Each version is tailored to meet the specific needs of that segment.',
-                    ],
-                    (object) [
-                        'id' => 'default-3',
-                        'question' => 'Is JEWELERP suitable for small businesses?',
-                        'answer' => 'Yes! JEWELERP is scalable and can be customised to fit the requirements of small, medium, and large jewellery businesses. Whether you operate a single showroom or multiple branches, we have a version that fits your needs.',
-                    ],
-                    (object) [
-                        'id' => 'default-4',
-                        'question' => 'Does JEWELERP support GST compliance?',
-                        'answer' => 'Absolutely. Our software is designed to handle GST billing, filing, and reporting seamlessly, ensuring your business stays compliant with the latest tax regulations.',
-                    ],
-                ]);
-        @endphp
-
-        <div class="row g-4 align-items-start">
-            <div class="col-12 col-lg-12">
-                <div class="accordion jewel-faq-accordion" id="jewelFaqAccordion">
-                    @forelse ($displayFaqs as $faq)
-                        <div class="accordion-item jewel-faq-item">
-                            <h3 class="accordion-header" id="faq-heading-{{ $faq->id }}">
-                                <button class="accordion-button @if (!$loop->first) collapsed @endif" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#faq-{{ $faq->id }}"
-                                    aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                    aria-controls="faq-{{ $faq->id }}">
-                                    {{ $faq->question }}
-                                </button>
-                            </h3>
-                            <div id="faq-{{ $faq->id }}"
-                                class="accordion-collapse collapse @if ($loop->first) show @endif"
-                                data-bs-parent="#jewelFaqAccordion">
-                                <div class="accordion-body">{{ $faq->answer }}</div>
+            <div class="row g-4 align-items-start">
+                <div class="col-12 col-lg-12">
+                    <div class="accordion jewel-faq-accordion" id="jewelFaqAccordion">
+                        @foreach ($faqs as $faq)
+                            @php($faqCollapseId = 'jewelFaq' . $faq->id)
+                            <div class="accordion-item jewel-faq-item">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#{{ $faqCollapseId }}"
+                                        aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                        aria-controls="{{ $faqCollapseId }}">
+                                        {{ $faq->question }}
+                                    </button>
+                                </h3>
+                                <div id="{{ $faqCollapseId }}"
+                                    class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                    data-bs-parent="#jewelFaqAccordion">
+                                    <div class="accordion-body">{{ $faq->answer }}</div>
+                                </div>
                             </div>
-                        </div>
-                    @empty
-                        <p class="text-muted">FAQs will be available soon.</p>
-                    @endforelse
-                </div>
-                <div class="jewel-faq-read-more">
-                    <a href="{{ url('/FAQS') }}" class="jewel-faq-read-more-link">
-                        Read More FAQs
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+                        @endforeach
+                    </div>
+
+                    <div class="jewel-faq-read-more">
+                        <a href="{{ url('/FAQS') }}" class="jewel-faq-read-more-link">
+                            Read More FAQs
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+@endif
 
 <section class="jewel-cta-section">
     <div class="container">
@@ -820,13 +637,11 @@
                     </span>
 
                     <h1>
-                        Ready to Simplify Your Jewellery
-                        Business?
+                        Ready to Simplify Your Jewellery Business?
                     </h1>
 
                     <p>
-                        See how JewelERP can connect your people,
-                        processes and business data.
+                        See how JewelERP can connect your people, processes and business data.
                     </p>
 
                 </div>

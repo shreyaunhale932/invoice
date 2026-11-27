@@ -59,6 +59,18 @@
                 </div>
             </div>
 
+            <div class="card bg-white mt-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-1">Pricing Plans & Section</h5>
+                        <p class="text-muted small mb-0">Manage plan cards, cut price, discount off, savings, features, button text, and trial notes.</p>
+                    </div>
+                    <a href="{{ route('superadmin.cms.pricing.index') }}" class="btn btn-primary btn-sm">
+                        <i class="fe fe-settings me-1"></i>Manage Plans
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
 @endsection

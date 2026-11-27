@@ -88,16 +88,16 @@
             <div class="col-lg-3 col-md-6 col-12 jewel-footer-column">
                 <h5>Our Solutions</h5>
                 <ul>
-                    <li><a href="{{ url('/invoice-and-solution') }}">Invoice & Sell Management</a></li>
-                    <li><a href="{{ url('/invoice-and-solution') }}">Purchase Management</a></li>
-                    <li><a href="{{ url('/invoice-and-solution') }}"> Karigar & Job Work</a></li>
-                    <li><a href="{{ url('/invoice-and-solution') }}">Barcode & RFID Tagging</a></li>
-                    <li><a href="{{ url('/invoice-and-solution') }}">Discount & Scheme Management</a></li>
+                    <li><a href="{{ route('invoiceandsolution') }}">Invoice & Sell Management</a></li>
+                    <li><a href="{{ route('purchasemanagement') }}">Purchase Management</a></li>
+                    <li><a href="{{ route('karigarandjobwork') }}">Karigar & Job Work</a></li>
+                    <li><a href="{{ route('barcodeandrfidtagging') }}">Barcode & RFID Tagging</a></li>
+                    <li><a href="{{ route('discountandschememanagement') }}">Discount & Scheme Management</a></li>
                     <!-- <li><a href="#">FAQ</a></li> -->
-                    <li><a href="{{ url('/invoice-and-solution') }}">Real-Time MIS Reports</a></li>
-                    <li><a href="{{ url('/invoice-and-solution') }}">Multi-Branch Management</a></li>
-                    <li><a href="{{ url('/invoice-and-solution') }}">Old Gold Exchange</a></li>
-                    <li><a href="{{ url('/invoice-and-solution') }}">Inventory Management</a></li>
+                    <li><a href="{{ route('realtimemisreport') }}">Real-Time MIS Reports</a></li>
+                    <li><a href="{{ route('multibranchmanagement') }}">Multi-Branch Management</a></li>
+                    <li><a href="{{ route('oldgoldexchange') }}">Old Gold Exchange</a></li>
+                    <li><a href="{{ route('inventorymanagement') }}">Inventory Management</a></li>
 
                 </ul>
             </div>

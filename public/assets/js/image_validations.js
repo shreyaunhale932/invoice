@@ -78,8 +78,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    const form = document.getElementById("cms-banner-form");
-    if (form) {
+    const blogImage = document.getElementById("image");
+    if (blogImage) {
+        blogImage.addEventListener("change", function () {
+            handleImageChange("image", "image_error", 651, 434);
+        });
+    }
+
+    ["cms-banner-form", "blog-post-form"].forEach(function (formId) {
+        const form = document.getElementById(formId);
+        if (!form) return;
+
         form.addEventListener("submit", function (event) {
             const invalidInput = form.querySelector('input[type="file"][data-invalid="true"]');
             if (invalidInput) {
@@ -89,5 +98,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.preventDefault();
             }
         });
-    }
+    });
 });

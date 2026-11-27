@@ -157,7 +157,7 @@
     ]))
     <script src="{{ asset('/assets/plugins/summernote/summernote-lite.min.js') }}"></script>
 @endif
-@if (Route::is(['superadmin.cms.ai-tools.edit']))
+@if (Route::is(['superadmin.cms.ai-tools.edit', 'superadmin.cms.blogs.create', 'superadmin.cms.blogs.edit']))
     <script src="{{ asset('/assets/plugins/summernote/summernote-lite.min.js') }}"></script>
 @endif
 

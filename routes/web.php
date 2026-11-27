@@ -46,6 +46,7 @@ Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/',[HomeController::class,'invoiceFront'])->name('invoice-front');
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/blog-details', [HomeController::class, 'blogdetails'])->name('blogdetails');
+Route::get('/blog-details/{blog}', [HomeController::class, 'blogdetails'])->name('blogdetails.show');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
 Route::get('/buyNow', [HomeController::class, 'buyNow'])->name('buyNow');
@@ -58,7 +59,22 @@ Route::get('/terms-conditions', [HomeController::class, 'termsconditions'])->nam
 Route::get('/help', [HomeController::class, 'help'])->name('help');
 Route::get('/refund-and-cancellation', [HomeController::class, 'refundandcancellation'])->name('refundandcancellation');
 
+// Route::get('/invoice-and-solution', [HomeController::class, 'invoiceandsolution'])->name('invoiceandsolution');
+// ========================solutions==========================
 Route::get('/invoice-and-solution', [HomeController::class, 'invoiceandsolution'])->name('invoiceandsolution');
+Route::get('/purchase-management', [HomeController::class, 'purchasemanagement'])->name('purchasemanagement');
+Route::get('/karigar-and-job-work', [HomeController::class, 'karigarandjobwork'])->name('karigarandjobwork');
+Route::get('/barcode-and-rfid-tagging', [HomeController::class, 'barcodeandrfidtagging'])->name('barcodeandrfidtagging');
+Route::get('/discount-and-scheme-management', [HomeController::class, 'discountandschememanagement'])->name('discountandschememanagement');
+Route::get('/real-time-mis-report', [HomeController::class, 'realtimemisreport'])->name('realtimemisreport');
+Route::get('/multi-branch-management', [HomeController::class, 'multibranchmanagement'])->name('multibranchmanagement');
+// Route::get('/real-time-mis-report', [HomeController::class, 'realtimemisreport'])->name('realtimemisreport');
+Route::get('/old-gold-exchange', [HomeController::class, 'oldgoldexchange'])->name('oldgoldexchange');
+Route::get('/inventory-management', [HomeController::class, 'inventorymanagement'])->name('inventorymanagement');
+
+
+
+
 Route::get('/integration', [HomeController::class, 'integration'])->name('integration');
 Route::get('/videos', [HomeController::class, 'videos'])->name('videos');
 // Route::get('/pricing',[HomeController::class,'pricing'])->name('pricing');
@@ -88,6 +104,8 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::put('/superadmin/admin/update/{id}', [SuperAdminController::class, 'updateAdmin'])->name('admin.update');
     Route::delete('/superadmin/admin/delete/{id}', [SuperAdminController::class, 'destroyAdmin'])->name('admin.destroy');
     Route::get('/visitor',[VisitorController::class,'getvisitor'])->name('visitor');
+    Route::get('/contact-messages', [VisitorController::class, 'contactMessages'])->name('contact-messages');
+    Route::delete('/contact-messages/{visitor}', [VisitorController::class, 'destroy'])->name('superadmin.contact-messages.destroy');
     Route::get('/demo-requests', [\App\Http\Controllers\DemoRequestController::class, 'index'])->name('superadmin.demo-requests');
     Route::patch('/demo-requests/{id}/status', [\App\Http\Controllers\DemoRequestController::class, 'updateStatus'])->name('superadmin.demo-requests.update-status');
     Route::delete('/demo-requests/{id}', [\App\Http\Controllers\DemoRequestController::class, 'destroy'])->name('superadmin.demo-requests.destroy');
@@ -99,6 +117,8 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::put('/cms/home/benefits', [\App\Http\Controllers\CMSController::class, 'updateHomeBenefits'])->name('superadmin.cms.home.benefits.update');
     Route::get('/cms/ai-tools', [\App\Http\Controllers\CMSController::class, 'editAiTools'])->name('superadmin.cms.ai-tools.edit');
     Route::put('/cms/ai-tools', [\App\Http\Controllers\CMSController::class, 'updateAiTools'])->name('superadmin.cms.ai-tools.update');
+    Route::get('/cms/invoice-solution', [\App\Http\Controllers\CmsInvoiceSolutionPageController::class, 'edit'])->name('superadmin.cms.invoice-solution.edit');
+    Route::put('/cms/invoice-solution', [\App\Http\Controllers\CmsInvoiceSolutionPageController::class, 'update'])->name('superadmin.cms.invoice-solution.update');
     Route::resource('/cms/solutions', \App\Http\Controllers\CmsSolutionController::class)
         ->names('superadmin.cms.solutions')
         ->except(['show']);
@@ -111,10 +131,20 @@ Route::middleware(['auth.check', 'checkUserRole:superadmin'])->group(function ()
     Route::resource('/cms/videos', \App\Http\Controllers\TutorialVideoController::class)
         ->names('superadmin.cms.videos')
         ->except(['show']);
+    Route::resource('/cms/blogs', \App\Http\Controllers\BlogPostController::class)
+        ->names('superadmin.cms.blogs')
+        ->except(['show']);
     Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'index'])->name('testimonials');
     Route::resource('/cms/faq', \App\Http\Controllers\FaqController::class)
         ->names('superadmin.cms.faq')
         ->except(['show']);
+    Route::get('/cms/pricing', [\App\Http\Controllers\CmsPricingController::class, 'index'])->name('superadmin.cms.pricing.index');
+    Route::post('/cms/pricing/plan', [\App\Http\Controllers\CmsPricingController::class, 'storePlan'])->name('superadmin.cms.pricing.plan.store');
+    Route::put('/cms/pricing/plan/{plan}', [\App\Http\Controllers\CmsPricingController::class, 'updatePlan'])->name('superadmin.cms.pricing.plan.update');
+    Route::delete('/cms/pricing/plan/{plan}', [\App\Http\Controllers\CmsPricingController::class, 'destroyPlan'])->name('superadmin.cms.pricing.plan.destroy');
+    Route::put('/cms/pricing/settings', [\App\Http\Controllers\CmsPricingController::class, 'updateSettings'])->name('superadmin.cms.pricing.settings.update');
+    Route::put('/cms/pricing/trial-settings', [\App\Http\Controllers\CmsPricingController::class, 'updateTrialSettings'])->name('superadmin.cms.pricing.trial.update');
+    Route::put('/cms/pricing/comparison-settings', [\App\Http\Controllers\CmsPricingController::class, 'updateComparisonSettings'])->name('superadmin.cms.pricing.comparison.update');
 });
 
 // Admin Routes with Firm Management
@@ -532,7 +562,6 @@ Route::get('/delete-account-request', [PageController::class, 'account'])->name(
 Route::get('/permission', [PageController::class, 'permission'])->name('permission');
 Route::get('/roles-permission', [PageController::class, 'roles'])->name('roles-permission');
 
-Route::get('/contact-messages', [PageController::class, 'contact'])->name('contact-messages');
 Route::get('/ticket-details', [PageController::class, 'details'])->name('ticket-details');
 Route::get('/tickets-closed', [PageController::class, 'closed'])->name('tickets-closed');
 Route::get('/tickets-kanban', [PageController::class, 'kanban'])->name('tickets-kanban');

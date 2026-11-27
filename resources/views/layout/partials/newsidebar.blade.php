@@ -42,6 +42,14 @@
             </li>
         </ul>
         <ul class="sidebar-new-menu">
+            <li class="{{ Request::is('contact-messages*') ? 'active' : '' }}">
+                <a href="{{ route('contact-messages') }}">
+                    <i class="fe fe-mail"></i>
+                    <span>Contact Enquiries</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="sidebar-new-menu">
             <li class="{{ Request::is('demo-requests*') ? 'active' : '' }}">
                 <a href="{{ route('superadmin.demo-requests') }}">
                     <i class="fe fe-monitor"></i>
@@ -92,6 +100,12 @@
                             <span>Our Solutions</span>
                         </a>
                     </li>
+                    <li class="{{ Request::is('cms/invoice-solution*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.invoice-solution.edit') }}">
+                            <i class="fe fe-file-text"></i>
+                            <span>Invoice &amp; Solution Page</span>
+                        </a>
+                    </li>
                     <li class="{{ Request::is('cms/ai-tools*') ? 'active' : '' }}">
                         <a href="{{ route('superadmin.cms.ai-tools.edit') }}">
                             <i class="fe fe-zap"></i>
@@ -116,6 +130,38 @@
                             <span>Videos</span>
                         </a>
                     </li>
+                    <li class="{{ Request::is('cms/blogs*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.blogs.index') }}">
+                            <i class="fe fe-edit"></i>
+                            <span>Blog</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('cms/pricing*') ? 'active' : '' }}">
+                        <a href="{{ route('superadmin.cms.pricing.index') }}">
+                            <i class="fe fe-dollar-sign"></i>
+                            <span>Pricing Plans</span>
+                        </a>
+                    </li>
+
+
+
+                     <!-- <li class="submenu-trigger-new {{ Request::is('cms/pricing*') || Request::is('cms/pricing*') || Request::is('cms/pricing*') ? 'active' : '' }}">
+                        <a href="#">
+                             <i class="fe fe-dollar-sign"></i>
+                            <span>Pricing Plans</span>
+                            <i class="fas fa-chevron-right menu-arrow-new"></i>
+                        </a>
+                        <ul class="submenu-new">
+                            <li class="{{ Request::is('cms') || Request::is('cms/home*') ? 'active' : '' }}">
+                                <a href="{{ route('superadmin.cms.pricing.index') }}">
+                                    <i class="fe fe-circle"></i>
+                                    <span>pricing</span>
+                                </a>
+                            </li>
+                            
+                           
+                        </ul>
+                    </li> -->
                 </ul>
             </li>
         </ul>

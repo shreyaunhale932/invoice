@@ -133,7 +133,7 @@
         ]))
         <link rel="stylesheet" href="{{ url('/assets/plugins/summernote/summernote-lite.min.css') }}">
     @endif
-    @if (Route::is(['superadmin.cms.ai-tools.edit']))
+    @if (Route::is(['superadmin.cms.ai-tools.edit', 'superadmin.cms.blogs.create', 'superadmin.cms.blogs.edit']))
         <link rel="stylesheet" href="{{ url('/assets/plugins/summernote/summernote-lite.min.css') }}">
     @endif
 

@@ -75,18 +75,18 @@
 
                     <h4 data-reveal> Send us a Message</h4>
 
-                    <form >
+                    <form action="{{ route('contact.store') }}" method="POST">
                         @csrf
 
                         <div class="jewel-contact-field">
                             <label for="contact_name">Full Name *</label>
                             <input type="text"
                                    id="contact_name"
-                                   name="name"
+                                   name="full_name"
                                    class="form-control"
-                                   value="{{ old('name') }}"
+                                   value="{{ old('full_name') }}"
                                    required>
-                            @error('name')
+                            @error('full_name')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -121,11 +121,11 @@
                             <label for="contact_business">Business Name *</label>
                             <input type="text"
                                    id="contact_business"
-                                   name="business"
+                                   name="business_name"
                                    class="form-control"
-                                   value="{{ old('business') }}"
+                                   value="{{ old('business_name') }}"
                                    required>
-                            @error('business')
+                            @error('business_name')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -158,4 +158,16 @@
     </div>
 </section>
 @include('invoice_front.includes.ai-tools')
+@if (session('success'))
+    <script>
+        window.addEventListener('load', function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Enquiry sent!',
+                text: @json(session('success')),
+                confirmButtonColor: '#3085d6'
+            });
+        });
+    </script>
+@endif
 @endsection

@@ -12,6 +12,13 @@
             @endcomponent
             <!-- /Page Header -->
 
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <!-- Table -->
             <div class="row">
                 <div class="col-sm-12">
@@ -24,47 +31,44 @@
                                             <th>#</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Mobile Number</th>
+                                            <th>Phone Number</th>
+                                            <th>Business Name</th>
                                             <th>Message</th>
-                                            <th>Created on</th>
-                                            <th class="no-sort">Action</th>
+                                            <th>Submitted</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                            $json = file_get_contents(public_path('../assets/json/contact-messages.json'));
-                                            $contactmessages = json_decode($json, true);
-                                        @endphp
-                                        @foreach ($contactmessages as $contactmessage)
+                                        @forelse ($contactmessages as $contactmessage)
                                             <tr>
-                                                <td>{{ $contactmessage['Id'] }}</td>
+                                                <td>{{ $contactmessage->id }}</td>
                                                 <td>
-                                                    <h2 class="table-avatar">
-                                                        <a href="{{ url('contact-details') }}"
-                                                            class="avatar avatar-sm me-2"><img
-                                                                class="avatar-img rounded-circle"
-                                                                src="{{ asset('assets/img/profiles/' . $contactmessage['Image']) }}"
-                                                                alt="User Image"></a>
-                                                        <a href="{{ url('profile') }}">{{ $contactmessage['Name'] }}</a>
-                                                    </h2>
+                                                    <strong>{{ $contactmessage->full_name }}</strong>
                                                 </td>
-                                                <td><span>{{ $contactmessage['Email'] }}</span></td>
-                                                <td>{{ $contactmessage['MobileNumber'] }}</td>
-                                                <td>{{ $contactmessage['Message'] }}</td>
-                                                <td>{{ $contactmessage['Createdon'] }}</td>
-                                                <td class="d-flex align-items-center">
-                                                    <a class=" btn-action-icon me-2" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-bs-target="#edit_contact"><i
-                                                            class="fa-regular fa-eye"></i></a>
-                                                    <a class=" btn-action-icon" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-bs-target="#delete_modal"><i
-                                                            class="fe fe-trash-2"></i></a>
+                                                <td><a href="mailto:{{ $contactmessage->email }}">{{ $contactmessage->email }}</a></td>
+                                                <td>{{ $contactmessage->phone }}</td>
+                                                <td>{{ $contactmessage->business_name ?: 'N/A' }}</td>
+                                                <td class="text-break">{{ $contactmessage->message }}</td>
+                                                <td>{{ $contactmessage->created_at->format('d M Y, h:i A') }}</td>
+                                                <td>
+                                                    <form action="{{ route('superadmin.contact-messages.destroy', $contactmessage) }}"
+                                                          method="POST"
+                                                          onsubmit="return confirm('Delete this contact enquiry?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                                    </form>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="text-center">No contact enquiries have been submitted.</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
+                            {{ $contactmessages->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                 </div>

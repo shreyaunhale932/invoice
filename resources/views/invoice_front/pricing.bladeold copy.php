@@ -63,6 +63,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+<style>
+.jewel-pricing-savings {
+    display: inline-block !important;
+    margin: 8px 0 4px !important;
+    padding: 4px 10px !important;
+    background: #e8f7ee !important;
+    color: #0f7b3e !important;
+    border: 1px solid #c3e6cb !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.3 !important;
+}
+.jewel-pricing-discount {
+    visibility: visible !important;
+    display: inline-block !important;
+}
+</style>
+
 <section id="plans" class="jewel-pricing-section">
 
     <div class="container jewel-pricing-container">
@@ -70,255 +89,164 @@ document.addEventListener("DOMContentLoaded", function () {
         <!-- Heading -->
         <div class="jewel-pricing-heading">
             <h1>
-                The right plan to grow your
-                <span>jewellery business</span>
+                {{ $pricingSettings->main_heading ?? 'The right plan to grow your' }}
+                <span>{{ $pricingSettings->main_heading_highlight ?? 'jewellery business' }}</span>
             </h1>
 
             <p>
-                Everything you need to bill faster, manage inventory, and make smarter decisions.
-                <br>
-                Start free—no credit card required.
+                {!! nl2br(e($pricingSettings->subheading ?? "Everything you need to bill faster, manage inventory, and make smarter decisions.\nStart free—no credit card required.")) !!}
             </p>
 
             <!-- Monthly / Yearly Toggle -->
             <div class="jewel-pricing-toggle-wrap">
-               <div class="jewel-pricing-toggle" role="group"
-     aria-label="Billing period">
+                <div class="jewel-pricing-toggle" role="group" aria-label="Billing period">
+                    <button type="button"
+                            class="jewel-pricing-toggle-btn active"
+                            data-period="monthly"
+                            aria-pressed="true">
+                        Monthly
+                    </button>
 
-    <button type="button"
-            class="jewel-pricing-toggle-btn active"
-            data-period="monthly"
-            aria-pressed="true">
-        Monthly
-    </button>
-
-    <button type="button"
-            class="jewel-pricing-toggle-btn"
-            data-period="yearly"
-            aria-pressed="false">
-        Yearly
-        <small>Save up to 50%</small>
-    </button>
-
-</div>
+                    <button type="button"
+                            class="jewel-pricing-toggle-btn"
+                            data-period="yearly"
+                            aria-pressed="false">
+                        Yearly
+                        <small>{{ $pricingSettings->yearly_discount_badge ?? 'Save up to 41%' }}</small>
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Pricing Cards -->
         <div class="row jewel-pricing-cards g-3">
+            @forelse($pricingPlans ?? [] as $plan)
+                <div class="col-12 col-md-4 jewel-pricing-column">
+                    <article class="jewel-pricing-card {{ $plan->is_featured ? 'jewel-pricing-card-featured' : '' }}">
 
-            <!-- BASIC PLAN -->
-            <div class="col-12 col-md-4 jewel-pricing-column">
+                        @if($plan->is_featured)
+                            <div class="jewel-pricing-popular">
+                                {{ $plan->popular_badge_text ?: 'MOST POPULAR' }}
+                            </div>
+                        @endif
 
-                <article class="jewel-pricing-card">
+                        <div class="jewel-pricing-card-header">
+                            <div>
+                                @if($plan->plan_label)
+                                    <span class="jewel-pricing-plan-label">
+                                        {{ $plan->plan_label }}
+                                    </span>
+                                @endif
+                                <h3>{{ $plan->name }}</h3>
+                            </div>
 
-                    <div class="jewel-pricing-card-header">
-                        <div>
-                            <span class="jewel-pricing-plan-label">
-                             For small jewellery shops
+                            @php
+                                $mDisc = (int) $plan->monthly_discount;
+                                $yDisc = (int) $plan->yearly_discount;
+                                $mDiscText = $mDisc > 0 ? "{$mDisc}% OFF" : '';
+                                $yDiscText = $yDisc > 0 ? "{$yDisc}% OFF" : '';
+                            @endphp
+                            <span class="jewel-pricing-discount"
+                                  data-monthly="{{ $mDiscText }}"
+                                  data-yearly="{{ $yDiscText }}"
+                                  style="{{ empty($mDiscText) && empty($yDiscText) ? 'display:none;' : '' }}">
+                                {{ $mDiscText }}
                             </span>
-                            <h3>Basic</h3>
                         </div>
 
-                        <span class="jewel-pricing-discount">50% OFF</span>
-                    </div>
+                        <div class="jewel-pricing-price-area">
+                            @php
+                                $sym = $plan->currency_symbol ?: '₹';
+                                $mCutFormatted = $plan->monthly_cut_price > $plan->monthly_price ? $sym . number_format($plan->monthly_cut_price) : '';
+                                $yCutFormatted = $plan->yearly_cut_price > $plan->yearly_price ? $sym . number_format($plan->yearly_cut_price) : '';
+                                $mPriceFormatted = number_format($plan->monthly_price);
+                                $yPriceFormatted = number_format($plan->yearly_price);
+                                $mSaveFormatted = $plan->monthly_savings > 0 ? 'You Save ' . $sym . number_format($plan->monthly_savings) : '';
+                                $ySaveFormatted = $plan->yearly_savings > 0 ? 'You Save ' . $sym . number_format($plan->yearly_savings) . '/-' : '';
+                            @endphp
 
-                    <div class="jewel-pricing-price-area">
-                        <!-- <div class="jewel-pricing-old-price">
-                            <del data-monthly="₹1,499" data-yearly="₹1,499">
-                                ₹1,499
-                            </del>
-                        </div> -->
+                            <div class="jewel-pricing-old-price">
+                                <del data-monthly="{{ $mCutFormatted }}" data-yearly="{{ $yCutFormatted }}">{{ $mCutFormatted }}</del>
+                            </div>
 
-                        <div class="jewel-pricing-price">
-                            <span class="jewel-pricing-currency">₹</span><span
-                                data-monthly="1,499"
-                                data-yearly="14,999"
-                                class="jewel-pricing-price-value">1,499</span>
+                            <div class="jewel-pricing-price">
+                                <span class="jewel-pricing-currency">{{ $sym }}</span><span
+                                    data-monthly="{{ $mPriceFormatted }}"
+                                    data-yearly="{{ $yPriceFormatted }}"
+                                    class="jewel-pricing-price-value">{{ $mPriceFormatted }}</span>
 
-                            <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
+                                <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
+                            </div>
+
+                            <p class="jewel-pricing-savings"
+                               data-monthly="{{ $mSaveFormatted }}"
+                               data-yearly="{{ $ySaveFormatted }}">
+                                {{ $mSaveFormatted }}
+                            </p>
+
+                            <p class="jewel-pricing-billing"
+                               data-monthly="{{ $plan->monthly_billing_text ?: 'Billed monthly' }}"
+                               data-yearly="{{ $plan->yearly_billing_text ?: 'Billed annually' }}">
+                                {{ $plan->monthly_billing_text ?: 'Billed monthly' }}
+                            </p>
                         </div>
 
-                        <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
-                            Billed annually
-                        </p>
-                    </div>
+                        @if($plan->description)
+                            <p class="jewel-pricing-description">
+                                {{ $plan->description }}
+                            </p>
+                        @endif
 
-                    <p class="jewel-pricing-description">
-                        Essential billing and inventory tools to run your
-                        jewellery store with confidence.
-                    </p>
+                        @php
+                            $btnLink = $plan->button_link ?: '#jewelSignupModal';
+                            $isModal = str_starts_with($btnLink, '#');
+                        @endphp
+                        <a href="{{ $btnLink }}"
+                           class="jewel-pricing-cta {{ $plan->is_featured ? 'jewel-pricing-cta-primary' : 'jewel-pricing-cta-outline' }}"
+                           @if($isModal) data-bs-toggle="modal" data-bs-target="{{ $btnLink }}" @endif>
+                            {{ $plan->button_text ?: 'Start free trial' }}
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
 
-                    <a href="#jewelSignupModal"
-                       class="jewel-pricing-cta jewel-pricing-cta-outline"data-bs-toggle="modal"
-                   data-bs-target="#jewelSignupModal">
-                        Start free trial
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+                        @if($plan->trial_note)
+                            <p class="jewel-pricing-trial-note">
+                                {{ $plan->trial_note }}
+                            </p>
+                        @endif
 
-                    <p class="jewel-pricing-trial-note">
-                        14 days free · Cancel anytime
-                    </p>
+                        <div class="jewel-pricing-divider"></div>
 
-                    <div class="jewel-pricing-divider"></div>
+                        <h6>What's included</h6>
 
-                    <h6>What's included</h6>
+                        <ul class="jewel-pricing-features">
+                            @if(is_array($plan->features))
+                                @foreach($plan->features as $feature)
+                                    <li><i class="bi bi-check-lg"></i> {{ $feature }}</li>
+                                @endforeach
+                            @endif
+                        </ul>
 
-                    <ul class="jewel-pricing-features">
-                        <li><i class="bi bi-check-lg"></i> Inventory & tag management</li>
-                        <li><i class="bi bi-check-lg"></i> GST and POS billing</li>
-                        <li><i class="bi bi-check-lg"></i> Barcode printing</li>
-                        
-                    </ul>
-
-                </article>
-            </div>
-
-            <!-- PRO PLAN -->
-            <div class="col-12 col-md-4 jewel-pricing-column">
-
-                <article class="jewel-pricing-card jewel-pricing-card-featured">
-
-                    <div class="jewel-pricing-popular">
-                        MOST POPULAR
-                    </div>
-
-                    <div class="jewel-pricing-card-header">
-                        <div>
-                            <span class="jewel-pricing-plan-label">
-                                FOR GROWING BUSINESSES
-                            </span>
-                            <h3>Pro</h3>
-                        </div>
-
-                        <span class="jewel-pricing-discount">SAVE 33%</span>
-                    </div>
-
-                    <div class="jewel-pricing-price-area">
-                        <!-- <div class="jewel-pricing-old-price">
-                            <del data-monthly="₹2,999" data-yearly="₹29,999">
-                                ₹2,999
-                            </del>
-                        </div> -->
-
-                        <div class="jewel-pricing-price">
-                            <span class="jewel-pricing-currency">₹</span><span
-                                data-monthly="2,999"
-                                data-yearly="29,999"
-                                class="jewel-pricing-price-value">2,999</span>
-
-                            <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
-                        </div>
-
-                        <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
-                            Billed annually
-                        </p>
-                    </div>
-
-                    <p class="jewel-pricing-description">
-                        Faster billing, smart automation, and better controls
-                        as your business grows.
-                    </p>
-
-                    <a href="#jewelSignupModal"
-                       class="jewel-pricing-cta jewel-pricing-cta-primary" data-bs-toggle="modal"
-                   data-bs-target="#jewelSignupModal">
-                        Start 14-day free trial
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                    <p class="jewel-pricing-trial-note">
-                        14 days free · Cancel anytime
-                    </p>
-
-                    <div class="jewel-pricing-divider"></div>
-
-                    <h6>What's included</h6>
-
-                    <ul class="jewel-pricing-features">
-                        <li><i class="bi bi-check-lg"></i> Karigar & old-gold workflows</li>
-                        <li><i class="bi bi-check-lg"></i>  CRM, schemes & loyalty</li>
-                        <li><i class="bi bi-check-lg"></i> Advanced MIS reports</li>
-                       
-                    </ul>
-
-                </article>
-            </div>
-
-            <!-- PREMIUM PLAN -->
-            <div class="col-12 col-md-4 jewel-pricing-column">
-
-                <article class="jewel-pricing-card">
-
-                    <div class="jewel-pricing-card-header">
-                        <div>
-                            <span class="jewel-pricing-plan-label">
-                                FOR ESTABLISHED TEAMS
-                            </span>
-                            <h3>Premium</h3>
-                        </div>
-
-                        <span class="jewel-pricing-discount">50% OFF</span>
-                    </div>
-
-                    <div class="jewel-pricing-price-area">
-                         <!-- <div class="jewel-pricing-old-price">
-                            <del data-monthly="₹5,999" data-yearly="59,999">
-                                ₹5,999
-                            </del>
-                        </div> -->
-
-                        <div class="jewel-pricing-price">
-                            <span class="jewel-pricing-currency">₹</span><span
-                                data-monthly="5,999"
-                                data-yearly="59,999"
-                                class="jewel-pricing-price-value">5,999</span>
-
-                            <span class="jewel-pricing-period" data-monthly="/ month" data-yearly="/ year">/ month</span>
-                        </div>
-
-                        <p class="jewel-pricing-billing" data-monthly="Billed monthly" data-yearly="Billed annually">
-                            Billed annually
-                        </p>
-                    </div>
-
-                    <p class="jewel-pricing-description">
-                        Complete operational control with powerful reporting
-                        and priority assistance.
-                    </p>
-
-                    <a href="#jewelSignupModal"
-                       class="jewel-pricing-cta jewel-pricing-cta-outline" data-bs-toggle="modal"
-                   data-bs-target="#jewelSignupModal">
-                        Choose Premium
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                    <p class="jewel-pricing-trial-note">
-                        14 days free · Cancel anytime
-                    </p>
-
-                    <div class="jewel-pricing-divider"></div>
-
-                    <h6>What's included</h6>
-
-                    <ul class="jewel-pricing-features">
-                        <li><i class="bi bi-check-lg"></i> Centralized multi-branch control</li>
-                        <li><i class="bi bi-check-lg"></i>Manufacturing & integrations</li>
-                        <li><i class="bi bi-check-lg"></i> Dedicated account manager</li>
-                       
-                    </ul>
-
-                </article>
-            </div>
-
+                    </article>
+                </div>
+            @empty
+                <!-- Fallback if no plans found in database -->
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">No pricing plans are currently available. Please check back later.</p>
+                </div>
+            @endforelse
         </div>
 
         <!-- Bottom Benefits -->
         <div class="jewel-pricing-benefits">
-            <div><i class="bi bi-check-lg"></i> No setup fee</div>
-            <div><i class="bi bi-check-lg"></i> Free data migration</div>
-            <div><i class="bi bi-check-lg"></i> Friendly onboarding support</div>
+            @if(isset($pricingSettings) && is_array($pricingSettings->bottom_benefits) && count($pricingSettings->bottom_benefits) > 0)
+                @foreach($pricingSettings->bottom_benefits as $benefit)
+                    <div><i class="bi bi-check-lg"></i> {{ $benefit }}</div>
+                @endforeach
+            @else
+                <div><i class="bi bi-check-lg"></i> No setup fee</div>
+                <div><i class="bi bi-check-lg"></i> Free data migration</div>
+                <div><i class="bi bi-check-lg"></i> Friendly onboarding support</div>
+            @endif
         </div>
 
     </div>
@@ -330,11 +258,6 @@ document.addEventListener("DOMContentLoaded", function () {
     </a> -->
 
 </section>
-
-
-
-
-
 
 <section class="pricing" data-reveal>
     <div class="container-fluid jewel-trial-container jewel-trial-banner">
@@ -355,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </span>
 
                     <h2 class="jewel-trial-title" data-reveal>
-                        Meet JewelERP for 14 days.
+                        Meet JewelERP for 30 days.
                     </h2>
 
                     <p class="jewel-trial-description" data-reveal>
@@ -517,5 +440,46 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtns = document.querySelectorAll(".jewel-pricing-toggle-btn");
+    if (!toggleBtns.length) return;
+
+    function setBillingPeriod(period) {
+        toggleBtns.forEach(btn => {
+            const isMatch = btn.getAttribute("data-period") === period;
+            btn.classList.toggle("active", isMatch);
+            btn.setAttribute("aria-pressed", isMatch ? "true" : "false");
+        });
+
+        const cards = document.querySelectorAll(".jewel-pricing-card");
+        cards.forEach(card => {
+            const dynamicEls = card.querySelectorAll("[data-monthly][data-yearly]");
+            dynamicEls.forEach(el => {
+                const targetValue = el.getAttribute("data-" + period);
+                if (targetValue !== null) {
+                    el.textContent = targetValue;
+                }
+            });
+        });
+    }
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const period = this.getAttribute("data-period");
+            if (period) {
+                setBillingPeriod(period);
+            }
+        });
+    });
+
+    // Ensure default active state applies correctly on load
+    const activeBtn = document.querySelector(".jewel-pricing-toggle-btn.active");
+    setBillingPeriod(activeBtn ? activeBtn.getAttribute("data-period") : "monthly");
+});
+</script>
+
 @include('invoice_front.includes.ai-tools')
 @endsection

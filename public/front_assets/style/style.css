@@ -9317,7 +9317,6 @@ select.jewel-form-control {
 }
 
 .jewel-pricing-savings {
-<<<<<<< Updated upstream
     display: inline-block;
     margin: 8px 0 4px;
     padding: 4px 10px;
@@ -9328,12 +9327,6 @@ select.jewel-form-control {
     font-size: 13px;
     font-weight: 700;
     line-height: 1.3;
-=======
-    margin: 4px 0 0;
-    color: var(--jewel-price-blue);
-    font-size: 13px;
-    font-weight: 600;
->>>>>>> Stashed changes
 }
 
 /* Description */
@@ -9486,32 +9479,34 @@ select.jewel-form-control {
 /* Floating Help */
 
 .jewel-pricing-help {
-    position: fixed;
+    position: absolute;
     z-index: 100;
-    top: 24%;
-    right: 0;
+    top: 250px;
+    right: 24px;
     display: flex;
     align-items: center;
     gap: 7px;
+    width: fit-content;
+    margin: 0;
     padding: 13px 15px;
     color: #fff;
     background: var(--jewel-price-blue);
-    border-radius: 24px 0 0 24px;
+    border-radius: 24px;
     box-shadow: 0 6px 18px rgba(7, 59, 167, 0.2);
-    font-size: 9px;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     transition:
         padding 0.25s ease,
         background 0.25s ease;
 }
-
+ 
 .jewel-pricing-help:hover {
     padding-right: 21px;
     color: #fff;
     background: #052e85;
 }
-
+ 
 .jewel-pricing-help i {
     font-size: 12px;
 }
@@ -9557,9 +9552,12 @@ select.jewel-form-control {
         font-size: 27px;
     }
 
-    .jewel-pricing-help {
-        top: auto;
-        bottom: 18px;
+     .jewel-pricing-help {
+        top: 249px;
+        right: 20px;
+        padding: 10px;
+        font-size: 12px;
+ 
     }
 }
 
@@ -9616,13 +9614,14 @@ select.jewel-form-control {
         margin: 28px auto 0;
     }
 
-    .jewel-pricing-help {
-        position: static;
-        width: fit-content;
-        margin: 25px auto 0;
+  .jewel-pricing-help {
+        top: 272px;
+        right: 16px;
         border-radius: 24px;
+        font-size: 11px;
+        padding: 9px;
     }
-
+ 
     .jewel-pricing-help:hover {
         padding-right: 15px;
     }
@@ -9636,6 +9635,13 @@ select.jewel-form-control {
     .jewel-pricing-card {
         padding: 39px 17px;
         /* margin: 20px 0; */
+    }
+      .jewel-pricing-help {
+        top: 350px;
+        right: 16px;
+        border-radius: 24px;
+        font-size: 11px;
+        padding: 9px;
     }
 }
 
@@ -9932,6 +9938,10 @@ select.jewel-form-control {
    JEWELLERY BILLING HERO SECTION
 ========================================= */
 
+/* =========================================
+   JEWELLERY BILLING HERO SECTION
+========================================= */
+ 
 .jewel-billing-hero {
     position: relative;
     width: 100%;
@@ -9939,19 +9949,19 @@ select.jewel-form-control {
     overflow: hidden;
     margin-top: 38px;
 }
-
+ 
 .jewel-billing-container {
     padding: 0 50px;
 }
-
+ 
 /* LEFT CONTENT */
-
+ 
 .jewel-billing-left {
     position: relative;
     z-index: 2;
     padding-right: 35px;
 }
-
+ 
 .jewel-billing-back {
     display: inline-flex;
     align-items: center;
@@ -9963,11 +9973,11 @@ select.jewel-form-control {
     text-decoration: none;
     transition: color 0.25s ease;
 }
-
+ 
 .jewel-billing-back:hover {
     color: #1242b5;
 }
-
+ 
 .jewel-billing-eyebrow {
     margin-bottom: 32px;
     color: var(--primary-color);
@@ -9976,24 +9986,25 @@ select.jewel-form-control {
     letter-spacing: 1px;
     text-transform: uppercase;
 }
-
+ 
 .jewel-billing-title {
     margin: 0 0 25px;
     color: #111b31;
     font-weight: 700;
-    line-height: 1.08;
+    line-height: 1.2;
     letter-spacing: 1.5px;
+    width: 450px;
 }
-
+ 
 .jewel-billing-description {
-    max-width: 580px;
-    margin: 0;
-    color: #64748b;
+    max-width: 450px;
+    color: #000000;
     font-weight: 400;
+ 
 }
-
+ 
 /* CTA BUTTONS */
-
+ 
 .jewel-billing-actions {
     display: flex;
     flex-wrap: wrap;
@@ -10001,7 +10012,7 @@ select.jewel-form-control {
     gap: 20px;
     margin-top: 32px;
 }
-
+ 
 .jewel-billing-primary-btn {
     padding: 10px 21px;
     display: inline-flex;
@@ -10020,31 +10031,31 @@ select.jewel-form-control {
         background 0.25s ease,
         transform 0.25s ease;
 }
-
+ 
 .jewel-billing-primary-btn:hover {
     color: #ffffff;
     background: #082f91;
     transform: translateY(-2px);
 }
-
+ 
 .jewel-billing-secondary-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     padding: 12px 0;
-    color: #123fae;
+    color: var(--primary-color);
     font-size: 16px;
     font-weight: 700;
     text-decoration: none;
     transition: color 0.25s ease;
 }
-
+ 
 .jewel-billing-secondary-btn:hover {
     color: #056ffe;
 }
-
+ 
 /* BENEFITS */
-
+ 
 .jewel-billing-benefits {
     display: flex;
     flex-wrap: wrap;
@@ -10052,7 +10063,7 @@ select.jewel-form-control {
     gap: 20px;
     margin-top: 28px;
 }
-
+ 
 .jewel-billing-benefits span {
     display: inline-flex;
     align-items: center;
@@ -10061,31 +10072,31 @@ select.jewel-form-control {
     font-size: 16px;
     font-weight: 600;
 }
-
+ 
 .jewel-billing-benefits i {
     color: #1242b5;
     font-size: 17px;
 }
-
+ 
 /* =========================================
    RIGHT SIDE IMAGE
 ========================================= */
-
+ 
 .jewel-billing-right {
     position: relative;
     z-index: 1;
     min-width: 0;
     padding: 25px 0 20px 15px;
 }
-
+ 
 .jewel-billing-image-wrap {
     position: relative;
     width: 100%;
     border-radius: 18px;
 }
-
+ 
 /* Actual dashboard image */
-
+ 
 .jewel-billing-image {
     display: block;
     width: 100%;
@@ -10095,9 +10106,9 @@ select.jewel-form-control {
     object-position: center;
     border-radius: 18px;
 }
-
+ 
 /* FLOATING LABEL */
-
+ 
 .jewel-billing-floating-label {
     position: absolute;
     top: 0;
@@ -10118,159 +10129,167 @@ select.jewel-form-control {
     white-space: nowrap;
     transform: translate(-15px, -5px);
 }
-
+ 
 .jewel-billing-floating-label i {
     font-size: 17px;
 }
-
+ 
 .small-heading {
     color: #ffffff;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 800;
     line-height: 1.4;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    margin-bottom: 22px;
 }
-
+ 
 /* =========================================
    TABLET RESPONSIVE
 ========================================= */
-
+ 
 @media (max-width: 1199.98px) {
     .jewel-billing-left {
         padding-right: 20px;
     }
 }
-
+ 
 @media (max-width: 991.98px) {
     .jewel-billing-hero {
         padding: 50px 0 60px;
     }
-
+ 
     .jewel-billing-left {
         padding: 0 15px;
     }
-
+ 
     .jewel-billing-right {
         margin-top: 40px;
         padding: 25px 15px 10px;
     }
-
+ 
     .jewel-billing-image-wrap {
         max-width: 750px;
         margin: 0 auto;
     }
-
+ 
     .jewel-billing-floating-label {
         left: 15px;
     }
 }
-
+ 
 /* =========================================
    MOBILE RESPONSIVE
 ========================================= */
-
+ 
 @media (max-width: 575.98px) {
     .jewel-billing-hero {
         padding: 35px 0 35px;
     }
-
+ 
     .jewel-billing-container {
         padding: 0 15px;
     }
-
+ 
     .jewel-billing-actions {
         gap: 20px;
         margin-top: 24px;
     }
-
+ 
     /* .jewel-billing-secondary-btn {
         gap: 5px;
         font-size: 11px;
     } */
-
+ 
     .jewel-billing-benefits {
         gap: 4px 5px;
         margin-top: 22px;
     }
-
+ 
     .jewel-billing-benefits span {
         font-size: 13px;
     }
-
+ 
     .jewel-billing-right {
         margin-top: 35px;
         padding: 25px 0 10px;
     }
-
+ 
     .jewel-billing-image-wrap {
         border-radius: 12px;
     }
-
+ 
     .jewel-billing-image {
         border-radius: 12px;
     }
-
+ 
     .jewel-billing-floating-label {
         left: 25px;
     }
-
+ 
     .jewel-billing-floating-label i {
         font-size: 14px;
     }
 }
-
+ 
 /* Reduced motion accessibility */
-
+ 
 @media (prefers-reduced-motion: reduce) {
-
+ 
     .jewel-billing-primary-btn,
     .jewel-billing-back,
     .jewel-billing-secondary-btn {
         transition: none;
     }
 }
-
+ 
 /* Business Benefits Section */
 .business-benefits-section {
     padding: 50px 0px;
-
+ 
     overflow: hidden;
 }
-
+ 
 /* Small Heading */
 .business-benefits-label {
     display: inline-block;
     margin-bottom: 20px;
     color: var(--primary-color);
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.3px;
+    font-weight: 800;
+    letter-spacing: 2px;
     line-height: 1.4;
     text-transform: uppercase;
 }
-
+ 
 /* Main Heading */
 .business-benefits-title {
-    margin: 0 0 18px;
+    /* margin: 0 0 18px;
     color: #071a36;
     font-weight: 700;
     line-height: 1.18;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.5px; */
+    color: #101b31;
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: 1.2px;
+    /* width: 900; */
+    margin: 0 0 10px 0;
+ 
 }
-
+ 
 /* Description */
 .business-benefits-description {
     margin-bottom: 30px;
     color: #66758b;
     font-weight: 400;
 }
-
+ 
 /* Benefits List */
 .business-benefits-list {
     row-gap: 8px;
 }
-
+ 
 .business-benefit-item {
     display: flex;
     align-items: flex-start;
@@ -10281,19 +10300,19 @@ select.jewel-form-control {
     font-weight: 700;
     line-height: 1.5;
 }
-
+ 
 .business-benefit-item i {
     flex-shrink: 0;
     color: #003bb3;
     font-size: 17px;
     line-height: 1.2;
 }
-
+ 
 /* Right Card */
 .business-benefits-card-column {
     padding-left: 25px;
 }
-
+ 
 .business-benefits-card {
     position: relative;
     padding: 35px 36px;
@@ -10305,12 +10324,12 @@ select.jewel-form-control {
         transform 0.3s ease,
         box-shadow 0.3s ease;
 }
-
+ 
 .business-benefits-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 30px rgba(7, 26, 54, 0.08);
 }
-
+ 
 .business-benefits-icon {
     display: inline-block;
     margin-bottom: 25px;
@@ -10318,7 +10337,7 @@ select.jewel-form-control {
     font-size: 23px;
     line-height: 1;
 }
-
+ 
 .business-benefits-card h5 {
     margin-bottom: 12px;
     color: #071a36;
@@ -10326,47 +10345,47 @@ select.jewel-form-control {
     line-height: 1.4;
     letter-spacing: 1px;
 }
-
+ 
 .business-benefits-card p {
     margin: 0;
     color: #61738e;
 }
-
+ 
 /* Tablet */
 @media (max-width: 991px) {
     .business-benefits-section {
         padding: 60px 0;
     }
-
+ 
     .business-benefits-card-column {
         padding-left: 12px;
         margin-top: 25px;
     }
-
+ 
     .business-benefits-card {
         min-height: auto;
         padding: 30px;
     }
 }
-
+ 
 /* Mobile */
 @media (max-width: 575px) {
     .business-benefits-section {
         padding: 45px 0;
     }
-
+ 
     .business-benefits-list>div {
         margin-bottom: 0;
     }
-
+ 
     .business-benefits-card-column {
         margin-top: 18px;
     }
-
+ 
     .business-benefits-card {
         padding: 25px 22px;
     }
-
+ 
     .business-benefits-icon {
         margin-bottom: 20px;
     }
@@ -10374,55 +10393,63 @@ select.jewel-form-control {
 
 /* Related JewelERP Solutions */
 .jewel-related-section {
-    padding: 80px 0 70px;
+    padding: 50px;
     background-color: #ffffff;
     overflow: hidden;
 }
-
+ 
 .jewel-related-section .container {
     max-width: 1140px;
 }
-
+ 
 /* Header */
 .jewel-related-header {
     text-align: center;
     margin-bottom: 48px;
 }
-
+ 
 .jewel-related-label {
     display: inline-block;
     margin-bottom: 18px;
     color: var(--primary-color);
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
+    font-weight: 800;
+    letter-spacing: 2px;
     line-height: 1.4;
 }
-
+ 
 .jewel-related-header h1 {
-    margin: 0 0 18px;
-    color: #071a36;
-    font-weight: 700;
+    /* margin: 0 0 18px; */
+    /* color: #071a36; */
+    /* font-weight: 700;
     line-height: 1.2;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.5px; */
+    color: #101b31;
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: 1.2px;
+    width: 900;
+    margin: auto;
+    margin-bottom: 18px;
 }
-
+ 
 .jewel-related-header p {
     margin: 0;
     color: #61738e;
+    /* width: 450px; */
 }
-
+ 
 /* List */
 .jewel-related-list {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
 }
-
+ 
 /* Solution Card */
 .jewel-related-card {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
     padding: 20px 24px;
     margin-bottom: 12px;
     background-color: #ffffff;
@@ -10434,17 +10461,17 @@ select.jewel-form-control {
         box-shadow 0.3s ease,
         transform 0.3s ease;
 }
-
+ 
 .jewel-related-card:last-child {
     margin-bottom: 0;
 }
-
+ 
 .jewel-related-card:hover {
     border-color: #9db7ff;
     box-shadow: 0 8px 24px rgba(7, 26, 54, 0.06);
     transform: translateY(-2px);
 }
-
+ 
 /* Icon Box */
 .jewel-related-icon {
     display: flex;
@@ -10453,22 +10480,22 @@ select.jewel-form-control {
     flex: 0 0 47px;
     width: 47px;
     height: 47px;
-    color: #0642ce;
+    color: var(--primary-color);
     background-color: #e9edff;
     border-radius: 12px;
 }
-
+ 
 .jewel-related-icon i {
     font-size: 21px;
     line-height: 1;
 }
-
+ 
 /* Card Content */
 .jewel-related-content {
     flex: 1;
     min-width: 0;
 }
-
+ 
 .jewel-related-content h3 {
     margin: 0 0 7px;
     color: #071a36;
@@ -10477,56 +10504,56 @@ select.jewel-form-control {
     line-height: 1.4;
     letter-spacing: 1px;
 }
-
+ 
 .jewel-related-content p {
     margin: 0;
     color: #61738e;
 }
-
+ 
 /* Arrow */
 .jewel-related-arrow {
     display: flex;
     align-items: center;
     justify-content: center;
     flex: 0 0 24px;
-    color: #0642ce;
+    color: var(--primary-color);
     transition: transform 0.3s ease;
 }
-
+ 
 .jewel-related-arrow i {
     font-size: 23px;
     line-height: 1;
 }
-
+ 
 .jewel-related-card:hover .jewel-related-arrow {
     transform: translateX(5px);
 }
-
+ 
 /* Tablet */
 @media (max-width: 991px) {
     .jewel-related-section {
         padding: 65px 0;
     }
-
+ 
     .jewel-related-header {
         margin-bottom: 38px;
     }
-
+ 
     .jewel-related-list {
         max-width: 800px;
     }
 }
-
+ 
 /* Mobile */
 @media (max-width: 575px) {
     .jewel-related-section {
         padding: 35px 15px;
     }
-
+ 
     .jewel-related-header {
         margin-bottom: 28px;
     }
-
+ 
     .jewel-related-card {
         flex-direction: column;
         gap: 12px;
@@ -10535,22 +10562,22 @@ select.jewel-form-control {
         margin: auto;
         text-align: center;
     }
-
+ 
     .jewel-related-icon {
         flex-basis: 42px;
         width: 42px;
         height: 42px;
         border-radius: 10px;
     }
-
+ 
     .jewel-related-icon i {
         font-size: 19px;
     }
-
+ 
     .jewel-related-arrow {
         flex-basis: 18px;
     }
-
+ 
     .jewel-related-arrow i {
         font-size: 20px;
     }
